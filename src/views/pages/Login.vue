@@ -4,10 +4,10 @@
       <CRow class="justify-content-center">
         <CCol :md="8">
           <CCardGroup>
-            <CCard class="text-white py-5" style="width: 44%">
-              <CCardBody src=""></CCardBody>
+            <CCard class="text-white py-5" style="width: 50%">
+              <img src="@/assets/images/logo.png" />
             </CCard>
-            <CCard class="p-4">
+            <CCard class="p-5">
               <CCardBody>
                 <CForm>
                   <h1>Iniciar Sesion</h1>
@@ -29,10 +29,10 @@
                     />
                   </CInputGroup>
                   <CRow>
-                    <CCol :xs="6">
+                    <CCol :xs="6" style="width: 100%" class="text-center">
                       <CButton color="primary" class="px-4"> Ingresar </CButton>
                     </CCol>
-                    <CCol :xs="6" class="text-right">
+                    <CCol :xs="6" class="text-center" style="width: 100%">
                       <CButton color="link" class="px-0">
                         ¿Olvidaste tu Contraseña?
                       </CButton>
