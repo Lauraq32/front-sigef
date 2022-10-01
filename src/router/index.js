@@ -5,10 +5,9 @@ import DefaultLayout from '@/layouts/DefaultLayout'
 
 const routes = [
   {
-    path: '/',
+    path: '/dashboard',
     name: 'Home',
     component: DefaultLayout,
-    redirect: '/dashboard',
     children: [
       {
         path: '/dashboard',
@@ -282,7 +281,7 @@ const routes = [
         component: () => import('@/views/pages/Page500'),
       },
       {
-        path: 'login',
+        path: '/',
         name: 'Login',
         component: () => import('@/views/pages/Login'),
       },
