@@ -15,6 +15,14 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'vue/multi-word-component-names': 'off',
+    // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
+    // e.g. "@typescript-eslint/explicit-function-return-type": "off",
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
   },
   overrides: [
     {

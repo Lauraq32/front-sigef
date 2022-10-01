@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import testModule from '@/modules/templateModule/store/module-template'
 
 export default createStore({
   state: {
@@ -17,5 +18,7 @@ export default createStore({
     },
   },
   actions: {},
-  modules: {},
+  modules: {
+    testModule,
+  },
 })
