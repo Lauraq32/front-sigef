@@ -12,17 +12,15 @@
     "
   >
     <CSidebarBrand>
-      <CIcon
-        custom-class-name="sidebar-brand-full"
-        :icon="logoNegative"
-        :height="35"
+      <img
+        className="sidebar-brand-full"
+        src="../../public/LogoTemp.png"
+        height="97"
+        width="140"
       />
-      <CIcon
-        custom-class-name="sidebar-brand-narrow"
-        :icon="sygnet"
-        :height="35"
-      />
+      
     </CSidebarBrand>
+    <hr />
     <AppSidebarNav />
     <CSidebarToggler
       class="d-none d-lg-flex"
@@ -30,6 +28,14 @@
     />
   </CSidebar>
 </template>
+<!-- 
+<style >
+  const LogoPlaceholder = styled.img
+  width: 255px;
+  height: 64px;
+  object-fit: contain;  
+    
+</style> -->
 
 <script>
 import { computed } from 'vue'
