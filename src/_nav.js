@@ -6,6 +6,34 @@ export default [
   {
     component: 'CNavItem',
     name: 'Financiero',
+    to: '/financiero',
+    icon: 'cil-home',
+  },
+  {
+    component: 'CNavItem',
+    name: 'Compras',
+    to: '/compras',
+    icon: 'cil-home',
+  },
+  {
+    component: 'CNavItem',
+    name: 'RRHH',
+    to: '/rrhh',
+    icon: 'cil-home',
+  },
+  {
+    component: 'CNavItem',
+    name: 'Administrativo',
+    to: '/administrativo',
+    icon: 'cil-home',
+  },
+  {
+    component: 'CNavTitle',
+    name: 'Modulos',
+  },
+  {
+    component: 'CNavItem',
+    name: 'Financiero',
 
     items: [
       {
