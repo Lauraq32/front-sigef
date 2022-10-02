@@ -5,7 +5,7 @@
         <CCol :md="8">
           <CCardGroup>
             <CCard class="text-white py-5" style="width: 50%">
-              <img src="@/assets/images/logo.png" />
+              <img src="../../../public/LogoTemp.png" />
             </CCard>
             <CCard class="p-5">
               <CCardBody>

@@ -1,27 +1,138 @@
 <template lang="">
   <div>
-    <h1>Recursos Humanos</h1>
     <CRow>
-      <CCol :md="3">
-        <CCard style="width: 18rem" class="mt-4">
-          <CCardImage orientation="top" src="/images/vue.jpg" />
-          <CCardBody>
-            <CCardTitle>Card title</CCardTitle>
-            <CCardText
-              >Some quick example text to build on the card title and make up
-              the bulk of the card's content.</CCardText
-            >
-            <CButton href="#">Go somewhere</CButton>
-          </CCardBody>
-        </CCard>
+      <CCol :md="3" class="mt-4">
+        <CWidgetStatsD
+          class="mb-4 shadow"
+          style="--cui-card-cap-bg: #3b5998"
+          :values="[{ title: 'Registro de personal', value: '' }]"
+        >
+          <template #icon>
+            <img
+              class="card-img-top"
+              src="../assets/images/RegistroPersonal.png"
+          /></template>
+          <template #chart>
+            <CChart
+              class="position-absolute w-100 h-100"
+              type="line"
+              :data="{
+                labels: [
+                  'January',
+                  'February',
+                  'March',
+                  'April',
+                  'May',
+                  'June',
+                  'July',
+                ],
+                datasets: [
+                  {
+                    backgroundColor: 'rgba(255,255,255,.1)',
+                    borderColor: 'rgba(255,255,255,.55)',
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 2,
+                    data: [65, 59, 84, 84, 51, 55, 40],
+                    fill: true,
+                  },
+                ],
+              }"
+              :options="options"
+            />
+          </template>
+        </CWidgetStatsD>
+      </CCol>
+      <CCol :md="3" class="mt-4">
+        <CWidgetStatsD
+          class="mb-4 shadow"
+          style="--cui-card-cap-bg: #3b5998"
+          :values="[{ title: 'Evaluacion de desempeño', value: '' }]"
+        >
+          <template #icon>
+            <img
+              class="card-img-top"
+              src="../assets/images/EvaluacionDesenpeno.png"
+          /></template>
+          <template #chart>
+            <CChart
+              class="position-absolute w-100 h-100"
+              type="line"
+              :data="{
+                labels: [
+                  'January',
+                  'February',
+                  'March',
+                  'April',
+                  'May',
+                  'June',
+                  'July',
+                ],
+                datasets: [
+                  {
+                    backgroundColor: 'rgba(255,255,255,.1)',
+                    borderColor: 'rgba(255,255,255,.55)',
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 2,
+                    data: [65, 59, 84, 84, 51, 55, 40],
+                    fill: true,
+                  },
+                ],
+              }"
+              :options="options"
+            />
+          </template>
+        </CWidgetStatsD>
+      </CCol>
+      <CCol :md="3" class="mt-4">
+        <CWidgetStatsD
+          class="mb-4 shadow"
+          style="--cui-card-cap-bg: #3b5998"
+          :values="[{ title: 'Acciones de personal', value: '' }]"
+        >
+          <template #icon>
+            <img
+              class="card-img-top"
+              src="../assets/images/AccionesPersonal.png"
+          /></template>
+          <template #chart>
+            <CChart
+              class="position-absolute w-100 h-100"
+              type="line"
+              :data="{
+                labels: [
+                  'January',
+                  'February',
+                  'March',
+                  'April',
+                  'May',
+                  'June',
+                  'July',
+                ],
+                datasets: [
+                  {
+                    backgroundColor: 'rgba(255,255,255,.1)',
+                    borderColor: 'rgba(255,255,255,.55)',
+                    pointHoverBackgroundColor: '#fff',
+                    borderWidth: 2,
+                    data: [65, 59, 84, 84, 51, 55, 40],
+                    fill: true,
+                  },
+                ],
+              }"
+              :options="options"
+            />
+          </template>
+        </CWidgetStatsD>
       </CCol>
      
     </CRow>
   </div>
 </template>
 <script>
+import prueba from '../assets/images/logo.png'
+
 export default {
-  name: 'RRHH',
+  name: 'Fianciero',
 }
 </script>
 <style lang=""></style>
