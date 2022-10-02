@@ -325,8 +325,6 @@
   </div>
 </template>
 <script>
-import prueba from '../assets/images/logo.png'
-
 export default {
   name: 'Fianciero',
 }

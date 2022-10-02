@@ -41,7 +41,6 @@ export default [
         name: 'Home',
         to: '/financiero',
         icon: 'cil-home',
-     
       },
       {
         component: 'CNavItem',
@@ -117,8 +116,7 @@ export default [
             component: 'CNavTitle',
             name: 'Configuracion',
           },
-          
-        ]
+        ],
       },
       {
         component: 'CNavItem',
@@ -162,9 +160,7 @@ export default [
         to: '/',
         icon: 'cilChartPie',
       },
-  
-      
-    ]
+    ],
   },
   {
     component: 'CNavItem',
@@ -177,8 +173,7 @@ export default [
         to: '/compras',
         icon: 'cilCart',
       },
-    
-    ]
+    ],
   },
   {
     component: 'CNavItem',
@@ -191,8 +186,7 @@ export default [
         to: '/rrhh',
         icon: 'cilDollar',
       },
-
-    ]
+    ],
   },
   {
     component: 'CNavItem',
@@ -205,10 +199,7 @@ export default [
         to: '/administrativo',
         icon: 'cilDollar',
       },
-  
-      
-    
-    ]
+    ],
   },
   {
     component: 'CNavItem',
