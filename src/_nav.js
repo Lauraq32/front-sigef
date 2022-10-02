@@ -12,7 +12,7 @@ export default [
         component: 'CNavItem',
         name: 'Home',
         to: '/financiero',
-        icon: 'cil-chevron-bottom',
+        icon: 'cil-home',
       },
       {
         component: 'CNavItem',
