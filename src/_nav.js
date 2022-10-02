@@ -1,5 +1,74 @@
 export default [
   {
+    component: 'CNavTitle',
+    name: 'Areas',
+  },
+  {
+    component: 'CNavItem',
+    name: 'Financiero',
+
+    items: [
+      {
+        component: 'CNavItem',
+        name: 'Home',
+        to: '/financiero',
+        icon: 'cilHome',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Ejecucion',
+        to: '/financiero',
+        icon: 'cilChartPie',
+      },
+      
+    
+    ]
+  },
+  {
+    component: 'CNavItem',
+    name: 'Compras',
+
+    items: [
+      {
+        component: 'CNavItem',
+        name: 'Home',
+        to: '/compras',
+        icon: 'cilCart',
+      },
+    
+    ]
+  },
+  {
+    component: 'CNavItem',
+    name: 'RRHH',
+
+    items: [
+      {
+        component: 'CNavItem',
+        name: 'Home',
+        to: '/rrhh',
+        icon: 'cilDollar',
+      },
+
+    ]
+  },
+  {
+    component: 'CNavItem',
+    name: 'Administrativo',
+
+    items: [
+      {
+        component: 'CNavItem',
+        name: 'Home',
+        to: '/administrativo',
+        icon: 'cilDollar',
+      },
+  
+      
+    
+    ]
+  },
+  {
     component: 'CNavItem',
     name: 'Dashboard',
     to: '/dashboard',
