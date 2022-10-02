@@ -13,15 +13,129 @@ export default [
         name: 'Home',
         to: '/financiero',
         icon: 'cil-home',
+     
+      },
+      {
+        component: 'CNavItem',
+        name: 'Formulacion',
+        to: '/financiero',
+        icon: 'cilChartPie',
+        items: [
+          {
+            component: 'CNavTitle',
+            name: 'Maestras',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Clasificadores',
+            to: '/compras',
+            icon: 'cilCart',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Estructura Programatica',
+            to: '/compras',
+            icon: 'cilCart',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Fuente Especifica',
+            to: '/compras',
+            icon: 'cilCart',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Fuentes Financiamiento',
+            to: '/compras',
+            icon: 'cilCart',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Organismos',
+            to: '/compras',
+            icon: 'cilCart',
+          },
+          {
+            component: 'CNavTitle',
+            name: 'Procesos',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Proyectos',
+            to: '/compras',
+            icon: 'cilCart',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Formulacion ingreso',
+            to: '/compras',
+            icon: 'cilCart',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Formulacion Gasto',
+            to: '/compras',
+            icon: 'cilCart',
+          },
+          {
+            component: 'CNavTitle',
+            name: 'Consultas',
+          },
+          {
+            component: 'CNavTitle',
+            name: 'Reportes',
+          },
+          {
+            component: 'CNavTitle',
+            name: 'Configuracion',
+          },
+          
+        ]
       },
       {
         component: 'CNavItem',
         name: 'Ejecucion',
-        to: '/financiero',
+        to: '/',
         icon: 'cilChartPie',
       },
+      {
+        component: 'CNavItem',
+        name: 'Activo Fijo',
+        to: '/',
+        icon: 'cilChartPie',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Nomina',
+        to: '/',
+        icon: 'cilChartPie',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Contabilidad',
+        to: '/',
+        icon: 'cilChartPie',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Conciliacion Bancaria',
+        to: '/',
+        icon: 'cilChartPie',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Cuentas por pagar',
+        to: '/',
+        icon: 'cilChartPie',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Facturacion y Cobros',
+        to: '/',
+        icon: 'cilChartPie',
+      },
+  
       
-    
     ]
   },
   {
