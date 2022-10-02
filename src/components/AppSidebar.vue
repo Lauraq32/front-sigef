@@ -15,7 +15,7 @@
       <img
         className="sidebar-brand-full"
         src="../../public/LogoTemp.png"
-        height="97"
+        height="110"
         width="140"
       />
       

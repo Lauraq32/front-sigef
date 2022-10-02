@@ -3,8 +3,9 @@
     <CRow>
       <CCol :md="3" class="mt-4">
         <CWidgetStatsD
+        @click="gotToPrueba"
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #3b5998"
+          style="--cui-card-cap-bg: #3b5998;"
           :values="[{ title: 'Formulacion Presupuesto', value: '' }]"
         >
           <template #icon>
@@ -327,6 +328,9 @@
 <script>
 export default {
   name: 'Fianciero',
+  methods:{
+    gotToPrueba(){this.$router.push({name:'clasificadores'})}
+  }
 }
 </script>
 <style lang=""></style>
