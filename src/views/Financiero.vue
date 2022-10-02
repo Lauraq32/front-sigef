@@ -1,5 +1,6 @@
 <template lang="">
   <div>
+    <h1>Financiero</h1>
     <CRow>
       <CCol :md="3">
         <CCard style="width: 18rem" class="mt-4">

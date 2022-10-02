@@ -1,4 +1,5 @@
 <template lang="">
+  <h1>Administrativo</h1>
   <div>
     <CRow>
       <CCol :md="3">
