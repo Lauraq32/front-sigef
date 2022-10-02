@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import testModule from '@/modules/templateModule/store/module-template'
+import testModule from '@/modules/financiero/FormulacionModule/store/Formulacion'
 
 export default createStore({
   state: {

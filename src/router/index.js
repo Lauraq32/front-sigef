@@ -3,6 +3,10 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 
 import DefaultLayout from '@/layouts/DefaultLayout'
 
+//prueba router
+import testModuleRouter from "../modules/financiero/FormulacionModule/router";
+
+
 const routes = [
   {
     path: '/dashboard',
@@ -54,6 +58,11 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "dashboard" */ '@/views/Administrativo.vue'),
       },
+      {
+        path:'/daybook',
+        ...testModuleRouter
+      },
+
       {
         path: '/theme',
         name: 'Theme',

@@ -56,7 +56,7 @@ export default [
           {
             component: 'CNavItem',
             name: 'Clasificadores',
-            to: '/compras',
+            to: '/daybook',
             icon: 'cilCart',
           },
           {
