@@ -67,19 +67,19 @@ export default [
           {
             component: 'CNavItem',
             name: 'Fuente Especifica',
-            to: '/compras',
+            to: '/FinancieroModule/fuenteEspecifica',
             icon: 'cilCart',
           },
           {
             component: 'CNavItem',
             name: 'Fuentes Financiamiento',
-            to: '/compras',
+            to: '/FinancieroModule/fuenteFinanciamiento',
             icon: 'cilCart',
           },
           {
             component: 'CNavItem',
             name: 'Organismos',
-            to: '/compras',
+            to: '/FinancieroModule/organismos',
             icon: 'cilCart',
           },
           {
@@ -89,19 +89,19 @@ export default [
           {
             component: 'CNavItem',
             name: 'Proyectos',
-            to: '/compras',
+            to: '/FinancieroModule/proyectos',
             icon: 'cilCart',
           },
           {
             component: 'CNavItem',
             name: 'Formulacion ingreso',
-            to: '/compras',
+            to: '/FinancieroModule/formulacionIngreso',
             icon: 'cilCart',
           },
           {
             component: 'CNavItem',
             name: 'Formulacion Gasto',
-            to: '/compras',
+            to: '/FinancieroModule/formulacionGasto',
             icon: 'cilCart',
           },
           {
