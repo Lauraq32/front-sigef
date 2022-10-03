@@ -12,64 +12,67 @@
   <CTable responsive>
     <CTableHead>
       <CTableRow>
-        <CTableHeaderCell scope="col">#</CTableHeaderCell>
-        <CTableHeaderCell scope="col">Heading</CTableHeaderCell>
-        <CTableHeaderCell scope="col">Heading</CTableHeaderCell>
-        <CTableHeaderCell scope="col">Heading</CTableHeaderCell>
-        <CTableHeaderCell scope="col">Heading</CTableHeaderCell>
-        <CTableHeaderCell scope="col">Heading</CTableHeaderCell>
-        <CTableHeaderCell scope="col">Heading</CTableHeaderCell>
-        <CTableHeaderCell scope="col">Heading</CTableHeaderCell>
-        <CTableHeaderCell scope="col">Heading</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Control</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Clasificador</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Cuenta Contable</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Cuenta Gastos</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Cuenta Ingreso</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Detalle</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Fuente</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Fuente especifica</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Nombre</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Nombre Fuente</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Nombre Fuente Especifica</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Organismo Financiero</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Tipo</CTableHeaderCell>
       </CTableRow>
     </CTableHead>
     <CTableBody>
       <CTableRow>
-        <CTableHeaderCell scope="row">1</CTableHeaderCell>
-        <CTableDataCell>Cell</CTableDataCell>
-        <CTableDataCell>Cell</CTableDataCell>
-        <CTableDataCell>Cell</CTableDataCell>
-        <CTableDataCell>Cell</CTableDataCell>
-        <CTableDataCell>Cell</CTableDataCell>
-        <CTableDataCell>Cell</CTableDataCell>
-        <CTableDataCell>Cell</CTableDataCell>
-        <CTableDataCell>Cell</CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell>11</CTableDataCell>
+        <CTableDataCell>1</CTableDataCell>
+        <CTableDataCell>IMPUESTOS --</CTableDataCell>
+        <CTableDataCell>11</CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell>GENERAL</CTableDataCell>
       </CTableRow>
       <CTableRow>
-        <CTableHeaderCell scope="row">2</CTableHeaderCell>
-        <CTableDataCell>Cell</CTableDataCell>
-        <CTableDataCell>Cell</CTableDataCell>
-        <CTableDataCell>Cell</CTableDataCell>
-        <CTableDataCell>Cell</CTableDataCell>
-        <CTableDataCell>Cell</CTableDataCell>
-        <CTableDataCell>Cell</CTableDataCell>
-        <CTableDataCell>Cell</CTableDataCell>
-        <CTableDataCell>Cell</CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell>12</CTableDataCell>
+        <CTableDataCell>1</CTableDataCell>
+        <CTableDataCell>CONTRIBUCIONES SOCIALES</CTableDataCell>
+        <CTableDataCell>12</CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell>GENERAL</CTableDataCell>
       </CTableRow>
       <CTableRow>
-        <CTableHeaderCell scope="row">3</CTableHeaderCell>
-        <CTableDataCell>Cell</CTableDataCell>
-        <CTableDataCell>Cell</CTableDataCell>
-        <CTableDataCell>Cell</CTableDataCell>
-        <CTableDataCell>Cell</CTableDataCell>
-        <CTableDataCell>Cell</CTableDataCell>
-        <CTableDataCell>Cell</CTableDataCell>
-        <CTableDataCell>Cell</CTableDataCell>
-        <CTableDataCell>Cell</CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell>13</CTableDataCell>
+        <CTableDataCell>1</CTableDataCell>
+        <CTableDataCell>DONACIONES</CTableDataCell>
+        <CTableDataCell>13</CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell></CTableDataCell>
+        <CTableDataCell>GENERAL</CTableDataCell>
       </CTableRow>
     </CTableBody>
   </CTable>
 </template>
-
-<script>
-  export default{
-    methods:{
-    IngresoReport() {
-      window.open(`http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fReporte_FP%2fRep_Clasificadores_Ingreso&rs:Command=Render`, '_blank').focus();
-    },
-    GastoReport() {
-      window.open(`http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fReporte_FP%2fRep_Clasificadores_Gasto&rs:Command=Render`, '_blank').focus();
-    },
-  }
-  }
-</script>
