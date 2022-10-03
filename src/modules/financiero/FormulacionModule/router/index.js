@@ -2,9 +2,6 @@ export default {
   name: 'Financiero',
  redirect:'/FinancieroModule/clasificadores',
   component: () =>
-<<<<<<< HEAD
-    import('@/modules/financiero/FormulacionModule/components/Clasificadores.vue'),
-=======
     import('@/modules/financiero/FormulacionModule/layout/TemplateLayout.vue'),
     children: [
       {
@@ -24,5 +21,4 @@ export default {
       // },
      
   ]
->>>>>>> 9a8cf65c478b2f97c0ccbca3ff16a69990e8392a
 }
