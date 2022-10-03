@@ -61,7 +61,7 @@ export default [
           {
             component: 'CNavItem',
             name: 'Estructura Programatica',
-            to: '/compras',
+            to: 'EstructuraProgramatica',
             icon: 'cilCart',
           },
           {

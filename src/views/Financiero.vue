@@ -329,7 +329,7 @@
 export default {
   name: 'Fianciero',
   methods:{
-    gotToPrueba(){this.$router.push({name:'clasificadores'})}
+    gotToPrueba(){this.$router.push({name:'clasificadores'})},
   }
 }
 </script>
