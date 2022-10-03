@@ -1,7 +1,12 @@
 <template>
-    <h3>Clasificadores</h3>
+   <p>Clasificadores</p>
   <div>
-    <CButton color="info">Imprimir</CButton>
+    <div class="d-inline p-2">
+      <CButton color="info " @click="IngresoReport">Imprimir Clasificadores de Ingresos</CButton>
+    </div>
+    <div class="d-inline p-2">
+      <CButton color="info" @click="GastoReport">Imprimir Clasificadores de Gastos</CButton>
+    </div>
   </div>
   <hr />
   <CTable responsive>

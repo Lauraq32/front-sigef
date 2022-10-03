@@ -55,13 +55,17 @@ export default [
           {
             component: 'CNavItem',
             name: 'Clasificadores',
-            to: '/daybook',
+            to: '/FinancieroModule/clasificadores',
             icon: 'cilCart',
           },
           {
             component: 'CNavItem',
             name: 'Estructura Programatica',
+<<<<<<< HEAD
             to: 'EstructuraProgramatica',
+=======
+            to: '/FinancieroModule/estructuraProgramatica',
+>>>>>>> 9a8cf65c478b2f97c0ccbca3ff16a69990e8392a
             icon: 'cilCart',
           },
           {

@@ -59,7 +59,7 @@ const routes = [
           import(/* webpackChunkName: "dashboard" */ '@/views/Administrativo.vue'),
       },
       {
-        path:'/daybook',
+        path:'/FinancieroModule',
         ...testModuleRouter
       },
 
