@@ -32,6 +32,7 @@
                 <CFormLabel for="validationCustom01">Email</CFormLabel>
                 <CFormInput id="validationCustom01" value="Mark" required />
                 <CFormFeedback valid> Looks good! </CFormFeedback>
+                <CFormFeedback invalid> Mal </CFormFeedback>
               </CCol>
               <CCol :md="4">
                 <CFormLabel for="validationCustom02">Email</CFormLabel>

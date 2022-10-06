@@ -30,8 +30,8 @@
                   </CInputGroup>
                   <CRow>
                     <CCol :xs="6" style="width: 100%" class="text-center">
-                      <CButton color="primary" class="px-4">
-                        <router-link to="/dashboard">Ingresar</router-link>
+                      <CButton @click="gotToDashboard" color="primary" class="px-4">
+                       Ingresar
                       </CButton>
                     </CCol>
                     <CCol :xs="6" class="text-center" style="width: 100%">
@@ -53,5 +53,8 @@
 <script>
 export default {
   name: 'Login',
+  methods:{
+    gotToDashboard(){this.$router.push({name:'financiero'})},
+  }
 }
 </script>
