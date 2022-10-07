@@ -1,7 +1,128 @@
 <template>
+  <CModal
+    size="lg"
+    :visible="lgDemo"
+    @close="
+      () => {
+        lgDemo = true
+      }
+    "
+  >
+    <CModalHeader>
+      <CModalTitle>Formulación Ingreso</CModalTitle>
+    </CModalHeader>
+    <CModalBody>
+      <CCardBody>
+        <CForm
+          class="row g-3 needs-validation"
+          novalidate
+          :validated="validatedCustom01"
+          @submit="handleSubmitCustom01"
+        >
+          <CCol :md="4">
+            <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
+            <CFormInput id="validationCustom01" required />
+            <button
+              class="btn btn-primary btn-block mt-1"
+              @click="getClasificador"
+            >
+              Buscar
+            </button>
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="4">
+            <CFormLabel for="validationCustom02">Cta. Control</CFormLabel>
+            <CFormInput disabled id="validationCustom02" required />
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="4">
+            <CFormLabel for="validationCustomUsername">Detalle</CFormLabel>
+            <CInputGroup class="has-validation">
+              <CFormInput
+                disabled
+                id="validationCustomUsername"
+                value=""
+                aria-describedby="inputGroupPrepend"
+                required
+              />
+              <CFormFeedback valid> Exito! </CFormFeedback>
+              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+            </CInputGroup>
+          </CCol>
+          <CCol :md="6">
+            <CFormLabel for="validationCustom03"
+              >Fuente Financiamiento</CFormLabel
+            >
+            <CFormInput disabled id="validationCustom03" required />
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="3">
+            <CFormLabel for="validationCustom04">Fuente Especifica</CFormLabel>
+            <CFormInput disabled id="validationCustom04"> </CFormInput>
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="3">
+            <CFormLabel for="validationCustom05"
+              >Organismo Financiador</CFormLabel
+            >
+            <CFormInput disabled id="validationCustom05" required />
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <hr />
+          <CCol :md="4">
+            <CFormLabel for="validationCustom04">Año Anterior</CFormLabel>
+            <CFormInput id="validationCustom04" value="0"> </CFormInput>
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="4">
+            <CFormLabel for="validationCustom04">A la Fecha</CFormLabel>
+            <CFormInput id="validationCustom04" value="0"></CFormInput>
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="4">
+            <CFormLabel for="validationCustom04">Presupuesto Formulado</CFormLabel>
+            <CFormInput id="validationCustom04" value="0"></CFormInput>
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              v-on:click="submitForm"
+              type="button"
+              class="btn btn-primary"
+            >
+              Guardar
+            </button>
+          </div>
+        </CForm>
+      </CCardBody>
+    </CModalBody>
+  </CModal>
   <div>
+    
     <div class="d-inline p-2">
-      <CButton style="font-weight: bold;" color="info" >Añadir usuario</CButton>
+      <CButton
+        color="info"
+        @click="
+          () => {
+            lgDemo = true
+          }
+        "
+        >Agregar</CButton
+      >
     </div>
     <div class="d-inline p-2">
       <CButton style="font-weight: bold; color: white;" color="danger" @click="GastoReport">Eliminar Usuario</CButton>
@@ -20,7 +141,7 @@
     :activePage="1"
     footer
     header
-    :items="items"
+    :items="this.$store.state.AdministrativoModule.users"
     :columns="columns"
     columnFilter
     tableFilter
@@ -74,11 +195,12 @@ import { CSmartTable } from '@coreui/vue-pro'
     },
     data: () => {
       return {
+        validatedCustom01: null,
+      lgDemo: false,
         columns: [
-          { key: 'name', _style: { width: '40%'} },
-          'registered',
-          { key: 'role', filter: false, sorter: false, _style: { width: '20%'} },
-          { key: 'status', _style: { width: '20%'} },
+          { key: 'nombre', _style: { width: '40%'} },
+          'email',
+         
           {
             key: 'show_details',
             label: '',
@@ -89,33 +211,7 @@ import { CSmartTable } from '@coreui/vue-pro'
           }
         ],
         details: [],
-        items: [
-          {name: 'John Doe', registered: '2018/01/01', role: 'Guest', status: 'Pending'},
-          {name: 'Samppa Nori', registered: '2018/01/01', role: 'Member', status: 'Active'},
-          {name: 'Estavan Lykos', registered: '2018/02/01', role: 'Staff', status: 'Banned',},
-          {name: 'Chetan Mohamed', registered: '2018/02/01', role: 'Admin', status: 'Inactive'},
-          {name: 'Derick Maximinus', registered: '2018/03/01', role: 'Member', status: 'Pending'},
-          {name: 'Friderik Dávid', registered: '2018/01/21', role: 'Staff', status: 'Active'},
-          {name: 'Yiorgos Avraamu', registered: '2018/01/01', role: 'Member', status: 'Active'},
-          {name: 'Avram Tarasios', registered: '2018/02/01', role: 'Staff', status: 'Banned',},
-          {name: 'Quintin Ed', registered: '2018/02/01', role: 'Admin', status: 'Inactive'},
-          {name: 'Enéas Kwadwo', registered: '2018/03/01', role: 'Member', status: 'Pending'},
-          {name: 'Agapetus Tadeáš', registered: '2018/01/21', role: 'Staff', status: 'Active'},
-          {name: 'Carwyn Fachtna', registered: '2018/01/01', role: 'Member', status: 'Active'},
-          {name: 'Nehemiah Tatius', registered: '2018/02/01', role: 'Staff', status: 'Banned'},
-          {name: 'Ebbe Gemariah', registered: '2018/02/01', role: 'Admin', status: 'Inactive'},
-          {name: 'Eustorgios Amulius', registered: '2018/03/01', role: 'Member', status: 'Pending'},
-          {name: 'Leopold Gáspár', registered: '2018/01/21', role: 'Staff', status: 'Active'},
-          {name: 'Pompeius René', registered: '2018/01/01', role: 'Member', status: 'Active'},
-          {name: 'Paĉjo Jadon', registered: '2018/02/01', role: 'Staff', status: 'Banned'},
-          {name: 'Micheal Mercurius', registered: '2018/02/01', role: 'Admin', status: 'Inactive'},
-          {name: 'Ganesha Dubhghall', registered: '2018/03/01', role: 'Member', status: 'Pending'},
-          {name: 'Hiroto Šimun', registered: '2018/01/21', role: 'Staff', status: 'Active'},
-          {name: 'Vishnu Serghei', registered: '2018/01/01', role: 'Member', status: 'Active'},
-          {name: 'Zbyněk Phoibos', registered: '2018/02/01', role: 'Staff', status: 'Banned'},
-          {name: 'Aulus Agmundr', registered: '2018/01/01', role: 'Member', status: 'Pending'},
-          {name: 'Ford Prefect', registered: '2001/05/25', role: 'Alien', status: 'Don\'t panic!'}
-        ],
+       
       }
     },
     methods: {
@@ -135,6 +231,11 @@ import { CSmartTable } from '@coreui/vue-pro'
         }
         this.details.push(item._id)
       }
+    },
+    mounted(){
+      this.$store.dispatch('AdministrativoModule/getUsuarios')
     }
+    
+   
   }
 </script>

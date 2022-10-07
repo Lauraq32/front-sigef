@@ -1,1 +1,4 @@
-export const myMutation = (state) => {}
+export const SET_USUARIOS = (state,usuarios) => {
+    state.users = usuarios
+}
+
