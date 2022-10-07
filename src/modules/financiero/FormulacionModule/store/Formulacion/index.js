@@ -3,7 +3,7 @@ import * as actions from './actions'
 import * as mutations from './mutations'
 import * as getters from './getters'
 
-const testModule = {
+const Formulacion = {
   namespaced: true,
   actions,
   getters,
@@ -11,4 +11,4 @@ const testModule = {
   state,
 }
 
-export default testModule
+export default Formulacion
