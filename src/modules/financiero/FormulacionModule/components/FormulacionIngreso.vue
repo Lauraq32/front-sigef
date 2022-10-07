@@ -199,18 +199,31 @@ export default {
       validatedCustom01: null,
       lgDemo: false,
       columns: [
-        { key: 'name', _style: { width: '40%' } },
-        'registered',
-        { key: 'role', filter: false, sorter: false, _style: { width: '20%' } },
-        { key: 'status', _style: { width: '20%' } },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
-        },
+      { key: 'clasifica', label:'Clasificador' , _style: { width: '40%'} },
+          { key: 'detalle', label:'Detalle', filter: false, sorter: false, _style: { width: '20%'} },
+          { key: 'fuente', label:'Fuentes de financiamiento', _style: { width: '20%'} },
+          { key: 'f_ESPECIFIC',label:'Fuente especifica',  _style: { width: '20%'} },
+          { key: 'orgA_FIN', label:'Organismo de financiamiento',  _style: { width: '20%'} },
+          { key: 'insT_OTORGA',label:'Institución otorgante', _style: { width: '20%'} },
+          { key: 'anO_ANT',label:'Año anterior', _style: { width: '20%'} },
+          { key: 'alafecha',label:'A la Fecha', _style: { width: '20%'} },
+          { key: 'esT_ACTUAL',label:'Estimado Actual', _style: { width: '20%'} },
+          { key: 'preS_FORM',label:'Presupuesto Formulado', _style: { width: '20%'} },
+          { key: 'control',label:'Control', _style: { width: '20%'} },
+          { key: 'ingresos',label:'Ingresos', _style: { width: '20%'} },
+          { key: 'variacioN_RESUMEN',label:'Resumen Variacion', _style: { width: '20%'} },
+          { key: 'variacion',label:'Variacion', _style: { width: '20%'} },
+          { key: 'id_ayuntamiento',label:'ayuntamiento', _style: { width: '20%'} },
+          { key: 'ano',label:'año', _style: { width: '20%'} },
+          { key: 'fecha',label:'Fecha', _style: { width: '20%'} },
+          {
+            key: 'show_details',
+            label: '',
+            _style: { width: '1%' },
+            filter: false,
+            sorter: false,
+            // _props: { color: 'primary', class: 'fw-semibold'}
+          }
       ],
       details: [],
       items: [
