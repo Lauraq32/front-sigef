@@ -215,6 +215,14 @@ import { CSmartTable } from '@coreui/vue-pro'
       }
     },
     methods: {
+      handleSubmitCustom01(event) {
+      const form = event.currentTarget
+      if (form.checkValidity() === false) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      this.validatedCustom01 = true
+    },
       getBadge (status) {
         switch (status) {
           case 'Active': return 'success'
