@@ -197,7 +197,7 @@ export default [
       {
         component: 'CNavItem',
         name: 'Home',
-        to: '/AdministrativoModule',
+        to: '/administrativo',
         icon: 'cilDollar',
       },
       {

@@ -1,4 +1,6 @@
 <template>
+  <h3 class="text-center">Formulacion ingreso</h3>
+  <hr>
   <div class="">
     <div class="d-inline p-2">
       <CButton
