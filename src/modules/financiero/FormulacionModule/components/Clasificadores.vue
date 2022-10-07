@@ -13,7 +13,7 @@
   <CSmartTable 
     clickableRows
     :tableProps="{
-      striped: true,
+      striped: false,
       hover: true,
     }"
     :tableHeadProps="{
@@ -78,19 +78,19 @@ import { CSmartTable } from '@coreui/vue-pro'
       return {
         columns: [
           { key: 'ccontrol',label:'Cuenta'},
-          { key: 'clasifica',  },
-          { key: 'ctA_CONTAG',  },
-          { key: 'ctA_GASTOS',  },
-          { key: 'ctA_INGRESO',  },
-          { key: 'detalle',  },
-          { key: 'iDENTIFICADORdUENTE',  },
-          { key: 'iDENTIFICADORfUENTEeSPECIFICA',  },
-          { key: 'identificadorornfin',  },
-          { key: 'nombre',  },
-          { key: 'nombrefUENTE',  },
-          { key: 'nombrefuenteespecifica',  },
-          { key: 'nombreorgfin',  },
-          { key: 'tipo', filter: false, sorter: false, _style: { width: '20%'} },
+          { key: 'clasifica',label:'Clasificador'  },
+          { key: 'ctA_CONTAG', label:'Cuenta contable' },
+          { key: 'ctA_GASTOS',label:'Cuenta Gastos'  },
+          { key: 'ctA_INGRESO', label:'Cuenta ingreso' },
+          { key: 'detalle', label:'Detalle', _style: { width: '20%'} },
+          { key: 'iDENTIFICADORdUENTE', label:'Fuente' },
+          { key: 'iDENTIFICADORfUENTEeSPECIFICA', label:'Fuente especifica' },
+          { key: 'nombre', label:'Nombre'},
+          // { key: 'identificadorornfin', label:'Nombre' },
+          { key: 'nombrefUENTE', label:'Nombre Fuente' },
+          { key: 'nombrefuenteespecifica',label:'Nombre Fuente especifica'  },
+          { key: 'nombreorgfin', label:'Organismo Financiero' },
+          { key: 'tipo', label:'Tipo' , filter: false, sorter: false, _style: { width: '5%'} },
           //{ key: 'ctA_GASTOS', _style: { width: '20%'} },
           {
             key: 'show_details',
