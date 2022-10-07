@@ -186,6 +186,7 @@ export default [
         to: '/rrhh',
         icon: 'cilDollar',
       },
+      
     ],
   },
   {
@@ -196,9 +197,15 @@ export default [
       {
         component: 'CNavItem',
         name: 'Home',
-        to: '/administrativo',
+        to: '/AdministrativoModule',
         icon: 'cilDollar',
       },
+      {
+        component:'CNavItem',
+        name:'Manejo Usuarios',
+        to:'/AdministrativoModule/manejoUsuarios',
+        icon:'cilChartPie',
+      }
     ],
   },
   {

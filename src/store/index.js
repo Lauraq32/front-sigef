@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import testModule from '@/modules/financiero/FormulacionModule/store/Formulacion'
+import AdministrativoModule from '@/modules/administrativo/Usuario/store/Administrativo'
 
 export default createStore({
   state: {
@@ -20,5 +21,6 @@ export default createStore({
   actions: {},
   modules: {
     testModule,
+    AdministrativoModule
   },
 })
