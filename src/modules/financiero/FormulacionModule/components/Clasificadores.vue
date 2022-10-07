@@ -1,4 +1,6 @@
 <template>
+  <h3 class="text-center">Clasificadores</h3>
+  <hr>
   <div>
     <div class="d-inline p-2">
       <CButton style="font-weight: bold;" color="info" >Imprimir Clasificadores de Ingresos</CButton>

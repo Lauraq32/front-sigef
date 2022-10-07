@@ -1,5 +1,5 @@
 export default {
-  name: 'Administrativo',
+  name: 'AdministrativoModule',
   redirect: '/AdministrativoModule/manejoUsuarios',
   component: () =>
     import('@/modules/administrativo/Usuario/layout/TemplateLayout.vue'),
