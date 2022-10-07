@@ -17,7 +17,7 @@
       :activePage="1"
       footer
       header
-      :items="items"
+      :items="this.$store.state.Formulacion.organismos"
       :columns="columns"
       columnFilter
       tableFilter
@@ -72,10 +72,11 @@
       data: () => {
         return {
           columns: [
-            { key: 'name', _style: { width: '40%'} },
-            'registered',
-            { key: 'role', filter: false, sorter: false, _style: { width: '20%'} },
-            { key: 'status', _style: { width: '20%'} },
+          { key: 'id', _style: { width: '40%'} },
+            { key: 'denominacion', _style: { width: '40%'} },
+            'grupo',
+            { key: 'orgafin', filter: false, sorter: false, _style: { width: '20%'} },
+            { key: 'subgrupo', _style: { width: '20%'} },
             {
               key: 'show_details',
               label: '',
@@ -86,33 +87,7 @@
             }
           ],
           details: [],
-          items: [
-            {name: 'John Doe', registered: '2018/01/01', role: 'Guest', status: 'Pending'},
-            {name: 'Samppa Nori', registered: '2018/01/01', role: 'Member', status: 'Active'},
-            {name: 'Estavan Lykos', registered: '2018/02/01', role: 'Staff', status: 'Banned',},
-            {name: 'Chetan Mohamed', registered: '2018/02/01', role: 'Admin', status: 'Inactive'},
-            {name: 'Derick Maximinus', registered: '2018/03/01', role: 'Member', status: 'Pending'},
-            {name: 'Friderik Dávid', registered: '2018/01/21', role: 'Staff', status: 'Active'},
-            {name: 'Yiorgos Avraamu', registered: '2018/01/01', role: 'Member', status: 'Active'},
-            {name: 'Avram Tarasios', registered: '2018/02/01', role: 'Staff', status: 'Banned',},
-            {name: 'Quintin Ed', registered: '2018/02/01', role: 'Admin', status: 'Inactive'},
-            {name: 'Enéas Kwadwo', registered: '2018/03/01', role: 'Member', status: 'Pending'},
-            {name: 'Agapetus Tadeáš', registered: '2018/01/21', role: 'Staff', status: 'Active'},
-            {name: 'Carwyn Fachtna', registered: '2018/01/01', role: 'Member', status: 'Active'},
-            {name: 'Nehemiah Tatius', registered: '2018/02/01', role: 'Staff', status: 'Banned'},
-            {name: 'Ebbe Gemariah', registered: '2018/02/01', role: 'Admin', status: 'Inactive'},
-            {name: 'Eustorgios Amulius', registered: '2018/03/01', role: 'Member', status: 'Pending'},
-            {name: 'Leopold Gáspár', registered: '2018/01/21', role: 'Staff', status: 'Active'},
-            {name: 'Pompeius René', registered: '2018/01/01', role: 'Member', status: 'Active'},
-            {name: 'Paĉjo Jadon', registered: '2018/02/01', role: 'Staff', status: 'Banned'},
-            {name: 'Micheal Mercurius', registered: '2018/02/01', role: 'Admin', status: 'Inactive'},
-            {name: 'Ganesha Dubhghall', registered: '2018/03/01', role: 'Member', status: 'Pending'},
-            {name: 'Hiroto Šimun', registered: '2018/01/21', role: 'Staff', status: 'Active'},
-            {name: 'Vishnu Serghei', registered: '2018/01/01', role: 'Member', status: 'Active'},
-            {name: 'Zbyněk Phoibos', registered: '2018/02/01', role: 'Staff', status: 'Banned'},
-            {name: 'Aulus Agmundr', registered: '2018/01/01', role: 'Member', status: 'Pending'},
-            {name: 'Ford Prefect', registered: '2001/05/25', role: 'Alien', status: 'Don\'t panic!'}
-          ],
+         
         }
       },
       methods: {
@@ -132,6 +107,9 @@
           }
           this.details.push(item._id)
         }
+      },
+      mounted(){
+        this.$store.dispatch('Formulacion/getOrganismos');
       }
     }
   </script>
