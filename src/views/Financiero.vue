@@ -5,7 +5,7 @@
         <CWidgetStatsD
         @click="gotToPrueba"
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #3b5998;"
+          style="--cui-card-cap-bg: #375b80;"
           :values="[{ title: 'Formulacion Presupuesto', value: '' }]"
         >
           <template #icon>
@@ -44,7 +44,7 @@
       <CCol :md="3" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #3b5998"
+          style="--cui-card-cap-bg: #375b80"
           :values="[{ title: 'Ejecucion Presupuesto', value: '' }]"
         >
           <template #icon>
@@ -85,7 +85,7 @@
       <CCol :md="3" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #3b5998"
+          style="--cui-card-cap-bg: #375b80"
           :values="[{ title: 'Activos fijos', value: '' }]"
         >
           <template #icon>
@@ -124,7 +124,7 @@
       <CCol :md="3" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #3b5998"
+          style="--cui-card-cap-bg: #375b80"
           :values="[{ title: 'Nomina', value: '' }]"
         >
           <template #icon>
@@ -163,7 +163,7 @@
       <CCol :md="3" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #3b5998"
+          style="--cui-card-cap-bg: #375b80"
           :values="[{ title: 'Contabilidad', value: '' }]"
         >
           <template #icon>
@@ -202,7 +202,7 @@
       <CCol :md="3" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #3b5998"
+          style="--cui-card-cap-bg: #375b80"
           :values="[{ title: 'Conciliacion bancaria', value: '' }]"
         >
           <template #icon>
@@ -243,7 +243,7 @@
       <CCol :md="3" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #3b5998"
+          style="--cui-card-cap-bg: #375b80"
           :values="[{ title: 'Cuentas por pagar', value: '' }]"
         >
           <template #icon>
@@ -284,7 +284,7 @@
       <CCol :md="3" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #3b5998"
+          style="--cui-card-cap-bg: #375b80"
           :values="[{ title: 'Facturación y cobros', value: '' }]"
         >
           <template #icon>

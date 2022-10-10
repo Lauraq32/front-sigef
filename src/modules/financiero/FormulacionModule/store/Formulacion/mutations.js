@@ -22,4 +22,7 @@ export const SET_CLASIFICADOR = (state,clasificador) => {
 export const SET_INGRESO = (state,ingreso) => {
     state.ingreso = ingreso
 }
+export const SET_INGRESOS = (state,ingresos) => {
+    state.ingresos = ingresos
+}
 

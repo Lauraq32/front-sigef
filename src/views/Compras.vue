@@ -4,7 +4,7 @@
       <CCol :md="3" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #3b5998"
+          style="--cui-card-cap-bg: #375b80"
           :values="[{ title: 'Plan anual de compras', value: '' }]"
         >
           <template #icon>
@@ -43,7 +43,7 @@
       <CCol :md="3" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #3b5998"
+          style="--cui-card-cap-bg: #375b80"
           :values="[{ title: 'Proceso de compras', value: '' }]"
         >
           <template #icon>
