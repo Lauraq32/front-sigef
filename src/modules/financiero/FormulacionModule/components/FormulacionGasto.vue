@@ -384,6 +384,9 @@ export default {
       }
       this.validatedCustom01 = true
     },
+    IngresoReport() {
+      window.open(`http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fseguridad%2fReport1&rs:Command=Render&id=${localStorage.getItem('id_ayuntamiento')}&ano=${localStorage.getItem('ano')}`, '_blank').focus();
+    },
     getBadge(status) {
       switch (status) {
         case 'Active':

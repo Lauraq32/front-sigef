@@ -102,6 +102,9 @@
             default: 'primary'
           }
         },
+        IngresoReport() {
+      window.open(`http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fReporte_FP%2fRep_Fuente_Organismo_Financiador&rs:Command=Render`, '_blank').focus();
+    },
         toggleDetails (item) {
           if (this.details.includes(item._id)) {
             this.details = this.details.filter((_item) => _item !== item._id)
