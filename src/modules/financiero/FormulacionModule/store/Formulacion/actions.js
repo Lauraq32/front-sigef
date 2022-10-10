@@ -31,9 +31,22 @@ export const getEstructurasProgramaticas = async ({ commit }) => {
         commit('SET_ESTRUCTURAS_PROGRAMATICAS',response.data)
     })
 }
+
 export const getProyectos = async ({ commit }) => {
     Api.getListarProyecto().then(response => {
         console.log(response.data)
         commit('SET_PROYECTOS',response.data)
+    })
+}
+export const getClasificador = async ({ commit }, clasificador) => {
+    Api.getClasificador(clasificador).then(response => {
+        console.log(response.data)
+        commit('SET_CLASIFICADOR',response.data)
+    })
+}
+export const PostIngreso = async ({ commit }, data) => {
+    Api.createIngreso(data).then(response => {
+        console.log(response.data)
+        commit('SET_INGRESO',data)
     })
 }
