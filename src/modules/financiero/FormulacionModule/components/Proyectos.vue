@@ -74,11 +74,13 @@
       data: () => {
         return {
           columns: [
-            { key: 'id', _style: { width: '40%'} },
-            { key: 'denominacion', _style: { width: '40%'} },
-            'grupo',
-            { key: 'orgafin', filter: false, sorter: false, _style: { width: '20%'} },
-            { key: 'subgrupo', _style: { width: '20%'} },
+            { key: 'id',label:'ID', _style: { width: '40%'} },
+            { key: 'proyecto',label:'Proyecto', _style: { width: '40%'} },
+            { key: 'codigoObra',label:'Código Obra', _style: { width: '40%'} },
+            { key: 'descripcion',label:'Descripción', _style: { width: '40%'} },
+            { key: 'fechaIninio',label:'Fecha de inicio', _style: { width: '40%'} },
+            { key: 'fechaFin',label:'Fecha fin', _style: { width: '40%'} },
+            { key: 'participacion',label:'Participación', _style: { width: '40%'} },
             {
               key: 'show_details',
               label: '',
