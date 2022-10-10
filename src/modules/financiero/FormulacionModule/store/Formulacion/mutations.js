@@ -16,6 +16,10 @@ export const SET_PROYECTOS = (state,proyectos) => {
 export const SET_ORGANISMO = (state,organismos) => {
     state.organismos = organismos
 }
-export const SET_INGRESO = (state,ingresos) => {
-    state.ingresos = ingresos
+export const SET_CLASIFICADOR = (state,clasificador) => {
+    state.clasificador = clasificador
 }
+export const SET_INGRESO = (state,ingreso) => {
+    state.ingreso = ingreso
+}
+

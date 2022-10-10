@@ -31,16 +31,22 @@ export const getEstructurasProgramaticas = async ({ commit }) => {
         commit('SET_ESTRUCTURAS_PROGRAMATICAS',response.data)
     })
 }
+
 export const getProyectos = async ({ commit }) => {
     Api.getListarProyecto().then(response => {
         console.log(response.data)
         commit('SET_PROYECTOS',response.data)
     })
 }
-export const getListarIngresos = async ({ commit }) => {
-    Api.getListarIngresos(localStorage.getItem('id_Ayuntamiento'),localStorage.getItem('ano')).then(response => {
+export const getClasificador = async ({ commit }, clasificador) => {
+    Api.getClasificador(clasificador).then(response => {
         console.log(response.data)
-        commit('SET_INGRESO',response.data)
+        commit('SET_CLASIFICADOR',response.data)
     })
 }
-
+export const PostIngreso = async ({ commit }, data) => {
+    Api.createIngreso(data).then(response => {
+        console.log(response.data)
+        commit('SET_INGRESO',data)
+    })
+}

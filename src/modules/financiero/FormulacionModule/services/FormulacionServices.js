@@ -7,6 +7,16 @@ class FormulacionApi {
     return http.get('/Financiero/ListarClasificadores')
   }
 
+  getClasificador(Clasificador){
+    return http.get(`/ingresoslista/filtrarClasificadores/?obj=${Clasificador}`)
+  }
+
+  //PostIngreso
+  createIngreso(data) {
+    return http.post("/api/Ingreso/guardarPresIngreso", data);
+  }
+  
+
   //Obtener clasificador especifico
   getClasificador(Clasificador) {
     return http.get(`/ingresoslista/filtrarClasificadores/?obj=${Clasificador}`)
