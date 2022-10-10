@@ -74,11 +74,11 @@
       data: () => {
         return {
           columns: [
-          { key: 'id', _style: { width: '40%'} },
-            { key: 'denominacion', _style: { width: '40%'} },
-            'grupo',
-            { key: 'orgafin', filter: false, sorter: false, _style: { width: '20%'} },
-            { key: 'subgrupo', _style: { width: '20%'} },
+          { key: 'id', label:'ID', _style: { width: '40%'} },
+          { key: 'grupo', label:'Grupo', _style: { width: '40%'} },
+          { key: 'subgrupo', label:'Subgrupo', _style: { width: '20%'} },
+          { key: 'orgafin', label:'Organismo Financiero', filter: false, sorter: false, _style: { width: '20%'} },
+            { key: 'denominacion', label:'Denominación', _style: { width: '40%'} },
             {
               key: 'show_details',
               label: '',

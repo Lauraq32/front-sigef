@@ -75,12 +75,13 @@ import { onMounted } from 'vue'
       data: () => {
         return {
           columns: [
-            { key: 'id', _style: { width: '40%'} },
-            { key: 'denominacion', _style: { width: '40%'} },
-            'codigo',
-            { key: 'fuente', filter: false, sorter: false, _style: { width: '20%'} },
-            { key: 'fondo', _style: { width: '20%'} },
-            { key: 'origen', _style: { width: '20%'} },
+            { key: 'id',label:'ID', _style: { width: '40%'} },
+            { key: 'codigo', label:'Código', _style: { width: '40%'} },
+            { key: 'fuente', label:'Fuente', filter: false, sorter: false, _style: { width: '20%'} },
+            { key: 'fondo', label:'Fondo', _style: { width: '20%'} },
+            { key: 'origen', label:'Origne', _style: { width: '20%'} },
+            { key: 'denominacion', label:'Denominación', _style: { width: '40%'} },
+            { key: 'grupo', label:'Grupo', _style: { width: '40%'} },
             {
               key: 'show_details',
               label: '',

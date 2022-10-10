@@ -74,10 +74,16 @@
       data: () => {
         return {
           columns: [
-            { key: 'name', _style: { width: '40%'} },
-            'registered',
-            { key: 'role', filter: false, sorter: false, _style: { width: '20%'} },
-            { key: 'status', _style: { width: '20%'} },
+            { key: 'pnap', label:'pnap', _style: { width: '40%'} },
+            { key: 'control', label:'control', _style: { width: '40%'} },
+            { key: 'funcion', label:'funcion', _style: { width: '40%'} },
+            { key: 'numero', label:'numero', _style: { width: '40%'} },
+            { key: 'obra', label:'obra', _style: { width: '40%'} },
+            { key: 'presupuesto', label:'presupuesto', _style: { width: '40%'} },
+            { key: 'programa', label:'programa', _style: { width: '40%'} },
+            { key: 'proyecto', label:'proyecto', _style: { width: '40%'} },
+            { key: 'tipo', label:'tipo', _style: { width: '40%'} },
+            { key: 'unidadResponsable', label:'unidadResponsable', _style: { width: '40%'} },
             {
               key: 'show_details',
               label: '',

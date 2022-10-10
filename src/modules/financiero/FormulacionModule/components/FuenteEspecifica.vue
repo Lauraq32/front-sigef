@@ -76,10 +76,10 @@ import { onMounted } from 'vue'
       data: () => {
         return {
           columns: [
-            { key: 'id', _style: { width: '40%'} },
-            'fuente',
-            { key: 'codigo', filter: false, sorter: false, _style: { width: '20%'} },
-            { key: 'denominacion', _style: { width: '20%'} },
+            { key: 'id', label:'ID', _style: { width: '40%'} },
+            { key: 'fuente', label:'Fuente', _style: { width: '40%'} },
+            { key: 'codigo', label:'Código', filter: false, sorter: false, _style: { width: '20%'} },
+            { key: 'denominacion',label:'Denominación',  _style: { width: '20%'} },
             {
               key: 'show_details',
               label: '',
