@@ -12,10 +12,12 @@
           <CNavLink href="/dashboard"> Dashboard </CNavLink>
         </CNavItem>
         <CNavItem>
-          <CNavLink href="#">Users</CNavLink>
+          <CNavLink href="#">Ayuntamiento</CNavLink>
         </CNavItem>
         <CNavItem>
-          <CNavLink href="#">Settings</CNavLink>
+          <CNavLink href="#"> <span style="
+    font-weight: bold;
+">{{this.$store.state.myCustomModule.user.ayuntamiento}}</span> </CNavLink>
         </CNavItem>
       </CHeaderNav>
       <CHeaderNav>
@@ -34,7 +36,16 @@
             <CIcon class="mx-2" icon="cil-envelope-open" size="lg" />
           </CNavLink>
         </CNavItem>
+       
         <AppHeaderDropdownAccnt />
+        <CNavItem>
+          <CNavLink href="#">
+            <CNavItem>
+          <CIcon class="mx-1" icon="cil-account-logout" size="lg" />
+        </CNavItem>
+          </CNavLink>
+        </CNavItem>
+       
       </CHeaderNav>
     </CContainer>
     <CHeaderDivider />
@@ -48,6 +59,7 @@
 import AppBreadcrumb from './AppBreadcrumb'
 import AppHeaderDropdownAccnt from './AppHeaderDropdownAccnt'
 import { logo } from '@/assets/brand/logo'
+import store from '@/store'
 export default {
   name: 'AppHeader',
   components: {

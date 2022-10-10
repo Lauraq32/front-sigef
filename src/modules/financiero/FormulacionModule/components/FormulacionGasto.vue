@@ -82,7 +82,7 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Formulación Ingreso</CModalTitle>
+      <CModalTitle>Formulación gasto</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -92,24 +92,24 @@
           :validated="validatedCustom01"
           @submit="handleSubmitCustom01"
         >
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
-            <CFormInput id="validationCustom01" required />
+          <CCol :md="2">
+            <CFormLabel for="validationCustom01">PNAP</CFormLabel>
+            <CFormInput id="validationCustom01"  />
 
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02">Cta. Control</CFormLabel>
-            <CFormInput disabled id="validationCustom02" required />
+          <CCol :md="2">
+            <CFormLabel for="validationCustom02">Programa</CFormLabel>
+            <CFormInput  id="validationCustom02" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustomUsername">Detalle</CFormLabel>
+          <CCol :md="2">
+            <CFormLabel for="validationCustomUsername">Proyecto</CFormLabel>
             <CInputGroup class="has-validation">
               <CFormInput
-                disabled
+                
                 id="validationCustomUsername"
                 value=""
                 aria-describedby="inputGroupPrepend"
@@ -119,45 +119,50 @@
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </CInputGroup>
           </CCol>
-          <CCol :md="6">
+          <CCol :md="4">
             <CFormLabel for="validationCustom03"
-              >Fuente Financiamiento</CFormLabel
+              >Actividad/Obra</CFormLabel
             >
-            <CFormInput disabled id="validationCustom03" required />
+            <CFormInput  id="validationCustom03" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom04">Fuente Especifica</CFormLabel>
-            <CFormInput disabled id="validationCustom04"> </CFormInput>
+            <CFormLabel for="validationCustom04">Est. Programática control</CFormLabel>
+            <CFormInput  id="validationCustom04"> </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom05"
-              >Organismo Financiador</CFormLabel
+              >Denominación</CFormLabel
             >
-            <CFormInput disabled id="validationCustom05" required />
+            <CFormInput  id="validationCustom05" required />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <hr />
           <CCol :md="4">
-            <CFormLabel for="validationCustom04">Año Anterior</CFormLabel>
-            <CFormInput id="validationCustom04" value="0"> </CFormInput>
+            <CFormLabel for="validationCustom04">Unidad responsable</CFormLabel>
+            <CFormInput id="validationCustom04" > </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
-            <CFormLabel for="validationCustom04">A la Fecha</CFormLabel>
-            <CFormInput id="validationCustom04" value="0"></CFormInput>
+            <CFormLabel for="validationCustom04">Tipo</CFormLabel>
+            <CFormSelect id="validationCustom04">
+
+              <option>DETALLE</option>
+              <option>CABECERA</option>
+              
+
+            </CFormSelect>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
             <CFormLabel for="validationCustom04"
-              >Presupuesto Formulado</CFormLabel
+              >No. fondo transferido</CFormLabel
             >
-            <CFormInput id="validationCustom04" value="0"></CFormInput>
+            <CFormInput id="validationCustom04"></CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -377,6 +382,9 @@ export default {
         event.stopPropagation()
       }
       this.validatedCustom01 = true
+    },
+    IngresoReport() {
+      window.open(`http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fseguridad%2fReport1&rs:Command=Render&id=${localStorage.getItem('id_ayuntamiento')}&ano=${localStorage.getItem('ano')}`, '_blank').focus();
     },
     getBadge(status) {
       switch (status) {

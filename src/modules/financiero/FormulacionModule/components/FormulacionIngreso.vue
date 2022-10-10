@@ -31,7 +31,7 @@
     :activePage="1"
     footer
     header
-    :items="items"
+    :items="this.$store.state.Formulacion.ingrsos"
     :columns="columns"
     columnFilter
     tableFilter
@@ -356,6 +356,9 @@ export default {
           'primary'
       }
     },
+    IngresoReport() {
+      window.open(`http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fseguridad%2fReport1&rs:Command=Render&id=${localStorage.getItem('id_ayuntamiento')}&ano=${localStorage.getItem('ano')}`, '_blank').focus();
+    },
     toggleDetails(item) {
       if (this.details.includes(item._id)) {
         this.details = this.details.filter((_item) => _item !== item._id)
@@ -364,5 +367,8 @@ export default {
       this.details.push(item._id)
     },
   },
+  mounted(){
+      this.$store.dispatch('Formulacion/getListarIngresos');
+    }
 }
 </script>
