@@ -4,7 +4,7 @@
       <CCol :md="3" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #3b5998"
+          style="--cui-card-cap-bg: #375b80"
           :values="[{ title: 'Manejo Usuarios', value: '' }]"
         >
           <template #icon>
@@ -45,7 +45,7 @@
       <CCol :md="3" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #3b5998"
+          style="--cui-card-cap-bg: #375b80"
           :values="[{ title: 'Transportación', value: '' }]"
         >
           <template #icon>
@@ -84,7 +84,7 @@
       <CCol :md="3" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #3b5998"
+          style="--cui-card-cap-bg: #375b80"
           :values="[{ title: 'Visitas', value: '' }]"
         >
           <template #icon>
@@ -123,7 +123,7 @@
       <CCol :md="3" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #3b5998"
+          style="--cui-card-cap-bg: #375b80"
           :values="[{ title: 'Viáticos', value: '' }]"
         >
           <template #icon>
@@ -162,7 +162,7 @@
       <CCol :md="3" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #3b5998"
+          style="--cui-card-cap-bg: #375b80"
           :values="[{ title: 'Caja chica', value: '' }]"
         >
           <template #icon>
@@ -201,7 +201,7 @@
       <CCol :md="3" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #3b5998"
+          style="--cui-card-cap-bg: #375b80"
           :values="[{ title: 'Combustibles', value: '' }]"
         >
           <template #icon>
@@ -240,7 +240,7 @@
       <CCol :md="3" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #3b5998"
+          style="--cui-card-cap-bg: #375b80"
           :values="[{ title: 'Digitalización', value: '' }]"
         >
           <template #icon>

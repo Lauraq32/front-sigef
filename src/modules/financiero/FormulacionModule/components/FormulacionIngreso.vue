@@ -31,7 +31,7 @@
     :activePage="1"
     footer
     header
-    :items="this.$store.state.Formulacion.ingrsos"
+    :items="items"
     :columns="columns"
     columnFilter
     tableFilter
@@ -324,6 +324,7 @@ export default {
     submitForm() {
       this.$store.dispatch('Formulacion/PostIngreso', this.postIngreso);
       this.lgDemo=false
+      this.$store.dispatch('Formulacion/getListarIngresos');
     },
     getClasificador() {
       this.$store.dispatch('Formulacion/getClasificador',this.postIngreso.CLASIFICA)
@@ -369,6 +370,11 @@ export default {
   },
   mounted(){
       this.$store.dispatch('Formulacion/getListarIngresos');
+    },
+    computed:{
+      items : function ingresosList() {
+        return this.$store.state.Formulacion.ingresos
+      }
     }
 }
 </script>

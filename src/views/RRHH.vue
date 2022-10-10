@@ -4,7 +4,7 @@
       <CCol :md="3" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #3b5998"
+          style="--cui-card-cap-bg: #375b80"
           :values="[{ title: 'Registro de personal', value: '' }]"
         >
           <template #icon>
@@ -45,7 +45,7 @@
       <CCol :md="3" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #3b5998"
+          style="--cui-card-cap-bg: #375b80"
           :values="[{ title: 'Evaluacion de desempeño', value: '' }]"
         >
           <template #icon>
@@ -86,7 +86,7 @@
       <CCol :md="3" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #3b5998"
+          style="--cui-card-cap-bg: #375b80"
           :values="[{ title: 'Acciones de personal', value: '' }]"
         >
           <template #icon>

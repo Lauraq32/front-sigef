@@ -15364,6 +15364,7 @@ export default () => ({
   fuentesFianciamiento: [],
   proyectos: [],
   organismos: [],
+  ingresos: [],
   ingreso: {
     Ano: parseInt(localStorage.getItem('ano')),
     id_ayuntamiento: parseInt(localStorage.getItem('id_ayuntamiento')),
