@@ -31,7 +31,7 @@
     :activePage="1"
     footer
     header
-    :items="items"
+    :items="this.$store.state.Formulacion.ingrsos"
     :columns="columns"
     columnFilter
     tableFilter
@@ -260,5 +260,8 @@ export default {
       this.details.push(item._id)
     },
   },
+  mounted(){
+      this.$store.dispatch('Formulacion/getListarIngresos');
+    }
 }
 </script>

@@ -15363,5 +15363,6 @@ export default () => ({
   fuenteEspecificas:[],
   fuentesFianciamiento:[],
   proyectos:[],
-  organismos:[]
+  organismos:[],
+  ingresos:[]
 })

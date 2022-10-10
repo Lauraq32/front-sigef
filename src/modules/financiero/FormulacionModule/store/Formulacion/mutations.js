@@ -16,3 +16,6 @@ export const SET_PROYECTOS = (state,proyectos) => {
 export const SET_ORGANISMO = (state,organismos) => {
     state.organismos = organismos
 }
+export const SET_INGRESO = (state,ingresos) => {
+    state.ingresos = ingresos
+}

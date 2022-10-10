@@ -37,3 +37,10 @@ export const getProyectos = async ({ commit }) => {
         commit('SET_PROYECTOS',response.data)
     })
 }
+export const getListarIngresos = async ({ commit }) => {
+    Api.getListarIngresos(localStorage.getItem('id_Ayuntamiento'),localStorage.getItem('ano')).then(response => {
+        console.log(response.data)
+        commit('SET_INGRESO',response.data)
+    })
+}
+
