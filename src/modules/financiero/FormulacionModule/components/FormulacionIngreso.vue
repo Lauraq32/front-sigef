@@ -234,7 +234,7 @@ export default {
     return {
       postIngreso: {
         Ano: parseInt(localStorage.getItem('ano')),
-        id_ayuntamiento: parseInt(localStorage.getItem('id_ayuntamiento')),
+        id_ayuntamiento: parseInt(localStorage.getItem('id_Ayuntamiento')),
         CLASIFICA: null,
         INST_OTORGA: 0,
         CONTROL: '',
