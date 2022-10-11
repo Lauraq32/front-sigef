@@ -358,7 +358,7 @@ export default {
       }
     },
     IngresoReport() {
-      window.open(`http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fseguridad%2fReport1&rs:Command=Render&id=${localStorage.getItem('id_ayuntamiento')}&ano=${localStorage.getItem('ano')}`, '_blank').focus();
+      window.open(`http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fseguridad%2fReport1&rs:Command=Render&id=${localStorage.getItem('id_Ayuntamiento')}&ano=${localStorage.getItem('ano')}`, '_blank').focus();
     },
     toggleDetails(item) {
       if (this.details.includes(item._id)) {
