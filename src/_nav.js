@@ -178,7 +178,9 @@ export default [
   {
     component: 'CNavItem',
     name: 'RRHH',
+   
 
+    
     items: [
       {
         component: 'CNavItem',
@@ -186,7 +188,85 @@ export default [
         to: '/rrhh',
         icon: 'cilDollar',
       },
-      
+      {
+        component: 'CNavItem',
+        name: 'Registro de Personal',
+        to: '/financiero',
+        icon: 'cilChartPie',
+        
+        items:[
+         
+          
+          {
+            component: 'CNavItem',
+            name: 'Direccion Dependencia',
+            to: '/RRHHModule/dependencia',
+            icon: 'cilDollar',    
+          },
+          {
+            component: 'CNavItem',
+            name: 'Departamentos',
+            to: '/RRHHModule/departamentos',
+            icon: 'cilDollar',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Areas de Trabajo',
+            to: '/RRHHModule/areaTrabajo',
+            icon: 'cilDollar',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Cargos',
+            to: '/RRHHModule/cargos',
+            icon: 'cilDollar',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Profesiones',
+            to: '/RRHHModule/profesiones',
+            icon: 'cilDollar',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Sectores',
+            to: '/RRHHModule/sectores',
+            icon: 'cilDollar',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Tipo de Sangre',
+            to: '/RRHHModule/tipoSangre',
+            icon: 'cilDollar',
+          },
+          {
+            component: 'CNavTitle',
+            name: 'Procesos',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Registro Personal',
+            to: '/RRHHModule/registroEmpleados',
+            icon: 'cilDollar',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Reclutamiento o solicitudes',
+            to: '/RRHHModule/reclutamiento',
+            icon: 'cilDollar',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Inventario de utiles',
+            to: '/RRHHModule/inventario',
+            icon: 'cilDollar',
+          },
+          
+        ]
+      },
+
+
+    
     ],
   },
   {

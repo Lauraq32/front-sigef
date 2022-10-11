@@ -6,6 +6,7 @@ import DefaultLayout from '@/layouts/DefaultLayout'
 //prueba router
 import testModuleRouter from "../modules/financiero/FormulacionModule/router";
 import AdministrativoModule from "../modules/administrativo/Usuario/router";
+import RRHHModule from "../modules/rrhh/RegistroPersonal/router";
 
 
 const routes = [
@@ -66,6 +67,10 @@ const routes = [
       {
         path:'/AdministrativoModule',
         ...AdministrativoModule
+      },
+      {
+        path:'/RRHHModule',
+        ...RRHHModule
       },
 
       {
