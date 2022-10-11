@@ -1,7 +1,7 @@
 <template lang="">
   <div>
     <CRow>
-      <CCol :md="3" class="mt-4">
+      <CCol :md="2" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
           style="--cui-card-cap-bg: #375b80"
@@ -42,7 +42,7 @@
           </template>
         </CWidgetStatsD>
       </CCol>
-      <CCol :md="3" class="mt-4">
+      <CCol :md="2" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
           style="--cui-card-cap-bg: #375b80"
@@ -83,7 +83,7 @@
           </template>
         </CWidgetStatsD>
       </CCol>
-      <CCol :md="3" class="mt-4">
+      <CCol :md="2" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
           style="--cui-card-cap-bg: #375b80"

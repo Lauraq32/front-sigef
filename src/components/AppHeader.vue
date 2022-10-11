@@ -1,6 +1,6 @@
 <template>
   <CHeader position="sticky" class="mb-4">
-    <CContainer fluid>
+    <CContainer fluid style="height: 110px;">
       <CHeaderToggler class="ps-1" @click="$store.commit('toggleSidebar')">
         <CIcon icon="cil-menu" size="lg" />
       </CHeaderToggler>
@@ -11,10 +11,13 @@
         <CNavItem>
           <CNavLink href="/dashboard"> Dashboard </CNavLink>
         </CNavItem>
-        <CNavItem>
-          <CNavLink href="#">Ayuntamiento</CNavLink>
+
+        <CNavItem >
+          <CNavLink href="#"></CNavLink>
         </CNavItem>
-        <CNavItem>
+
+        <CNavItem style="
+    font-size: 20px;">
           <CNavLink href="#"> <span style="
     font-weight: bold;
 ">{{this.$store.state.myCustomModule.user.ayuntamiento}}</span> </CNavLink>
@@ -36,16 +39,16 @@
             <CIcon class="mx-2" icon="cil-envelope-open" size="lg" />
           </CNavLink>
         </CNavItem>
-       
+
         <AppHeaderDropdownAccnt />
         <CNavItem>
           <CNavLink href="#">
             <CNavItem>
-          <CIcon class="mx-1" icon="cil-account-logout" size="lg" />
-        </CNavItem>
+              <CIcon class="mx-1" icon="cil-account-logout" size="lg" />
+            </CNavItem>
           </CNavLink>
         </CNavItem>
-       
+
       </CHeaderNav>
     </CContainer>
     <CHeaderDivider />
