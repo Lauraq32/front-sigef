@@ -8,19 +8,13 @@
         <CIcon :icon="logo" height="48" alt="Logo" />
       </CHeaderBrand>
       <CHeaderNav class="d-none d-md-flex me-auto">
-        <CNavItem>
-          <CNavLink href="/dashboard"> Dashboard </CNavLink>
-        </CNavItem>
-
         <CNavItem >
           <CNavLink href="#"></CNavLink>
         </CNavItem>
-
         <CNavItem style="
     font-size: 20px;">
-          <CNavLink href="#"> <span style="
-    font-weight: bold;
-">{{this.$store.state.myCustomModule.user.ayuntamiento}}</span> </CNavLink>
+         <img style="width: 300px;
+    margin-left: 600px;" src="@/assets/images/logoDistrito.jpg">
         </CNavItem>
       </CHeaderNav>
       <CHeaderNav>
