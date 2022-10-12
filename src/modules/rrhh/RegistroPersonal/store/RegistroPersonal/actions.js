@@ -7,5 +7,8 @@ export const getUsuarios = async ({ commit }) => {
         commit('SET_USUARIOS',response.data)
     })
 }
+export const setPersonal = async ({ commit },formData) => {
+        commit('POST_PERSONAL',formData)
+}
 
 
