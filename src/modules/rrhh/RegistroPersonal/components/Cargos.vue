@@ -30,7 +30,7 @@
     :activePage="1"
     footer
     header
-    :items="items"
+    :items="this.$store.state.RRHHModule.posicionesCargos"
     :columns="columns"
     columnFilter
     tableFilter
