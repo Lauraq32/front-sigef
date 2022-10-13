@@ -1,5 +1,5 @@
 <template>
-   <h3 class="text-center">Registro Personal</h3>
+  <h3 class="text-center">Registro Personal</h3>
   <hr />
   <div>
     <div class="d-inline p-2">
@@ -30,7 +30,7 @@
     :activePage="1"
     footer
     header
-    :items="this.$store.state.RRHHModule.registroPersonal"
+    :items="prueba"
     :columns="columns"
     columnFilter
     tableFilter
@@ -93,76 +93,118 @@
           @submit="handleSubmitCustom01"
         >
           <CCol :md="2">
-            <CFormLabel for="validationCustom01">PNAP</CFormLabel>
-            <CFormInput id="validationCustom01"  />
+            <CFormLabel for="validationCustom01">Apellido</CFormLabel>
+            <CFormInput
+              v-model="postPersonal.Apellido"
+              id="validationCustom01"
+            />
 
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="2">
-            <CFormLabel for="validationCustom02">Programa</CFormLabel>
-            <CFormInput  id="validationCustom02" required />
+            <CFormLabel for="validationCustom02">Nombre</CFormLabel>
+            <CFormInput
+              v-model="postPersonal.Nombre"
+              id="validationCustom02"
+              required
+            />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="2">
-            <CFormLabel for="validationCustomUsername">Proyecto</CFormLabel>
-            <CInputGroup class="has-validation">
-              <CFormInput
-                
-                id="validationCustomUsername"
-                value=""
-                aria-describedby="inputGroupPrepend"
-                required
-              />
-              <CFormFeedback valid> Exito! </CFormFeedback>
-              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-            </CInputGroup>
+            <CFormLabel for="validationCustomUsername">Cédula</CFormLabel>
+            <CFormInput
+              v-model="postPersonal.Cédula"
+              id="validationCustom02"
+              required
+            />
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
-            <CFormLabel for="validationCustom03"
-              >Actividad/Obra</CFormLabel
-            >
-            <CFormInput  id="validationCustom03" required />
+            <CFormLabel for="validationCustom03">Código</CFormLabel>
+            <CFormInput
+              v-model="postPersonal.Código"
+              id="validationCustom03"
+              required
+            />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom04">Est. Programática control</CFormLabel>
-            <CFormInput  id="validationCustom04"> </CFormInput>
+            <CFormLabel for="validationCustom04">Programa</CFormLabel>
+            <CFormInput v-model="postPersonal.Programa" id="validationCustom04">
+            </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom05"
-              >Denominación</CFormLabel
+              >Direccion o Dependencia</CFormLabel
             >
-            <CFormInput  id="validationCustom05" required />
+            <CFormInput
+              v-model="postPersonal.Direccion"
+              id="validationCustom05"
+              required
+            />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
-            <CFormLabel for="validationCustom04">Unidad responsable</CFormLabel>
-            <CFormInput id="validationCustom04" > </CFormInput>
+            <CFormLabel for="validationCustom04">Cargo</CFormLabel>
+            <CFormInput v-model="postPersonal.Cargo" id="validationCustom04">
+            </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
-            <CFormLabel for="validationCustom04">Tipo</CFormLabel>
-            <CFormSelect id="validationCustom04">
-
-              <option>DETALLE</option>
-              <option>CABECERA</option>
-              
-
-            </CFormSelect>
+            <CFormLabel for="validationCustom04">Fecha de ingreso</CFormLabel>
+            <CFormInput
+              v-model="postPersonal.FechaIngreso"
+              id="validationCustom02"
+              required
+            />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
             <CFormLabel for="validationCustom04"
-              >No. fondo transferido</CFormLabel
+              >Fecha de nacimiento</CFormLabel
             >
-            <CFormInput id="validationCustom04"></CFormInput>
+            <CFormInput
+              v-model="postPersonal.FechaNacimiento"
+              id="validationCustom04"
+            ></CFormInput>
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="4">
+            <CFormLabel for="validationCustom04">Edad</CFormLabel>
+            <CFormInput
+              v-model="postPersonal.Edad"
+              id="validationCustom02"
+              required
+            />
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="4">
+            <CFormLabel for="validationCustom04">Sexo</CFormLabel>
+            <CFormInput
+              v-model="postPersonal.Sexo"
+              id="validationCustom02"
+              required
+            />
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="4">
+            <CFormLabel for="validationCustom04">Sueldo</CFormLabel>
+            <CFormInput
+              v-model="postPersonal.Sueldo"
+              id="validationCustom02"
+              required
+            />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -174,7 +216,7 @@
             >
               Close
             </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+            <button class="btn btn-info btn-block mt-1">
               Guardar
             </button>
           </div>
@@ -184,75 +226,118 @@
   </CModal>
 </template>
 <script>
-
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
-  export default {
-    components: {
-      CSmartTable,
-      CModal,
-    },
-    data: () => {
-      return {
-        validatedCustom01: null,
+import store from '@/store'
+
+
+export default {
+  components: {
+    CSmartTable,
+    CModal,
+  },
+  data: () => {
+    return {
+      prueba:store.state.RRHHModule.registroPersonal,
+      postPersonal: {
+        Apellido: 'JIMENEZ CORDERO',
+        Nombre: 'EDWING FRANCISCO',
+        Cédula: '001-0004972-5',
+        Código: '377',
+        Programa: '16-DIR. DE CAP. Y FORM',
+        Direccion: '',
+        Cargo: '',
+        FechaIngreso: '01/01/1999',
+        FechaNacimiento: '28/10/1963',
+        Edad: '58',
+        Sexo: 'MASCULINO',
+        Sueldo: '25,000.00 RD$',
+      },
+      validatedCustom01: null,
       lgDemo: false,
-        columns: [
-          { key: 'Apellido', label: 'Apellido', _style: { width: '40%'} },
-          { key: 'Nombre', label: 'Nombre', _style: { width: '40%'} },
-          { key: 'Cédula', label: 'Cédula', _style: { width: '40%'} },
-          { key: 'Código', label: 'Código', _style: { width: '40%'} },
-          { key: 'Programa', label: 'Programa', _style: { width: '40%'} },
-          { key: 'Direccion o Dependencia', label: 'Direccion o Dependencia', _style: { width: '40%'} },
-          { key: 'Cargo', label: 'Cargo', _style: { width: '40%'} },
-          { key: 'Fecha de ingreso', label: 'Fecha de ingreso', _style: { width: '40%'} },
-          { key: 'Fecha de nacimiento', label: 'Fecha de nacimiento', _style: { width: '40%'} },
-          { key: 'Edad', label: 'Edad', _style: { width: '40%'} },
-          { key: 'Sexo', label: 'Sexo', _style: { width: '40%'} },
-          { key: 'Sueldo', label: 'Sueldo', _style: { width: '40%'} },
-         
-          {
-            key: 'show_details',
-            label: '',
-            _style: { width: '1%' },
-            filter: false,
-            sorter: false,
-            // _props: { color: 'primary', class: 'fw-semibold'}
-          }
-        ],
-        details: [],
-       
-      }
-    },
-    methods: {
-      handleSubmitCustom01(event) {
+      columns: [
+        { key: 'Apellido', label: 'Apellido', _style: { width: '40%' } },
+        { key: 'Nombre', label: 'Nombre', _style: { width: '40%' } },
+        { key: 'Cédula', label: 'Cédula', _style: { width: '40%' } },
+        { key: 'Código', label: 'Código', _style: { width: '40%' } },
+        { key: 'Programa', label: 'Programa', _style: { width: '40%' } },
+        {
+          key: 'Direccion o Dependencia',
+          label: 'Direccion o Dependencia',
+          _style: { width: '40%' },
+        },
+        { key: 'Cargo', label: 'Cargo', _style: { width: '40%' } },
+        {
+          key: 'Fecha de ingreso',
+          label: 'Fecha de ingreso',
+          _style: { width: '40%' },
+        },
+        {
+          key: 'Fecha de nacimiento',
+          label: 'Fecha de nacimiento',
+          _style: { width: '40%' },
+        },
+        { key: 'Edad', label: 'Edad', _style: { width: '40%' } },
+        { key: 'Sexo', label: 'Sexo', _style: { width: '40%' } },
+        { key: 'Sueldo', label: 'Sueldo', _style: { width: '40%' } },
+
+        {
+          key: 'show_details',
+          label: '',
+          _style: { width: '1%' },
+          filter: false,
+          sorter: false,
+          // _props: { color: 'primary', class: 'fw-semibold'}
+        },
+      ],
+      details: [],
+    }
+  },
+  methods: {
+    handleSubmitCustom01(event) {
       const form = event.currentTarget
       if (form.checkValidity() === false) {
         event.preventDefault()
         event.stopPropagation()
       }
+      console.log('hola rp')
+      //this.$store.commit('RRHHModule/POST_PERSONAL',this.postPersonal);
+      this.$store.dispatch('RRHHModule/setPersonal', this.postPersonal)
+      this.reload()
       this.validatedCustom01 = true
     },
-      getBadge (status) {
-        switch (status) {
-          case 'Active': return 'success'
-          case 'Inactive': return 'secondary'
-          case 'Pending': return 'warning'
-          case 'Banned': return 'danger'
-          default: 'primary'
-        }
-      },
-      toggleDetails (item) {
-        if (this.details.includes(item._id)) {
-          this.details = this.details.filter((_item) => _item !== item._id)
-          return
-        }
-        this.details.push(item._id)
+    Guardar() {
+      
+    },
+    reload(){
+      this.prueba = this.$store.state.RRHHModule.registroPersonal;
+    },
+
+    getBadge(status) {
+      switch (status) {
+        case 'Active':
+          return 'success'
+        case 'Inactive':
+          return 'secondary'
+        case 'Pending':
+          return 'warning'
+        case 'Banned':
+          return 'danger'
+        default:
+          'primary'
       }
     },
-    mounted(){
-      this.$store.dispatch('AdministrativoModule/getUsuarios')
-    }
-    
-   
-  }
+    toggleDetails(item) {
+      if (this.details.includes(item._id)) {
+        this.details = this.details.filter((_item) => _item !== item._id)
+        return
+      }
+      this.details.push(item._id)
+    },
+  },
+ 
+  mounted() {
+    // this.$store.dispatch('RRHHModule/setPersonal',this.postPersonal)
+  },
+}
 </script>
