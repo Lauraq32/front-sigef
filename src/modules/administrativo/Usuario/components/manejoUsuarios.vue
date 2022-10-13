@@ -20,74 +20,14 @@
           @submit="handleSubmitCustom01"
         >
           <CCol :md="4">
-            <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
-            <CFormInput id="validationCustom01" required />
-            <button
-              class="btn btn-primary btn-block mt-1"
-              @click="getClasificador"
-            >
-              Buscar
-            </button>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02">Cta. Control</CFormLabel>
-            <CFormInput disabled id="validationCustom02" required />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustomUsername">Detalle</CFormLabel>
-            <CInputGroup class="has-validation">
-              <CFormInput
-                disabled
-                id="validationCustomUsername"
-                value=""
-                aria-describedby="inputGroupPrepend"
-                required
-              />
-              <CFormFeedback valid> Exito! </CFormFeedback>
-              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-            </CInputGroup>
-          </CCol>
-          <CCol :md="6">
-            <CFormLabel for="validationCustom03"
-              >Fuente Financiamiento</CFormLabel
-            >
-            <CFormInput disabled id="validationCustom03" required />
+            <CFormLabel for="validationCustom02">Nombre</CFormLabel>
+            <CFormInput id="validationCustom02" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom04">Fuente Especifica</CFormLabel>
-            <CFormInput disabled id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom05"
-              >Organismo Financiador</CFormLabel
-            >
-            <CFormInput disabled id="validationCustom05" required />
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <hr />
-          <CCol :md="4">
-            <CFormLabel for="validationCustom04">Año Anterior</CFormLabel>
-            <CFormInput id="validationCustom04" value="0"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom04">A la Fecha</CFormLabel>
-            <CFormInput id="validationCustom04" value="0"></CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom04">Presupuesto Formulado</CFormLabel>
-            <CFormInput id="validationCustom04" value="0"></CFormInput>
+            <CFormLabel for="validationCustom04">Email</CFormLabel>
+            <CFormInput id="validationCustom04"> </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -198,7 +138,7 @@ import { CSmartTable } from '@coreui/vue-pro'
         validatedCustom01: null,
       lgDemo: false,
         columns: [
-          { key: 'nombre', _style: { width: '40%'} },
+          { key: 'nombre',  _style: { width: '40%'} },
           'email',
          
           {
