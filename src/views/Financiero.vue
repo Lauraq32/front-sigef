@@ -1,17 +1,16 @@
 <template lang="">
   <div>
     <CRow>
-      <CCol :md="2" class="mt-4">
+      <CCol :md="2" class="mt-4" style="font-weight: bolder;" >
         <CWidgetStatsD
-        @click="gotToPrueba"
+          @click="gotToPrueba"
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #375b80;"
+          style="--cui-card-cap-bg: #f5f5f5"
           :values="[{ title: 'Formulacion Presupuesto', value: '' }]"
         >
           <template #icon>
-            <CIcon :icon="cilChartLine" style="50%" size="9xl"/>
-
-            </template>
+            <CIcon :icon="cilChartLine" style="50%" size="9xl" />
+          </template>
           <template #chart>
             <CChart
               class="position-absolute w-100 h-100"
@@ -45,14 +44,12 @@
       <CCol :md="2" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #375b80"
+          style="--cui-card-cap-bg: #002e5d"
           :values="[{ title: 'Ejecucion Presupuesto', value: '' }]"
         >
           <template #icon>
-            <img
-              class="card-img-top"
-              src="../assets/images/EjecucionPresupuesto.png"
-          /></template>
+            <CIcon :icon="cilFolderOpen"  style="color: #f5f5f5;" size="9xl" />
+          </template>
           <template #chart>
             <CChart
               class="position-absolute w-100 h-100"
@@ -327,21 +324,24 @@
   </div>
 </template>
 <script>
-import { CIcon } from '@coreui/icons-vue';
-import { cilChartLine } from '@coreui/icons-pro';
+import { CIcon } from '@coreui/icons-vue'
+import { cilChartLine, cilFolderOpen } from '@coreui/icons-pro'
 export default {
   components: {
-    CIcon
+    CIcon,
   },
   setup() {
     return {
-      cilChartLine
+      cilChartLine,
+      cilFolderOpen,
     }
   },
   name: 'Fianciero',
-  methods:{
-    gotToPrueba(){this.$router.push({name:'clasificadores'})},
-  }
+  methods: {
+    gotToPrueba() {
+      this.$router.push({ name: 'clasificadores' })
+    },
+  },
 }
 </script>
 <style lang=""></style>
