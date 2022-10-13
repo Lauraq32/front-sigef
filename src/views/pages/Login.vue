@@ -18,21 +18,21 @@
                     </CInputGroupText>
 
 
-                    <CFormInput id="validationCustom01" placeholder="Usuario" autocomplete="Correo" required v-model="userForm.email"/>
+                    <CFormInput id="validationCustom01" placeholder="Usuario" autocomplete="Correo" required
+                      v-model="userForm.email" />
                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                   </CInputGroup>
                   <CInputGroup class="mb-4">
                     <CInputGroupText>
                       <CIcon icon="cil-lock-locked" />
                     </CInputGroupText>
-                    <CFormInput id="validationCustom02" type="password" placeholder="Contraseña" autocomplete="current-password" required v-model="userForm.password"/>
+                    <CFormInput id="validationCustom02" type="password" placeholder="Contraseña"
+                      autocomplete="current-password" required v-model="userForm.password" />
                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                   </CInputGroup>
                   <CRow>
                     <CCol :xs="6" style="width: 100%" class="text-center">
-                      <button @click="submitForm" color="primary" class="btn btn-primary btn-block mt-1">
-                        Ingresar
-                      </button>
+                      <input value="Ingreso" type="submit" color="primary" class="btn btn-primary btn-block mt-1"/>
                       <!-- <button
               class="btn btn-primary btn-block mt-1"
               @click="getClasificador"
@@ -41,7 +41,7 @@
             </button> -->
                     </CCol>
                     <CCol :xs="6" class="text-center" style="width: 100%">
-                      <CButton   color="link" class="px-0">
+                      <CButton color="link" class="px-0">
                         ¿Olvidaste tu Contraseña?
                       </CButton>
                     </CCol>
@@ -53,7 +53,7 @@
         </CCol>
       </CRow>
     </CContainer>
-   
+
   </div>
 </template>
 
@@ -65,13 +65,13 @@ export default {
   name: 'Login',
   data: () => {
     return {
-      userForm:{
-        email:'',
-        password:''
+      userForm: {
+        email: '',
+        password: ''
       },
       validatedCustom01: null,
-      validationCustom02:null,
-      
+      validationCustom02: null,
+
     }
   },
   methods: {
@@ -80,17 +80,19 @@ export default {
       if (form.checkValidity() === false) {
         event.preventDefault()
         event.stopPropagation()
-      
+
       }
+      event.preventDefault()
+        event.stopPropagation()
       this.validatedCustom01 = true
-      this.$store.commit('myCustomModule/SET_USER',this.userForm)
+      this.$store.commit('myCustomModule/SET_USER', this.userForm)
       //this.gotToDashboard()
       //this.$store.dispatch('myCustomModule/Login')
- 
+
     },
 
     gotToDashboard() { this.$router.push({ name: 'financiero' }) },
   },
- 
+
 }
 </script>
