@@ -7,25 +7,25 @@ export default [
     component: 'CNavItem',
     name: 'Financiero',
     to: '/financiero',
-    icon: 'cil-home',
+    icon: 'cilBank',
   },
   {
     component: 'CNavItem',
     name: 'Compras',
     to: '/compras',
-    icon: 'cil-home',
+    icon: 'cilCart',
   },
   {
     component: 'CNavItem',
     name: 'RRHH',
     to: '/rrhh',
-    icon: 'cil-home',
+    icon: 'cilWc',
   },
   {
     component: 'CNavItem',
     name: 'Administrativo',
     to: '/administrativo',
-    icon: 'cil-home',
+    icon: 'cilContact',
   },
   {
     component: 'CNavTitle',
@@ -34,19 +34,20 @@ export default [
   {
     component: 'CNavItem',
     name: 'Financiero',
+    icon: 'cilBank',
 
     items: [
       {
         component: 'CNavItem',
         name: 'Home',
         to: '/financiero',
-        icon: 'cil-home',
+        icon: 'cilHome',
       },
       {
         component: 'CNavItem',
         name: 'Formulacion',
         to: '/financiero',
-        icon: 'cilChartPie',
+        icon: 'cilChartLine',
         items: [
           {
             component: 'CNavTitle',
@@ -56,31 +57,31 @@ export default [
             component: 'CNavItem',
             name: 'Clasificadores',
             to: '/FinancieroModule/clasificadores',
-            icon: 'cilCart',
+            icon: 'cilList',
           },
           {
             component: 'CNavItem',
             name: 'Estructura Programatica',
             to: '/FinancieroModule/estructuraProgramatica',
-            icon: 'cilCart',
+            icon: 'cilNotes',
           },
           {
             component: 'CNavItem',
             name: 'Fuente Especifica',
             to: '/FinancieroModule/fuenteEspecifica',
-            icon: 'cilCart',
+            icon: 'cilWallet',
           },
           {
             component: 'CNavItem',
             name: 'Fuentes Financiamiento',
             to: '/FinancieroModule/fuenteFinanciamiento',
-            icon: 'cilCart',
+            icon: 'cilLibraryBuilding',
           },
           {
             component: 'CNavItem',
             name: 'Organismos',
             to: '/FinancieroModule/organismos',
-            icon: 'cilCart',
+            icon: 'cilBuilding',
           },
           {
             component: 'CNavTitle',
@@ -90,19 +91,19 @@ export default [
             component: 'CNavItem',
             name: 'Proyectos',
             to: '/FinancieroModule/proyectos',
-            icon: 'cilCart',
+            icon: 'cilFolderOpen',
           },
           {
             component: 'CNavItem',
             name: 'Formulacion ingreso',
             to: '/FinancieroModule/formulacionIngreso',
-            icon: 'cilCart',
+            icon: 'cilCalculator',
           },
           {
             component: 'CNavItem',
             name: 'Formulacion Gasto',
             to: '/FinancieroModule/formulacionGasto',
-            icon: 'cilCart',
+            icon: 'cilChartDonut',
           },
           {
             component: 'CNavTitle',
@@ -128,71 +129,71 @@ export default [
         component: 'CNavItem',
         name: 'Activo Fijo',
         to: '/',
-        icon: 'cilChartPie',
+        icon: 'cilCouch',
       },
       {
         component: 'CNavItem',
         name: 'Nomina',
         to: '/',
-        icon: 'cilChartPie',
+        icon: 'cilMoney',
       },
       {
         component: 'CNavItem',
         name: 'Contabilidad',
         to: '/',
-        icon: 'cilChartPie',
+        icon: 'cilDollar',
       },
       {
         component: 'CNavItem',
         name: 'Conciliacion Bancaria',
         to: '/',
-        icon: 'cilChartPie',
+        icon: 'cilBank',
       },
       {
         component: 'CNavItem',
         name: 'Cuentas por pagar',
         to: '/',
-        icon: 'cilChartPie',
+        icon: 'cilNotes',
       },
       {
         component: 'CNavItem',
         name: 'Facturacion y Cobros',
         to: '/',
-        icon: 'cilChartPie',
+        icon: 'cilCreditCard',
       },
     ],
   },
   {
     component: 'CNavItem',
     name: 'Compras',
+    icon: 'cilCart',
 
     items: [
       {
         component: 'CNavItem',
         name: 'Home',
         to: '/compras',
-        icon: 'cilCart',
+        icon: 'cilHome',
       },
     ],
   },
   {
     component: 'CNavItem',
     name: 'RRHH',
+    icon: 'cilWc',
    
-
-    
     items: [
       {
         component: 'CNavItem',
         name: 'Home',
         to: '/rrhh',
-        icon: 'cilDollar',
+        icon: 'cilHome',
       },
       {
         component: 'CNavItem',
         name: 'Registro de Personal',
         to: '/financiero',
-        icon: 'cilChartPie',
+        icon: 'cilGroup',
         
         items:[
          
@@ -201,43 +202,43 @@ export default [
             component: 'CNavItem',
             name: 'Direccion Dependencia',
             to: '/RRHHModule/dependencia',
-            icon: 'cilDollar',    
+            icon: 'cil-notes',    
           },
           {
             component: 'CNavItem',
             name: 'Departamentos',
             to: '/RRHHModule/departamentos',
-            icon: 'cilDollar',
+            icon: 'cilStorage',
           },
           {
             component: 'CNavItem',
             name: 'Areas de Trabajo',
             to: '/RRHHModule/areaTrabajo',
-            icon: 'cilDollar',
+            icon: 'cilClipboard',
           },
           {
             component: 'CNavItem',
             name: 'Cargos',
             to: '/RRHHModule/cargos',
-            icon: 'cilDollar',
+            icon: 'cilContact',
           },
           {
             component: 'CNavItem',
             name: 'Profesiones',
             to: '/RRHHModule/profesiones',
-            icon: 'cilDollar',
+            icon: 'cil-pencil',
           },
           {
             component: 'CNavItem',
             name: 'Sectores',
             to: '/RRHHModule/sectores',
-            icon: 'cilDollar',
+            icon: 'cilGlobeAlt',
           },
           {
             component: 'CNavItem',
             name: 'Tipo de Sangre',
             to: '/RRHHModule/tipoSangre',
-            icon: 'cilDollar',
+            icon: 'cilHealing',
           },
           {
             component: 'CNavTitle',
@@ -272,19 +273,20 @@ export default [
   {
     component: 'CNavItem',
     name: 'Administrativo',
+    icon: 'cilContact',
 
     items: [
       {
         component: 'CNavItem',
         name: 'Home',
         to: '/administrativo',
-        icon: 'cilDollar',
+        icon: 'cilHome',
       },
       {
         component:'CNavItem',
         name:'Manejo Usuarios',
         to:'/AdministrativoModule/manejoUsuarios',
-        icon:'cilChartPie',
+        icon:'cilPeoplePlus',
       }
     ],
   },

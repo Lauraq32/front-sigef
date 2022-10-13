@@ -24,8 +24,9 @@ import {
   cibCcApplePay,
   cibCcAmex,
   cilAccountLogout,
-} from '@coreui/icons'
-import { cifUs, cifBr, cifIn, cifFr, cifEs, cifPl } from '@coreui/icons'
+  cibBitcoin,
+} from '@coreui/icons-pro'
+import { cifUs, cifBr, cifIn, cifFr, cifEs, cifPl } from '@coreui/icons-pro'
 import {
   cilArrowBottom,
   cilArrowRight,
@@ -79,11 +80,39 @@ import {
   cilUserFollow,
   cilXCircle,
   cilPrint,
-} from '@coreui/icons'
+  cilStorage,
+  cilClipboard,
+  cilContact,
+  cilHealing,
+  cilGroup,
+  cilWc,
+  cilBank,
+  cilCart,
+  cilHome,
+  cilChartLine,
+  cilCouch,
+  cilMoney,
+  cilOpentype,
+  cilCreditCard,
+  cilAddressCard,
+  cilPeoplePlus,
+  cilBuilding,
+  cilLibraryBuilding,
+  cilWallet,
+  cilFolderOpen,
+  cilChartDonut,
+} from '@coreui/icons-pro'
 
 export const iconsSet = Object.assign(
   {},
   {
+    cilChartDonut,
+    cilFolderOpen,
+    cilWallet,
+    cilLibraryBuilding,
+    cilBuilding,
+    cilPeoplePlus,
+    cilAddressCard,
     cilArrowBottom,
     cilArrowRight,
     cilArrowTop,
@@ -136,7 +165,23 @@ export const iconsSet = Object.assign(
     cilUserFollow,
     cilXCircle,
     cilPrint,
-    cilAccountLogout
+    cilAccountLogout,
+    cilStorage,
+    cilClipboard,
+    cilContact,
+    cilGlobeAlt,
+    cilHealing,
+    cilGroup,
+    cilWc,
+    cilMenu,
+    cilBank,
+    cilCart,
+    cilHome,
+    cilChartLine,
+    cilCouch,
+    cilMoney,
+    cilOpentype,
+    cilCreditCard,
   },
   {
     cifUs,
@@ -171,5 +216,6 @@ export const iconsSet = Object.assign(
     cibCcPaypal,
     cibCcApplePay,
     cibCcAmex,
+    cibBitcoin,
   },
 )

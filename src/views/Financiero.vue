@@ -9,8 +9,9 @@
           :values="[{ title: 'Formulacion Presupuesto', value: '' }]"
         >
           <template #icon>
-            <img class="card-img-top" src="../assets/images/Presupuesto.png"
-          /></template>
+            <CIcon :icon="cilChartLine" style="50%" size="9xl"/>
+
+            </template>
           <template #chart>
             <CChart
               class="position-absolute w-100 h-100"
@@ -326,7 +327,17 @@
   </div>
 </template>
 <script>
+import { CIcon } from '@coreui/icons-vue';
+import { cilChartLine } from '@coreui/icons-pro';
 export default {
+  components: {
+    CIcon
+  },
+  setup() {
+    return {
+      cilChartLine
+    }
+  },
   name: 'Fianciero',
   methods:{
     gotToPrueba(){this.$router.push({name:'clasificadores'})},
