@@ -1,3 +1,4 @@
 <template>
-  <h1>dayBooks</h1>
+  <h1>Ejecucion</h1>
+  <router-view />
 </template>

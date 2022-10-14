@@ -7,6 +7,7 @@ import DefaultLayout from '@/layouts/DefaultLayout'
 import testModuleRouter from "../modules/financiero/FormulacionModule/router";
 import AdministrativoModule from "../modules/administrativo/Usuario/router";
 import RRHHModule from "../modules/rrhh/RegistroPersonal/router";
+import EjecucionModule from "../modules/financiero/EjecucionModule/router";
 
 
 const routes = [
@@ -64,6 +65,11 @@ const routes = [
         path:'/FinancieroModule',
         ...testModuleRouter
       },
+      {
+        path:'/Ejecucion',
+        ...EjecucionModule
+      },
+     
       {
         path:'/AdministrativoModule',
         ...AdministrativoModule

@@ -122,8 +122,84 @@ export default [
       {
         component: 'CNavItem',
         name: 'Ejecucion',
-        to: '/',
+        to: '/Ejecucion',
         icon: 'cilChartPie',
+        items: [
+          {
+            component: 'CNavTitle',
+            name: 'Maestras',
+          },
+          {
+            component: 'CNavItem',
+            name: 'AnoFiscal',
+            to: '/Ejecucion/AnoFiscal',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Configuracion Ingreso',
+            to: '/Ejecucion/configuracionIngreso',
+            icon: 'cilNotes',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Tipo Retenciones',
+            to: '/Ejecucion/tiposRetenciones',
+            icon: 'cilWallet',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Destino Gastos',
+            to: '/Ejecucion/destinoGastos',
+            icon: 'cilLibraryBuilding',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Grupo de Pago',
+            to: '/Ejecucion/grupoPago',
+            icon: 'cilBuilding',
+          },
+          {
+            component: 'CNavTitle',
+            name: 'Procesos',
+          },
+          {
+            component: 'CNavItem',
+            name: 'beneficiarios',
+            to: '/Ejecucion/beneficiarios',
+            icon: 'cilFolderOpen',
+          },
+          {
+            component: 'CNavItem',
+            name: 'beneficiario por grupo',
+            to: '/Ejecucion/beneficiarioGrupo',
+            icon: 'cilCalculator',
+          },
+          {
+            component: 'CNavItem',
+            name: 'comprobanteIngreso',
+            to: '/Ejecucion/comprobanteIngreso',
+            icon: 'cilChartDonut',
+          },
+          {
+            component: 'CNavItem',
+            name: 'comprobanteGasto',
+            to: '/Ejecucion/comprobanteGasto',
+            icon: 'cilChartDonut',
+          },
+          {
+            component: 'CNavTitle',
+            name: 'Consultas',
+          },
+          {
+            component: 'CNavTitle',
+            name: 'Reportes',
+          },
+          {
+            component: 'CNavTitle',
+            name: 'Configuracion',
+          },
+        ],
       },
       {
         component: 'CNavItem',
