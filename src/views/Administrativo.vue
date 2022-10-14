@@ -4,7 +4,7 @@
       <CCol :md="2" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #002e5d"
+          style="--cui-card-cap-bg: #002e5d; height:240px"
           :values="[{ title: 'Manejo Usuarios', value: '' }]"
         >
           <template #icon>
@@ -43,7 +43,7 @@
       <CCol :md="2" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #002e5d"
+          style="--cui-card-cap-bg: #002e5d; height:240px"
           :values="[{ title: 'Transportación', value: '' }]"
         >
           <template #icon>
@@ -82,12 +82,12 @@
       <CCol :md="2" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #375b80"
+          style="--cui-card-cap-bg: #002e5d; height:240px"
           :values="[{ title: 'Visitas', value: '' }]"
         >
           <template #icon>
-            <img class="card-img-top" src="../assets/images/Visitas.png"
-          /></template>
+            <CIcon :icon="cilPeoplePlus" style="color:#f5f5f5" size="9xl" />
+            </template>
           <template #chart>
             <CChart
               class="position-absolute w-100 h-100"
@@ -121,12 +121,12 @@
       <CCol :md="2" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #375b80"
+          style="--cui-card-cap-bg: #002e5d; height:240px"
           :values="[{ title: 'Viáticos', value: '' }]"
         >
           <template #icon>
-            <img class="card-img-top" src="../assets/images/Viatico.png"
-          /></template>
+            <CIcon :icon="cilCash" style="color:#f5f5f5" size="9xl" />
+          </template>
           <template #chart>
             <CChart
               class="position-absolute w-100 h-100"
@@ -160,12 +160,12 @@
       <CCol :md="2" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #375b80"
+          style="--cui-card-cap-bg: #002e5d; height:240px"
           :values="[{ title: 'Caja chica', value: '' }]"
         >
           <template #icon>
-            <img class="card-img-top" src="../assets/images/CajaChica.png"
-          /></template>
+            <CIcon :icon="cilWallet" style="color:#f5f5f5" size="9xl" />
+          </template>
           <template #chart>
             <CChart
               class="position-absolute w-100 h-100"
@@ -199,12 +199,12 @@
       <CCol :md="2" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #375b80"
+          style="--cui-card-cap-bg: #002e5d; height:240px"
           :values="[{ title: 'Combustibles', value: '' }]"
         >
           <template #icon>
-            <img class="card-img-top" src="../assets/images/Combustible.png"
-          /></template>
+            <CIcon :icon="cilPetrolStation" style="color:#f5f5f5" size="9xl" />
+          </template>
           <template #chart>
             <CChart
               class="position-absolute w-100 h-100"
@@ -238,12 +238,12 @@
       <CCol :md="2" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #375b80"
+          style="--cui-card-cap-bg: #002e5d; height:240px"
           :values="[{ title: 'Digitalización', value: '' }]"
         >
           <template #icon>
-            <img class="card-img-top" src="../assets/images/Digitalizacion.png"
-          /></template>
+            <CIcon :icon="cilPrint" style="color:#f5f5f5" size="9xl" />
+            </template>
           <template #chart>
             <CChart
               class="position-absolute w-100 h-100"
@@ -281,17 +281,27 @@
 <script>
 import prueba from '../assets/images/logo.png'
 import { CIcon } from '@coreui/icons-vue';
-import {cilUser,cilCommute} from '@coreui/icons-pro'
+import { cilUser, cilCommute, cilPeoplePlus, cilCash, cilPrint,cilWallet,cilPetrolStation } from '@coreui/icons-pro'
 
 export default {
-  components:{
+  components: {
     CIcon,
     cilCommute,
+    cilPeoplePlus,
+    cilCash,
+    cilPrint,
+    cilWallet,
+    cilPetrolStation,
   },
-  setup(){
-    return{
+  setup() {
+    return {
       cilUser,
       cilCommute,
+      cilPeoplePlus,
+      cilCash,
+      cilPrint,
+      cilWallet,
+      cilPetrolStation
     }
   }
 }

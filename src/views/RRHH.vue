@@ -1,17 +1,14 @@
-<template lang="">
+ <template lang="">
   <div>
     <CRow>
       <CCol :md="2" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #375b80"
+          style="--cui-card-cap-bg: #002e5d; height:240px"
           :values="[{ title: 'Registro de personal', value: '' }]"
         >
           <template #icon>
-            <img
-              class="card-img-top"
-              src="../assets/images/RegistroPersonal.png"
-          /></template>
+            <CIcon :icon="cilSmilePlus" style="color:#f5f5f5" size="9xl" /></template>
           <template #chart>
             <CChart
               class="position-absolute w-100 h-100"
@@ -45,14 +42,12 @@
       <CCol :md="2" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #375b80"
+          style="--cui-card-cap-bg: #002e5d;height:240px"
           :values="[{ title: 'Evaluacion de desempeño', value: '' }]"
         >
           <template #icon>
-            <img
-              class="card-img-top"
-              src="../assets/images/EvaluacionDesenpeno.png"
-          /></template>
+            <CIcon :icon="cilCalendarCheck" style="color:#f5f5f5" size="9xl" />
+            </template>
           <template #chart>
             <CChart
               class="position-absolute w-100 h-100"
@@ -86,14 +81,12 @@
       <CCol :md="2" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #375b80"
+          style="--cui-card-cap-bg: #002e5d ; height:240px"
           :values="[{ title: 'Acciones de personal', value: '' }]"
         >
           <template #icon>
-            <img
-              class="card-img-top"
-              src="../assets/images/AccionesPersonal.png"
-          /></template>
+            <CIcon :icon="cilChalkboardTeacher" style="color:#f5f5f5" size="9xl" />
+            </template>
           <template #chart>
             <CChart
               class="position-absolute w-100 h-100"
@@ -130,9 +123,23 @@
 </template>
 <script>
 import prueba from '../assets/images/logo.png'
+import { CIcon } from '@coreui/icons-vue';
+import{cilCalendarCheck,cilChalkboardTeacher,cilSmilePlus} from '@coreui/icons-pro'
 
 export default {
-  name: 'Fianciero',
+  components:{
+    cilCalendarCheck,
+    cilChalkboardTeacher,
+    cilSmilePlus
+  },
+  setup(){
+    return{
+      cilCalendarCheck,
+      cilChalkboardTeacher,
+      cilSmilePlus
+    }
+    
+  },
 }
 </script>
 <style lang=""></style>
