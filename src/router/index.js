@@ -8,6 +8,7 @@ import testModuleRouter from "../modules/financiero/FormulacionModule/router";
 import AdministrativoModule from "../modules/administrativo/Usuario/router";
 import RRHHModule from "../modules/rrhh/RegistroPersonal/router";
 import EjecucionModule from "../modules/financiero/EjecucionModule/router";
+import ActivoFijoModule from "../modules/financiero/ActivoFijoModule/router"
 
 
 const routes = [
@@ -61,6 +62,7 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "dashboard" */ '@/views/Administrativo.vue'),
       },
+
       {
         path:'/FinancieroModule',
         ...testModuleRouter
@@ -77,6 +79,10 @@ const routes = [
       {
         path:'/RRHHModule',
         ...RRHHModule
+      },
+      {
+        path:'/ActivoFijoModule',
+        ...ActivoFijoModule
       },
 
       {

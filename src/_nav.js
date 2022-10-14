@@ -204,8 +204,72 @@ export default [
       {
         component: 'CNavItem',
         name: 'Activo Fijo',
-        to: '/',
+        to: '/ActivoFijoModule',
         icon: 'cilCouch',
+        items:[
+          {
+            component:'CNavTitle',
+            name:'Maestras',
+          },
+          {
+            component: 'CNavItem',
+            name: 'categorias',
+            to: '/ActivoFijoModule/categorias',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'areaUbicacion',
+            to: '/ActivoFijoModule/areaUbicacion',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'marcas',
+            to: '/ActivoFijoModule/marcas',
+            icon: 'cilList',
+          },
+          {
+            component:'CNavTitle',
+            name:'Procesos',
+          },
+          {
+            component: 'CNavItem',
+            name: 'documentosPorPagar',
+            to: '/ActivoFijoModule/documentosPorPagar',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'documentosDeCredito',
+            to: '/ActivoFijoModule/documentosDeCredito',
+            icon: 'cilList',
+          },
+          {
+            component:'CNavTitle',
+            name:'Consultas',
+          },
+          {
+            component:'CNavTitle',
+            name:'Reportes',
+          },
+          {
+            component: 'CNavItem',
+            name: 'general',
+            to: '/ActivoFijoModule/general',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'condensado',
+            to: '/ActivoFijoModule/condensado',
+            icon: 'cilList',
+          },
+          {
+            component:'CNavTitle',
+            name:'Configuración',
+          },
+        ],
       },
       {
         component: 'CNavItem',
