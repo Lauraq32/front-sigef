@@ -4,14 +4,12 @@
       <CCol :md="2" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #375b80"
+          style="--cui-card-cap-bg: #002e5d"
           :values="[{ title: 'Manejo Usuarios', value: '' }]"
         >
           <template #icon>
-            <img
-              class="card-img-top"
-              src="../assets/images/RegistroPersonal.png"
-          /></template>
+            <CIcon :icon="cilUser" style="color:#f5f5f5" size="9xl" />
+          </template>
           <template #chart>
             <CChart
               class="position-absolute w-100 h-100"
@@ -45,12 +43,12 @@
       <CCol :md="2" class="mt-4">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #375b80"
+          style="--cui-card-cap-bg: #002e5d"
           :values="[{ title: 'Transportación', value: '' }]"
         >
           <template #icon>
-            <img class="card-img-top" src="../assets/images/Transportacion.png"
-          /></template>
+            <CIcon :icon="cilCommute" style="color:#f5f5f5" size="9xl" />
+          </template>
           <template #chart>
             <CChart
               class="position-absolute w-100 h-100"
@@ -282,9 +280,20 @@
 </template>
 <script>
 import prueba from '../assets/images/logo.png'
+import { CIcon } from '@coreui/icons-vue';
+import {cilUser,cilCommute} from '@coreui/icons-pro'
 
 export default {
-  name: 'Fianciero',
+  components:{
+    CIcon,
+    cilCommute,
+  },
+  setup(){
+    return{
+      cilUser,
+      cilCommute,
+    }
+  }
 }
 </script>
 <style lang=""></style>
