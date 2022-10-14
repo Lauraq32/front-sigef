@@ -1,15 +1,15 @@
 <template lang="">
   <div>
     <CRow>
-      <CCol :md="2" class="mt-4">
+      <CCol :md="2" class="mt-4" style="font-weight: bolder;">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #375b80"
+          style="--cui-card-cap-bg: #f5f5f5"
           :values="[{ title: 'Plan anual de compras', value: '' }]"
         >
           <template #icon>
-            <img class="card-img-top" src="../assets/images/Compra.png"
-          /></template>
+            <CIcon :icon="cilWallet" size="9xl" />
+          </template>
           <template #chart>
             <CChart
               class="position-absolute w-100 h-100"
@@ -40,15 +40,15 @@
           </template>
         </CWidgetStatsD>
       </CCol>
-      <CCol :md="2" class="mt-4">
+      <CCol :md="2" class="mt-4" style="font-weight: bolder;">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #375b80"
+          style="--cui-card-cap-bg: #f5f5f5"
           :values="[{ title: 'Proceso de compras', value: '' }]"
         >
           <template #icon>
-            <img class="card-img-top" src="../assets/images/Proceso.png"
-          /></template>
+            <CIcon :icon="cilCart" size="9xl" /> 
+          </template>
           <template #chart>
             <CChart
               class="position-absolute w-100 h-100"
@@ -85,9 +85,18 @@
   </div>
 </template>
 <script>
-import prueba from '../assets/images/logo.png'
-
+import { CIcon } from '@coreui/icons-vue'
+import { cilWallet, cilCart } from '@coreui/icons-pro'
 export default {
+  components: {
+    CIcon,
+  },
+  setup() {
+    return {
+      cilWallet,
+      cilCart
+    }
+  },
   name: 'Fianciero',
 }
 </script>
