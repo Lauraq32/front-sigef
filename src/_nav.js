@@ -159,10 +159,7 @@ export default [
             to: '/Ejecucion/grupoPago',
             icon: 'cilBuilding',
           },
-          {
-            component: 'CNavTitle',
-            name: 'Procesos',
-          },
+         
           {
             component: 'CNavItem',
             name: 'beneficiarios',
@@ -174,6 +171,10 @@ export default [
             name: 'beneficiario por grupo',
             to: '/Ejecucion/beneficiarioGrupo',
             icon: 'cilCalculator',
+          },
+          {
+            component: 'CNavTitle',
+            name: 'Procesos',
           },
           {
             component: 'CNavItem',
@@ -188,9 +189,28 @@ export default [
             icon: 'cilChartDonut',
           },
           {
+            component: 'CNavItem',
+            name: 'Transferencia de Datos',
+            to: '/Ejecucion/transferenciaDatos',
+            icon: 'cilChartDonut',
+          },
+          {
             component: 'CNavTitle',
             name: 'Consultas',
           },
+          {
+            component: 'CNavItem',
+            name: 'Ejecucion Ingreso',
+            to: '/Ejecucion/ejecucionIngreso',
+            icon: 'cilChartDonut',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Ejecucion Gasto',
+            to: '/Ejecucion/ejecucionGastos',
+            icon: 'cilChartDonut',
+          },
+
           {
             component: 'CNavTitle',
             name: 'Reportes',
