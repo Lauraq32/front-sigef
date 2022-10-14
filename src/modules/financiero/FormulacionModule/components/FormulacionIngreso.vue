@@ -31,7 +31,8 @@
     :activePage="1"
     footer
     header
-    :items="items"
+    key="ingreso.id"
+    :items="ingresos"
     :columns="columns"
     columnFilter
     tableFilter
@@ -225,6 +226,9 @@
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import { mapActions, mapState } from 'vuex'
+
+
 export default {
   components: {
     CSmartTable,
@@ -369,14 +373,18 @@ export default {
       }
       this.details.push(item._id)
     },
+
+    ...mapActions('Formulacion', ['getListarIngresos'])
   },
-  mounted(){
-      this.$store.dispatch('Formulacion/getListarIngresos');
-    },
-    computed:{
-      items : function ingresosList() {
-        return this.$store.state.Formulacion.ingresos
-      }
+  computed:{
+    ...mapState( 'Formulacion', ['ingresos'])
+  },
+  // mounted(){
+  //     this.$store.dispatch('Formulacion/getListarIngresos');
+  //   },
+    created(){
+      this.getListarIngresos(1,1),
+      console.log(this.ingresos);
     }
 }
 </script>
