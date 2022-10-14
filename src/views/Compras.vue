@@ -4,11 +4,11 @@
       <CCol :md="2" class="mt-4" style="font-weight: bolder;">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #f5f5f5"
+          style="--cui-card-cap-bg: #002e5d"
           :values="[{ title: 'Plan anual de compras', value: '' }]"
         >
           <template #icon>
-            <CIcon :icon="cilWallet" size="9xl" />
+            <CIcon :icon="cilWallet" style="color: #f5f5f5;" size="9xl" />
           </template>
           <template #chart>
             <CChart
@@ -40,14 +40,14 @@
           </template>
         </CWidgetStatsD>
       </CCol>
-      <CCol :md="2" class="mt-4" style="font-weight: bolder;">
+      <CCol :md="2" class="mt-4"  style="font-weight: bolder;">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #f5f5f5"
+          style="--cui-card-cap-bg: #002e5d"
           :values="[{ title: 'Proceso de compras', value: '' }]"
-        >
+      >
           <template #icon>
-            <CIcon :icon="cilCart" size="9xl" /> 
+            <CIcon :icon="cilCart" style="color: #f5f5f5;" size="9xl" /> 
           </template>
           <template #chart>
             <CChart

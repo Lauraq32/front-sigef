@@ -1,11 +1,11 @@
 <template lang="">
   <div>
     <CRow>
-      <CCol :md="2" class="mt-4" style="font-weight: bolder;" >
+      <CCol :md="2" class="mt-4" style="font-weight: bolder;">
         <CWidgetStatsD
           @click="gotToPrueba"
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #002e5d"
+          style="--cui-card-cap-bg: #002e5d; height: 240px;"
           :values="[{ title: 'Formulacion Presupuesto', value: '' }]"
         >
           <template #icon>
@@ -44,7 +44,7 @@
       <CCol :md="2" class="mt-4" style="font-weight: bolder;">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #002e5d"
+          style="--cui-card-cap-bg: #002e5d; height: 240px;"
           :values="[{ title: 'Ejecucion Presupuesto', value: '' }]"
         >
           <template #icon>
@@ -83,7 +83,7 @@
       <CCol :md="2" class="mt-4" style="font-weight: bolder;">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #002e5d"
+          style="--cui-card-cap-bg: #002e5d; height: 240px;"
           :values="[{ title: 'Activos fijos', value: '' }]"
         >
           <template #icon>
@@ -122,7 +122,7 @@
       <CCol :md="2" class="mt-4" style="font-weight: bolder;">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #002e5d"
+          style="--cui-card-cap-bg: #002e5d; height: 240px;"
           :values="[{ title: 'Nomina', value: '' }]"
         >
           <template #icon>
@@ -161,7 +161,7 @@
       <CCol :md="2" class="mt-4" style="font-weight: bolder;">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #002e5d"
+          style="--cui-card-cap-bg: #002e5d; height: 240px;"
           :values="[{ title: 'Contabilidad', value: '' }]"
         >
           <template #icon>
@@ -200,7 +200,7 @@
       <CCol :md="2" class="mt-4" style="font-weight: bolder;">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #002e5d"
+          style="--cui-card-cap-bg: #002e5d; height: 240px;"
           :values="[{ title: 'Conciliacion bancaria', value: '' }]"
         >
           <template #icon>
@@ -239,7 +239,7 @@
       <CCol :md="2" class="mt-4" style="font-weight: bolder;">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #002e5d"
+          style="--cui-card-cap-bg: #002e5d; height: 240px;"
           :values="[{ title: 'Cuentas por pagar', value: '' }]"
         >
           <template #icon>
@@ -278,7 +278,7 @@
       <CCol :md="2" class="mt-4" style="font-weight: bolder;">
         <CWidgetStatsD
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #002e5d"
+          style="--cui-card-cap-bg: #002e5d; height: 240px;"
           :values="[{ title: 'Facturación y cobros', value: '' }]"
         >
           <template #icon>
