@@ -383,7 +383,7 @@ export default {
   //     this.$store.dispatch('Formulacion/getListarIngresos');
   //   },
     created(){
-      this.getListarIngresos(1,1),
+      this.getListarIngresos(localStorage.getItem('id_Ayuntamiento'),localStorage.getItem('ano')),
       console.log(this.ingresos);
     }
 }
