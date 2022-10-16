@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 export default [
   {
     component: 'CNavTitle',
@@ -294,8 +295,86 @@ export default [
       {
         component: 'CNavItem',
         name: 'Nomina',
-        to: '/',
+        to: '/NominaModule',
         icon: 'cilMoney',
+        items:[
+          {
+            component:'CNavTitle',
+            name:'Maestras',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Clasificadores nomina',
+            to: '/NominaModule/clasificadoresNomina',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Grupo Nominas',
+            to: '/NominaModule/GrupoNominas',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Programas',
+            to: '/NominaModule/Programas',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Departamentos',
+            to: '/NominaModule/Departamentos',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Área de trabajos',
+            to: '/NominaModule/AreaDeTrabajo',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Posiciones/Cargo',
+            to: '/NominaModule/PosicionesCargo',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Sectores',
+            to: '/NominaModule/Sectores',
+            icon: 'cilList',
+          },
+          {
+            component:'CNavTitle',
+            name:'Procesos',
+          },
+          {
+            component:'CNavTitle',
+            name:'Consultas',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Nominas',
+            to: '/NominaModule/Nominas',
+            icon: 'cilList',
+          },
+          {
+            component:'CNavTitle',
+            name:'Configuración',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Configuración general',
+            to: '/NominaModule/ConfiguracionGeneral',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Configuración del módulo',
+            to: '/NominaModule/ConfiguracionModulo',
+            icon: 'cilList',
+          },
+        ],
       },
       {
         component: 'CNavItem',

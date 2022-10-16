@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { h, resolveComponent } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
@@ -8,7 +9,8 @@ import testModuleRouter from "../modules/financiero/FormulacionModule/router";
 import AdministrativoModule from "../modules/administrativo/Usuario/router";
 import RRHHModule from "../modules/rrhh/RegistroPersonal/router";
 import EjecucionModule from "../modules/financiero/EjecucionModule/router";
-import ActivoFijoModule from "../modules/financiero/ActivoFijoModule/router"
+import ActivoFijoModule from "../modules/financiero/ActivoFijoModule/router";
+import NominaModule from "../modules/financiero/NominaModule/router";
 
 
 const routes = [
@@ -84,7 +86,11 @@ const routes = [
         path:'/ActivoFijoModule',
         ...ActivoFijoModule
       },
-
+      {
+        path:'/NominaModule',
+        ...NominaModule
+      },
+      
       {
         path: '/theme',
         name: 'Theme',
