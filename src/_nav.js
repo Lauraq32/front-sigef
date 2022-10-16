@@ -379,8 +379,67 @@ export default [
       {
         component: 'CNavItem',
         name: 'Contabilidad',
-        to: '/',
+        to: '/ContabilidadModule',
         icon: 'cilDollar',
+        items:[
+          {
+            component:'CNavTitle',
+            name:'Maestras',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Cuentas contables',
+            to: '/ContabilidadModule/cuentasContables',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Configuración estado de flujo efectivo',
+            to: '/ContabilidadModule/configuracionEstadoFlujoEfec',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Configuración estados financieros',
+            to: '/ContabilidadModule/configuracionEstadosFinanciero',
+            icon: 'cilList',
+          },
+          {
+            component:'CNavTitle',
+            name:'Reportes',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Estado comparativo',
+            to: '/ContabilidadModule/estadoComparativo',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Estado de rendimiento financiero',
+            to: '/ContabilidadModule/estadoRendimientoFinanciero',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Estado situación financiera',
+            to: '/ContabilidadModule/estadoSituacionFinanciera',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Estado de flujo de efectivo',
+            to: '/ContabilidadModule/estadoFlujoEfectivo',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Estado cambio patrimonio financiero',
+            to: '/ContabilidadModule/estadoCambioPatrimonioFinanciero',
+            icon: 'cilList',
+          },
+
+        ]
       },
       {
         component: 'CNavItem',

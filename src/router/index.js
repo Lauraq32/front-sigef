@@ -11,6 +11,7 @@ import RRHHModule from "../modules/rrhh/RegistroPersonal/router";
 import EjecucionModule from "../modules/financiero/EjecucionModule/router";
 import ActivoFijoModule from "../modules/financiero/ActivoFijoModule/router";
 import NominaModule from "../modules/financiero/NominaModule/router";
+import ContabilidadModule from "../modules/financiero/ContabilidadModule/router"
 
 
 const routes = [
@@ -89,6 +90,10 @@ const routes = [
       {
         path:'/NominaModule',
         ...NominaModule
+      },
+      {
+        path: '/ContabilidadModule',
+        ...ContabilidadModule
       },
       
       {
