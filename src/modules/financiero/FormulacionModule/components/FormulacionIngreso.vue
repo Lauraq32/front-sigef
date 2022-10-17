@@ -297,21 +297,6 @@ export default {
           label: 'Presupuesto Formulado',
           _style: { width: '20%' },
         },
-        { key: 'control', label: 'Control', _style: { width: '20%' } },
-        { key: 'ingresos', label: 'Ingresos', _style: { width: '20%' } },
-        {
-          key: 'variacioN_RESUMEN',
-          label: 'Resumen Variacion',
-          _style: { width: '20%' },
-        },
-        { key: 'variacion', label: 'Variacion', _style: { width: '20%' } },
-        {
-          key: 'id_ayuntamiento',
-          label: 'ayuntamiento',
-          _style: { width: '20%' },
-        },
-        { key: 'ano', label: 'año', _style: { width: '20%' } },
-        { key: 'fecha', label: 'Fecha', _style: { width: '20%' } },
         {
           key: 'show_details',
           label: '',
