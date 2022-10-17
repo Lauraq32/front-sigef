@@ -39,6 +39,7 @@
     cleaner
     itemsPerPageSelect
     :itemsPerPage="5"
+    :items-per-page-options=" [5, 10, 20, 50,100,150]"
     columnSorter
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination

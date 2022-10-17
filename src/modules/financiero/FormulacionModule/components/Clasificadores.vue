@@ -16,7 +16,7 @@
   }" :tableHeadProps="{
       
     }" :activePage="1" footer header :items="this.$store.state.Formulacion.clasificadores" :columns="columns"
-    columnFilter tableFilter cleaner itemsPerPageSelect :itemsPerPage="5" columnSorter
+    columnFilter tableFilter cleaner itemsPerPageSelect :itemsPerPage="5"  :items-per-page-options=" [5, 10, 20, 50,100,150]" columnSorter
     :sorterValue="{ column: 'status', state: 'asc' }" pagination>
     <template #status="{item}">
       <td>
