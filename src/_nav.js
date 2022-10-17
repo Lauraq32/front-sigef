@@ -30,7 +30,7 @@ export default [
   },
   {
     component: 'CNavTitle',
-    name: 'Modulos',
+    name: 'Módulos',
   },
   {
     component: 'CNavItem',
@@ -46,7 +46,7 @@ export default [
       },
       {
         component: 'CNavItem',
-        name: 'Formulacion',
+        name: 'Formulación',
         to: '/financiero',
         icon: 'cilChartLine',
         items: [
@@ -62,19 +62,19 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Estructura Programatica',
+            name: 'Estructura programática',
             to: '/FinancieroModule/estructuraProgramatica',
             icon: 'cilNotes',
           },
           {
             component: 'CNavItem',
-            name: 'Fuente Especifica',
+            name: 'Fuente específica',
             to: '/FinancieroModule/fuenteEspecifica',
             icon: 'cilWallet',
           },
           {
             component: 'CNavItem',
-            name: 'Fuentes Financiamiento',
+            name: 'Fuentes financiamiento',
             to: '/FinancieroModule/fuenteFinanciamiento',
             icon: 'cilLibraryBuilding',
           },
@@ -96,13 +96,13 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Formulacion ingreso',
+            name: 'Formulación ingreso',
             to: '/FinancieroModule/formulacionIngreso',
             icon: 'cilCalculator',
           },
           {
             component: 'CNavItem',
-            name: 'Formulacion Gasto',
+            name: 'Formulación gasto',
             to: '/FinancieroModule/formulacionGasto',
             icon: 'cilChartDonut',
           },
@@ -116,13 +116,13 @@ export default [
           },
           {
             component: 'CNavTitle',
-            name: 'Configuracion',
+            name: 'Configuración',
           },
         ],
       },
       {
         component: 'CNavItem',
-        name: 'Ejecucion',
+        name: 'Ejecución',
         to: '/Ejecucion',
         icon: 'cilChartPie',
         items: [
@@ -132,44 +132,44 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'AnoFiscal',
+            name: 'Año fiscal',
             to: '/Ejecucion/AnoFiscal',
             icon: 'cilList',
           },
           {
             component: 'CNavItem',
-            name: 'Configuracion Ingreso',
+            name: 'Configuración ingreso',
             to: '/Ejecucion/configuracionIngreso',
             icon: 'cilNotes',
           },
           {
             component: 'CNavItem',
-            name: 'Tipo Retenciones',
+            name: 'Tipo retenciones',
             to: '/Ejecucion/tiposRetenciones',
             icon: 'cilWallet',
           },
           {
             component: 'CNavItem',
-            name: 'Destino Gastos',
+            name: 'Destino gastos',
             to: '/Ejecucion/destinoGastos',
             icon: 'cilLibraryBuilding',
           },
           {
             component: 'CNavItem',
-            name: 'Grupo de Pago',
+            name: 'Grupo de pago',
             to: '/Ejecucion/grupoPago',
             icon: 'cilBuilding',
           },
          
           {
             component: 'CNavItem',
-            name: 'beneficiarios',
+            name: 'Beneficiarios',
             to: '/Ejecucion/beneficiarios',
             icon: 'cilFolderOpen',
           },
           {
             component: 'CNavItem',
-            name: 'beneficiario por grupo',
+            name: 'Beneficiario por grupo',
             to: '/Ejecucion/beneficiarioGrupo',
             icon: 'cilCalculator',
           },
@@ -179,19 +179,19 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'comprobanteIngreso',
+            name: 'Comprobante de ingreso',
             to: '/Ejecucion/comprobanteIngreso',
             icon: 'cilChartDonut',
           },
           {
             component: 'CNavItem',
-            name: 'comprobanteGasto',
+            name: 'Comprobante de gasto',
             to: '/Ejecucion/comprobanteGasto',
             icon: 'cilChartDonut',
           },
           {
             component: 'CNavItem',
-            name: 'Transferencia de Datos',
+            name: 'Transferencia de datos',
             to: '/Ejecucion/transferenciaDatos',
             icon: 'cilChartDonut',
           },
@@ -201,13 +201,13 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Ejecucion Ingreso',
+            name: 'Ejecución ingreso',
             to: '/Ejecucion/ejecucionIngreso',
             icon: 'cilChartDonut',
           },
           {
             component: 'CNavItem',
-            name: 'Ejecucion Gasto',
+            name: 'Ejecución gasto',
             to: '/Ejecucion/ejecucionGastos',
             icon: 'cilChartDonut',
           },
@@ -218,13 +218,13 @@ export default [
           },
           {
             component: 'CNavTitle',
-            name: 'Configuracion',
+            name: 'Configuración',
           },
         ],
       },
       {
         component: 'CNavItem',
-        name: 'Activo Fijo',
+        name: 'Activo fijo',
         to: '/ActivoFijoModule',
         icon: 'cilCouch',
         items:[
@@ -234,13 +234,13 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'categorias',
+            name: 'Categorías',
             to: '/ActivoFijoModule/categorias',
             icon: 'cilList',
           },
           {
             component: 'CNavItem',
-            name: 'areaUbicacion',
+            name: 'Área ubicación',
             to: '/ActivoFijoModule/areaUbicacion',
             icon: 'cilList',
           },
