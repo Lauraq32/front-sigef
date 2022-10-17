@@ -1,7 +1,7 @@
  <template lang="">
   <div>
     <CRow>
-      <CCol :md="2" class="mt-4">
+      <CCol :md="2" class="mt-4" style="font-weight: bolder;">
         <CWidgetStatsD
           class="mb-4 shadow"
           style="--cui-card-cap-bg: #002e5d; height:240px"
@@ -39,11 +39,11 @@
           </template>
         </CWidgetStatsD>
       </CCol>
-      <CCol :md="2" class="mt-4">
+      <CCol :md="2" class="mt-4" style="font-weight: bolder;">
         <CWidgetStatsD
           class="mb-4 shadow"
           style="--cui-card-cap-bg: #002e5d;height:240px"
-          :values="[{ title: 'Evaluacion de desempeño', value: '' }]"
+          :values="[{ title: 'Evaluación de desempeño', value: '' }]"
         >
           <template #icon>
             <CIcon :icon="cilCalendarCheck" style="color:#f5f5f5" size="9xl" />
@@ -78,7 +78,7 @@
           </template>
         </CWidgetStatsD>
       </CCol>
-      <CCol :md="2" class="mt-4">
+      <CCol :md="2" class="mt-4" style="font-weight: bolder;">
         <CWidgetStatsD
           class="mb-4 shadow"
           style="--cui-card-cap-bg: #002e5d ; height:240px"

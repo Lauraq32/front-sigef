@@ -2,7 +2,7 @@
 export default [
   {
     component: 'CNavTitle',
-    name: 'Areas',
+    name: 'Áreas',
   },
   {
     component: 'CNavItem',
@@ -246,7 +246,7 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'marcas',
+            name: 'Marcas',
             to: '/ActivoFijoModule/marcas',
             icon: 'cilList',
           },
@@ -256,13 +256,13 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'documentosPorPagar',
+            name: 'Documentos por pagar',
             to: '/ActivoFijoModule/documentosPorPagar',
             icon: 'cilList',
           },
           {
             component: 'CNavItem',
-            name: 'documentosDeCredito',
+            name: 'Documentos de crédito',
             to: '/ActivoFijoModule/documentosDeCredito',
             icon: 'cilList',
           },
@@ -276,13 +276,13 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'general',
+            name: 'General',
             to: '/ActivoFijoModule/general',
             icon: 'cilList',
           },
           {
             component: 'CNavItem',
-            name: 'condensado',
+            name: 'Condensado',
             to: '/ActivoFijoModule/condensado',
             icon: 'cilList',
           },
@@ -294,7 +294,7 @@ export default [
       },
       {
         component: 'CNavItem',
-        name: 'Nomina',
+        name: 'Nómina',
         to: '/NominaModule',
         icon: 'cilMoney',
         items:[
@@ -304,13 +304,13 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Clasificadores nomina',
+            name: 'Clasificadores nómina',
             to: '/NominaModule/clasificadoresNomina',
             icon: 'cilList',
           },
           {
             component: 'CNavItem',
-            name: 'Grupo Nominas',
+            name: 'Grupo nóminas',
             to: '/NominaModule/GrupoNominas',
             icon: 'cilList',
           },
@@ -328,7 +328,7 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Área de trabajos',
+            name: 'Área de trabajo',
             to: '/NominaModule/AreaDeTrabajo',
             icon: 'cilList',
           },
@@ -354,7 +354,7 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Nominas',
+            name: 'Nóminas',
             to: '/NominaModule/Nominas',
             icon: 'cilList',
           },
@@ -443,7 +443,7 @@ export default [
       },
       {
         component: 'CNavItem',
-        name: 'Conciliacion Bancaria',
+        name: 'Conciliación bancaria',
         to: '/',
         icon: 'cilBank',
       },
@@ -455,7 +455,7 @@ export default [
       },
       {
         component: 'CNavItem',
-        name: 'Facturacion y Cobros',
+        name: 'Facturación y Cobros',
         to: '/',
         icon: 'cilCreditCard',
       },
@@ -489,7 +489,7 @@ export default [
       },
       {
         component: 'CNavItem',
-        name: 'Registro de Personal',
+        name: 'Registro de personal',
         to: '/financiero',
         icon: 'cilGroup',
         
@@ -498,7 +498,7 @@ export default [
           
           {
             component: 'CNavItem',
-            name: 'Direccion Dependencia',
+            name: 'Dirección dependencia',
             to: '/RRHHModule/dependencia',
             icon: 'cil-notes',    
           },
@@ -510,7 +510,7 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Areas de Trabajo',
+            name: 'Áreas de Trabajo',
             to: '/RRHHModule/areaTrabajo',
             icon: 'cilClipboard',
           },
@@ -534,7 +534,7 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Tipo de Sangre',
+            name: 'Tipo de sangre',
             to: '/RRHHModule/tipoSangre',
             icon: 'cilHealing',
           },
@@ -544,7 +544,7 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Registro Personal',
+            name: 'Registro personal',
             to: '/RRHHModule/registroEmpleados',
             icon: 'cilDollar',
           },
@@ -556,7 +556,7 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Inventario de utiles',
+            name: 'Inventario de útiles',
             to: '/RRHHModule/inventario',
             icon: 'cilDollar',
           },
@@ -582,7 +582,7 @@ export default [
       },
       {
         component:'CNavItem',
-        name:'Manejo Usuarios',
+        name:'Manejo usuarios',
         to:'/AdministrativoModule/manejoUsuarios',
         icon:'cilPeoplePlus',
       }
