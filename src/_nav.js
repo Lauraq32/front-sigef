@@ -160,7 +160,7 @@ export default [
             to: '/Ejecucion/grupoPago',
             icon: 'cilBuilding',
           },
-         
+
           {
             component: 'CNavItem',
             name: 'Beneficiarios',
@@ -227,10 +227,10 @@ export default [
         name: 'Activo fijo',
         to: '/ActivoFijoModule',
         icon: 'cilCouch',
-        items:[
+        items: [
           {
-            component:'CNavTitle',
-            name:'Maestras',
+            component: 'CNavTitle',
+            name: 'Maestras',
           },
           {
             component: 'CNavItem',
@@ -251,8 +251,8 @@ export default [
             icon: 'cilBoxAlt',
           },
           {
-            component:'CNavTitle',
-            name:'Procesos',
+            component: 'CNavTitle',
+            name: 'Procesos',
           },
           {
             component: 'CNavItem',
@@ -267,12 +267,12 @@ export default [
             icon: 'cilDollarCircle',
           },
           {
-            component:'CNavTitle',
-            name:'Consultas',
+            component: 'CNavTitle',
+            name: 'Consultas',
           },
           {
-            component:'CNavTitle',
-            name:'Reportes',
+            component: 'CNavTitle',
+            name: 'Reportes',
           },
           {
             component: 'CNavItem',
@@ -287,8 +287,8 @@ export default [
             icon: 'cilList',
           },
           {
-            component:'CNavTitle',
-            name:'Configuración',
+            component: 'CNavTitle',
+            name: 'Configuración',
           },
         ],
       },
@@ -297,10 +297,10 @@ export default [
         name: 'Nómina',
         to: '/NominaModule',
         icon: 'cilMoney',
-        items:[
+        items: [
           {
-            component:'CNavTitle',
-            name:'Maestras',
+            component: 'CNavTitle',
+            name: 'Maestras',
           },
           {
             component: 'CNavItem',
@@ -345,12 +345,12 @@ export default [
             icon: 'cilMap',
           },
           {
-            component:'CNavTitle',
-            name:'Procesos',
+            component: 'CNavTitle',
+            name: 'Procesos',
           },
           {
-            component:'CNavTitle',
-            name:'Consultas',
+            component: 'CNavTitle',
+            name: 'Consultas',
           },
           {
             component: 'CNavItem',
@@ -359,8 +359,8 @@ export default [
             icon: 'cilList',
           },
           {
-            component:'CNavTitle',
-            name:'Configuración',
+            component: 'CNavTitle',
+            name: 'Configuración',
           },
           {
             component: 'CNavItem',
@@ -381,10 +381,10 @@ export default [
         name: 'Contabilidad',
         to: '/ContabilidadModule',
         icon: 'cilDollar',
-        items:[
+        items: [
           {
-            component:'CNavTitle',
-            name:'Maestras',
+            component: 'CNavTitle',
+            name: 'Maestras',
           },
           {
             component: 'CNavItem',
@@ -405,8 +405,8 @@ export default [
             icon: 'cilList',
           },
           {
-            component:'CNavTitle',
-            name:'Reportes',
+            component: 'CNavTitle',
+            name: 'Reportes',
           },
           {
             component: 'CNavItem',
@@ -438,14 +438,111 @@ export default [
             to: '/ContabilidadModule/estadoCambioPatrimonioFinanciero',
             icon: 'cilList',
           },
-
-        ]
+        ],
       },
       {
         component: 'CNavItem',
         name: 'Conciliación bancaria',
-        to: '/',
+        to: '/ConciliacionBancaria',
         icon: 'cilBank',
+        items: [
+          {
+            component: 'CNavTitle',
+            name: 'Maestras',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Cuentas de bancos ',
+            to: '/ConciliacionBancaria/CuentasDebanco',
+            icon: 'cilList',
+          },
+
+          {
+            component: 'CNavTitle',
+            name: 'Procesos',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Cheques (cuenta activa)',
+            to: '/ConciliacionBancaria/Cheques',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Depósitos',
+            to: '/ConciliacionBancaria/Depositos',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Notas de crédito',
+            to: '/ConciliacionBancaria/NotasCredito',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Notas de débito',
+            to: '/ConciliacionBancaria/NotasDebito',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Importar estados bancarios',
+            to: '/ConciliacionBancaria/ImportarEstadosBancarios',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Conciliación bancaria',
+            to: '/ConciliacionBancaria/ConciliacionBancaria',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Cortar cheques estados financieros',
+            to: '/ConciliacionBancaria/CortarChequesBancarios',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavTitle',
+            name: 'Procesos',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Cheques (cuenta activa)',
+            to: 'ConciliacionBancaria/Cheques',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Depósitos',
+            to: '/ConciliacionBancaria/Depositos',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Notas de crédito',
+            to: '/ConciliacionBancaria/NotasCredito',
+            icon: 'cilList',
+          },
+
+          {
+            component: 'CNavItem',
+            name: 'Notas de débito',
+            to: '/ConciliacionBancaria/NotasDebito',
+            icon: 'cilList',
+          },
+
+          {
+            component: 'CNavTitle',
+            name: 'Reportes',
+          },
+
+          {
+            component: 'CNavTitle',
+            name: 'Configuracion',
+          },
+        ],
       },
       {
         component: 'CNavItem',
@@ -479,7 +576,7 @@ export default [
     component: 'CNavItem',
     name: 'RRHH',
     icon: 'cilWc',
-   
+
     items: [
       {
         component: 'CNavItem',
@@ -492,15 +589,13 @@ export default [
         name: 'Registro de personal',
         to: '/financiero',
         icon: 'cilGroup',
-        
-        items:[
-         
-          
+
+        items: [
           {
             component: 'CNavItem',
             name: 'Dirección dependencia',
             to: '/RRHHModule/dependencia',
-            icon: 'cil-notes',    
+            icon: 'cil-notes',
           },
           {
             component: 'CNavItem',
@@ -560,12 +655,8 @@ export default [
             to: '/RRHHModule/inventario',
             icon: 'cilDollar',
           },
-          
-        ]
+        ],
       },
-
-
-    
     ],
   },
   {
@@ -581,11 +672,11 @@ export default [
         icon: 'cilHome',
       },
       {
-        component:'CNavItem',
-        name:'Manejo usuarios',
-        to:'/AdministrativoModule/manejoUsuarios',
-        icon:'cilPeoplePlus',
-      }
+        component: 'CNavItem',
+        name: 'Manejo usuarios',
+        to: '/AdministrativoModule/manejoUsuarios',
+        icon: 'cilPeoplePlus',
+      },
     ],
   },
   {
