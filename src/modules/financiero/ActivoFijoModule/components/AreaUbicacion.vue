@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Categorias</h3>
+  <h3 class="text-center">Áreas de ubicación</h3>
   <CSmartTable clickableRows :tableProps="{
     striped: false,
     hover: true,
