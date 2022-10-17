@@ -178,7 +178,7 @@
             <CFormInput
               v-model="postIngreso.ANO_ANT"
               id="validationCustom04"
-              value="0"
+              type="number"
             >
             </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
@@ -189,7 +189,7 @@
             <CFormInput
               v-model="postIngreso.ALAFECHA"
               id="validationCustom04"
-              value="0"
+              type="number"
             ></CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -201,7 +201,7 @@
             <CFormInput
               v-model="postIngreso.PRES_FORM"
               id="validationCustom04"
-              value="0"
+              type="number"
             ></CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -246,10 +246,10 @@ export default {
         FUENTE: null,
         F_ESPECIFIC: null,
         ORGA_FIN: null,
-        ANO_ANT: 0,
-        ALAFECHA: 0,
+        ANO_ANT: null,
+        ALAFECHA: null,
         EST_ACTUAL: 0,
-        PRES_FORM: 0,
+        PRES_FORM: null,
         VARIACION: 0,
         INGRESOS: 0,
         VARIACION_RESUMEN: 0,
@@ -311,9 +311,31 @@ export default {
   },
   methods: {
     submitForm() {
+      this.postIngreso.ANO_ANT = parseInt(this.postIngreso.ANO_ANT)
+      this.postIngreso.ALAFECHA = parseInt(this.postIngreso.ALAFECHA)
+      this.postIngreso.PRES_FORM = parseInt(this.postIngreso.PRES_FORM)
       this.$store.dispatch('Formulacion/PostIngreso', this.postIngreso);
       this.lgDemo=false
       this.$store.dispatch('Formulacion/getListarIngresos');
+      this.postIngreso = {
+        Ano: parseInt(localStorage.getItem('ano')),
+        id_ayuntamiento: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        CLASIFICA: null,
+        INST_OTORGA: 0,
+        CONTROL: '',
+        DETALLE: null,
+        FUENTE: null,
+        F_ESPECIFIC: null,
+        ORGA_FIN: null,
+        ANO_ANT: null,
+        ALAFECHA: null,
+        EST_ACTUAL: 0,
+        PRES_FORM: null,
+        VARIACION: 0,
+        INGRESOS: 0,
+        VARIACION_RESUMEN: 0,
+      }
+      this.validatedCustom01 = false
     },
     getClasificador() {
       this.$store.dispatch('Formulacion/getClasificador',this.postIngreso.CLASIFICA)
