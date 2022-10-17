@@ -1,4 +1,4 @@
 <template>
-  <h1>Ejecucion</h1>
+  <h1>Ejecución</h1>
   <router-view />
 </template>

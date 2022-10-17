@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Estructuras Programaticas</h3>
+  <h3 class="text-center">Estructuras Prográmaticas</h3>
   <hr>
   <div>
     <div class="d-inline p-2">

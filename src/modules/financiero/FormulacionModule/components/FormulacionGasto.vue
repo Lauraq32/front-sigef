@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Formulacion Gasto</h3>
+  <h3 class="text-center">Formulación Gasto</h3>
   <hr />
   <div>
     <div class="d-inline p-2">
