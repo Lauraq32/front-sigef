@@ -6,7 +6,7 @@
           @click="gotToPrueba"
           class="mb-4 shadow"
           style="--cui-card-cap-bg: #002e5d; height: 240px;"
-          :values="[{ title: 'Formulacion Presupuesto', value: '' }]"
+          :values="[{ title: 'Formulación presupuesto', value: '' }]"
         >
           <template #icon>
             <CIcon :icon="cilDonate" style="color: #f5f5f5;" size="9xl" />
@@ -45,7 +45,7 @@
         <CWidgetStatsD
           class="mb-4 shadow"
           style="--cui-card-cap-bg: #002e5d; height: 240px;"
-          :values="[{ title: 'Ejecucion Presupuesto', value: '' }]"
+          :values="[{ title: 'Ejecución Presupuesto', value: '' }]"
         >
           <template #icon>
             <CIcon :icon="cilMoney" style="color: #f5f5f5;" size="9xl" />
@@ -123,7 +123,7 @@
         <CWidgetStatsD
           class="mb-4 shadow"
           style="--cui-card-cap-bg: #002e5d; height: 240px;"
-          :values="[{ title: 'Nomina', value: '' }]"
+          :values="[{ title: 'Nómina', value: '' }]"
         >
           <template #icon>
             <CIcon :icon="cilAddressBook" style="color: #f5f5f5;" size="9xl" /> 
@@ -201,7 +201,7 @@
         <CWidgetStatsD
           class="mb-4 shadow"
           style="--cui-card-cap-bg: #002e5d; height: 240px;"
-          :values="[{ title: 'Conciliacion bancaria', value: '' }]"
+          :values="[{ title: 'Conciliación bancaria', value: '' }]"
         >
           <template #icon>
               <CIcon :icon="cilBank" style="color: #f5f5f5;" size="9xl" />
