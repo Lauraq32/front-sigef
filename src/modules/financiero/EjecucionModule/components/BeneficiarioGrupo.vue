@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Tipos de retenciones</h3>
+  <h3 class="text-center">Beneficiario</h3>
   <hr />
   <div>
     <div class="d-inline p-2">
@@ -77,7 +77,7 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Formulación Ingreso</CModalTitle>
+      <CModalTitle>Beneficiario</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>

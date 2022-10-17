@@ -77,7 +77,7 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Formulación Ingreso</CModalTitle>
+      <CModalTitle>Beneficiarios</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -233,7 +233,7 @@ export default {
         { key: 'Beneficiario', label: 'Beneficiario', _style: { width: '40%' } },
         { key: 'Cédula', label: 'Cédula', _style: { width: '40%' } },
         { key: 'Tipo', label: 'Tipo', _style: { width: '40%' } },
-        { key: 'Contacto', label: 'TContactoipo', _style: { width: '40%' } },
+        { key: 'Contacto', label: 'Contacto', _style: { width: '40%' } },
         { key: 'Teléfono 1', label: 'Teléfono 1', _style: { width: '40%' } },
         { key: 'Teléfono 2', label: 'Teléfono 2', _style: { width: '40%' } },
         {

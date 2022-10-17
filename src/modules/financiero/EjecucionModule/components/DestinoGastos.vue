@@ -13,11 +13,6 @@
         >Agregar</CButton
       >
     </div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-        >Imprimir</CButton
-      >
-    </div>
   </div>
   <hr />
   <CSmartTable
@@ -30,7 +25,7 @@
     :activePage="1"
     footer
     header
-    :items="this.$store.state.RRHHModule.sectores"
+    :items="this.$store.state.Formulacion.proyecto"
     :columns="columns"
     columnFilter
     tableFilter
@@ -82,7 +77,7 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Profesiones</CModalTitle>
+      <CModalTitle>Tipos de retenciones</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -92,15 +87,16 @@
           :validated="validatedCustom01"
           @submit="handleSubmitCustom01"
         >
-          <CCol :md="2">
+          <CCol :md="4">
             <CFormLabel for="validationCustom01">Código</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
+            <CFormInput id="validationCustom01" required />
+
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustomUsername">Descripcion</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
+          <CCol :md="4">
+            <CFormLabel for="validationCustom02">Descripcion</CFormLabel>
+            <CFormInput id="validationCustom02" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -122,37 +118,34 @@
   </CModal>
 </template>
 <script>
-
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
-  export default {
-    components: {
-      CSmartTable,
-      CModal,
-    },
-    
-    data: () => {
-      return {
-        validatedCustom01: null,
+export default {
+  components: {
+    CSmartTable,
+    CModal,
+  },
+  data: () => {
+    return {
+      validatedCustom01: null,
       lgDemo: false,
-        columns: [
+      columns: [
         { key: 'Código', label: 'Código', _style: { width: '40%' } },
         { key: 'Destino gasto', label: 'Destino gasto', _style: { width: '40%' } },
-          {
-            key: 'show_details',
-            label: '',
-            _style: { width: '1%' },
-            filter: false,
-            sorter: false,
-            // _props: { color: 'primary', class: 'fw-semibold'}
-          }
-        ],
-        details: [],
-       
-      }
-    },
-    methods: {
-      handleSubmitCustom01(event) {
+        {
+          key: 'show_details',
+          label: '',
+          _style: { width: '1%' },
+          filter: false,
+          sorter: false,
+          // _props: { color: 'primary', class: 'fw-semibold'}
+        },
+      ],
+      details: [],
+    }
+  },
+  methods: {
+    handleSubmitCustom01(event) {
       const form = event.currentTarget
       if (form.checkValidity() === false) {
         event.preventDefault()
@@ -160,27 +153,30 @@ import { CModal } from '@coreui/vue'
       }
       this.validatedCustom01 = true
     },
-      getBadge (status) {
-        switch (status) {
-          case 'Active': return 'success'
-          case 'Inactive': return 'secondary'
-          case 'Pending': return 'warning'
-          case 'Banned': return 'danger'
-          default: 'primary'
-        }
-      },
-      toggleDetails (item) {
-        if (this.details.includes(item._id)) {
-          this.details = this.details.filter((_item) => _item !== item._id)
-          return
-        }
-        this.details.push(item._id)
+    getBadge(status) {
+      switch (status) {
+        case 'Active':
+          return 'success'
+        case 'Inactive':
+          return 'secondary'
+        case 'Pending':
+          return 'warning'
+        case 'Banned':
+          return 'danger'
+        default:
+          'primary'
       }
     },
-    mounted(){
-      this.$store.dispatch('AdministrativoModule/getUsuarios')
-    }
-    
-   
-  }
+    toggleDetails(item) {
+      if (this.details.includes(item._id)) {
+        this.details = this.details.filter((_item) => _item !== item._id)
+        return
+      }
+      this.details.push(item._id)
+    },
+  },
+  mounted() {
+    this.$store.dispatch('Formulacion/getProyectos')
+  },
+}
 </script>

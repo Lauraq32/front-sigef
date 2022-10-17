@@ -77,7 +77,7 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Formulación Ingreso</CModalTitle>
+      <CModalTitle>Año Fiscal</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -145,13 +145,12 @@ export default {
     CSmartTable,
     CModal,
   },
-  
   data: () => {
     return {
       validatedCustom01: null,
       lgDemo: false,
       columns: [
-        { key: 'Año fiscal', label: 'Año fiscal', _style: { width: '40%' } },
+        { key: 'Año Fiscal', label: 'Año Fiscal', _style: { width: '40%' } },
         { key: 'Desde', label: 'Desde', _style: { width: '40%' } },
         { key: 'Hasta', label: 'Hasta', _style: { width: '40%' } },
         { key: 'Estatus', label: 'Estatus', _style: { width: '40%' } },

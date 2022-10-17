@@ -1,15 +1,5 @@
 <template>
-  <h3 class="text-center">Clasificadores</h3>
-  <hr>
-  <div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold;" color="info" @click="IngresoReportClsIng">Imprimir Clasificadores de Ingresos</CButton>
-    </div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold;" color="info" @click="IngresoReportClsGas">Imprimir Clasificadores de Gastos</CButton>
-    </div>
-  </div>
-  <hr />
+  <h3 class="text-center">Categorias</h3>
   <CSmartTable clickableRows :tableProps="{
     striped: false,
     hover: true,
@@ -58,21 +48,13 @@ export default {
   data: () => {
     return {
       columns: [
-        { key: 'ccontrol', label: 'Cuenta' },
-        { key: 'clasifica', label: 'Clasificador' },
-        { key: 'ctA_CONTAG', label: 'Cuenta contable' },
-        { key: 'ctA_GASTOS', label: 'Cuenta Gastos' },
-        { key: 'ctA_INGRESO', label: 'Cuenta ingreso' },
-        { key: 'detalle', label: 'Detalle', _style: { width: '20%' } },
-        { key: 'iDENTIFICADORdUENTE', label: 'Fuente' },
-        { key: 'iDENTIFICADORfUENTEeSPECIFICA', label: 'Fuente especifica' },
-        { key: 'nombre', label: 'Nombre' },
-        // { key: 'identificadorornfin', label:'Nombre' },
-        { key: 'nombrefUENTE', label: 'Nombre Fuente' },
-        { key: 'nombrefuenteespecifica', label: 'Nombre Fuente especifica' },
-        { key: 'nombreorgfin', label: 'Organismo Financiero' },
-        { key: 'tipo', label: 'Tipo', filter: false, sorter: false, _style: { width: '5%' } },
-        //{ key: 'ctA_GASTOS', _style: { width: '20%'} },
+        { key: 'Codigo', label: 'Codigo' },
+        { key: 'Descripcion', label: 'Descripcion' },
+        { key: 'Cuenta Gasto', label: 'Cuenta Gasto' },
+        { key: 'Monto', label: 'Monto' },
+        { key: 'Acumulado', label: 'Acumulado' },
+        { key: 'Corto', label: 'Corto', _style: { width: '20%' } },
+        { key: 'Despreciable', label: 'Despreciable' },
         {
           key: 'show_details',
           label: '',

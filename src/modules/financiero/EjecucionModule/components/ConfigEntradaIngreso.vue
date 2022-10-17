@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Configuracion Entrada Ingreso</h3>
+  <h3 class="text-center">Configuracion entrada de ingresos</h3>
   <hr />
   <div>
     <div class="d-inline p-2">
@@ -77,7 +77,7 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Formulación Ingreso</CModalTitle>
+      <CModalTitle>Tipo de retenciones</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -100,9 +100,11 @@
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom04">Detalle</CFormLabel >
-            <CFormInput id="validationCustom04"> </CFormInput>
+          <CCol :md="6">
+            <CFormLabel for="validationCustom03"
+              >Detalle</CFormLabel
+            >
+            <CFormInput id="validationCustom03" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -141,7 +143,6 @@ export default {
     CSmartTable,
     CModal,
   },
-  
   data: () => {
     return {
       validatedCustom01: null,
@@ -149,7 +150,7 @@ export default {
       columns: [
         { key: 'Clasificador', label: 'Clasificador', _style: { width: '40%' } },
         { key: 'Detalle', label: 'Detalle', _style: { width: '40%' } },
-        { key: 'Desc. Resumida', label: 'Desc. Resumida', _style: { width: '40%' } },
+        { key: 'Resumen Descripcion', label: 'Resumen Descripcion', _style: { width: '40%' } },
         {
           key: 'show_details',
           label: '',
