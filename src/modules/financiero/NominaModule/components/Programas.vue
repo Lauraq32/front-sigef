@@ -1,78 +1,153 @@
 <template>
-  <h3 class="text-center">Clasificadores</h3>
-  <hr>
+  <h3 class="text-center">Programas</h3>
+  <hr />
   <div>
     <div class="d-inline p-2">
-      <CButton style="font-weight: bold;" color="info" @click="IngresoReportClsIng">Imprimir Clasificadores de Ingresos</CButton>
-    </div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold;" color="info" @click="IngresoReportClsGas">Imprimir Clasificadores de Gastos</CButton>
+      <CButton
+        color="info"
+        @click="
+          () => {
+            lgDemo = true
+          }
+        "
+        >Agregar</CButton
+      >
     </div>
   </div>
   <hr />
-  <CSmartTable clickableRows :tableProps="{
-    striped: false,
-    hover: true,
-  }" :tableHeadProps="{
-      
-    }" :activePage="1" footer header :items="this.$store.state.Formulacion.clasificadores" :columns="columns"
-    columnFilter tableFilter cleaner itemsPerPageSelect :itemsPerPage="5" columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }" pagination>
-    <template #status="{item}">
+  <CSmartTable
+    clickableRows
+    :tableProps="{
+      striped: false,
+      hover: true,
+    }"
+    :tableHeadProps="{}"
+    :activePage="1"
+    footer
+    header
+    :items="this.$store.state.Formulacion.proyecto"
+    :columns="columns"
+    columnFilter
+    tableFilter
+    cleaner
+    itemsPerPageSelect
+    :itemsPerPage="5"
+    columnSorter
+    :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination
+  >
+    <template #status="{ item }">
       <td>
-        <CBadge :color="getBadge(item.status)">{{item.status}}</CBadge>
+        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
-    <template #show_details="{item, index}">
+    <template #show_details="{ item, index }">
       <td class="py-2">
-        <CButton color="primary" variant="outline" square size="sm" @click="toggleDetails(item, index)">
-          {{Boolean(item._toggled) ? 'Hide' : 'Show'}}
+        <CButton
+          color="primary"
+          variant="outline"
+          square
+          size="sm"
+          @click="toggleDetails(item, index)"
+        >
+          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
         </CButton>
       </td>
     </template>
-    <template #details="{item}">
+    <template #details="{ item }">
       <CCollapse :visible="this.details.includes(item._id)">
         <CCardBody>
           <h4>
-            {{item.username}}
+            {{ item.username }}
           </h4>
-          <p class="text-muted">User since: {{item.registered}}</p>
-          <CButton size="sm" color="info" class="">
-            User Settings
-          </CButton>
-          <CButton size="sm" color="danger" class="ml-1">
-            Delete
-          </CButton>
+          <p class="text-muted">User since: {{ item.registered }}</p>
+          <CButton size="sm" color="info" class=""> User Settings </CButton>
+          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
         </CCardBody>
       </CCollapse>
     </template>
   </CSmartTable>
+  <CModal
+    size="lg"
+    :visible="lgDemo"
+    @close="
+      () => {
+        lgDemo = false
+      }
+    "
+  >
+    <CModalHeader>
+      <CModalTitle>Programas</CModalTitle>
+    </CModalHeader>
+    <CModalBody>
+      <CCardBody>
+        <CForm
+          class="row g-3 needs-validation"
+          novalidate
+          :validated="validatedCustom01"
+          @submit="handleSubmitCustom01"
+        >
+          <CCol :md="4">
+            <CFormLabel for="validationCustom01">Programa</CFormLabel>
+            <CFormInput id="validationCustom01" required />
+
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="4">
+            <CFormLabel for="validationCustom02">Estructura</CFormLabel>
+            <CFormInput id="validationCustom02" required />
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="3">
+            <CFormLabel for="validationCustom05"
+              >Está activo?</CFormLabel
+            >
+            <CFormSelect id="validationCustom05">
+              <option>Si</option>
+              <option>No</option>
+            </CFormSelect>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+              Guardar
+            </button>
+          </div>
+        </CForm>
+      </CCardBody>
+    </CModalBody>
+  </CModal>
 </template>
 <script>
-
 import { CSmartTable } from '@coreui/vue-pro'
+import { CModal } from '@coreui/vue'
 export default {
   components: {
-    CSmartTable
+    CSmartTable,
+    CModal,
   },
   data: () => {
     return {
+      validatedCustom01: null,
+      lgDemo: false,
       columns: [
-        { key: 'ccontrol', label: 'Cuenta' },
-        { key: 'clasifica', label: 'Clasificador' },
-        { key: 'ctA_CONTAG', label: 'Cuenta contable' },
-        { key: 'ctA_GASTOS', label: 'Cuenta Gastos' },
-        { key: 'ctA_INGRESO', label: 'Cuenta ingreso' },
-        { key: 'detalle', label: 'Detalle', _style: { width: '20%' } },
-        { key: 'iDENTIFICADORdUENTE', label: 'Fuente' },
-        { key: 'iDENTIFICADORfUENTEeSPECIFICA', label: 'Fuente especifica' },
-        { key: 'nombre', label: 'Nombre' },
-        // { key: 'identificadorornfin', label:'Nombre' },
-        { key: 'nombrefUENTE', label: 'Nombre Fuente' },
-        { key: 'nombrefuenteespecifica', label: 'Nombre Fuente especifica' },
-        { key: 'nombreorgfin', label: 'Organismo Financiero' },
-        { key: 'tipo', label: 'Tipo', filter: false, sorter: false, _style: { width: '5%' } },
-        //{ key: 'ctA_GASTOS', _style: { width: '20%'} },
+        { key: 'Código', label: 'Código', _style: { width: '40%' } },
+        {
+          key: 'Programa',
+          label: 'Programa',
+          _style: { width: '40%' },
+        },
+        { key: 'Estructura Program', label: 'Estructura Program.', _style: { width: '40%' } },
+        { key: 'Activo?', label: 'Activo?', _style: { width: '40%' } },
         {
           key: 'show_details',
           label: '',
@@ -80,28 +155,33 @@ export default {
           filter: false,
           sorter: false,
           // _props: { color: 'primary', class: 'fw-semibold'}
-        }
+        },
       ],
       details: [],
-      items: [
-      ],
     }
   },
   methods: {
+    handleSubmitCustom01(event) {
+      const form = event.currentTarget
+      if (form.checkValidity() === false) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      this.validatedCustom01 = true
+    },
     getBadge(status) {
       switch (status) {
-        case 'Active': return 'success'
-        case 'Inactive': return 'secondary'
-        case 'Pending': return 'warning'
-        case 'Banned': return 'danger'
-        default: 'primary'
+        case 'Active':
+          return 'success'
+        case 'Inactive':
+          return 'secondary'
+        case 'Pending':
+          return 'warning'
+        case 'Banned':
+          return 'danger'
+        default:
+          'primary'
       }
-    },
-    IngresoReportClsIng() {
-      window.open(`http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fReporte_FP%2fRep_Clasificadores_Ingreso&rs:Command=Render`, '_blank').focus();
-    },
-    IngresoReportClsGas() {
-      window.open(`http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fReporte_FP%2fRep_Clasificadores_Gasto&rs:Command=Render`, '_blank').focus();
     },
     toggleDetails(item) {
       if (this.details.includes(item._id)) {
@@ -109,13 +189,10 @@ export default {
         return
       }
       this.details.push(item._id)
-    }
-  },
-  computed: {
-
+    },
   },
   mounted() {
-    //this.$store.dispatch('Formulacion/getClasificadores');
-  }
+    this.$store.dispatch('Formulacion/getProyectos')
+  },
 }
 </script>

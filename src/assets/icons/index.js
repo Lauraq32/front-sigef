@@ -25,9 +25,11 @@ import {
   cibCcAmex,
   cilAccountLogout,
   cibBitcoin,
+  cidChartLine
 } from '@coreui/icons-pro'
 import { cifUs, cifBr, cifIn, cifFr, cifEs, cifPl } from '@coreui/icons-pro'
 import {
+  cilMap,
   cilArrowBottom,
   cilArrowRight,
   cilArrowTop,
@@ -101,11 +103,28 @@ import {
   cilWallet,
   cilFolderOpen,
   cilChartDonut,
+  cilBoxAlt,
+  cilGraph,
+  cilDollarCircle,
+  cilBook,
+  cilIdCard,
+  cilChalkboardTeacher,
+  cilIdBadge,
+  cilAddressBook
 } from '@coreui/icons-pro'
 
 export const iconsSet = Object.assign(
   {},
   {
+    cilAddressBook,
+    cilIdBadge,
+  cilChalkboardTeacher,
+    cilIdCard,
+    cilBook,
+    cilDollarCircle,
+    cilGraph,
+    cilBoxAlt,
+    cilMap,
     cilChartDonut,
     cilFolderOpen,
     cilWallet,
@@ -192,6 +211,7 @@ export const iconsSet = Object.assign(
     cifPl,
   },
   {
+    cidChartLine,
     cibFacebook,
     cibTwitter,
     cibLinkedin,

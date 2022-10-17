@@ -77,7 +77,7 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Formulación Ingreso</CModalTitle>
+      <CModalTitle>Tipos de retenciones</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -90,7 +90,7 @@
           <CCol :md="4">
             <CFormLabel for="validationCustom01">Código</CFormLabel>
             <CFormInput id="validationCustom01" required />
-
+           
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -101,53 +101,59 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom05">Beneficiario</CFormLabel>
-            <CFormSelect id="validationCustom05">
-              <option>OPCION 1</option>
-              <option>OPCION 2</option>
-              <option>OPCION 3</option>
-            </CFormSelect>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom05">Tipo Retención</CFormLabel>
-            <CFormSelect id="validationCustom05">
-              <option>OPCION 1</option>
-              <option>OPCION 2</option>
-              <option>OPCION 3</option>
-            </CFormSelect>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom05">Operación:</CFormLabel>
-            <CFormSelect id="validationCustom05">
-              <option>OPCION 1</option>
-              <option>OPCION 2</option>
-              <option>OPCION 3</option>
-            </CFormSelect>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom04"
-              >Valor o % de la retención</CFormLabel
+            <CFormLabel for="validationCustom05"
+              >Beneficiario</CFormLabel
             >
+            <CFormSelect id="validationCustom05">
+              <option>OPCION 1</option>
+              <option>OPCION 2</option>
+              <option>OPCION 3</option>
+            </CFormSelect>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="3">
+            <CFormLabel for="validationCustom05"
+              >Tipo Retención</CFormLabel
+            >
+            <CFormSelect id="validationCustom05">
+              <option>OPCION 1</option>
+              <option>OPCION 2</option>
+              <option>OPCION 3</option>
+            </CFormSelect>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="3">
+            <CFormLabel for="validationCustom05"
+              >Operación:</CFormLabel
+            >
+            <CFormSelect id="validationCustom05">
+              <option>OPCION 1</option>
+              <option>OPCION 2</option>
+              <option>OPCION 3</option>
+            </CFormSelect>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="3">
+            <CFormLabel for="validationCustom04">Valor o % de la retención</CFormLabel >
             <CFormInput id="validationCustom04"> </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom05"> Afecta el 815:</CFormLabel>
+            <CFormLabel for="validationCustom05"
+              >Afecta el 815:</CFormLabel
+            >
             <CFormSelect id="validationCustom05">
-              <option>Si</option>
+              <option>Si </option>
               <option>No</option>
             </CFormSelect>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom05"> Valor Calculado</CFormLabel>
-            <CFormSelect id="validationCustom05">
-              <option>Valor Calculado</option>
-            </CFormSelect>
+          <CCol :md="4">
+            <CFormLabel for="validationCustom01">Valor Calculado</CFormLabel>
+            <CFormInput id="validationCustom01" required />
+           
+            <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <div class="modal-footer">
@@ -158,9 +164,13 @@
             >
               Close
             </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
-              Guardar
+            <button
+              class="btn btn-info btn-block mt-1"
+              v-on:click="Guardar"
+            >
+            Guardar
             </button>
+         
           </div>
         </CForm>
       </CCardBody>
@@ -175,7 +185,6 @@ export default {
     CSmartTable,
     CModal,
   },
-
   data: () => {
     return {
       validatedCustom01: null,
@@ -184,10 +193,11 @@ export default {
         { key: 'Código', label: 'Código', _style: { width: '40%' } },
         { key: 'Detalle', label: 'Detalle', _style: { width: '40%' } },
         { key: 'Tipo de Retención', label: 'Tipo de Retención', _style: { width: '40%' } },
-        { key: 'Valor', label: 'Valor', _style: { width: '40%' } },
-        { key: 'Calculada', label: 'Calculada', _style: { width: '40%' } },
-        { key: 'Modo afecta', label: 'Modo afecta', _style: { width: '40%' } },
-        { key: 'Beneficiario', label: 'Beneficiario', _style: { width: '40%' } },
+        { key: '	Operación', label: '	Operación', _style: { width: '40%' } },
+        { key: '	Valor', label: '	Valor', _style: { width: '40%' } },
+        { key: '	Calculada', label: '	Calculada', _style: { width: '40%' } },
+        { key: '	Modo afecta', label: '	Modo afecta', _style: { width: '40%' } },
+        { key: '	Beneficiario', label: '	Beneficiario', _style: { width: '40%' } },
         {
           key: 'show_details',
           label: '',

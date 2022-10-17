@@ -1,26 +1,32 @@
 <template>
-  <h3 class="text-center">Estructuras Programaticas</h3>
-  <hr>
+  <h3 class="text-center">Grupo nomina</h3>
+  <hr />
   <div>
     <div class="d-inline p-2">
-      <CButton style="font-weight: bold;" color="info" @click="IngresoReport">Imprimir</CButton>
+      <CButton
+        color="info"
+        @click="
+          () => {
+            lgDemo = true
+          }
+        "
+        >Agregar</CButton
+      >
     </div>
   </div>
   <hr />
-  <CSmartTable 
+  <CSmartTable
     clickableRows
     :tableProps="{
       striped: false,
       hover: true,
     }"
-    :tableHeadProps="{
-      
-    }"
+    :tableHeadProps="{}"
     :activePage="1"
     footer
     header
-    :items="this.$store.state.Formulacion.estructuras"
-    :columns="item"
+    :items="this.$store.state.Formulacion.proyecto"
+    :columns="columns"
     columnFilter
     tableFilter
     cleaner
@@ -30,10 +36,12 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
-  <template #status="{item}">
-    <td><CBadge :color="getBadge(item.status)">{{item.status}}</CBadge></td>
+    <template #status="{ item }">
+      <td>
+        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+      </td>
     </template>
-    <template #show_details="{item, index}">
+    <template #show_details="{ item, index }">
       <td class="py-2">
         <CButton
           color="primary"
@@ -42,94 +50,167 @@
           size="sm"
           @click="toggleDetails(item, index)"
         >
-          {{Boolean(item._toggled) ? 'Hide' : 'Show'}}
+          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
         </CButton>
       </td>
     </template>
-    <template #details="{item}">
+    <template #details="{ item }">
       <CCollapse :visible="this.details.includes(item._id)">
         <CCardBody>
           <h4>
-            {{item.username}}
+            {{ item.username }}
           </h4>
-          <p class="text-muted">User since: {{item.registered}}</p>
-          <CButton size="sm" color="info" class="">
-            User Settings
-          </CButton>
-          <CButton size="sm" color="danger" class="ml-1">
-            Delete
-          </CButton>
+          <p class="text-muted">User since: {{ item.registered }}</p>
+          <CButton size="sm" color="info" class=""> User Settings </CButton>
+          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
         </CCardBody>
       </CCollapse>
     </template>
   </CSmartTable>
+  <CModal
+    size="lg"
+    :visible="lgDemo"
+    @close="
+      () => {
+        lgDemo = false
+      }
+    "
+  >
+    <CModalHeader>
+      <CModalTitle>Formulario captura clasificación del gasto</CModalTitle>
+    </CModalHeader>
+    <CModalBody>
+      <CCardBody>
+        <CForm
+          class="row g-3 needs-validation"
+          novalidate
+          :validated="validatedCustom01"
+          @submit="handleSubmitCustom01"
+        >
+          <CCol :md="4">
+            <CFormLabel for="validationCustom01">Grupo Nomina</CFormLabel>
+            <CFormInput id="validationCustom01" required />
+
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="4">
+            <CFormLabel for="validationCustom02"> Descripción</CFormLabel>
+            <CFormInput id="validationCustom02" required />
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="4">
+            <CFormLabel for="validationCustom02"> Estructura programática</CFormLabel>
+            <CFormInput id="validationCustom02" required />
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="3">
+            <CFormLabel for="validationCustom05"
+              >Banco (Para nomina automática)</CFormLabel
+            >
+            <CFormSelect id="validationCustom05">
+              <option>Banco 1</option>
+              <option>Banco 2</option>
+              <option>Banco 3</option>
+            </CFormSelect>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="4">
+            <CFormLabel for="validationCustom02">Cuenta corriente No.</CFormLabel>
+            <CFormInput id="validationCustom02" required />
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="4">
+            <CFormLabel for="validationCustom02">Código de la nomina en el banco</CFormLabel>
+            <CFormInput id="validationCustom02" required />
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+              Guardar
+            </button>
+          </div>
+        </CForm>
+      </CCardBody>
+    </CModalBody>
+  </CModal>
 </template>
 <script>
-
 import { CSmartTable } from '@coreui/vue-pro'
-  export default {
-    components: {
-      CSmartTable
-    },
-    data: () => {
-      return {
-        columns: [
-          { key: 'id', label:'Id' , _style: { width: '40%'} },
-          { key: 'codigo', label:'Código', filter: false, sorter: false, _style: { width: '20%'} },
-          { key: 'pnap', label:'PNAP', _style: { width: '20%'} },
-          { key: 'programa',label:'Programa',  _style: { width: '20%'} },
-          { key: 'proyecto', label:'Proyecto',  _style: { width: '20%'} },
-          { key: 'actividad',label:'Actividad', _style: { width: '20%'} },
-          { key: 'estProgControl',label:'Estructura programatica', _style: { width: '20%'} },
-          { key: 'denominacion',label:'Denominación', _style: { width: '20%'} },
-          { key: 'unidadResponsable',label:'Unidad Responsable', _style: { width: '20%'} },
-          { key: 'tipo',label:'Tipo', _style: { width: '20%'} },
-          { key: 'funcion',label:'Función', _style: { width: '20%'} },
-          { key: 'participacion',label:'Participación', _style: { width: '20%'} },
-          { key: 'contrato',label:'Contrato', _style: { width: '20%'} },
-          {
-            key: 'show_details',
-            label: '',
-            _style: { width: '1%' },
-            filter: false,
-            sorter: false,
-            // _props: { color: 'primary', class: 'fw-semibold'}
-          }
-        ],
-        details: [],
-      
-      }
-    },
-    methods: {
-      getBadge (status) {
-        switch (status) {
-          case 'Active': return 'success'
-          case 'Inactive': return 'secondary'
-          case 'Pending': return 'warning'
-          case 'Banned': return 'danger'
-          default: 'primary'
-        }
-      },
-      IngresoReport() {
-      window.open(`http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fReporte_FP%2fRep_Estrucutra_Programatica&rs:Command=Render`, '_blank').focus();
-    },
-      toggleDetails (item) {
-        if (this.details.includes(item._id)) {
-          this.details = this.details.filter((_item) => _item !== item._id)
-          return
-        }
-        this.details.push(item._id)
-      }
-    },
-    computed:{
-      getEstructuras(){
-        return this.$store.getters['Formulacion/getEstructurasProgramaticas']
-      }
-    },
-    mounted(){
-      //console.log(this.$store.state['Formulacion'].clasificadores)
-      this.$store.dispatch('Formulacion/getEstructurasProgramaticas');
+import { CModal } from '@coreui/vue'
+export default {
+  components: {
+    CSmartTable,
+    CModal,
+  },
+  data: () => {
+    return {
+      validatedCustom01: null,
+      lgDemo: false,
+      columns: [
+        { key: 'Código', label: 'Código', _style: { width: '40%' } },
+        {
+          key: 'Descripción',
+          label: 'Descripción',
+          _style: { width: '40%' },
+        },
+        { key: 'Estructura', label: 'Estructura', _style: { width: '40%' } },
+        {
+          key: 'show_details',
+          label: '',
+          _style: { width: '1%' },
+          filter: false,
+          sorter: false,
+          // _props: { color: 'primary', class: 'fw-semibold'}
+        },
+      ],
+      details: [],
     }
-
-  }
+  },
+  methods: {
+    handleSubmitCustom01(event) {
+      const form = event.currentTarget
+      if (form.checkValidity() === false) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      this.validatedCustom01 = true
+    },
+    getBadge(status) {
+      switch (status) {
+        case 'Active':
+          return 'success'
+        case 'Inactive':
+          return 'secondary'
+        case 'Pending':
+          return 'warning'
+        case 'Banned':
+          return 'danger'
+        default:
+          'primary'
+      }
+    },
+    toggleDetails(item) {
+      if (this.details.includes(item._id)) {
+        this.details = this.details.filter((_item) => _item !== item._id)
+        return
+      }
+      this.details.push(item._id)
+    },
+  },
+  mounted() {
+    this.$store.dispatch('Formulacion/getProyectos')
+  },
+}
 </script>

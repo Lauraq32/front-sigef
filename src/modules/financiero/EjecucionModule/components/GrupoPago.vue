@@ -77,7 +77,7 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Formulación Ingreso</CModalTitle>
+      <CModalTitle>Grupos de pago</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -90,7 +90,7 @@
           <CCol :md="4">
             <CFormLabel for="validationCustom01">Código</CFormLabel>
             <CFormInput id="validationCustom01" required />
-           
+
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -100,9 +100,9 @@
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom04">Fecha Inicio</CFormLabel >
-            <CFormInput type="date" id="validationCustom04"> </CFormInput>
+          <CCol :md="4">
+            <CFormLabel for="validationCustom02">Fecha Inicio</CFormLabel>
+            <CFormInput type="date" id="validationCustom02" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -124,13 +124,9 @@
             >
               Close
             </button>
-            <button
-              class="btn btn-info btn-block mt-1"
-              v-on:click="Guardar"
-            >
-            Guardar
+            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+              Guardar
             </button>
-         
           </div>
         </CForm>
       </CCardBody>
@@ -145,7 +141,6 @@ export default {
     CSmartTable,
     CModal,
   },
-
   data: () => {
     return {
       validatedCustom01: null,
@@ -154,7 +149,7 @@ export default {
         { key: 'Código', label: 'Código', _style: { width: '40%' } },
         { key: 'Descripción', label: 'Descripción', _style: { width: '40%' } },
         { key: 'Estatus', label: 'Estatus', _style: { width: '40%' } },
-        { key: 'Fecha inicial', label: 'Fecha inicial', _style: { width: '40%' } },
+        { key: '	Fecha inicial', label: '	Fecha inicial', _style: { width: '40%' } },
         { key: 'Fecha Final', label: 'Fecha Final', _style: { width: '40%' } },
         { key: 'Usuario Crea', label: 'Usuario Crea', _style: { width: '40%' } },
         {

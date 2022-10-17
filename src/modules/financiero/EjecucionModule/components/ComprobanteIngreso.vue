@@ -77,7 +77,7 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Formulación Ingreso</CModalTitle>
+      <CModalTitle>Comprobantes de ingresos</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
