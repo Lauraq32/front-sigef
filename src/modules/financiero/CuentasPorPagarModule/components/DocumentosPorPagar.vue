@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Cuentas Contables</h3>
+  <h3 class="text-center">Documento por Pagar</h3>
   <hr />
   <div>
     <div class="d-inline p-2">
@@ -11,6 +11,11 @@
           }
         "
         >Agregar</CButton
+      >
+    </div>
+    <div class="d-inline p-2">
+      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
+        >Imprimir</CButton
       >
     </div>
   </div>
@@ -77,7 +82,7 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Posición o Cargo</CModalTitle>
+      <CModalTitle>Documento por Pagar</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -88,15 +93,79 @@
           @submit="handleSubmitCustom01"
         >
           <CCol :md="4">
-            <CFormLabel for="validationCustom01">Código</CFormLabel>
+            <CFormLabel for="validationCustom01">No. Registro</CFormLabel>
+            <CFormInput disabled id="validationCustom01" required />
+
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="4">
+            <CFormLabel for="validationCustom02">Suplidor</CFormLabel>
+            <CFormInput id="validationCustom02" required />
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="3">
+            <CFormLabel for="validationCustom04">Evento</CFormLabel>
+            <CFormInput type="date" id="validationCustom04"> </CFormInput>
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="4">
+            <CFormLabel for="validationCustom01">Documento No.</CFormLabel>
+            <CFormInput  id="validationCustom01" required />
+
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="4">
+            <CFormLabel for="validationCustom01">NCF</CFormLabel>
             <CFormInput id="validationCustom01" required />
 
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
-            <CFormLabel for="validationCustom02">Area de Trabajo</CFormLabel>
-            <CFormInput id="validationCustom02" required />
+            <CFormLabel for="validationCustom01">Tipo Documento</CFormLabel>
+            <CFormInput  id="validationCustom01" required />
+
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="4">
+            <CFormLabel for="validationCustom01">Documento No.</CFormLabel>
+            <CFormInput id="validationCustom01" required />
+
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="3">
+            <CFormLabel for="validationCustom04"> Fecha Registro</CFormLabel>
+            <CFormInput type="date" id="validationCustom04"> </CFormInput>
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="3">
+            <CFormLabel for="validationCustom05">Dias</CFormLabel>
+            <CFormInput type="date" id="validationCustom05" required />
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="3">
+            <CFormLabel for="validationCustom05">Fecha Vence</CFormLabel>
+            <CFormInput type="date" id="validationCustom05" required />
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="4">
+            <CFormLabel for="validationCustom01">Valor Documento</CFormLabel>
+            <CFormInput  id="validationCustom01" required />
+
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="4">
+            <CFormLabel for="validationCustom01">Nota</CFormLabel>
+            <CFormInput  id="validationCustom01" required />
+
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -130,12 +199,10 @@ export default {
       validatedCustom01: null,
       lgDemo: false,
       columns: [
-        { key: 'Código', label: 'Código', _style: { width: '40%' } },
-        {
-          key: 'Area de Trabajo',
-          label: 'Area de Trabajo',
-          _style: { width: '40%' },
-        },
+        { key: 'Año fiscal', label: 'Año fiscal', _style: { width: '40%' } },
+        { key: 'Desde', label: 'Desde', _style: { width: '40%' } },
+        { key: 'Hasta', label: 'Hasta', _style: { width: '40%' } },
+        { key: 'Estatus', label: 'Estatus', _style: { width: '40%' } },
         {
           key: 'show_details',
           label: '',

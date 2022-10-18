@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Fuente Específica</h3>
+  <h3 class="text-center">organismos</h3>
   <hr>
     <div>
       <div class="d-inline p-2">
@@ -19,7 +19,7 @@
       :activePage="1"
       footer
       header
-      :items="this.$store.state.Formulacion.fuenteEspecificas"
+      :items="this.$store.state.Formulacion.organismos"
       :columns="columns"
       columnFilter
       tableFilter
@@ -67,8 +67,6 @@
   <script>
   
   import { CSmartTable } from '@coreui/vue-pro'
-import { mount } from '@vue/test-utils'
-import { onMounted } from 'vue'
     export default {
       components: {
         CSmartTable
@@ -76,10 +74,11 @@ import { onMounted } from 'vue'
       data: () => {
         return {
           columns: [
-            { key: 'id', label:'ID', _style: { width: '40%'} },
-            { key: 'fuente', label:'Fuente', _style: { width: '40%'} },
-            { key: 'codigo', label:'Código', filter: false, sorter: false, _style: { width: '20%'} },
-            { key: 'denominacion',label:'Denominación',  _style: { width: '20%'} },
+          { key: 'id', label:'ID', _style: { width: '40%'} },
+          { key: 'grupo', label:'Grupo', _style: { width: '40%'} },
+          { key: 'subgrupo', label:'Subgrupo', _style: { width: '20%'} },
+          { key: 'orgafin', label:'Organismo Financiero', filter: false, sorter: false, _style: { width: '20%'} },
+            { key: 'denominacion', label:'Denominación', _style: { width: '40%'} },
             {
               key: 'show_details',
               label: '',
@@ -90,7 +89,7 @@ import { onMounted } from 'vue'
             }
           ],
           details: [],
-      
+         
         }
       },
       methods: {
@@ -104,7 +103,7 @@ import { onMounted } from 'vue'
           }
         },
         IngresoReport() {
-      window.open(`http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fReporte_FP%2fRep_Fuente_Financiamiento&rs:Command=Render`, '_blank').focus();
+      window.open(`http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fReporte_FP%2fRep_Fuente_Organismo_Financiador&rs:Command=Render`, '_blank').focus();
     },
         toggleDetails (item) {
           if (this.details.includes(item._id)) {
@@ -115,7 +114,7 @@ import { onMounted } from 'vue'
         }
       },
       mounted(){
-        this.$store.dispatch('Formulacion/getFuenteEspecifica');
+        this.$store.dispatch('Formulacion/getOrganismos');
       }
     }
   </script>

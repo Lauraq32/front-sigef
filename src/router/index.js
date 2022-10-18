@@ -5,14 +5,15 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import DefaultLayout from '@/layouts/DefaultLayout'
 
 //prueba router
-import testModuleRouter from "../modules/financiero/FormulacionModule/router";
-import AdministrativoModule from "../modules/administrativo/Usuario/router";
-import RRHHModule from "../modules/rrhh/RegistroPersonal/router";
-import EjecucionModule from "../modules/financiero/EjecucionModule/router";
-import ActivoFijoModule from "../modules/financiero/ActivoFijoModule/router";
-import NominaModule from "../modules/financiero/NominaModule/router";
-import ContabilidadModule from "../modules/financiero/ContabilidadModule/router"
-
+import testModuleRouter from '../modules/financiero/FormulacionModule/router'
+import AdministrativoModule from '../modules/administrativo/Usuario/router'
+import RRHHModule from '../modules/rrhh/RegistroPersonal/router'
+import EjecucionModule from '../modules/financiero/EjecucionModule/router'
+import ActivoFijoModule from '../modules/financiero/ActivoFijoModule/router'
+import NominaModule from '../modules/financiero/NominaModule/router'
+import ContabilidadModule from '../modules/financiero/ContabilidadModule/router'
+import ConciliacionBancaria from '../modules/financiero/ConciliacionBancaria/router'
+import CuentasPorPagarModule from '../modules/financiero/CuentasPorPagarModule/router'
 
 const routes = [
   {
@@ -63,39 +64,50 @@ const routes = [
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () =>
-          import(/* webpackChunkName: "dashboard" */ '@/views/Administrativo.vue'),
+          import(
+            /* webpackChunkName: "dashboard" */ '@/views/Administrativo.vue'
+          ),
       },
 
       {
-        path:'/FinancieroModule',
-        ...testModuleRouter
+        path: '/FinancieroModule',
+        ...testModuleRouter,
       },
       {
-        path:'/Ejecucion',
-        ...EjecucionModule
+        path: '/Ejecucion',
+        ...EjecucionModule,
       },
-     
+
       {
-        path:'/AdministrativoModule',
-        ...AdministrativoModule
-      },
-      {
-        path:'/RRHHModule',
-        ...RRHHModule
+        path: '/AdministrativoModule',
+        ...AdministrativoModule,
       },
       {
-        path:'/ActivoFijoModule',
-        ...ActivoFijoModule
+        path: '/RRHHModule',
+        ...RRHHModule,
       },
       {
-        path:'/NominaModule',
-        ...NominaModule
+        path: '/ActivoFijoModule',
+        ...ActivoFijoModule,
+      },
+      {
+        path: '/NominaModule',
+        ...NominaModule,
       },
       {
         path: '/ContabilidadModule',
-        ...ContabilidadModule
+        ...ContabilidadModule,
       },
-      
+
+      {
+        path: '/ConciliacionBancaria',
+        ...ConciliacionBancaria,
+      },
+
+      {
+        path: '/CuentasPorPagarModule',
+        ...CuentasPorPagarModule
+      },
       {
         path: '/theme',
         name: 'Theme',

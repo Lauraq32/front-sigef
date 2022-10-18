@@ -1,11 +1,18 @@
 <template>
-  <h3 class="text-center">Áreas de ubicación</h3>
+  <h3 class="text-center">Fuentes Financiamiento</h3>
+  <hr>
+  <div>
+    <div class="d-inline p-2">
+      <CButton style="font-weight: bold;" color="info" @click="IngresoReport">Imprimir</CButton>
+    </div>
+  </div>
+  <hr />
   <CSmartTable clickableRows :tableProps="{
     striped: false,
     hover: true,
   }" :tableHeadProps="{
-      
-    }" :activePage="1" footer header :items="this.$store.state.Formulacion.clasificadores" :columns="columns"
+        
+      }" :activePage="1" footer header :items="this.$store.state.Formulacion.fuentesFianciamiento" :columns="columns"
     columnFilter tableFilter cleaner itemsPerPageSelect :itemsPerPage="5" columnSorter
     :sorterValue="{ column: 'status', state: 'asc' }" pagination>
     <template #status="{item}">
@@ -41,6 +48,7 @@
 <script>
 
 import { CSmartTable } from '@coreui/vue-pro'
+import { onMounted } from 'vue'
 export default {
   components: {
     CSmartTable
@@ -48,8 +56,13 @@ export default {
   data: () => {
     return {
       columns: [
-        { key: 'Codigo', label: 'Codigo' },
-        { key: 'Descripcion', label: 'Descripcion' },
+        { key: 'id', label: 'ID', _style: { width: '40%' } },
+        { key: 'codigo', label: 'Código', _style: { width: '40%' } },
+        { key: 'fuente', label: 'Fuente', filter: false, sorter: false, _style: { width: '20%' } },
+        { key: 'fondo', label: 'Fondo', _style: { width: '20%' } },
+        { key: 'origen', label: 'Origne', _style: { width: '20%' } },
+        { key: 'denominacion', label: 'Denominación', _style: { width: '40%' } },
+        { key: 'grupo', label: 'Grupo', _style: { width: '40%' } },
         {
           key: 'show_details',
           label: '',
@@ -60,8 +73,7 @@ export default {
         }
       ],
       details: [],
-      items: [
-      ],
+
     }
   },
   methods: {
@@ -74,11 +86,8 @@ export default {
         default: 'primary'
       }
     },
-    IngresoReportClsIng() {
-      window.open(`http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fReporte_FP%2fRep_Clasificadores_Ingreso&rs:Command=Render`, '_blank').focus();
-    },
-    IngresoReportClsGas() {
-      window.open(`http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fReporte_FP%2fRep_Clasificadores_Gasto&rs:Command=Render`, '_blank').focus();
+    IngresoReport() {
+      window.open(`http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fReporte_FP%2fRep_Fuente_Especifica&rs:Command=Render`, '_blank').focus();
     },
     toggleDetails(item) {
       if (this.details.includes(item._id)) {
@@ -88,11 +97,8 @@ export default {
       this.details.push(item._id)
     }
   },
-  computed: {
-
-  },
   mounted() {
-    //this.$store.dispatch('Formulacion/getClasificadores');
+    this.$store.dispatch('Formulacion/getListarFuentesFinanciamiento');
   }
 }
 </script>

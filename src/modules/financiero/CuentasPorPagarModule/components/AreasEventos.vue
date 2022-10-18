@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Áreas de ubicación</h3>
+  <h3 class="text-center">Categorias</h3>
   <CSmartTable clickableRows :tableProps="{
     striped: false,
     hover: true,
@@ -50,6 +50,11 @@ export default {
       columns: [
         { key: 'Codigo', label: 'Codigo' },
         { key: 'Descripcion', label: 'Descripcion' },
+        { key: 'Cuenta Gasto', label: 'Cuenta Gasto' },
+        { key: 'Monto', label: 'Monto' },
+        { key: 'Acumulado', label: 'Acumulado' },
+        { key: 'Corto', label: 'Corto', _style: { width: '20%' } },
+        { key: 'Despreciable', label: 'Despreciable' },
         {
           key: 'show_details',
           label: '',

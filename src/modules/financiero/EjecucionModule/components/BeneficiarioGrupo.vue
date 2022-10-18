@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Beneficiario</h3>
+  <h3 class="text-center">Beneficiario por grupo</h3>
   <hr />
   <div>
     <div class="d-inline p-2">
