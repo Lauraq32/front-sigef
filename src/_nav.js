@@ -547,8 +547,62 @@ export default [
       {
         component: 'CNavItem',
         name: 'Cuentas por pagar',
-        to: '/',
+        to: '/CuentasPorPagarModule',
         icon: 'cilNotes',
+        items:[
+          {
+            component:'CNavTitle',
+            name:'Maestras'
+          },
+          {
+            component: 'CNavItem',
+            name: 'Suplidores',
+            to: '/CuentasPorPagarModule/suplidores',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Áreas/Eventos',
+            to: '/CuentasPorPagarModule/areasEventos',
+            icon: 'cilList',
+          },
+          {
+            component:'CNavTitle',
+            name:'Procesos'
+          },
+          {
+            component: 'CNavItem',
+            name: 'Documentos por pagar',
+            to: '/CuentasPorPagarModule/documentosPorPagar',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Documentos de crédito',
+            to: '/CuentasPorPagarModule/documentosDeCredito',
+            icon: 'cilList',
+          },
+          {
+            component:'CNavTitle',
+            name:'Consultas'
+          },
+          {
+            component:'CNavTitle',
+            name:'Reportes'
+          },
+          {
+            component: 'CNavItem',
+            name: 'General',
+            to: '/CuentasPorPagarModule/general',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Condensado',
+            to: '/CuentasPorPagarModule/condensado',
+            icon: 'cilList',
+          },
+        ]
       },
       {
         component: 'CNavItem',
