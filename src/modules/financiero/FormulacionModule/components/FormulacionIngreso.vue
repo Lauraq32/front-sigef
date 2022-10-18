@@ -101,10 +101,12 @@
               v-model="postIngreso.CLASIFICA"
               id="validationCustom01"
               required
+              on:keyup.native.enter="getClasificador"
             />
             <button
               class="btn btn-primary btn-block mt-1"
               v-on:click="getClasificador"
+              
             >
               Buscar
             </button>
@@ -180,6 +182,9 @@
               v-model="postIngreso.ANO_ANT"
               id="validationCustom04"
               type="number"
+              ref="anoAnteriorRef"
+        
+             
             >
             </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
@@ -227,7 +232,8 @@
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
-import { mapActions, mapState } from 'vuex'
+import { ref } from 'vue'
+import { mapActions, mapGetters, mapState } from 'vuex'
 
 
 export default {
@@ -316,7 +322,7 @@ export default {
       this.postIngreso.ALAFECHA = parseInt(this.postIngreso.ALAFECHA)
       this.postIngreso.PRES_FORM = parseInt(this.postIngreso.PRES_FORM)
       this.$store.dispatch('Formulacion/PostIngreso', this.postIngreso);
-      this.lgDemo=false
+      this.lgDemo=true
       this.$store.dispatch('Formulacion/getListarIngresos');
       this.postIngreso = {
         Ano: parseInt(localStorage.getItem('ano')),
@@ -339,13 +345,19 @@ export default {
       this.validatedCustom01 = false
     },
     getClasificador() {
+      
       this.$store.dispatch('Formulacion/getClasificador',this.postIngreso.CLASIFICA)
       this.postIngreso.CONTROL = this.$store.state.Formulacion.clasificador.ccontrol
       this.postIngreso.DETALLE = this.$store.state.Formulacion.clasificador.nombre
       this.postIngreso.FUENTE = this.$store.state.Formulacion.clasificador.iDENTIFICADORdUENTE
       this.postIngreso.F_ESPECIFIC = this.$store.state.Formulacion.clasificador.iDENTIFICADORfUENTEeSPECIFICA
       this.postIngreso.ORGA_FIN = this.$store.state.Formulacion.clasificador.identificadorornfin
+      //this.focusAno();
+      
 
+    },
+    focusAno(){
+      this.$refs.anoAnteriorRef.focus()
     },
     handleSubmitCustom01(event) {
       const form = event.currentTarget
@@ -385,7 +397,8 @@ export default {
     ...mapActions('Formulacion', ['getListarIngresos'])
   },
   computed:{
-    ...mapState( 'Formulacion', ['ingresos'])
+    ...mapState( 'Formulacion', ['ingresos']),
+   
   },
   // mounted(){
   //     this.$store.dispatch('Formulacion/getListarIngresos');
