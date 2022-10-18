@@ -510,7 +510,7 @@ export default [
           {
             component: 'CNavItem',
             name: 'Cheques (cuenta activa)',
-            to: 'ConciliacionBancaria/Cheques',
+            to: '/ConciliacionBancaria/Cheques',
             icon: 'cilList',
           },
           {
