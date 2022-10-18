@@ -5,6 +5,7 @@ import myCustomModule from '@/store/module-template'
 import RRHHModule from '@/modules/rrhh/RegistroPersonal/store/RegistroPersonal'
 import EjecucionModule from '@/modules/financiero/EjecucionModule/store/module-template'
 import CCBancaria from '@/modules/financiero/ConciliacionBancaria/store/CCBancaria'
+import FacturacionCobros from '@/modules/financiero/FacturacionCobrosModule/store/FacturacionCobros'
 
 export default createStore({
   state: {
@@ -30,5 +31,6 @@ export default createStore({
     RRHHModule,
     EjecucionModule,
     CCBancaria,
+    FacturacionCobros,
   },
 })

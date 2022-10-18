@@ -13,6 +13,7 @@ import ActivoFijoModule from '../modules/financiero/ActivoFijoModule/router'
 import NominaModule from '../modules/financiero/NominaModule/router'
 import ContabilidadModule from '../modules/financiero/ContabilidadModule/router'
 import ConciliacionBancaria from '../modules/financiero/ConciliacionBancaria/router'
+import FacturacionCobrosModule from '../modules/financiero/FacturacionCobrosModule/router'
 
 const routes = [
   {
@@ -101,6 +102,11 @@ const routes = [
       {
         path: '/ConciliacionBancaria',
         ...ConciliacionBancaria,
+      },
+
+      {
+        path: '/FacturacionCobrosModule',
+        ...FacturacionCobrosModule,
       },
 
       {

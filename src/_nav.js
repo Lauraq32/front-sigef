@@ -544,6 +544,101 @@ export default [
           },
         ],
       },
+
+      {
+        component: 'CNavItem',
+        name: 'Facturacion de cobros',
+        to: '/FacturacionCobrosModule',
+        icon: 'cilBank',
+        items: [
+          {
+            component: 'CNavTitle',
+            name: 'Maestras',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Arbitrios-Impustos-Tazas',
+            to: '/FacturacionCobrosModule/Arbitrios-Impuestos-Tazas',
+            icon: 'cilList',
+          },
+
+          {
+            component: 'CNavItem',
+            name: 'Uso de suelo',
+            to: '/FacturacionCobrosModule/usoSuelo',
+            icon: 'cilList',
+          },
+
+          {
+            component: 'CNavItem',
+            name: 'Sectores-Barrios-Calles',
+            to: '/FacturacionCobrosModule/Sectores',
+            icon: 'cilList',
+          },
+
+          {
+            component: 'CNavItem',
+            name: 'Contribuyentes',
+            to: '/FacturacionCobrosModule/Contribuyentes',
+            icon: 'cilList',
+          },
+
+          {
+            component: 'CNavTitle',
+            name: 'Procesos',
+          },
+
+          {
+            component: 'CNavItem',
+            name: 'Facturación manual',
+            to: '/FacturacionCobrosModule/FacturacionManual',
+            icon: 'cilList',
+          },
+
+          {
+            component: 'CNavItem',
+            name: 'Facturación por lote',
+            to: '/FacturacionCobrosModule/FacturacionPorLotes',
+            icon: 'cilList',
+          },
+
+          {
+            component: 'CNavItem',
+            name: 'Recibos de ingresos',
+            to: '/FacturacionCobrosModule/RecibosDeIngresos',
+            icon: 'cilList',
+          },
+
+          {
+            component: 'CNavItem',
+            name: 'Notas de crédito',
+            to: '/FacturacionCobrosModule/NotasDeCredito',
+            icon: 'cilList',
+          },
+
+          {
+            component: 'CNavItem',
+            name: 'Notas de débito',
+            to: '/FacturacionCobrosModule/NotasDeDebito',
+            icon: 'cilList',
+          },
+
+          {
+            component: 'CNavTitle',
+            name: 'Consultas',
+          },
+
+          {
+            component: 'CNavItem',
+            name: 'Facturas por lote',
+            to: '/FacturacionCobrosModule/FacturasPorLote',
+            icon: 'cilList',
+          },
+
+        ]
+        },
+
+
       {
         component: 'CNavItem',
         name: 'Cuentas por pagar',
