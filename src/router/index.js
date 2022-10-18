@@ -13,6 +13,8 @@ import ActivoFijoModule from '../modules/financiero/ActivoFijoModule/router'
 import NominaModule from '../modules/financiero/NominaModule/router'
 import ContabilidadModule from '../modules/financiero/ContabilidadModule/router'
 import ConciliacionBancaria from '../modules/financiero/ConciliacionBancaria/router'
+import FacturacionCobrosModule from '../modules/financiero/FacturacionCobrosModule/router'
+import CuentasPorPagarModule from '../modules/financiero/CuentasPorPagarModule/router'
 
 const routes = [
   {
@@ -103,6 +105,14 @@ const routes = [
         ...ConciliacionBancaria,
       },
 
+      {
+        path: '/FacturacionCobrosModule',
+        ...FacturacionCobrosModule,
+      },
+      {
+        path: '/CuentasPorPagarModule',
+        ...CuentasPorPagarModule
+      },
       {
         path: '/theme',
         name: 'Theme',

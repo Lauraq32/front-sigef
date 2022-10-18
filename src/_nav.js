@@ -544,11 +544,160 @@ export default [
           },
         ],
       },
+
+      {
+        component: 'CNavItem',
+        name: 'Facturacion de cobros',
+        to: '/FacturacionCobrosModule',
+        icon: 'cilBank',
+        items: [
+          {
+            component: 'CNavTitle',
+            name: 'Maestras',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Arbitrios-Impustos-Tazas',
+            to: '/FacturacionCobrosModule/Arbitrios-Impuestos-Tazas',
+            icon: 'cilList',
+          },
+
+          {
+            component: 'CNavItem',
+            name: 'Uso de suelo',
+            to: '/FacturacionCobrosModule/usoSuelo',
+            icon: 'cilList',
+          },
+
+          {
+            component: 'CNavItem',
+            name: 'Sectores-Barrios-Calles',
+            to: '/FacturacionCobrosModule/Sectores',
+            icon: 'cilList',
+          },
+
+          {
+            component: 'CNavItem',
+            name: 'Contribuyentes',
+            to: '/FacturacionCobrosModule/Contribuyentes',
+            icon: 'cilList',
+          },
+
+          {
+            component: 'CNavTitle',
+            name: 'Procesos',
+          },
+
+          {
+            component: 'CNavItem',
+            name: 'Facturación manual',
+            to: '/FacturacionCobrosModule/FacturacionManual',
+            icon: 'cilList',
+          },
+
+          {
+            component: 'CNavItem',
+            name: 'Facturación por lote',
+            to: '/FacturacionCobrosModule/FacturacionPorLotes',
+            icon: 'cilList',
+          },
+
+          {
+            component: 'CNavItem',
+            name: 'Recibos de ingresos',
+            to: '/FacturacionCobrosModule/RecibosDeIngresos',
+            icon: 'cilList',
+          },
+
+          {
+            component: 'CNavItem',
+            name: 'Notas de crédito',
+            to: '/FacturacionCobrosModule/NotasDeCredito',
+            icon: 'cilList',
+          },
+
+          {
+            component: 'CNavItem',
+            name: 'Notas de débito',
+            to: '/FacturacionCobrosModule/NotasDeDebito',
+            icon: 'cilList',
+          },
+
+          {
+            component: 'CNavTitle',
+            name: 'Consultas',
+          },
+
+          {
+            component: 'CNavItem',
+            name: 'Facturas por lote',
+            to: '/FacturacionCobrosModule/FacturasPorLote',
+            icon: 'cilList',
+          },
+
+        ]
+        },
+
+
       {
         component: 'CNavItem',
         name: 'Cuentas por pagar',
-        to: '/',
+        to: '/CuentasPorPagarModule',
         icon: 'cilNotes',
+        items:[
+          {
+            component:'CNavTitle',
+            name:'Maestras'
+          },
+          {
+            component: 'CNavItem',
+            name: 'Suplidores',
+            to: '/CuentasPorPagarModule/suplidores',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Áreas/Eventos',
+            to: '/CuentasPorPagarModule/areasEventos',
+            icon: 'cilList',
+          },
+          {
+            component:'CNavTitle',
+            name:'Procesos'
+          },
+          {
+            component: 'CNavItem',
+            name: 'Documentos por pagar',
+            to: '/CuentasPorPagarModule/documentosPorPagar',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Documentos de crédito',
+            to: '/CuentasPorPagarModule/documentosDeCredito',
+            icon: 'cilList',
+          },
+          {
+            component:'CNavTitle',
+            name:'Consultas'
+          },
+          {
+            component:'CNavTitle',
+            name:'Reportes'
+          },
+          {
+            component: 'CNavItem',
+            name: 'General',
+            to: '/CuentasPorPagarModule/general',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Condensado',
+            to: '/CuentasPorPagarModule/condensado',
+            icon: 'cilList',
+          },
+        ]
       },
       {
         component: 'CNavItem',

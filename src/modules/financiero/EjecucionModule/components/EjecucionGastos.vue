@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Ejecucion de ingresos</h3>
+  <h3 class="text-center">Ejecución de ingresos</h3>
   <hr />
   <div>
     <div class="d-inline p-2">
