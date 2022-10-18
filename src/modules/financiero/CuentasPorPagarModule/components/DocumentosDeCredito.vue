@@ -178,10 +178,14 @@ export default {
       validatedCustom01: null,
       lgDemo: false,
       columns: [
-        { key: 'Año fiscal', label: 'Año fiscal', _style: { width: '40%' } },
-        { key: 'Desde', label: 'Desde', _style: { width: '40%' } },
-        { key: 'Hasta', label: 'Hasta', _style: { width: '40%' } },
-        { key: 'Estatus', label: 'Estatus', _style: { width: '40%' } },
+      { key: 'null', label: 'Secuencia', },
+        { key: 'null', label: 'Documento',  },
+        { key: 'null', label: 'Fecha', },
+        { key: 'null', label: 'Tipo',},
+        { key: 'null', label: 'Suplidor', },
+        { key: 'null', label: 'Comprobante fiscal', },
+        { key: 'null', label: 'Valor docto.',},
+        { key: 'null', label: 'Origen',  },
         {
           key: 'show_details',
           label: '',
