@@ -7,3 +7,6 @@ export const getEstructurasProgramaticas = (state) => {
 export const listarEstructuras = (state) => {
   return state.estructuras
 }
+export const clasificadorGet = (state) => {
+  return state.clasificador
+}
