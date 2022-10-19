@@ -15,6 +15,10 @@ class FormulacionApi {
   createIngreso(data) {
     return http.post("/api/Ingreso/guardarPresIngreso", data);
   }
+
+  getTotalIngresos(id_ayuntamiento,ano_fiscal){
+    return http.get(`/ingresoslista/ListarIngresosTotalizado/?ano=${ano_fiscal}&id=${id_ayuntamiento}`)
+  }
   
 
   //Obtener clasificador especifico
