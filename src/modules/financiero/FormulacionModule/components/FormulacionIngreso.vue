@@ -242,6 +242,7 @@ import  Api  from '../services/FormulacionServices'
 import { mapActions, mapGetters, mapState } from 'vuex'
 import axios from "axios";
 
+import { PostIngreso } from '../store/Formulacion/actions'
 
 export default {
   components: {
@@ -363,11 +364,19 @@ export default {
     getClasificador() {
       
       this.$store.dispatch('Formulacion/getClasificador',this.postIngreso.CLASIFICA)
-      this.postIngreso.CONTROL = this.$store.state.Formulacion.clasificador.ccontrol
-      this.postIngreso.DETALLE = this.$store.state.Formulacion.clasificador.nombre
-      this.postIngreso.FUENTE = this.$store.state.Formulacion.clasificador.iDENTIFICADORdUENTE
-      this.postIngreso.F_ESPECIFIC = this.$store.state.Formulacion.clasificador.iDENTIFICADORfUENTEeSPECIFICA
-      this.postIngreso.ORGA_FIN = this.$store.state.Formulacion.clasificador.identificadorornfin
+
+
+      Api.getClasificador(this.postIngreso.CLASIFICA).then(response => {
+        console.log(response.data)
+        this.postIngreso.CONTROL = response.data.ccontrol
+      this.postIngreso.DETALLE = response.data.nombre
+      this.postIngreso.FUENTE = response.data.iDENTIFICADORdUENTE
+      this.postIngreso.F_ESPECIFIC = response.data.iDENTIFICADORfUENTEeSPECIFICA
+      this.postIngreso.ORGA_FIN = response.data.identificadorornfin
+    })
+
+
+     
       //this.focusAno();
       
 

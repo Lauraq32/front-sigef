@@ -49,12 +49,7 @@ export default {
     return {
       columns: [
         { key: 'Codigo', label: 'Codigo' },
-        { key: 'Descripcion', label: 'Descripcion' },
-        { key: 'Cuenta Gasto', label: 'Cuenta Gasto' },
-        { key: 'Monto', label: 'Monto' },
-        { key: 'Acumulado', label: 'Acumulado' },
-        { key: 'Corto', label: 'Corto', _style: { width: '20%' } },
-        { key: 'Despreciable', label: 'Despreciable' },
+        { key: 'null', label: 'Área o evento' },
         {
           key: 'show_details',
           label: '',

@@ -49,7 +49,12 @@ export default {
     return {
       columns: [
         { key: 'Codigo', label: 'Codigo' },
-        { key: 'Descripcion', label: 'Descripcion' },
+        { key: 'null', label: 'Beneficiario' },
+        { key: 'null', label: 'Cédula/Pasaporte' },
+        { key: 'null', label: 'Tipo beneficiario' },
+        { key: 'null', label: 'Contacto' },
+        { key: 'null', label: 'Télefono #1' },
+        { key: 'null', label: 'Télefono #2' },
         {
           key: 'show_details',
           label: '',
