@@ -9,6 +9,7 @@
       </CHeaderBrand>
       <CHeaderNav class="d-none d-md-flex me-auto">
         <CNavItem >
+          <h2 >{{ayuntamiento}}</h2>
           <CNavLink href="#"></CNavLink>
         </CNavItem>
         <CNavItem style="
@@ -64,8 +65,15 @@ export default {
     AppHeaderDropdownAccnt,
   },
   setup() {
+
+    const ayuntamiento = localStorage.getItem("nombre_ayuntamiento")
+    const NoHallado = (ayuntamiento) =>{
+      if(ayuntamiento === 'null') return 'No encontrado'
+    }
     return {
       logo,
+      ayuntamiento,
+      NoHallado
     }
   },
 }

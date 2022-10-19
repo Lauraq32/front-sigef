@@ -13,8 +13,15 @@ export const SET_USER = (state, user) => {
         localStorage.setItem('ano', response.data.anofiscal)
         localStorage.setItem('id_Ayuntamiento', response.data.id_Ayuntamiento)
 
+
+        if (response.data.ayuntamiento != null) {
+            router.push({ name: 'financiero' })
+      
+          }else{
+              alert("Usuario incorrecto")
+          }
     })
-    router.push({ name: 'financiero' })
+    // router.push({ name: 'financiero' })
 
 }
 
