@@ -454,7 +454,7 @@ export default [
             component: 'CNavItem',
             name: 'Cuentas de bancos ',
             to: '/ConciliacionBancaria/CuentasDebanco',
-            icon: 'cilList',
+            icon: 'cilBalanceScale',
           },
 
           {
@@ -465,43 +465,43 @@ export default [
             component: 'CNavItem',
             name: 'Cheques (cuenta activa)',
             to: '/ConciliacionBancaria/Cheques',
-            icon: 'cilList',
+            icon: 'cilCalculator',
           },
           {
             component: 'CNavItem',
             name: 'Depósitos',
             to: '/ConciliacionBancaria/Depositos',
-            icon: 'cilList',
+            icon: 'cilBasketPlus',
           },
           {
             component: 'CNavItem',
             name: 'Notas de crédito',
             to: '/ConciliacionBancaria/NotasCredito',
-            icon: 'cilList',
+            icon: 'cilBarChart',
           },
           {
             component: 'CNavItem',
             name: 'Notas de débito',
             to: '/ConciliacionBancaria/NotasDebito',
-            icon: 'cilList',
+            icon: 'cilBarChart',
           },
           {
             component: 'CNavItem',
             name: 'Importar estados bancarios',
             to: '/ConciliacionBancaria/ImportarEstadosBancarios',
-            icon: 'cilList',
+            icon: 'cilBriefcase',
           },
           {
             component: 'CNavItem',
             name: 'Conciliación bancaria',
             to: '/ConciliacionBancaria/ConciliacionBancaria',
-            icon: 'cilList',
+            icon: 'cilDonate',
           },
           {
             component: 'CNavItem',
             name: 'Cortar cheques estados financieros',
             to: '/ConciliacionBancaria/CortarChequesBancarios',
-            icon: 'cilList',
+            icon: 'cilDollarSlash',
           },
           {
             component: 'CNavTitle',
@@ -511,26 +511,26 @@ export default [
             component: 'CNavItem',
             name: 'Cheques (cuenta activa)',
             to: '/ConciliacionBancaria/Cheques',
-            icon: 'cilList',
+            icon: 'cilCalculator',
           },
           {
             component: 'CNavItem',
             name: 'Depósitos',
             to: '/ConciliacionBancaria/Depositos',
-            icon: 'cilList',
+            icon: 'cilBasketPlus',
           },
           {
             component: 'CNavItem',
             name: 'Notas de crédito',
             to: '/ConciliacionBancaria/NotasCredito',
-            icon: 'cilList',
+            icon: 'cilBarChart',
           },
 
           {
             component: 'CNavItem',
             name: 'Notas de débito',
             to: '/ConciliacionBancaria/NotasDebito',
-            icon: 'cilList',
+            icon: 'cilBarChart',
           },
 
           {
@@ -547,9 +547,9 @@ export default [
 
       {
         component: 'CNavItem',
-        name: 'Facturacion de cobros',
+        name: 'Facturación y cobros',
         to: '/FacturacionCobrosModule',
-        icon: 'cilBank',
+        icon: 'cilCreditCard',
         items: [
           {
             component: 'CNavTitle',
@@ -559,28 +559,28 @@ export default [
             component: 'CNavItem',
             name: 'Arbitrios-Impustos-Tazas',
             to: '/FacturacionCobrosModule/Arbitrios-Impuestos-Tazas',
-            icon: 'cilList',
+            icon: 'cilNotes',
           },
 
           {
             component: 'CNavItem',
             name: 'Uso de suelo',
             to: '/FacturacionCobrosModule/usoSuelo',
-            icon: 'cilList',
+            icon: 'cilCompass',
           },
 
           {
             component: 'CNavItem',
             name: 'Sectores-Barrios-Calles',
             to: '/FacturacionCobrosModule/Sectores',
-            icon: 'cilList',
+            icon: 'cilLocationPin',
           },
 
           {
             component: 'CNavItem',
             name: 'Contribuyentes',
             to: '/FacturacionCobrosModule/Contribuyentes',
-            icon: 'cilList',
+            icon: 'cilGlobeAlt',
           },
 
           {
@@ -592,21 +592,21 @@ export default [
             component: 'CNavItem',
             name: 'Facturación manual',
             to: '/FacturacionCobrosModule/FacturacionManual',
-            icon: 'cilList',
+            icon: 'cilNoteAdd',
           },
 
           {
             component: 'CNavItem',
             name: 'Facturación por lote',
             to: '/FacturacionCobrosModule/FacturacionPorLotes',
-            icon: 'cilList',
+            icon: 'cilCity',
           },
 
           {
             component: 'CNavItem',
             name: 'Recibos de ingresos',
             to: '/FacturacionCobrosModule/RecibosDeIngresos',
-            icon: 'cilList',
+            icon: 'cilDonate',
           },
 
           {
@@ -698,12 +698,6 @@ export default [
             icon: 'cilList',
           },
         ]
-      },
-      {
-        component: 'CNavItem',
-        name: 'Facturación y Cobros',
-        to: '/',
-        icon: 'cilCreditCard',
       },
     ],
   },

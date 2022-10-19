@@ -75,6 +75,11 @@
       </CCollapse>
     </template>
   </CSmartTable>
+  <div class="font-weight-normal" style="font-weight: 100 !important; margin-top: -3%; float:left;">
+    Total Fecha: <span style="font-weight: 500 !important;">{{ formatPrice(formulado.alafecha) }}</span>
+    Total Año anterior: <span style="font-weight: 500 !important;">{{ formatPrice(formulado.anO_ANT) }}</span>
+    Total Formulado: <span style="font-weight: 500 !important;">{{ formatPrice(formulado.preS_FORM) }}</span>
+  </div>
   <CModal
     size="lg"
     :visible="lgDemo"
@@ -233,7 +238,9 @@
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { ref } from 'vue'
+import  Api  from '../services/FormulacionServices'
 import { mapActions, mapGetters, mapState } from 'vuex'
+import axios from "axios";
 
 
 export default {
@@ -243,6 +250,11 @@ export default {
   },
   data: () => {
     return {
+      formulado: {
+        alafecha: 0,
+        anO_ANT: 0,
+        preS_FORM: 0,
+      },
       postIngreso: {
         Ano: parseInt(localStorage.getItem('ano')),
         id_ayuntamiento: parseInt(localStorage.getItem('id_Ayuntamiento')),
@@ -317,6 +329,10 @@ export default {
     }
   },
   methods: {
+    formatPrice(value) {
+      let val = (value / 1).toFixed(2).replace('.', '.')
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    },
     submitForm() {
       this.postIngreso.ANO_ANT = parseInt(this.postIngreso.ANO_ANT)
       this.postIngreso.ALAFECHA = parseInt(this.postIngreso.ALAFECHA)
@@ -355,6 +371,15 @@ export default {
       //this.focusAno();
       
 
+    },
+    getTotal() {
+      axios
+      Api.getTotalIngresos(localStorage.getItem('id_ayuntamiento'), localStorage.getItem('ano'))
+        .then(response => {
+          this.formulado.alafecha = response.data.alafecha
+          this.formulado.anO_ANT = response.data.anO_ANT
+          this.formulado.preS_FORM = response.data.preS_FORM
+        })
     },
     focusAno(){
       this.$refs.anoAnteriorRef.focus()
@@ -406,6 +431,7 @@ export default {
     created(){
       this.getListarIngresos(localStorage.getItem('id_Ayuntamiento'),localStorage.getItem('ano')),
       console.log(this.ingresos);
+      this.getTotal();
     }
 }
 </script>

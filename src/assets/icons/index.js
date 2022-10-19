@@ -110,12 +110,30 @@ import {
   cilIdCard,
   cilChalkboardTeacher,
   cilIdBadge,
-  cilAddressBook
+  cilAddressBook,
+  cilBasketPlus,
+  cilBalanceScale,
+  cilBarChart,
+  cilBriefcase,
+  cilDonate,
+  cilDollarSlash,
+  cilCompass,
+  cilNoteAdd,
+  cilCity
 } from '@coreui/icons-pro'
 
 export const iconsSet = Object.assign(
   {},
   {
+    cilCity,
+    cilNoteAdd,
+    cilCompass,
+    cilDollarSlash,
+    cilDonate,
+    cilBriefcase,
+    cilBarChart,
+    cilBalanceScale,
+    cilBasketPlus,
     cilAddressBook,
     cilIdBadge,
   cilChalkboardTeacher,
