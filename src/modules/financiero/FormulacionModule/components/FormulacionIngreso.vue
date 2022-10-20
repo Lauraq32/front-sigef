@@ -110,20 +110,20 @@
           </CCol>
           <hr />
           <CCol :md="4">
-            <CFormLabel for="validationCustom04">Año Anterior</CFormLabel>
+            <CFormLabel>Año Anterior</CFormLabel>
             <CFormInput v-model="postIngreso.ANO_ANT"  type="number" step="any" ref="anoAnteriorRef">
             </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
-            <CFormLabel for="validationCustom04">A la Fecha</CFormLabel>
+            <CFormLabel>A la Fecha</CFormLabel>
             <CFormInput v-model="postIngreso.ALAFECHA"  type="number" step="any"></CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
-            <CFormLabel for="validationCustom04">Presupuesto Formulado</CFormLabel>
+            <CFormLabel>Presupuesto Formulado</CFormLabel>
             <CFormInput v-model="postIngreso.PRES_FORM"  type="number" step="any"></CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -246,9 +246,9 @@ export default {
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     },
     submitForm() {
-      this.postIngreso.ANO_ANT = parseInt(this.postIngreso.ANO_ANT)
-      this.postIngreso.ALAFECHA = parseInt(this.postIngreso.ALAFECHA)
-      this.postIngreso.PRES_FORM = parseInt(this.postIngreso.PRES_FORM)
+      this.postIngreso.ANO_ANT = parseFloat(this.postIngreso.ANO_ANT)
+      this.postIngreso.ALAFECHA = parseFloat(this.postIngreso.ALAFECHA)
+      this.postIngreso.PRES_FORM = parseFloat(this.postIngreso.PRES_FORM)
       this.$store.dispatch('Formulacion/PostIngreso', this.postIngreso);
       this.lgDemo = true
       this.$store.dispatch('Formulacion/getListarIngresos');
