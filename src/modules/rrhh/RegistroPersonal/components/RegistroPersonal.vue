@@ -210,6 +210,7 @@
     </CModalBody>
   </CModal>
 </template>
+
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
@@ -222,6 +223,7 @@ import { getCurrentInstance } from 'vue'
 
 export default {
   components: { CSmartTable },
+
   setup() {
   
 
@@ -321,127 +323,6 @@ export default {
     }
   },
 }
-
 </script>
-<!-- <script>
-import { CSmartTable } from '@coreui/vue-pro'
-import { CModal } from '@coreui/vue'
-//import store from '@/store'
-import {useRegistroStore} from '../store/RegistroPersonal/piniaTest'
-import { mapStores } from 'pinia'
-
-const useEmpleadoStore = useRegistroStore('main', {
-  // ...
-})
 
 
-export default {
-  components: {
-    CSmartTable,
-    CModal,
-  },
-  data: () => {
-    return {
-      prueba:store.state.RRHHModule.registroPersonal,
-      postPersonal: {
-        Apellido: 'JIMENEZ CORDERO',
-        Nombre: 'EDWING FRANCISCO',
-        Cédula: '001-0004972-5',
-        Código: '377',
-        Programa: '16-DIR. DE CAP. Y FORM',
-        Direccion: '',
-        Cargo: '',
-        FechaIngreso: '01/01/1999',
-        FechaNacimiento: '28/10/1963',
-        Edad: '58',
-        Sexo: 'MASCULINO',
-        Sueldo: '25,000.00 RD$',
-      },
-      validatedCustom01: null,
-      lgDemo: false,
-      columns: [
-        { key: 'Apellido', label: 'Apellido', _style: { width: '40%' } },
-        { key: 'Nombre', label: 'Nombre', _style: { width: '40%' } },
-        { key: 'Cédula', label: 'Cédula', _style: { width: '40%' } },
-        { key: 'Código', label: 'Código', _style: { width: '40%' } },
-        { key: 'Programa', label: 'Programa', _style: { width: '40%' } },
-        {
-          key: 'Direccion o Dependencia',
-          label: 'Direccion o Dependencia',
-          _style: { width: '40%' },
-        },
-        { key: 'Cargo', label: 'Cargo', _style: { width: '40%' } },
-        {
-          key: 'Fecha de ingreso',
-          label: 'Fecha de ingreso',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'Fecha de nacimiento',
-          label: 'Fecha de nacimiento',
-          _style: { width: '40%' },
-        },
-        { key: 'Edad', label: 'Edad', _style: { width: '40%' } },
-        { key: 'Sexo', label: 'Sexo', _style: { width: '40%' } },
-        { key: 'Sueldo', label: 'Sueldo', _style: { width: '40%' } },
-
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
-        },
-      ],
-      details: [],
-    }
-  },
-  methods: {
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      console.log('hola rp')
-      //this.$store.commit('RRHHModule/POST_PERSONAL',this.postPersonal);
-      this.$store.dispatch('RRHHModule/setPersonal', this.postPersonal)
-      this.reload()
-      this.validatedCustom01 = true
-    },
-    Guardar() {
-      
-    },
-    reload(){
-      this.prueba = this.$store.state.RRHHModule.registroPersonal;
-    },
-
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
-      }
-      this.details.push(item._id)
-    },
-  },
- 
-  mounted() {
-    // this.$store.dispatch('RRHHModule/setPersonal',this.postPersonal)
-  },
-}
-</script>
