@@ -3,15 +3,7 @@
   <hr />
   <div>
     <div class="d-inline p-2">
-      <CButton
-        color="info"
-        @click="
-          () => {
-            lgDemo = true
-          }
-        "
-        >Agregar</CButton
-      >
+    
     </div>
     <div class="d-inline p-2">
       <CButton style="font-weight: bold" color="info" @click="IngresoReport"
@@ -53,7 +45,7 @@
           variant="outline"
           square
           size="sm"
-          @click="toggleDetails(item, index)"
+          @click="toggleDetails()"
         >
           {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
         </CButton>
@@ -83,15 +75,7 @@
   >
     <CModalHeader>
       <CModalTitle>Formulación gasto</CModalTitle>
-      <CButton
-        color="info"
-        @click="
-          () => {
-            lgDemo1 = true
-          }
-        "
-        >Formulario</CButton
-      >
+      
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -221,7 +205,7 @@
           variant="outline"
           square
           size="sm"
-          @click="toggleDetails(item, index)"
+          @click="toggleDetails1()"
         >
           {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
         </CButton>
@@ -584,11 +568,20 @@ export default {
       }
     },
     toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
-      }
-      this.details.push(item._id)
+      // if (this.details.includes(item._id)) {
+      //   this.details = this.details.filter((_item) => _item !== item._id)
+      //   return
+      // }
+      // this.details.push(item._id)
+      this.lgDemo = true
+    },
+    toggleDetails1(item) {
+      // if (this.details.includes(item._id)) {
+      //   this.details = this.details.filter((_item) => _item !== item._id)
+      //   return
+      // }
+      // this.details.push(item._id)
+      this.lgDemo1 = true
     },
   },
 }
