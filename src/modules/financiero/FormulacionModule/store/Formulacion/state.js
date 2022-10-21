@@ -15399,4 +15399,54 @@ export default () => ({
     identificadorornfin: null,
     nombreorgfin: null,
   },
+
+  formulacionGasto: [
+    {
+      pnap: '00',
+      control: '0001000000',
+      funcion: ' ',
+      numero: '',
+      obra: '0000',
+      presupuesto: '1,650,000.00',
+      programa: '01',
+      proyecto: '00',
+      tipo: 'DETALLE',
+      unidadResponsable: 'Consejo Municipal',
+    },
+
+    {
+      pnap: '11',
+      control: '0011020000',
+      funcion: ' ',
+      numero: '',
+      obra: '0000',
+      presupuesto: '0.00',
+      programa: '01',
+      proyecto: '02',
+      tipo: 'DETALLE',
+      unidadResponsable: 'Contraloria Municipal',
+    },
+  ],
+
+  formulacionGasto2:[
+    {
+      Clasificador:'21',
+      Denominacion:'REMUNERACIONES Y CONTRIBUCIONES',
+      Original:'3,447,789.00',
+      'Gastos Personal':'3,447,789.00',
+      Servicios:'0.00',
+      Inversion:'0.00',
+      'Educ/Genero/Salud':'0.00'
+
+    },
+    {
+      Clasificador:'211',
+      Denominacion:'REMUNERACIONES ',
+      Original:'2,827,500.00',
+      'Gastos Personal':'2,827,500.00',
+      Servicios:'0.00',
+      Inversion:'0.00',
+      'Educ/Genero/Salud':'0.00'
+    },
+  ],
 })

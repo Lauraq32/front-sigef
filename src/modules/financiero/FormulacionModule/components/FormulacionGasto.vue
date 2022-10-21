@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Formulación Gasto</h3>
+  <h3 class="text-center">Formulación gasto</h3>
   <hr />
   <div>
     <div class="d-inline p-2">
@@ -22,7 +22,7 @@
     :activePage="1"
     footer
     header
-    :items="items"
+    :items="this.$store.state.Formulacion.formulacionGasto"
     :columns="columns"
     columnFilter
     tableFilter
@@ -38,7 +38,8 @@
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
-    <template #show_details="{ item, index }">
+    <!-- Borre el , index  dentro del template de abajo -->
+    <template #show_details="{ item}">
       <td class="py-2">
         <CButton
           color="primary"
@@ -74,7 +75,7 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Formulación de captura Estructuras Presupuesto de Gastos</CModalTitle>  
+      <CModalTitle>Formulación de captura estructuras presupuesto de gastos</CModalTitle>  
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -107,7 +108,7 @@
                 aria-describedby="inputGroupPrepend"
                 required
               />
-              <CFormFeedback valid> Exito! </CFormFeedback>
+              <CFormFeedback valid> Éxito! </CFormFeedback>
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </CInputGroup>
           </CCol>
@@ -116,13 +117,13 @@
               >Actividad/Obra</CFormLabel
             >
             <CFormInput  id="validationCustom03" required />
-            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback valid> Éxito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom04">Est. Programática control</CFormLabel>
+            <CFormLabel for="validationCustom04">Est. programática control</CFormLabel>
             <CFormInput  id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback valid> Éxito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
@@ -181,7 +182,7 @@
     :activePage="1"
     footer
     header
-    :items="items2"
+    :items="this.$store.state.Formulacion.formulacionGasto2"
     :columns="columns2"
     columnFilter
     tableFilter
@@ -197,7 +198,8 @@
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
-    <template #show_details="{ item, index }">
+    <!-- Borre el , index  dentro del template de abajo -->
+    <template #show_details="{ item }">
       <td class="py-2">
         <CButton
           color="primary"
@@ -247,7 +249,7 @@
           @submit="handleSubmitCustom01"
         >
           <CCol :md="2">
-            <CFormLabel for="validationCustom01">Codigo</CFormLabel>
+            <CFormLabel for="validationCustom01">Código</CFormLabel>
             <CFormInput id="validationCustom01"  />
 
             <CFormFeedback valid> Exito! </CFormFeedback>
@@ -289,7 +291,7 @@
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom05"
-              >Descripcion</CFormLabel
+              >Descripción</CFormLabel
             >
             <CFormInput  id="validationCustom05" required />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -301,7 +303,7 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
-            <CFormLabel for="validationCustom04">Fte/Especifica</CFormLabel>
+            <CFormLabel for="validationCustom04">Fte/Específica</CFormLabel>
             <CFormInput id="validationCustom04" > </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -349,8 +351,8 @@ export default {
       columns: [
         { key: 'pnap', label: 'pnap', _style: { width: '40%' } },
         { key: 'control', label: 'control', _style: { width: '40%' } },
-        { key: 'funcion', label: 'funcion', _style: { width: '40%' } },
-        { key: 'numero', label: 'numero', _style: { width: '40%' } },
+        { key: 'funcion', label: 'función', _style: { width: '40%' } },
+        { key: 'numero', label: 'número', _style: { width: '40%' } },
         { key: 'obra', label: 'obra', _style: { width: '40%' } },
         { key: 'presupuesto', label: 'presupuesto', _style: { width: '40%' } },
         { key: 'programa', label: 'programa', _style: { width: '40%' } },
@@ -358,7 +360,7 @@ export default {
         { key: 'tipo', label: 'tipo', _style: { width: '40%' } },
         {
           key: 'unidadResponsable',
-          label: 'unidadResponsable',
+          label: 'Unidad responsable',
           _style: { width: '40%' },
         },
         {
@@ -381,11 +383,11 @@ export default {
       ],
       columns2: [
         { key: 'Clasificador', label: 'Clasificador', _style: { width: '40%' } },
-        { key: 'Denominacion', label: 'Denominacion', _style: { width: '40%' } },
+        { key: 'Denominacion', label: 'Denominación', _style: { width: '40%' } },
         { key: 'Original', label: 'Original', _style: { width: '40%' } },
-        { key: 'Gastos Personal', label: 'Gastos Personal', _style: { width: '40%' } },
+        { key: 'Gastos Personal', label: 'Gastos personal', _style: { width: '40%' } },
         { key: 'Servicios', label: 'Servicios', _style: { width: '40%' } },
-        { key: 'Inversion', label: 'Inversion', _style: { width: '40%' } },
+        { key: 'Inversion', label: 'Inversión', _style: { width: '40%' } },
         { key: 'Educ/Genero/Salud', label: 'Educ/Genero/Salud', _style: { width: '40%' } },
         {
           key: 'show_details',
