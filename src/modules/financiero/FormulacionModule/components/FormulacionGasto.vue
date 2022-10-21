@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Formulación Gasto</h3>
+  <h3 class="text-center">Formulación gasto</h3>
   <hr />
   <div>
     <div class="d-inline p-2"></div>
@@ -20,7 +20,7 @@
     :activePage="1"
     footer
     header
-    :items="items"
+    :items="this.$store.state.Formulacion.formulacionGasto"
     :columns="columns"
     columnFilter
     tableFilter
@@ -36,7 +36,8 @@
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
-    <template #show_details="{ item, index }">
+    <!-- Borre el , index  dentro del template de abajo -->
+    <template #show_details="{ item}">
       <td class="py-2">
         <CButton
           color="primary"
@@ -106,7 +107,7 @@
                 aria-describedby="inputGroupPrepend"
                 required
               />
-              <CFormFeedback valid> Exito! </CFormFeedback>
+              <CFormFeedback valid> Éxito! </CFormFeedback>
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </CInputGroup>
           </CCol>
@@ -440,8 +441,8 @@ export default {
       columns: [
         { key: 'pnap', label: 'pnap', _style: { width: '40%' } },
         { key: 'control', label: 'control', _style: { width: '40%' } },
-        { key: 'funcion', label: 'funcion', _style: { width: '40%' } },
-        { key: 'numero', label: 'numero', _style: { width: '40%' } },
+        { key: 'funcion', label: 'función', _style: { width: '40%' } },
+        { key: 'numero', label: 'número', _style: { width: '40%' } },
         { key: 'obra', label: 'obra', _style: { width: '40%' } },
         { key: 'presupuesto', label: 'presupuesto', _style: { width: '40%' } },
         { key: 'programa', label: 'programa', _style: { width: '40%' } },
@@ -449,7 +450,7 @@ export default {
         { key: 'tipo', label: 'tipo', _style: { width: '40%' } },
         {
           key: 'unidadResponsable',
-          label: 'unidadResponsable',
+          label: 'Unidad responsable',
           _style: { width: '40%' },
         },
         {
