@@ -11,10 +11,16 @@ import DocsExample from '@/components/DocsExample'
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
+
+import { createPinia } from 'pinia'
+
+
+const pinia = createPinia()
 const app = createApp(App)
 app.use(store)
 app.use(router)
-app.use(CoreuiVue)
+app.use(CoreuiVue) 
+app.use(pinia)
 app.provide('icons', icons)
 app.component('CIcon', CIcon)
 app.component('DocsCallout', DocsCallout)
