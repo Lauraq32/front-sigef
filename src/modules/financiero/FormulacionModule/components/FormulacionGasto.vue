@@ -47,7 +47,7 @@
           size="sm"
           @click="toggleDetails()"
         >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
+          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
       </td>
     </template>
@@ -74,8 +74,7 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Formulación gasto</CModalTitle>
-      
+      <CModalTitle>Formulación de captura Estructuras Presupuesto de Gastos</CModalTitle>  
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -182,8 +181,8 @@
     :activePage="1"
     footer
     header
-    :items="items"
-    :columns="columns"
+    :items="items2"
+    :columns="columns2"
     columnFilter
     tableFilter
     cleaner
@@ -237,16 +236,7 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Formulación gasto2</CModalTitle>
-      <CButton
-        color="info"
-        @click="
-          () => {
-            lgDemo2 = true
-          }
-        "
-        >abre</CButton
-      >
+      <CModalTitle>Formulario de Clasificadores</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -257,14 +247,14 @@
           @submit="handleSubmitCustom01"
         >
           <CCol :md="2">
-            <CFormLabel for="validationCustom01">PNAP</CFormLabel>
+            <CFormLabel for="validationCustom01">Codigo</CFormLabel>
             <CFormInput id="validationCustom01"  />
 
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="2">
-            <CFormLabel for="validationCustom02">Programa</CFormLabel>
+            <CFormLabel for="validationCustom02">Estructura</CFormLabel>
             <CFormInput  id="validationCustom02" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -285,40 +275,34 @@
           </CCol>
           <CCol :md="4">
             <CFormLabel for="validationCustom03"
-              >Actividad/Obra</CFormLabel
+              >Cuenta Control</CFormLabel
             >
             <CFormInput  id="validationCustom03" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom04">Est. Programática control</CFormLabel>
+            <CFormLabel for="validationCustom04">Tipo</CFormLabel>
             <CFormInput  id="validationCustom04"> </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom05"
-              >Denominación</CFormLabel
+              >Descripcion</CFormLabel
             >
             <CFormInput  id="validationCustom05" required />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
-            <CFormLabel for="validationCustom04">Unidad responsable</CFormLabel>
+            <CFormLabel for="validationCustom04">Fuente/Financ</CFormLabel>
             <CFormInput id="validationCustom04" > </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
-            <CFormLabel for="validationCustom04">Tipo</CFormLabel>
-            <CFormSelect id="validationCustom04">
-
-              <option>DETALLE</option>
-              <option>CABECERA</option>
-              
-
-            </CFormSelect>
+            <CFormLabel for="validationCustom04">Fte/Especifica</CFormLabel>
+            <CFormInput id="validationCustom04" > </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -394,149 +378,30 @@ export default {
           role: 'Guest',
           status: 'Pending',
         },
+      ],
+      columns2: [
+        { key: 'Clasificador', label: 'Clasificador', _style: { width: '40%' } },
+        { key: 'Denominacion', label: 'Denominacion', _style: { width: '40%' } },
+        { key: 'Original', label: 'Original', _style: { width: '40%' } },
+        { key: 'Gastos Personal', label: 'Gastos Personal', _style: { width: '40%' } },
+        { key: 'Servicios', label: 'Servicios', _style: { width: '40%' } },
+        { key: 'Inversion', label: 'Inversion', _style: { width: '40%' } },
+        { key: 'Educ/Genero/Salud', label: 'Educ/Genero/Salud', _style: { width: '40%' } },
         {
-          name: 'Samppa Nori',
+          key: 'show_details',
+          label: '',
+          _style: { width: '1%' },
+          filter: false,
+          sorter: false,
+          // _props: { color: 'primary', class: 'fw-semibold'}
+        },
+      ],
+      items2: [
+        {
+          name: 'John Doe',
           registered: '2018/01/01',
-          role: 'Member',
-          status: 'Active',
-        },
-        {
-          name: 'Estavan Lykos',
-          registered: '2018/02/01',
-          role: 'Staff',
-          status: 'Banned',
-        },
-        {
-          name: 'Chetan Mohamed',
-          registered: '2018/02/01',
-          role: 'Admin',
-          status: 'Inactive',
-        },
-        {
-          name: 'Derick Maximinus',
-          registered: '2018/03/01',
-          role: 'Member',
+          role: 'Guest',
           status: 'Pending',
-        },
-        {
-          name: 'Friderik Dávid',
-          registered: '2018/01/21',
-          role: 'Staff',
-          status: 'Active',
-        },
-        {
-          name: 'Yiorgos Avraamu',
-          registered: '2018/01/01',
-          role: 'Member',
-          status: 'Active',
-        },
-        {
-          name: 'Avram Tarasios',
-          registered: '2018/02/01',
-          role: 'Staff',
-          status: 'Banned',
-        },
-        {
-          name: 'Quintin Ed',
-          registered: '2018/02/01',
-          role: 'Admin',
-          status: 'Inactive',
-        },
-        {
-          name: 'Enéas Kwadwo',
-          registered: '2018/03/01',
-          role: 'Member',
-          status: 'Pending',
-        },
-        {
-          name: 'Agapetus Tadeáš',
-          registered: '2018/01/21',
-          role: 'Staff',
-          status: 'Active',
-        },
-        {
-          name: 'Carwyn Fachtna',
-          registered: '2018/01/01',
-          role: 'Member',
-          status: 'Active',
-        },
-        {
-          name: 'Nehemiah Tatius',
-          registered: '2018/02/01',
-          role: 'Staff',
-          status: 'Banned',
-        },
-        {
-          name: 'Ebbe Gemariah',
-          registered: '2018/02/01',
-          role: 'Admin',
-          status: 'Inactive',
-        },
-        {
-          name: 'Eustorgios Amulius',
-          registered: '2018/03/01',
-          role: 'Member',
-          status: 'Pending',
-        },
-        {
-          name: 'Leopold Gáspár',
-          registered: '2018/01/21',
-          role: 'Staff',
-          status: 'Active',
-        },
-        {
-          name: 'Pompeius René',
-          registered: '2018/01/01',
-          role: 'Member',
-          status: 'Active',
-        },
-        {
-          name: 'Paĉjo Jadon',
-          registered: '2018/02/01',
-          role: 'Staff',
-          status: 'Banned',
-        },
-        {
-          name: 'Micheal Mercurius',
-          registered: '2018/02/01',
-          role: 'Admin',
-          status: 'Inactive',
-        },
-        {
-          name: 'Ganesha Dubhghall',
-          registered: '2018/03/01',
-          role: 'Member',
-          status: 'Pending',
-        },
-        {
-          name: 'Hiroto Šimun',
-          registered: '2018/01/21',
-          role: 'Staff',
-          status: 'Active',
-        },
-        {
-          name: 'Vishnu Serghei',
-          registered: '2018/01/01',
-          role: 'Member',
-          status: 'Active',
-        },
-        {
-          name: 'Zbyněk Phoibos',
-          registered: '2018/02/01',
-          role: 'Staff',
-          status: 'Banned',
-        },
-        {
-          name: 'Aulus Agmundr',
-          registered: '2018/01/01',
-          role: 'Member',
-          status: 'Pending',
-        },
-        {
-          name: 'Ford Prefect',
-          registered: '2001/05/25',
-          role: 'Alien',
-          status: "Don't panic!",
         },
       ],
     }
