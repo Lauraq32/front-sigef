@@ -15404,8 +15404,7 @@ export default () => ({
     {
       pnap: '00',
       control: '0001000000',
-      funcion: ' ',
-      numero: '',
+      denominacion: ' ',
       obra: '0000',
       presupuesto: '1,650,000.00',
       programa: '01',
@@ -15417,8 +15416,7 @@ export default () => ({
     {
       pnap: '11',
       control: '0011020000',
-      funcion: ' ',
-      numero: '',
+      denominacion: ' ',
       obra: '0000',
       presupuesto: '0.00',
       programa: '01',
