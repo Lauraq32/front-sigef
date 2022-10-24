@@ -37,7 +37,7 @@
       </td>
     </template>
     <!-- Borre el , index  dentro del template de abajo -->
-    <template #show_details="{ item}">
+    <template #show_details="{ item }">
       <td class="py-2">
         <CButton
           color="primary"
@@ -63,6 +63,24 @@
       </CCollapse>
     </template>
   </CSmartTable>
+  <div
+    class="font-weight-normal"
+    style="font-weight: 100 !important; margin-top: -3%; float: left"
+  >
+    <span style="font-weight: bold"><u>TOTAL PRESUPUESTADO:</u></span> Año
+    anterior
+    <span style="font-weight: 500 !important">{{
+      formatPrice(formulado.anO_ANT)
+    }}</span>
+    A la fecha:
+    <span style="font-weight: 500 !important">{{
+      formatPrice(formulado.alafecha)
+    }}</span>
+    Presupuesto formulado:
+    <span style="font-weight: 500 !important">{{
+      formatPrice(formulado.preS_FORM)
+    }}</span>
+  </div>
   <CModal
     size="xl"
     :visible="lgDemo"
@@ -73,10 +91,12 @@
     "
   >
     <CModalHeader>
-      <CModalTitle
-        >Formulación de captura Estructuras Presupuesto de Gastos</CModalTitle
+      <CModalTitle class="text-center" style="margin-left: 35%"
+        >Formulación Gastos</CModalTitle
       >
     </CModalHeader>
+    <h5 class="p-3">Captura Estructuras Presupuesto de Gastos</h5>
+    <hr />
     <CModalBody>
       <CCardBody>
         <CForm
@@ -222,6 +242,24 @@
             </CCollapse>
           </template>
         </CSmartTable>
+        <div
+          class="font-weight-normal"
+          style="font-weight: 100 !important; margin-top: -3%; float: left"
+        >
+          <span style="font-weight: bold"><u>TOTAL PRESUPUESTADO:</u></span> Año
+          anterior
+          <span style="font-weight: 500 !important">{{
+            formatPrice(formulado.anO_ANT)
+          }}</span>
+          A la fecha:
+          <span style="font-weight: 500 !important">{{
+            formatPrice(formulado.alafecha)
+          }}</span>
+          Presupuesto formulado:
+          <span style="font-weight: 500 !important">{{
+            formatPrice(formulado.preS_FORM)
+          }}</span>
+        </div>
       </CCardBody>
     </CModalBody>
   </CModal>
@@ -235,7 +273,7 @@
     "
   >
     <div class="row">
-      <div class="col-9">
+      <div class="col-12">
         <CModalHeader>
           <CModalTitle>Formulario de Clasificadores</CModalTitle>
         </CModalHeader>
@@ -248,102 +286,256 @@
               @submit="handleSubmitCustom01"
             >
               <CCol :md="2">
-                <CFormLabel for="validationCustom01">Codigo</CFormLabel>
+                <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
                 <CFormInput id="validationCustom01" />
 
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="2">
-                <CFormLabel for="validationCustom02">Estructura</CFormLabel>
-                <CFormInput id="validationCustom02" required />
+                <CFormLabel for="validationCustom02">Cta. Control</CFormLabel>
+                <CFormInput disabled id="validationCustom02" required />
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+              <CCol :md="6">
+                <CFormLabel for="validationCustom02">Detalle</CFormLabel>
+                <CFormInput disabled id="validationCustom02" required />
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="2">
-                <CFormLabel for="validationCustomUsername">Proyecto</CFormLabel>
-                <CInputGroup class="has-validation">
-                  <CFormInput
-                    id="validationCustomUsername"
-                    value=""
-                    aria-describedby="inputGroupPrepend"
-                    required
-                  />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CInputGroup>
+                <button class="btn btn-primary">Buscar</button>
               </CCol>
-              <CCol :md="4">
-                <CFormLabel for="validationCustom03">Cuenta Control</CFormLabel>
-                <CFormInput id="validationCustom03" required />
+
+              <CCol :md="2">
+                <CButton
+                  style="font-weight: bold"
+                  color="info"
+                  @click="IngresoReport"
+                  >30/9995/102</CButton
+                >
+              </CCol>
+              <CCol :md="2">
+                <CButton
+                  style="font-weight: bold"
+                  color="info"
+                  @click="IngresoReport"
+                  >30/9996/102</CButton
+                >
+              </CCol>
+              <CCol :md="2">
+                <CButton
+                  style="font-weight: bold"
+                  color="info"
+                  @click="IngresoReport"
+                  >30/9998/102</CButton
+                >
+              </CCol>
+              <CCol :md="2">
+                <CButton
+                  style="font-weight: bold"
+                  color="info"
+                  @click="IngresoReport"
+                  >30/9999/102</CButton
+                >
+              </CCol>
+              <CCol :md="2">
+                <CButton
+                  style="font-weight: bold"
+                  color="info"
+                  @click="IngresoReport"
+                  >10/0100/104</CButton
+                >
+              </CCol>
+              <CCol :md="2">
+                <CButton
+                  style="font-weight: bold"
+                  color="info"
+                  @click="IngresoReport"
+                  >40/9992/102</CButton
+                >
+              </CCol>
+              <CCol :md="2">
+                <CButton
+                  style="font-weight: bold"
+                  color="info"
+                  @click="IngresoReport"
+                  >40/9992/103</CButton
+                >
+              </CCol>
+              <CCol :md="2">
+                <CButton
+                  style="font-weight: bold"
+                  color="info"
+                  @click="IngresoReport"
+                  >40/9996/120</CButton
+                >
+              </CCol>
+              <CCol :md="2">
+                <CButton
+                  style="font-weight: bold"
+                  color="info"
+                  @click="IngresoReport"
+                  >40/9992/299</CButton
+                >
+              </CCol>
+              <CCol :md="2">
+                <CButton
+                  style="font-weight: bold"
+                  color="info"
+                  @click="IngresoReport"
+                  >50/2006/001</CButton
+                >
+              </CCol>
+              <CCol :md="2"> </CCol>
+              <CCol :md="2"> </CCol>
+
+              <CCol :md="3">
+                <CFormLabel for="validationCustom03"
+                  >Fuente Financiamiento</CFormLabel
+                >
+                <CFormInput disabled id="validationCustom03" required />
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="3">
-                <CFormLabel for="validationCustom04">Tipo</CFormLabel>
-                <CFormInput id="validationCustom04"> </CFormInput>
+                <CFormLabel for="validationCustom04"
+                  >Fuente Especifica</CFormLabel
+                >
+                <CFormInput disabled id="validationCustom04"> </CFormInput>
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="3">
-                <CFormLabel for="validationCustom05">Descripcion</CFormLabel>
-                <CFormInput id="validationCustom05" required />
+                <CFormLabel for="validationCustom05"
+                  >Organismo Financiador</CFormLabel
+                >
+                <CFormInput disabled id="validationCustom05" required />
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
-              <CCol :md="4">
-                <CFormLabel for="validationCustom04">Fuente/Financ</CFormLabel>
-                <CFormInput id="validationCustom04"> </CFormInput>
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-              <CCol :md="4">
-                <CFormLabel for="validationCustom04">Fte/Especifica</CFormLabel>
-                <CFormInput id="validationCustom04"> </CFormInput>
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-              <CCol :md="4">
-                <CFormLabel for="validationCustom04">Orga/Financ</CFormLabel>
-                <CFormInput id="validationCustom04"></CFormInput>
+              <CCol :md="3">
+                <CFormLabel for="validationCustom04">Funcion:</CFormLabel>
+                <CFormInput disabled id="validationCustom04"> </CFormInput>
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <hr />
               <h2>Presupuesto</h2>
-              <CCol :md="4">
-                <CFormLabel for="validationCustom04"
-                  >Cta. de Personal</CFormLabel
-                >
-                <CFormInput id="validationCustom04"> </CFormInput>
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-              <CCol :md="4">
-                <CFormLabel for="validationCustom04"
-                  >Cta. de Servicios</CFormLabel
-                >
-                <CFormInput id="validationCustom04"> </CFormInput>
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-              <CCol :md="4">
-                <CFormLabel for="validationCustom04"
-                  >Cta. de Inversion</CFormLabel
-                >
-                <CFormInput id="validationCustom04"> </CFormInput>
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-              <CCol :md="4">
-                <CFormLabel for="validationCustom04"
-                  >Cta. de E/G y Salud</CFormLabel
-                >
-                <CFormInput id="validationCustom04"> </CFormInput>
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
+
+              <div class="row">
+                <div class="col-12">
+                  <div class="row">
+                    <div class="col-4">
+                      <CFormLabel for="validationCustom04"
+                        >Cta. de Personal</CFormLabel
+                      >
+                      <CFormInput id="validationCustom04"> </CFormInput>
+                      <CFormFeedback valid> Exito! </CFormFeedback>
+                      <CFormFeedback invalid>
+                        Favor agregar el campo
+                      </CFormFeedback>
+                    </div>
+                    <div class="col-1"></div>
+                    <div class="col-2">
+                      <CFormLabel for="validationCustom04">Tipo</CFormLabel>
+                      <CFormInput id="validationCustom04"> </CFormInput>
+                      <CFormFeedback valid> Exito! </CFormFeedback>
+                      <CFormFeedback invalid>
+                        Favor agregar el campo
+                      </CFormFeedback>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="row">
+
+                    <div class="col-4">
+                      <CFormLabel for="validationCustom04"
+                        >Cta. de Servicios</CFormLabel
+                      >
+                      <CFormInput id="validationCustom04"> </CFormInput>
+                      <CFormFeedback valid> Exito! </CFormFeedback>
+                      <CFormFeedback invalid>
+                        Favor agregar el campo
+                      </CFormFeedback>
+                    </div>
+                    <div class="col-1">
+                      
+                    </div>
+                    <div class="col-2">
+                      <CFormLabel for="validationCustom04"
+                        >Tipo</CFormLabel
+                      >
+                      <CFormInput id="validationCustom04"> </CFormInput>
+                      <CFormFeedback valid> Exito! </CFormFeedback>
+                      <CFormFeedback invalid>
+                        Favor agregar el campo
+                      </CFormFeedback>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="row">
+
+                    <div class="col-4">
+                      <CFormLabel for="validationCustom04"
+                        >Cta. de Inversion</CFormLabel
+                      >
+                      <CFormInput id="validationCustom04"> </CFormInput>
+                      <CFormFeedback valid> Exito! </CFormFeedback>
+                      <CFormFeedback invalid>
+                        Favor agregar el campo
+                      </CFormFeedback>
+                    </div>
+                    <div class="col-1">
+                        
+                      </div>
+                      <div class="col-2">
+                        <CFormLabel for="validationCustom04"
+                          >Tipo</CFormLabel
+                        >
+                        <CFormInput id="validationCustom04"> </CFormInput>
+                        <CFormFeedback valid> Exito! </CFormFeedback>
+                        <CFormFeedback invalid>
+                          Favor agregar el campo
+                        </CFormFeedback>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="row">
+
+                    <div class="col-4">
+                      <CFormLabel for="validationCustom04"
+                        >Cta. de E/G y Salud</CFormLabel
+                      >
+                      <CFormInput id="validationCustom04"> </CFormInput>
+                      <CFormFeedback valid> Exito! </CFormFeedback>
+                      <CFormFeedback invalid>
+                        Favor agregar el campo
+                      </CFormFeedback>
+                    </div>
+                    <div class="col-1">
+                          
+                        </div>
+                        <div class="col-2">
+                          <CFormLabel for="validationCustom04"
+                            >Tipo</CFormLabel
+                          >
+                          <CFormInput id="validationCustom04"> </CFormInput>
+                          <CFormFeedback valid> Exito! </CFormFeedback>
+                          <CFormFeedback invalid>
+                            Favor agregar el campo
+                          </CFormFeedback>
+                        </div>
+                  </div>
+                  </div>
+              </div>
+
               <div class="modal-footer">
                 <button
                   type="button"
@@ -359,66 +551,26 @@
                   Guardar
                 </button>
               </div>
-              <h2>Total Presupuestdo:</h2>
             </CForm>
           </CCardBody>
         </CModalBody>
-      </div>
-      <div class="col-3 p-4">
-        <div>
-          <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-            >Origen Financiamiento = 20 1995 100</CButton
-          >
-        </div>
-        <div class="mt-3">
-          <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-            >30/9995/102</CButton
-          >
-        </div>
-        <div class="mt-3">
-          <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-            >30/9996/102</CButton
-          >
-        </div>
-        <div class="mt-3">
-          <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-            >30/9998/102</CButton
-          >
-        </div>
-        <div class="mt-3">
-          <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-            >30/9999/102</CButton
-          >
-        </div>
-        <div class="mt-3">
-          <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-            >10/0100/104</CButton
-          >
-        </div>
-        <div class="mt-3">
-          <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-            >40/9992/102</CButton
-          >
-        </div>
-        <div class="mt-3">
-          <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-            >40/9992/103</CButton
-          >
-        </div>
-        <div class="mt-3">
-          <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-            >40/9996/120</CButton
-          >
-        </div>
-        <div class="mt-3">
-          <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-            >40/9992/299</CButton
-          >
-        </div>
-        <div class="mt-3">
-          <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-            >50/2006/001</CButton
-          >
+        <div
+          class="font-weight-normal"
+          style="font-weight: 100 !important; margin-top: -3%; float: left"
+        >
+          <span style="font-weight: bold"><u>TOTAL PRESUPUESTO:</u></span> Año
+          anterior
+          <span style="font-weight: 500 !important">{{
+            formatPrice(formulado.anO_ANT)
+          }}</span>
+          A la fecha:
+          <span style="font-weight: 500 !important">{{
+            formatPrice(formulado.alafecha)
+          }}</span>
+          Presupuesto formulado:
+          <span style="font-weight: 500 !important">{{
+            formatPrice(formulado.preS_FORM)
+          }}</span>
         </div>
       </div>
     </div>
@@ -427,6 +579,8 @@
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import Api from '../services/FormulacionServices'
+import axios from 'axios'
 export default {
   components: {
     CSmartTable,
@@ -434,25 +588,29 @@ export default {
   },
   data: () => {
     return {
+      formulado: {
+        alafecha: 0,
+        anO_ANT: 0,
+        preS_FORM: 0,
+      },
       validatedCustom01: null,
       lgDemo: false,
       lgDemo1: false,
       lgDemo2: false,
       columns: [
-        { key: 'pnap', label: 'pnap', _style: { width: '40%' } },
-        { key: 'control', label: 'control', _style: { width: '40%' } },
-        { key: 'funcion', label: 'función', _style: { width: '40%' } },
-        { key: 'numero', label: 'número', _style: { width: '40%' } },
-        { key: 'obra', label: 'obra', _style: { width: '40%' } },
-        { key: 'presupuesto', label: 'presupuesto', _style: { width: '40%' } },
-        { key: 'programa', label: 'programa', _style: { width: '40%' } },
-        { key: 'proyecto', label: 'proyecto', _style: { width: '40%' } },
+        { key: 'pnap', label: 'Pnap', _style: { width: '40%' } },
+        { key: 'programa', label: 'Programa', _style: { width: '40%' } },
+        { key: 'proyecto', label: 'Proyecto', _style: { width: '40%' } },
+        { key: 'obra', label: 'Obra', _style: { width: '40%' } },
+        { key: 'denominacion', label: 'Denominacion', _style: { width: '40%' } },
+        { key: 'control', label: 'Control', _style: { width: '40%' } },
         { key: 'tipo', label: 'tipo', _style: { width: '40%' } },
         {
           key: 'unidadResponsable',
           label: 'Unidad responsable',
           _style: { width: '40%' },
         },
+        { key: 'presupuesto', label: 'presupuesto', _style: { width: '40%' } },
         {
           key: 'show_details',
           label: '',
@@ -515,6 +673,10 @@ export default {
     }
   },
   methods: {
+    formatPrice(value) {
+      let val = (value / 1).toFixed(2).replace('.', '.')
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    },
     handleSubmitCustom01(event) {
       const form = event.currentTarget
       if (form.checkValidity() === false) {
@@ -522,6 +684,17 @@ export default {
         event.stopPropagation()
       }
       this.validatedCustom01 = true
+    },
+    getTotal() {
+      axios
+      Api.getTotalIngresos(
+        localStorage.getItem('id_Ayuntamiento'),
+        localStorage.getItem('ano'),
+      ).then((response) => {
+        this.formulado.alafecha = response.data.alafecha
+        this.formulado.anO_ANT = response.data.anO_ANT
+        this.formulado.preS_FORM = response.data.preS_FORM
+      })
     },
     IngresoReport() {
       window
