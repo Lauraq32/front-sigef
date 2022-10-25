@@ -2,12 +2,19 @@
   <h3 class="text-center">Formulación gasto</h3>
   <hr />
   <div>
-    <div class="d-inline p-2"></div>
+    <div class="d-inline p-2">
+      <CButton color="info" @click="
+        () => {
+          lgDemo = true
+        }
+      ">Agregar</CButton>
+    </div>
     <div class="d-inline p-2">
       <CButton style="font-weight: bold" color="info" @click="IngresoReport"
         >Imprimir</CButton
       >
     </div>
+
   </div>
   <hr />
   <CSmartTable
