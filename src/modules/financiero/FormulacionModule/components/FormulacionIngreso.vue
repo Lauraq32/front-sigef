@@ -258,7 +258,7 @@ export default {
         CLASIFICA: null,
         INST_OTORGA: 0,
         CONTROL: '',
-        DETALLE: null, _style: { width: '55%' } ,
+        DETALLE: null,
         FUENTE: null,
         F_ESPECIFIC: null,
         ORGA_FIN: null,

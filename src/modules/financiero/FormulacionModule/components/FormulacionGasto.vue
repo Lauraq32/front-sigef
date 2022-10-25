@@ -2,12 +2,19 @@
   <h3 class="text-center">Formulación gasto</h3>
   <hr />
   <div>
-    <div class="d-inline p-2"></div>
+    <div class="d-inline p-2">
+      <CButton color="info" @click="
+        () => {
+          lgDemo = true
+        }
+      ">Agregar</CButton>
+    </div>
     <div class="d-inline p-2">
       <CButton style="font-weight: bold" color="info" @click="IngresoReport"
         >Imprimir</CButton
       >
     </div>
+
   </div>
   <hr />
   <CSmartTable
@@ -196,7 +203,7 @@
           :activePage="1"
           footer
           header
-          :items="items2"
+          :items="this.$store.state.Formulacion.formulacionGasto2"
           :columns="columns2"
           columnFilter
           tableFilter
@@ -212,7 +219,8 @@
               <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
             </td>
           </template>
-          <template #show_details="{ item, index }">
+          <!-- Borre el index de aquí -->
+          <template #show_details="{ item }">
             <td class="py-2">
               <CButton
                 color="primary"
@@ -312,7 +320,6 @@
                 <CButton
                   style="font-weight: bold"
                   color="info"
-                  @click="IngresoReport"
                   >30/9995/102</CButton
                 >
               </CCol>
@@ -320,7 +327,6 @@
                 <CButton
                   style="font-weight: bold"
                   color="info"
-                  @click="IngresoReport"
                   >30/9996/102</CButton
                 >
               </CCol>
@@ -328,7 +334,6 @@
                 <CButton
                   style="font-weight: bold"
                   color="info"
-                  @click="IngresoReport"
                   >30/9998/102</CButton
                 >
               </CCol>
@@ -336,7 +341,6 @@
                 <CButton
                   style="font-weight: bold"
                   color="info"
-                  @click="IngresoReport"
                   >30/9999/102</CButton
                 >
               </CCol>
@@ -344,7 +348,6 @@
                 <CButton
                   style="font-weight: bold"
                   color="info"
-                  @click="IngresoReport"
                   >10/0100/104</CButton
                 >
               </CCol>
@@ -352,7 +355,6 @@
                 <CButton
                   style="font-weight: bold"
                   color="info"
-                  @click="IngresoReport"
                   >40/9992/102</CButton
                 >
               </CCol>
@@ -360,7 +362,6 @@
                 <CButton
                   style="font-weight: bold"
                   color="info"
-                  @click="IngresoReport"
                   >40/9992/103</CButton
                 >
               </CCol>
@@ -368,7 +369,6 @@
                 <CButton
                   style="font-weight: bold"
                   color="info"
-                  @click="IngresoReport"
                   >40/9996/120</CButton
                 >
               </CCol>
@@ -376,7 +376,6 @@
                 <CButton
                   style="font-weight: bold"
                   color="info"
-                  @click="IngresoReport"
                   >40/9992/299</CButton
                 >
               </CCol>
@@ -384,7 +383,6 @@
                 <CButton
                   style="font-weight: bold"
                   color="info"
-                  @click="IngresoReport"
                   >50/2006/001</CButton
                 >
               </CCol>
