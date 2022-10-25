@@ -76,8 +76,8 @@
       }
     "
   >
-    <CModalHeader>
-      <CModalTitle class="text">Comprobante de gastos</CModalTitle>
+    <CModalHeader class="text-center">
+      <CModalTitle>Comprobante de gastos</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -417,9 +417,6 @@ export default {
 
 .top {
   margin-top: 27px;
-}
-.text {
-  align-content: center;
 }
 
 .left {
