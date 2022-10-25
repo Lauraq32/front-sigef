@@ -196,7 +196,7 @@
           :activePage="1"
           footer
           header
-          :items="items2"
+          :items="this.$store.state.Formulacion.formulacionGasto2"
           :columns="columns2"
           columnFilter
           tableFilter
@@ -212,7 +212,8 @@
               <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
             </td>
           </template>
-          <template #show_details="{ item, index }">
+          <!-- Borre el index de aquí -->
+          <template #show_details="{ item }">
             <td class="py-2">
               <CButton
                 color="primary"
