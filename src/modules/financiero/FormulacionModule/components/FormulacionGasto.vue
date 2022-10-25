@@ -320,7 +320,6 @@
                 <CButton
                   style="font-weight: bold"
                   color="info"
-                  @click="IngresoReport"
                   >30/9995/102</CButton
                 >
               </CCol>
@@ -328,7 +327,6 @@
                 <CButton
                   style="font-weight: bold"
                   color="info"
-                  @click="IngresoReport"
                   >30/9996/102</CButton
                 >
               </CCol>
@@ -336,7 +334,6 @@
                 <CButton
                   style="font-weight: bold"
                   color="info"
-                  @click="IngresoReport"
                   >30/9998/102</CButton
                 >
               </CCol>
@@ -344,7 +341,6 @@
                 <CButton
                   style="font-weight: bold"
                   color="info"
-                  @click="IngresoReport"
                   >30/9999/102</CButton
                 >
               </CCol>
@@ -352,7 +348,6 @@
                 <CButton
                   style="font-weight: bold"
                   color="info"
-                  @click="IngresoReport"
                   >10/0100/104</CButton
                 >
               </CCol>
@@ -360,7 +355,6 @@
                 <CButton
                   style="font-weight: bold"
                   color="info"
-                  @click="IngresoReport"
                   >40/9992/102</CButton
                 >
               </CCol>
@@ -368,7 +362,6 @@
                 <CButton
                   style="font-weight: bold"
                   color="info"
-                  @click="IngresoReport"
                   >40/9992/103</CButton
                 >
               </CCol>
@@ -376,7 +369,6 @@
                 <CButton
                   style="font-weight: bold"
                   color="info"
-                  @click="IngresoReport"
                   >40/9996/120</CButton
                 >
               </CCol>
@@ -384,7 +376,6 @@
                 <CButton
                   style="font-weight: bold"
                   color="info"
-                  @click="IngresoReport"
                   >40/9992/299</CButton
                 >
               </CCol>
@@ -392,7 +383,6 @@
                 <CButton
                   style="font-weight: bold"
                   color="info"
-                  @click="IngresoReport"
                   >50/2006/001</CButton
                 >
               </CCol>
