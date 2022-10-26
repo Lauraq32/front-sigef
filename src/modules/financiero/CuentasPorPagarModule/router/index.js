@@ -2,7 +2,9 @@ export default {
   name: 'CuentasPorPagar',
   redirect: '/CuentasPorPagarModule/Suplidores',
   component: () =>
-    import('@/modules/financiero/CuentasPorPagarModule/layout/TemplateLayout.vue'),
+    import(
+      '@/modules/financiero/CuentasPorPagarModule/layout/TemplateLayout.vue'
+    ),
   children: [
     {
       path: 'suplidores',

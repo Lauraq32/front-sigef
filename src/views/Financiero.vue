@@ -1,15 +1,15 @@
 <template lang="">
   <div>
     <CRow>
-      <CCol :md="2" class="mt-4" style="font-weight: bolder;">
+      <CCol :md="2" class="mt-4" style="font-weight: bolder">
         <CWidgetStatsD
           @click="gotToPrueba"
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #002e5d; height: 240px;"
+          style="--cui-card-cap-bg: #002e5d; height: 240px"
           :values="[{ title: 'Formulación presupuesto', value: '' }]"
         >
           <template #icon>
-            <CIcon :icon="cilDonate" style="color: #f5f5f5;" size="9xl" />
+            <CIcon :icon="cilDonate" style="color: #f5f5f5" size="9xl" />
           </template>
           <template #chart>
             <CChart
@@ -41,14 +41,15 @@
           </template>
         </CWidgetStatsD>
       </CCol>
-      <CCol :md="2" class="mt-4" style="font-weight: bolder;">
+      <CCol :md="2" class="mt-4" style="font-weight: bolder">
         <CWidgetStatsD
+          @click="gotToPrueba2"
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #002e5d; height: 240px;"
+          style="--cui-card-cap-bg: #002e5d; height: 240px"
           :values="[{ title: 'Ejecución Presupuesto', value: '' }]"
         >
           <template #icon>
-            <CIcon :icon="cilMoney" style="color: #f5f5f5;" size="9xl" />
+            <CIcon :icon="cilMoney" style="color: #f5f5f5" size="9xl" />
           </template>
           <template #chart>
             <CChart
@@ -80,14 +81,15 @@
           </template>
         </CWidgetStatsD>
       </CCol>
-      <CCol :md="2" class="mt-4" style="font-weight: bolder;">
+      <CCol :md="2" class="mt-4" style="font-weight: bolder">
         <CWidgetStatsD
+          @click="gotToPrueba1"
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #002e5d; height: 240px;"
+          style="--cui-card-cap-bg: #002e5d; height: 240px"
           :values="[{ title: 'Activos fijos', value: '' }]"
         >
           <template #icon>
-            <CIcon :icon="cilGarage" style="color: #f5f5f5;" size="9xl" />
+            <CIcon :icon="cilGarage" style="color: #f5f5f5" size="9xl" />
           </template>
           <template #chart>
             <CChart
@@ -119,14 +121,15 @@
           </template>
         </CWidgetStatsD>
       </CCol>
-      <CCol :md="2" class="mt-4" style="font-weight: bolder;">
+      <CCol :md="2" class="mt-4" style="font-weight: bolder">
         <CWidgetStatsD
+          @click="gotToPrueba3"
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #002e5d; height: 240px;"
+          style="--cui-card-cap-bg: #002e5d; height: 240px"
           :values="[{ title: 'Nómina', value: '' }]"
         >
           <template #icon>
-            <CIcon :icon="cilAddressBook" style="color: #f5f5f5;" size="9xl" /> 
+            <CIcon :icon="cilAddressBook" style="color: #f5f5f5" size="9xl" />
           </template>
           <template #chart>
             <CChart
@@ -158,14 +161,15 @@
           </template>
         </CWidgetStatsD>
       </CCol>
-      <CCol :md="2" class="mt-4" style="font-weight: bolder;">
+      <CCol :md="2" class="mt-4" style="font-weight: bolder">
         <CWidgetStatsD
+          @click="gotToPrueba4"
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #002e5d; height: 240px;"
+          style="--cui-card-cap-bg: #002e5d; height: 240px"
           :values="[{ title: 'Contabilidad', value: '' }]"
         >
           <template #icon>
-            <CIcon :icon="cilDonate" style="color: #f5f5f5;" size="9xl" /> 
+            <CIcon :icon="cilDonate" style="color: #f5f5f5" size="9xl" />
           </template>
           <template #chart>
             <CChart
@@ -197,14 +201,15 @@
           </template>
         </CWidgetStatsD>
       </CCol>
-      <CCol :md="2" class="mt-4" style="font-weight: bolder;">
+      <CCol :md="2" class="mt-4" style="font-weight: bolder">
         <CWidgetStatsD
+          @click="gotToPrueba5"
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #002e5d; height: 240px;"
+          style="--cui-card-cap-bg: #002e5d; height: 240px"
           :values="[{ title: 'Conciliación bancaria', value: '' }]"
         >
           <template #icon>
-              <CIcon :icon="cilBank" style="color: #f5f5f5;" size="9xl" />
+            <CIcon :icon="cilBank" style="color: #f5f5f5" size="9xl" />
           </template>
           <template #chart>
             <CChart
@@ -236,14 +241,15 @@
           </template>
         </CWidgetStatsD>
       </CCol>
-      <CCol :md="2" class="mt-4" style="font-weight: bolder;">
+      <CCol :md="2" class="mt-4" style="font-weight: bolder">
         <CWidgetStatsD
+          @click="gotToPrueba6"
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #002e5d; height: 240px;"
+          style="--cui-card-cap-bg: #002e5d; height: 240px"
           :values="[{ title: 'Cuentas por pagar', value: '' }]"
         >
           <template #icon>
-            <CIcon :icon="cilCreditCard" style="color: #f5f5f5;" size="9xl" />
+            <CIcon :icon="cilCreditCard" style="color: #f5f5f5" size="9xl" />
           </template>
           <template #chart>
             <CChart
@@ -275,14 +281,15 @@
           </template>
         </CWidgetStatsD>
       </CCol>
-      <CCol :md="2" class="mt-4" style="font-weight: bolder;">
+      <CCol :md="2" class="mt-4" style="font-weight: bolder">
         <CWidgetStatsD
+          @click="gotToPrueba7"
           class="mb-4 shadow"
-          style="--cui-card-cap-bg: #002e5d; height: 240px;"
+          style="--cui-card-cap-bg: #002e5d; height: 240px"
           :values="[{ title: 'Facturación y cobros', value: '' }]"
         >
           <template #icon>
-            <CIcon :icon="cilDollar" style="color: #f5f5f5;" size="9xl" />
+            <CIcon :icon="cilDollar" style="color: #f5f5f5" size="9xl" />
           </template>
           <template #chart>
             <CChart
@@ -319,7 +326,18 @@
 </template>
 <script>
 import { CIcon } from '@coreui/icons-vue'
-import { cilBarChart, cilFolderOpen, cilGarage, cilMoney, cilBuildingBusiness, cilAddressBook, cilDonate, cilBank, cilCreditCard, cilDollar } from '@coreui/icons-pro'
+import {
+  cilBarChart,
+  cilFolderOpen,
+  cilGarage,
+  cilMoney,
+  cilBuildingBusiness,
+  cilAddressBook,
+  cilDonate,
+  cilBank,
+  cilCreditCard,
+  cilDollar,
+} from '@coreui/icons-pro'
 export default {
   components: {
     CIcon,
@@ -335,13 +353,34 @@ export default {
       cilCreditCard,
       cilDollar,
       cilMoney,
-      cilGarage
+      cilGarage,
     }
   },
   name: 'Fianciero',
   methods: {
     gotToPrueba() {
       this.$router.push({ name: 'Formulacion Ingreso' })
+    },
+    gotToPrueba1() {
+      this.$router.push({ name: 'categorias' })
+    },
+    gotToPrueba2() {
+      this.$router.push({ name: 'ejecucionIngreso' })
+    },
+    gotToPrueba3() {
+      this.$router.push({ name: 'nominas' })
+    },
+    gotToPrueba4() {
+      this.$router.push({ name: 'cuentasContables' })
+    },
+    gotToPrueba5() {
+      this.$router.push({ name: 'CuentasDebanco' })
+    },
+    gotToPrueba6() {
+      this.$router.push({ name: 'documentosPorPagar' })
+    },
+    gotToPrueba7() {
+      this.$router.push({ name: 'Sectores' })
     },
   },
 }
