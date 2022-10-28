@@ -1,95 +1,31 @@
+/* eslint-disable prettier/prettier */
 import http from '@/Api/http-common'
+
 
 class FormulacionApi {
   //-----------------------------CLASIFICADORES---------------------------------------//
   //Obtener listado de Clasificadores
-  getListarClasificadores() {
-    return http.get('/Financiero/ListarClasificadores')
+  getClasificadores() {
+    return http.get('CtgClasificador')
   }
-
-  getClasificador(Clasificador){
-    return http.get(`/ingresoslista/filtrarClasificadores/?obj=${Clasificador}`)
+  getOrganismos() {
+    return http.get('CtgOrganismoFinanciador')
   }
-
-  //PostIngreso
-  createIngreso(data) {
-    return http.post("/api/Ingreso/guardarPresIngreso", data);
-  }
-
-  getTotalIngresos(id_ayuntamiento,ano_fiscal){
-    return http.get(`/ingresoslista/ListarIngresosTotalizado/?ano=${ano_fiscal}&id=${id_ayuntamiento}`)
-  }
-  
-
-  //Obtener clasificador especifico
-  getClasificador(Clasificador) {
-    return http.get(`/ingresoslista/filtrarClasificadores/?obj=${Clasificador}`)
-  }
-  //-----------------------------CLASIFICADORES---------------------------------------//
-
-  //-----------------------------ESTRUCTURA PROGRAMATICA---------------------------------------//
-
-  getListarEstructuraProgramatica() {
-    return http.get('/Financiero/ListarProgramatico')
-  }
-
-  //-----------------------------ESTRUCTURA PROGRAMATICA---------------------------------------//
-
-  //-----------------------------FUENTE ESPECIFICA---------------------------------------//
   getFuenteEspecifica() {
-    return http.get('/Financiero/ListarFuentesEsp')
+    return http.get('CtgFuenteEspecifica')
   }
-  //-----------------------------FUENTE ESPECIFICA---------------------------------------//
+  getFuenteFinanciamiento() {
+    return http.get('CtgFuente')
+  }
+  getFormulacionGato() {
+    return http.get('PresGasto')
+  }
 
-  //-----------------------------FUENTE FINANCIAMIENTO---------------------------------------//
-  getListarFuentesFinanciamiento() {
-    return http.get('/Financiero/ListarFuentes')
-  }
-  //-----------------------------FUENTE FINANCIAMIENTO---------------------------------------//
+  //post
 
-  //-----------------------------ORGANISMOS---------------------------------------//
-  getListarFinancieroCatalogoOrganismos() {
-    return http.get('/Financiero/ListarFinancieroCatalogoOrganismos')
+  postFormulacionGato(data) {
+    return http.post('PresGasto', data)
   }
-  //----------------------------ORGANISMOS---------------------------------------//
 
-  //-----------------------------PROYECTOS---------------------------------------//
-  getListarProyecto(id_ayuntamiento, ano_fiscal) {
-    return http.get(
-      `/Financiero/ListarProyecto/?ano=${ano_fiscal}&id=${id_ayuntamiento}`,
-    )
-  }
-  //-----------------------------PROYECTOS---------------------------------------//
-
-  //-----------------------------INGRESOS---------------------------------------//
-  getListarIngresos(id_ayuntamiento, ano_fiscal) {
-    return http.get(
-      `PresIngreso?anio=${ano_fiscal}&ID_AYUNTAMIENTO=${id_ayuntamiento}`,
-    )
-  }
-  getTotalIngresos(id_ayuntamiento, ano_fiscal) {
-    return http.get(
-      `/ingresoslista/ListarIngresosTotalizado/?ano=${ano_fiscal}&id=${id_ayuntamiento}`,
-    )
-  }
-  //-----------------------------INGRESOS---------------------------------------//
-
-  //-----------------------------GASTOS---------------------------------------//
-  getListarGastos() {
-    return http.get('/Financiero/ListarGastos')
-  }
-  //-----------------------------GASTOS---------------------------------------//
-
- 
-//-----------------------------CATALOGO---------------------------------------//
-  getListarCatalogo() {
-    return http.get('/Financiero/ListarCatalogoFunciones')
-  }
-//-----------------------------CATALOGO---------------------------------------//
-
-//   createProyecto(data) {
-//     return http.post('/api/ingresos/guardarPresProyecto', data)
-//   }
 }
-
 export default new FormulacionApi()

@@ -3,18 +3,21 @@
   <hr />
   <div>
     <div class="d-inline p-2">
-      <CButton color="info" @click="
-        () => {
-          lgDemo = true
-        }
-      ">Agregar</CButton>
+      <CButton
+        color="info"
+        @click="
+          () => {
+            lgDemo = true
+          }
+        "
+        >Agregar</CButton
+      >
     </div>
     <div class="d-inline p-2">
       <CButton style="font-weight: bold" color="info" @click="IngresoReport"
         >Imprimir</CButton
       >
     </div>
-
   </div>
   <hr />
   <CSmartTable
@@ -317,72 +320,52 @@
               </CCol>
 
               <CCol :md="2">
-                <CButton
-                  style="font-weight: bold"
-                  color="info"
+                <CButton style="font-weight: bold" color="info"
                   >30/9995/102</CButton
                 >
               </CCol>
               <CCol :md="2">
-                <CButton
-                  style="font-weight: bold"
-                  color="info"
+                <CButton style="font-weight: bold" color="info"
                   >30/9996/102</CButton
                 >
               </CCol>
               <CCol :md="2">
-                <CButton
-                  style="font-weight: bold"
-                  color="info"
+                <CButton style="font-weight: bold" color="info"
                   >30/9998/102</CButton
                 >
               </CCol>
               <CCol :md="2">
-                <CButton
-                  style="font-weight: bold"
-                  color="info"
+                <CButton style="font-weight: bold" color="info"
                   >30/9999/102</CButton
                 >
               </CCol>
               <CCol :md="2">
-                <CButton
-                  style="font-weight: bold"
-                  color="info"
+                <CButton style="font-weight: bold" color="info"
                   >10/0100/104</CButton
                 >
               </CCol>
               <CCol :md="2">
-                <CButton
-                  style="font-weight: bold"
-                  color="info"
+                <CButton style="font-weight: bold" color="info"
                   >40/9992/102</CButton
                 >
               </CCol>
               <CCol :md="2">
-                <CButton
-                  style="font-weight: bold"
-                  color="info"
+                <CButton style="font-weight: bold" color="info"
                   >40/9992/103</CButton
                 >
               </CCol>
               <CCol :md="2">
-                <CButton
-                  style="font-weight: bold"
-                  color="info"
+                <CButton style="font-weight: bold" color="info"
                   >40/9996/120</CButton
                 >
               </CCol>
               <CCol :md="2">
-                <CButton
-                  style="font-weight: bold"
-                  color="info"
+                <CButton style="font-weight: bold" color="info"
                   >40/9992/299</CButton
                 >
               </CCol>
               <CCol :md="2">
-                <CButton
-                  style="font-weight: bold"
-                  color="info"
+                <CButton style="font-weight: bold" color="info"
                   >50/2006/001</CButton
                 >
               </CCol>
@@ -448,7 +431,6 @@
 
                 <div class="col-12">
                   <div class="row">
-
                     <div class="col-4">
                       <CFormLabel for="validationCustom04"
                         >Cta. de Servicios</CFormLabel
@@ -459,13 +441,9 @@
                         Favor agregar el campo
                       </CFormFeedback>
                     </div>
-                    <div class="col-1">
-                      
-                    </div>
+                    <div class="col-1"></div>
                     <div class="col-2">
-                      <CFormLabel for="validationCustom04"
-                        >Tipo</CFormLabel
-                      >
+                      <CFormLabel for="validationCustom04">Tipo</CFormLabel>
                       <CFormInput id="validationCustom04"> </CFormInput>
                       <CFormFeedback valid> Exito! </CFormFeedback>
                       <CFormFeedback invalid>
@@ -477,7 +455,6 @@
 
                 <div class="col-12">
                   <div class="row">
-
                     <div class="col-4">
                       <CFormLabel for="validationCustom04"
                         >Cta. de Inversion</CFormLabel
@@ -488,25 +465,20 @@
                         Favor agregar el campo
                       </CFormFeedback>
                     </div>
-                    <div class="col-1">
-                        
-                      </div>
-                      <div class="col-2">
-                        <CFormLabel for="validationCustom04"
-                          >Tipo</CFormLabel
-                        >
-                        <CFormInput id="validationCustom04"> </CFormInput>
-                        <CFormFeedback valid> Exito! </CFormFeedback>
-                        <CFormFeedback invalid>
-                          Favor agregar el campo
-                        </CFormFeedback>
-                      </div>
+                    <div class="col-1"></div>
+                    <div class="col-2">
+                      <CFormLabel for="validationCustom04">Tipo</CFormLabel>
+                      <CFormInput id="validationCustom04"> </CFormInput>
+                      <CFormFeedback valid> Exito! </CFormFeedback>
+                      <CFormFeedback invalid>
+                        Favor agregar el campo
+                      </CFormFeedback>
+                    </div>
                   </div>
                 </div>
 
                 <div class="col-12">
                   <div class="row">
-
                     <div class="col-4">
                       <CFormLabel for="validationCustom04"
                         >Cta. de E/G y Salud</CFormLabel
@@ -517,21 +489,17 @@
                         Favor agregar el campo
                       </CFormFeedback>
                     </div>
-                    <div class="col-1">
-                          
-                        </div>
-                        <div class="col-2">
-                          <CFormLabel for="validationCustom04"
-                            >Tipo</CFormLabel
-                          >
-                          <CFormInput id="validationCustom04"> </CFormInput>
-                          <CFormFeedback valid> Exito! </CFormFeedback>
-                          <CFormFeedback invalid>
-                            Favor agregar el campo
-                          </CFormFeedback>
-                        </div>
+                    <div class="col-1"></div>
+                    <div class="col-2">
+                      <CFormLabel for="validationCustom04">Tipo</CFormLabel>
+                      <CFormInput id="validationCustom04"> </CFormInput>
+                      <CFormFeedback valid> Exito! </CFormFeedback>
+                      <CFormFeedback invalid>
+                        Favor agregar el campo
+                      </CFormFeedback>
+                    </div>
                   </div>
-                  </div>
+                </div>
               </div>
 
               <div class="modal-footer">
@@ -600,7 +568,11 @@ export default {
         { key: 'programa', label: 'Programa', _style: { width: '40%' } },
         { key: 'proyecto', label: 'Proyecto', _style: { width: '40%' } },
         { key: 'obra', label: 'Obra', _style: { width: '40%' } },
-        { key: 'denominacion', label: 'Denominacion', _style: { width: '40%' } },
+        {
+          key: 'denominacion',
+          label: 'Denominacion',
+          _style: { width: '40%' },
+        },
         { key: 'control', label: 'Control', _style: { width: '40%' } },
         { key: 'tipo', label: 'tipo', _style: { width: '40%' } },
         {
@@ -718,7 +690,7 @@ export default {
           'primary'
       }
     },
-    toggleDetails(item) {
+    toggleDetails() {
       // if (this.details.includes(item._id)) {
       //   this.details = this.details.filter((_item) => _item !== item._id)
       //   return
@@ -726,7 +698,7 @@ export default {
       // this.details.push(item._id)
       this.lgDemo = true
     },
-    toggleDetails1(item) {
+    toggleDetails1() {
       // if (this.details.includes(item._id)) {
       //   this.details = this.details.filter((_item) => _item !== item._id)
       //   return
