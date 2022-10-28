@@ -1,91 +1,113 @@
+/* eslint-disable prettier/prettier */
 import http from '@/Api/http-common'
 
-class FormulacionApi {
+class NominaApi {
   //-----------------------------CLASIFICADORES---------------------------------------//
-  //Obtener listado de Clasificadores
-  getListarClasificadores() {
-    return http.get('/Financiero/ListarClasificadores')
+  //get
+  getNomina() {
+    return http.get('Nomina')
   }
 
-  getClasificador(Clasificador){
-    return http.get(`/ingresoslista/filtrarClasificadores/?obj=${Clasificador}`)
+  getPocision() {
+    return http.get('Posicion')
   }
 
-  //PostIngreso
-  createIngreso(data) {
-    return http.post("/api/Ingreso/guardarPresIngreso", data);
-  }
-  
-
-  //Obtener clasificador especifico
-  getClasificador(Clasificador) {
-    return http.get(`/ingresoslista/filtrarClasificadores/?obj=${Clasificador}`)
-  }
-  //-----------------------------CLASIFICADORES---------------------------------------//
-
-  //-----------------------------ESTRUCTURA PROGRAMATICA---------------------------------------//
-
-  getListarEstructuraProgramatica() {
-    return http.get('/Financiero/ListarProgramatico')
+  getSectores() {
+    return http.get('Sector')
   }
 
-  //-----------------------------ESTRUCTURA PROGRAMATICA---------------------------------------//
-
-  //-----------------------------FUENTE ESPECIFICA---------------------------------------//
-  getFuenteEspecifica() {
-    return http.get('/Financiero/ListarFuentesEsp')
+  getDepartamento() {
+    return http.get('Departamento')
   }
-  //-----------------------------FUENTE ESPECIFICA---------------------------------------//
 
-  //-----------------------------FUENTE FINANCIAMIENTO---------------------------------------//
-  getListarFuentesFinanciamiento() {
-    return http.get('/Financiero/ListarFuentes')
+  getGrupoNomina() {
+    return http.get('GrupoNomina')
   }
-  //-----------------------------FUENTE FINANCIAMIENTO---------------------------------------//
 
-  //-----------------------------ORGANISMOS---------------------------------------//
-  getListarFinancieroCatalogoOrganismos() {
-    return http.get('/Financiero/ListarFinancieroCatalogoOrganismos')
+  getAreaTrabajo() {
+    return http.get('AreaTrabajo')
   }
-  //----------------------------ORGANISMOS---------------------------------------//
 
-  //-----------------------------PROYECTOS---------------------------------------//
-  getListarProyecto(id_ayuntamiento, ano_fiscal) {
-    return http.get(
-      `/Financiero/ListarProyecto/?ano=${ano_fiscal}&id=${id_ayuntamiento}`,
-    )
+  getConfiguracionNomina() {
+    return http.get('ConfiguracionNomina')
   }
-  //-----------------------------PROYECTOS---------------------------------------//
 
-  //-----------------------------INGRESOS---------------------------------------//
-  getListarIngresos(id_ayuntamiento, ano_fiscal) {
-    return http.get(
-      `/Financiero/ListarIngresos/?ano=${ano_fiscal}&id=${id_ayuntamiento}`,
-    )
-  }
-  getTotalIngresos(id_ayuntamiento, ano_fiscal) {
-    return http.get(
-      `/ingresoslista/ListarIngresosTotalizado/?ano=${ano_fiscal}&id=${id_ayuntamiento}`,
-    )
-  }
-  //-----------------------------INGRESOS---------------------------------------//
+  getProgramaDivision() {
 
-  //-----------------------------GASTOS---------------------------------------//
-  getListarGastos() {
-    return http.get('/Financiero/ListarGastos')
+    return http.get('ProgramaDivision')
   }
-  //-----------------------------GASTOS---------------------------------------//
 
- 
-//-----------------------------CATALOGO---------------------------------------//
-  getListarCatalogo() {
-    return http.get('/Financiero/ListarCatalogoFunciones')
+  //post
+
+  postNomina(data) {
+    return http.post('Nomina', data)
   }
-//-----------------------------CATALOGO---------------------------------------//
 
-//   createProyecto(data) {
-//     return http.post('/api/ingresos/guardarPresProyecto', data)
-//   }
+  postPocision(data) {
+    return http.post('Posicion', data)
+  }
+
+  postSectores(data) {
+    return http.post('Sector', data)
+  }
+
+  postDepartamento(data) {
+    return http.post('Departamento', data)
+  }
+
+  postGrupoNomina(data) {
+    return http.post('GrupoNomina', data)
+  }
+
+  postAreaTrabajo(data) {
+    return http.post('AreaTrabajo', data)
+  }
+
+  postConfiguracionNomina(data) {
+    return http.post('ConfiguracionNomina', data)
+  }
+
+  postProgramaDivision(data) {
+    return http.post('ProgramaDivision', data)
+  }
+
+  //put 
+
+
+  putNomina(data) {
+    return http.put('Nomina', data)
+  }
+
+  putPocision(data) {
+    return http.put('Posicion', data)
+  }
+
+  putSectores(data) {
+    return http.put('Sector', data)
+  }
+
+  putDepartamento(data) {
+    return http.put('Departamento', data)
+  }
+
+  putGrupoNomina(data) {
+    return http.put('GrupoNomina', data)
+  }
+
+  putAreaTrabajo(data) {
+    return http.put('AreaTrabajo', data)
+  }
+
+  putConfiguracionNomina(data) {
+    return http.put('ConfiguracionNomina', data)
+  }
+
+  putProgramaDivision(data) {
+    return http.put('ProgramaDivision', data)
+  }
+
+
+
 }
 
-export default new FormulacionApi()
+export default new NominaApi()

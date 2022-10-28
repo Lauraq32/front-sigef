@@ -101,9 +101,7 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom05"
-              >Está activo?</CFormLabel
-            >
+            <CFormLabel for="validationCustom05">Está activo?</CFormLabel>
             <CFormSelect id="validationCustom05">
               <option>Si</option>
               <option>No</option>
@@ -146,7 +144,11 @@ export default {
           label: 'Programa',
           _style: { width: '40%' },
         },
-        { key: 'Estructura Program', label: 'Estructura Program.', _style: { width: '40%' } },
+        {
+          key: 'Estructura Program',
+          label: 'Estructura Program.',
+          _style: { width: '40%' },
+        },
         { key: 'Activo?', label: 'Activo?', _style: { width: '40%' } },
         {
           key: 'show_details',
