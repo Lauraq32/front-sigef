@@ -64,7 +64,7 @@ class FormulacionApi {
   //-----------------------------INGRESOS---------------------------------------//
   getListarIngresos(id_ayuntamiento, ano_fiscal) {
     return http.get(
-      `/Financiero/ListarIngresos/?ano=${ano_fiscal}&id=${id_ayuntamiento}`,
+      `PresIngreso?anio=${ano_fiscal}&ID_AYUNTAMIENTO=${id_ayuntamiento}`,
     )
   }
   getTotalIngresos(id_ayuntamiento, ano_fiscal) {

@@ -3,6 +3,6 @@ module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave: false,
   devServer: {
-    proxy: 'http://www.sigefmunicipal.gob.do/',
+    proxy: 'https://localhost:44328/api/',
   },
 })
