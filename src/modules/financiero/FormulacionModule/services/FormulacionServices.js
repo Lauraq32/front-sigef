@@ -21,10 +21,32 @@ class FormulacionApi {
     return http.get('PresGasto')
   }
 
+  getFormulacionGatoById(id) {
+    return http.get(`PresGasto${id}`)
+  }
+
+  getPresIngreso() {
+    return http.get('PresIngreso')
+  }
+
+  getPresIngresoById(id) {
+    return http.get(`PresIngreso${id}`)
+  }
+
   //post
 
   postFormulacionGato(data) {
     return http.post('PresGasto', data)
+  }
+
+  postPresIngreso(data) {
+    return http.post('PresIngreso', data)
+  }
+
+  //put
+
+  putPresIngresoById(id) {
+    return http.put(`PresIngreso${id}`)
   }
 
 }
