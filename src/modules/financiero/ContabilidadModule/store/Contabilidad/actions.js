@@ -1,5 +1,5 @@
 import axios from "axios"
-import Api from '../../services/FormulacionServices'
+import Api from '../../services/ContabilidadServices'
 
 export const getClasificadores = async ({ commit }) => {
     Api.getListarClasificadores().then(response => {
