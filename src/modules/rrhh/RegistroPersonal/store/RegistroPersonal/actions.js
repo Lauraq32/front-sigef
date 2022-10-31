@@ -1,5 +1,5 @@
 import axios from "axios"
-import Api from '../../services/FormulacionServices'
+import Api from '../../services/RegistroPersonalServices'
 
 export const getUsuarios = async ({ commit }) => {
     Api.getUsuarioList().then(response => {

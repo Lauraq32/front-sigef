@@ -101,12 +101,14 @@
           </CCol>
           <CCol :md="2">
             <CFormLabel for="validationCustom02">Fecha Solicitud</CFormLabel>
-            <CFormInput type="date"  id="validationCustom02" required />
+            <CFormInput type="date" id="validationCustom02" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="2">
-            <CFormLabel for="validationCustomUsername">Nombre solicitante</CFormLabel>
+            <CFormLabel for="validationCustomUsername"
+              >Nombre solicitante</CFormLabel
+            >
             <CInputGroup class="has-validation">
               <CFormInput
                 id="validationCustomUsername"
@@ -125,9 +127,7 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom04"
-              >Edad</CFormLabel
-            >
+            <CFormLabel for="validationCustom04">Edad</CFormLabel>
             <CFormInput id="validationCustom04"> </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -138,7 +138,9 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
-            <CFormLabel for="validationCustom04">Posición solicitada</CFormLabel>
+            <CFormLabel for="validationCustom04"
+              >Posición solicitada</CFormLabel
+            >
             <CFormInput id="validationCustom04"> </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -206,11 +208,23 @@ export default {
       validatedCustom01: null,
       lgDemo: false,
       columns: [
-        { key: 'Solicitud No.', label: 'Solicitud No.', _style: { width: '40%' } },
-        { key: 'Nombre solicitante', label: 'Nombre solicitante', _style: { width: '40%' } },
+        {
+          key: 'Solicitud No.',
+          label: 'Solicitud No.',
+          _style: { width: '40%' },
+        },
+        {
+          key: 'Nombre solicitante',
+          label: 'Nombre solicitante',
+          _style: { width: '40%' },
+        },
         { key: 'Teléfono', label: 'Teléfono', _style: { width: '40%' } },
         { key: 'Edad', label: 'Edad', _style: { width: '40%' } },
-        { key: 'Entrevistado', label: 'Entrevistado', _style: { width: '40%' } },
+        {
+          key: 'Entrevistado',
+          label: 'Entrevistado',
+          _style: { width: '40%' },
+        },
         { key: 'Evaluado', label: 'Evaluado', _style: { width: '40%' } },
         { key: 'Califica', label: 'Califica', _style: { width: '40%' } },
         {
