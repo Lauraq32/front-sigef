@@ -30,7 +30,7 @@
     :activePage="1"
     footer
     header
-    :items="this.$store.state.RRHHModule.tipoSangre"
+    :items="tipoSangres"
     :columns="columns"
     columnFilter
     tableFilter
@@ -99,7 +99,9 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="2">
-            <CFormLabel for="validationCustomUsername">Tipo de sangre</CFormLabel>
+            <CFormLabel for="validationCustomUsername"
+              >Tipo de sangre</CFormLabel
+            >
             <CFormInput id="validationCustom04"> </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -121,37 +123,127 @@
     </CModalBody>
   </CModal>
 </template>
-<script>
 
+<script>
+import { useRegistroStore } from '../store/RegistroPersonal/TipoSangre'
+import { computed, onMounted } from '@vue/runtime-core'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
-  export default {
-    components: {
-      CSmartTable,
-      CModal,
-    },
-    data: () => {
-      return {
-        validatedCustom01: null,
-      lgDemo: false,
-        columns: [
-        { key: 'Código', label: 'Código', _style: { width: '40%' } },
-        { key: 'Tipo de sangre', label: 'Tipo de sangre', _style: { width: '40%' } },
-          {
-            key: 'show_details',
-            label: '',
-            _style: { width: '1%' },
-            filter: false,
-            sorter: false,
-            // _props: { color: 'primary', class: 'fw-semibold'}
-          }
-        ],
-        details: [],
-       
+
+export default {
+  components: {
+    CSmartTable,
+    CModal,
+  },
+
+  setup() {
+    onMounted(() => {
+      console.log('klk')
+      getTipoSangres()
+    }),
+      function toggleDetails(item) {
+        if (this.details.includes(item._id)) {
+          this.details = this.details.filter((_item) => _item !== item._id)
+          return
+        }
+        this.details.push(item._id)
       }
-    },
-    methods: {
-      handleSubmitCustom01(event) {
+    const columns = [
+      { key: 'Código', label: 'Código', _style: { width: '40%' } },
+      {
+        key: 'Tipo de sangre',
+        label: 'Tipo de sangre',
+        _style: { width: '40%' },
+      },
+      {
+        key: 'show_details',
+        label: '',
+        _style: { width: '1%' },
+        filter: false,
+        sorter: false,
+        // _props: { color: 'primary', class: 'fw-semibold'}
+      },
+    ]
+
+    function handleSubmitCustom01(event) {
+      const form = event.currentTarget
+      if (form.checkValidity() === false) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      this.validatedCustom01 = true
+    }
+
+    function getBadge(status) {
+      switch (status) {
+        case 'Active':
+          return 'success'
+        case 'Inactive':
+          return 'secondary'
+        case 'Pending':
+          return 'warning'
+        case 'Banned':
+          return 'danger'
+        default:
+          'primary'
+      }
+    }
+
+    const validatedCustom01 = null
+    const lgDemo = false
+
+    const store = useRegistroStore()
+
+    const { getTipoSangres, tipoSangre } = store
+
+    return {
+      store,
+      getTipoSangres,
+      tipoSangre,
+      validatedCustom01,
+      handleSubmitCustom01,
+      lgDemo,
+      getBadge,
+      columns,
+      tipoSangres: computed(() => store.tipoSangre),
+    }
+  },
+}
+</script>
+
+<!-- <script>
+import { CSmartTable } from '@coreui/vue-pro'
+import { CModal } from '@coreui/vue'
+export default {
+  components: {
+    CSmartTable,
+    CModal,
+  },
+  data: () => {
+    return {
+      validatedCustom01: null,
+      lgDemo: false,
+      columns: [
+        { key: 'Código', label: 'Código', _style: { width: '40%' } },
+        {
+          key: 'Tipo de sangre',
+          label: 'Tipo de sangre',
+          _style: { width: '40%' },
+        },
+        {
+          key: 'show_details',
+          label: '',
+          _style: { width: '1%' },
+          filter: false,
+          sorter: false,
+          // _props: { color: 'primary', class: 'fw-semibold'}
+        },
+      ],
+      details: [],
+    }
+  },
+  methods: {
+    handleSubmitCustom01(event) {
       const form = event.currentTarget
       if (form.checkValidity() === false) {
         event.preventDefault()
@@ -159,27 +251,30 @@ import { CModal } from '@coreui/vue'
       }
       this.validatedCustom01 = true
     },
-      getBadge (status) {
-        switch (status) {
-          case 'Active': return 'success'
-          case 'Inactive': return 'secondary'
-          case 'Pending': return 'warning'
-          case 'Banned': return 'danger'
-          default: 'primary'
-        }
-      },
-      toggleDetails (item) {
-        if (this.details.includes(item._id)) {
-          this.details = this.details.filter((_item) => _item !== item._id)
-          return
-        }
-        this.details.push(item._id)
+    getBadge(status) {
+      switch (status) {
+        case 'Active':
+          return 'success'
+        case 'Inactive':
+          return 'secondary'
+        case 'Pending':
+          return 'warning'
+        case 'Banned':
+          return 'danger'
+        default:
+          'primary'
       }
     },
-    mounted(){
-      this.$store.dispatch('AdministrativoModule/getUsuarios')
-    }
-    
-   
-  }
-</script>
+    toggleDetails(item) {
+      if (this.details.includes(item._id)) {
+        this.details = this.details.filter((_item) => _item !== item._id)
+        return
+      }
+      this.details.push(item._id)
+    },
+  },
+  mounted() {
+    this.$store.dispatch('AdministrativoModule/getUsuarios')
+  },
+}
+</script> -->

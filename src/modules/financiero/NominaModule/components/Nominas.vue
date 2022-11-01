@@ -25,7 +25,7 @@
     :activePage="1"
     footer
     header
-    :items="this.$store.state.Formulacion.proyecto"
+    :items="Nominas"
     :columns="columns"
     columnFilter
     tableFilter
@@ -90,7 +90,7 @@
           <CCol :md="4">
             <CFormLabel for="validationCustom01">Código</CFormLabel>
             <CFormInput id="validationCustom01" required />
-           
+
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -108,20 +108,112 @@
             >
               Close
             </button>
-            <button
-              class="btn btn-info btn-block mt-1"
-              v-on:click="Guardar"
-            >
-            Guardar
+            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+              Guardar
             </button>
-         
           </div>
         </CForm>
       </CCardBody>
     </CModalBody>
   </CModal>
 </template>
+
 <script>
+import { useRegistroStore } from '../store/Nomina/nomina'
+import { computed, onMounted } from '@vue/runtime-core'
+import { CSmartTable } from '@coreui/vue-pro'
+import { CModal } from '@coreui/vue'
+
+export default {
+  components: {
+    CSmartTable,
+    CModal,
+  },
+
+  setup() {
+    onMounted(() => {
+      console.log('klk')
+      getNomina()
+    }),
+      function toggleDetails(item) {
+        if (this.details.includes(item._id)) {
+          this.details = this.details.filter((_item) => _item !== item._id)
+          return
+        }
+        this.details.push(item._id)
+      }
+    const columns = [
+      { key: 'Apellido', label: 'Apellido', _style: { width: '40%' } },
+      { key: 'Nombre', label: 'Nombre', _style: { width: '40%' } },
+      { key: 'Cédula', label: 'Cédula', _style: { width: '40%' } },
+      { key: 'Programa', label: 'Programa', _style: { width: '40%' } },
+      {
+        key: 'Direccion o Dependencia',
+        label: 'Direccion o Dependencia',
+        _style: { width: '40%' },
+      },
+      { key: 'Cargo', label: 'Cargo', _style: { width: '40%' } },
+      { key: 'Sueldo', label: 'Sueldo', _style: { width: '40%' } },
+      { key: 'Forma Pago', label: 'Forma Pago', _style: { width: '40%' } },
+      { key: 'No. Cuenta', label: 'No. Cuenta', _style: { width: '40%' } },
+      { key: 'Código', label: 'Código', _style: { width: '40%' } },
+      {
+        key: 'show_details',
+        label: '',
+        _style: { width: '1%' },
+        filter: false,
+        sorter: false,
+        // _props: { color: 'primary', class: 'fw-semibold'}
+      },
+    ]
+
+    function handleSubmitCustom01(event) {
+      const form = event.currentTarget
+      if (form.checkValidity() === false) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      this.validatedCustom01 = true
+    }
+
+    function getBadge(status) {
+      switch (status) {
+        case 'Active':
+          return 'success'
+        case 'Inactive':
+          return 'secondary'
+        case 'Pending':
+          return 'warning'
+        case 'Banned':
+          return 'danger'
+        default:
+          'primary'
+      }
+    }
+
+    const validatedCustom01 = null
+    const lgDemo = false
+
+    const store = useRegistroStore()
+
+    const { Nomina, getNomina } = store
+
+    return {
+      store,
+      Nomina,
+      getNomina,
+      validatedCustom01,
+      handleSubmitCustom01,
+      lgDemo,
+      getBadge,
+      columns,
+      Nominas: computed(() => store.Nomina),
+    }
+  },
+}
+</script>
+
+<!-- <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 export default {
@@ -138,7 +230,11 @@ export default {
         { key: 'Nombre', label: 'Nombre', _style: { width: '40%' } },
         { key: 'Cédula', label: 'Cédula', _style: { width: '40%' } },
         { key: 'Programa', label: 'Programa', _style: { width: '40%' } },
-        { key: 'Direccion o Dependencia', label: 'Direccion o Dependencia', _style: { width: '40%' } },
+        {
+          key: 'Direccion o Dependencia',
+          label: 'Direccion o Dependencia',
+          _style: { width: '40%' },
+        },
         { key: 'Cargo', label: 'Cargo', _style: { width: '40%' } },
         { key: 'Sueldo', label: 'Sueldo', _style: { width: '40%' } },
         { key: 'Forma Pago', label: 'Forma Pago', _style: { width: '40%' } },
@@ -191,4 +287,4 @@ export default {
     this.$store.dispatch('Formulacion/getProyectos')
   },
 }
-</script>
+</script> -->
