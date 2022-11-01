@@ -25,7 +25,7 @@
     :activePage="1"
     footer
     header
-    :items="this.$store.state.Formulacion.proyecto"
+    :items="sectore"
     :columns="columns"
     columnFilter
     tableFilter
@@ -90,7 +90,7 @@
           <CCol :md="4">
             <CFormLabel for="validationCustom01">Código</CFormLabel>
             <CFormInput id="validationCustom01" required />
-           
+
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -108,20 +108,100 @@
             >
               Close
             </button>
-            <button
-              class="btn btn-info btn-block mt-1"
-              v-on:click="Guardar"
-            >
-            Guardar
+            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+              Guardar
             </button>
-         
           </div>
         </CForm>
       </CCardBody>
     </CModalBody>
   </CModal>
 </template>
+
 <script>
+import { useRegistroStore } from '../store/Nomina/Sectores'
+import { computed, onMounted } from '@vue/runtime-core'
+import { CSmartTable } from '@coreui/vue-pro'
+import { CModal } from '@coreui/vue'
+
+export default {
+  components: {
+    CSmartTable,
+    CModal,
+  },
+
+  setup() {
+    onMounted(() => {
+      console.log('klk')
+      getSectore()
+    }),
+      function toggleDetails(item) {
+        if (this.details.includes(item._id)) {
+          this.details = this.details.filter((_item) => _item !== item._id)
+          return
+        }
+        this.details.push(item._id)
+      }
+    const columns = [
+      { key: 'Código', label: 'Código', _style: { width: '40%' } },
+      { key: 'Sectores', label: 'Sectores', _style: { width: '40%' } },
+      {
+        key: 'show_details',
+        label: '',
+        _style: { width: '1%' },
+        filter: false,
+        sorter: false,
+        // _props: { color: 'primary', class: 'fw-semibold'}
+      },
+    ]
+
+    function handleSubmitCustom01(event) {
+      const form = event.currentTarget
+      if (form.checkValidity() === false) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      this.validatedCustom01 = true
+    }
+
+    function getBadge(status) {
+      switch (status) {
+        case 'Active':
+          return 'success'
+        case 'Inactive':
+          return 'secondary'
+        case 'Pending':
+          return 'warning'
+        case 'Banned':
+          return 'danger'
+        default:
+          'primary'
+      }
+    }
+
+    const validatedCustom01 = null
+    const lgDemo = false
+
+    const store = useRegistroStore()
+
+    const { sectores, getSectore } = store
+
+    return {
+      store,
+      sectores,
+      getSectore,
+      validatedCustom01,
+      handleSubmitCustom01,
+      lgDemo,
+      getBadge,
+      columns,
+      sectore: computed(() => store.sectores),
+    }
+  },
+}
+</script>
+
+<!-- <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 export default {
@@ -183,4 +263,4 @@ export default {
     this.$store.dispatch('Formulacion/getProyectos')
   },
 }
-</script>
+</script> -->

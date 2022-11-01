@@ -25,7 +25,7 @@
     :activePage="1"
     footer
     header
-    :items="this.$store.state.Formulacion.proyecto"
+    :items="grupoNominas"
     :columns="columns"
     columnFilter
     tableFilter
@@ -101,7 +101,9 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
-            <CFormLabel for="validationCustom02"> Estructura programática</CFormLabel>
+            <CFormLabel for="validationCustom02">
+              Estructura programática</CFormLabel
+            >
             <CFormInput id="validationCustom02" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -118,13 +120,17 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
-            <CFormLabel for="validationCustom02">Cuenta corriente No.</CFormLabel>
+            <CFormLabel for="validationCustom02"
+              >Cuenta corriente No.</CFormLabel
+            >
             <CFormInput id="validationCustom02" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
-            <CFormLabel for="validationCustom02">Código de la nomina en el banco</CFormLabel>
+            <CFormLabel for="validationCustom02"
+              >Código de la nomina en el banco</CFormLabel
+            >
             <CFormInput id="validationCustom02" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -146,7 +152,96 @@
     </CModalBody>
   </CModal>
 </template>
+
 <script>
+import { useRegistroStore } from '../store/Nomina/grupoNomina'
+import { computed, onMounted } from '@vue/runtime-core'
+import { CSmartTable } from '@coreui/vue-pro'
+import { CModal } from '@coreui/vue'
+
+export default {
+  components: {
+    CSmartTable,
+    CModal,
+  },
+
+  setup() {
+    onMounted(() => {
+      console.log('klk')
+      getGNomina()
+    }),
+      function toggleDetails(item) {
+        if (this.details.includes(item._id)) {
+          this.details = this.details.filter((_item) => _item !== item._id)
+          return
+        }
+        this.details.push(item._id)
+      }
+    const columns = [
+      { key: 'Código', label: 'Código', _style: { width: '40%' } },
+      {
+        key: 'Descripción',
+        label: 'Descripción',
+        _style: { width: '40%' },
+      },
+      { key: 'Estructura', label: 'Estructura', _style: { width: '40%' } },
+      {
+        key: 'show_details',
+        label: '',
+        _style: { width: '1%' },
+        filter: false,
+        sorter: false,
+        // _props: { color: 'primary', class: 'fw-semibold'}
+      },
+    ]
+
+    function handleSubmitCustom01(event) {
+      const form = event.currentTarget
+      if (form.checkValidity() === false) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      this.validatedCustom01 = true
+    }
+
+    function getBadge(status) {
+      switch (status) {
+        case 'Active':
+          return 'success'
+        case 'Inactive':
+          return 'secondary'
+        case 'Pending':
+          return 'warning'
+        case 'Banned':
+          return 'danger'
+        default:
+          'primary'
+      }
+    }
+
+    const validatedCustom01 = null
+    const lgDemo = false
+
+    const store = useRegistroStore()
+
+    const { grupoNomina, getGNomina } = store
+
+    return {
+      store,
+      grupoNomina,
+      getGNomina,
+      validatedCustom01,
+      handleSubmitCustom01,
+      lgDemo,
+      getBadge,
+      columns,
+      grupoNominas: computed(() => store.grupoNomina),
+    }
+  },
+}
+</script>
+
+<!-- <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 export default {
@@ -213,4 +308,4 @@ export default {
     this.$store.dispatch('Formulacion/getProyectos')
   },
 }
-</script>
+</script> -->
