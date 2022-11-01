@@ -37,6 +37,37 @@ class NominaApi {
     return http.get('ProgramaDivision')
   }
 
+  getSectorbyid(id) {
+    return http.get(`Sector/${id}`)
+  }
+
+  getGrupoNominaById(value) {
+    return http.get(`GrupoNomina/${value}`)
+  }
+
+  getDepartamentoById(id) {
+    return http.get(`Departamento/${id}`)
+  }
+
+  getPocisionbyid(id) {
+    return http.get(`Pocision/${id}`)
+  }
+
+  getConfiguracionNominabyid(id) {
+    return http.get(`ConfiguracionNomina/${id}`)
+  }
+
+  getNominabyid(id) {
+    return http.get(`Nomina/${id}`)
+  }
+
+  getProgramaDivisionbyid(id) {
+    return http.get(`ProgramaDivision/${id}`)
+  }
+
+  getAreaTrabajobyid(id) {
+    return http.get(`AreaTrabajo/${id}`)
+  }
   //post
 
   postNomina(data) {
@@ -74,38 +105,43 @@ class NominaApi {
   //put 
 
 
-  putNomina(data) {
-    return http.put('Nomina', data)
+  putNomina(id) {
+    return http.put(`Nomina/${id}`)
   }
 
-  putPocision(data) {
-    return http.put('Posicion', data)
+  putPocision(id) {
+    return http.put(`Pocision/${id}`)
   }
 
-  putSectores(data) {
-    return http.put('Sector', data)
+  putSector(id) {
+    return http.put(`Sector/${id}`)
   }
 
-  putDepartamento(data) {
-    return http.put('Departamento', data)
+  putGrupoNomina(id) {
+    return http.put(`GrupoNomina/${id}`)
   }
 
-  putGrupoNomina(data) {
-    return http.put('GrupoNomina', data)
+  putDepartamento(id) {
+    return http.put(`Departamento/${id}`)
   }
 
-  putAreaTrabajo(data) {
-    return http.put('AreaTrabajo', data)
+  putAreaTrabajo(id) {
+    return http.put(`AreaTrabajo/${id}`)
   }
 
-  putConfiguracionNomina(data) {
-    return http.put('ConfiguracionNomina', data)
+  putConfiguracionNomina(id) {
+    return http.put(`ConfiguracionNomina/${id}`)
   }
 
-  putProgramaDivision(data) {
-    return http.put('ProgramaDivision', data)
+  putProgramaDivision(id) {
+    return http.put(`ProgramaDivision/${id}`)
   }
 
+  //delete
+
+  deleteSector(id) {
+    return http.delete(`Sector/${id}`)
+  }
 
 
 }

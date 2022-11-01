@@ -3,7 +3,7 @@ import Formulacion from '@/modules/financiero/FormulacionModule/store/Formulacio
 import AdministrativoModule from '@/modules/administrativo/Usuario/store/Administrativo'
 import myCustomModule from '@/store/module-template'
 import RRHHModule from '@/modules/rrhh/RegistroPersonal/store/RegistroPersonal'
-import EjecucionModule from '@/modules/financiero/EjecucionModule/store/module-template'
+import EjecucionModule from '@/modules/financiero/EjecucionModule/store/Ejecucion'
 import CCBancaria from '@/modules/financiero/ConciliacionBancaria/store/CCBancaria'
 import FacturacionCobros from '@/modules/financiero/FacturacionCobrosModule/store/FacturacionCobros'
 

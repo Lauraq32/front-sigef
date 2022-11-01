@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import Api from '../../services/ActivoFijoServices'
@@ -8,21 +9,21 @@ import Api from '../../services/ActivoFijoServices'
 // the first argument is a unique id of the store across your application
 export const useRegistroStore = defineStore('Categorias', () => {
   const categorias = ref([
-    
+
   ])
 
-  
+
   //const name = ref('Eduardo')
   const getAllCategoria = computed(() => categorias)
 
-  function getCategoria(){
-    Api.getAllCategoria().then( (response)=>{
+  function getCategoria() {
+    Api.getAllCategoria().then((response) => {
       categorias.value = response.data
-    } )
+    })
   }
 
   function addCategoria(data) {
-    Api.postCategoria(data).then( (response) => {
+    Api.postCategoria(data).then((response) => {
       console.log(response)
     })
   }

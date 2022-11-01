@@ -13,7 +13,9 @@
     </div>
 
     <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReport">Imprimir</CButton>
+      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
+        >Imprimir</CButton
+      >
     </div>
   </div>
   <hr />
@@ -56,18 +58,26 @@
     A la fecha: <span style="font-weight: 500 !important;">{{ formatPrice(formulado.alafecha) }}</span>
     Presupuesto formulado: <span style="font-weight: 500 !important;">{{ formatPrice(formulado.preS_FORM) }}</span>
   </div>
-  <CModal size="lg" :visible="lgDemo" @close="
-    () => {
-      lgDemo = false
-    }
-  ">
+  <CModal
+    size="lg"
+    :visible="lgDemo"
+    @close="
+      () => {
+        lgDemo = false
+      }
+    "
+  >
     <CModalHeader>
       <CModalTitle>Formulación Ingreso</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
-        <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01"
-          @submit="handleSubmitCustom01">
+        <CForm
+          class="row g-3 needs-validation"
+          novalidate
+          :validated="validatedCustom01"
+          @submit="handleSubmitCustom01"
+        >
           <CCol :md="4">
             <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
             <CFormInput :disabled="edit" v-model="postIngreso.clasificadorId" id="validationCustom01" required
@@ -154,7 +164,7 @@ import { CModal } from '@coreui/vue'
 import { ref } from 'vue'
 import Api from '../services/FormulacionServices'
 import { mapActions, mapGetters, mapState } from 'vuex'
-import axios from "axios";
+import axios from 'axios'
 
 import { PostIngreso } from '../store/Formulacion/actions'
 
@@ -250,7 +260,7 @@ export default {
   methods: {
     formatPrice(value) {
       let val = (value / 1).toFixed(2).replace('.', '.')
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     },
     clearModal() {
       this.postIngreso = {
@@ -340,6 +350,10 @@ export default {
       }
     },
     getClasificador() {
+      this.$store.dispatch(
+        'Formulacion/getClasificador',
+        this.postIngreso.CLASIFICA,
+      )
 
       this.$store.dispatch('Formulacion/getClasificador', this.postIngreso.CLASIFICA)
 
@@ -353,11 +367,7 @@ export default {
         this.postIngreso.ctgOrganismoFinanciadorId = response.data.data.ctgOrganismoFinanciadorId
       })
 
-
-
       //this.focusAno();
-
-
     },
     // getTotal() {
     //   axios
@@ -396,7 +406,14 @@ export default {
       }
     },
     IngresoReport() {
-      window.open(`http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fseguridad%2fReport1&rs:Command=Render&id=${localStorage.getItem('id_Ayuntamiento')}&ano=${localStorage.getItem('ano')}`, '_blank').focus();
+      window
+        .open(
+          `http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fseguridad%2fReport1&rs:Command=Render&id=${localStorage.getItem(
+            'id_Ayuntamiento',
+          )}&ano=${localStorage.getItem('ano')}`,
+          '_blank',
+        )
+        .focus()
     },
     toggleDetails(item) {
       // if (this.details.includes(item._id)) {
@@ -424,11 +441,10 @@ export default {
 
     },
 
-    ...mapActions('Formulacion', ['getListarIngresos'])
+    ...mapActions('Formulacion', ['getListarIngresos']),
   },
   computed: {
     ...mapState('Formulacion', ['ingresos']),
-
   },
   // mounted(){
   //     this.$store.dispatch('Formulacion/getListarIngresos');
