@@ -8,7 +8,7 @@
           :values="[{ title: 'Plan anual de compras', value: '' }]"
         >
           <template #icon>
-            <CIcon :icon="cilWallet" style="color: #f5f5f5;" size="9xl" />
+            <CIcon :icon="cilList" style="color: #f5f5f5;" size="9xl" />
           </template>
           <template #chart>
             <CChart
@@ -86,7 +86,7 @@
 </template>
 <script>
 import { CIcon } from '@coreui/icons-vue'
-import { cilWallet, cilCart } from '@coreui/icons-pro'
+import { cilWallet, cilCart,cilList } from '@coreui/icons-pro'
 export default {
   components: {
     CIcon,
@@ -94,7 +94,8 @@ export default {
   setup() {
     return {
       cilWallet,
-      cilCart
+      cilCart,
+      cilList
     }
   },
   name: 'Fianciero',

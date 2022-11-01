@@ -4,12 +4,20 @@ export default [
     component: 'CNavTitle',
     name: 'Áreas',
   },
+  // {
+  //   component: 'CNavItem',
+  //   name: 'Home',
+  //   to: '/home',
+  //   icon: 'cilHome',
+  // },
   {
     component: 'CNavItem',
     name: 'Financiero',
     to: '/financiero',
     icon: 'cilBank',
+    
   },
+
   {
     component: 'CNavItem',
     name: 'Compras',
@@ -50,10 +58,7 @@ export default [
         to: '/financiero',
         icon: 'cilChartLine',
         items: [
-          {
-            component: 'CNavTitle',
-            name: 'Maestras',
-          },
+         
           {
             component: 'CNavItem',
             name: 'Clasificadores',
@@ -126,10 +131,7 @@ export default [
         to: '/Ejecucion',
         icon: 'cilChartPie',
         items: [
-          {
-            component: 'CNavTitle',
-            name: 'Maestras',
-          },
+       
           {
             component: 'CNavItem',
             name: 'Año fiscal',
@@ -228,10 +230,7 @@ export default [
         to: '/ActivoFijoModule',
         icon: 'cilCouch',
         items: [
-          {
-            component: 'CNavTitle',
-            name: 'Maestras',
-          },
+        
           {
             component: 'CNavItem',
             name: 'Categorías',
@@ -298,10 +297,7 @@ export default [
         to: '/NominaModule',
         icon: 'cilMoney',
         items: [
-          {
-            component: 'CNavTitle',
-            name: 'Maestras',
-          },
+        
           {
             component: 'CNavItem',
             name: 'Clasificadores nómina',
@@ -382,10 +378,7 @@ export default [
         to: '/ContabilidadModule',
         icon: 'cilDollar',
         items: [
-          {
-            component: 'CNavTitle',
-            name: 'Maestras',
-          },
+       
           {
             component: 'CNavItem',
             name: 'Cuentas contables',
@@ -446,10 +439,7 @@ export default [
         to: '/ConciliacionBancaria',
         icon: 'cilBank',
         items: [
-          {
-            component: 'CNavTitle',
-            name: 'Maestras',
-          },
+       
           {
             component: 'CNavItem',
             name: 'Cuentas de bancos ',
@@ -551,10 +541,7 @@ export default [
         to: '/FacturacionCobrosModule',
         icon: 'cilCreditCard',
         items: [
-          {
-            component: 'CNavTitle',
-            name: 'Maestras',
-          },
+      
           {
             component: 'CNavItem',
             name: 'Arbitrios-Impustos-Tazas',
@@ -645,10 +632,7 @@ export default [
         to: '/CuentasPorPagarModule',
         icon: 'cilNotes',
         items:[
-          {
-            component:'CNavTitle',
-            name:'Maestras'
-          },
+      
           {
             component: 'CNavItem',
             name: 'Suplidores',

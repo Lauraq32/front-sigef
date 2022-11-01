@@ -91,7 +91,7 @@ export default {
 //this.gotToDashboard()
     },
 
-    gotToDashboard() { this.$router.push({ name: 'financiero' }) },
+    gotToDashboard() { this.$router.push({ name: 'home' }) },
   },
 
 }

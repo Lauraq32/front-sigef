@@ -18,7 +18,7 @@ import CuentasPorPagarModule from '../modules/financiero/CuentasPorPagarModule/r
 
 const routes = [
   {
-    path: '/dashboard',
+    path: '/Home',
     name: 'Home',
     component: DefaultLayout,
     children: [
@@ -30,6 +30,15 @@ const routes = [
         // which is lazy-loaded when the route is visited.
         component: () =>
           import(/* webpackChunkName: "dashboard" */ '@/views/Dashboard.vue'),
+      },
+      {
+        path: '/home',
+        name: 'home',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () =>
+          import(/* webpackChunkName: "dashboard" */ '@/views/home.vue'),
       },
       {
         path: '/financiero',
