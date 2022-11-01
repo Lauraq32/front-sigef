@@ -19,7 +19,7 @@
 
 
                     <CFormInput id="validationCustom01" placeholder="Usuario" autocomplete="Correo" required
-                      v-model="userForm.email" />
+                      v-model="userForm.usuario" />
                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                   </CInputGroup>
                   <CInputGroup class="mb-4">
@@ -76,19 +76,19 @@ export default {
   },
   methods: {
     handleSubmitCustom01(event) {
-      // const form = event.currentTarget
-      // if (form.checkValidity() === false) {
-      //   event.preventDefault()
-      //   event.stopPropagation()
+      const form = event.currentTarget
+      if (form.checkValidity() === false) {
+        event.preventDefault()
+        event.stopPropagation()
 
-      // }
-      // event.preventDefault()
-      //   event.stopPropagation()
-      // this.validatedCustom01 = true
-      // this.$store.commit('myCustomModule/SET_USER', this.userForm)
-      //this.gotToDashboard()
-      //this.$store.dispatch('myCustomModule/Login')
-this.gotToDashboard()
+      }
+      event.preventDefault()
+        event.stopPropagation()
+      this.validatedCustom01 = true
+      this.$store.commit('myCustomModule/SET_USER', this.userForm)
+      this.gotToDashboard()
+      this.$store.dispatch('myCustomModule/Login')
+//this.gotToDashboard()
     },
 
     gotToDashboard() { this.$router.push({ name: 'financiero' }) },

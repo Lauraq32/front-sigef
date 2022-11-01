@@ -46,13 +46,15 @@ export const getClasificador = async ({ commit }, clasificador) => {
 }
 export const PostIngreso = async ({ commit }, data) => {
     Api.createIngreso(data).then(response => {
-        console.log(response.data)
-        commit('SET_INGRESO',data)
+        console.log(response.data.data)
+       
+            commit('SET_INGRESO',data.data)
+
     })
 }
 export const getListarIngresos = async ({ commit }) => {
     Api.getListarIngresos(localStorage.getItem('id_Ayuntamiento'),localStorage.getItem('ano')).then(response => {
-        console.log(response.data)
-        commit('SET_INGRESOS',response.data)
+        console.log(response.data.data)
+        commit('SET_INGRESOS',response.data.data)
     })
 }

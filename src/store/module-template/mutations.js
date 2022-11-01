@@ -6,15 +6,15 @@ import router from '@/router'
 import Api from '../services/Auth'
 
 export const SET_USER = (state, user) => {
-    Api.Login(user.email, user.password).then(response => {
+    Api.Login(user).then(response => {
         state.user = response.data
-        localStorage.setItem('usuario', response.data.nombre)
-        localStorage.setItem('nombre_ayuntamiento', response.data.ayuntamiento)
-        localStorage.setItem('ano', response.data.anofiscal)
-        localStorage.setItem('id_Ayuntamiento', response.data.id_Ayuntamiento)
+        localStorage.setItem('usuario', response.data.data.usuario.email)
+        localStorage.setItem('nombre_ayuntamiento', response.data.data.usuario.nombre)
+        localStorage.setItem('ano', response.data.data.anioFiscal.anioFiscalDate)
+        localStorage.setItem('id_Ayuntamiento', response.data.data.anioFiscal.ayuntamientoId)
 
 
-        if (response.data.ayuntamiento != null) {
+        if (response.data.data.anioFiscal.ayuntamientoId != null) {
             router.push({ name: 'financiero' })
       
           }else{
