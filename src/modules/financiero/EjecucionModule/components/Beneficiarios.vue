@@ -25,7 +25,7 @@
     :activePage="1"
     footer
     header
-    :items="this.$store.state.Formulacion.proyecto"
+    :items="Beneficiario"
     :columns="columns"
     columnFilter
     tableFilter
@@ -215,7 +215,100 @@
     </CModalBody>
   </CModal>
 </template>
+
 <script>
+import { useRegistroStore } from '../store/Ejecucion/Beneficiarios'
+import { computed, onMounted } from '@vue/runtime-core'
+import { CSmartTable } from '@coreui/vue-pro'
+import { CModal } from '@coreui/vue'
+
+export default {
+  components: {
+    CSmartTable,
+    CModal,
+  },
+
+  setup() {
+    onMounted(() => {
+      console.log('klk')
+      getBeneficiarios()
+    }),
+      function toggleDetails(item) {
+        if (this.details.includes(item._id)) {
+          this.details = this.details.filter((_item) => _item !== item._id)
+          return
+        }
+        this.details.push(item._id)
+      }
+    const columns = [
+      { key: 'Código', label: 'Código', _style: { width: '40%' } },
+      {
+        key: 'Beneficiario',
+        label: 'Beneficiario',
+        _style: { width: '40%' },
+      },
+      { key: 'Cédula', label: 'Cédula', _style: { width: '40%' } },
+      { key: 'Tipo', label: 'Tipo', _style: { width: '40%' } },
+      { key: 'Contacto', label: 'Contacto', _style: { width: '40%' } },
+      { key: 'Teléfono 1', label: 'Teléfono 1', _style: { width: '40%' } },
+      { key: 'Teléfono 2', label: 'Teléfono 2', _style: { width: '40%' } },
+      {
+        key: 'show_details',
+        label: '',
+        _style: { width: '1%' },
+        filter: false,
+        sorter: false,
+        // _props: { color: 'primary', class: 'fw-semibold'}
+      },
+    ]
+
+    function handleSubmitCustom01(event) {
+      const form = event.currentTarget
+      if (form.checkValidity() === false) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      this.validatedCustom01 = true
+    }
+
+    function getBadge(status) {
+      switch (status) {
+        case 'Active':
+          return 'success'
+        case 'Inactive':
+          return 'secondary'
+        case 'Pending':
+          return 'warning'
+        case 'Banned':
+          return 'danger'
+        default:
+          'primary'
+      }
+    }
+
+    const validatedCustom01 = null
+    const lgDemo = false
+
+    const store = useRegistroStore()
+
+    const { getBeneficiarios, Beneficiarios } = store
+
+    return {
+      store,
+      getBeneficiarios,
+      Beneficiarios,
+      validatedCustom01,
+      handleSubmitCustom01,
+      lgDemo,
+      getBadge,
+      columns,
+      Beneficiario: computed(() => store.Beneficiarios),
+    }
+  },
+}
+</script>
+
+<!-- <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 export default {
@@ -230,7 +323,11 @@ export default {
       lgDemo: false,
       columns: [
         { key: 'Código', label: 'Código', _style: { width: '40%' } },
-        { key: 'Beneficiario', label: 'Beneficiario', _style: { width: '40%' } },
+        {
+          key: 'Beneficiario',
+          label: 'Beneficiario',
+          _style: { width: '40%' },
+        },
         { key: 'Cédula', label: 'Cédula', _style: { width: '40%' } },
         { key: 'Tipo', label: 'Tipo', _style: { width: '40%' } },
         { key: 'Contacto', label: 'Contacto', _style: { width: '40%' } },
@@ -244,7 +341,7 @@ export default {
           sorter: false,
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
-      ],
+      ]
       details: [],
     }
   },
@@ -283,4 +380,4 @@ export default {
     this.$store.dispatch('Formulacion/getProyectos')
   },
 }
-</script>
+</script> -->
