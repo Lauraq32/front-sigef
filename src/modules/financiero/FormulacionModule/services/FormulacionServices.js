@@ -110,6 +110,19 @@ class FormulacionApi {
   }
 //-----------------------------CATALOGO---------------------------------------//
 
+
+
+
+//-----------------------------PrepGastos---------------------------------------//
+
+getListarGastos() {
+  return http.get(`PresGasto?anio=${localStorage.getItem('ano')}&ID_AYUNTAMIENTO=${ localStorage.getItem('id_Ayuntamiento')}`)
+}
+
+
+
+
+
 //   createProyecto(data) {
 //     return http.post('/api/ingresos/guardarPresProyecto', data)
 //   }

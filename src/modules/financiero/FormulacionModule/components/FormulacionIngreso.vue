@@ -80,7 +80,7 @@
         >
           <CCol :md="4">
             <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
-            <CFormInput :disabled="edit" v-model="postIngreso.clasificadorId" id="validationCustom01" required
+            <CFormInput :disabled="edit" v-model="postIngreso.clasificadorId" type="number" id="validationCustom01" required
               on:keyup.native.enter="getClasificador" />
             <button :hidden="edit" class="btn btn-primary btn-block mt-1" v-on:click="getClasificador">
               Buscar
@@ -105,20 +105,20 @@
           </CCol>
           <CCol :md="6">
             <CFormLabel for="validationCustom03">Fuente Financiamiento</CFormLabel>
-            <CFormInput :disabled="this.postIngreso.ctgFuenteId !== '' ? true : false " v-model="postIngreso.ctgFuenteId" id="validationCustom03" required />
+            <CFormInput :disabled="ctgFuenteId"  v-model="postIngreso.ctgFuenteId" id="validationCustom03" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom04">Fuente Especifica</CFormLabel>
-            <CFormInput :disabled="this.postIngreso.ctgFuenteEspecificaId !== '' ? true : false " v-model="postIngreso.ctgFuenteEspecificaId" id="validationCustom04" required>
+            <CFormInput :disabled="ctgFuenteEspecificaId" v-model="postIngreso.ctgFuenteEspecificaId" id="validationCustom04" required>
             </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom05">Organismo Financiador</CFormLabel>
-            <CFormInput :disabled="this.postIngreso.ctgOrganismoFinanciadorId !== '' ? true : false " v-model="postIngreso.ctgOrganismoFinanciadorId" id="validationCustom05" required />
+            <CFormInput :disabled="ctgOrganismoFinanciadorId" v-model="postIngreso.ctgOrganismoFinanciadorId" id="validationCustom05" required />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <hr />
@@ -175,6 +175,9 @@ export default {
   },
   data: () => {
     return {
+      ctgFuenteId:true,
+      ctgFuenteEspecificaId:true,
+      ctgOrganismoFinanciadorId:true,
       formuladoValue:false,
       edit:false,
       id: null,
@@ -258,6 +261,31 @@ export default {
     }
   },
   methods: {
+    validateInputctgFuente(){
+      if(this.postIngreso.ctgFuenteId == ''){
+        this.ctgFuenteId = false
+      }
+      else if(this.postIngreso.ctgFuenteId !== '' || this.postIngreso.ctgFuenteId.length > 30){
+        this.ctgFuenteId = true
+      }
+    },
+    validateInputctgFuenteEspecificaId(){
+      if(this.postIngreso.ctgFuenteEspecificaId == ''){
+        this.ctgFuenteEspecificaId = false
+      }
+      else if(this.postIngreso.ctgFuenteEspecificaId !== '' || this.postIngreso.ctgFuenteEspecificaId.length > 30){
+        this.ctgFuenteEspecificaId = true
+      }
+    },
+    validateInputctgOrganismoFinanciadorId(){
+      if(this.postIngreso.ctgOrganismoFinanciadorId == ''){
+        this.ctgOrganismoFinanciadorId = false
+      }
+      else if(this.postIngreso.ctgOrganismoFinanciadorId !== '' || this.postIngreso.ctgOrganismoFinanciadorId.length > 30){
+        this.ctgOrganismoFinanciadorId = true
+      }
+    },
+
     formatPrice(value) {
       let val = (value / 1).toFixed(2).replace('.', '.')
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -365,8 +393,11 @@ export default {
         this.postIngreso.ctgFuenteId = response.data.data.ctgFuenteId
         this.postIngreso.ctgFuenteEspecificaId = response.data.data.ctgFuenteEspecificaId
         this.postIngreso.ctgOrganismoFinanciadorId = response.data.data.ctgOrganismoFinanciadorId
+        this.validateInputctgFuente()
+      this.validateInputctgFuenteEspecificaId()
+      this.validateInputctgOrganismoFinanciadorId()
       })
-
+      
       //this.focusAno();
     },
     // getTotal() {
