@@ -31,7 +31,7 @@
     :activePage="1"
     footer
     header
-    :items="registroPersonal"
+    :items="Personal"
     :columns="columns"
     cleaner
     itemsPerPageSelect
@@ -224,13 +224,18 @@
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 //import store from '@/store'
-import { useRegistroStore } from '../store/RegistroPersonal/piniaTest'
+import { useRegistroStore } from '../store/RegistroPersonal/Empleados'
 import { computed } from '@vue/reactivity'
+import { onMounted } from '@vue/runtime-core'
 
 export default {
   components: { CSmartTable },
 
   setup() {
+    onMounted(() => {
+      console.log('klk')
+      getRegistroPersonal()
+    })
     function toggleDetails(item) {
       if (this.details.includes(item._id)) {
         this.details = this.details.filter((_item) => _item !== item._id)
@@ -298,7 +303,13 @@ export default {
       },
     ]
     const details = []
-    const { registroPersonal, addPersonal, getAllPersonal, is_loading } = store
+    const {
+      registroPersonal,
+      getRegistroPersonal,
+      addPersonal,
+      getAllPersonal,
+      is_loading,
+    } = store
 
     return {
       // you can return the whole store instance to use it in the template
@@ -315,7 +326,8 @@ export default {
       columns,
       submit,
       is_loading,
-      prueba: computed(() => store.registroPersonal),
+      getRegistroPersonal,
+      Personal: computed(() => store.registroPersonal),
     }
   },
 }
