@@ -8,9 +8,9 @@ import Api from '../../services/NominaServices'
 // and `Store` (e.g. `useUserStore`, `useCartStore`, `useProductStore`)
 // the first argument is a unique id of the store across your application
 export const useRegistroStore = defineStore('Nomina', () => {
-    const Nomina = ref([
-
+    let Nomina = ref([
     ])
+
 
 
     //const name = ref('Eduardo')
