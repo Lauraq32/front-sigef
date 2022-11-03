@@ -17,7 +17,7 @@
   <CSmartTable clickableRows :tableProps="{
     striped: false,
     hover: true,
-  }" :tableHeadProps="{}" :activePage="1" footer header :items="this.$store.state.Formulacion.formulacionGasto"
+  }" :tableHeadProps="{}" :activePage="1" footer header :items="registroPersonal"
     :columns="columns" columnFilter tableFilter cleaner itemsPerPageSelect :itemsPerPage="5" columnSorter
     :sorterValue="{ column: 'status', state: 'asc' }" pagination>
     <template #status="{ item }">
@@ -414,11 +414,17 @@
     </div>
   </CModal>
 </template>
-<!-- <script>
+<script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/FormulacionServices'
 import axios from 'axios'
+import { mapActions, mapState } from 'pinia'
+import {usePrepGastoStore} from '../store/Formulacion/prepGasto'
+import { mount } from '@vue/test-utils'
+import { mapStores } from 'pinia'
+import { mapGetters } from 'vuex'
+
 export default {
   components: {
     CSmartTable,
@@ -426,6 +432,7 @@ export default {
   },
   data: () => {
     return {
+
       formulado: {
         alafecha: 0,
         anO_ANT: 0,
@@ -439,20 +446,20 @@ export default {
         { key: 'pnap', label: 'Pnap', _style: { width: '40%' } },
         { key: 'programa', label: 'Programa', _style: { width: '40%' } },
         { key: 'proyecto', label: 'Proyecto', _style: { width: '40%' } },
-        { key: 'obra', label: 'Obra', _style: { width: '40%' } },
-        {
-          key: 'denominacion',
-          label: 'Denominacion',
-          _style: { width: '40%' },
-        },
-        { key: 'control', label: 'Control', _style: { width: '40%' } },
+        { key: 'nombre', label: 'Obra', _style: { width: '40%' } },
+        // {
+        //   key: 'denominacion',
+        //   label: 'Denominacion',
+        //   _style: { width: '40%' },
+        // },
+        { key: 'actControl', label: 'Control', _style: { width: '40%' } },
         { key: 'tipo', label: 'tipo', _style: { width: '40%' } },
         {
-          key: 'unidadResponsable',
+          key: 'unidadResp',
           label: 'Unidad responsable',
           _style: { width: '40%' },
         },
-        { key: 'presupuesto', label: 'presupuesto', _style: { width: '40%' } },
+        { key: 'totalPresupuesto', label: 'presupuesto', _style: { width: '40%' } },
         {
           key: 'show_details',
           label: '',
@@ -515,6 +522,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(usePrepGastoStore, ['getListarGastos']),
     formatPrice(value) {
       let val = (value / 1).toFixed(2).replace('.', '.')
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -579,17 +587,36 @@ export default {
       this.lgDemo1 = true
     },
   },
+
+  computed: {
+    ...mapStores(usePrepGastoStore),
+  //  ...mapGetters(usePrepGastoStore,['getAllGasto']),
+   ...mapState(usePrepGastoStore, ['registroPersonal']),
+  },
+
+  mounted(){
+  this.getListarGastos()
+    
+    }, 
 }
-</script> -->
-<script>
+
+</script>
+<!-- <script>
 import { CSmartTable } from '@coreui/vue-pro'
-import { CModal } from '@coreui/vue'
+import { CModal } from '@coreui/vue-pro'
 import Api from '../services/FormulacionServices'
 import axios from 'axios'
 import { usePrepGastoStore } from '../store/Formulacion/prepGasto'
 import { onMounted } from 'vue'
 
+
+
 export default {
+  components:{
+    CSmartTable,
+    CModal
+  },
+
   setup() {
     const store = usePrepGastoStore()
     const { getListarGastos} = store
@@ -702,19 +729,14 @@ export default {
       this.lgDemo1 = true
     }
 
-
-
-    onMounted = () =>{
-      getListarGastos();
-    }
-
-
+    onMounted(() => {
+      console.log('holla')
+    })
 
 
 
     return {
       CSmartTable,
-      CModal,
       formulado,
       validatedCustom01,
       lgDemo,
@@ -738,4 +760,4 @@ export default {
 }
 
 
-</script>
+</script> -->
