@@ -52,19 +52,8 @@
       </td>
     </template>
     <template #show_details="{ item, index }">
-<<<<<<< HEAD
       <td class="py-1">
         <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="toggleDetails(item)">
-=======
-      <td class="py-2">
-        <CButton
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item)"
-        >
->>>>>>> Edward/T-Formulario
           {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
        
@@ -128,24 +117,9 @@
         >
           <CCol :md="4">
             <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
-<<<<<<< HEAD
             <CFormInput :disabled="edit" v-model="postIngreso.clasificadorId" type="number" id="validationCustom01" required
               on:keyup.native.enter="getClasificador" />
             <button :hidden="edit" class="btn btn-primary btn-block mt-1" v-on:click="getClasificador">
-=======
-            <CFormInput
-              :disabled="edit"
-              v-model="postIngreso.clasificadorId"
-              id="validationCustom01"
-              required
-              on:keyup.native.enter="getClasificador"
-            />
-            <button
-              :hidden="edit"
-              class="btn btn-primary btn-block mt-1"
-              v-on:click="getClasificador"
-            >
->>>>>>> Edward/T-Formulario
               Buscar
             </button>
             <CFormFeedback valid> Exito! </CFormFeedback>
@@ -178,58 +152,21 @@
             </CInputGroup>
           </CCol>
           <CCol :md="6">
-<<<<<<< HEAD
             <CFormLabel for="validationCustom03">Fuente Financiamiento</CFormLabel>
             <CFormInput :disabled="ctgFuenteId"  v-model="postIngreso.ctgFuenteId" id="validationCustom03" required />
-=======
-            <CFormLabel for="validationCustom03"
-              >Fuente Financiamiento</CFormLabel
-            >
-            <CFormInput
-              :disabled="this.postIngreso.ctgFuenteId !== '' ? true : false"
-              v-model="postIngreso.ctgFuenteId"
-              id="validationCustom03"
-              required
-            />
->>>>>>> Edward/T-Formulario
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom04">Fuente Especifica</CFormLabel>
-<<<<<<< HEAD
             <CFormInput :disabled="ctgFuenteEspecificaId" v-model="postIngreso.ctgFuenteEspecificaId" id="validationCustom04" required>
-=======
-            <CFormInput
-              :disabled="
-                this.postIngreso.ctgFuenteEspecificaId !== '' ? true : false
-              "
-              v-model="postIngreso.ctgFuenteEspecificaId"
-              id="validationCustom04"
-              required
-            >
->>>>>>> Edward/T-Formulario
             </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-<<<<<<< HEAD
             <CFormLabel for="validationCustom05">Organismo Financiador</CFormLabel>
             <CFormInput :disabled="ctgOrganismoFinanciadorId" v-model="postIngreso.ctgOrganismoFinanciadorId" id="validationCustom05" required />
-=======
-            <CFormLabel for="validationCustom05"
-              >Organismo Financiador</CFormLabel
-            >
-            <CFormInput
-              :disabled="
-                this.postIngreso.ctgOrganismoFinanciadorId !== '' ? true : false
-              "
-              v-model="postIngreso.ctgOrganismoFinanciadorId"
-              id="validationCustom05"
-              required
-            />
->>>>>>> Edward/T-Formulario
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <hr />
@@ -300,16 +237,11 @@ export default {
   },
   data: () => {
     return {
-<<<<<<< HEAD
       ctgFuenteId:true,
       ctgFuenteEspecificaId:true,
       ctgOrganismoFinanciadorId:true,
       formuladoValue:false,
       edit:false,
-=======
-      formuladoValue: false,
-      edit: false,
->>>>>>> Edward/T-Formulario
       id: null,
       formulado: {
         alafecha: 0,
@@ -523,18 +455,11 @@ export default {
         this.postIngreso.control = response.data.data.cControl
         this.postIngreso.detalle = response.data.data.nombre
         this.postIngreso.ctgFuenteId = response.data.data.ctgFuenteId
-<<<<<<< HEAD
         this.postIngreso.ctgFuenteEspecificaId = response.data.data.ctgFuenteEspecificaId
         this.postIngreso.ctgOrganismoFinanciadorId = response.data.data.ctgOrganismoFinanciadorId
         this.validateInputctgFuente()
       this.validateInputctgFuenteEspecificaId()
       this.validateInputctgOrganismoFinanciadorId()
-=======
-        this.postIngreso.ctgFuenteEspecificaId =
-          response.data.data.ctgFuenteEspecificaId
-        this.postIngreso.ctgOrganismoFinanciadorId =
-          response.data.data.ctgOrganismoFinanciadorId
->>>>>>> Edward/T-Formulario
       })
       
       //this.focusAno();
