@@ -8,7 +8,7 @@ import Api from '../../services/NominaServices'
 // and `Store` (e.g. `useUserStore`, `useCartStore`, `useProductStore`)
 // the first argument is a unique id of the store across your application
 export const useRegistroStore = defineStore('Nomina', () => {
-    let Nomina = ref([
+    const Nomina = ref([
     ])
 
 
@@ -18,7 +18,7 @@ export const useRegistroStore = defineStore('Nomina', () => {
 
     function getNomina() {
         Api.getNomina().then((response) => {
-            Nomina.value = response.data
+            Nomina.value = response.data.data
         })
     }
 
