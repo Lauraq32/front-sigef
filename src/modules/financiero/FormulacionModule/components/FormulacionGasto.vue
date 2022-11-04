@@ -17,8 +17,8 @@
   <CSmartTable clickableRows :tableProps="{
     striped: false,
     hover: true,
-  }" :tableHeadProps="{}" :activePage="1" footer header :items="registroPersonal"
-    :columns="columns" columnFilter tableFilter cleaner itemsPerPageSelect :itemsPerPage="5" columnSorter
+  }" :tableHeadProps="{}" :activePage="1" footer header :items="registroPersonal" :columns="columns" columnFilter
+    tableFilter cleaner itemsPerPageSelect :itemsPerPage="5" columnSorter
     :sorterValue="{ column: 'status', state: 'asc' }" pagination>
     <template #status="{ item }">
       <td>
@@ -28,7 +28,7 @@
     <!-- Borre el , index  dentro del template de abajo -->
     <template #show_details="{ item }">
       <td class="py-2">
-        <CButton color="primary" variant="outline" square size="sm" @click="toggleDetails()">
+        <CButton color="primary" variant="outline" square size="sm" @click="toggleDetails(item)">
           {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
       </td>
@@ -77,45 +77,45 @@
           @submit="handleSubmitCustom01">
           <CCol :md="2">
             <CFormLabel for="validationCustom01">PNAP</CFormLabel>
-            <CFormInput id="validationCustom01" />
+            <CFormInput v-model="post.presGasto.pnap" id="validationCustom01" />
 
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="2">
             <CFormLabel for="validationCustom02">Programa</CFormLabel>
-            <CFormInput id="validationCustom02" required />
+            <CFormInput v-model="post.presGasto.programa" id="validationCustom02" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="2">
             <CFormLabel for="validationCustomUsername">Proyecto</CFormLabel>
             <CInputGroup class="has-validation">
-              <CFormInput id="validationCustomUsername" value="" aria-describedby="inputGroupPrepend" required />
+              <CFormInput v-model="post.presGasto.proyecto" id="validationCustomUsername" value="" aria-describedby="inputGroupPrepend" required />
               <CFormFeedback valid> Éxito! </CFormFeedback>
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </CInputGroup>
           </CCol>
           <CCol :md="4">
             <CFormLabel for="validationCustom03">Actividad/Obra</CFormLabel>
-            <CFormInput id="validationCustom03" required />
+            <CFormInput v-model="post.presGasto.costObra" id="validationCustom03" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom04">Est. Programática control</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
+            <CFormInput v-model="post.presGasto.estControl" id="validationCustom04"> </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom05">Denominación</CFormLabel>
-            <CFormInput id="validationCustom05" required />
+            <CFormInput v-model="post.presGasto.tipo" id="validationCustom05" required />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
             <CFormLabel for="validationCustom04">Unidad responsable</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
+            <CFormInput v-model="post.presGasto.unidadResp" id="validationCustom04"> </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -130,7 +130,7 @@
           </CCol>
           <CCol :md="4">
             <CFormLabel for="validationCustom04">No. fondo transferido</CFormLabel>
-            <CFormInput id="validationCustom04"></CFormInput>
+            <CFormInput v-model="post.presGasto.costObra" id="validationCustom04"></CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -146,10 +146,9 @@
         <CSmartTable clickableRows :tableProps="{
           striped: false,
           hover: true,
-        }" :tableHeadProps="{}" :activePage="1" footer header
-          :items="this.$store.state.Formulacion.formulacionGasto2" :columns="columns2" columnFilter tableFilter cleaner
-          itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
-          pagination>
+        }" :tableHeadProps="{}" :activePage="1" footer header :items="GastosListDos" :columns="columns2" columnFilter
+          tableFilter cleaner itemsPerPageSelect :itemsPerPage="5" columnSorter
+          :sorterValue="{ column: 'status', state: 'asc' }" pagination>
           <template #status="{ item }">
             <td>
               <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
@@ -420,7 +419,7 @@ import { CModal } from '@coreui/vue'
 import Api from '../services/FormulacionServices'
 import axios from 'axios'
 import { mapActions, mapState } from 'pinia'
-import {usePrepGastoStore} from '../store/Formulacion/prepGasto'
+import { usePrepGastoStore } from '../store/Formulacion/prepGasto'
 import { mount } from '@vue/test-utils'
 import { mapStores } from 'pinia'
 import { mapGetters } from 'vuex'
@@ -432,7 +431,52 @@ export default {
   },
   data: () => {
     return {
-
+      post: {
+        presGasto: {
+          ayuntamientoId: 1,
+          anioFiscalId: 1,
+          mestProgId: "0001000001",
+          pnap: "00",
+          nombre: "Normas y Seguimientos",
+          programa: "01",
+          proyecto: "00",
+          actControl: "01",
+          estControl: "0000",
+          unidadResp: "Consejo Municipal",
+          tipo: "DETALLE",
+          totalPresupuesto: 1000,
+          costObra: 1000,
+          pppm: "n",
+          modContatro: "n",
+          asignadoA: 0,
+          fechaIniciada: "2022-10-31T14:18:15.972Z"
+        },
+        detallePresGasto: {
+          ayuntamientoId: 1,
+          anioFiscalId: 1,
+          mestProgId: "0001000001",
+          ctgClasificadorId: "111101",
+          cControl: "1111",
+          auxiliar: "01",
+          ctgFuenteId: "30",
+          ctgFuenteEspecificaId: "9996",
+          ctgOrganismoFinanciadorId: "102",
+          oriFondos: "1000",
+          ctgFuncionId: 1,
+          nombre: "Impuestos sobre los ingresos de personas físicas",
+          tipo: "DETALLE",
+          tipoGasto: "Ayu",
+          oriBco1: 0,
+          oriBco2: 1000,
+          oriBco3: 0,
+          oriBco4: 0,
+          totalOriginal: 1000,
+          totalCompromiso: 1000,
+          totalDevengado: 1000,
+          totalPagado: 1000,
+          totalVariacion: 1000
+        }
+      },
       formulado: {
         alafecha: 0,
         anO_ANT: 0,
@@ -522,18 +566,21 @@ export default {
     }
   },
   methods: {
-    ...mapActions(usePrepGastoStore, ['getListarGastos']),
+    ...mapActions(usePrepGastoStore, ['getListarGastos', 'getListarGastosById','addGasto']),
     formatPrice(value) {
       let val = (value / 1).toFixed(2).replace('.', '.')
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     },
     handleSubmitCustom01(event) {
+      this.addGasto(this.post)
       const form = event.currentTarget
       if (form.checkValidity() === false) {
         event.preventDefault()
         event.stopPropagation()
+      
       }
       this.validatedCustom01 = true
+  
     },
     getTotal() {
       axios
@@ -570,12 +617,16 @@ export default {
           'primary'
       }
     },
-    toggleDetails() {
+    toggleDetails(item) {
       // if (this.details.includes(item._id)) {
       //   this.details = this.details.filter((_item) => _item !== item._id)
       //   return
       // }
+      this.getListarGastosById(item.id)
       // this.details.push(item._id)
+        console.log(this.getGasto)
+      this.post.presGasto = this.getGasto
+      //this.post.presGasto.pnap = "00"
       this.lgDemo = true
     },
     toggleDetails1() {
@@ -590,14 +641,15 @@ export default {
 
   computed: {
     ...mapStores(usePrepGastoStore),
-  //  ...mapGetters(usePrepGastoStore,['getAllGasto']),
-   ...mapState(usePrepGastoStore, ['registroPersonal']),
+    //  ...mapGetters(usePrepGastoStore,['getAllGasto']),
+    ...mapState(usePrepGastoStore, ['registroPersonal', 'GastosListDos','getGasto']),
   },
 
-  mounted(){
-  this.getListarGastos()
-    
-    }, 
+  mounted() {
+    this.getListarGastos()
+
+
+  },
 }
 
 </script>

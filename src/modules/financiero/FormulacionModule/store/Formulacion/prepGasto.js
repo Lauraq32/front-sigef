@@ -7,7 +7,8 @@ import Api from '../../services/FormulacionServices'
 // the first argument is a unique id of the store across your application
 export const usePrepGastoStore = defineStore('prepGasto', () => {
   const registroPersonal = ref([])
-
+  const  GastosListDos= ref([])
+  let getGasto = ref(null)
   const is_loading = true
   //const name = ref('Eduardo')
 
@@ -18,11 +19,26 @@ export const usePrepGastoStore = defineStore('prepGasto', () => {
     })
   }
 
+  function getListarGastosById(id) {
+    Api.getListarGastosById(id).then( (response) => {
+        console.log(response.data.data)
+        getGasto.value = response.data.data
+        //console.log(getGasto.value.data)
+        //GastosListDos.value = response.data.data
+    })
+  }
+
   const getAllGasto = computed(() => registroPersonal)
 
   function addPersonal(data) {
     registroPersonal.value.push(data)
   }
 
-  return { registroPersonal, addPersonal,getListarGastos,getAllGasto, is_loading }
+  function addGasto(post){
+    Api.postGastos(post).then( (response) => {
+      console.log(response);
+    })
+  }
+
+  return { registroPersonal,getListarGastos,getListarGastosById,GastosListDos,addGasto,getGasto }
 })

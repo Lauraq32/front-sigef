@@ -119,6 +119,23 @@ getListarGastos() {
   return http.get(`PresGasto?anio=${localStorage.getItem('ano')}&ID_AYUNTAMIENTO=${ localStorage.getItem('id_Ayuntamiento')}`)
 }
 
+getListarGastosById(id) {
+  return http.get(`PresGasto/${id}?anio=${localStorage.getItem('ano')}&ID_AYUNTAMIENTO=${ localStorage.getItem('id_Ayuntamiento')}`)
+}
+
+postGastos(post) {
+  return http.post(`PresGasto`,post).catch((error)=>{
+    Swal.fire({
+      position: 'top-end',
+      icon: 'error',
+      text: error.response.data.detail,
+      title:'Error',
+      showConfirmButton: false,
+      timer: 1500
+    })
+  })
+}
+
 
 
 

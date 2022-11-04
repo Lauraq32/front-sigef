@@ -32,9 +32,15 @@
       </td>
     </template>
     <template #show_details="{ item, index }">
-      <td class="py-2">
-        <CButton color="primary" variant="outline" square size="sm" @click="toggleDetails(item)">
+      <td class="py-1">
+        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="toggleDetails(item)">
           {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
+        </CButton>
+       
+      </td>
+      <td class="py-1">
+        <CButton class="mt-1" color="danger" variant="outline" square size="sm" @click="toggleDetails(item)">
+          {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
         </CButton>
       </td>
     </template>
