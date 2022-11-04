@@ -22,6 +22,7 @@
     "coreui_library_short_version": "4.1"
   },
   "dependencies": {
+    "@babel/runtime": "^7.20.1",
     "@coreui/chartjs": "^3.0.0",
     "@coreui/coreui": "^4.1.0",
     "@coreui/coreui-pro": "^4.3.4",
@@ -33,9 +34,11 @@
     "@coreui/vue-chartjs": "2.0.0",
     "@coreui/vue-pro": "^4.4.2",
     "axios": "^0.27.2",
+    "bootstrap-vue": "^2.23.1",
     "core-js": "^3.19.0",
     "pinia": "^2.0.23",
-    "vue": "^3.2.23",
+    "vue": "^3.2.41",
+    "vue-nav-tabs": "^0.5.7",
     "vue-router": "^4.0.12",
     "vue-sweetalert2": "^5.0.5",
     "vuex": "^4.0.2"
