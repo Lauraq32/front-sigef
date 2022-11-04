@@ -25,7 +25,7 @@
     :activePage="1"
     footer
     header
-    :items="this.$store.state.Formulacion.proyecto"
+    :items="Sectore"
     :columns="columns"
     columnFilter
     tableFilter
@@ -90,7 +90,7 @@
           <CCol :md="4">
             <CFormLabel for="validationCustom01">Proyecto</CFormLabel>
             <CFormInput id="validationCustom01" required />
-           
+
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -101,30 +101,24 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="6">
-            <CFormLabel for="validationCustom03"
-              >Descripción</CFormLabel
-            >
+            <CFormLabel for="validationCustom03">Descripción</CFormLabel>
             <CFormInput id="validationCustom03" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom04">Fecha inicio</CFormLabel >
+            <CFormLabel for="validationCustom04">Fecha inicio</CFormLabel>
             <CFormInput type="date" id="validationCustom04"> </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom05"
-              >Fecha fin</CFormLabel
-            >
+            <CFormLabel for="validationCustom05">Fecha fin</CFormLabel>
             <CFormInput type="date" id="validationCustom05" required />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom05"
-              >Participativo</CFormLabel
-            >
+            <CFormLabel for="validationCustom05">Participativo</CFormLabel>
             <CFormSelect id="validationCustom05">
               <option>Si</option>
               <option>no</option>
@@ -139,20 +133,108 @@
             >
               Close
             </button>
-            <button
-              class="btn btn-info btn-block mt-1"
-              v-on:click="Guardar"
-            >
-            Guardar
+            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+              Guardar
             </button>
-         
           </div>
         </CForm>
       </CCardBody>
     </CModalBody>
   </CModal>
 </template>
+
 <script>
+import { useRegistroStore } from '../store/FacturacionCobros/Sectores'
+import { computed, onMounted } from '@vue/runtime-core'
+import { CSmartTable } from '@coreui/vue-pro'
+import { CModal } from '@coreui/vue'
+
+export default {
+  components: {
+    CSmartTable,
+    CModal,
+  },
+
+  setup() {
+    onMounted(() => {
+      console.log('klk')
+      getSectore()
+    }),
+      function toggleDetails(item) {
+        if (this.details.includes(item._id)) {
+          this.details = this.details.filter((_item) => _item !== item._id)
+          return
+        }
+        this.details.push(item._id)
+      }
+    const columns = [
+      { key: 'id', label: 'ID', _style: { width: '40%' } },
+      { key: 'Codigo', label: 'Codigo', _style: { width: '40%' } },
+      { key: 'Finalidad', label: 'Finalidad', _style: { width: '40%' } },
+      { key: 'funcion', label: 'funcion', _style: { width: '40%' } },
+      { key: 'Sub funcion', label: 'Sub funcion', _style: { width: '40%' } },
+      {
+        key: 'Denominacion',
+        label: 'Denominacion',
+        _style: { width: '40%' },
+      },
+      {
+        key: 'show_details',
+        label: '',
+        _style: { width: '1%' },
+        filter: false,
+        sorter: false,
+        // _props: { color: 'primary', class: 'fw-semibold'}
+      },
+    ]
+
+    function handleSubmitCustom01(event) {
+      const form = event.currentTarget
+      if (form.checkValidity() === false) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      this.validatedCustom01 = true
+    }
+
+    function getBadge(status) {
+      switch (status) {
+        case 'Active':
+          return 'success'
+        case 'Inactive':
+          return 'secondary'
+        case 'Pending':
+          return 'warning'
+        case 'Banned':
+          return 'danger'
+        default:
+          'primary'
+      }
+    }
+
+    const validatedCustom01 = null
+    const lgDemo = false
+
+    const store = useRegistroStore()
+
+    const { getSectore, Sectores } = store
+
+    return {
+      store,
+      getSectore,
+      Sectores,
+      validatedCustom01,
+      handleSubmitCustom01,
+      lgDemo,
+      getBadge,
+      columns,
+      Sectore: computed(() => store.Sectores),
+    }
+  },
+}
+</script>
+
+<!-- <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 export default {
@@ -170,7 +252,11 @@ export default {
         { key: 'Finalidad', label: 'Finalidad', _style: { width: '40%' } },
         { key: 'funcion', label: 'funcion', _style: { width: '40%' } },
         { key: 'Sub funcion', label: 'Sub funcion', _style: { width: '40%' } },
-        { key: 'Denominacion', label: 'Denominacion', _style: { width: '40%' } },
+        {
+          key: 'Denominacion',
+          label: 'Denominacion',
+          _style: { width: '40%' },
+        },
         {
           key: 'show_details',
           label: '',
@@ -218,4 +304,4 @@ export default {
     this.$store.dispatch('Formulacion/getProyectos')
   },
 }
-</script>
+</script> -->

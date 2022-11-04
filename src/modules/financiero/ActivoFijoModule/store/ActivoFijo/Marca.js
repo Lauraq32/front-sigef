@@ -7,32 +7,32 @@ import Api from '../../services/ActivoFijoServices'
 // but it's best to use the name of the store and surround it with `use`
 // and `Store` (e.g. `useUserStore`, `useCartStore`, `useProductStore`)
 // the first argument is a unique id of the store across your application
-export const useRegistroStore = defineStore('AreaUbicacion', () => {
-    const areaUbicacion = ref([
+export const useRegistroStore = defineStore('Marcas', () => {
+    const Marcas = ref([
 
     ])
 
 
     //const name = ref('Eduardo')
-    const getAreas = computed(() => areaUbicacion)
+    const getMarca = computed(() => Marcas)
 
-    function getArea() {
-        Api.getAllArea().then((response) => {
-            areaUbicacion.value = response.data
+    function getMarcas() {
+        Api.getAllMarca().then((response) => {
+            Marcas.value = response.data
         })
     }
 
-    function addArea(data) {
-        Api.postArea(data).then((response) => {
+    function addMarcas(data) {
+        Api.postMarca(data).then((response) => {
             console.log(response)
         })
     }
 
-    function putArea(data) {
-        Api.putArea(data).then((response) => {
+    function putMarcas(data) {
+        Api.putMarca(data).then((response) => {
             console.log(response)
         })
     }
 
-    return { areaUbicacion, getAreas, getArea, addArea, putArea }
+    return { Marcas, getMarca, getMarcas, addMarcas, putMarcas }
 })
