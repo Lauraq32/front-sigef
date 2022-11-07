@@ -86,7 +86,7 @@ export default {
         event.stopPropagation()
       this.validatedCustom01 = true
       this.$store.commit('myCustomModule/SET_USER', this.userForm)
-      this.gotToDashboard()
+      //this.gotToDashboard()
       this.$store.dispatch('myCustomModule/Login')
 //this.gotToDashboard()
     },

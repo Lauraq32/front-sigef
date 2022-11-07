@@ -4,6 +4,7 @@
 
 import router from '@/router'
 import Api from '../services/Auth'
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 export const SET_USER = (state, user) => {
     Api.Login(user).then(response => {
@@ -20,7 +21,16 @@ export const SET_USER = (state, user) => {
           }else{
               alert("Usuario incorrecto")
           }
-    })
+    }).catch( (error) => {
+        console.log(error.response.data.detail);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          text: error.response.data.detail,
+          title:'Error',
+          showConfirmButton: false,
+          timer: 1500
+        })})
     // router.push({ name: 'financiero' })
 
 }
