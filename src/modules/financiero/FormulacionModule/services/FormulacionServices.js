@@ -9,40 +9,40 @@ class FormulacionApi {
     return http.get('/Financiero/ListarClasificadores')
   }
 
-  getClasificador(Clasificador){
+  getClasificador(Clasificador) {
     return http.get(`PresIngreso/GetClasificadorById/${Clasificador}`)
   }
-  getPresIngresoById(item){
+  getPresIngresoById(item) {
     return http.get(`/PresIngreso/${item.id}?anio=${item.anioFiscalId}&ID_AYUNTAMIENTO=${item.ayuntamientoId}`)
   }
 
-  editPresIngreso(id,data){
-    return http.put(`/PresIngreso/${id}`,data)
+  editPresIngreso(id, data) {
+    return http.put(`/PresIngreso/${id}`, data)
   }
 
   //PostIngreso
   createIngreso(data) {
-    return http.post("PresIngreso", data).catch( (error) => {
+    return http.post("PresIngreso", data).catch((error) => {
       console.log(error.response.data.detail);
       Swal.fire({
         position: 'top-end',
         icon: 'error',
         text: error.response.data.detail,
-        title:'Error',
+        title: 'Error',
         showConfirmButton: false,
         timer: 1500
       })
-     
+
       //alert(error.response.data.detail)
     }
     );
-    
+
   }
 
-  getTotalIngresos(id_ayuntamiento,ano_fiscal){
+  getTotalIngresos(id_ayuntamiento, ano_fiscal) {
     return http.get(`/ingresoslista/ListarIngresosTotalizado/?ano=${ano_fiscal}&id=${id_ayuntamiento}`)
   }
-  
+
 
   //Obtener clasificador especifico
   // getClasificador(Clasificador) {
@@ -103,46 +103,46 @@ class FormulacionApi {
   }
   //-----------------------------GASTOS---------------------------------------//
 
- 
-//-----------------------------CATALOGO---------------------------------------//
+
+  //-----------------------------CATALOGO---------------------------------------//
   getListarCatalogo() {
     return http.get('/Financiero/ListarCatalogoFunciones')
   }
-//-----------------------------CATALOGO---------------------------------------//
+  //-----------------------------CATALOGO---------------------------------------//
 
 
 
 
-//-----------------------------PrepGastos---------------------------------------//
+  //-----------------------------PrepGastos---------------------------------------//
 
-getListarGastos() {
-  return http.get(`PresGasto?anio=${localStorage.getItem('ano')}&ID_AYUNTAMIENTO=${ localStorage.getItem('id_Ayuntamiento')}`)
-}
+  getListarGastos() {
+    return http.get(`PresGasto?anio=${localStorage.getItem('ano')}&ID_AYUNTAMIENTO=${localStorage.getItem('id_Ayuntamiento')}`)
+  }
 
-getListarGastosById(id) {
-  return http.get(`PresGasto/${id}?anio=${localStorage.getItem('ano')}&ID_AYUNTAMIENTO=${ localStorage.getItem('id_Ayuntamiento')}`)
-}
+  getListarGastosById(id) {
+    return http.get(`PresGasto/${id}?anio=${localStorage.getItem('ano')}&ID_AYUNTAMIENTO=${localStorage.getItem('id_Ayuntamiento')}`)
+  }
 
-postGastos(post) {
-  return http.post(`PresGasto`,post).catch((error)=>{
-    Swal.fire({
-      position: 'top-end',
-      icon: 'error',
-      text: error.response.data.detail,
-      title:'Error',
-      showConfirmButton: false,
-      timer: 1500
+  postGastos(post) {
+    return http.post(`PresGasto`, post).catch((error) => {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        text: error.response.data.detail,
+        title: 'Error',
+        showConfirmButton: false,
+        timer: 1500
+      })
     })
-  })
-}
+  }
 
 
 
 
 
-//   createProyecto(data) {
-//     return http.post('/api/ingresos/guardarPresProyecto', data)
-//   }
+  //   createProyecto(data) {
+  //     return http.post('/api/ingresos/guardarPresProyecto', data)
+  //   }
 }
 
 export default new FormulacionApi()

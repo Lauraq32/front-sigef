@@ -68,6 +68,10 @@ class NominaApi {
   getAreaTrabajobyid(id) {
     return http.get(`AreaTrabajo/${id}`)
   }
+
+  getTotalIngresos(id_ayuntamiento, ano_fiscal) {
+    return http.get(`/ingresoslista/ListarIngresosTotalizado/?ano=${ano_fiscal}&id=${id_ayuntamiento}`)
+  }
   //post
 
   postNomina(data) {
