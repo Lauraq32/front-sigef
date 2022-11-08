@@ -3,39 +3,20 @@
   <hr />
   <div>
     <div class="d-inline p-2">
-      <CButton
-        color="info"
-        @click="
-          () => {
-            lgDemo = true
-          }
-        "
-        >Agregar</CButton
-      >
+      <CButton color="info" @click="
+        () => {
+          lgDemo = true
+        }
+      ">Agregar</CButton>
     </div>
   </div>
   <hr />
-  <CSmartTable
-    clickableRows
-    :tableProps="{
-      striped: false,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    footer
-    header
-    :items="grupoNominas"
-    :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination
-  >
+  <CSmartTable clickableRows :tableProps="{
+    striped: false,
+    hover: true,
+  }" :tableHeadProps="{}" :activePage="1" footer header :items="grupoNomina" :columns="columns" columnFilter
+    tableFilter cleaner itemsPerPageSelect :itemsPerPage="5" columnSorter
+    :sorterValue="{ column: 'status', state: 'asc' }" pagination>
     <template #status="{ item }">
       <td>
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
@@ -43,13 +24,7 @@
     </template>
     <template #show_details="{ item, index }">
       <td class="py-2">
-        <CButton
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item, index)"
-        >
+        <CButton color="primary" variant="outline" square size="sm" @click="toggleDetails(item, index)">
           {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
         </CButton>
       </td>
@@ -67,26 +42,18 @@
       </CCollapse>
     </template>
   </CSmartTable>
-  <CModal
-    size="lg"
-    :visible="lgDemo"
-    @close="
-      () => {
-        lgDemo = false
-      }
-    "
-  >
+  <CModal size="lg" :visible="lgDemo" @close="
+    () => {
+      lgDemo = false
+    }
+  ">
     <CModalHeader>
       <CModalTitle>Formulario captura clasificación del gasto</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
+        <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01"
+          @submit="handleSubmitCustom01">
           <CCol :md="4">
             <CFormLabel for="validationCustom01">Grupo Nomina</CFormLabel>
             <CFormInput id="validationCustom01" required />
@@ -102,16 +69,13 @@
           </CCol>
           <CCol :md="4">
             <CFormLabel for="validationCustom02">
-              Estructura programática</CFormLabel
-            >
+              Estructura programática</CFormLabel>
             <CFormInput id="validationCustom02" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom05"
-              >Banco (Para nomina automática)</CFormLabel
-            >
+            <CFormLabel for="validationCustom05">Banco (Para nomina automática)</CFormLabel>
             <CFormSelect id="validationCustom05">
               <option>Banco 1</option>
               <option>Banco 2</option>
@@ -120,27 +84,19 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
-            <CFormLabel for="validationCustom02"
-              >Cuenta corriente No.</CFormLabel
-            >
+            <CFormLabel for="validationCustom02">Cuenta corriente No.</CFormLabel>
             <CFormInput id="validationCustom02" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
-            <CFormLabel for="validationCustom02"
-              >Código de la nomina en el banco</CFormLabel
-            >
+            <CFormLabel for="validationCustom02">Código de la nomina en el banco</CFormLabel>
             <CFormInput id="validationCustom02" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
               Close
             </button>
             <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
@@ -155,9 +111,12 @@
 
 <script>
 import { useRegistroStore } from '../store/Nomina/grupoNomina'
-import { computed, onMounted } from '@vue/runtime-core'
+
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import { mapStores } from 'pinia'
+import { mapState } from 'pinia'
+import { mapActions } from 'pinia'
 
 export default {
   components: {
@@ -165,46 +124,56 @@ export default {
     CModal,
   },
 
-  setup() {
-    onMounted(() => {
-      console.log('klk')
-      getGNomina()
-    }),
-      function toggleDetails(item) {
+  data: () => {
+    return {
+      postGrupoNominas: {
+
+        
+      },
+
+      columns: [
+        { key: 'Código', label: 'Código', _style: { width: '40%' } },
+        {
+          key: 'Descripción',
+          label: 'Descripción',
+          _style: { width: '40%' },
+        },
+        { key: 'Estructura', label: 'Estructura', _style: { width: '40%' } },
+        {
+          key: 'show_details',
+          label: '',
+          _style: { width: '1%' },
+          filter: false,
+          sorter: false,
+          // _props: { color: 'primary', class: 'fw-semibold'}
+        },
+      ],
+
+      details:[],
+
+       validatedCustom01: null,
+       lgDemo: false
+
+    }
+  },
+
+  computed:{
+    ...mapStores(useRegistroStore),
+    ...mapState(useRegistroStore,['grupoNomina'])
+  },
+
+  methods:{
+    ...mapActions(useRegistroStore,['getGNomina','addGrupoNomina']),
+
+    toggleDetails(item) {
         if (this.details.includes(item._id)) {
           this.details = this.details.filter((_item) => _item !== item._id)
           return
         }
         this.details.push(item._id)
-      }
-    const columns = [
-      { key: 'Código', label: 'Código', _style: { width: '40%' } },
-      {
-        key: 'Descripción',
-        label: 'Descripción',
-        _style: { width: '40%' },
       },
-      { key: 'Estructura', label: 'Estructura', _style: { width: '40%' } },
-      {
-        key: 'show_details',
-        label: '',
-        _style: { width: '1%' },
-        filter: false,
-        sorter: false,
-        // _props: { color: 'primary', class: 'fw-semibold'}
-      },
-    ]
 
-    function handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
-    }
-
-    function getBadge(status) {
+      getBadge(status) {
       switch (status) {
         case 'Active':
           return 'success'
@@ -217,26 +186,20 @@ export default {
         default:
           'primary'
       }
+    },
+
+    handleSubmitCustom01(event) {
+      const form = event.currentTarget
+      if (form.checkValidity() === false) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      this.validatedCustom01 = true
     }
+  },
 
-    const validatedCustom01 = null
-    const lgDemo = false
-
-    const store = useRegistroStore()
-
-    const { grupoNomina, getGNomina } = store
-
-    return {
-      store,
-      grupoNomina,
-      getGNomina,
-      validatedCustom01,
-      handleSubmitCustom01,
-      lgDemo,
-      getBadge,
-      columns,
-      grupoNominas: computed(() => store.grupoNomina),
-    }
+  mounted(){
+    this.getGNomina()
   },
 }
 </script>

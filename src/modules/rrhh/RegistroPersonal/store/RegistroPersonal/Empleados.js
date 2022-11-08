@@ -18,7 +18,7 @@ export const useRegistroStore = defineStore('RegistroPersonal', () => {
 
     function getRegistroPersonal() {
         Api.getAllEmpleado().then((response) => {
-            registroPersonal.value = response.data
+            registroPersonal.value = response.data.data
         })
     }
 

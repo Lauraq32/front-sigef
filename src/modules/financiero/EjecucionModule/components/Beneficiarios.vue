@@ -3,39 +3,20 @@
   <hr />
   <div>
     <div class="d-inline p-2">
-      <CButton
-        color="info"
-        @click="
-          () => {
-            lgDemo = true
-          }
-        "
-        >Agregar</CButton
-      >
+      <CButton color="info" @click="
+        () => {
+          lgDemo = true
+        }
+      ">Agregar</CButton>
     </div>
   </div>
   <hr />
-  <CSmartTable
-    clickableRows
-    :tableProps="{
-      striped: false,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    footer
-    header
-    :items="Beneficiario"
-    :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination
-  >
+  <CSmartTable clickableRows :tableProps="{
+    striped: false,
+    hover: true,
+  }" :tableHeadProps="{}" :activePage="1" footer header :items="Beneficiarios" :columns="columns" columnFilter
+    tableFilter cleaner itemsPerPageSelect :itemsPerPage="5" columnSorter
+    :sorterValue="{ column: 'status', state: 'asc' }" pagination>
     <template #status="{ item }">
       <td>
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
@@ -43,13 +24,7 @@
     </template>
     <template #show_details="{ item, index }">
       <td class="py-2">
-        <CButton
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item, index)"
-        >
+        <CButton color="primary" variant="outline" square size="sm" @click="toggleDetails(item, index)">
           {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
         </CButton>
       </td>
@@ -67,26 +42,18 @@
       </CCollapse>
     </template>
   </CSmartTable>
-  <CModal
-    size="lg"
-    :visible="lgDemo"
-    @close="
-      () => {
-        lgDemo = false
-      }
-    "
-  >
+  <CModal size="lg" :visible="lgDemo" @close="
+    () => {
+      lgDemo = false
+    }
+  ">
     <CModalHeader>
       <CModalTitle>Beneficiarios</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
+        <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01"
+          @submit="handleSubmitCustom01">
           <CCol :md="4">
             <CFormLabel for="validationCustom01">Código</CFormLabel>
             <CFormInput id="validationCustom01" required />
@@ -111,7 +78,7 @@
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom04">Direccion</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
+            <CFormInput v-model="postBeneficiario.direccion" id="validationCustom04"> </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -158,9 +125,7 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom05"
-              >Tipo de beneficiario</CFormLabel
-            >
+            <CFormLabel for="validationCustom05">Tipo de beneficiario</CFormLabel>
             <CFormSelect id="validationCustom05">
               <option>Ayudas</option>
               <option>Empleado</option>
@@ -199,14 +164,10 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
               Close
             </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+            <button class="btn btn-info btn-block mt-1" v-on:click="submitForm">
               Guardar
             </button>
           </div>
@@ -218,9 +179,10 @@
 
 <script>
 import { useRegistroStore } from '../store/Ejecucion/Beneficiarios'
-import { computed, onMounted } from '@vue/runtime-core'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import { mapActions, mapState } from 'pinia'
+import { mapStores }from 'pinia'
 
 export default {
   components: {
@@ -228,50 +190,76 @@ export default {
     CModal,
   },
 
-  setup() {
-    onMounted(() => {
-      console.log('klk')
-      getBeneficiarios()
-    }),
-      function toggleDetails(item) {
-        if (this.details.includes(item._id)) {
-          this.details = this.details.filter((_item) => _item !== item._id)
-          return
-        }
-        this.details.push(item._id)
-      }
-    const columns = [
-      { key: 'Código', label: 'Código', _style: { width: '40%' } },
-      {
-        key: 'Beneficiario',
-        label: 'Beneficiario',
-        _style: { width: '40%' },
-      },
-      { key: 'Cédula', label: 'Cédula', _style: { width: '40%' } },
-      { key: 'Tipo', label: 'Tipo', _style: { width: '40%' } },
-      { key: 'Contacto', label: 'Contacto', _style: { width: '40%' } },
-      { key: 'Teléfono 1', label: 'Teléfono 1', _style: { width: '40%' } },
-      { key: 'Teléfono 2', label: 'Teléfono 2', _style: { width: '40%' } },
-      {
-        key: 'show_details',
-        label: '',
-        _style: { width: '1%' },
-        filter: false,
-        sorter: false,
-        // _props: { color: 'primary', class: 'fw-semibold'}
-      },
-    ]
+  data: () => {
+    return {
+      postBeneficiario: {
 
-    function handleSubmitCustom01(event) {
+        nombre: "",
+        tipoDcto: "",
+        rncCedPas: "",
+        ingreso: new Date(Date.now()),
+        tipo: "",
+        direccion: "",
+        ciudad: "",
+        contacto: "",
+        telefono: "",
+        celular: "",
+        email: "",
+        estatus: "",
+        mensual: 0,
+        recomienda: 0,
+        ayuntamientoId: 0,
+
+      },
+
+      columns: [
+        { key: 'Código', label: 'Código', _style: { width: '40%' } },
+        {
+          key: 'Beneficiario',
+          label: 'Beneficiario',
+          _style: { width: '40%' },
+        },
+        { key: 'direccion', label: 'Cédula', _style: { width: '40%' } },
+        { key: 'Tipo', label: 'Tipo', _style: { width: '40%' } },
+        { key: 'Contacto', label: 'Contacto', _style: { width: '40%' } },
+        { key: 'Teléfono 1', label: 'Teléfono 1', _style: { width: '40%' } },
+        { key: 'Teléfono 2', label: 'Teléfono 2', _style: { width: '40%' } },
+        {
+          key: 'show_details',
+          label: '',
+          _style: { width: '1%' },
+          filter: false,
+          sorter: false,
+          // _props: { color: 'primary', class: 'fw-semibold'}
+        },
+
+      ],
+
+      details:[],
+      
+      validatedCustom01: null,
+      lgDemo: false,
+
+    }
+  },
+
+  computed: {
+    ...mapStores(useRegistroStore),
+    ...mapState(useRegistroStore, ['Beneficiarios']),
+  },
+  methods: {
+    ...mapActions(useRegistroStore, ['getBeneficiarios', 'addBeneficiarios']),
+
+    handleSubmitCustom01(event) {
       const form = event.currentTarget
       if (form.checkValidity() === false) {
         event.preventDefault()
         event.stopPropagation()
       }
       this.validatedCustom01 = true
-    }
+    },
 
-    function getBadge(status) {
+    getBadge(status) {
       switch (status) {
         case 'Active':
           return 'success'
@@ -284,27 +272,26 @@ export default {
         default:
           'primary'
       }
-    }
+    },
 
-    const validatedCustom01 = null
-    const lgDemo = false
+    toggleDetails(item) {
+      if (this.details.includes(item._id)) {
+        this.details = this.details.filter((_item) => _item !== item._id)
+        return
+      }
+      this.details.push(item._id)
+    },
 
-    const store = useRegistroStore()
-
-    const { getBeneficiarios, Beneficiarios } = store
-
-    return {
-      store,
-      getBeneficiarios,
-      Beneficiarios,
-      validatedCustom01,
-      handleSubmitCustom01,
-      lgDemo,
-      getBadge,
-      columns,
-      Beneficiario: computed(() => store.Beneficiarios),
+    submitForm(){
+      this.addBeneficiarios(this.postBeneficiario)
     }
   },
+
+  mounted() {
+    this.getBeneficiarios()
+  },
+
+
 }
 </script>
 

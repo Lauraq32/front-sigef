@@ -18,7 +18,7 @@ export const useRegistroStore = defineStore('Beneficiarios', () => {
 
     function getBeneficiarios() {
         Api.getBeneficiarios().then((response) => {
-            Beneficiarios.value = response.data
+            Beneficiarios.value = response.data.data
         })
     }
 
