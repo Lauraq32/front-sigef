@@ -16,36 +16,12 @@
     </div>
   </div>
   <hr />
-<<<<<<< HEAD
-  <CSmartTable
-    clickableRows
-    :tableProps="{
-      striped: false,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    footer
-    header
-    :items="Nomina"
-    :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination
-  >
-=======
   <CSmartTable clickableRows :tableProps="{
     striped: false,
     hover: true,
   }" :tableHeadProps="{}" :activePage="1" footer header :items="registroPersonal" :columns="columns" columnFilter tableFilter
     cleaner itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
     pagination>
->>>>>>> Edward/T-BeneficiarioGrupoNominaYRegistroPersonal
     <template #status="{ item }">
       <td>
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
@@ -227,11 +203,6 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-<<<<<<< HEAD
-                  <CFormLabel for="validationCustom01"
-                    >Fecha nacimiento</CFormLabel
-                  >
-=======
                   <CFormLabel for="validationCustom05">Tipo de documento</CFormLabel>
                   <CFormSelect id="validationCustom05">
                     <option>Tipo1</option>
@@ -241,7 +212,6 @@
                 </CCol>
                 <CCol>
                   <CFormLabel for="validationCustom01">Fecha nacimiento</CFormLabel>
->>>>>>> Edward/T-BeneficiarioGrupoNominaYRegistroPersonal
                   <CFormInput type="date" id="validationCustom01" />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -940,15 +910,10 @@
       </div>
     </CModalBody>
     <div class="modal-footer">
-<<<<<<< HEAD
       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
         Close
       </button>
       <button type="button" class="btn btn-primary">Guardar</button>
-=======
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      <button type="button" class="btn btn-primary" @click="submitForm">Guardar</button>
->>>>>>> Edward/T-BeneficiarioGrupoNominaYRegistroPersonal
     </div>
   </CModal>
 </template>
