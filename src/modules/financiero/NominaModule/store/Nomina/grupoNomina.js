@@ -15,7 +15,7 @@ export const useRegistroStore = defineStore('grupoNomina', () => {
 
     function getGNomina() {
         Api.getGrupoNomina().then((response) => {
-            grupoNomina.value = response.data
+            grupoNomina.value = response.data.data
         })
     }
 

@@ -16,6 +16,7 @@
     </div>
   </div>
   <hr />
+<<<<<<< HEAD
   <CSmartTable
     clickableRows
     :tableProps="{
@@ -37,6 +38,14 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
+=======
+  <CSmartTable clickableRows :tableProps="{
+    striped: false,
+    hover: true,
+  }" :tableHeadProps="{}" :activePage="1" footer header :items="registroPersonal" :columns="columns" columnFilter tableFilter
+    cleaner itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination>
+>>>>>>> Edward/T-BeneficiarioGrupoNominaYRegistroPersonal
     <template #status="{ item }">
       <td>
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
@@ -160,7 +169,7 @@
                 <h3>Datos generales</h3>
                 <CCol>
                   <CFormLabel for="validationCustom01">Código</CFormLabel>
-                  <CFormInput disabled id="validationCustom01" />
+                  <CFormInput  id="validationCustom01" />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -218,9 +227,21 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
+<<<<<<< HEAD
                   <CFormLabel for="validationCustom01"
                     >Fecha nacimiento</CFormLabel
                   >
+=======
+                  <CFormLabel for="validationCustom05">Tipo de documento</CFormLabel>
+                  <CFormSelect id="validationCustom05">
+                    <option>Tipo1</option>
+                    <option>Tipo2</option>
+                  </CFormSelect>
+                  <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+                </CCol>
+                <CCol>
+                  <CFormLabel for="validationCustom01">Fecha nacimiento</CFormLabel>
+>>>>>>> Edward/T-BeneficiarioGrupoNominaYRegistroPersonal
                   <CFormInput type="date" id="validationCustom01" />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -919,10 +940,15 @@
       </div>
     </CModalBody>
     <div class="modal-footer">
+<<<<<<< HEAD
       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
         Close
       </button>
       <button type="button" class="btn btn-primary">Guardar</button>
+=======
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      <button type="button" class="btn btn-primary" @click="submitForm">Guardar</button>
+>>>>>>> Edward/T-BeneficiarioGrupoNominaYRegistroPersonal
     </div>
   </CModal>
 </template>
@@ -943,12 +969,68 @@ export default {
 
   data: () => {
     return {
+
+      postEmpleado:{
+        //General
+        codigo: null,
+        nombres:null,
+        apellidos:null,
+        tipoDocumento:null,
+        cedula:null,
+        direccion:null,
+        sectorId:0,
+        telefono:"",
+        fechaNacimiento:new Date(Date.now()),
+        lugarNacimiento:"",
+        estadoCivil:"",
+        sexo:0,
+        dependientes:0,
+        fechaIngreso:new Date(Date.now()),
+        programaDivisionId:0,
+        areaTrabajoId:0,
+        posicionId:0,
+        tipoContrato:"",
+        turno:"",
+        formaPago:"",
+        sueldo:0,
+        impuestoSobreRenta:0,
+        arsFijo:0,
+        afpfijo:0,
+
+        //Observacion
+        licenciaConducir:"",
+        fechaExpiracionLicencia:new Date(Date.now()),
+        fechaExpitaTarjeta:new Date(Date.now()),
+        //HistorialClinico
+        emergenciaNombre:"",
+        emergenciaTelefono:"",
+        emergenciaDireccion:"",
+        emergenciaParentezco:"",
+
+        //Acumulado anual
+        eneroIngreso:0,
+        febreroIngreso:0,
+        marzoIngreso:0,
+        abrilIngreso:0,
+        mayoIngreso:0,
+        junioIngreso:0,
+        julioIngreso:0,
+        agostoIngreso:0,
+        septiembreIngreso:0,
+        octubreIngreso:0,
+        noviembreIngreso:0,
+        diciembreIngreso:0,
+        
+
+      },
+
+
       tabPaneActiveKey: 1,
       columns: [
-        { key: 'Apellido', label: 'Apellido', _style: { width: '40%' } },
-        { key: 'Nombre', label: 'Nombre', _style: { width: '40%' } },
-        { key: 'Cédula', label: 'Cédula', _style: { width: '40%' } },
-        { key: 'Programa', label: 'Programa', _style: { width: '40%' } },
+        { key: 'apellidos', label: 'Apellido', _style: { width: '40%' } },
+        { key: 'nombres', label: 'Nombre', _style: { width: '40%' } },
+        { key: 'cedula', label: 'Cédula', _style: { width: '40%' } },
+        { key: 'programaDivisionId', label: 'Programa', _style: { width: '40%' } },
         {
           key: 'Direccion o Dependencia',
           label: 'Direccion o Dependencia',
@@ -982,7 +1064,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(useRegistroStore, ['getRegistroPersonal']),
+    ...mapActions(useRegistroStore, ['getRegistroPersonal','addRegistroPersonal']),
 
     handleSubmitCustom01(event) {
       const form = event.currentTarget
@@ -1015,7 +1097,12 @@ export default {
       }
       this.details.push(item._id)
     },
+
+    submitForm(){
+      this.addRegistroPersonal(this.postEmpleado)
+    }
   },
+
 
   mounted() {
     this.getRegistroPersonal()
