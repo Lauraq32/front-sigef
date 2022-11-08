@@ -3,31 +3,16 @@
   <hr />
   <div>
     <div class="d-inline p-2">
-      
+
     </div>
   </div>
   <hr />
-  <CSmartTable
-    clickableRows
-    :tableProps="{
-      striped: false,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    footer
-    header
-    :items="this.$store.state.Formulacion.proyecto"
-    :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination
-  >
+  <CSmartTable clickableRows :tableProps="{
+    striped: false,
+    hover: true,
+  }" :tableHeadProps="{}" :activePage="1" footer header :items="ingresosList"
+    :columns="columns" columnFilter tableFilter cleaner itemsPerPageSelect :itemsPerPage="5" columnSorter
+    :sorterValue="{ column: 'status', state: 'asc' }" pagination>
     <template #status="{ item }">
       <td>
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
@@ -35,13 +20,7 @@
     </template>
     <template #show_details="{ item, index }">
       <td class="py-2">
-        <CButton
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item, index)"
-        >
+        <CButton color="primary" variant="outline" square size="sm" @click="toggleDetails(item, index)">
           {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
         </CButton>
       </td>
@@ -63,15 +42,20 @@
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import {useEjecucionIngresoStore} from "../store/Ejecucion/ejecucionIngresos";
+
 export default {
   components: {
     CSmartTable,
     CModal,
   },
-  
+
 
   data: () => {
     return {
+      postIngreso : {
+
+      },
       validatedCustom01: null,
       lgDemo: false,
       columns: [
@@ -95,6 +79,8 @@ export default {
     }
   },
   methods: {
+    ...mapActions(useEjecucionIngresoStore, ['getAllIngresos']),
+
     handleSubmitCustom01(event) {
       const form = event.currentTarget
       if (form.checkValidity() === false) {
@@ -125,6 +111,11 @@ export default {
       this.details.push(item._id)
     },
   },
+  computed: {
+    ...mapStores(useEjecucionIngresoStore),
+    ...mapState(useEjecucionIngresoStore, ['ingresosList']),
+  },
+
   mounted() {
     this.$store.dispatch('Formulacion/getProyectos')
   },

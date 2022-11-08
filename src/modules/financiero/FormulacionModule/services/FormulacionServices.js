@@ -13,7 +13,7 @@ class FormulacionApi {
     return http.get(`PresIngreso/GetClasificadorById/${Clasificador}`)
   }
   getPresIngresoById(item) {
-    return http.get(`/PresIngreso/${item.id}?anio=${item.anioFiscalId}&ID_AYUNTAMIENTO=${item.ayuntamientoId}`)
+    return http.get(`/PresIngreso/${item.id}?anio=${item.anioFiscalId}&ayuntamientoId=${item.ayuntamientoId}`)
   }
 
   editPresIngreso(id, data) {
@@ -40,7 +40,7 @@ class FormulacionApi {
   }
 
   getTotalIngresos(id_ayuntamiento, ano_fiscal) {
-    return http.get(`/ingresoslista/ListarIngresosTotalizado/?ano=${ano_fiscal}&id=${id_ayuntamiento}`)
+    return http.get(`/PresIngreso/GetTotal?anio=${ano_fiscal}&ayuntamientoId=${id_ayuntamiento}`)
   }
 
 
@@ -87,14 +87,14 @@ class FormulacionApi {
   //-----------------------------INGRESOS---------------------------------------//
   getListarIngresos(id_ayuntamiento, ano_fiscal) {
     return http.get(
-      `PresIngreso?anio=${ano_fiscal}&ID_AYUNTAMIENTO=${id_ayuntamiento}`,
+      `PresIngreso?anio=${ano_fiscal}&ayuntamientoId=${id_ayuntamiento}`,
     )
   }
-  getTotalIngresos(id_ayuntamiento, ano_fiscal) {
-    return http.get(
-      `/ingresoslista/ListarIngresosTotalizado/?ano=${ano_fiscal}&id=${id_ayuntamiento}`,
-    )
-  }
+  // getTotalIngresos(id_ayuntamiento, ano_fiscal) {
+  //   return http.get(
+  //     `/ingresoslista/ListarIngresosTotalizado/?ano=${ano_fiscal}&id=${id_ayuntamiento}`,
+  //   )
+  // }
   //-----------------------------INGRESOS---------------------------------------//
 
   //-----------------------------GASTOS---------------------------------------//
@@ -116,11 +116,11 @@ class FormulacionApi {
   //-----------------------------PrepGastos---------------------------------------//
 
   getListarGastos() {
-    return http.get(`PresGasto?anio=${localStorage.getItem('ano')}&ID_AYUNTAMIENTO=${localStorage.getItem('id_Ayuntamiento')}`)
+    return http.get(`PresGasto?anio=${localStorage.getItem('ano')}&ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
   }
 
   getListarGastosById(id) {
-    return http.get(`PresGasto/${id}?anio=${localStorage.getItem('ano')}&ID_AYUNTAMIENTO=${localStorage.getItem('id_Ayuntamiento')}`)
+    return http.get(`PresGasto/${id}?anio=${localStorage.getItem('ano')}&ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
   }
 
   postGastos(post) {
