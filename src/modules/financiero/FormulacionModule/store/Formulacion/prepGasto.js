@@ -7,24 +7,24 @@ import Api from '../../services/FormulacionServices'
 // the first argument is a unique id of the store across your application
 export const usePrepGastoStore = defineStore('prepGasto', () => {
   const registroPersonal = ref([])
-  const  GastosListDos= ref([])
+  const GastosListDos = ref([])
   let getGasto = ref(null)
   const is_loading = true
   //const name = ref('Eduardo')
 
   function getListarGastos() {
-    Api.getListarGastos().then( (response) => {
-        console.log(response.data.data)
-        registroPersonal.value = response.data.data
+    Api.getListarGastos().then((response) => {
+      console.log(response.data.data)
+      registroPersonal.value = response.data.data
     })
   }
 
   function getListarGastosById(id) {
-    Api.getListarGastosById(id).then( (response) => {
-        console.log(response.data.data)
-        getGasto.value = response.data.data
-        //console.log(getGasto.value.data)
-        //GastosListDos.value = response.data.data
+    Api.getListarGastosById(id).then((response) => {
+      console.log(response.data.data)
+      getGasto.value = response.data.data
+      //console.log(getGasto.value.data)
+      //GastosListDos.value = response.data.data
     })
   }
 
@@ -34,11 +34,11 @@ export const usePrepGastoStore = defineStore('prepGasto', () => {
     registroPersonal.value.push(data)
   }
 
-  function addGasto(post){
-    Api.postGastos(post).then( (response) => {
+  function addGasto(post) {
+    Api.postGastos(post).then((response) => {
       console.log(response);
     })
   }
 
-  return { registroPersonal,getListarGastos,getListarGastosById,GastosListDos,addGasto,getGasto }
+  return { registroPersonal, getListarGastos, getListarGastosById, GastosListDos, addGasto, getGasto }
 })

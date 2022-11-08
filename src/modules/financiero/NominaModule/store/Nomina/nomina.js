@@ -22,6 +22,8 @@ export const useRegistroStore = defineStore('Nomina', () => {
         })
     }
 
+  
+
     function addNomina(data) {
         Api.postNomina(data).then((response) => {
             console.log(response)
@@ -34,5 +36,5 @@ export const useRegistroStore = defineStore('Nomina', () => {
         })
     }
 
-    return { Nomina, getNomina, getNominas, addNomina, putNomina }
+    return { Nomina, getNomina, getNominas, addNomina, putNomina, }
 })
