@@ -109,8 +109,8 @@ class NominaApi {
   //put 
 
 
-  putNomina(id) {
-    return http.put(`Nomina/${id}`)
+  putNomina(id, data) {
+    return http.put(`Nomina/${id}`, data)
   }
 
   putPocision(id) {

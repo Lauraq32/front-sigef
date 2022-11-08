@@ -43,15 +43,28 @@
       </td>
     </template>
     <template #show_details="{ item, index }">
-      <td class="py-2">
+      <td class="py-1">
         <CButton
+          class="mt-1"
           color="primary"
           variant="outline"
           square
           size="sm"
-          @click="toggleDetails(item, index)"
+          @click="toggleDetails(item)"
         >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
+          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
+        </CButton>
+      </td>
+      <td class="py-1">
+        <CButton
+          class="mt-1"
+          color="danger"
+          variant="outline"
+          square
+          size="sm"
+          @click="deleteItem(item)"
+        >
+          {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
         </CButton>
       </td>
     </template>
@@ -661,7 +674,7 @@
             <button
               v-on:click="submitForm"
               type="button"
-              class="btn btn-info btn-block mt-1"
+              class="btn btn-primary"
             >
               Guardar
             </button>
@@ -679,6 +692,7 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
+import Api from '../services/NominaServices'
 
 export default {
   components: {
@@ -730,6 +744,8 @@ export default {
         noCheque: 0,
         finiContrato: 0,
         ffinContrato: 0,
+        id: 0,
+        variacion: 0,
       },
 
       tabPaneActiveKey: 1,
@@ -782,11 +798,122 @@ export default {
   methods: {
     ...mapActions(useRegistroStore, ['getNomina', 'addNomina']),
     submitForm() {
-      this.addNomina(this.postNomina)
-      //const form = event.currentTarget
-
-      event.preventDefault()
-      event.stopPropagation()
+      if (this.id) {
+        if (this.id) {
+          Api.putNomina(this.id, this.postNomina).then((response) => {
+            console.log(response.data)
+            this.lgDemo = false
+            this.$swal({
+              position: 'top-end',
+              icon: 'success',
+              title: response.data.message,
+              showConfirmButton: false,
+              timer: 1500,
+            })
+            this.getNomina()
+            this.postNomina = {
+              anioFiscalId: parseInt(localStorage.getItem('ano')),
+              ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+              departamentoId: 0,
+              afpMonto: 0,
+              fecha: new Date(Date.now()),
+              tipoCobro: null,
+              tipoPago: null,
+              empleadoId: 0,
+              programaDivisionId: 0,
+              estatus: 0,
+              grupoNom: null,
+              codEmpl: null,
+              nombreEmpleado: null,
+              posicionId: 0,
+              descCargo: null,
+              sectorId: 0,
+              sueldo: 0,
+              ing2: 0,
+              ing3: 0,
+              ing4: 0,
+              ing5: 0,
+              ing6: 0,
+              ing7: 0,
+              ing8: 0,
+              ing9: 0,
+              ing10: 0,
+              impSR: 0,
+              arsMonto: 0,
+              egr4: 0,
+              egr5: 0,
+              egr6: 0,
+              egr7: 0,
+              egr8: 0,
+              egr9: 0,
+              egr10: 0,
+              cantDiasTrabanulldos: null,
+              valorDias: 0,
+              nota: null,
+              noCheque: 0,
+              finiContrato: 0,
+              ffinContrato: 0,
+              id: 0,
+              variacion: 0,
+            }
+          })
+          this.getNomina()
+        }
+      } else {
+        this.addNomina(this.postNomina)
+        //const form = event.currentTarget
+        this.lgDemo = true
+        this.getNomina()
+        ;(this.postNomina = {
+          anioFiscalId: parseInt(localStorage.getItem('ano')),
+          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          departamentoId: 0,
+          afpMonto: 0,
+          fecha: new Date(Date.now()),
+          tipoCobro: null,
+          tipoPago: null,
+          empleadoId: 0,
+          programaDivisionId: 0,
+          estatus: 0,
+          grupoNom: null,
+          codEmpl: null,
+          nombreEmpleado: null,
+          posicionId: 0,
+          descCargo: null,
+          sectorId: 0,
+          sueldo: 0,
+          ing2: 0,
+          ing3: 0,
+          ing4: 0,
+          ing5: 0,
+          ing6: 0,
+          ing7: 0,
+          ing8: 0,
+          ing9: 0,
+          ing10: 0,
+          impSR: 0,
+          arsMonto: 0,
+          egr4: 0,
+          egr5: 0,
+          egr6: 0,
+          egr7: 0,
+          egr8: 0,
+          egr9: 0,
+          egr10: 0,
+          cantDiasTrabanulldos: null,
+          valorDias: 0,
+          nota: null,
+          noCheque: 0,
+          finiContrato: 0,
+          ffinContrato: 0,
+          id: 0,
+          variacion: 0,
+        }),
+          (this.validatedCustom01 = false)
+        event.preventDefault()
+        event.stopPropagation()
+        this.getNomina()
+      }
     },
     handleSubmitCustom01(event) {
       const form = event.currentTarget
@@ -812,12 +939,35 @@ export default {
       }
     },
 
+    // toggleDetails(item) {
+    //   if (this.details.includes(item._id)) {
+    //     this.details = this.details.filter((_item) => _item !== item._id)
+    //     return
+    //   }
+    //   this.details.push(item._id)
+    // },
+
     toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
+      // if (this.details.includes(item._id)) {
+      //   this.details = this.details.filter((_item) => _item !== item._id)
+      //   return
+      // }
+      // this.details.push(item._id)
+      console.log(item)
+      if (item.ingresos !== 0 || item.variacion !== 0) {
+        this.formuladoValue = true
+      } else {
+        this.formuladoValue = false
       }
-      this.details.push(item._id)
+      this.edit = true
+      this.lgDemo = true
+      console.log(item.id)
+      Api.getNominabyid(item.id).then((response) => {
+        this.postNomina = response.data.data
+        console.log(response)
+        this.id = item.id
+        //this.postIngreso = response.data.data
+      })
     },
   },
 
