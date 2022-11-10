@@ -7,7 +7,7 @@
         color="info"
         @click="
           () => {
-            xlDemo  = true
+            xlDemo = true
           }
         "
         >Agregar</CButton
@@ -25,7 +25,7 @@
     :activePage="1"
     footer
     header
-    :items="this.$store.state.Formulacion.proyecto"
+    :items="departamento"
     :columns="columns"
     columnFilter
     tableFilter
@@ -69,10 +69,10 @@
   </CSmartTable>
   <CModal
     size="lg"
-    :visible="xlDemo "
+    :visible="xlDemo"
     @close="
       () => {
-        xlDemo  = false
+        xlDemo = false
       }
     "
   >
@@ -118,16 +118,12 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom05"
-              >Grupo nomina</CFormLabel
-            >
+            <CFormLabel for="validationCustom05">Grupo nomina</CFormLabel>
             <CFormInput id="validationCustom05" required />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom05">
-              grupos de nóminas</CFormLabel
-            >
+            <CFormLabel for="validationCustom05"> grupos de nóminas</CFormLabel>
             <CFormSelect id="validationCustom05">
               <option>Cuenta De Banco 1</option>
               <option>Cuenta De Banco 2</option>
@@ -136,17 +132,13 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom04"
-              >Estructura prog.</CFormLabel
-            >
+            <CFormLabel for="validationCustom04">Estructura prog.</CFormLabel>
             <CFormInput id="validationCustom04"> </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom04"
-              >Clasificador</CFormLabel
-            >
+            <CFormLabel for="validationCustom04">Clasificador</CFormLabel>
             <CFormInput id="validationCustom04"> </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -157,12 +149,16 @@
             >
             <CFormSelect id="validationCustom05">
               <option>211101 - Sueldos fijos</option>
-              <option> 211201 - Sueldos Personal contratado y/o Igualado </option>
-              <option> 211202 - Sueldos de personal nominal </option>
-              <option> 211204 - Sueldos al personal por servicios especiales </option>
+              <option>211201 - Sueldos Personal contratado y/o Igualado</option>
+              <option>211202 - Sueldos de personal nominal</option>
+              <option>
+                211204 - Sueldos al personal por servicios especiales
+              </option>
               <option>211206 - Jornales</option>
-              <option> 241201 - Ayuda y donaciones a personas </option>
-              <option> 241202 - Ayudas y donac. ocas. a hogares y personas </option>
+              <option>241201 - Ayuda y donaciones a personas</option>
+              <option>
+                241202 - Ayudas y donac. ocas. a hogares y personas
+              </option>
             </CFormSelect>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -197,7 +193,8 @@
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom05">
-              Inactivo. (No salen en Rep. Alfabeticos, código, ni por forma de pago)</CFormLabel
+              Inactivo. (No salen en Rep. Alfabeticos, código, ni por forma de
+              pago)</CFormLabel
             >
             <CFormSelect id="validationCustom05">
               <option>INACTIVO</option>
@@ -222,8 +219,14 @@
   </CModal>
 </template>
 <script>
+import { useRegistroStore } from '../store/Nomina/Departamento'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import { mapStores } from 'pinia'
+import { mapState } from 'pinia'
+import { mapActions } from 'pinia'
+// import Api from '../services/NominaServices'
+
 export default {
   components: {
     CSmartTable,
@@ -235,15 +238,27 @@ export default {
       xlDemo: false,
       columns: [
         { key: 'Código', label: 'Código', _style: { width: '40%' } },
-        { key: 'Departamento', label: 'Departamento', _style: { width: '40%' } },
+        {
+          key: 'Departamento',
+          label: 'Departamento',
+          _style: { width: '40%' },
+        },
         { key: 'Programa', label: 'Programa', _style: { width: '40%' } },
-        { key: 'Grupo de nomina', label: 'Grupo de nomina', _style: { width: '40%' } },
+        {
+          key: 'Grupo de nomina',
+          label: 'Grupo de nomina',
+          _style: { width: '40%' },
+        },
         {
           key: 'Estructura Prog.',
           label: 'Estructura Prog.',
           _style: { width: '40%' },
         },
-        { key: 'Clasificador', label: 'Clasificador', _style: { width: '40%' } },
+        {
+          key: 'Clasificador',
+          label: 'Clasificador',
+          _style: { width: '40%' },
+        },
         {
           key: 'Clasificador',
           label: 'Clasificador',
@@ -263,7 +278,14 @@ export default {
       details: [],
     }
   },
+
+  computed: {
+    ...mapStores(useRegistroStore),
+    ...mapState(useRegistroStore, ['departamento']),
+  },
+
   methods: {
+    ...mapActions(useRegistroStore, ['getDepartamentos']),
     handleSubmitCustom01(event) {
       const form = event.currentTarget
       if (form.checkValidity() === false) {
@@ -295,7 +317,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('Formulacion/getProyectos')
+    this.getDepartamentos()
   },
 }
 </script>

@@ -18,7 +18,7 @@ export const useRegistroStore = defineStore('AreaDeTrabajo', () => {
 
   function AreaTrabajo() {
     Api.getAreaTrabajo().then((response) => {
-        AreaDeTrabajo.value = response.data
+        AreaDeTrabajo.value = response.data.data
     })
   }
 
