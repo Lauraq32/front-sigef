@@ -18,7 +18,7 @@ export const useRegistroStore = defineStore('Pocision', () => {
 
     function  getPocisions() {
         Api.getPocision().then((response) => {
-            pocision.value = response.data
+            pocision.value = response.data.data
         })
     }
 

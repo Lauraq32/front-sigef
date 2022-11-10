@@ -3,54 +3,29 @@
   <hr />
   <div>
     <div class="d-inline p-2">
-      <CButton
-        color="info"
-        @click="
-          () => {
-            lgDemo = true
-          }
-        "
-        >Agregar</CButton
-      >
+      <CButton color="info" @click="
+        () => {
+          lgDemo = true
+        }
+      ">Agregar</CButton>
     </div>
   </div>
   <hr />
-  <CSmartTable
-    clickableRows
-    :tableProps="{
-      striped: false,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    footer
-    header
-    :items="this.$store.state.Formulacion.proyecto"
-    :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination
-  >
+  <CSmartTable clickableRows :tableProps="{
+    striped: false,
+    hover: true,
+  }" :tableHeadProps="{}" :activePage="1" footer header :items="pocision" :columns="columns" columnFilter tableFilter
+    cleaner itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination>
     <template #status="{ item }">
       <td>
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
     <template #show_details="{ item, index }">
-      <td class="py-2">
-        <CButton
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item, index)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
+      <td class="py-1">
+        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="toggleDetails(item)">
+          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
       </td>
     </template>
@@ -67,54 +42,32 @@
       </CCollapse>
     </template>
   </CSmartTable>
-  <CModal
-    size="lg"
-    :visible="lgDemo"
-    @close="
-      () => {
-        lgDemo = false
-      }
-    "
-  >
+  <CModal size="lg" :visible="lgDemo" @close="
+    () => {
+      lgDemo = false
+    }
+  ">
     <CModalHeader>
       <CModalTitle>Posición o Cargo</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Código</CFormLabel>
-            <CFormInput id="validationCustom01" required />
-           
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
+        <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01"
+          @submit="handleSubmitCustom01">
+
           <CCol :md="4">
             <CFormLabel for="validationCustom02">Posición o Cargo</CFormLabel>
-            <CFormInput id="validationCustom02" required />
+            <CFormInput v-model="postPosicionesCargo.nombre" id="validationCustom02" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
               Close
             </button>
-            <button
-              class="btn btn-info btn-block mt-1"
-              v-on:click="Guardar"
-            >
-            Guardar
+            <button class="btn btn-info btn-block mt-1" v-on:click="submitForm">
+              Guardar
             </button>
-         
           </div>
         </CForm>
       </CCardBody>
@@ -122,8 +75,14 @@
   </CModal>
 </template>
 <script>
+import { useRegistroStore } from '../store/Nomina/Pocision'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import { mapStores } from 'pinia'
+import { mapState } from 'pinia'
+import { mapActions } from 'pinia'
+import Api from '../services/NominaServices'
+
 export default {
   components: {
     CSmartTable,
@@ -131,11 +90,25 @@ export default {
   },
   data: () => {
     return {
-      validatedCustom01: null,
-      lgDemo: false,
+      postPosicionesCargo: {
+        id: 0,
+        nombre: null,
+        ayuntamientoId: 0,
+        ayuntamiento: {
+          id: 0,
+          secuencial: 0,
+          codigo: null,
+          descripcion: null,
+        },
+      },
+
       columns: [
-        { key: 'Código', label: 'Código', _style: { width: '40%' } },
-        { key: 'Posición o Cargo', label: 'Posición o Cargo', _style: { width: '40%' } },
+        { key: 'id', label: 'Código', _style: { width: '40%' } },
+        {
+          key: 'nombre',
+          label: 'Posición o Cargo',
+          _style: { width: '40%' },
+        },
         {
           key: 'show_details',
           label: '',
@@ -146,16 +119,42 @@ export default {
         },
       ],
       details: [],
+
+      validatedCustom01: null,
+      lgDemo: false,
     }
   },
+
+  computed: {
+    ...mapStores(useRegistroStore),
+    ...mapState(useRegistroStore, ['pocision']),
+  },
+
   methods: {
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
+    ...mapActions(useRegistroStore, ['getPocisions', 'addPocision']),
+
+    toggleDetails(item) {
+      // if (this.details.includes(item._id)) {
+      //   this.details = this.details.filter((_item) => _item !== item._id)
+      //   return
+      // }
+      // this.details.push(item._id)
+      console.log(item)
+      if (item.pocision !== 0 || item.variacion !== 0) {
+        this.formuladoValue = true
+      } else {
+        this.formuladoValue = false
       }
-      this.validatedCustom01 = true
+      this.edit = true
+      this.lgDemo = true
+      console.log(item.id)
+      Api.getPocisionbyid(item.id).then((response) => {
+        this.postPosicionesCargo = response.data
+        console.log(response)
+        console.log(this.postPosicionesCargo)
+        this.id = item.id
+        //this.postIngreso = response.data.data
+      })
     },
     getBadge(status) {
       switch (status) {
@@ -171,16 +170,67 @@ export default {
           'primary'
       }
     },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
+
+    handleSubmitCustom01(event) {
+      const form = event.currentTarget
+      if (form.checkValidity() === false) {
+        event.preventDefault()
+        event.stopPropagation()
       }
-      this.details.push(item._id)
+      this.validatedCustom01 = true
     },
+
+    submitForm() {
+      if (this.id) {
+        Api.putPocision(this.id, this.postPosicionesCargo).then((response) => {
+          console.log(response.data)
+          
+          this.lgDemo = false
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+          this.getPocisions()
+          this.postPosicionesCargo = {
+            id: 0,
+            nombre: null,
+            variacion: 0,
+            ayuntamientoId: 1,
+            
+          }
+          event.preventDefault()
+        event.stopPropagation()
+        })
+        this.getPocisions()
+      } else {
+        this.addPocision(this.postPosicionesCargo)
+        //const form = event.currentTarget
+        this.lgDemo = true
+        this.getPocisions()
+          ; (this.postPosicionesCargo = {
+            id: 0,
+            nombre: null,
+            ayuntamientoId: 0,
+            ayuntamiento: {
+              id: 0,
+              secuencial: 0,
+              codigo: null,
+              descripcion: null,
+            },
+          }),
+            (this.validatedCustom01 = false)
+        event.preventDefault()
+        event.stopPropagation()
+        this.getPocisions()
+      }
+    },
+
   },
   mounted() {
-    this.$store.dispatch('Formulacion/getProyectos')
+    this.getPocisions()
   },
 }
 </script>

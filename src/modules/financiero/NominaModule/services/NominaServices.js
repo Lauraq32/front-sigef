@@ -50,7 +50,7 @@ class NominaApi {
   }
 
   getPocisionbyid(id) {
-    return http.get(`Pocision/${id}`)
+    return http.get(`Posicion/${id}`)
   }
 
   getConfiguracionNominabyid(id) {
@@ -113,12 +113,12 @@ class NominaApi {
     return http.put(`Nomina/${id}`, data)
   }
 
-  putPocision(id) {
-    return http.put(`Pocision/${id}`)
+  putPocision(id,data) {
+    return http.put(`Posicion/${id}`,data)
   }
 
-  putSector(id) {
-    return http.put(`Sector/${id}`)
+  putSector(id,post) {
+    return http.put(`Sector/${id}`,post)
   }
 
   putGrupoNomina(id) {

@@ -18,7 +18,7 @@ export const useRegistroStore = defineStore('Sectores', () => {
 
     function getSectore() {
         Api.getSectores().then((response) => {
-            sectores.value = response.data
+            sectores.value = response.data.data
         })
     }
 
