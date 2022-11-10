@@ -33,8 +33,8 @@ class FacturacionCobros {
 
     //put
 
-    putContribuyente(id) {
-        return http.put(`Contribuyente/${id}`)
+    putContribuyente(id, data) {
+        return http.put(`Contribuyente/${id}`, data)
     }
 
     putSector(id) {

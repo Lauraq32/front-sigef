@@ -18,7 +18,7 @@ export const useRegistroStore = defineStore('Contribuyentes', () => {
 
     function getContribuyente() {
         Api.getContribuyente().then((response) => {
-            Contribuyente.value = response.data
+            Contribuyente.value = response.data.data
         })
     }
 
