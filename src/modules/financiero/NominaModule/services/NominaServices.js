@@ -61,7 +61,7 @@ class NominaApi {
     return http.get(`Nomina/${id}`)
   }
 
-  getProgramaDivisionbyid(id, data) {
+  getProgramaDivisionbyid(id) {
     return http.get(`ProgramaDivision/${id}`)
   }
 
@@ -129,16 +129,16 @@ class NominaApi {
     return http.put(`Departamento/${id}`)
   }
 
-  putAreaTrabajo(id, data) {
-    return http.put(`AreaTrabajo/${id}`, data)
+  putAreaTrabajo(id) {
+    return http.put(`AreaTrabajo/${id}`)
   }
 
   putConfiguracionNomina(id) {
     return http.put(`ConfiguracionNomina/${id}`)
   }
 
-  putProgramaDivision(id, data) {
-    return http.put(`ProgramaDivision/${id}`, data)
+  putProgramaDivision(id) {
+    return http.put(`ProgramaDivision/${id}`)
   }
 
   //delete

@@ -66,6 +66,13 @@ export default {
     CModal,
   },
 
+  data:()=>{
+    return{
+      postMarcas
+    }
+
+  },
+
   setup() {
     onMounted(() => {
       console.log('klk')
