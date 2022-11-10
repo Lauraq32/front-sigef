@@ -51,7 +51,7 @@
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
-    <template #show_details="{ item, index }">
+    <template #show_details="{ item }">
       <td class="py-1">
         <CButton
           class="mt-1"

@@ -18,7 +18,7 @@ export const useRegistroStore = defineStore('Configuracion Nomina', () => {
 
     function getConfiguracionNomina() {
         Api.getConfiguracionNomina().then((response) => {
-            confNomina.value = response.data
+            confNomina.value = response.data.data
         })
     }
 

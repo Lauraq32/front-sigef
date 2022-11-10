@@ -25,7 +25,7 @@
     :activePage="1"
     footer
     header
-    :items="this.$store.state.Formulacion.proyecto"
+    :items="AreaDeTrabajo"
     :columns="columns"
     columnFilter
     tableFilter
@@ -42,15 +42,28 @@
       </td>
     </template>
     <template #show_details="{ item, index }">
-      <td class="py-2">
+      <td class="py-1">
         <CButton
+          class="mt-1"
           color="primary"
           variant="outline"
           square
           size="sm"
-          @click="toggleDetails(item, index)"
+          @click="toggleDetails(item)"
         >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
+          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
+        </CButton>
+      </td>
+      <td class="py-1">
+        <CButton
+          class="mt-1"
+          color="danger"
+          variant="outline"
+          square
+          size="sm"
+          @click="deleteItem(item)"
+        >
+          {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
         </CButton>
       </td>
     </template>
@@ -88,15 +101,12 @@
           @submit="handleSubmitCustom01"
         >
           <CCol :md="4">
-            <CFormLabel for="validationCustom01">Código</CFormLabel>
-            <CFormInput id="validationCustom01" required />
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
             <CFormLabel for="validationCustom02">Area de Trabajo</CFormLabel>
-            <CFormInput id="validationCustom02" required />
+            <CFormInput
+              v-model="postAreaTrabajo.area"
+              id="validationCustom02"
+              required
+            />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -108,7 +118,11 @@
             >
               Close
             </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+            <button
+              v-on:click="submitForm"
+              type="button"
+              class="btn btn-primary"
+            >
               Guardar
             </button>
           </div>
@@ -118,8 +132,13 @@
   </CModal>
 </template>
 <script>
+import { useRegistroStore } from '../store/Nomina/AreaDeTrabajo'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import { mapStores } from 'pinia'
+import { mapState } from 'pinia'
+import { mapActions } from 'pinia'
+import Api from '../services/NominaServices'
 export default {
   components: {
     CSmartTable,
@@ -127,12 +146,24 @@ export default {
   },
   data: () => {
     return {
+      postAreaTrabajo: {
+        id: 0,
+        area: null,
+        ayuntamientoId: 0,
+        ayuntamiento: {
+          id: 0,
+          secuencial: 0,
+          codigo: null,
+          descripcion: null,
+        },
+      },
+
       validatedCustom01: null,
       lgDemo: false,
       columns: [
-        { key: 'Código', label: 'Código', _style: { width: '40%' } },
+        { key: 'id', label: 'Código', _style: { width: '40%' } },
         {
-          key: 'Area de Trabajo',
+          key: 'area',
           label: 'Area de Trabajo',
           _style: { width: '40%' },
         },
@@ -148,7 +179,69 @@ export default {
       details: [],
     }
   },
+
+  computed: {
+    ...mapStores(useRegistroStore),
+    ...mapState(useRegistroStore, ['AreaDeTrabajo']),
+  },
   methods: {
+    ...mapActions(useRegistroStore, [
+      'AreaTrabajo',
+      'addAreaTrabajo',
+      'putAreaTrabajo',
+    ]),
+
+    submitForm() {
+      if (this.id) {
+        Api.putAreaTrabajo(this.id, this.postAreaTrabajo).then((response) => {
+          console.log(response.data)
+          this.lgDemo = false
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+          this.AreaTrabajo()
+          this.postAreaTrabajo = {
+            id: 0,
+            area: null,
+            ayuntamientoId: 0,
+            variacion: 0,
+            ayuntamiento: {
+              id: 0,
+              secuencial: 0,
+              codigo: null,
+              descripcion: null,
+            },
+          }
+        })
+        this.AreaTrabajo()
+      } else {
+        this.addAreaTrabajo(this.postAreaTrabajo)
+        //const form = event.currentTarget
+        this.lgDemo = true
+        this.AreaTrabajo()
+        ;(this.postAreaTrabajo = {
+          id: 0,
+          area: null,
+          ayuntamientoId: 0,
+          variacion: 0,
+          ayuntamiento: {
+            id: 0,
+            secuencial: 0,
+            codigo: null,
+            descripcion: null,
+          },
+        }),
+          (this.validatedCustom01 = false)
+        event.preventDefault()
+        event.stopPropagation()
+        this.AreaTrabajo()
+      }
+    },
+
     handleSubmitCustom01(event) {
       const form = event.currentTarget
       if (form.checkValidity() === false) {
@@ -172,15 +265,30 @@ export default {
       }
     },
     toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
+      // if (this.details.includes(item._id)) {
+      //   this.details = this.details.filter((_item) => _item !== item._id)
+      //   return
+      // }
+      // this.details.push(item._id)
+      console.log(item)
+      if (item.AreaDeTrabajo !== 0 || item.variacion !== 0) {
+        this.formuladoValue = true
+      } else {
+        this.formuladoValue = false
       }
-      this.details.push(item._id)
+      this.edit = true
+      this.lgDemo = true
+      console.log(item.id)
+      Api.getAreaTrabajobyid(item.id).then((response) => {
+        this.postAreaTrabajo = response.data
+        console.log(response)
+        this.id = item.id
+        //this.postIngreso = response.data.data
+      })
     },
   },
   mounted() {
-    this.$store.dispatch('Formulacion/getProyectos')
+    this.AreaTrabajo()
   },
 }
 </script>

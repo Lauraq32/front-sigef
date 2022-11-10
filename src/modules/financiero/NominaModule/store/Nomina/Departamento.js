@@ -18,7 +18,7 @@ export const useRegistroStore = defineStore('Departamento', () => {
 
     function getDepartamentos() {
         Api.getDepartamento().then((response) => {
-            departamento.value = response.data
+            departamento.value = response.data.data
         })
     }
 

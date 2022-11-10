@@ -42,7 +42,7 @@
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
-    <template #show_details="{ item, index }">
+    <template #show_details="{ item }">
       <td class="py-1">
         <CButton
           class="mt-1"
@@ -799,66 +799,64 @@ export default {
     ...mapActions(useRegistroStore, ['getNomina', 'addNomina']),
     submitForm() {
       if (this.id) {
-        if (this.id) {
-          Api.putNomina(this.id, this.postNomina).then((response) => {
-            console.log(response.data)
-            this.lgDemo = false
-            this.$swal({
-              position: 'top-end',
-              icon: 'success',
-              title: response.data.message,
-              showConfirmButton: false,
-              timer: 1500,
-            })
-            this.getNomina()
-            this.postNomina = {
-              anioFiscalId: parseInt(localStorage.getItem('ano')),
-              ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-              departamentoId: 0,
-              afpMonto: 0,
-              fecha: new Date(Date.now()),
-              tipoCobro: null,
-              tipoPago: null,
-              empleadoId: 0,
-              programaDivisionId: 0,
-              estatus: 0,
-              grupoNom: null,
-              codEmpl: null,
-              nombreEmpleado: null,
-              posicionId: 0,
-              descCargo: null,
-              sectorId: 0,
-              sueldo: 0,
-              ing2: 0,
-              ing3: 0,
-              ing4: 0,
-              ing5: 0,
-              ing6: 0,
-              ing7: 0,
-              ing8: 0,
-              ing9: 0,
-              ing10: 0,
-              impSR: 0,
-              arsMonto: 0,
-              egr4: 0,
-              egr5: 0,
-              egr6: 0,
-              egr7: 0,
-              egr8: 0,
-              egr9: 0,
-              egr10: 0,
-              cantDiasTrabanulldos: null,
-              valorDias: 0,
-              nota: null,
-              noCheque: 0,
-              finiContrato: 0,
-              ffinContrato: 0,
-              id: 0,
-              variacion: 0,
-            }
+        Api.putNomina(this.id, this.postNomina).then((response) => {
+          console.log(response.data)
+          this.lgDemo = false
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
           })
           this.getNomina()
-        }
+          this.postNomina = {
+            anioFiscalId: parseInt(localStorage.getItem('ano')),
+            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            departamentoId: 0,
+            afpMonto: 0,
+            fecha: new Date(Date.now()),
+            tipoCobro: null,
+            tipoPago: null,
+            empleadoId: 0,
+            programaDivisionId: 0,
+            estatus: 0,
+            grupoNom: null,
+            codEmpl: null,
+            nombreEmpleado: null,
+            posicionId: 0,
+            descCargo: null,
+            sectorId: 0,
+            sueldo: 0,
+            ing2: 0,
+            ing3: 0,
+            ing4: 0,
+            ing5: 0,
+            ing6: 0,
+            ing7: 0,
+            ing8: 0,
+            ing9: 0,
+            ing10: 0,
+            impSR: 0,
+            arsMonto: 0,
+            egr4: 0,
+            egr5: 0,
+            egr6: 0,
+            egr7: 0,
+            egr8: 0,
+            egr9: 0,
+            egr10: 0,
+            cantDiasTrabanulldos: null,
+            valorDias: 0,
+            nota: null,
+            noCheque: 0,
+            finiContrato: 0,
+            ffinContrato: 0,
+            id: 0,
+            variacion: 0,
+          }
+        })
+        this.getNomina()
       } else {
         this.addNomina(this.postNomina)
         //const form = event.currentTarget
@@ -954,7 +952,7 @@ export default {
       // }
       // this.details.push(item._id)
       console.log(item)
-      if (item.ingresos !== 0 || item.variacion !== 0) {
+      if (item.Nomina !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
       } else {
         this.formuladoValue = false

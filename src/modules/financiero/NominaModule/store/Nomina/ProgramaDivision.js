@@ -18,7 +18,7 @@ export const useRegistroStore = defineStore('ProgramaDivision', () => {
 
     function getProgramas() {
         Api.getProgramaDivision().then((response) => {
-            programas.value = response.data
+            programas.value = response.data.data
         })
     }
 
