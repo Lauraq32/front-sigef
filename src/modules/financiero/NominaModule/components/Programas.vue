@@ -310,7 +310,7 @@ export default {
       this.lgDemo = true
       console.log(item.id)
       Api.getProgramaDivisionbyid(item.id).then((response) => {
-        this.postPrograma = response.data.data
+        this.postPrograma = response.data
         console.log(response)
         this.id = item.id
         //this.postIngreso = response.data.data
