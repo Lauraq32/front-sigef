@@ -121,8 +121,8 @@ class NominaApi {
     return http.put(`Sector/${id}`,post)
   }
 
-  putGrupoNomina(id) {
-    return http.put(`GrupoNomina/${id}`)
+  putGrupoNomina(id, data) {
+    return http.put(`GrupoNomina/${id}`, data)
   }
 
   putDepartamento(id) {
