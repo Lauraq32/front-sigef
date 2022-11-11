@@ -42,8 +42,8 @@ class Ejecucion {
 
     //put
 
-    putBeneficiarios(id) {
-        return http.put(`Beneficiarios/${id}`)
+    putBeneficiarios(id, data) {
+        return http.put(`Beneficiarios/${id}`, data)
     }
 
     putAnioFiscal(id) {

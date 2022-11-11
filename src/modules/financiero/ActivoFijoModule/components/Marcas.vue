@@ -66,11 +66,10 @@ export default {
     CModal,
   },
 
-  data:()=>{
-    return{
-      postMarcas
+  data: () => {
+    return {
+      postMarcas,
     }
-
   },
 
   setup() {

@@ -41,16 +41,29 @@
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
-    <template #show_details="{ item, index }">
-      <td class="py-2">
+    <template #show_details="{ item }">
+      <td class="py-1">
         <CButton
+          class="mt-1"
           color="primary"
           variant="outline"
           square
-          size="xl"
-          @click="toggleDetails(item, index)"
+          size="sm"
+          @click="toggleDetails(item)"
         >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
+          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
+        </CButton>
+      </td>
+      <td class="py-1">
+        <CButton
+          class="mt-1"
+          color="danger"
+          variant="outline"
+          square
+          size="sm"
+          @click="deleteItem(item)"
+        >
+          {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
         </CButton>
       </td>
     </template>
@@ -113,7 +126,11 @@
             <CFormLabel for="validationCustom04"
               >Nombre dpto. o nómina</CFormLabel
             >
-            <CFormInput id="validationCustom04"> </CFormInput>
+            <CFormInput
+              v-model="postDepartamento.nombre"
+              id="validationCustom04"
+            >
+            </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -133,7 +150,11 @@
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom04">Estructura prog.</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
+            <CFormInput
+              v-model="postDepartamento.estructur"
+              id="validationCustom04"
+            >
+            </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -209,7 +230,11 @@
             >
               Close
             </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+            <button
+              v-on:click="submitForm"
+              type="button"
+              class="btn btn-primary"
+            >
               Guardar
             </button>
           </div>
@@ -225,7 +250,7 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
-// import Api from '../services/NominaServices'
+import Api from '../services/NominaServices'
 
 export default {
   components: {
@@ -234,12 +259,30 @@ export default {
   },
   data: () => {
     return {
+      postDepartamento: {
+        id: 0,
+        programaDivisionId: 0,
+        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        grupoNominaId: 0,
+        nombre: null,
+        saspI: 0,
+        cuentaBancoId: 0,
+        estructur: null,
+        ctgClasificadorId: 1,
+        ctgOrganismoFinanciadorId: 1,
+        ctgClasificadorRegaliaId: 1,
+        ctgOrganismoFinanciadorRegaliaId: 1,
+        fuenteEspecifica: null,
+        fuenteRegalia: null,
+        fuenteEspecificaRegalia: null,
+      },
+
       validatedCustom01: null,
       xlDemo: false,
       columns: [
         { key: 'Código', label: 'Código', _style: { width: '40%' } },
         {
-          key: 'Departamento',
+          key: 'nombre',
           label: 'Departamento',
           _style: { width: '40%' },
         },
@@ -250,7 +293,7 @@ export default {
           _style: { width: '40%' },
         },
         {
-          key: 'Estructura Prog.',
+          key: 'estructur',
           label: 'Estructura Prog.',
           _style: { width: '40%' },
         },
@@ -285,7 +328,71 @@ export default {
   },
 
   methods: {
-    ...mapActions(useRegistroStore, ['getDepartamentos']),
+    ...mapActions(useRegistroStore, ['getDepartamentos', 'addDepartamento']),
+
+    submitForm() {
+      if (this.id) {
+        Api.putDepartamento(this.id, this.postDepartamento).then((response) => {
+          console.log(response.data)
+          this.lgDemo = false
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+          this.getDepartamentos()
+          this.postDepartamento = {
+            id: 0,
+            programaDivisionId: 0,
+            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            grupoNominaId: 0,
+            nombre: null,
+            saspI: 0,
+            cuentaBancoId: 0,
+            estructur: null,
+            ctgClasificadorId: null,
+            ctgOrganismoFinanciadorId: null,
+            ctgClasificadorRegaliaId: null,
+            ctgOrganismoFinanciadorRegaliaId: null,
+            fuenteEspecifica: null,
+            fuenteRegalia: null,
+            fuenteEspecificaRegalia: null,
+            variacion: 0,
+          }
+        })
+        this.getDepartamentos()
+      } else {
+        this.getDepartamentos()
+        this.addDepartamento(this.postDepartamento)
+        //const form = event.currentTarget
+        this.lgDemo = true
+        this.getDepartamentos()
+        ;(this.postDepartamento = {
+          id: 0,
+          programaDivisionId: 0,
+          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          grupoNominaId: 0,
+          nombre: null,
+          saspI: 0,
+          cuentaBancoId: 0,
+          estructur: null,
+          ctgClasificadorId: null,
+          ctgOrganismoFinanciadorId: null,
+          ctgClasificadorRegaliaId: null,
+          ctgOrganismoFinanciadorRegaliaId: null,
+          fuenteEspecifica: null,
+          fuenteRegalia: null,
+          fuenteEspecificaRegalia: null,
+          variacion: 0,
+        }),
+          (this.validatedCustom01 = false)
+        event.preventDefault()
+        event.stopPropagation()
+        this.getDepartamentos()
+      }
+    },
     handleSubmitCustom01(event) {
       const form = event.currentTarget
       if (form.checkValidity() === false) {
@@ -309,11 +416,26 @@ export default {
       }
     },
     toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
+      // if (this.details.includes(item._id)) {
+      //   this.details = this.details.filter((_item) => _item !== item._id)
+      //   return
+      // }
+      // this.details.push(item._id)
+      console.log(item)
+      if (item.departamento !== 0 || item.variacion !== 0) {
+        this.formuladoValue = true
+      } else {
+        this.formuladoValue = false
       }
-      this.details.push(item._id)
+      this.edit = true
+      this.lgDemo = true
+      console.log(item.id)
+      Api.getDepartamentoById(item.id).then((response) => {
+        this.postDepartamento = response.data.data
+        console.log(response)
+        this.id = item.id
+        //this.postIngreso = response.data.data
+      })
     },
   },
   mounted() {
