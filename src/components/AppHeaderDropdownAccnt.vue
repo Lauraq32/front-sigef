@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import avatar from '@/assets/images/avatars/4.jpg'
+import avatar from '@/assets/images/avatars/1.jpg'
 export default {
   name: 'AppHeaderDropdownAccnt',
   setup() {

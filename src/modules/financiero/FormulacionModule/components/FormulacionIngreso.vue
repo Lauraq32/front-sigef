@@ -367,7 +367,13 @@ export default {
             variacionResumen: 0,
 
           }
-          this.getTotales()
+          this.getListarIngresos(
+      localStorage.getItem('id_Ayuntamiento'),
+      localStorage.getItem('ano'),
+    ),
+      console.log(this.ingresos)
+    //this.getTotal();
+    this.getTotales()
         })
       } else {
         this.postIngreso.anioAnt = parseFloat(this.postIngreso.anioAnt)
@@ -396,7 +402,13 @@ export default {
           variacionResumen: 0,
         }
         this.validatedCustom01 = false
-        this.getTotales()
+        this.getListarIngresos(
+      localStorage.getItem('id_Ayuntamiento'),
+      localStorage.getItem('ano'),
+    ),
+      console.log(this.ingresos)
+    //this.getTotal();
+    this.getTotales()
       }
     },
     getClasificador() {
@@ -494,8 +506,21 @@ export default {
       })
     },
     deleteItem(item) {
-      Api.deleteIngreso(item).then((response) => {
-        console.log(response.data)
+      Api.deleteIngreso(item.id).then((response) => {
+        this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+          this.getListarIngresos(
+      localStorage.getItem('id_Ayuntamiento'),
+      localStorage.getItem('ano'),
+    ),
+      console.log(this.ingresos)
+    //this.getTotal();
+    this.getTotales()
       })
     },
 
