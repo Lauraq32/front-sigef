@@ -4,7 +4,7 @@
       <CRow class="justify-content-center">
         <CCol :md="8">
           <CCardGroup>
-            <CCard class="text-white py-5" style="width: 50%">
+            <CCard class="text-white py-5" style="width: 100%">
               <img src="../../../public/LogoTemp.png" />
             </CCard>
             <CCard class="p-5">

@@ -9,6 +9,10 @@ class FormulacionApi {
     return http.get('/Financiero/ListarClasificadores')
   }
 
+  deleteIngreso(id){
+    return http.delete(`PresIngreso/${id}`)
+  }
+
   getClasificador(Clasificador) {
     return http.get(`PresIngreso/GetClasificadorById/${Clasificador}`)
   }
