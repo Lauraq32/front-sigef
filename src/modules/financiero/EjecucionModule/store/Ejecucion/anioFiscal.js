@@ -18,7 +18,7 @@ export const useRegistroStore = defineStore('anioFiscal', () => {
 
     function getAnioFiscal() {
         Api.getAnioFiscal().then((response) => {
-            anioFiscal.value = response.data
+            anioFiscal.value = response.data.data
         })
     }
 
