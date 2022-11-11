@@ -3,28 +3,54 @@
   <hr />
   <div>
     <div class="d-inline p-2">
-      <CButton color="info" @click="
-        () => {
-          lgDemo = true
-        }
-      ">Agregar</CButton>
+      <CButton
+        color="info"
+        @click="
+          () => {
+            lgDemo = true
+          }
+        "
+        >Agregar</CButton
+      >
     </div>
   </div>
   <hr />
-  <CSmartTable clickableRows :tableProps="{
-    striped: false,
-    hover: true,
-  }" :tableHeadProps="{}" :activePage="1" footer header :items="pocision" :columns="columns" columnFilter tableFilter
-    cleaner itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination>
+  <CSmartTable
+    clickableRows
+    :tableProps="{
+      striped: false,
+      hover: true,
+    }"
+    :tableHeadProps="{}"
+    :activePage="1"
+    footer
+    header
+    :items="pocision"
+    :columns="columns"
+    columnFilter
+    tableFilter
+    cleaner
+    itemsPerPageSelect
+    :itemsPerPage="5"
+    columnSorter
+    :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination
+  >
     <template #status="{ item }">
       <td>
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
-    <template #show_details="{ item,  }">
+    <template #show_details="{ item }">
       <td class="py-1">
-        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="toggleDetails(item)">
+        <CButton
+          class="mt-1"
+          color="primary"
+          variant="outline"
+          square
+          size="sm"
+          @click="toggleDetails(item)"
+        >
           {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
       </td>
@@ -42,27 +68,42 @@
       </CCollapse>
     </template>
   </CSmartTable>
-  <CModal size="lg" :visible="lgDemo" @close="
-    () => {
-      lgDemo = false
-    }
-  ">
+  <CModal
+    size="lg"
+    :visible="lgDemo"
+    @close="
+      () => {
+        lgDemo = false
+      }
+    "
+  >
     <CModalHeader>
       <CModalTitle>Posición o Cargo</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
-        <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01"
-          @submit="handleSubmitCustom01">
-
+        <CForm
+          class="row g-3 needs-validation"
+          novalidate
+          :validated="validatedCustom01"
+          @submit="handleSubmitCustom01"
+        >
           <CCol :md="4">
             <CFormLabel for="validationCustom02">Posición o Cargo</CFormLabel>
-            <CFormInput v-model="postPosicionesCargo.nombre" id="validationCustom02" required />
+            <CFormInput
+              v-model="postPosicionesCargo.nombre"
+              id="validationCustom02"
+              required
+            />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
               Close
             </button>
             <button class="btn btn-info btn-block mt-1" v-on:click="submitForm">
@@ -93,13 +134,7 @@ export default {
       postPosicionesCargo: {
         id: 0,
         nombre: null,
-        ayuntamientoId: 0,
-        ayuntamiento: {
-          id: 0,
-          secuencial: 0,
-          codigo: null,
-          descripcion: null,
-        },
+        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
       },
 
       columns: [
@@ -184,7 +219,7 @@ export default {
       if (this.id) {
         Api.putPocision(this.id, this.postPosicionesCargo).then((response) => {
           console.log(response.data)
-          
+
           this.lgDemo = false
           this.$swal({
             position: 'top-end',
@@ -198,11 +233,10 @@ export default {
             id: 0,
             nombre: null,
             variacion: 0,
-            ayuntamientoId: 1,
-            
+            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
           }
           event.preventDefault()
-        event.stopPropagation()
+          event.stopPropagation()
         })
         this.getPocisions()
       } else {
@@ -210,24 +244,17 @@ export default {
         //const form = event.currentTarget
         this.lgDemo = true
         this.getPocisions()
-          ; (this.postPosicionesCargo = {
-            id: 0,
-            nombre: null,
-            ayuntamientoId: 0,
-            ayuntamiento: {
-              id: 0,
-              secuencial: 0,
-              codigo: null,
-              descripcion: null,
-            },
-          }),
-            (this.validatedCustom01 = false)
+        ;(this.postPosicionesCargo = {
+          id: 0,
+          nombre: null,
+          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        }),
+          (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
         this.getPocisions()
       }
     },
-
   },
   mounted() {
     this.getPocisions()

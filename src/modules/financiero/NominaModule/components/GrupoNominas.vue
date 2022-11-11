@@ -41,7 +41,7 @@
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
-    <template #show_details="{ item, index }">
+    <template #show_details="{ item }">
       <td class="py-1">
         <CButton
           class="mt-1"
@@ -154,6 +154,7 @@ export default {
       postGrupoNominas: {
         nombre: null,
         variacion: 0,
+        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
       },
 
       columns: [
@@ -204,6 +205,7 @@ export default {
           this.postGrupoNominas = {
             nombre: null,
             variacion: 0,
+            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
           }
         })
         this.getGNomina()
@@ -216,6 +218,7 @@ export default {
         ;(this.postGrupoNominas = {
           nombre: null,
           variacion: 0,
+          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         }),
           (this.validatedCustom01 = false)
         event.preventDefault()

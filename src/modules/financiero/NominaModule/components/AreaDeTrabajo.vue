@@ -149,13 +149,7 @@ export default {
       postAreaTrabajo: {
         id: 0,
         area: null,
-        ayuntamientoId: 0,
-        ayuntamiento: {
-          id: 0,
-          secuencial: 0,
-          codigo: null,
-          descripcion: null,
-        },
+        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
       },
 
       validatedCustom01: null,
@@ -207,14 +201,8 @@ export default {
           this.postAreaTrabajo = {
             id: 0,
             area: null,
-            ayuntamientoId: 0,
+            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
             variacion: 0,
-            ayuntamiento: {
-              id: 0,
-              secuencial: 0,
-              codigo: null,
-              descripcion: null,
-            },
           }
         })
         this.AreaTrabajo()
@@ -226,14 +214,8 @@ export default {
         ;(this.postAreaTrabajo = {
           id: 0,
           area: null,
-          ayuntamientoId: 0,
+          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
           variacion: 0,
-          ayuntamiento: {
-            id: 0,
-            secuencial: 0,
-            codigo: null,
-            descripcion: null,
-          },
         }),
           (this.validatedCustom01 = false)
         event.preventDefault()

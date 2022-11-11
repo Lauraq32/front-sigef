@@ -129,16 +129,16 @@ class NominaApi {
     return http.put(`Departamento/${id}`)
   }
 
-  putAreaTrabajo(id) {
-    return http.put(`AreaTrabajo/${id}`)
+  putAreaTrabajo(id, data) {
+    return http.put(`AreaTrabajo/${id}`, data)
   }
 
   putConfiguracionNomina(id) {
     return http.put(`ConfiguracionNomina/${id}`)
   }
 
-  putProgramaDivision(id) {
-    return http.put(`ProgramaDivision/${id}`)
+  putProgramaDivision(id, data) {
+    return http.put(`ProgramaDivision/${id}`, data)
   }
 
   //delete
