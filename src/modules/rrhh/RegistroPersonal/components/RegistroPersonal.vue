@@ -4,24 +4,20 @@
   <hr />
   <div>
     <div class="d-inline p-2">
-      <CButton
-        color="info"
-        @click="
-          () => {
-            lgDemo = true
-          }
-        "
-        >Agregar</CButton
-      >
+      <CButton color="info" @click="
+        () => {
+          lgDemo = true
+        }
+      ">Agregar</CButton>
     </div>
   </div>
   <hr />
   <CSmartTable clickableRows :tableProps="{
     striped: false,
     hover: true,
-  }" :tableHeadProps="{}" :activePage="1" footer header :items="registroPersonal" :columns="columns" columnFilter tableFilter
-    cleaner itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination>
+  }" :tableHeadProps="{}" :activePage="1" footer header :items="registroPersonal" :columns="columns" columnFilter
+    tableFilter cleaner itemsPerPageSelect :itemsPerPage="5" columnSorter
+    :sorterValue="{ column: 'status', state: 'asc' }" pagination>
     <template #status="{ item }">
       <td>
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
@@ -29,13 +25,7 @@
     </template>
     <template #show_details="{ item, index }">
       <td class="py-2">
-        <CButton
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item, index)"
-        >
+        <CButton color="primary" variant="outline" square size="sm" @click="toggleDetails(item, index)">
           {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
         </CButton>
       </td>
@@ -53,15 +43,11 @@
       </CCollapse>
     </template>
   </CSmartTable>
-  <CModal
-    size="xl"
-    :visible="lgDemo"
-    @close="
-      () => {
-        lgDemo = false
-      }
-    "
-  >
+  <CModal size="xl" :visible="lgDemo" @close="
+    () => {
+      lgDemo = false
+    }
+  ">
     <CModalHeader>
       <CModalTitle>Sectores</CModalTitle>
     </CModalHeader>
@@ -69,83 +55,59 @@
       <div class="row">
         <CNav variant="tabs" role="tablist">
           <CNavItem>
-            <CNavLink
-              href="javascript:void(0);"
-              :active="tabPaneActiveKey === 1"
-              @click="
-                () => {
-                  tabPaneActiveKey = 1
-                }
-              "
-            >
+            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 1" @click="
+              () => {
+                tabPaneActiveKey = 1
+              }
+            ">
               General
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink
-              href="javascript:void(0);"
-              :active="tabPaneActiveKey === 2"
-              @click="
-                () => {
-                  tabPaneActiveKey = 2
-                }
-              "
-            >
+            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 2" @click="
+              () => {
+                tabPaneActiveKey = 2
+              }
+            ">
               Otros ingresos
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink
-              href="javascript:void(0);"
-              :active="tabPaneActiveKey === 3"
-              @click="
-                () => {
-                  tabPaneActiveKey = 3
-                }
-              "
-            >
+            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 3" @click="
+              () => {
+                tabPaneActiveKey = 3
+              }
+            ">
               Observación
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink
-              href="javascript:void(0);"
-              :active="tabPaneActiveKey === 4"
-              @click="
-                () => {
-                  tabPaneActiveKey = 4
-                }
-              "
-            >
+            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 4" @click="
+              () => {
+                tabPaneActiveKey = 4
+              }
+            ">
               Historial clínico
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink
-              href="javascript:void(0);"
-              :active="tabPaneActiveKey === 5"
-              @click="
-                () => {
-                  tabPaneActiveKey = 5
-                }
-              "
-            >
+            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 5" @click="
+              () => {
+                tabPaneActiveKey = 5
+              }
+            ">
               Acumulado anual
             </CNavLink>
           </CNavItem>
         </CNav>
         <CTabContent>
-          <CTabPane
-            role="tabpanel"
-            aria-labelledby="home-tab"
-            :visible="tabPaneActiveKey === 1"
-          >
+          <CTabPane role="tabpanel" aria-labelledby="home-tab" :visible="tabPaneActiveKey === 1">
             <div class="row">
               <div class="col-4 border p-3">
                 <h3>Datos generales</h3>
                 <CCol>
                   <CFormLabel for="validationCustom01">Código</CFormLabel>
-                  <CFormInput  id="validationCustom01" />
+                  <CFormInput id="validationCustom01" />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -219,9 +181,7 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Lugar de nacimiento</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom02">Lugar de nacimiento</CFormLabel>
                   <CFormInput id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -250,9 +210,7 @@
               <div class="col-4 border p-3">
                 <h3>Datos laborales</h3>
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom01"
-                    >Fecha ingreso</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom01">Fecha ingreso</CFormLabel>
                   <CFormInput type="date" id="validationCustom01" />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
@@ -269,9 +227,7 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom01"
-                    >Dirección o dependencia</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom01">Dirección o dependencia</CFormLabel>
                   <CFormInput id="validationCustom01" />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
@@ -280,9 +236,7 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom02"
-                    >Área de trabajo</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom02">Área de trabajo</CFormLabel>
                   <CFormInput id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -300,9 +254,7 @@
                 </CCol>
                 <div class="row">
                   <CCol :md="6">
-                    <CFormLabel for="validationCustom02"
-                      >Tipo contrato</CFormLabel
-                    >
+                    <CFormLabel for="validationCustom02">Tipo contrato</CFormLabel>
                     <CFormInput id="validationCustom02" required />
                     <CFormFeedback valid> Exito! </CFormFeedback>
                     <CFormFeedback invalid>
@@ -318,9 +270,7 @@
                     </CFormFeedback>
                   </CCol>
                   <CCol :md="6">
-                    <CFormLabel for="validationCustom01"
-                      >Días trabaj</CFormLabel
-                    >
+                    <CFormLabel for="validationCustom01">Días trabaj</CFormLabel>
                     <CFormInput type="date" id="validationCustom01" />
                     <CFormFeedback valid> Exito! </CFormFeedback>
                     <CFormFeedback invalid>
@@ -347,9 +297,7 @@
                 </CCol>
 
                 <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Sueldo actual</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom02">Sueldo actual</CFormLabel>
                   <CFormInput type="number" id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -360,9 +308,7 @@
                 <h4>Retenciones de Ley</h4>
 
                 <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Impuestos S.R</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom02">Impuestos S.R</CFormLabel>
                   <CFormInput id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -396,11 +342,7 @@
               </div>
             </div>
           </CTabPane>
-          <CTabPane
-            role="tabpanel"
-            aria-labelledby="profile-tab"
-            :visible="tabPaneActiveKey === 2"
-          >
+          <CTabPane role="tabpanel" aria-labelledby="profile-tab" :visible="tabPaneActiveKey === 2">
             <div class="row">
               <div class="col-4 border p-3">
                 <h3>Ingresos</h3>
@@ -415,9 +357,7 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Horas extras:</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom02">Horas extras:</CFormLabel>
                   <CFormInput disabled id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -425,9 +365,7 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom01"
-                    >Serv. Especiales:</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom01">Serv. Especiales:</CFormLabel>
                   <CFormInput disabled id="validationCustom01" />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -435,9 +373,7 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Gastos de rep</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom02">Gastos de rep</CFormLabel>
                   <CFormInput id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -495,9 +431,7 @@
                 <h3>Inf sobre el movimiento del registro</h3>
                 <hr />
                 <CCol>
-                  <CFormLabel for="validationCustom01"
-                    >Fecha adiciona</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom01">Fecha adiciona</CFormLabel>
                   <CFormInput type="date" id="validationCustom01" />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
@@ -506,9 +440,7 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Usuario adiciona:</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom02">Usuario adiciona:</CFormLabel>
                   <CFormInput disabled id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -516,9 +448,7 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom01"
-                    >Fecha modifica:</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom01">Fecha modifica:</CFormLabel>
                   <CFormInput disabled id="validationCustom01" />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -526,9 +456,7 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Usuario modifica</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom02">Usuario modifica</CFormLabel>
                   <CFormInput id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -536,9 +464,7 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Valores anteriores</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom02">Valores anteriores</CFormLabel>
                   <CFormInput id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -548,17 +474,11 @@
               </div>
             </div>
           </CTabPane>
-          <CTabPane
-            role="tabpanel"
-            aria-labelledby="contact-tab"
-            :visible="tabPaneActiveKey === 3"
-          >
+          <CTabPane role="tabpanel" aria-labelledby="contact-tab" :visible="tabPaneActiveKey === 3">
             <div class="row">
               <div class="col-4 border">
                 <CCol>
-                  <CFormLabel for="validationCustom01"
-                    >Licencia de conducir</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom01">Licencia de conducir</CFormLabel>
                   <CFormInput type="date" id="validationCustom01" />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
@@ -567,9 +487,7 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Fecha expiraci licencia de conducir</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom02">Fecha expiraci licencia de conducir</CFormLabel>
                   <CFormInput type="date" id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -577,9 +495,7 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom01"
-                    >Fecha expira tarjeta del banco:</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom01">Fecha expira tarjeta del banco:</CFormLabel>
                   <CFormInput typeof="date" id="validationCustom01" />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -592,11 +508,7 @@
               </div>
             </div>
           </CTabPane>
-          <CTabPane
-            role="tabpanel"
-            aria-labelledby="profile-tab"
-            :visible="tabPaneActiveKey === 4"
-          >
+          <CTabPane role="tabpanel" aria-labelledby="profile-tab" :visible="tabPaneActiveKey === 4">
             <div class="row">
               <div class="col-4 border p-3">
                 <h3>En caso de emergencia comunicarse con</h3>
@@ -686,9 +598,7 @@
                 </CCol>
 
                 <CCol>
-                  <CFormLabel for="validationCustom05"
-                    >Nivel de presión</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom05">Nivel de presión</CFormLabel>
                   <CFormSelect id="validationCustom05">
                     <option>Alta</option>
                     <option>Baja</option>
@@ -702,9 +612,7 @@
                 <h3>Inf sobre el movimiento del registro</h3>
                 <hr />
                 <CCol>
-                  <CFormLabel for="validationCustom01"
-                    >Fecha adiciona</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom01">Fecha adiciona</CFormLabel>
                   <CFormInput type="date" id="validationCustom01" />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
@@ -713,9 +621,7 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Usuario adiciona:</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom02">Usuario adiciona:</CFormLabel>
                   <CFormInput disabled id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -723,9 +629,7 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom01"
-                    >Fecha modifica:</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom01">Fecha modifica:</CFormLabel>
                   <CFormInput disabled id="validationCustom01" />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -733,9 +637,7 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Usuario modifica</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom02">Usuario modifica</CFormLabel>
                   <CFormInput id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -743,9 +645,7 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Valores anteriores</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom02">Valores anteriores</CFormLabel>
                   <CFormInput id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -756,9 +656,7 @@
                 <h3>Intervención quirurgica(más reciente)</h3>
 
                 <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Detalle diagnostico</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom02">Detalle diagnostico</CFormLabel>
                   <CFormInput id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -769,11 +667,7 @@
             </div>
           </CTabPane>
 
-          <CTabPane
-            role="tabpanel"
-            aria-labelledby="contact-tab"
-            :visible="tabPaneActiveKey === 5"
-          >
+          <CTabPane role="tabpanel" aria-labelledby="contact-tab" :visible="tabPaneActiveKey === 5">
             <div class="row">
               <div class="col-4 border">
                 <CCol>
@@ -883,9 +777,7 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom01"
-                    >Valor regalia</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom01">Valor regalia</CFormLabel>
                   <CFormInput disabled id="validationCustom01" />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
@@ -894,9 +786,7 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Meses trabajados</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom02">Meses trabajados</CFormLabel>
                   <CFormInput id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -913,7 +803,7 @@
       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
         Close
       </button>
-      <button type="button" class="btn btn-primary">Guardar</button>
+      <button type="button" class="btn btn-primary" v-on:click="submitForm">Guardar</button>
     </div>
   </CModal>
 </template>
@@ -935,57 +825,154 @@ export default {
   data: () => {
     return {
 
-      postEmpleado:{
+      postEmpleado: {
         //General
+        // codigo: null,
+        // nombres:null,
+        // apellidos:null,
+        // tipoDocumento:null,
+        // cedula:null,
+        // direccion:null,
+        // sectorId:0,
+        // telefono:"",
+        // fechaNacimiento:new Date(Date.now()),
+        // lugarNacimiento:"",
+        // estadoCivil:"",
+        // sexo:0,
+        // dependientes:0,
+        // fechaIngreso:new Date(Date.now()),
+        // programaDivisionId:0,
+        // areaTrabajoId:0,
+        // posicionId:0,
+        // tipoContrato:"",
+        // turno:"",
+        // formaPago:"",
+        // sueldo:0,
+        // impuestoSobreRenta:0,
+        // arsFijo:0,
+        // afpfijo:0,
+
+        // //Observacion
+        // licenciaConducir:"",
+        // fechaExpiracionLicencia:new Date(Date.now()),
+        // fechaExpitaTarjeta:new Date(Date.now()),
+        // //HistorialClinico
+        // emergenciaNombre:"",
+        // emergenciaTelefono:"",
+        // emergenciaDireccion:"",
+        // emergenciaParentezco:"",
+
+        // //Acumulado anual
+        // eneroIngreso:0,
+        // febreroIngreso:0,
+        // marzoIngreso:0,
+        // abrilIngreso:0,
+        // mayoIngreso:0,
+        // junioIngreso:0,
+        // julioIngreso:0,
+        // agostoIngreso:0,
+        // septiembreIngreso:0,
+        // octubreIngreso:0,
+        // noviembreIngreso:0,
+        // diciembreIngreso:0,
+        id: 0,
+        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         codigo: null,
-        nombres:null,
-        apellidos:null,
-        tipoDocumento:null,
-        cedula:null,
-        direccion:null,
-        sectorId:0,
-        telefono:"",
-        fechaNacimiento:new Date(Date.now()),
-        lugarNacimiento:"",
-        estadoCivil:"",
-        sexo:0,
-        dependientes:0,
-        fechaIngreso:new Date(Date.now()),
-        programaDivisionId:0,
-        areaTrabajoId:0,
-        posicionId:0,
-        tipoContrato:"",
-        turno:"",
-        formaPago:"",
-        sueldo:0,
-        impuestoSobreRenta:0,
-        arsFijo:0,
-        afpfijo:0,
+        nombres: null,
+        apellidos: null,
+        tipoDocumento: null,
+        cedula: '402338292541',
+        direccion: null,
+        sectorId: 1,
+        telefono: null,
+        celular: null,
+        fechaNacimiento: new Date(Date.now()),
+        lugarNacimiento: null,
+        estadoCivil: null,
+        sexo:"M" ,
+        dependientes: 0,
+        fechaIngreso: new Date(Date.now()),
+        fechaSalida: new Date(Date.now()),
+        razonSalida: null,
+        reemplear: true,
+        fechaReingreso: new Date(Date.now()),
+        departamentoId: 0,
+        areaTrabajoId: 0,
+        posicionId: 0,
+        grupoOcupacional: null,
+        tipoContrato: null,
+        fechaInicioContrato: new Date(Date.now()),
+        fechaFinContrato: new Date(Date.now()),
+        turno: null,
+        periodoPago: null,
+        formaPago: null,
+        numeroCuenta: null,
+        fechaExpitaTarjeta: new Date(Date.now()),
+        estatus: true,
+        sueldo: 0,
+        sueldoAnterior: 0,
+        fechaSueldoAnterior: new Date(Date.now()),
+        fechaUltimaNomina: new Date(Date.now()),
+        inicioVacaciones: new Date(Date.now()),
+        finVacaciones: new Date(Date.now()),
+        activoNomina: true,
+        ingreso2: 0,
+        ingreso3: 0,
+        ingreso4: 0,
+        ingreso5: 0,
+        ingreso6: 0,
+        ingreso7: 0,
+        ingreso8: 0,
+        ingreso9: 0,
+        ingreso10: 0,
+        impuestoSobreRenta: 0,
+        arsCalculado: true,
+        arsFijo: 0,
+        afpCalculado:true,
+        afpFijo: 0,
+        egresos4: 0,
+        egresos5: 0,
+        egresos6: 0,
+        egresos7: 0,
+        egresos8: 0,
+        egresos9: 0,
+        egresos10: 0,
+        eneroIngreso: 0,
+        febreroIngreso: 0,
+        marzoIngreso: 0,
+        abrilIngreso: 0,
+        mayoIngreso: 0,
+        junioIngreso: 0,
+        julioIngreso: 0,
+        agostoIngreso: 0,
+        septiembreIngreso: 0,
+        octubreIngreso: 0,
+        noviembreIngreso: 0,
+        diciembreIngreso: 0,
+        observacion: null,
+        discapacidad: null,
+        emergenciaNombre: null,
+        emergenciaNumero: null,
+        emergenciaNumero2: null,
+        emergenciaDireccion: null,
+        emergenciaParentezco: null,
+        tipoSangreId: 0,
+        emergenciaAlergico: null,
+        emergenciaDiabetico: null,
+        emergenciaInsodepend: null,
+        emergenciaPresionAlta: null,
+        emergenciaPresionBaja: null,
+        emergenciaEnTratamiento: null,
+        emergenciaDiagnostico: null,
+        licenciaConducir: null,
+        fechaExpiracionLicencia: null,
+        aplicaSasp: true,
+        nivelEscolar: null,
+        tituloObtenido: null,
+        correoElectronico: null,
+        correoElectronico2: null,
+        recomendadoPor: null
 
-        //Observacion
-        licenciaConducir:"",
-        fechaExpiracionLicencia:new Date(Date.now()),
-        fechaExpitaTarjeta:new Date(Date.now()),
-        //HistorialClinico
-        emergenciaNombre:"",
-        emergenciaTelefono:"",
-        emergenciaDireccion:"",
-        emergenciaParentezco:"",
-
-        //Acumulado anual
-        eneroIngreso:0,
-        febreroIngreso:0,
-        marzoIngreso:0,
-        abrilIngreso:0,
-        mayoIngreso:0,
-        junioIngreso:0,
-        julioIngreso:0,
-        agostoIngreso:0,
-        septiembreIngreso:0,
-        octubreIngreso:0,
-        noviembreIngreso:0,
-        diciembreIngreso:0,
-        
 
       },
 
@@ -1029,7 +1016,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(useRegistroStore, ['getRegistroPersonal','addRegistroPersonal']),
+    ...mapActions(useRegistroStore, ['getRegistroPersonal', 'addRegistroPersonal']),
 
     handleSubmitCustom01(event) {
       const form = event.currentTarget
@@ -1063,7 +1050,7 @@ export default {
       this.details.push(item._id)
     },
 
-    submitForm(){
+    submitForm() {
       this.addRegistroPersonal(this.postEmpleado)
     }
   },
