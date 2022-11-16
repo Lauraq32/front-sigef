@@ -169,14 +169,8 @@ export default {
         id: 0,
         nombre: null,
         estructura: null,
-        ayuntamientoId: 0,
+        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         variacion: 0,
-        ayuntamiento: {
-          id: 0,
-          secuencial: 0,
-          codigo: null,
-          descripcion: null,
-        },
       },
 
       validatedCustom01: null,
@@ -236,14 +230,8 @@ export default {
             id: 0,
             nombre: null,
             estructura: null,
-            ayuntamientoId: 0,
+            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
             variacion: 0,
-            ayuntamiento: {
-              id: 0,
-              secuencial: 0,
-              codigo: null,
-              descripcion: null,
-            },
           }
         })
         this.getProgramas()
@@ -257,14 +245,8 @@ export default {
           id: 0,
           nombre: null,
           estructura: null,
-          ayuntamientoId: 0,
+          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
           variacion: 0,
-          ayuntamiento: {
-            id: 0,
-            secuencial: 0,
-            codigo: null,
-            descripcion: null,
-          },
         }),
           (this.validatedCustom01 = false)
         event.preventDefault()
@@ -310,7 +292,7 @@ export default {
       this.lgDemo = true
       console.log(item.id)
       Api.getProgramaDivisionbyid(item.id).then((response) => {
-        this.postPrograma = response.data
+        this.postPrograma = response.data.data
         console.log(response)
         this.id = item.id
         //this.postIngreso = response.data.data

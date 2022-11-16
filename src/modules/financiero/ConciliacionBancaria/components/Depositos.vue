@@ -157,6 +157,10 @@
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import { mapStores } from 'pinia'
+import { mapState } from 'pinia'
+import { mapActions } from 'pinia'
+import Api from '../services/ConciliacionServices'
 export default {
   components: {
     CSmartTable,
@@ -164,8 +168,12 @@ export default {
   },
   data: () => {
     return {
-      validatedCustom01: null,
-      lgDemo: false,
+
+      postDepositos:{
+
+      },
+
+     
       columns: [
         { key: 'Depósito No.', label: 'Depósito No.', _style: { width: '40%' } },
         { key: 'Fecha', label: 'Fecha', _style: { width: '40%' } },
@@ -181,8 +189,16 @@ export default {
         },
       ],
       details: [],
+
+      validatedCustom01: null,
+      lgDemo: false,
     }
   },
+
+  computed:{
+    
+  },
+
   methods: {
     handleSubmitCustom01(event) {
       const form = event.currentTarget

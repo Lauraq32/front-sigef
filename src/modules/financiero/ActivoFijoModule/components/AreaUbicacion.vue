@@ -111,6 +111,17 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
 
+          <CCol :md="4">
+            <CFormLabel for="validationCustom02">Descripcion</CFormLabel>
+            <CFormInput
+              v-model="postAreaUbicacion.descripcion2"
+              id="validationCustom02"
+              required
+            />
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+
           <div class="modal-footer">
             <button
               type="button"
@@ -149,7 +160,6 @@ export default {
     return {
       postAreaUbicacion: {
         id: 0,
-        variacion: 0,
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         descripcion: null,
         descripcion2: null,
@@ -160,6 +170,7 @@ export default {
       columns: [
         { key: 'id', label: 'Codigo' },
         { key: 'descripcion', label: 'Descripcion' },
+        { key: 'descripcion2', label: 'Descripcion' },
         {
           key: 'show_details',
           label: '',

@@ -18,7 +18,7 @@ export const useRegistroStore = defineStore('Marcas', () => {
 
     function getMarcas() {
         Api.getAllMarca().then((response) => {
-            Marcas.value = response.data
+            Marcas.value = response.data.data
         })
     }
 

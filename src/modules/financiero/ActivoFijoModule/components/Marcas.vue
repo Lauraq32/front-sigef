@@ -1,64 +1,76 @@
+
 <template>
   <h3 class="text-center">Marcas</h3>
-  <CSmartTable
-    clickableRows
-    :tableProps="{
-      striped: false,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    footer
-    header
-    :items="Marca"
-    :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination
-  >
+  <hr />
+  <div>
+    <div class="d-inline p-2">
+      <CButton color="info" @click="
+        () => {
+          lgDemo = true
+        }
+      ">Agregar</CButton>
+    </div>
+  </div>
+  <hr />
+  <CSmartTable clickableRows :tableProps="{
+    striped: false,
+    hover: true,
+  }" :tableHeadProps="{}" :activePage="1" footer header :items="Marcas" :columns="columns" columnFilter tableFilter
+    cleaner itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination>
     <template #status="{ item }">
       <td>
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
-    <template #show_details="{ item, index }">
-      <td class="py-2">
-        <CButton
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item, index)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
+    <template #show_details="{ item}">
+      <td class="py-1">
+        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="toggleDetails(item)">
+          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
       </td>
     </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
-    </template>
   </CSmartTable>
+  <CModal size="lg" :visible="lgDemo" @close="
+    () => {
+      lgDemo = false
+    }
+  ">
+    <CModalHeader>
+      <CModalTitle>Marcas</CModalTitle>
+    </CModalHeader>
+    <CModalBody>
+      <CCardBody>
+        <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01"
+          @submit="handleSubmitCustom01">
+          <CCol :md="4">
+            <CFormLabel for="validationCustom02">Marca</CFormLabel>
+            <CFormInput v-model="postMarcas.nombre" id="validationCustom02" required />
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Close
+            </button>
+            <button class="btn btn-info btn-block mt-1" v-on:click="submitForm">
+              Guardar
+            </button>
+          </div>
+        </CForm>
+      </CCardBody>
+    </CModalBody>
+  </CModal>
 </template>
 
 <script>
 import { useRegistroStore } from '../store/ActivoFijo/Marca'
-import { computed, onMounted } from '@vue/runtime-core'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import { mapStores } from 'pinia'
+import { mapState } from 'pinia'
+import { mapActions } from 'pinia'
+import Api from '../services/ActivoFijoServices'
 
 export default {
   components: {
@@ -66,88 +78,16 @@ export default {
     CModal,
   },
 
-  setup() {
-    onMounted(() => {
-      console.log('klk')
-      getMarcas()
-    }),
-      function toggleDetails(item) {
-        if (this.details.includes(item._id)) {
-          this.details = this.details.filter((_item) => _item !== item._id)
-          return
-        }
-        this.details.push(item._id)
-      }
-    const columns = [
-      { key: 'Codigo', label: 'Codigo' },
-      { key: 'Marca', label: 'Marca' },
-      {
-        key: 'show_details',
-        label: '',
-        _style: { width: '1%' },
-        filter: false,
-        sorter: false,
-        // _props: { color: 'primary', class: 'fw-semibold'}
-      },
-    ]
-
-    function handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
-    }
-
-    function getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    }
-
-    const validatedCustom01 = null
-    const lgDemo = false
-
-    const store = useRegistroStore()
-
-    const { getMarcas, Marcas } = store
-
-    return {
-      store,
-      getMarcas,
-      Marcas,
-      validatedCustom01,
-      handleSubmitCustom01,
-      lgDemo,
-      getBadge,
-      columns,
-      Marca: computed(() => store.Marcas),
-    }
-  },
-}
-</script>
-
-<!-- <script>
-import { CSmartTable } from '@coreui/vue-pro'
-export default {
-  components: {
-    CSmartTable,
-  },
   data: () => {
     return {
+      postMarcas: {
+        id: 0,
+        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        nombre: null,
+      },
       columns: [
-        { key: 'Codigo', label: 'Codigo' },
-        { key: 'Marca', label: 'Marca' },
+        { key: 'id', label: 'Codigo' },
+        { key: 'nombre', label: 'Marca' },
         {
           key: 'show_details',
           label: '',
@@ -157,11 +97,40 @@ export default {
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
+
       details: [],
-      items: [],
+
+      validatedCustom01: null,
+      lgDemo: false,
     }
   },
+
+  computed: {
+    ...mapStores(useRegistroStore),
+    ...mapState(useRegistroStore, ['Marcas']),
+  },
+
   methods: {
+    ...mapActions(useRegistroStore, ['getMarcas', 'addMarcas']),
+
+    toggleDetails(item) {
+
+      console.log(item)
+      if (item.Marcas !== 0 || item.variacion !== 0) {
+        this.formuladoValue = true
+      } else {
+        this.formuladoValue = false
+      }
+      this.edit = true
+      this.lgDemo = true
+      console.log(item.id)
+      Api.getMarcaByID(item.id).then((response) => {
+        this.postMarcas = response.data.data
+        console.log(response)
+        this.id = item.id
+        //this.postIngreso = response.data.data
+      })
+    },
     getBadge(status) {
       switch (status) {
         case 'Active':
@@ -176,33 +145,57 @@ export default {
           'primary'
       }
     },
-    IngresoReportClsIng() {
-      window
-        .open(
-          `http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fReporte_FP%2fRep_Clasificadores_Ingreso&rs:Command=Render`,
-          '_blank',
-        )
-        .focus()
-    },
-    IngresoReportClsGas() {
-      window
-        .open(
-          `http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fReporte_FP%2fRep_Clasificadores_Gasto&rs:Command=Render`,
-          '_blank',
-        )
-        .focus()
-    },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
+
+    handleSubmitCustom01(event) {
+      const form = event.currentTarget
+      if (form.checkValidity() === false) {
+        event.preventDefault()
+        event.stopPropagation()
       }
-      this.details.push(item._id)
+      this.validatedCustom01 = true
+    },
+
+    submitForm() {
+      if (this.id) {
+        Api.putMarca(this.id, this.postMarcas).then((response) => {
+          console.log(response.data)
+          this.lgDemo = false
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+          this.getMarcas()
+          this.postMarcas = {
+            id: 0,
+            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            nombre: null,
+          }
+        })
+        this.getMarcas()
+      } else {
+        this.addMarcas(this.postMarcas)
+        //const form = event.currentTarget
+        this.lgDemo = true
+        this.getMarcas()
+          ; (this.postMarcas = {
+            id: 0,
+            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            nombre: null,
+          }),
+            (this.validatedCustom01 = false)
+        event.preventDefault()
+        event.stopPropagation()
+        this.getMarcas()
+      }
     },
   },
-  computed: {},
+
   mounted() {
-    //this.$store.dispatch('Formulacion/getClasificadores');
+    this.getMarcas()
   },
 }
-</script> -->
+</script>
+

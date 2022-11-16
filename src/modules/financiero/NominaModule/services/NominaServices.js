@@ -61,7 +61,7 @@ class NominaApi {
     return http.get(`Nomina/${id}`)
   }
 
-  getProgramaDivisionbyid(id, data) {
+  getProgramaDivisionbyid(id) {
     return http.get(`ProgramaDivision/${id}`)
   }
 
@@ -113,20 +113,20 @@ class NominaApi {
     return http.put(`Nomina/${id}`, data)
   }
 
-  putPocision(id,data) {
-    return http.put(`Posicion/${id}`,data)
+  putPocision(id, data) {
+    return http.put(`Posicion/${id}`, data)
   }
 
-  putSector(id,post) {
-    return http.put(`Sector/${id}`,post)
+  putSector(id, post) {
+    return http.put(`Sector/${id}`, post)
   }
 
-  putGrupoNomina(id) {
-    return http.put(`GrupoNomina/${id}`)
+  putGrupoNomina(id, data) {
+    return http.put(`GrupoNomina/${id}`, data)
   }
 
-  putDepartamento(id) {
-    return http.put(`Departamento/${id}`)
+  putDepartamento(id, data) {
+    return http.put(`Departamento/${id}`, data)
   }
 
   putAreaTrabajo(id, data) {

@@ -12,7 +12,7 @@ export const useEjecucionIngresoStore = defineStore('useEjecucionIngresoStore', 
 
 
     //const name = ref('Eduardo')
-    const getList= computed(() => ingresosList)
+    const getList = computed(() => ingresosList)
 
     function getAllIngresos() {
         Api.getBeneficiarios().then((response) => {
@@ -32,5 +32,5 @@ export const useEjecucionIngresoStore = defineStore('useEjecucionIngresoStore', 
         })
     }
 
-    return { ingresosList, getAllIngresos, getList, addIngreso, putIngreso,ingresosList }
+    return { ingresosList, getAllIngresos, getList, addIngreso, putIngreso, ingresosList }
 })
