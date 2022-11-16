@@ -39,10 +39,10 @@ class FormulacionApi {
 
   }
 
+
   getTotalIngresos(id_ayuntamiento, ano_fiscal) {
     return http.get(`/PresIngreso/GetTotal?anio=${ano_fiscal}&ayuntamientoId=${id_ayuntamiento}`)
   }
-
 
   //Obtener clasificador especifico
   // getClasificador(Clasificador) {
@@ -98,9 +98,9 @@ class FormulacionApi {
   //-----------------------------INGRESOS---------------------------------------//
 
   //-----------------------------GASTOS---------------------------------------//
-  getListarGastos() {
-    return http.get('/Financiero/ListarGastos')
-  }
+  // getListarGastos() {
+  //   return http.get('/Financiero/ListarGastos')
+  // }
   //-----------------------------GASTOS---------------------------------------//
 
 
@@ -111,11 +111,11 @@ class FormulacionApi {
   //-----------------------------CATALOGO---------------------------------------//
 
 
-
+  
 
   //-----------------------------PrepGastos---------------------------------------//
 
-  getListarGastos() {
+  getListarGastos(id) {
     return http.get(`PresGasto?anio=${localStorage.getItem('ano')}&ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
   }
 
@@ -136,9 +136,18 @@ class FormulacionApi {
     })
   }
 
-
-
-
+  postDetalleGasto(post) {
+    return http.post(`PresGasto/Detalle`, post).catch((error) => {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        text: error.response.data.detail,
+        title: 'Error',
+        showConfirmButton: false,
+        timer: 1500
+      })
+    })
+  }
 
   //   createProyecto(data) {
   //     return http.post('/api/ingresos/guardarPresProyecto', data)
