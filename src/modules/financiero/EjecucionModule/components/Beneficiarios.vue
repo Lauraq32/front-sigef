@@ -36,9 +36,9 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
-    <template #status="{ item }">
+    <template #ingreso="{ item }">
       <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+        {{ formatDate(item.ingreso) }}
       </td>
     </template>
     <template #show_details="{ item }">
@@ -326,6 +326,13 @@ export default {
     ...mapState(useRegistroStore, ['Beneficiarios']),
   },
   methods: {
+    formatDate(ingreso){
+      return new Date(ingreso).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+    },
     ...mapActions(useRegistroStore, ['getBeneficiarios', 'addBeneficiarios']),
 
     handleSubmitCustom01(event) {

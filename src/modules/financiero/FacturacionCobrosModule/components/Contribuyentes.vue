@@ -36,9 +36,9 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
-    <template #status="{ item }">
+    <template #fecha="{ item }">
       <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+        {{ formatDate(item.fecha) }}
       </td>
     </template>
     <template #show_details="{ item }">
@@ -177,6 +177,7 @@
             <CFormInput
               v-model="postContribuyente.fecha"
               id="validationCustom01"
+              type="date"
               required
             />
 
@@ -186,12 +187,13 @@
 
           <CCol :md="4">
             <CFormLabel for="validationCustom01">Estatus</CFormLabel>
-            <CFormInput
+            <CFormSelect
               v-model="postContribuyente.estatus"
-              id="validationCustom01"
-              required
-            />
-
+              id="validationCustom05"
+            >
+              <option>Activo</option>
+              <option>Inactivo</option>
+            </CFormSelect>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -203,7 +205,6 @@
               id="validationCustom01"
               required
             />
-
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -329,6 +330,13 @@ export default {
       'addContribuyente',
       'putContribuyente',
     ]),
+    formatDate(fecha){
+      return new Date(fecha).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+    },
 
     submitForm() {
       if (this.id) {
