@@ -748,10 +748,11 @@ export default [
             to: '/RRHHModule/profesiones',
             icon: 'cil-pencil',
           },
+
           {
             component: 'CNavItem',
             name: 'Sectores',
-            to: '/RRHHModule/sectores',
+            to: '/RRHHModule/Sectorees',
             icon: 'cilGlobeAlt',
           },
           {

@@ -52,12 +52,13 @@ export default {
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/rrhh/RegistroPersonal/components/Profesiones.vue'
         ),
     },
+
     {
-      path: 'sectores',
-      name: 'Sectores',
+      path: 'sectorees',
+      name: 'Sectorees',
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/rrhh/RegistroPersonal/components/Sectores.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/rrhh/RegistroPersonal/components/Sectorees.vue'
         ),
     },
     {
