@@ -1,5 +1,5 @@
 <template>
-  <CDropdown variant="nav-item">
+  <CDropdown >
     <CDropdownToggle placement="bottom-end" class="py-0" :caret="false">
       <CAvatar :src="avatar" size="md" />
     </CDropdownToggle>
@@ -37,22 +37,33 @@
         <CBadge color="primary" class="ms-auto">{{ itemsCount }}</CBadge>
       </CDropdownItem>
       <CDropdownDivider />
-      <CDropdownItem>
-        <CIcon icon="cil-shield-alt" /> Lock Account
+      <div @click="logOut">
+        <CDropdownItem @click="logOut" >
+        <CIcon icon="cil-shield-alt"  /> Lock Account
       </CDropdownItem>
-      <CDropdownItem> <CIcon icon="cil-lock-locked" /> Logout </CDropdownItem>
+      <CDropdownItem> <CIcon icon="cil-lock-locked" @click="logOut"/> Logout </CDropdownItem>
+      </div>
     </CDropdownMenu>
   </CDropdown>
 </template>
 
 <script>
 import avatar from '@/assets/images/avatars/1.jpg'
+import router from '@/router'
 export default {
   name: 'AppHeaderDropdownAccnt',
   setup() {
+    const logOut = () => {
+      router.push({ name: 'Login' })
+      localStorage.removeItem('ano')
+      localStorage.removeItem('id_Ayuntamiento')
+      localStorage.removeItem('usuario')
+      localStorage.removeItem('nombre_ayuntamiento')
+    }
     return {
       avatar: avatar,
       itemsCount: 42,
+      logOut
     }
   },
 }

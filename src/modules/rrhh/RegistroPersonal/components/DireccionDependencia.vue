@@ -41,9 +41,9 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
-    <template #status="{ item }">
+    <template #FechaInicio="{ item }">
       <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+        {{ formatDate(item.FechaInicio) }}
       </td>
     </template>
     <template #show_details="{ item, index }">
@@ -151,7 +151,7 @@ import { CModal } from '@coreui/vue'
         columns: [
         { key: 'Código', label: 'Código', _style: { width: '40%' } },
         { key: 'Programa', label: 'Programa', _style: { width: '40%' } },
-        { key: 'Fecha inicio', label: 'Fecha inicio', _style: { width: '40%' } },
+        { key: 'FechaInicio', label: 'Fecha inicio', _style: { width: '40%' } },
           {
             key: 'show_details',
             label: '',
@@ -165,6 +165,13 @@ import { CModal } from '@coreui/vue'
       }
     },
     methods: {
+      formatDate(FechaInicio){
+      return new Date(FechaInicio).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+    },
       handleSubmitCustom01(event) {
       const form = event.currentTarget
       if (form.checkValidity() === false) {
