@@ -84,7 +84,7 @@ export default {
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/rrhh/RegistroPersonal/components/Inventario.vue'
         ),
     },
-  
+
     //  {
     //     path: '',
     //     name: 'no-entry',

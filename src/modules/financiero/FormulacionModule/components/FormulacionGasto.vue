@@ -373,7 +373,7 @@
                 <CButton
                   style="font-weight: bold"
                   color="info"
-                 @click="setValueButtonGasto(30, 9995, 102)"
+                  @click="setValueButtonGasto(30, 9995, 102)"
                   >30/9995/102</CButton
                 >
               </CCol>

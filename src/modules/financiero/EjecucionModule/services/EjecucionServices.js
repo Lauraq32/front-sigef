@@ -28,6 +28,12 @@ class Ejecucion {
         return http.get(`Sector/${id}`)
     }
 
+    getRegistroIngreso() {
+        return http.get('RegistroIngreso')
+    }
+
+    
+
     //post
 
     postAnioFiscal(data) {
@@ -37,6 +43,12 @@ class Ejecucion {
     postBeneficiarios(data) {
         return http.post('Beneficiarios', data)
     }
+
+    postRegistroIngreso(data) {
+        return http.post('RegistroIngreso', data)
+    }
+    
+
 
 
 

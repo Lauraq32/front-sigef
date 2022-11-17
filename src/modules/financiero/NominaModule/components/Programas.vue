@@ -134,6 +134,7 @@
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
+              v-on:click="close"
             >
               Close
             </button>
@@ -141,6 +142,7 @@
               v-on:click="submitForm"
               type="button"
               class="btn btn-primary"
+             
             >
               Guardar
             </button>
@@ -212,6 +214,10 @@ export default {
       'addProgramas',
       'putProgramas',
     ]),
+
+    close() {
+      this.lgDemo = false
+    },
 
     submitForm() {
       if (this.id) {
