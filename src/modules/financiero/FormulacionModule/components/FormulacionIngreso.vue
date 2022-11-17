@@ -368,12 +368,13 @@ export default {
 
           }
           this.getListarIngresos(
-      localStorage.getItem('id_Ayuntamiento'),
-      localStorage.getItem('ano'),
-    ),
-      console.log(this.ingresos)
-    //this.getTotal();
-    this.getTotales()
+            localStorage.getItem('id_Ayuntamiento'),
+            localStorage.getItem('ano'),
+          ),
+            console.log(this.ingresos)
+          //this.getTotal();
+          this.getTotales()
+          this.id = null;
         })
       } else {
         this.postIngreso.anioAnt = parseFloat(this.postIngreso.anioAnt)
@@ -403,12 +404,12 @@ export default {
         }
         this.validatedCustom01 = false
         this.getListarIngresos(
-      localStorage.getItem('id_Ayuntamiento'),
-      localStorage.getItem('ano'),
-    ),
-      console.log(this.ingresos)
-    //this.getTotal();
-    this.getTotales()
+          localStorage.getItem('id_Ayuntamiento'),
+          localStorage.getItem('ano'),
+        ),
+          console.log(this.ingresos)
+        //this.getTotal();
+        this.getTotales()
       }
     },
     getClasificador() {
@@ -508,19 +509,19 @@ export default {
     deleteItem(item) {
       Api.deleteIngreso(item.id).then((response) => {
         this.$swal({
-            position: 'top-end',
-            icon: 'success',
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
-          })
-          this.getListarIngresos(
-      localStorage.getItem('id_Ayuntamiento'),
-      localStorage.getItem('ano'),
-    ),
-      console.log(this.ingresos)
-    //this.getTotal();
-    this.getTotales()
+          position: 'top-end',
+          icon: 'success',
+          title: response.data.message,
+          showConfirmButton: false,
+          timer: 1500,
+        })
+        this.getListarIngresos(
+          localStorage.getItem('id_Ayuntamiento'),
+          localStorage.getItem('ano'),
+        ),
+          console.log(this.ingresos)
+        //this.getTotal();
+        this.getTotales()
       })
     },
 
