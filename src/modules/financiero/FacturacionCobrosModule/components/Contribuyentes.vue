@@ -331,12 +331,12 @@ export default {
       'addContribuyente',
       'putContribuyente',
     ]),
-    formatDate(fecha){
-      return new Date(fecha).toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
+    formatDate(fecha) {
+      return new Date(fecha).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      })
     },
 
     close() {
