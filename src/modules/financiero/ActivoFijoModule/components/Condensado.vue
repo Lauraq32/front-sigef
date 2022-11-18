@@ -79,6 +79,7 @@
           <CCol :md="4">
             <CFormLabel for="validationCustom02">Fecha</CFormLabel>
             <CFormInput
+              type="date"
               v-model="postConduce.fecha"
               id="validationCustom02"
               required
