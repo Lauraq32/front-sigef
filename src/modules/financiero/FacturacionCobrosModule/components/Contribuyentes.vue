@@ -351,13 +351,9 @@ export default {
         month: '2-digit',
         year: 'numeric',
       })
-<<<<<<< HEAD
     },
-
     close() {
       this.lgDemo = false
-=======
->>>>>>> alfredo/T-Condensado
     },
 
     submitForm() {
