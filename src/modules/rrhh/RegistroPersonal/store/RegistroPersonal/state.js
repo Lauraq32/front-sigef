@@ -44,22 +44,22 @@ export default () => ({
     {
       Código: 1,
       Programa: '1-COMITE EJECUTIVO',
-      'Fecha inicio': '2012/05/07',
+      FechaInicio: '2012/05/07',
     },
     {
       Código: 2,
       Programa: '10-SUB-SEC. DE GEST. Y ASIST. TEC. MNCPL',
-      'Fecha inicio': '2018/04/12',
+      FechaInicio: '2018/04/12',
     },
     {
       Código: 3,
       Programa: '10.1-OBSERVATORIO MUNICIPAL',
-      'Fecha inicio': '2022/10/11',
+      FechaInicio: '2022/10/11',
     },
     {
       Código: 4,
       Programa: '10.1.1-SECCION DE ESTADISTICA',
-      'Fecha inicio': '2015/01/09 ',
+      FechaInicio: new Date(Date.now()),
     },
   ],
 

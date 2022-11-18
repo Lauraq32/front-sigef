@@ -52,14 +52,14 @@ export default {
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/PosicionesCargo.vue'
         ),
     },
-    {
-      path: 'sectores',
-      name: 'sectores',
-      component: () =>
-        import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/Sectores.vue'
-        ),
-    },
+    // {
+    //   path: 'sectores',
+    //   name: 'sectores',
+    //   component: () =>
+    //     import(
+    //       /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/Sectores.vue'
+    //     ),
+    // },
     {
       path: 'nominas',
       name: 'nominas',

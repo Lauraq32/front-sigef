@@ -4,13 +4,13 @@
       <CHeaderToggler class="ps-1" @click="$store.commit('toggleSidebar')">
         <CIcon icon="cil-menu" size="lg" />
       </CHeaderToggler>
-      <CHeaderBrand class="mx-auto d-lg-none" to="/">
+      <CHeaderBrand class="mx-auto d-lg-none">
         <CIcon :icon="logo" height="48" alt="Logo" />
       </CHeaderBrand>
       <CHeaderNav class="d-none d-md-flex me-auto">
         <CNavItem >
           <h2 >{{ayuntamiento}}</h2>
-          <CNavLink href="#"></CNavLink>
+          <CNavLink ></CNavLink>
         </CNavItem>
         <CNavItem style="
     font-size: 20px;">
@@ -20,24 +20,24 @@
       </CHeaderNav>
       <CHeaderNav>
         <CNavItem>
-          <CNavLink href="#">
+          <CNavLink >
             <CIcon class="mx-2" icon="cil-bell" size="lg" />
           </CNavLink>
         </CNavItem>
         <CNavItem>
-          <CNavLink href="#">
+          <CNavLink >
             <CIcon class="mx-2" icon="cil-list" size="lg" />
           </CNavLink>
         </CNavItem>
         <CNavItem>
-          <CNavLink href="#">
+          <CNavLink >
             <CIcon class="mx-2" icon="cil-envelope-open" size="lg" />
           </CNavLink>
         </CNavItem>
 
         <AppHeaderDropdownAccnt />
         <CNavItem>
-          <CNavLink href="#">
+          <CNavLink >
             <CNavItem>
               <CIcon class="mx-1" icon="cil-account-logout" size="lg" />
             </CNavItem>
