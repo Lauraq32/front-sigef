@@ -18,7 +18,7 @@ export const useRegistroStore = defineStore('Categorias', () => {
 
   function getCategoria() {
     Api.getAllCategoria().then((response) => {
-      categorias.value = response.data
+      categorias.value = response.data.data
     })
   }
 

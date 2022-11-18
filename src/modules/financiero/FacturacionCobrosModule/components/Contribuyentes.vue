@@ -199,6 +199,19 @@
           </CCol>
 
           <CCol :md="4">
+            <CFormLabel for="validationCustom01">Tipo</CFormLabel>
+            <CFormSelect
+              v-model="postContribuyente.tipo"
+              id="validationCustom05"
+            >
+              <option>Empresa</option>
+              <option>Personal</option>
+            </CFormSelect>
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+
+          <CCol :md="4">
             <CFormLabel for="validationCustom01">TipoDcto</CFormLabel>
             <CFormInput
               v-model="postContribuyente.tipoDcto"
@@ -306,6 +319,7 @@ export default {
         { key: 'tipoDcto', label: 'TipoDcto', _style: { width: '40%' } },
         { key: 'fax', label: 'Fax', _style: { width: '40%' } },
         { key: 'recomienda', label: 'Recomienda', _style: { width: '40%' } },
+        { key: 'tipo', label: 'Tipo', _style: { width: '40%' } },
         {
           key: 'show_details',
           label: '',
@@ -330,12 +344,12 @@ export default {
       'addContribuyente',
       'putContribuyente',
     ]),
-    formatDate(fecha){
-      return new Date(fecha).toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
+    formatDate(fecha) {
+      return new Date(fecha).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      })
     },
 
     submitForm() {

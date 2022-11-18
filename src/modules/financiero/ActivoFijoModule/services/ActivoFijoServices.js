@@ -44,8 +44,8 @@ class ActivoFijoServices {
     return http.put(`Categoria/${id}`, data)
   }
 
-  putMarca(id,data) {
-    return http.put(`Marca/${id}`,data)
+  putMarca(id, data) {
+    return http.put(`Marca/${id}`, data)
   }
 
   putArea(id, data) {
