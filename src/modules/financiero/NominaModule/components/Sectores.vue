@@ -103,7 +103,10 @@
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
+<<<<<<< HEAD
               v-on:click="close"
+=======
+>>>>>>> alfredo/T-Condensado
             >
               Close
             </button>

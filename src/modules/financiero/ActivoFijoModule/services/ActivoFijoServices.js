@@ -19,8 +19,17 @@ class ActivoFijoServices {
     return http.get(`Categoria/${id}`)
   }
 
+<<<<<<< HEAD
   getDepreciacion() {
     return http.get('Depreciacion')
+=======
+  getAllConduce() {
+    return http.get('Conduce')
+  }
+
+  getConduceByID(id) {
+    return http.get(`Conduce/${id}`)
+>>>>>>> alfredo/T-Condensado
   }
 
   getAllMarca() {
@@ -48,8 +57,13 @@ class ActivoFijoServices {
     return http.post('Categoria', data)
   }
 
+<<<<<<< HEAD
   postDepreciacion(data) {
     return http.post('Depreciacion', data)
+=======
+  postConduce(data) {
+    return http.post('Conduce', data)
+>>>>>>> alfredo/T-Condensado
   }
 
   postMarca(data) {
@@ -61,8 +75,8 @@ class ActivoFijoServices {
   }
 
   //put
-  editCategoria(id) {
-    return http.put(`Categoria/${id}`)
+  editCategoria(id, data) {
+    return http.put(`Categoria/${id}`, data)
   }
 
   putMarca(id, data) {
@@ -73,8 +87,13 @@ class ActivoFijoServices {
     return http.put(`Area/${id}`, data)
   }
 
+<<<<<<< HEAD
   putActivo(id, data) {
     return http.put(`Activo/${id}`, data)
+=======
+  putConduce(id, data) {
+    return http.put(`Conduce/${id}`, data)
+>>>>>>> alfredo/T-Condensado
   }
 }
 
