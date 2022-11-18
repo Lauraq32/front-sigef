@@ -40,8 +40,8 @@ class ActivoFijoServices {
   }
 
   //put
-  editCategoria(id) {
-    return http.put(`Categoria/${id}`)
+  editCategoria(id, data) {
+    return http.put(`Categoria/${id}`, data)
   }
 
   putMarca(id,data) {
