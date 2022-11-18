@@ -10,6 +10,14 @@ class ActivoFijoServices {
     return http.get(`Categoria/${id}`)
   }
 
+  getAllConduce() {
+    return http.get('Conduce')
+  }
+
+  getConduceByID(id) {
+    return http.get(`Conduce/${id}`)
+  }
+
   getAllMarca() {
     return http.get('Marca')
   }
@@ -31,6 +39,10 @@ class ActivoFijoServices {
     return http.post('Categoria', data)
   }
 
+  postConduce(data) {
+    return http.post('Conduce', data)
+  }
+
   postMarca(data) {
     return http.post('Marca', data)
   }
@@ -50,6 +62,10 @@ class ActivoFijoServices {
 
   putArea(id, data) {
     return http.put(`Area/${id}`, data)
+  }
+
+  putConduce(id, data) {
+    return http.put(`Conduce/${id}`, data)
   }
 }
 

@@ -1,56 +1,97 @@
-
 <template>
   <h3 class="text-center">Marcas</h3>
   <hr />
   <div>
     <div class="d-inline p-2">
-      <CButton color="info" @click="
-        () => {
-          lgDemo = true
-        }
-      ">Agregar</CButton>
+      <CButton
+        color="info"
+        @click="
+          () => {
+            lgDemo = true
+          }
+        "
+        >Agregar</CButton
+      >
     </div>
   </div>
   <hr />
-  <CSmartTable clickableRows :tableProps="{
-    striped: false,
-    hover: true,
-  }" :tableHeadProps="{}" :activePage="1" footer header :items="Marcas" :columns="columns" columnFilter tableFilter
-    cleaner itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination>
+  <CSmartTable
+    clickableRows
+    :tableProps="{
+      striped: false,
+      hover: true,
+    }"
+    :tableHeadProps="{}"
+    :activePage="1"
+    footer
+    header
+    :items="Marcas"
+    :columns="columns"
+    columnFilter
+    tableFilter
+    cleaner
+    itemsPerPageSelect
+    :itemsPerPage="5"
+    columnSorter
+    :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination
+  >
     <template #status="{ item }">
       <td>
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
-    <template #show_details="{ item}">
+    <template #show_details="{ item }">
       <td class="py-1">
-        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="toggleDetails(item)">
+        <CButton
+          class="mt-1"
+          color="primary"
+          variant="outline"
+          square
+          size="sm"
+          @click="toggleDetails(item)"
+        >
           {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
       </td>
     </template>
   </CSmartTable>
-  <CModal size="lg" :visible="lgDemo" @close="
-    () => {
-      lgDemo = false
-    }
-  ">
+  <CModal
+    size="lg"
+    :visible="lgDemo"
+    @close="
+      () => {
+        lgDemo = false
+      }
+    "
+  >
     <CModalHeader>
       <CModalTitle>Marcas</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
-        <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01"
-          @submit="handleSubmitCustom01">
+        <CForm
+          class="row g-3 needs-validation"
+          novalidate
+          :validated="validatedCustom01"
+          @submit="handleSubmitCustom01"
+        >
           <CCol :md="4">
             <CFormLabel for="validationCustom02">Marca</CFormLabel>
-            <CFormInput v-model="postMarcas.nombre" id="validationCustom02" required />
+            <CFormInput
+              v-model="postMarcas.nombre"
+              id="validationCustom02"
+              required
+            />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
               Close
             </button>
             <button class="btn btn-info btn-block mt-1" v-on:click="submitForm">
@@ -114,7 +155,6 @@ export default {
     ...mapActions(useRegistroStore, ['getMarcas', 'addMarcas']),
 
     toggleDetails(item) {
-
       console.log(item)
       if (item.Marcas !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
@@ -180,12 +220,12 @@ export default {
         //const form = event.currentTarget
         this.lgDemo = true
         this.getMarcas()
-          ; (this.postMarcas = {
-            id: 0,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-            nombre: null,
-          }),
-            (this.validatedCustom01 = false)
+        ;(this.postMarcas = {
+          id: 0,
+          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          nombre: null,
+        }),
+          (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
         this.getMarcas()
@@ -198,4 +238,3 @@ export default {
   },
 }
 </script>
-

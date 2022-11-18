@@ -52,9 +52,10 @@ export default {
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ActivoFijoModule/components/General.vue'
         ),
     },
+
     {
-      path: 'condensado',
-      name: 'condensado',
+      path: 'condensadoAcivoFijos',
+      name: 'condensadoAcivoFijos',
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ActivoFijoModule/components/Condensado.vue'
