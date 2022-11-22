@@ -367,10 +367,12 @@ export default {
             variacionResumen: 0,
 
           }
-          this.getListarIngresos(
-            localStorage.getItem('id_Ayuntamiento'),
-            localStorage.getItem('ano'),
-          ),
+          // this.getListarIngresos(
+          //   localStorage.getItem('id_Ayuntamiento'),
+          //   localStorage.getItem('ano'),
+          // ),
+
+          setTimeout( this.getListarIngresos, 3000);
             console.log(this.ingresos)
           //this.getTotal();
           this.getTotales()
@@ -403,10 +405,7 @@ export default {
           variacionResumen: 0,
         }
         this.validatedCustom01 = false
-        this.getListarIngresos(
-          localStorage.getItem('id_Ayuntamiento'),
-          localStorage.getItem('ano'),
-        ),
+        setTimeout( this.getListarIngresos, 500);
           console.log(this.ingresos)
         //this.getTotal();
         this.getTotales()
@@ -515,10 +514,7 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
-        this.getListarIngresos(
-          localStorage.getItem('id_Ayuntamiento'),
-          localStorage.getItem('ano'),
-        ),
+        this.getListarIngresos(),
           console.log(this.ingresos)
         //this.getTotal();
         this.getTotales()
@@ -534,10 +530,7 @@ export default {
   //     this.$store.dispatch('Formulacion/getListarIngresos');
   //   },
   created() {
-    this.getListarIngresos(
-      localStorage.getItem('id_Ayuntamiento'),
-      localStorage.getItem('ano'),
-    ),
+    this.getListarIngresos(),
       console.log(this.ingresos)
     //this.getTotal();
     this.getTotales()
