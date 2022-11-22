@@ -2,6 +2,7 @@ import http from '@/Api/http-common'
 import VueSweetalert2 from 'vue-sweetalert2';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 
+
 class FormulacionApi {
   //-----------------------------CLASIFICADORES---------------------------------------//
   //Obtener listado de Clasificadores
@@ -43,6 +44,17 @@ class FormulacionApi {
 
   }
 
+  updateFormulacion(id, data) {
+    return http.put(`PresGasto/${id}`, data)
+  }
+
+  updateFormulacionDetalle(id, data) {
+    return http.put(`PresGasto/Detalle/${id}`, data)
+  }
+
+  getDetalle(id) {
+    return http.get(`PresGasto/GetDetallePresGastobyIdAsync/${id}?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
+  }
 
   getTotalIngresos(id_ayuntamiento, ano_fiscal) {
     return http.get(`/PresIngreso/GetTotal?anio=${ano_fiscal}&ayuntamientoId=${id_ayuntamiento}`)
@@ -140,6 +152,19 @@ class FormulacionApi {
     })
   }
 
+  cargarEstructuras(){
+    return http.post(`PresGasto/InsertPresGasto?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`).catch((error) => {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        text: error.response.data.detail,
+        title: 'Error',
+        showConfirmButton: false,
+        timer: 1500
+      })
+    })
+  }
+
   postDetalleGasto(post) {
     return http.post(`PresGasto/Detalle`, post).catch((error) => {
       Swal.fire({
@@ -152,6 +177,19 @@ class FormulacionApi {
       })
     })
   }
+
+  // cargarEstructuras(){
+  //   return http.post(`PresGasto/InsertPresGasto?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`).catch((error) => {
+  //     Swal.fire({
+  //       position: 'top-end',
+  //       icon: 'error',
+  //       text: error.response.data.detail,
+  //       title: 'Error',
+  //       showConfirmButton: false,
+  //       timer: 1500
+  //     })
+  //   })
+  // }
 
   //   createProyecto(data) {
   //     return http.post('/api/ingresos/guardarPresProyecto', data)

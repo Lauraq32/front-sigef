@@ -382,7 +382,7 @@ export default {
         this.postIngreso.presForm = parseFloat(this.postIngreso.presForm)
         this.$store.dispatch('Formulacion/PostIngreso', this.postIngreso)
 
-        this.lgDemo = true
+        // this.lgDemo = true
         this.$store.dispatch('Formulacion/getListarIngresos')
         this.postIngreso = {
           anioFiscalId: parseInt(localStorage.getItem('ano')),
@@ -478,7 +478,7 @@ export default {
     IngresoReport() {
       window
         .open(
-          `http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fseguridad%2fReport1&rs:Command=Render&id=${localStorage.getItem(
+          `http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fseguridad%2fRep_Ingresos_Formulacion&rs:Command=Render&ANO=1&CAPITULO_AYTO=${localStorage.getItem(
             'id_Ayuntamiento',
           )}&ano=${localStorage.getItem('ano')}`,
           '_blank',
