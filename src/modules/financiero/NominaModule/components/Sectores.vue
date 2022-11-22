@@ -16,6 +16,7 @@
   </div>
   <hr />
   <CSmartTable
+  :loading="loading"
     clickableRows
     :tableProps="{
       striped: false,
@@ -25,7 +26,7 @@
     :activePage="1"
     footer
     header
-    :items="sectores"
+    :items="sectoresPrueba"
     :columns="columns"
     columnFilter
     tableFilter
@@ -106,7 +107,11 @@
             >
               Close
             </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="submitForm">
+            <button
+              class="btn btn-info btn-block mt-1"
+              v-on:click="submitForm"
+              
+            >
               Guardar
             </button>
           </div>
@@ -125,6 +130,7 @@ import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
 import Api from '../services/NominaServices'
 
+
 export default {
   components: {
     CSmartTable,
@@ -133,6 +139,8 @@ export default {
 
   data: () => {
     return {
+      sectoresPrueba: [],  
+      loading: true, 
       postSectores: {
         id: 0,
         nombre: null,
@@ -171,6 +179,15 @@ export default {
 
   methods: {
     ...mapActions(useRegistroStore, ['getSectore', 'addSectores']),
+    fetchData() {  
+      this.loading = true;  
+     Api.getSectores(response =>{
+      this.loading = false; 
+      console.log(response.data)
+      this.sectoresPrueba = response.data.data;  
+     }) 
+    console.log('mmg')
+    },  
 
     toggleDetails(item) {
       // if (this.details.includes(item._id)) {
@@ -230,7 +247,7 @@ export default {
             showConfirmButton: false,
             timer: 1500,
           })
-          this.getSectore()
+          this.fetchData()
           this.postSectores = {
             id: 0,
             nombre: null,
@@ -244,12 +261,12 @@ export default {
             },
           }
         })
-        this.getSectore()
+        this.fetchData()
       } else {
         this.addSectores(this.postSectores)
         //const form = event.currentTarget
         this.lgDemo = true
-        this.getSectore()
+        this.fetchData()
         ;(this.postSectores = {
           id: 0,
           nombre: null,
@@ -264,7 +281,7 @@ export default {
           (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
-        this.getSectore()
+        this.fetchData()
       }
     },
 
@@ -293,7 +310,7 @@ export default {
   },
 
   mounted() {
-    this.getSectore()
+    this.fetchData()
   },
 }
 </script>
