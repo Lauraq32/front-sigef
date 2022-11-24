@@ -27,6 +27,26 @@ class Ejecucion {
     getSectorbyid(id) {
         return http.get(`Sector/${id}`)
     }
+    
+    getIngresoAll() {
+        return http.get(`RegistroIngreso?anio=${localStorage.getItem('ano')}&ID_AYUNTAMIENTO=${localStorage.getItem('id_Ayuntamiento')}`)
+    }
+
+    getIngresoById(id,anioFiscalId,ayuntamientoId) {
+        return http.get(`/RegistroIngreso/${id}?anio=${anioFiscalId}&ayuntamientoId=${ayuntamientoId}`)
+    }
+
+    getIngresoByIdAndDetalle(id) {
+        return http.get(`RegistroIngreso/Detalle/${id}?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
+    }
+
+    getComprobanteIngresoTotal() {
+        return http.get(`RegistroIngreso/Totales?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
+    }
+
+    getIngresoClasificadorById(id) {
+        return http.get(`/RegistroIngreso/Detalle/Clasificadores?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}&id=${id}`)
+    }
 
     //post
 
@@ -36,6 +56,14 @@ class Ejecucion {
 
     postBeneficiarios(data) {
         return http.post('Beneficiarios', data)
+    }
+
+    postIngresos(data) {
+        return http.post('RegistroIngreso', data)
+    }
+
+    postIngresoDetalle(data) {
+        return http.post('RegistroIngreso/Detalle', data)
     }
 
 

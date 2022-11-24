@@ -7,30 +7,74 @@ import Api from '../../services/EjecucionServices'
 // but it's best to use the name of the store and surround it with `use`
 // and `Store` (e.g. `useUserStore`, `useCartStore`, `useProductStore`)
 // the first argument is a unique id of the store across your application
-export const useEjecucionIngresoStore = defineStore('useEjecucionIngresoStore', () => {
-    const ingresosList = ref([])
-
+export const useEjecucionIngresoStore = defineStore(
+  'useEjecucionIngresoStore',
+  () => {
+    const ingresosList = ref([]) 
 
     //const name = ref('Eduardo')
     const getList = computed(() => ingresosList)
 
     function getAllIngresos() {
-        Api.getBeneficiarios().then((response) => {
-            ingresosList.value = response.data
-        })
+      Api.getBeneficiarios().then((response) => {
+        ingresosList.value = response.data
+      })
     }
 
     function addIngreso(data) {
-        Api.postBeneficiarios(data).then((response) => {
-            console.log(response)
-        })
+      Api.postBeneficiarios(data).then((response) => {
+        console.log(response)
+      })
     }
+
+    function getIngresoDetalleById(data) {
+      Api.getIngresoByIdAndDetalle(data).then((response) => {
+        console.log(response)
+      })
+    }
+
+    function addIngresos(data) {
+      Api.postIngresos(data).then((response) => {
+        console.log(response)
+      })
+    }
+
+    function addIngresoDetalle(data) {
+      Api.postIngresoDetalle(data).then((response) => {
+        console.log(response)
+      })
+    }
+
+    function getIngresos() {
+        Api.getIngresoAll().then((response) => {
+          console.log(response)
+          ingresosList.value = response.data.data
+        })
+      }
+
+      function getIngresosById(id) {
+        Api.getIngresoAll().then((response) => {
+          console.log(response)
+          ingresosList.value = response.data.data
+        })
+      }
 
     function putIngreso(data) {
-        Api.putBeneficiarios(data).then((response) => {
-            console.log(response)
-        })
+      Api.putBeneficiarios(data).then((response) => {
+        console.log(response)
+      })
     }
 
-    return { ingresosList, getAllIngresos, getList, addIngreso, putIngreso, ingresosList }
-})
+    return {
+      ingresosList,
+      getAllIngresos,
+      getList,
+      addIngreso,
+      putIngreso,
+      ingresosList,
+      addIngresos,
+      getIngresos,
+      addIngresoDetalle
+    }
+  },
+)
