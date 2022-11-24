@@ -3,27 +3,49 @@
   <hr />
   <div class="">
     <div class="d-inline p-2">
-      <CButton color="info" @click="
-        () => {
-          lgDemo = true
-          clearModal()
-          edit = false
-        }
-      ">Agregar</CButton>
+      <CButton
+        color="info"
+        @click="
+          () => {
+            lgDemo = true
+            clearModal()
+            edit = false
+          }
+        "
+        >Agregar</CButton
+      >
     </div>
 
     <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReport">Imprimir</CButton>
+      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
+        >Imprimir</CButton
+      >
     </div>
   </div>
   <hr />
-  <CSmartTable clickableRows :tableProps="{
-    striped: false,
-    hover: true,
-  }" :tableHeadProps="{}" :activePage="1" footer header key="ingreso.id" :items="ingresos" :columns="columns"
-    columnFilter tableFilter cleaner itemsPerPageSelect :itemsPerPage="5"
-    :items-per-page-options="[5, 10, 20, 50, 100, 150]" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination>
+  <CSmartTable
+    clickableRows
+    :tableProps="{
+      striped: false,
+      hover: true,
+    }"
+    :tableHeadProps="{}"
+    :activePage="1"
+    footer
+    header
+    key="ingreso.id"
+    :items="ingresos"
+    :columns="columns"
+    columnFilter
+    tableFilter
+    cleaner
+    itemsPerPageSelect
+    :itemsPerPage="5"
+    :items-per-page-options="[5, 10, 20, 50, 100, 150]"
+    columnSorter
+    :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination
+  >
     <template #status="{ item }">
       <td>
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
@@ -31,12 +53,26 @@
     </template>
     <template #show_details="{ item }">
       <td class="py-1">
-        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="toggleDetails(item)">
+        <CButton
+          class="mt-1"
+          color="primary"
+          variant="outline"
+          square
+          size="sm"
+          @click="toggleDetails(item)"
+        >
           {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
       </td>
       <td class="py-1">
-        <CButton class="mt-1" color="danger" variant="outline" square size="sm" @click="deleteItem(item)">
+        <CButton
+          class="mt-1"
+          color="danger"
+          variant="outline"
+          square
+          size="sm"
+          @click="deleteItem(item)"
+        >
           {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
         </CButton>
       </td>
@@ -54,38 +90,59 @@
       </CCollapse>
     </template>
   </CSmartTable>
-  <div class="font-weight-normal" style="font-weight: 100 !important; margin-top: -3%; float: left">
+  <div
+    class="font-weight-normal"
+    style="font-weight: 100 !important; margin-top: -3%; float: left"
+  >
     <span style="font-weight: bold"><u>TOTAL PRESUPUESTO:</u></span> Año
     anterior
     <span style="font-weight: 500 !important">{{
-        formatPrice(formulado.anO_ANT)
+      formatPrice(formulado.anO_ANT)
     }}</span>
     A la fecha:
     <span style="font-weight: 500 !important">{{
-        formatPrice(formulado.alafecha)
+      formatPrice(formulado.alafecha)
     }}</span>
     Presupuesto formulado:
     <span style="font-weight: 500 !important">{{
-        formatPrice(formulado.preS_FORM)
+      formatPrice(formulado.preS_FORM)
     }}</span>
   </div>
-  <CModal size="lg" :visible="lgDemo" @close="
-    () => {
-      lgDemo = false
-    }
-  ">
+  <CModal
+    size="lg"
+    :visible="lgDemo"
+    @close="
+      () => {
+        lgDemo = false
+      }
+    "
+  >
     <CModalHeader>
       <CModalTitle>Formulación Ingreso</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
-        <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01"
-          @submit="handleSubmitCustom01">
+        <CForm
+          class="row g-3 needs-validation"
+          novalidate
+          :validated="validatedCustom01"
+          @submit="handleSubmitCustom01"
+        >
           <CCol :md="4">
             <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
-            <CFormInput :disabled="edit" v-model="postIngreso.clasificadorId" type="number" id="validationCustom01"
-              required on:keyup.native.enter="getClasificador" />
-            <button :hidden="edit" class="btn btn-primary btn-block mt-1" v-on:click="getClasificador">
+            <CFormInput
+              :disabled="edit"
+              v-model="postIngreso.clasificadorId"
+              type="number"
+              id="validationCustom01"
+              required
+              on:keyup.native.enter="getClasificador"
+            />
+            <button
+              :hidden="edit"
+              class="btn btn-primary btn-block mt-1"
+              v-on:click="getClasificador"
+            >
               Buscar
             </button>
             <CFormFeedback valid> Exito! </CFormFeedback>
@@ -93,56 +150,97 @@
           </CCol>
           <CCol :md="4">
             <CFormLabel for="validationCustom02">Cta. Control</CFormLabel>
-            <CFormInput disabled v-model="postIngreso.control" id="validationCustom02" required />
+            <CFormInput
+              disabled
+              v-model="postIngreso.control"
+              id="validationCustom02"
+              required
+            />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
             <CFormLabel for="validationCustomUsername">Detalle</CFormLabel>
             <CInputGroup class="has-validation">
-              <CFormInput disabled v-model="postIngreso.detalle" id="validationCustomUsername" value=""
-                aria-describedby="inputGroupPrepend" required />
+              <CFormInput
+                disabled
+                v-model="postIngreso.detalle"
+                id="validationCustomUsername"
+                value=""
+                aria-describedby="inputGroupPrepend"
+                required
+              />
               <CFormFeedback valid> Exito! </CFormFeedback>
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </CInputGroup>
           </CCol>
           <CCol :md="6">
-            <CFormLabel for="validationCustom03">Fuente Financiamiento</CFormLabel>
-            <CFormInput :disabled="ctgFuenteId" v-model="postIngreso.ctgFuenteId" id="validationCustom03" required />
+            <CFormLabel for="validationCustom03"
+              >Fuente Financiamiento</CFormLabel
+            >
+            <CFormInput
+              :disabled="ctgFuenteId"
+              v-model="postIngreso.ctgFuenteId"
+              id="validationCustom03"
+              required
+            />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom04">Fuente Especifica</CFormLabel>
-            <CFormInput :disabled="ctgFuenteEspecificaId" v-model="postIngreso.ctgFuenteEspecificaId"
-              id="validationCustom04" required>
+            <CFormInput
+              :disabled="ctgFuenteEspecificaId"
+              v-model="postIngreso.ctgFuenteEspecificaId"
+              id="validationCustom04"
+              required
+            >
             </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom05">Organismo Financiador</CFormLabel>
-            <CFormInput :disabled="ctgOrganismoFinanciadorId" v-model="postIngreso.ctgOrganismoFinanciadorId"
-              id="validationCustom05" required />
+            <CFormLabel for="validationCustom05"
+              >Organismo Financiador</CFormLabel
+            >
+            <CFormInput
+              :disabled="ctgOrganismoFinanciadorId"
+              v-model="postIngreso.ctgOrganismoFinanciadorId"
+              id="validationCustom05"
+              required
+            />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <hr />
           <CCol :md="4">
             <CFormLabel>Año Anterior</CFormLabel>
-            <CFormInput v-model="postIngreso.anioAnt" type="number" step="any" ref="anoAnteriorRef">
+            <CFormInput
+              v-model="postIngreso.anioAnt"
+              type="number"
+              step="any"
+              ref="anoAnteriorRef"
+            >
             </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
             <CFormLabel>A la Fecha</CFormLabel>
-            <CFormInput v-model="postIngreso.alaFecha" type="number" step="any"></CFormInput>
+            <CFormInput
+              v-model="postIngreso.alaFecha"
+              type="number"
+              step="any"
+            ></CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
             <CFormLabel>Presupuesto Formulado</CFormLabel>
-            <CFormInput v-model="postIngreso.presForm" type="number" step="any"></CFormInput>
+            <CFormInput
+              v-model="postIngreso.presForm"
+              type="number"
+              step="any"
+            ></CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -154,7 +252,12 @@
             >
               Close
             </button> -->
-            <button :disabled="formuladoValue" v-on:click="submitForm" type="button" class="btn btn-primary">
+            <button
+              :disabled="formuladoValue"
+              v-on:click="submitForm"
+              type="button"
+              class="btn btn-primary"
+            >
               Guardar
             </button>
           </div>
@@ -267,15 +370,14 @@ export default {
   },
   methods: {
     getTotales() {
-      Api.getTotalIngresos(localStorage.getItem('id_Ayuntamiento'),
-        localStorage.getItem('ano')).then((response) => {
-          this.formulado.alafecha = response.data.data.alaFecha
-          this.formulado.anO_ANT = response.data.data.anioAnt
-          this.formulado.preS_FORM = response.data.data.presForm
-        }
-        )
-
-
+      Api.getTotalIngresos(
+        localStorage.getItem('id_Ayuntamiento'),
+        localStorage.getItem('ano'),
+      ).then((response) => {
+        this.formulado.alafecha = response.data.data.alaFecha
+        this.formulado.anO_ANT = response.data.data.anioAnt
+        this.formulado.preS_FORM = response.data.data.presForm
+      })
     },
 
     validateInputctgFuente() {
@@ -365,7 +467,6 @@ export default {
             variacion: 0,
             ingresos: 0,
             variacionResumen: 0,
-
           }
           this.getListarIngresos(
             localStorage.getItem('id_Ayuntamiento'),
@@ -374,7 +475,7 @@ export default {
             console.log(this.ingresos)
           //this.getTotal();
           this.getTotales()
-          this.id = null;
+          this.id = null
         })
       } else {
         this.postIngreso.anioAnt = parseFloat(this.postIngreso.anioAnt)

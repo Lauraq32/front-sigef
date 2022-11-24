@@ -308,7 +308,6 @@ export default {
       validatedCustom01: null,
       lgDemo: false,
       columns: [
-        { key: 'id', label: 'ID', _style: { width: '40%' } },
         { key: 'pais', label: 'pais', _style: { width: '40%' } },
         { key: 'ciudad', label: 'ciudad', _style: { width: '40%' } },
         { key: 'direccion', label: 'Direccion', _style: { width: '40%' } },

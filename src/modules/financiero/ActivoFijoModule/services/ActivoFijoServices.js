@@ -11,6 +11,14 @@ class ActivoFijoServices {
     return http.get(`Activo/${id}`)
   }
 
+  getAllRecepcion() {
+    return http.get('Recepcion')
+  }
+
+  getRecepcionByID(id) {
+    return http.get(`Recepcion/${id}`)
+  }
+
   getAllCategoria() {
     return http.get('Categoria')
   }
@@ -68,6 +76,10 @@ class ActivoFijoServices {
     return http.post('Area', data)
   }
 
+  postRecepcion(data) {
+    return http.post('Recepcion', data)
+  }
+
   getAllConduce() {
     return http.get('Conduce')
   }
@@ -87,6 +99,10 @@ class ActivoFijoServices {
 
   putArea(id, data) {
     return http.put(`Area/${id}`, data)
+  }
+
+  putRecepcion(id, data) {
+    return http.put(`Recepcion/${id}`, data)
   }
 
   putActivo(id, data) {

@@ -62,6 +62,15 @@ export default {
         ),
     },
 
+    {
+      path: 'recepcion',
+      name: 'recepcion',
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ActivoFijoModule/components/recepcion.vue'
+        ),
+    },
+
     //  {
     //     path: '',
     //     name: 'no-entry',
