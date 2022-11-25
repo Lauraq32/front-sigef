@@ -233,7 +233,6 @@ export default {
             showConfirmButton: false,
             timer: 1500,
           })
-          this.getPocisions()
           this.postPosicionesCargo = {
             id: 0,
             nombre: null,
@@ -243,12 +242,12 @@ export default {
           event.preventDefault()
           event.stopPropagation()
         })
-        this.getPocisions()
+        setTimeout(this.getPocisions, 500)
       } else {
         this.addPocision(this.postPosicionesCargo)
         //const form = event.currentTarget
         this.lgDemo = true
-        this.getPocisions()
+        setTimeout(this.getPocisions, 500)
         ;(this.postPosicionesCargo = {
           id: 0,
           nombre: null,
@@ -257,7 +256,7 @@ export default {
           (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
-        this.getPocisions()
+        setTimeout(this.getPocisions, 500)
       }
     },
   },

@@ -204,7 +204,7 @@ export default {
             showConfirmButton: false,
             timer: 1500,
           })
-          this.getArea()
+          setTimeout(this.getArea, 500)
           this.postAreaUbicacion = {
             id: 0,
             variacion: 0,
@@ -213,13 +213,13 @@ export default {
             descripcion2: null,
           }
         })
-        this.getArea()
+        setTimeout(this.getArea, 500)
       } else {
-        this.getArea()
+        setTimeout(this.getArea, 500)
         this.addArea(this.postAreaUbicacion)
         //const form = event.currentTarget
         this.lgDemo = true
-        this.getArea()
+        setTimeout(this.getArea, 500)
         ;(this.postAreaUbicacion = {
           variacion: 0,
           ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
@@ -229,7 +229,7 @@ export default {
           (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
-        this.getArea()
+        setTimeout(this.getArea, 500)
       }
     },
     handleSubmitCustom01(event) {

@@ -231,7 +231,7 @@ export default {
             showConfirmButton: false,
             timer: 1500,
           })
-          this.getProgramas()
+          setTimeout(this.getProgramas, 500)
           this.postPrograma = {
             id: 0,
             nombre: null,
@@ -240,13 +240,13 @@ export default {
             variacion: 0,
           }
         })
-        this.getProgramas()
+        setTimeout(this.getProgramas, 500)
       } else {
-        this.getProgramas()
+        setTimeout(this.getProgramas, 500)
         this.addProgramas(this.postPrograma)
         //const form = event.currentTarget
         this.lgDemo = true
-        this.getProgramas()
+        setTimeout(this.getArea, 500)
         ;(this.postPrograma = {
           id: 0,
           nombre: null,
@@ -257,7 +257,7 @@ export default {
           (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
-        this.getProgramas()
+        setTimeout(this.getProgramas, 500)
       }
     },
     handleSubmitCustom01(event) {

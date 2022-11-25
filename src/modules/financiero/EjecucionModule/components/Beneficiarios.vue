@@ -400,7 +400,7 @@ export default {
               showConfirmButton: false,
               timer: 1500,
             })
-            this.getBeneficiarios()
+            setTimeout(this.getBeneficiarios, 500)
             this.postBeneficiario = {
               id: 0,
               nombre: null,
@@ -422,13 +422,13 @@ export default {
             }
           },
         )
-        this.getBeneficiarios()
+        setTimeout(this.getBeneficiarios, 500)
       } else {
         this.getBeneficiarios()
         this.addBeneficiarios(this.postBeneficiario)
         //const form = event.currentTarget
         this.lgDemo = true
-        this.getBeneficiarios()
+        setTimeout(this.getBeneficiarios, 500)
         ;(this.postBeneficiario = {
           id: 0,
           nombre: null,
@@ -451,7 +451,7 @@ export default {
           (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
-        this.getBeneficiarios()
+        setTimeout(this.getBeneficiarios, 500)
       }
     },
   },

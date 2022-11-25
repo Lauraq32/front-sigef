@@ -473,8 +473,8 @@ export default {
           //   localStorage.getItem('ano'),
           // ),
 
-          setTimeout( this.getListarIngresos, 3000);
-            console.log(this.ingresos)
+          setTimeout(this.getListarIngresos, 3000)
+          console.log(this.ingresos)
           //this.getTotal();
           this.getTotales()
           this.id = null
@@ -506,8 +506,8 @@ export default {
           variacionResumen: 0,
         }
         this.validatedCustom01 = false
-        setTimeout( this.getListarIngresos, 500);
-          console.log(this.ingresos)
+        setTimeout(this.getListarIngresos, 500)
+        console.log(this.ingresos)
         //this.getTotal();
         this.getTotales()
       }
@@ -615,8 +615,7 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
-        this.getListarIngresos(),
-          console.log(this.ingresos)
+        this.getListarIngresos(), console.log(this.ingresos)
         //this.getTotal();
         this.getTotales()
       })
@@ -631,8 +630,7 @@ export default {
   //     this.$store.dispatch('Formulacion/getListarIngresos');
   //   },
   created() {
-    this.getListarIngresos(),
-      console.log(this.ingresos)
+    this.getListarIngresos(), console.log(this.ingresos)
     //this.getTotal();
     this.getTotales()
   },

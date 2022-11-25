@@ -480,7 +480,7 @@ export default {
             showConfirmButton: false,
             timer: 1500,
           })
-          this.getCategoria()
+          setTimeout(this.getCategoria, 500)
           this.postCategorias = {
             id: 0,
             ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
@@ -505,13 +505,13 @@ export default {
             variacion: 0,
           }
         })
-        this.getCategoria()
+        setTimeout(this.getCategoria, 500)
       } else {
-        this.getCategoria()
+        setTimeout(this.getCategoria, 500)
         this.addCategoria(this.postCategorias)
         //const form = event.currentTarget
         this.lgDemo = true
-        this.getCategoria()
+        setTimeout(this.getCategoria, 500)
         ;(this.postCategorias = {
           id: 0,
           ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
@@ -538,7 +538,7 @@ export default {
           (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
-        this.getCategoria()
+        setTimeout(this.getCategoria, 500)
       }
     },
     handleSubmitCustom01(event) {

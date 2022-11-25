@@ -614,7 +614,7 @@ export default {
             showConfirmButton: false,
             timer: 1500,
           })
-          this.getActivo()
+          setTimeout(this.getActivo, 500)
           this.postActivo = {
             id: 0,
             ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
@@ -643,12 +643,12 @@ export default {
             variacion: 0,
           }
         })
-        this.getActivo()
+        setTimeout(this.getActivo, 500)
       } else {
         this.addActivo(this.postActivo)
         //const form = event.currentTarget
         this.lgDemo = true
-        this.getActivo()
+        setTimeout(this.getActivo, 500)
         ;(this.postActivo = {
           id: 0,
           ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
@@ -679,7 +679,7 @@ export default {
           (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
-        this.getActivo()
+        setTimeout(this.getActivo, 500)
       }
     },
   },
