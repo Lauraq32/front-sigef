@@ -57,7 +57,9 @@ class Ejecucion {
         return http.get('RegistroIngreso')
     }
 
-    
+    getIngresosGasto() {
+        return http.get(`RegistroGasto?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
+    }
 
     //post
 
@@ -75,6 +77,10 @@ class Ejecucion {
 
     postIngresoDetalle(data) {
         return http.post('RegistroIngreso/Detalle', data)
+    }
+
+    postIngresosGasto(data) {
+        return http.post('RegistroGasto', data)
     }
 
 

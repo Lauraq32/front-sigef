@@ -832,7 +832,7 @@ export default {
         this.contribuyentesList = response.data.data
         this.contribuyentesList.map((contribuyente) => {
           this.contribuyentesName.push(
-            `${contribuyente.id}-${contribuyente.pais}`,
+            `${contribuyente.id}-${contribuyente.nombre}`,
           )
           console.log(this.contribuyentesName)
         })

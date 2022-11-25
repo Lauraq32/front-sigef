@@ -1,4 +1,19 @@
 <template>
+  <!-- <div class="col-4">
+    <div class="row mt-4">
+   
+      <div class="col-12 bold d-flex flex-row-reverse">
+        <label
+          for="dni"
+          style="font-weight: bold; margin-right: 12px; margin-top: 7px"
+          >Período</label
+        >
+        <input type="number" name="dni" id="dni" class="form-control" disabled />
+      </div>
+
+     
+    </div>
+  </div> -->
   <h3 class="text-center">Formulación ingreso</h3>
   <hr />
   <div class="">
@@ -108,43 +123,52 @@
       formatPrice(formulado.preS_FORM)
     }}</span>
   </div>
-  <CModal size="lg" :visible="lgDemo" @close="
-    () => {
-      lgDemo = false
-    }
-  ">
+  <CModal
+    size="lg"
+    :visible="lgDemo"
+    @close="
+      () => {
+        lgDemo = false
+      }
+    "
+  >
     <!-- <CModalHeader >
       <CModalTitle style="height: 20px;">Partida del presupuesto de ingresos</CModalTitle>
     </CModalHeader> -->
     <div class="row">
-      <div class=" col-8 mt-3">
-        <CModalTitle style="margin-top:13px; margin-left: 4px;">
+      <div class="col-8 mt-3">
+        <CModalTitle style="margin-top: 13px; margin-left: 4px">
           Partida del presupuesto de ingresos
         </CModalTitle>
       </div>
-      <div class="col-4">
-        <div class="row mt-4">
-          <div class="col-4 bold">
-            <label for="dni" style="font-weight:bold;margin-left: 12px;  margin-top: 7px;">Período</label>
-          </div>
-          <div class="col-6">
-            <input type="number" name="dni" id="dni" class="form-control" disabled>
-          </div>
-        </div>
-      </div>
     </div>
-    <hr>
+    <hr />
     <CModalBody>
       <CCardBody>
-        <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01"
-          @submit="handleSubmitCustom01">
+        <CForm
+          class="row g-3 needs-validation"
+          novalidate
+          :validated="validatedCustom01"
+          @submit="handleSubmitCustom01"
+        >
           <CCol :md="2">
             <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
-            <CFormInput :disabled="edit" v-model="postIngreso.clasificadorId" type="number" id="validationCustom01"
-              required on:keyup.native.enter="getClasificador" />
+            <CFormInput
+              :disabled="edit"
+              v-model="postIngreso.clasificadorId"
+              type="number"
+              id="validationCustom01"
+              required
+              on:keyup.native.enter="getClasificador"
+            />
 
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="2" style="margin-top: 47px">
+            <button class="btn btn-primary" v-on:click="getClasificador">
+              Buscar
+            </button>
           </CCol>
           <CCol :md="4">
             <CFormLabel for="validationCustom02">Cta. Control</CFormLabel>
@@ -173,8 +197,15 @@
             </CInputGroup>
           </CCol>
           <CCol :md="4">
-            <CFormLabel for="validationCustom03">Fuente Financiamiento</CFormLabel>
-            <CFormInput :disabled="ctgFuenteId" v-model="postIngreso.ctgFuenteId" id="validationCustom03" required />
+            <CFormLabel for="validationCustom03"
+              >Fuente Financiamiento</CFormLabel
+            >
+            <CFormInput
+              :disabled="ctgFuenteId"
+              v-model="postIngreso.ctgFuenteId"
+              id="validationCustom03"
+              required
+            />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -464,8 +495,8 @@ export default {
           //   localStorage.getItem('ano'),
           // ),
 
-          setTimeout( this.getListarIngresos, 3000);
-            console.log(this.ingresos)
+          setTimeout(this.getListarIngresos, 3000)
+          console.log(this.ingresos)
           //this.getTotal();
           this.getTotales()
           this.id = null
@@ -497,8 +528,8 @@ export default {
           variacionResumen: 0,
         }
         this.validatedCustom01 = false
-        setTimeout( this.getListarIngresos, 500);
-          console.log(this.ingresos)
+        setTimeout(this.getListarIngresos, 500)
+        console.log(this.ingresos)
         //this.getTotal();
         this.getTotales()
       }
@@ -606,8 +637,7 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
-        this.getListarIngresos(),
-          console.log(this.ingresos)
+        this.getListarIngresos(), console.log(this.ingresos)
         //this.getTotal();
         this.getTotales()
       })
@@ -622,8 +652,7 @@ export default {
   //     this.$store.dispatch('Formulacion/getListarIngresos');
   //   },
   created() {
-    this.getListarIngresos(),
-      console.log(this.ingresos)
+    this.getListarIngresos(), console.log(this.ingresos)
     //this.getTotal();
     this.getTotales()
   },
