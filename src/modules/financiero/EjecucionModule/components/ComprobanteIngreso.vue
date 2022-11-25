@@ -39,9 +39,9 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
-    <template #status="{ item }">
+    <template #fecha="{ item }">
       <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+        {{ formatDate(item.fecha) }}
       </td>
     </template>
     <template #show_details="{ item, index }">
@@ -473,6 +473,13 @@ export default {
     ...mapState(useEjecucionIngresoStore, ['ingresosList']),
   },
   methods: {
+    formatDate(fecha){
+      return new Date(fecha).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+    },
     ...mapActions(useEjecucionIngresoStore, [
       'addIngresos',
       'getIngresos',
@@ -490,8 +497,8 @@ export default {
       }
       this.validatedCustom01 = true
     },
-    getTotalIngreso(){
-      Api.getComprobanteIngresoTotal().then(response => {
+    getTotalIngreso(id){
+      Api.getComprobanteIngresoTotal(id).then(response => {
         this.totales = response.data.data.totalValor
       })
     },
@@ -570,6 +577,7 @@ export default {
       // this.details.push(item._id)
       console.log(id)
       this.id = id
+      this.getTotalIngreso(this.id)
       Api.getIngresoById(
         id,
         localStorage.getItem('ano'),
@@ -609,7 +617,6 @@ export default {
 
   mounted() {
     this.getIngresos()
-    this.getTotalIngreso()
   },
 }
 </script>

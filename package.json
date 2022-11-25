@@ -38,6 +38,7 @@
     "core-js": "^3.19.0",
     "pinia": "^2.0.23",
     "vue": "^3.2.41",
+    "vue-autosuggest": "^2.2.0",
     "vue-nav-tabs": "^0.5.7",
     "vue-router": "^4.0.12",
     "vue-sweetalert2": "^5.0.5",
