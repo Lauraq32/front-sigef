@@ -326,12 +326,12 @@ export default {
     ...mapState(useRegistroStore, ['Beneficiarios']),
   },
   methods: {
-    formatDate(ingreso){
-      return new Date(ingreso).toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
+    formatDate(ingreso) {
+      return new Date(ingreso).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      })
     },
     ...mapActions(useRegistroStore, ['getBeneficiarios', 'addBeneficiarios']),
 
