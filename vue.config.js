@@ -6,3 +6,4 @@ module.exports = defineConfig({
     proxy: `${process.env.VUE_APP_API_URL}`,
   },
 })
+
