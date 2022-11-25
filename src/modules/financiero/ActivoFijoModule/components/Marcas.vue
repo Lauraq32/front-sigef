@@ -207,19 +207,19 @@ export default {
             showConfirmButton: false,
             timer: 1500,
           })
-          this.getMarcas()
+          setTimeout(this.getMarcas, 500)
           this.postMarcas = {
             id: 0,
             ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
             nombre: null,
           }
         })
-        this.getMarcas()
+        setTimeout(this.getMarcas, 500)
       } else {
         this.addMarcas(this.postMarcas)
         //const form = event.currentTarget
         this.lgDemo = true
-        this.getMarcas()
+        setTimeout(this.getMarcas, 500)
         ;(this.postMarcas = {
           id: 0,
           ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
@@ -228,7 +228,7 @@ export default {
           (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
-        this.getMarcas()
+        setTimeout(this.getMarcas, 500)
       }
     },
   },

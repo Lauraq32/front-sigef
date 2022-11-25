@@ -368,7 +368,7 @@ export default {
               showConfirmButton: false,
               timer: 1500,
             })
-            this.getContribuyente()
+            setTimeout(this.getContribuyente, 500)
             this.postContribuyente = {
               id: 0,
               variacion: 0,
@@ -391,13 +391,13 @@ export default {
             }
           },
         )
-        this.getContribuyente()
+        setTimeout(this.getContribuyente, 500)
       } else {
-        this.getContribuyente()
+        setTimeout(this.getContribuyente, 500)
         this.addContribuyente(this.postContribuyente)
         //const form = event.currentTarget
         this.lgDemo = true
-        this.getContribuyente()
+        setTimeout(this.getContribuyente, 500)
         ;(this.postContribuyente = {
           id: 0,
           variacion: 0,
@@ -421,7 +421,7 @@ export default {
           (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
-        this.getContribuyente()
+        setTimeout(this.getContribuyente, 500)
       }
     },
     handleSubmitCustom01(event) {

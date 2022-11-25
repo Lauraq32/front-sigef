@@ -347,7 +347,7 @@ export default {
             showConfirmButton: false,
             timer: 1500,
           })
-          this.getDepartamentos()
+          setTimeout(this.getArea, 500)
           this.postDepartamento = {
             id: 0,
             programaDivisionId: 0,
@@ -367,13 +367,13 @@ export default {
             variacion: 0,
           }
         })
-        this.getDepartamentos()
+        setTimeout(this.getDepartamentos, 500)
       } else {
-        this.getDepartamentos()
+        setTimeout(this.getDepartamentos, 500)
         this.addDepartamento(this.postDepartamento)
         //const form = event.currentTarget
         this.lgDemo = true
-        this.getDepartamentos()
+        setTimeout(this.getDepartamentos, 500)
         ;(this.postDepartamento = {
           id: 0,
           programaDivisionId: 0,
@@ -395,7 +395,7 @@ export default {
           (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
-        this.getDepartamentos()
+        setTimeout(this.getDepartamentos, 500)
       }
     },
     handleSubmitCustom01(event) {

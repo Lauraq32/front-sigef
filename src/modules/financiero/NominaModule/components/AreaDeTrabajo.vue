@@ -198,7 +198,7 @@ export default {
             showConfirmButton: false,
             timer: 1500,
           })
-          this.AreaTrabajo()
+          setTimeout(this.AreaTrabajo, 500)
           this.postAreaTrabajo = {
             id: 0,
             area: null,
@@ -206,12 +206,12 @@ export default {
             variacion: 0,
           }
         })
-        this.AreaTrabajo()
+        setTimeout(this.AreaTrabajo, 500)
       } else {
         this.addAreaTrabajo(this.postAreaTrabajo)
         //const form = event.currentTarget
         this.lgDemo = true
-        this.AreaTrabajo()
+        setTimeout(this.AreaTrabajo, 500)
         ;(this.postAreaTrabajo = {
           id: 0,
           area: null,
@@ -221,7 +221,7 @@ export default {
           (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
-        this.AreaTrabajo()
+        setTimeout(this.AreaTrabajo, 500)
       }
     },
 

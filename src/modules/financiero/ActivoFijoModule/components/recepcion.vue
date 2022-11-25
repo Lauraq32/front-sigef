@@ -302,7 +302,7 @@ export default {
             showConfirmButton: false,
             timer: 1500,
           })
-          this.getRecepcion()
+          setTimeout(this.getRecepcion, 500)
           this.postRecepcion = {
             fecha: new Date(Date.now()),
             motivo: null,
@@ -314,12 +314,12 @@ export default {
             estatus: true,
           }
         })
-        this.getRecepcion()
+        setTimeout(this.getRecepcion, 500)
       } else {
         this.addRecepcion(this.postRecepcion)
         //const form = event.currentTarget
         this.lgDemo = true
-        this.getRecepcion()
+        setTimeout(this.getRecepcion, 500)
         ;(this.postRecepcion = {
           fecha: new Date(Date.now()),
           motivo: null,
@@ -333,7 +333,7 @@ export default {
           (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
-        this.getRecepcion()
+        setTimeout(this.getRecepcion, 500)
       }
     },
   },
