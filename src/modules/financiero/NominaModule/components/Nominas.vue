@@ -668,6 +668,7 @@
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
+              v-on:click="close"
             >
               Close
             </button>
@@ -921,7 +922,9 @@ export default {
       }
       this.validatedCustom01 = true
     },
-
+    close() {
+      this.lgDemo = false
+    },
     getBadge(status) {
       switch (status) {
         case 'Active':

@@ -46,7 +46,7 @@ export default {
     },
     {
       path: 'general',
-      name: 'general',
+      name: 'General',
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ActivoFijoModule/components/General.vue'
@@ -59,6 +59,15 @@ export default {
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ActivoFijoModule/components/Condensado.vue'
+        ),
+    },
+
+    {
+      path: 'recepcion',
+      name: 'recepcion',
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ActivoFijoModule/components/recepcion.vue'
         ),
     },
 

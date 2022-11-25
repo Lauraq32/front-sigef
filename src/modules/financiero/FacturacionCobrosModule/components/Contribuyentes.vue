@@ -250,6 +250,7 @@
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
+              v-on:click="close"
             >
               Close
             </button>
@@ -307,7 +308,6 @@ export default {
       validatedCustom01: null,
       lgDemo: false,
       columns: [
-        { key: 'id', label: 'ID', _style: { width: '40%' } },
         { key: 'pais', label: 'pais', _style: { width: '40%' } },
         { key: 'ciudad', label: 'ciudad', _style: { width: '40%' } },
         { key: 'direccion', label: 'Direccion', _style: { width: '40%' } },
@@ -350,6 +350,9 @@ export default {
         month: '2-digit',
         year: 'numeric',
       })
+    },
+    close() {
+      this.lgDemo = false
     },
 
     submitForm() {

@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <h3 class="text-center">Comprobantes de ingresos</h3>
   <hr />
   <div>
@@ -314,7 +314,332 @@
               <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
             </td>
           </template>
-          <!-- Borre el index de aquí -->
+           Borre el index de aquí
+          <template #show_details="{ item }">
+            <td class="py-2">
+              <CButton
+                color="primary"
+                variant="outline"
+                square
+                size="sm"
+                @click="toggleDetails1()"
+              >
+                {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
+              </CButton>
+            </td>
+          </template>
+          <template #details="{ item }">
+            <CCollapse :visible="this.details.includes(item._id)">
+              <CCardBody>
+                <h4>
+                  {{ item.username }}
+                </h4>
+                <p class="text-muted">User since: {{ item.registered }}</p>
+                <CButton size="sm" color="info" class="">
+                  User Settings
+                </CButton>
+                <CButton size="sm" color="danger" class="ml-1">
+                  Delete
+                </CButton>
+              </CCardBody>
+            </CCollapse>
+          </template>
+        </CSmartTable>
+      </CCardBody>
+    </CModalBody>
+  </CModal>
+</template> -->
+
+<template>
+  <h3 class="text-center">Comprobante de Ingreso</h3>
+  <hr />
+  <div>
+    <div class="d-inline p-2">
+      <CButton
+        color="info"
+        @click="
+          () => {
+            lgDemo = true
+          }
+        "
+        >Agregar</CButton
+      >
+    </div>
+  </div>
+  <hr />
+  <CSmartTable
+    clickableRows
+    :tableProps="{
+      striped: false,
+      hover: true,
+    }"
+    :tableHeadProps="{}"
+    :activePage="1"
+    footer
+    header
+    :items="RegistroIngresos"
+    :columns="columns"
+    columnFilter
+    tableFilter
+    cleaner
+    itemsPerPageSelect
+    :itemsPerPage="5"
+    columnSorter
+    :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination
+  >
+    <template #status="{ item }">
+      <td>
+        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+      </td>
+    </template>
+    <template #show_details="{ item }">
+      <td class="py-1">
+        <CButton
+          class="mt-1"
+          color="primary"
+          variant="outline"
+          square
+          size="sm"
+          @click="toggleDetails(item)"
+        >
+          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
+        </CButton>
+      </td>
+      <td class="py-1">
+        <CButton
+          class="mt-1"
+          color="danger"
+          variant="outline"
+          square
+          size="sm"
+          @click="deleteSec(item)"
+        >
+          {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
+        </CButton>
+      </td>
+    </template>
+  </CSmartTable>
+  <CModal
+    size="xl"
+    :visible="lgDemo"
+    @close="
+      () => {
+        lgDemo = false
+      }
+    "
+  >
+    <CModalHeader>
+      <CModalTitle>Comprobantes de ingresos</CModalTitle>
+    </CModalHeader>
+    <CModalBody>
+      <CCardBody>
+        <CForm
+          class="row g-3 needs-validation"
+          novalidate
+          :validated="validatedCustom01"
+          @submit="handleSubmitCustom01"
+        >
+          <CCol :md="2">
+            <CFormLabel for="validationCustom01">#Comp.</CFormLabel>
+            <CFormInput id="validationCustom01" required />
+
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="2">
+            <CFormLabel for="validationCustom02">Fecha</CFormLabel>
+            <CFormInput type="date" id="validationCustom02" required />
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="3">
+            <CFormLabel for="validationCustom04">Etapa</CFormLabel>
+            <CFormInput id="validationCustom04"> </CFormInput>
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="6">
+            <CFormLabel for="validationCustom04">Contribuyente</CFormLabel>
+            <CFormInput id="validationCustom04"> </CFormInput>
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="2">
+            <CFormLabel for="validationCustom04">Recibo</CFormLabel>
+            <CFormInput id="validationCustom04"> </CFormInput>
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <hr />
+          <CCol :md="11">
+            <CFormLabel for="validationCustom04">Detalle</CFormLabel>
+            <CFormInput id="validationCustom04"> </CFormInput>
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <hr />
+
+          <CCol :md="2">
+            <CButton
+              style="font-weight: bold"
+              color="Light"
+              @click="IngresoReport"
+              >Anunc. y Carteles</CButton
+            >
+          </CCol>
+          <CCol :md="2">
+            <CButton
+              style="font-weight: bold"
+              color="Light"
+              @click="IngresoReport"
+              >Certific. vida y cost.</CButton
+            >
+          </CCol>
+          <CCol :md="2">
+            <CButton
+              style="font-weight: bold"
+              color="Light"
+              @click="IngresoReport"
+              >Arrend. Terrenos</CButton
+            >
+          </CCol>
+          <CCol :md="2">
+            <CButton
+              style="font-weight: bold"
+              color="Light"
+              @click="IngresoReport"
+              >Certific. animales</CButton
+            >
+          </CCol>
+          <CCol :md="2">
+            <CButton
+              style="font-weight: bold"
+              color="Light"
+              @click="IngresoReport"
+              >Transferencia 60%</CButton
+            >
+          </CCol>
+          <CCol :md="2">
+            <CButton
+              style="font-weight: bold"
+              color="Light"
+              @click="IngresoReport"
+              >Transferencia 40%</CButton
+            >
+          </CCol>
+          <CCol :md="2">
+            <CButton
+              style="font-weight: bold"
+              color="Light"
+              @click="IngresoReport"
+            ></CButton>
+          </CCol>
+          <CCol :md="2">
+            <CButton
+              style="font-weight: bold"
+              color="Light"
+              @click="IngresoReport"
+            ></CButton>
+          </CCol>
+          <CCol :md="2">
+            <CButton
+              style="font-weight: bold"
+              color="Light"
+              @click="IngresoReport"
+            ></CButton>
+          </CCol>
+          <CCol :md="2">
+            <CButton
+              style="font-weight: bold"
+              color="Light"
+              @click="IngresoReport"
+            ></CButton>
+          </CCol>
+          <CCol :md="2">
+            <CButton
+              style="font-weight: bold"
+              color="Light"
+              @click="IngresoReport"
+            ></CButton>
+          </CCol>
+          <CCol :md="2">
+            <CButton
+              style="font-weight: bold"
+              color="Light"
+              @click="IngresoReport"
+            ></CButton>
+          </CCol>
+          <hr />
+          <CCol :md="3">
+            <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
+            <CFormInput id="validationCustom01" required />
+
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="8">
+            <CFormLabel for="validationCustom02">Descripción</CFormLabel>
+            <CFormInput id="validationCustom02" disabled />
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="3">
+            <CFormLabel for="validationCustom04">Valor</CFormLabel>
+            <CFormInput id="validationCustom04"> </CFormInput>
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+
+          <CCol :md="4" class="mt-5">
+            <CButton
+              style="font-weight: bold"
+              color="outline-primary"
+              @click="IngresoReport"
+              >+Adicionar</CButton
+            >
+          </CCol>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+              Guardar
+            </button>
+          </div>
+        </CForm>
+        <CSmartTable
+          clickableRows
+          :tableProps="{
+            striped: false,
+            hover: true,
+          }"
+          :tableHeadProps="{}"
+          :activePage="1"
+          footer
+          header
+          :items="ComprobanteIngresos"
+          :columns="columns2"
+          columnFilter
+          tableFilter
+          cleaner
+          itemsPerPageSelect
+          :itemsPerPage="5"
+          columnSorter
+          :sorterValue="{ column: 'status', state: 'asc' }"
+          pagination
+        >
+          <template #status="{ item }">
+            <td>
+              <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+            </td>
+          </template>
+          Borre el index de aquí
           <template #show_details="{ item }">
             <td class="py-2">
               <CButton
@@ -350,7 +675,9 @@
     </CModalBody>
   </CModal>
 </template>
+
 <script>
+import { useRegistroStore } from '../store/Ejecucion/registroIngreso'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { useEjecucionIngresoStore } from '../store/Ejecucion/ejecucionIngresos'
@@ -619,4 +946,4 @@ export default {
     this.getIngresos()
   },
 }
-</script>
+</script> -->

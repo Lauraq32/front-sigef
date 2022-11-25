@@ -237,6 +237,7 @@
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
+              v-on:click="close"
             >
               Close
             </button>
@@ -334,6 +335,10 @@ export default {
       })
     },
     ...mapActions(useRegistroStore, ['getBeneficiarios', 'addBeneficiarios']),
+
+    close() {
+      this.lgDemo = false
+    },
 
     handleSubmitCustom01(event) {
       const form = event.currentTarget

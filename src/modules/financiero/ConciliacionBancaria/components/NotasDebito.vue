@@ -88,31 +88,25 @@
           @submit="handleSubmitCustom01"
         >
           <CCol :md="4">
-            <CFormLabel for="validationCustom01">Documento  No:</CFormLabel>
+            <CFormLabel for="validationCustom01">Documento No:</CFormLabel>
             <CFormInput disabled id="validationCustom01" required />
-           
+
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom05"
-              >Fecha</CFormLabel
-            >
+            <CFormLabel for="validationCustom05">Fecha</CFormLabel>
             <CFormInput type="date" id="validationCustom05" required />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="6">
-            <CFormLabel for="validationCustom03"
-              >Valor</CFormLabel
-            >
+            <CFormLabel for="validationCustom03">Valor</CFormLabel>
             <CFormInput id="validationCustom03" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom05"
-              >Estado</CFormLabel
-            >
+            <CFormLabel for="validationCustom05">Estado</CFormLabel>
             <CFormSelect id="validationCustom05">
               <option>CONFIRMADO</option>
               <option>TRANSITO</option>
@@ -121,15 +115,13 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom04">Concepto</CFormLabel >
-            <CFormInput  id="validationCustom04"> </CFormInput>
+            <CFormLabel for="validationCustom04">Concepto</CFormLabel>
+            <CFormInput id="validationCustom04"> </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom05"
-              >Nota</CFormLabel
-            >
+            <CFormLabel for="validationCustom05">Nota</CFormLabel>
             <CFormInput id="validationCustom05" required />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -141,13 +133,9 @@
             >
               Close
             </button>
-            <button
-              class="btn btn-info btn-block mt-1"
-              v-on:click="Guardar"
-            >
-            Guardar
+            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+              Guardar
             </button>
-         
           </div>
         </CForm>
       </CCardBody>
@@ -167,7 +155,11 @@ export default {
       validatedCustom01: null,
       lgDemo: false,
       columns: [
-        { key: 'No. Documento', label: 'No. Documento', _style: { width: '40%' } },
+        {
+          key: 'No. Documento',
+          label: 'No. Documento',
+          _style: { width: '40%' },
+        },
         { key: 'Fecha', label: 'Fecha', _style: { width: '40%' } },
         { key: 'Concepto', label: 'Concepto', _style: { width: '40%' } },
         { key: 'Valor', label: 'Valor', _style: { width: '40%' } },

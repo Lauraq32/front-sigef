@@ -2,9 +2,7 @@
   <h3 class="text-center">Ejecución de ingresos</h3>
   <hr />
   <div>
-    <div class="d-inline p-2">
-      
-    </div>
+    <div class="d-inline p-2"></div>
   </div>
   <hr />
   <CSmartTable
@@ -68,21 +66,36 @@ export default {
     CSmartTable,
     CModal,
   },
-  
 
   data: () => {
     return {
       validatedCustom01: null,
       lgDemo: false,
       columns: [
-        { key: '#Comprobante', label: '#Comprobante', _style: { width: '40%' } },
+        {
+          key: '#Comprobante',
+          label: '#Comprobante',
+          _style: { width: '40%' },
+        },
         { key: 'Fecha', label: 'Fecha', _style: { width: '40%' } },
         { key: 'Etapa', label: 'Etapa', _style: { width: '40%' } },
         { key: 'Forma/pago', label: 'Forma/pago', _style: { width: '40%' } },
-        { key: 'Beneficiario', label: 'Beneficiario', _style: { width: '40%' } },
-        { key: 'Cuenta de banco', label: 'Cuenta de banco', _style: { width: '40%' } },
+        {
+          key: 'Beneficiario',
+          label: 'Beneficiario',
+          _style: { width: '40%' },
+        },
+        {
+          key: 'Cuenta de banco',
+          label: 'Cuenta de banco',
+          _style: { width: '40%' },
+        },
         { key: 'Total bruto', label: 'Total bruto', _style: { width: '40%' } },
-        { key: 'Total retencion', label: 'Total retencion', _style: { width: '40%' } },
+        {
+          key: 'Total retencion',
+          label: 'Total retencion',
+          _style: { width: '40%' },
+        },
         { key: 'Valor Neto', label: 'Valor Neto', _style: { width: '40%' } },
         { key: 'Numero', label: 'Numero', _style: { width: '40%' } },
         {

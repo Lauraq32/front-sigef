@@ -48,6 +48,12 @@ class Ejecucion {
         return http.get(`/RegistroIngreso/Detalle/Clasificadores?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}&id=${id}`)
     }
 
+    getRegistroIngreso() {
+        return http.get('RegistroIngreso')
+    }
+
+    
+
     //post
 
     postAnioFiscal(data) {

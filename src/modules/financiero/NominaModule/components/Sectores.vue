@@ -16,7 +16,6 @@
   </div>
   <hr />
   <CSmartTable
-  :loading="loading"
     clickableRows
     :tableProps="{
       striped: false,
@@ -26,7 +25,7 @@
     :activePage="1"
     footer
     header
-    :items="sectoresPrueba"
+    :items="sectores"
     :columns="columns"
     columnFilter
     tableFilter
@@ -104,14 +103,11 @@
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
+              v-on:click="close"
             >
               Close
             </button>
-            <button
-              class="btn btn-info btn-block mt-1"
-              v-on:click="submitForm"
-              
-            >
+            <button class="btn btn-info btn-block mt-1" v-on:click="submitForm">
               Guardar
             </button>
           </div>
@@ -129,18 +125,13 @@ import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
 import Api from '../services/NominaServices'
-
-
 export default {
   components: {
     CSmartTable,
     CModal,
   },
-
   data: () => {
     return {
-      sectoresPrueba: [],  
-      loading: true, 
       postSectores: {
         id: 0,
         nombre: null,
@@ -152,7 +143,6 @@ export default {
           descripcion: null,
         },
       },
-
       columns: [
         { key: 'id', label: 'id', _style: { width: '40%' } },
         { key: 'nombre', label: 'Sectores', _style: { width: '40%' } },
@@ -166,29 +156,19 @@ export default {
         },
       ],
       details: [],
-
       validatedCustom01: null,
       lgDemo: false,
     }
   },
-
   computed: {
     ...mapStores(useRegistroStore),
     ...mapState(useRegistroStore, ['sectores']),
   },
-
   methods: {
     ...mapActions(useRegistroStore, ['getSectore', 'addSectores']),
-    fetchData() {  
-      this.loading = true;  
-     Api.getSectores(response =>{
-      this.loading = false; 
-      console.log(response.data)
-      this.sectoresPrueba = response.data.data;  
-     }) 
-    console.log('mmg')
-    },  
-
+    close() {
+      this.lgDemo = false
+    },
     toggleDetails(item) {
       // if (this.details.includes(item._id)) {
       //   this.details = this.details.filter((_item) => _item !== item._id)
@@ -225,7 +205,6 @@ export default {
           'primary'
       }
     },
-
     handleSubmitCustom01(event) {
       const form = event.currentTarget
       if (form.checkValidity() === false) {
@@ -234,7 +213,6 @@ export default {
       }
       this.validatedCustom01 = true
     },
-
     submitForm() {
       if (this.id) {
         Api.putSector(this.id, this.postSectores).then((response) => {
@@ -247,7 +225,7 @@ export default {
             showConfirmButton: false,
             timer: 1500,
           })
-          this.fetchData()
+          this.getSectore()
           this.postSectores = {
             id: 0,
             nombre: null,
@@ -261,12 +239,12 @@ export default {
             },
           }
         })
-        this.fetchData()
+        this.getSectore()
       } else {
         this.addSectores(this.postSectores)
         //const form = event.currentTarget
         this.lgDemo = true
-        this.fetchData()
+        this.getSectore()
         ;(this.postSectores = {
           id: 0,
           nombre: null,
@@ -281,10 +259,9 @@ export default {
           (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
-        this.fetchData()
+        this.getSectore()
       }
     },
-
     deleteSec(item) {
       Api.deleteSector(item.id)
         .then((response) => {
@@ -308,73 +285,8 @@ export default {
         })
     },
   },
-
   mounted() {
-    this.fetchData()
+    this.getSectore()
   },
 }
 </script>
-
-<!-- <script>
-import { CSmartTable } from '@coreui/vue-pro'
-import { CModal } from '@coreui/vue'
-export default {
-  components: {
-    CSmartTable,
-    CModal,
-  },
-  data: () => {
-    return {
-      validatedCustom01: null,
-      lgDemo: false,
-      columns: [
-        { key: 'Código', label: 'Código', _style: { width: '40%' } },
-        { key: 'Sectores', label: 'Sectores', _style: { width: '40%' } },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
-        },
-      ],
-      details: [],
-    }
-  },
-  methods: {
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
-    },
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
-      }
-      this.details.push(item._id)
-    },
-  },
-  mounted() {
-    this.$store.dispatch('Formulacion/getProyectos')
-  },
-}
-</script> -->

@@ -288,6 +288,13 @@ export default [
           },
 
           {
+            component: 'CNavItem',
+            name: 'recepcion',
+            to: '/ActivoFijoModule/recepcion',
+            icon: 'cilList',
+          },
+
+          {
             component: 'CNavTitle',
             name: 'Configuración',
           },

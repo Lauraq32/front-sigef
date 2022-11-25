@@ -103,6 +103,7 @@
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
+              v-on:click="close"
             >
               Close
             </button>
@@ -167,6 +168,10 @@ export default {
 
   methods: {
     ...mapActions(useRegistroStore, ['getPocisions', 'addPocision']),
+
+    close() {
+      this.lgDemo = false
+    },
 
     toggleDetails(item) {
       // if (this.details.includes(item._id)) {

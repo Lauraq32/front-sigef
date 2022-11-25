@@ -116,6 +116,7 @@
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
+              v-on:click="close"
             >
               Close
             </button>
@@ -225,6 +226,10 @@ export default {
         event.stopPropagation()
         this.getGNomina()
       }
+    },
+
+    close() {
+      this.lgDemo = false
     },
 
     toggleDetails(item) {

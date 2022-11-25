@@ -227,6 +227,7 @@
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
+              v-on:click="close"
             >
               Close
             </button>
@@ -329,6 +330,10 @@ export default {
 
   methods: {
     ...mapActions(useRegistroStore, ['getDepartamentos', 'addDepartamento']),
+
+    close() {
+      this.lgDemo = false
+    },
 
     submitForm() {
       if (this.id) {
