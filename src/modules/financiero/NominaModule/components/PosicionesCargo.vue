@@ -244,7 +244,15 @@ export default {
         })
         setTimeout(this.getPocisions, 500)
       } else {
-        this.addPocision(this.postPosicionesCargo)
+        Api.postPocision(this.postPosicionesCargo).then((response) => {
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+        })
         //const form = event.currentTarget
         this.lgDemo = true
         setTimeout(this.getPocisions, 500)

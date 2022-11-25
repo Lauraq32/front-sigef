@@ -316,7 +316,15 @@ export default {
         })
         setTimeout(this.getRecepcion, 500)
       } else {
-        this.addRecepcion(this.postRecepcion)
+        Api.postRecepcion(this.postRecepcion).then((response) => {
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+        })
         //const form = event.currentTarget
         this.lgDemo = true
         setTimeout(this.getRecepcion, 500)

@@ -54,18 +54,6 @@
           {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
       </td>
-      <td class="py-1">
-        <CButton
-          class="mt-1"
-          color="danger"
-          variant="outline"
-          square
-          size="sm"
-          @click="deleteItem(item)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
-        </CButton>
-      </td>
     </template>
     <template #details="{ item }">
       <CCollapse :visible="this.details.includes(item._id)">
@@ -216,7 +204,15 @@ export default {
         setTimeout(this.getArea, 500)
       } else {
         setTimeout(this.getArea, 500)
-        this.addArea(this.postAreaUbicacion)
+        Api.postArea(this.postAreaUbicacion).then((response) => {
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+        })
         //const form = event.currentTarget
         this.lgDemo = true
         setTimeout(this.getArea, 500)

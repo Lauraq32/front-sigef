@@ -645,7 +645,15 @@ export default {
         })
         setTimeout(this.getActivo, 500)
       } else {
-        this.addActivo(this.postActivo)
+        Api.postActivo(this.postActivo).then((response) => {
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+        })
         //const form = event.currentTarget
         this.lgDemo = true
         setTimeout(this.getActivo, 500)
