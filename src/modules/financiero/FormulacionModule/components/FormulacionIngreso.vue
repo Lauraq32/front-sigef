@@ -108,7 +108,6 @@
       formatPrice(formulado.preS_FORM)
     }}</span>
   </div>
-<<<<<<< HEAD
   <CModal size="lg" :visible="lgDemo" @close="
     () => {
       lgDemo = false
@@ -144,45 +143,6 @@
             <CFormInput :disabled="edit" v-model="postIngreso.clasificadorId" type="number" id="validationCustom01"
               required on:keyup.native.enter="getClasificador" />
 
-=======
-  <CModal
-    size="lg"
-    :visible="lgDemo"
-    @close="
-      () => {
-        lgDemo = false
-      }
-    "
-  >
-    <CModalHeader>
-      <CModalTitle>Formulación Ingreso</CModalTitle>
-    </CModalHeader>
-    <CModalBody>
-      <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
-            <CFormInput
-              :disabled="edit"
-              v-model="postIngreso.clasificadorId"
-              type="number"
-              id="validationCustom01"
-              required
-              on:keyup.native.enter="getClasificador"
-            />
-            <button
-              :hidden="edit"
-              class="btn btn-primary btn-block mt-1"
-              v-on:click="getClasificador"
-            >
-              Buscar
-            </button>
->>>>>>> f34436475c8844163335371302e74efcb9bd2f13
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -212,22 +172,9 @@
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </CInputGroup>
           </CCol>
-<<<<<<< HEAD
           <CCol :md="4">
             <CFormLabel for="validationCustom03">Fuente Financiamiento</CFormLabel>
             <CFormInput :disabled="ctgFuenteId" v-model="postIngreso.ctgFuenteId" id="validationCustom03" required />
-=======
-          <CCol :md="6">
-            <CFormLabel for="validationCustom03"
-              >Fuente Financiamiento</CFormLabel
-            >
-            <CFormInput
-              :disabled="ctgFuenteId"
-              v-model="postIngreso.ctgFuenteId"
-              id="validationCustom03"
-              required
-            />
->>>>>>> f34436475c8844163335371302e74efcb9bd2f13
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
