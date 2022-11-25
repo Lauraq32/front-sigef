@@ -108,6 +108,7 @@
       formatPrice(formulado.preS_FORM)
     }}</span>
   </div>
+<<<<<<< Updated upstream
   <CModal
     size="lg"
     :visible="lgDemo"
@@ -145,10 +146,48 @@
             >
               Buscar
             </button>
+=======
+  <CModal size="lg" :visible="lgDemo" @close="
+    () => {
+      lgDemo = false
+    }
+  ">
+    <!-- <CModalHeader >
+      <CModalTitle style="height: 20px;">Partida del presupuesto de ingresos</CModalTitle>
+    </CModalHeader> -->
+    <div class="row">
+      <div class=" col-8 mt-3">
+        <CModalTitle style="margin-top:13px; margin-left: 4px;">
+          Partida del presupuesto de ingresos
+        </CModalTitle>
+      </div>
+      <div class="col-4">
+        <div class="row mt-4">
+          <div class="col-4 bold">
+            <label for="dni" style="font-weight:bold;margin-left: 12px;  margin-top: 7px;">Período</label>
+          </div>
+          <div class="col-6">
+            <input type="number" name="dni" id="dni" class="form-control" disabled>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <CModalBody>
+      <CCardBody>
+        <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01"
+          @submit="handleSubmitCustom01">
+          <CCol :md="2">
+            <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
+            <CFormInput :disabled="edit" v-model="postIngreso.clasificadorId" type="number" id="validationCustom01"
+              required on:keyup.native.enter="getClasificador" />
+
+>>>>>>> Stashed changes
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <CCol :md="4">
+
+          <CCol :md="2">
             <CFormLabel for="validationCustom02">Cta. Control</CFormLabel>
             <CFormInput
               disabled
@@ -159,7 +198,12 @@
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <CCol :md="4">
+          <CCol :md="5">
+            <button :hidden="edit" class="btn btn-primary btn-block mt-4" v-on:click="getClasificador">
+              Buscar
+            </button>
+          </CCol>
+          <CCol :md="10">
             <CFormLabel for="validationCustomUsername">Detalle</CFormLabel>
             <CInputGroup class="has-validation">
               <CFormInput
@@ -174,6 +218,7 @@
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </CInputGroup>
           </CCol>
+<<<<<<< Updated upstream
           <CCol :md="6">
             <CFormLabel for="validationCustom03"
               >Fuente Financiamiento</CFormLabel
@@ -184,6 +229,11 @@
               id="validationCustom03"
               required
             />
+=======
+          <CCol :md="4">
+            <CFormLabel for="validationCustom03">Fuente Financiamiento</CFormLabel>
+            <CFormInput :disabled="ctgFuenteId" v-model="postIngreso.ctgFuenteId" id="validationCustom03" required />
+>>>>>>> Stashed changes
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -209,6 +259,12 @@
               id="validationCustom05"
               required
             />
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="3">
+            <CFormLabel for="validationCustom05">Institución otorgante</CFormLabel>
+            <CFormInput :disabled="ctgOrganismoFinanciadorId" v-model="postIngreso.ctgOrganismoFinanciadorId"
+              id="validationCustom05" required />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <hr />
@@ -267,7 +323,7 @@
   </CModal>
 </template>
 <script>
-import { CSmartTable } from '@coreui/vue-pro'
+import { CCol, CModalHeader, CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/FormulacionServices'
 import { mapActions, mapState } from 'vuex'
@@ -276,6 +332,8 @@ export default {
   components: {
     CSmartTable,
     CModal,
+    CCol,
+    CModalHeader
   },
   data: () => {
     return {
@@ -473,8 +531,8 @@ export default {
           //   localStorage.getItem('ano'),
           // ),
 
-          setTimeout( this.getListarIngresos, 3000);
-            console.log(this.ingresos)
+          setTimeout(this.getListarIngresos, 3000);
+          console.log(this.ingresos)
           //this.getTotal();
           this.getTotales()
           this.id = null
@@ -506,8 +564,8 @@ export default {
           variacionResumen: 0,
         }
         this.validatedCustom01 = false
-        setTimeout( this.getListarIngresos, 500);
-          console.log(this.ingresos)
+        setTimeout(this.getListarIngresos, 500);
+        console.log(this.ingresos)
         //this.getTotal();
         this.getTotales()
       }
