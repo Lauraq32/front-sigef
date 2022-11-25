@@ -92,7 +92,7 @@
     <CModalHeader>
       <CModalTitle>Contribuyentes</CModalTitle>
     </CModalHeader>
-    <CModalBody>
+    <CModalBody class="mt-3">
       <CCardBody>
         <CForm
           class="row g-3 needs-validation"
@@ -100,90 +100,189 @@
           :validated="validatedCustom01"
           @submit="handleSubmitCustom01"
         >
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Pais</CFormLabel>
-            <CFormInput
-              v-model="postContribuyente.pais"
-              id="validationCustom01"
-              required
-            />
+          <div class="row">
+            <div class="col-6">
+              <CCol :md="10">
+                <CFormLabel for="validationCustom01">Nombre</CFormLabel>
+                <CFormInput
+                  v-model="postContribuyente.nombre"
+                  id="validationCustom01"
+                  required
+                />
 
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02">Ciudad</CFormLabel>
-            <CFormInput
-              v-model="postContribuyente.ciudad"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="6">
-            <CFormLabel for="validationCustom03">Direccion</CFormLabel>
-            <CFormInput
-              v-model="postContribuyente.direccion"
-              id="validationCustom03"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom04">Conctato</CFormLabel>
-            <CFormInput
-              v-model="postContribuyente.conctato"
-              id="validationCustom04"
-            >
-            </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom05">Email</CFormLabel>
-            <CFormInput
-              v-model="postContribuyente.email"
-              type="email"
-              id="validationCustom05"
-              required
-            />
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <!-- <CCol :md="3">
-            <CFormLabel for="validationCustom05">Participativo</CFormLabel>
-            <CFormSelect id="validationCustom05">
-              <option>Si</option>
-              <option>no</option>
-            </CFormSelect>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol> -->
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
 
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Telefono</CFormLabel>
-            <CFormInput
-              v-model="postContribuyente.telefono"
-              id="validationCustom01"
-              required
-            />
+            <div class="col-3">
+              <CCol :md="10">
+                <CFormLabel for="validationCustom02">Codigo</CFormLabel>
+                <CFormInput
+                  v-model="postContribuyente.codigo"
+                  id="validationCustom02"
+                  required
+                />
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
 
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
+            <div class="col-3">
+              <CCol :md="10">
+                <CFormLabel for="validationCustom01">Fecha</CFormLabel>
+                <CFormInput
+                  v-model="postContribuyente.fecha"
+                  id="validationCustom01"
+                  type="date"
+                  required
+                />
 
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Fecha</CFormLabel>
-            <CFormInput
-              v-model="postContribuyente.fecha"
-              id="validationCustom01"
-              type="date"
-              required
-            />
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-6">
+              <CCol :md="6">
+                <CFormLabel for="validationCustom01"
+                  >Tipo Contribuyente</CFormLabel
+                >
+                <CFormSelect
+                  v-model="postContribuyente.tipo"
+                  id="validationCustom05"
+                >
+                  <option>Empresa</option>
+                  <option>Personal</option>
+                </CFormSelect>
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
 
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
+            <div class="col-3">
+              <CCol :md="10">
+                <CFormLabel for="validationCustom01">Tipo Documento</CFormLabel>
+                <CFormInput
+                  v-model="postContribuyente.tipoDcto"
+                  id="validationCustom01"
+                  required
+                />
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
+            <div class="col-3">
+              <CCol :md="10">
+                <CFormLabel for="validationCustom03">#Documento</CFormLabel>
+                <CFormInput
+                  v-model="postContribuyente.rncCedPas"
+                  id="validationCustom03"
+                  required
+                />
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
+          </div>
+          <hr />
+
+          <div class="row">
+            <div class="col-6">
+              <CCol :md="17">
+                <CFormLabel for="validationCustom03">Direccion</CFormLabel>
+                <CFormInput
+                  v-model="postContribuyente.direccion"
+                  id="validationCustom03"
+                  required
+                />
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
+            <div class="col-3">
+              <CCol :md="14">
+                <CFormLabel for="validationCustom04">Pais</CFormLabel>
+                <CFormInput
+                  v-model="postContribuyente.pais"
+                  id="validationCustom04"
+                >
+                </CFormInput>
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
+            <div class="col-3">
+              <CCol :md="14">
+                <CFormLabel for="validationCustom05">Ciudad</CFormLabel>
+                <CFormInput
+                  v-model="postContribuyente.ciudad"
+                  type="email"
+                  id="validationCustom05"
+                  required
+                />
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <CCol :md="7">
+                <CFormLabel for="validationCustom01">Telefono</CFormLabel>
+                <CFormInput
+                  v-model="postContribuyente.telefono"
+                  id="validationCustom01"
+                  required
+                />
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
+            <div class="col-6">
+              <CCol :md="7">
+                <CFormLabel for="validationCustom01">Fax</CFormLabel>
+                <CFormInput
+                  v-model="postContribuyente.fax"
+                  id="validationCustom01"
+                  required
+                />
+
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+              <CCol :md="7">
+                <CFormLabel for="validationCustom01">Contacto</CFormLabel>
+                <CFormInput
+                  v-model="postContribuyente.conctato"
+                  id="validationCustom01"
+                  required
+                />
+
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
+
+            <div class="col-6">
+              <CCol :md="17">
+                <CFormLabel for="validationCustom01">Email</CFormLabel>
+                <CFormInput
+                  v-model="postContribuyente.email"
+                  id="validationCustom01"
+                  required
+                />
+
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
+          </div>
 
           <CCol :md="4">
             <CFormLabel for="validationCustom01">Estatus</CFormLabel>
@@ -198,53 +297,6 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
 
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Tipo</CFormLabel>
-            <CFormSelect
-              v-model="postContribuyente.tipo"
-              id="validationCustom05"
-            >
-              <option>Empresa</option>
-              <option>Personal</option>
-            </CFormSelect>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">TipoDcto</CFormLabel>
-            <CFormInput
-              v-model="postContribuyente.tipoDcto"
-              id="validationCustom01"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Fax</CFormLabel>
-            <CFormInput
-              v-model="postContribuyente.fax"
-              id="validationCustom01"
-              required
-            />
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Recomienda</CFormLabel>
-            <CFormInput
-              v-model="postContribuyente.recomienda"
-              id="validationCustom01"
-              required
-            />
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
           <div class="modal-footer">
             <button
               type="button"
@@ -286,6 +338,7 @@ export default {
     return {
       postContribuyente: {
         id: 0,
+        codigo: 0,
         variacion: 0,
         ciudad: null,
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
@@ -303,23 +356,20 @@ export default {
         telefono1: null,
         tipo: null,
         tipoDcto: null,
+        nombre: null,
       },
 
       validatedCustom01: null,
       lgDemo: false,
       columns: [
-        { key: 'pais', label: 'pais', _style: { width: '40%' } },
-        { key: 'ciudad', label: 'ciudad', _style: { width: '40%' } },
-        { key: 'direccion', label: 'Direccion', _style: { width: '40%' } },
-        { key: 'conctato', label: 'Conctato', _style: { width: '40%' } },
-        { key: 'email', label: 'Email', _style: { width: '40%' } },
-        { key: 'telefono', label: 'Telefono', _style: { width: '40%' } },
-        { key: 'fecha', label: 'Fecha', _style: { width: '40%' } },
-        { key: 'estatus', label: 'Estatus', _style: { width: '40%' } },
-        { key: 'tipoDcto', label: 'TipoDcto', _style: { width: '40%' } },
-        { key: 'fax', label: 'Fax', _style: { width: '40%' } },
-        { key: 'recomienda', label: 'Recomienda', _style: { width: '40%' } },
-        { key: 'tipo', label: 'Tipo', _style: { width: '40%' } },
+        { key: 'nombre', label: 'Nombre', _style: { width: '15%' } },
+        { key: 'codigo', label: 'Codigo', _style: { width: '8%' } },
+        { key: 'tipoDcto', label: 'Documento', _style: { width: '10%' } },
+        { key: 'direccion', label: 'Direccion', _style: { width: '30%' } },
+        { key: 'telefono', label: 'Telefono', _style: { width: '10%' } },
+        { key: 'fecha', label: 'Fecha Reg.', _style: { width: '10%' } },
+        { key: 'tipo', label: 'Tipo', _style: { width: '10%' } },
+        { key: 'estatus', label: 'Estatus', _style: { width: '10%' } },
         {
           key: 'show_details',
           label: '',
@@ -372,20 +422,12 @@ export default {
             this.postContribuyente = {
               id: 0,
               variacion: 0,
-              ciudad: null,
               ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-              conctato: null,
+              nombre: null,
               direccion: null,
-              email: null,
               estatus: null,
-              fax: null,
               fecha: new Date(Date.now()),
-              pais: null,
-              mensual: 0,
-              recomienda: 0,
-              rncCedPas: null,
               telefono: null,
-              telefono1: null,
               tipo: null,
               tipoDcto: null,
             }
@@ -401,20 +443,12 @@ export default {
         ;(this.postContribuyente = {
           id: 0,
           variacion: 0,
-          ciudad: null,
           ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-          conctato: null,
+          nombre: null,
           direccion: null,
-          email: null,
           estatus: null,
-          fax: null,
           fecha: new Date(Date.now()),
-          pais: null,
-          mensual: 0,
-          recomienda: 0,
-          rncCedPas: null,
           telefono: null,
-          telefono1: null,
           tipo: null,
           tipoDcto: null,
         }),
