@@ -12,6 +12,7 @@ class Ejecucion {
         return http.get(`Beneficiarios/${id}`)
     }
 
+    
     getAnioFiscal() {
         return http.get('AnioFiscal')
     }
