@@ -41,7 +41,7 @@
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
-    <template #show_details="{ item, index }">
+    <template #show_details="{ item }">
       <td class="py-1">
         <CButton
           class="mt-1"
@@ -52,18 +52,6 @@
           @click="toggleDetails(item)"
         >
           {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
-        </CButton>
-      </td>
-      <td class="py-1">
-        <CButton
-          class="mt-1"
-          color="danger"
-          variant="outline"
-          square
-          size="sm"
-          @click="deleteItem(item)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
         </CButton>
       </td>
     </template>
@@ -208,7 +196,15 @@ export default {
         })
         setTimeout(this.AreaTrabajo, 500)
       } else {
-        this.addAreaTrabajo(this.postAreaTrabajo)
+        Api.postAreaTrabajo(this.postAreaTrabajo).then((response) => {
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+        })
         //const form = event.currentTarget
         this.lgDemo = true
         setTimeout(this.AreaTrabajo, 500)

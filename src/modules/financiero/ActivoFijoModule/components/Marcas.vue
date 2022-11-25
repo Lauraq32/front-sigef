@@ -216,7 +216,15 @@ export default {
         })
         setTimeout(this.getMarcas, 500)
       } else {
-        this.addMarcas(this.postMarcas)
+        Api.postMarca(this.postMarcas).then((response) => {
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+        })
         //const form = event.currentTarget
         this.lgDemo = true
         setTimeout(this.getMarcas, 500)

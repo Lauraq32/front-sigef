@@ -136,12 +136,6 @@ export default {
         id: 0,
         nombre: null,
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-        ayuntamiento: {
-          id: 0,
-          secuencial: 0,
-          codigo: null,
-          descripcion: null,
-        },
       },
       columns: [
         { key: 'id', label: 'id', _style: { width: '40%' } },
@@ -225,36 +219,32 @@ export default {
             showConfirmButton: false,
             timer: 1500,
           })
-          setTimeout(this.getSectore, 500)
+          setTimeout(this.getProgramas, 500)
           this.postSectores = {
             id: 0,
             nombre: null,
             variacion: 0,
-            ayuntamientoId: 0,
-            ayuntamiento: {
-              id: 0,
-              secuencial: 0,
-              codigo: null,
-              descripcion: null,
-            },
+            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
           }
         })
         setTimeout(this.getSectore, 500)
       } else {
-        this.addSectores(this.postSectores)
+        Api.postSectores(this.postSectores).then((response) => {
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+        })
         //const form = event.currentTarget
         this.lgDemo = true
         setTimeout(this.getSectore, 500)
         ;(this.postSectores = {
           id: 0,
           nombre: null,
-          ayuntamientoId: 0,
-          ayuntamiento: {
-            id: 0,
-            secuencial: 0,
-            codigo: null,
-            descripcion: null,
-          },
+          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         }),
           (this.validatedCustom01 = false)
         event.preventDefault()

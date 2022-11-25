@@ -285,7 +285,15 @@ export default {
         })
         setTimeout(this.getConduce, 500)
       } else {
-        this.addConduce(this.postConduce)
+        Api.postConduce(this.postConduce).then((response) => {
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+        })
         //const form = event.currentTarget
         this.lgDemo = true
         setTimeout(this.getConduce, 500)
