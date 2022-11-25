@@ -9,6 +9,8 @@ import DocsCallout from '@/components/DocsCallout'
 import DocsExample from '@/components/DocsExample'
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import SimpleTypeahead from 'vue3-simple-typeahead';
+import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css';
 
 import { createPinia } from 'pinia'
 
@@ -24,5 +26,6 @@ app.component('CIcon', CIcon)
 app.component('DocsCallout', DocsCallout)
 app.component('DocsExample', DocsExample)
 app.use(VueSweetalert2);
+app.use(SimpleTypeahead);
 
 app.mount('#app')

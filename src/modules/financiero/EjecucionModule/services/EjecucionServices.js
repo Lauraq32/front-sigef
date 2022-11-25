@@ -24,6 +24,10 @@ class Ejecucion {
         return http.get('Sector')
     }
 
+    getContribuyente() {
+        return http.get('Contribuyente')
+    }
+
     getSectorbyid(id) {
         return http.get(`Sector/${id}`)
     }

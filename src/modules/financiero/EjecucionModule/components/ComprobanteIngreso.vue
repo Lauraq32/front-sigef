@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <h3 class="text-center">Comprobantes de ingresos</h3>
   <hr />
   <div>
@@ -125,16 +125,23 @@
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <CCol :md="4">
+          <CCol :md="2">
             <CFormLabel for="validationCustom04">Contribuyente</CFormLabel>
-            <CFormInput
-              v-model="ingresoPost.contribuyenteId"
-              id="validationCustom04"
-            >
-            </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+            <vue3-simple-typeahead class="form-control"
+            v-model="ingresoPost.contribuyenteId"
+            id="validationCustom04"
+            placeholder="Escriba Aqui..."
+            :items="contribuyentesName"
+            :minInputLength="1"
+            :itemProjection="itemProjectionFunction"
+            @selectItem="selectItemEventHandler"
+            @onInput="onInputEventHandler"
+            @onFocus="onFocusEventHandler"
+            @onBlur="onBlurEventHandler"
+          >
+          </vue3-simple-typeahead>
           </CCol>
+         
           <hr />
           <CCol :md="11">
             <CFormLabel for="validationCustom04">Detalle</CFormLabel>
@@ -314,7 +321,7 @@
               <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
             </td>
           </template>
-           Borre el index de aquí
+          Borre el index de aquí
           <template #show_details="{ item }">
             <td class="py-2">
               <CButton
@@ -345,12 +352,13 @@
             </CCollapse>
           </template>
         </CSmartTable>
+        <h5>Total del Comprobante: {{ formatPrice(totales) }}</h5>
       </CCardBody>
     </CModalBody>
   </CModal>
-</template> -->
+</template>
 
-<template>
+<!-- <template>
   <h3 class="text-center">Comprobante de Ingreso</h3>
   <hr />
   <div>
@@ -674,7 +682,7 @@
       </CCardBody>
     </CModalBody>
   </CModal>
-</template>
+</template> -->
 
 <script>
 import { useRegistroStore } from '../store/Ejecucion/registroIngreso'
@@ -685,14 +693,21 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import axios from 'axios'
 import Api from '../services/EjecucionServices'
 import { mapStores, mapActions, mapState } from 'pinia'
+import { ref } from 'vue'
+import SimpleTypeahead from 'vue3-simple-typeahead'
+import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
+
 export default {
   components: {
     CSmartTable,
     CModal,
+    SimpleTypeahead,
   },
 
   data: () => {
     return {
+      contribuyentesList: [],
+      contribuyentesName: [],
       totales: null,
       id: null,
       validatedCustom01: null,
@@ -719,7 +734,7 @@ export default {
         anioFiscalId: localStorage.getItem('ano'),
         numeroComprobante: 0,
         compIngresosId: '',
-        etapa: '',
+        etapa: 'INGRESOS',
         contribuyenteId: 0,
         detalle: '',
         fecha: new Date(Date.now()),
@@ -730,18 +745,18 @@ export default {
         {
           key: 'numeroComprobante',
           label: '#Comp',
-          _style: { width: '10%' },
+          _style: { width: '5%' },
         },
 
-        { key: 'fecha', label: 'Fecha', _style: { width: '20%' } },
-        { key: 'etapa', label: 'Etapa', _style: { width: '10%' } },
-        { key: 'compIngresosId', label: 'Recibo', _style: { width: '10%' } },
+        { key: 'fecha', label: 'Fecha', _style: { width: '5%' } },
+        { key: 'etapa', label: 'Etapa', _style: { width: '8%' } },
+        { key: 'compIngresosId', label: 'Recibo', _style: { width: '5%' } },
         {
           key: 'contribuyenteId',
           label: 'Contribuyente',
           _style: { width: '10%' },
         },
-        { key: 'detalle', label: 'Detalle', _style: { width: '25%' } },
+        { key: 'detalle', label: 'Detalle', _style: { width: '20%' } },
         { key: 'totalValor', label: 'Valor', _style: { width: '10%' } },
         {
           key: 'show_details',
@@ -800,18 +815,34 @@ export default {
     ...mapState(useEjecucionIngresoStore, ['ingresosList']),
   },
   methods: {
-    formatDate(fecha){
-      return new Date(fecha).toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
+    formatDate(fecha) {
+      return new Date(fecha).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      })
     },
     ...mapActions(useEjecucionIngresoStore, [
       'addIngresos',
       'getIngresos',
       'addIngresoDetalle',
     ]),
+    getContribuyentes() {
+      Api.getContribuyente().then((response) => {
+        this.contribuyentesList = response.data.data
+        this.contribuyentesList.map((contribuyente) => {
+          this.contribuyentesName.push(
+            `${contribuyente.id}-${contribuyente.pais}`,
+          )
+          console.log(this.contribuyentesName)
+        })
+
+        console.log(this.contribuyentesList)
+      })
+    },
+    selectItemEventHandler(id) {
+      this.ingresoPost.contribuyenteId = id.split('-')[0]
+    },
     formatPrice(value) {
       let val = (value / 1).toFixed(2).replace('.', '.')
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -824,8 +855,8 @@ export default {
       }
       this.validatedCustom01 = true
     },
-    getTotalIngreso(id){
-      Api.getComprobanteIngresoTotal(id).then(response => {
+    getTotalIngreso(id) {
+      Api.getComprobanteIngresoTotal(id).then((response) => {
         this.totales = response.data.data.totalValor
       })
     },
@@ -854,7 +885,7 @@ export default {
           })
       } else {
         this.addIngresos(this.ingresoPost)
-        setTimeout(this.getIngresos,500)
+        setTimeout(this.getIngresos, 500)
         Swal.fire({
           position: 'top-end',
           icon: 'success',
@@ -870,7 +901,7 @@ export default {
     GuardarDetalle() {
       this.addIngresoDetalle(this.detalleRegistroPost)
       //this.toggleDetails1(this.id)
-      setTimeout(this.toggleDetails1(this.id),500)
+      setTimeout(this.toggleDetails1(this.id), 500)
       Swal.fire({
         position: 'top-end',
         icon: 'success',
@@ -917,9 +948,7 @@ export default {
           response.data.data.detalleRegistroIngresos
         console.log(response.data)
       }),
-      
-
-      this.lgDemo = true
+        (this.lgDemo = true)
     },
     getClasificador() {
       Api.getIngresoClasificadorById(
@@ -944,6 +973,8 @@ export default {
 
   mounted() {
     this.getIngresos()
+    this.getContribuyentes()
   },
 }
-</script> -->
+</script>
+-->
