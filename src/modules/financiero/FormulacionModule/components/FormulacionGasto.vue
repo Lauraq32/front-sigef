@@ -1069,7 +1069,7 @@ export default {
         // this.detallePost.ctgFuncionId = item.ctgFuncionId
         this.post.mestprogId = `${this.post.pnap}${this.post.programa}${this.post.proyecto}${this.post.actControl}`
         this.detallePresGastos = response.data.data.detallePresGastos
-
+       
         //console.log(getGasto.value.data)
         //GastosListDos.value = response.data.data
       })
