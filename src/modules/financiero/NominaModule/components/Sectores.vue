@@ -225,7 +225,7 @@ export default {
             showConfirmButton: false,
             timer: 1500,
           })
-          this.getSectore()
+          setTimeout(this.getSectore, 500)
           this.postSectores = {
             id: 0,
             nombre: null,
@@ -239,12 +239,12 @@ export default {
             },
           }
         })
-        this.getSectore()
+        setTimeout(this.getSectore, 500)
       } else {
         this.addSectores(this.postSectores)
         //const form = event.currentTarget
         this.lgDemo = true
-        this.getSectore()
+        setTimeout(this.getSectore, 500)
         ;(this.postSectores = {
           id: 0,
           nombre: null,
@@ -259,7 +259,7 @@ export default {
           (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
-        this.getSectore()
+        setTimeout(this.getSectore, 500)
       }
     },
     deleteSec(item) {

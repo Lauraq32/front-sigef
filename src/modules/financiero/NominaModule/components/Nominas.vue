@@ -810,7 +810,7 @@ export default {
             showConfirmButton: false,
             timer: 1500,
           })
-          this.getNomina()
+          setTimeout(this.getNomina, 500)
           this.postNomina = {
             anioFiscalId: parseInt(localStorage.getItem('ano')),
             ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
@@ -857,12 +857,12 @@ export default {
             variacion: 0,
           }
         })
-        this.getNomina()
+        setTimeout(this.getNomina, 500)
       } else {
         this.addNomina(this.postNomina)
         //const form = event.currentTarget
         this.lgDemo = true
-        this.getNomina()
+        setTimeout(this.getNomina, 500)
         ;(this.postNomina = {
           anioFiscalId: parseInt(localStorage.getItem('ano')),
           ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
@@ -911,7 +911,7 @@ export default {
           (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
-        this.getNomina()
+        setTimeout(this.getNomina, 500)
       }
     },
     handleSubmitCustom01(event) {

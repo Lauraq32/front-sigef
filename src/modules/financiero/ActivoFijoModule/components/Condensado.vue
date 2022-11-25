@@ -273,7 +273,7 @@ export default {
             showConfirmButton: false,
             timer: 1500,
           })
-          this.getConduce()
+          setTimeout(this.getConduce, 500)
           this.postConduce = {
             fecha: new Date(Date.now()),
             motivo: null,
@@ -283,12 +283,12 @@ export default {
             estatus: true,
           }
         })
-        this.getConduce()
+        setTimeout(this.getConduce, 500)
       } else {
         this.addConduce(this.postConduce)
         //const form = event.currentTarget
         this.lgDemo = true
-        this.getConduce()
+        setTimeout(this.getConduce, 500)
         ;(this.postConduce = {
           fecha: new Date(Date.now()),
           motivo: null,
@@ -300,7 +300,7 @@ export default {
           (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
-        this.getConduce()
+        setTimeout(this.getConduce, 500)
       }
     },
   },
