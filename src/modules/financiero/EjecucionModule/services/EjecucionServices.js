@@ -40,8 +40,8 @@ class Ejecucion {
         return http.get(`RegistroIngreso/Detalle/${id}?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
     }
 
-    getComprobanteIngresoTotal() {
-        return http.get(`RegistroIngreso/Totales?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
+    getComprobanteIngresoTotal(id) {
+        return http.get(`RegistroIngreso/Totales?id=${id}&anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
     }
 
     getIngresoClasificadorById(id) {
