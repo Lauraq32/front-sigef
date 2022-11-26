@@ -13,6 +13,9 @@
         >Agregar</CButton
       >
     </div>
+    <div class="d-inline p-2">
+      <CButton color="info">Imprimir Comprobante</CButton>
+    </div>
   </div>
   <hr />
   <CSmartTable
@@ -88,114 +91,170 @@
           @submit="handleSubmitCustom01"
         >
           <div class="row">
-            <div class="col-4">
-              <CCol :md="17">
-                <CFormLabel for="validationCustom01">Comp No:</CFormLabel>
-                <CFormInput id="validationCustom01" required />
+            <div class="col-6">
+              <div class="col-12">
+                <div class="row">
+                  <CCol :md="12">
+                    <CFormLabel for="validationCustom01">Comp No:</CFormLabel>
+                    <CFormInput id="validationCustom01" required />
 
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-              <CCol :md="17">
-                <CFormLabel for="validationCustom04">Fecha</CFormLabel>
-                <CFormInput type="date" id="validationCustom04"> </CFormInput>
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-              <CCol :md="17">
-                <CFormLabel for="validationCustom02">Status</CFormLabel>
-                <CFormInput id="validationCustom02" required />
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-              <CCol :md="17">
-                <CFormLabel for="validationCustom05">Etapa</CFormLabel>
-                <CFormSelect id="validationCustom05">
-                  <option>Devengado</option>
-                  <option>OPCION 2</option>
-                  <option>OPCION 3</option>
-                </CFormSelect>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-              <CCol :md="17">
-                <CFormLabel for="validationCustom01">Resolución No.</CFormLabel>
-                <CFormInput id="validationCustom01" required />
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                  <CCol :md="6">
+                    <CFormLabel for="validationCustom04">Fecha</CFormLabel>
+                    <CFormInput type="date" id="validationCustom04">
+                    </CFormInput>
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                  <CCol :md="6">
+                    <CFormLabel for="validationCustom02">Status</CFormLabel>
+                    <CFormInput id="validationCustom02" required />
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
 
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-              <CCol :md="17">
-                <CFormLabel for="validationCustom04">Fecha Resol.</CFormLabel>
-                <CFormInput type="date" id="validationCustom04"> </CFormInput>
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-              <CCol :md="17">
-                <CFormLabel for="validationCustom01">Comp. Modifica</CFormLabel>
-                <CFormInput id="validationCustom01" required />
+                  <CCol :md="6">
+                    <CFormLabel for="validationCustom05">Etapa</CFormLabel>
+                    <CFormSelect id="validationCustom05">
+                      <option>Devengado</option>
+                      <option>OPCION 2</option>
+                      <option>OPCION 3</option>
+                    </CFormSelect>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                  <CCol :md="6">
+                    <CFormLabel for="validationCustom01"
+                      >Resolución No.</CFormLabel
+                    >
+                    <CFormInput id="validationCustom01" required />
 
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-              <CCol :md="16">
-                <CFormLabel for="validationCustom05"> Forma/pago</CFormLabel>
-                <CFormSelect id="validationCustom05">
-                  <option>Cheque</option>
-                  <option>Caego Beneficiario</option>
-                  <option>Transferencia</option>
-                  <option>Revesar</option>
-                </CFormSelect>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+
+                  <CCol :md="12">
+                    <CFormLabel for="validationCustom04"
+                      >Fecha Resol.</CFormLabel
+                    >
+                    <CFormInput type="date" id="validationCustom04">
+                    </CFormInput>
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+
+                  <CCol :md="6">
+                    <CFormLabel for="validationCustom05">
+                      Forma/pago</CFormLabel
+                    >
+                    <CFormSelect id="validationCustom05">
+                      <option>Cheque</option>
+                      <option>Caego Beneficiario</option>
+                      <option>Transferencia</option>
+                      <option>Revesar</option>
+                    </CFormSelect>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                  <CCol :md="6">
+                    <CFormLabel for="validationCustom01"
+                      >Comp. Modifica</CFormLabel
+                    >
+                    <CFormInput id="validationCustom01" required />
+
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                </div>
+              </div>
             </div>
-            <div class="col-4 top">
-              <button
-                class="btn btn-primary btn-block mt-1"
-                v-on:click="getClasificador"
-              >
-                Buscar
-              </button>
+            <div class="col-6">
+              <div class="col-12">
+                <div class="row">
+
+                  <CCol :md="8">
+                    <CFormLabel for="validationCustom01">Beneficiario</CFormLabel>
+                    <CFormInput id="validationCustom01" required />
+  
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                  <CCol :md="4">
+                    <button
+                      type="button"
+                      class="btn btn-primary mt-4"
+                      data-bs-dismiss="modal"
+                    >
+                      Agregar
+                    </button>
+                  </CCol>
+  
+                  <CCol :md="8">
+                    <CFormLabel for="validationCustom01"
+                      >Concepto/auxiliar</CFormLabel
+                    >
+                    <CFormInput id="validationCustom01" required />
+  
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                  <CCol :md="4">
+                    <button
+                      type="button"
+                      class="btn btn-primary mt-4"
+                      data-bs-dismiss="modal"
+                    >
+                      Agregar
+                    </button>
+                  </CCol>
+  
+                  <CCol :md="12">
+                    <CFormLabel for="validationCustom01"
+                      >Cuenta de banco</CFormLabel
+                    >
+                    <CFormInput id="validationCustom01" required />
+  
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                  <CCol :md="12">
+                    <CFormLabel for="validationCustom01">Detalle</CFormLabel>
+                    <CFormTextarea
+                      id="exampleFormControlTextarea1"
+                      label="Example textarea"
+                      rows="3"
+                      text="Must be 8-20 words long."
+                    ></CFormTextarea>
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                </div>
+              </div>
             </div>
-            <div class="col-4">
-              <CCol :md="12">
-                <CFormLabel for="validationCustom01">Beneficiario</CFormLabel>
-                <CFormInput id="validationCustom01" required />
-
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-
-              <CCol :md="15">
-                <CFormLabel for="validationCustom01"
-                  >Concepto/auxiliar</CFormLabel
-                >
-                <CFormInput id="validationCustom01" required />
-
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-
-              <CCol :md="15">
-                <CFormLabel for="validationCustom01"
-                  >Cuenta de banco</CFormLabel
-                >
-                <CFormInput id="validationCustom01" required />
-
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-            </div>
-          </div>
-
-          <hr />
-          <div>
-            <CCol :md="12">
-              <CFormLabel for="validationCustom01">Detalle</CFormLabel>
-              <CFormInput id="validationCustom01" required />
-
-              <CFormFeedback valid> Exito! </CFormFeedback>
-              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-            </CCol>
           </div>
 
           <div class="modal-footer">
@@ -293,20 +352,25 @@ export default {
       validatedCustom01: null,
       lgDemo: false,
       columns: [
-        { key: 'pnap', label: 'pnap', _style: { width: '40%' } },
-        { key: 'control', label: 'control', _style: { width: '40%' } },
-        { key: 'funcion', label: 'funcion', _style: { width: '40%' } },
-        { key: 'numero', label: 'numero', _style: { width: '40%' } },
-        { key: 'obra', label: 'obra', _style: { width: '40%' } },
-        { key: 'presupuesto', label: 'presupuesto', _style: { width: '40%' } },
-        { key: 'programa', label: 'programa', _style: { width: '40%' } },
-        { key: 'proyecto', label: 'proyecto', _style: { width: '40%' } },
-        { key: 'tipo', label: 'tipo', _style: { width: '40%' } },
+        { key: 'Comp', label: 'Comp No', _style: { width: '10%' } },
+        { key: 'Fecha', label: 'Fecha', _style: { width: '10%' } },
+        { key: 'Etapa', label: 'Etapa', _style: { width: '10%' } },
+        { key: 'pago', label: 'Forma/Pago', _style: { width: '10%' } },
         {
-          key: 'unidadResponsable',
-          label: 'unidadResponsable',
-          _style: { width: '40%' },
+          key: 'Beneficiario',
+          label: 'Beneficiario',
+          _style: { width: '20%' },
         },
+        { key: 'banco', label: 'Cuenta de banco', _style: { width: '20%' } },
+        { key: 'total', label: 'Total Bruto', _style: { width: '20%' } },
+        {
+          key: 'retencion',
+          label: 'Total Retencion',
+          _style: { width: '20%' },
+        },
+        { key: 'neto', label: 'Valor Neto', _style: { width: '40%' } },
+        { key: 'ck', label: 'No. CK/CR', _style: { width: '40%' } },
+
         {
           key: 'show_details',
           label: '',
@@ -319,8 +383,8 @@ export default {
 
       columns2: [
         {
-          key: 'Estructura',
-          label: 'Estructura',
+          key: 'Programa',
+          label: 'Programa',
           _style: { width: '40%' },
         },
         {
@@ -347,11 +411,7 @@ export default {
         { key: 'Sub_total', label: 'Sub-total', _style: { width: '40%' } },
         { key: 'Retencion', label: 'Retencion', _style: { width: '40%' } },
         { key: 'Valor_neto', label: 'Valor neto', _style: { width: '40%' } },
-        {
-          key: 'unidadResponsable',
-          label: 'unidadResponsable',
-          _style: { width: '40%' },
-        },
+     
         {
           key: 'show_details',
           label: '',
