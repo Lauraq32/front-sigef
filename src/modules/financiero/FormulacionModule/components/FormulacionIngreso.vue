@@ -128,7 +128,7 @@
             <label for="dni" style="font-weight:bold;margin-left: 12px;  margin-top: 7px;">Período</label>
           </div>
           <div class="col-6">
-            <input type="number" name="dni" id="dni" class="form-control" disabled>
+            <input type="number" name="dni" id="dni" v-model="anofiscal" class="form-control" disabled>
           </div>
         </div>
       </div>
@@ -146,6 +146,11 @@
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
+          <CCol :md="2">
+                <button class="btn btn-primary" style="margin-top: 32px" v-on:click="getClasificador">
+                  Buscar
+                </button>
+              </CCol>
           <CCol :md="4">
             <CFormLabel for="validationCustom02">Cta. Control</CFormLabel>
             <CFormInput
@@ -270,6 +275,7 @@ export default {
   },
   data: () => {
     return {
+      anofiscal:parseInt(localStorage.getItem('ano')),
       ctgFuenteId: true,
       ctgFuenteEspecificaId: true,
       ctgOrganismoFinanciadorId: true,

@@ -39,9 +39,9 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
-    <template #status="{ item }">
+    <template #fecha="{ item }">
       <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+        {{ formatDate(item.fecha) }}
       </td>
     </template>
     <template #show_details="{ item, index }">
@@ -51,9 +51,13 @@
           variant="outline"
           square
           size="sm"
-          @click="toggleDetails(item, index)"
+          @click="
+            () => {
+              lgDemo1 = true
+            }
+          "
         >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
+          {{ Boolean(item._toggled) ? 'Hide' : 'Detalle' }}
         </CButton>
       </td>
     </template>
@@ -139,9 +143,10 @@
                       v-model="postGasto.etapa"
                       id="validationCustom05"
                     >
-                      <option>Devengado</option>
-                      <option>OPCION 2</option>
-                      <option>OPCION 3</option>
+                      <option>DEVENGADO</option>
+                      <option>PAGADO</option>
+                      <option>COMPROMISO</option>
+                      <option>VARIACION</option>
                     </CFormSelect>
                     <CFormFeedback invalid>
                       Favor agregar el campo
@@ -201,7 +206,7 @@
                       >Comp. Modifica</CFormLabel
                     >
                     <CFormInput
-                      v-model="postGasto.nCheque"
+                      v-model="postGasto.nResolucion"
                       id="validationCustom01"
                       required
                     />
@@ -237,6 +242,7 @@
                       type="button"
                       class="btn btn-primary mt-4"
                       data-bs-dismiss="modal"
+                      @click="gotToBeneficiario"
                     >
                       Agregar
                     </button>
@@ -283,13 +289,39 @@
                     </CFormFeedback>
                   </CCol>
                   <CCol :md="12">
+                    <CFormLabel for="validationCustom01"
+                      >Total Retencion</CFormLabel
+                    >
+                    <CFormInput
+                      v-model="postGasto.totalRetenciones"
+                      id="validationCustom01"
+                      required
+                    />
+
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                  <CCol :md="12">
+                    <CFormLabel for="validationCustom01">Valor Neto</CFormLabel>
+                    <CFormInput
+                      v-model="postGasto.valorNeto"
+                      id="validationCustom01"
+                      required
+                    />
+
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                  <CCol :md="12">
                     <CFormLabel for="validationCustom01">Detalle</CFormLabel>
                     <CFormTextarea
                       v-model="postGasto.detalle"
                       id="exampleFormControlTextarea1"
-                      label="Example textarea"
                       rows="3"
-                      text="Must be 8-20 words long."
                     ></CFormTextarea>
                     <CFormFeedback valid> Exito! </CFormFeedback>
                     <CFormFeedback invalid>
@@ -309,7 +341,10 @@
             >
               Close
             </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="postCabecera">
+            <button
+              class="btn btn-info btn-block mt-1"
+              v-on:click="postCabecera"
+            >
               Guardar
             </button>
           </div>
@@ -381,11 +416,235 @@
       </CCardBody>
     </CModalBody>
   </CModal>
+  <CModal
+    size="xl"
+    :visible="lgDemo1"
+    @close="
+      () => {
+        lgDemo1 = false
+      }
+    "
+  >
+    <CModalHeader class="text-center">
+      <CModalTitle>Detalles de Comprobante de Gasto</CModalTitle>
+    </CModalHeader>
+    <CModalBody>
+      <CCardBody>
+        <CForm
+          class="row g-3 needs-validation"
+          novalidate
+          :validated="validatedCustom01"
+          @submit="handleSubmitCustom01"
+        >
+          <div class="row">
+            <div class="col-12">
+              <div class="col-12">
+                <div class="row">
+                  <CCol :md="6">
+                    <CFormLabel for="validationCustom01"
+                      >Programa o Proyecto</CFormLabel
+                    >
+                    <CFormInput
+                      v-model="postGastoDetalle.estProg"
+                      id="validationCustom01"
+                      required
+                    />
+
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                  <CCol :md="4">
+                    <CFormLabel for="validationCustom02"
+                      >Clasificador</CFormLabel
+                    >
+                    <CFormInput
+                      v-model="postGastoDetalle.ctgClasificadorId"
+                      id="validationCustom02"
+                      required
+                    />
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                  <CCol :md="2">
+                    <button
+                      class="btn btn-primary"
+                      style="margin-top: 32px"
+                      v-on:click="getClasificador"
+                    >
+                      Buscar
+                    </button>
+                  </CCol>
+                  <CCol :md="6">
+                    <CFormLabel for="validationCustom04">Denominacion</CFormLabel>
+                    <CFormInput id="validationCustom04"> </CFormInput>
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                  <CCol :md="6">
+                    <CFormLabel for="validationCustom01">Fuente</CFormLabel>
+                    <CFormInput
+                      v-model="postGastoDetalle.ctgFuenteId"
+                      id="validationCustom01"
+                      required
+                    />
+
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+
+                  <CCol :md="6">
+                    <CFormLabel for="validationCustom04"
+                      >Fte. Especifica</CFormLabel
+                    >
+                    <CFormInput
+                      v-model="postGastoDetalle.ctgFuenteEspecificaId"
+                      id="validationCustom04"
+                    >
+                    </CFormInput>
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+
+                  <CCol :md="6">
+                    <CFormLabel for="validationCustom05">
+                      Org. Financiador</CFormLabel
+                    >
+                    <CFormInput
+                      v-model="postGastoDetalle.ctgOrganismoFinanciadorId"
+                      id="validationCustom04"
+                    >
+                    </CFormInput>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                  <CCol :md="6">
+                    <CFormLabel for="validationCustom01"
+                      >Base Imposible</CFormLabel
+                    >
+                    <CFormInput
+                      v-model="postGastoDetalle.codBenefi"
+                      id="validationCustom01"
+                      required
+                    />
+
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                  <CCol :md="6">
+                    <CFormLabel for="validationCustom01"
+                      >Monto Bruto.</CFormLabel
+                    >
+                    <CFormInput
+                      v-model="postGastoDetalle.valorBruto"
+                      id="validationCustom01"
+                      required
+                    />
+
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                </div>
+              </div>
+            </div>
+           
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              class="btn btn-info btn-block mt-1"
+              v-on:click="postCabecera"
+            >
+              Guardar
+            </button>
+          </div>
+        </CForm>
+        <hr />
+        <CSmartTable
+          clickableRows
+          :tableProps="{
+            striped: false,
+            hover: true,
+          }"
+          :tableHeadProps="{}"
+          :activePage="1"
+          footer
+          header
+          :items="[]"
+          :columns="columns2"
+          columnFilter
+          tableFilter
+          cleaner
+          itemsPerPageSelect
+          :itemsPerPage="5"
+          columnSorter
+          :sorterValue="{ column: 'status', state: 'asc' }"
+          pagination
+        >
+          <template #status="{ item }">
+            <td>
+              <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+            </td>
+          </template>
+          <template #show_details="{ item, index }">
+            <td class="py-2">
+              <CButton
+                color="primary"
+                variant="outline"
+                square
+                size="sm"
+                @click="toggleDetails(item, index)"
+              >
+                {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
+              </CButton>
+            </td>
+          </template>
+          <template #details="{ item }">
+            <CCollapse :visible="this.details.includes(item._id)">
+              <CCardBody>
+                <h4>
+                  {{ item.username }}
+                </h4>
+                <p class="text-muted">User since: {{ item.registered }}</p>
+                <CButton size="sm" color="info" class="">
+                  User Settings
+                </CButton>
+                <CButton size="sm" color="danger" class="ml-1">
+                  Delete
+                </CButton>
+              </CCardBody>
+            </CCollapse>
+          </template>
+        </CSmartTable>
+      </CCardBody>
+    </CModalBody>
+  </CModal>
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/EjecucionServices'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 export default {
   components: {
     CSmartTable,
@@ -394,37 +653,55 @@ export default {
 
   data: () => {
     return {
-      cabeceraGasto:[],
+      cabeceraGasto: [],
       validatedCustom01: null,
       lgDemo: false,
+      lgDemo1: false,
       postGasto: {
         id: 0,
-        anioFiscalId: 1,
-        ayuntamientoId: 1,
+        anioFiscalId: parseInt(localStorage.getItem('ano')),
+        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         anioFiscal: null,
-        secuencialId: 'string',
-        numeroComprobante: 1,
-        detalle: 'string',
-        fecha: '2022-11-26T00:00:00',
-        etapa: 'DEVENGADO',
-        codBenefi: 5,
+        secuencialId: '',
+        numeroComprobante: 0,
+        detalle: '',
+        fecha: '',
+        etapa: '',
+        codBenefi: 0,
         destGasto: 0,
-        bancoId: 1,
-        nCheque: 'string',
-        totalBruto: 444.44,
-        valorNeto: 1000,
-        fechaResolucion: '2022-11-26T00:00:00',
-        nResolucion: 'string',
+        bancoId: 0,
+        nCheque: '',
+        totalBruto: 0,
+        valorNeto: 0,
+        fechaResolucion: '',
+        nResolucion: '',
         cantFactCXP: 0,
         totalCXP: 0,
         cantPGrupo: 0,
         totalPGrupo: 0,
         cantRetenci: 0,
-        totalRetenciones: 555.56,
+        totalRetenciones: 0,
         dtoInicial: 0,
         dtoFinal: 0,
         cantDocto: 0,
-        estatus: 's',
+        estatus: 'A',
+      },
+      postGastoDetalle: {
+        id: 0,
+        anioFiscalId: parseInt(localStorage.getItem('ano')),
+        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        secuenciaComprobante: 0,
+        fecha: 0,
+        bancoId: 0,
+        estProg: '',
+        ctgClasificadorId: '',
+        ctgFuenteId: '',
+        ctgFuenteEspecificaId: '',
+        ctgOrganismoFinanciadorId: '',
+        ctgFuncionId: '',
+        valorBruto: 0,
+        retenciones: 0,
+        neto: 0,
       },
       columns: [
         {
@@ -434,7 +711,7 @@ export default {
         },
         { key: 'fecha', label: 'Fecha', _style: { width: '10%' } },
         { key: 'etapa', label: 'Etapa', _style: { width: '10%' } },
-        { key: 'pago', label: 'Forma/Pago', _style: { width: '10%' } },
+        { key: 'nCheque', label: 'Forma/Pago', _style: { width: '10%' } },
         {
           key: 'codBenefi',
           label: 'Beneficiario',
@@ -462,34 +739,34 @@ export default {
 
       columns2: [
         {
-          key: 'Programa',
-          label: 'Programa',
+          key: 'estProg',
+          label: 'Estructura',
           _style: { width: '40%' },
         },
         {
-          key: 'Clasificador',
+          key: 'ctgClasificadorId',
           label: 'Clasificador',
           _style: { width: '40%' },
         },
         { key: 'Descripcion', label: 'Descripcion', _style: { width: '40%' } },
         {
-          key: 'Fuente_de_financiamiento',
+          key: 'ctgFuenteId',
           label: 'Fuente de financiamiento',
           _style: { width: '40%' },
         },
         {
-          key: 'Fuente_especifica',
+          key: 'ctgFuenteEspecificaId',
           label: 'Fuente especifica',
           _style: { width: '40%' },
         },
         {
-          key: 'Organismo_de_financiamiento',
+          key: 'ctgOrganismoFinanciadorId',
           label: 'Organismo de financiamiento',
           _style: { width: '40%' },
         },
         { key: 'Sub_total', label: 'Sub-total', _style: { width: '40%' } },
         { key: 'Retencion', label: 'Retencion', _style: { width: '40%' } },
-        { key: 'Valor_neto', label: 'Valor neto', _style: { width: '40%' } },
+        { key: 'valorBruto', label: 'Valor neto', _style: { width: '40%' } },
 
         {
           key: 'show_details',
@@ -504,24 +781,52 @@ export default {
     }
   },
   methods: {
+    formatDate(fecha) {
+      return new Date(fecha).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      })
+    },
+    gotToBeneficiario() {
+      this.$router.push({ path: '/Ejecucion/beneficiarios' })
+    },
     handleSubmitCustom01(event) {
       const form = event.currentTarget
       if (form.checkValidity() === false) {
         event.preventDefault()
         event.stopPropagation()
       }
-      
+
       this.validatedCustom01 = true
     },
-    postCabecera(data){
-      Api.postRegistroGasto(this.postGasto).then(response => {
+    postCabecera(data) {
+      Api.postRegistroGasto(this.postGasto).then((response) => {
         console.log(response.data.data)
       })
+      setTimeout(this.getCabecera, 500)
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        text: 'Datos agregados con exito',
+        title: 'Agregado',
+        showConfirmButton: false,
+        timer: 1500,
+      })
     },
-    getCabecera(){
-      Api.getRegistroGasto().then( response => {
+    getCabecera() {
+      Api.getRegistroGasto().then((response) => {
         console.log(response.data.data)
         this.cabeceraGasto = response.data.data
+      })
+    },
+
+    getClasificador() {
+      Api.getClasificador(this.postGastoDetalle.ctgClasificadorId).then((response) => {
+        console.log(response.data.data)
+        this.postGastoDetalle.nombre = response.data.data.nombre
+        //this.postGastoDetalle. = response.data.data.nombre
+
       })
     },
 
