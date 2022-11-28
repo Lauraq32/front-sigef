@@ -227,8 +227,8 @@
               v-model="postBeneficiario.estatus"
               id="validationCustom05"
             >
-              <option>Activo</option>
-              <option>Inactivo</option>
+              <option>A</option>
+              <option>I</option>
             </CFormSelect>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>

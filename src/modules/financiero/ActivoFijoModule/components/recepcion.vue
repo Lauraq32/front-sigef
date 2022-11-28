@@ -72,7 +72,7 @@
       <CCardBody>
         <CForm
           class="row g-3 needs-validation"
-          novalidate 
+          novalidate
           :validated="validatedCustom01"
           @submit="handleSubmitCustom01"
         >

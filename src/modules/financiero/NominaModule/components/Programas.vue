@@ -54,18 +54,6 @@
           {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
       </td>
-      <td class="py-1">
-        <CButton
-          class="mt-1"
-          color="danger"
-          variant="outline"
-          square
-          size="sm"
-          @click="deleteItem(item)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
-        </CButton>
-      </td>
     </template>
     <template #details="{ item }">
       <CCollapse :visible="this.details.includes(item._id)">
@@ -142,7 +130,6 @@
               v-on:click="submitForm"
               type="button"
               class="btn btn-primary"
-             
             >
               Guardar
             </button>
@@ -189,7 +176,6 @@ export default {
           label: 'Estructura Program.',
           _style: { width: '40%' },
         },
-        { key: 'Activo?', label: 'Activo?', _style: { width: '40%' } },
         {
           key: 'show_details',
           label: '',

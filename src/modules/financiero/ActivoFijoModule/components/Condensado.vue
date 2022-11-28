@@ -135,8 +135,8 @@
           <CCol :md="4">
             <CFormLabel for="validationCustom01">Estatus</CFormLabel>
             <CFormSelect v-model="postConduce.estatus" id="validationCustom05">
-              <option>Activo</option>
-              <option>No Activo</option>
+              <option>true</option>
+              <option>false</option>
             </CFormSelect>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -179,7 +179,7 @@ export default {
     return {
       postConduce: {
         secuencial: 0,
-        activoId: 0,
+        activoId: 1,
         fecha: new Date(Date.now()),
         motivo: null,
         enviadoA: null,
