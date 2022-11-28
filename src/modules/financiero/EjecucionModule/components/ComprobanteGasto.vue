@@ -28,7 +28,7 @@
     :activePage="1"
     footer
     header
-    :items="this.$store.state.Formulacion.proyecto"
+    :items="cabeceraGasto"
     :columns="columns"
     columnFilter
     tableFilter
@@ -385,6 +385,7 @@
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import Api from '../services/EjecucionServices'
 export default {
   components: {
     CSmartTable,
@@ -393,6 +394,7 @@ export default {
 
   data: () => {
     return {
+      cabeceraGasto:[],
       validatedCustom01: null,
       lgDemo: false,
       postGasto: {
@@ -508,8 +510,19 @@ export default {
         event.preventDefault()
         event.stopPropagation()
       }
+      Api.postRegistroGasto().then(response => {
+        console.log(response.data.data)
+      })
       this.validatedCustom01 = true
     },
+
+    getCabecera(){
+      Api.getRegistroGasto().then( response => {
+        console.log(response.data.data)
+        this.cabeceraGasto = response.data.data
+      })
+    },
+
     getBadge(status) {
       switch (status) {
         case 'Active':
