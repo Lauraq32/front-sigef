@@ -309,7 +309,7 @@
             >
               Close
             </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+            <button class="btn btn-info btn-block mt-1" v-on:click="postCabecera">
               Guardar
             </button>
           </div>
@@ -510,12 +510,14 @@ export default {
         event.preventDefault()
         event.stopPropagation()
       }
-      Api.postRegistroGasto().then(response => {
-        console.log(response.data.data)
-      })
+      
       this.validatedCustom01 = true
     },
-
+    postCabecera(data){
+      Api.postRegistroGasto(this.postGasto).then(response => {
+        console.log(response.data.data)
+      })
+    },
     getCabecera(){
       Api.getRegistroGasto().then( response => {
         console.log(response.data.data)
@@ -546,7 +548,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('Formulacion/getProyectos')
+    this.getCabecera()
   },
 }
 </script>

@@ -91,10 +91,10 @@ class Ejecucion {
 
 
     getRegistroGasto(){
-        return http.get(`RegistroGasto?${id}?anio=${anioFiscalId}&ayuntamientoId=${ayuntamientoId}`)
+        return http.get(`RegistroGasto?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
     }
-    postRegistroGasto(){
-        return http.post(`RegistroGasto`)
+    postRegistroGasto(post){
+        return http.post(`RegistroGasto`,post)
     }
 
 }
