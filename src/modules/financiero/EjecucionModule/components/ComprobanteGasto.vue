@@ -96,7 +96,11 @@
                 <div class="row">
                   <CCol :md="12">
                     <CFormLabel for="validationCustom01">Comp No:</CFormLabel>
-                    <CFormInput id="validationCustom01" required />
+                    <CFormInput
+                      v-model="postGasto.numeroComprobante"
+                      id="validationCustom01"
+                      required
+                    />
 
                     <CFormFeedback valid> Exito! </CFormFeedback>
                     <CFormFeedback invalid>
@@ -105,7 +109,11 @@
                   </CCol>
                   <CCol :md="6">
                     <CFormLabel for="validationCustom04">Fecha</CFormLabel>
-                    <CFormInput type="date" id="validationCustom04">
+                    <CFormInput
+                      v-model="postGasto.fecha"
+                      type="date"
+                      id="validationCustom04"
+                    >
                     </CFormInput>
                     <CFormFeedback valid> Exito! </CFormFeedback>
                     <CFormFeedback invalid>
@@ -113,8 +121,12 @@
                     </CFormFeedback>
                   </CCol>
                   <CCol :md="6">
-                    <CFormLabel for="validationCustom02">Status</CFormLabel>
-                    <CFormInput id="validationCustom02" required />
+                    <CFormLabel for="validationCustom02">Estatus</CFormLabel>
+                    <CFormInput
+                      v-model="postGasto.estatus"
+                      id="validationCustom02"
+                      required
+                    />
                     <CFormFeedback valid> Exito! </CFormFeedback>
                     <CFormFeedback invalid>
                       Favor agregar el campo
@@ -123,7 +135,10 @@
 
                   <CCol :md="6">
                     <CFormLabel for="validationCustom05">Etapa</CFormLabel>
-                    <CFormSelect id="validationCustom05">
+                    <CFormSelect
+                      v-model="postGasto.etapa"
+                      id="validationCustom05"
+                    >
                       <option>Devengado</option>
                       <option>OPCION 2</option>
                       <option>OPCION 3</option>
@@ -136,7 +151,11 @@
                     <CFormLabel for="validationCustom01"
                       >Resolución No.</CFormLabel
                     >
-                    <CFormInput id="validationCustom01" required />
+                    <CFormInput
+                      v-model="postGasto.nResolucion"
+                      id="validationCustom01"
+                      required
+                    />
 
                     <CFormFeedback valid> Exito! </CFormFeedback>
                     <CFormFeedback invalid>
@@ -148,7 +167,11 @@
                     <CFormLabel for="validationCustom04"
                       >Fecha Resol.</CFormLabel
                     >
-                    <CFormInput type="date" id="validationCustom04">
+                    <CFormInput
+                      v-model="postGasto.fechaResolucion"
+                      type="date"
+                      id="validationCustom04"
+                    >
                     </CFormInput>
                     <CFormFeedback valid> Exito! </CFormFeedback>
                     <CFormFeedback invalid>
@@ -160,7 +183,10 @@
                     <CFormLabel for="validationCustom05">
                       Forma/pago</CFormLabel
                     >
-                    <CFormSelect id="validationCustom05">
+                    <CFormSelect
+                      v-model="postGasto.nCheque"
+                      id="validationCustom05"
+                    >
                       <option>Cheque</option>
                       <option>Caego Beneficiario</option>
                       <option>Transferencia</option>
@@ -174,7 +200,11 @@
                     <CFormLabel for="validationCustom01"
                       >Comp. Modifica</CFormLabel
                     >
-                    <CFormInput id="validationCustom01" required />
+                    <CFormInput
+                      v-model="postGasto.nCheque"
+                      id="validationCustom01"
+                      required
+                    />
 
                     <CFormFeedback valid> Exito! </CFormFeedback>
                     <CFormFeedback invalid>
@@ -187,11 +217,16 @@
             <div class="col-6">
               <div class="col-12">
                 <div class="row">
-
                   <CCol :md="8">
-                    <CFormLabel for="validationCustom01">Beneficiario</CFormLabel>
-                    <CFormInput id="validationCustom01" required />
-  
+                    <CFormLabel for="validationCustom01"
+                      >Beneficiario</CFormLabel
+                    >
+                    <CFormInput
+                      v-model="postGasto.codBenefi"
+                      id="validationCustom01"
+                      required
+                    />
+
                     <CFormFeedback valid> Exito! </CFormFeedback>
                     <CFormFeedback invalid>
                       Favor agregar el campo
@@ -206,13 +241,17 @@
                       Agregar
                     </button>
                   </CCol>
-  
+
                   <CCol :md="8">
                     <CFormLabel for="validationCustom01"
                       >Concepto/auxiliar</CFormLabel
                     >
-                    <CFormInput id="validationCustom01" required />
-  
+                    <CFormInput
+                      v-model="postGasto.codBenefi"
+                      id="validationCustom01"
+                      required
+                    />
+
                     <CFormFeedback valid> Exito! </CFormFeedback>
                     <CFormFeedback invalid>
                       Favor agregar el campo
@@ -227,13 +266,17 @@
                       Agregar
                     </button>
                   </CCol>
-  
+
                   <CCol :md="12">
                     <CFormLabel for="validationCustom01"
                       >Cuenta de banco</CFormLabel
                     >
-                    <CFormInput id="validationCustom01" required />
-  
+                    <CFormInput
+                      v-model="postGasto.bancoId"
+                      id="validationCustom01"
+                      required
+                    />
+
                     <CFormFeedback valid> Exito! </CFormFeedback>
                     <CFormFeedback invalid>
                       Favor agregar el campo
@@ -242,6 +285,7 @@
                   <CCol :md="12">
                     <CFormLabel for="validationCustom01">Detalle</CFormLabel>
                     <CFormTextarea
+                      v-model="postGasto.detalle"
                       id="exampleFormControlTextarea1"
                       label="Example textarea"
                       rows="3"
@@ -351,24 +395,57 @@ export default {
     return {
       validatedCustom01: null,
       lgDemo: false,
+      postGasto: {
+        id: 0,
+        anioFiscalId: 1,
+        ayuntamientoId: 1,
+        anioFiscal: null,
+        secuencialId: 'string',
+        numeroComprobante: 1,
+        detalle: 'string',
+        fecha: '2022-11-26T00:00:00',
+        etapa: 'DEVENGADO',
+        codBenefi: 5,
+        destGasto: 0,
+        bancoId: 1,
+        nCheque: 'string',
+        totalBruto: 444.44,
+        valorNeto: 1000,
+        fechaResolucion: '2022-11-26T00:00:00',
+        nResolucion: 'string',
+        cantFactCXP: 0,
+        totalCXP: 0,
+        cantPGrupo: 0,
+        totalPGrupo: 0,
+        cantRetenci: 0,
+        totalRetenciones: 555.56,
+        dtoInicial: 0,
+        dtoFinal: 0,
+        cantDocto: 0,
+        estatus: 's',
+      },
       columns: [
-        { key: 'Comp', label: 'Comp No', _style: { width: '10%' } },
-        { key: 'Fecha', label: 'Fecha', _style: { width: '10%' } },
-        { key: 'Etapa', label: 'Etapa', _style: { width: '10%' } },
+        {
+          key: 'numeroComprobante',
+          label: 'Comp No',
+          _style: { width: '10%' },
+        },
+        { key: 'fecha', label: 'Fecha', _style: { width: '10%' } },
+        { key: 'etapa', label: 'Etapa', _style: { width: '10%' } },
         { key: 'pago', label: 'Forma/Pago', _style: { width: '10%' } },
         {
-          key: 'Beneficiario',
+          key: 'codBenefi',
           label: 'Beneficiario',
           _style: { width: '20%' },
         },
-        { key: 'banco', label: 'Cuenta de banco', _style: { width: '20%' } },
-        { key: 'total', label: 'Total Bruto', _style: { width: '20%' } },
+        { key: 'bancoId', label: 'Cuenta de banco', _style: { width: '20%' } },
+        { key: 'totalBruto', label: 'Total Bruto', _style: { width: '20%' } },
         {
-          key: 'retencion',
+          key: 'totalRetenciones',
           label: 'Total Retencion',
           _style: { width: '20%' },
         },
-        { key: 'neto', label: 'Valor Neto', _style: { width: '40%' } },
+        { key: 'valorNeto', label: 'Valor Neto', _style: { width: '40%' } },
         { key: 'ck', label: 'No. CK/CR', _style: { width: '40%' } },
 
         {
@@ -411,7 +488,7 @@ export default {
         { key: 'Sub_total', label: 'Sub-total', _style: { width: '40%' } },
         { key: 'Retencion', label: 'Retencion', _style: { width: '40%' } },
         { key: 'Valor_neto', label: 'Valor neto', _style: { width: '40%' } },
-     
+
         {
           key: 'show_details',
           label: '',
