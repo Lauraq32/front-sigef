@@ -77,6 +77,10 @@ class Ejecucion {
         return http.post('RegistroIngreso/Detalle', data)
     }
 
+    postGastoDetalle(data) {
+        return http.post('RegistroGasto/Detalle', data)
+    }
+
 
 
     //put

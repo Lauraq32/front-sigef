@@ -109,14 +109,6 @@
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom05">Está activo?</CFormLabel>
-            <CFormSelect id="validationCustom05">
-              <option>Si</option>
-              <option>No</option>
-            </CFormSelect>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
           <div class="modal-footer">
             <button
               type="button"
