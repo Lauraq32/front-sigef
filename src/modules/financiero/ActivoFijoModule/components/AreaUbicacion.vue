@@ -137,6 +137,7 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { mapActions } from 'pinia'
 import Api from '../services/ActivoFijoServices'
 export default {
@@ -205,6 +206,14 @@ export default {
       } else {
         setTimeout(this.getArea, 500)
         this.addArea(this.postAreaUbicacion)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          text: 'Datos agregados con exito',
+          title: 'Agregado',
+          showConfirmButton: false,
+          timer: 1500,
+        })
         //const form = event.currentTarget
         this.lgDemo = true
         setTimeout(this.getArea, 500)
