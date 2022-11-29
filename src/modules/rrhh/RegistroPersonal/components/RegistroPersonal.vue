@@ -49,7 +49,7 @@
     }
   ">
     <CModalHeader>
-      <CModalTitle>Sectores</CModalTitle>
+      <CModalTitle>Formulario de empleados</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <div class="row">
@@ -63,7 +63,7 @@
               General
             </CNavLink>
           </CNavItem>
-          <CNavItem>
+          <!-- <CNavItem>
             <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 2" @click="
               () => {
                 tabPaneActiveKey = 2
@@ -71,7 +71,7 @@
             ">
               Otros ingresos
             </CNavLink>
-          </CNavItem>
+          </CNavItem> -->
           <CNavItem>
             <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 3" @click="
               () => {
@@ -90,7 +90,7 @@
               Historial clínico
             </CNavLink>
           </CNavItem>
-          <CNavItem>
+          <!-- <CNavItem>
             <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 5" @click="
               () => {
                 tabPaneActiveKey = 5
@@ -98,7 +98,7 @@
             ">
               Acumulado anual
             </CNavLink>
-          </CNavItem>
+          </CNavItem> -->
         </CNav>
         <CTabContent>
           <CTabPane role="tabpanel" aria-labelledby="home-tab" :visible="tabPaneActiveKey === 1">
@@ -219,68 +219,72 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom02">Programa</CFormLabel>
-                  <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
+                  <CFormLabel for="validationCustom05">Programa</CFormLabel>
+                  <CFormSelect id="validationCustom05">
+                    <option>Programa 1 </option>
+                    <option>Programa 2</option>
+                  </CFormSelect>
                   <CFormFeedback invalid>
                     Favor agregar el campo
                   </CFormFeedback>
                 </CCol>
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom01">Dirección o dependencia</CFormLabel>
-                  <CFormInput id="validationCustom01" />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
+                  <CFormLabel for="validationCustom05">Dirección o dependencia</CFormLabel>
+                  <CFormSelect id="validationCustom05">
+                    <option>Dirección o dependencia 1</option>
+                    <option>Dirección o dependencia 2</option>
+                  </CFormSelect>
                   <CFormFeedback invalid>
                     Favor agregar el campo
                   </CFormFeedback>
                 </CCol>
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom02">Área de trabajo</CFormLabel>
-                  <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
+                  <CFormLabel for="validationCustom05">Área de trabajo</CFormLabel>
+                  <CFormSelect id="validationCustom05">
+                    <option>Área de trabajo 1</option>
+                    <option>Área de trabajo 2</option>
+                  </CFormSelect>
                   <CFormFeedback invalid>
                     Favor agregar el campo
                   </CFormFeedback>
                 </CCol>
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom01">Cargo</CFormLabel>
-                  <CFormInput id="validationCustom01" />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
+                  <CFormLabel for="validationCustom05">Cargo</CFormLabel>
+                  <CFormSelect id="validationCustom05">
+                    <option>Cargo 1</option>
+                    <option>Cargo 2</option>
+                  </CFormSelect>
                   <CFormFeedback invalid>
                     Favor agregar el campo
                   </CFormFeedback>
                 </CCol>
                 <div class="row">
                   <CCol :md="6">
-                    <CFormLabel for="validationCustom02">Tipo contrato</CFormLabel>
-                    <CFormInput id="validationCustom02" required />
-                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormLabel for="validationCustom05">Tipo de contrato</CFormLabel>
+                    <CFormSelect id="validationCustom05">
+                      <option>Tipo de contrato 1</option>
+                      <option>Tipo de contrato 2</option>
+                    </CFormSelect>
                     <CFormFeedback invalid>
                       Favor agregar el campo
                     </CFormFeedback>
                   </CCol>
                   <CCol :md="6">
-                    <CFormLabel for="validationCustom02">Turno</CFormLabel>
-                    <CFormInput id="validationCustom02" required />
-                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormLabel for="validationCustom05">Turno</CFormLabel>
+                    <CFormSelect id="validationCustom05">
+                      <option>Turno 1</option>
+                      <option>Turno 2</option>
+                    </CFormSelect>
                     <CFormFeedback invalid>
                       Favor agregar el campo
                     </CFormFeedback>
                   </CCol>
                   <CCol :md="6">
-                    <CFormLabel for="validationCustom01">Días trabaj</CFormLabel>
-                    <CFormInput type="date" id="validationCustom01" />
-                    <CFormFeedback valid> Exito! </CFormFeedback>
-                    <CFormFeedback invalid>
-                      Favor agregar el campo
-                    </CFormFeedback>
-                  </CCol>
-                  <CCol :md="6">
-                    <CFormLabel for="validationCustom02">Tipo cobro</CFormLabel>
-                    <CFormInput id="validationCustom02" required />
-                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormLabel for="validationCustom05">Tipo cobro</CFormLabel>
+                    <CFormSelect id="validationCustom05">
+                      <option>Tipo cobro 1</option>
+                      <option>Tipo cobro 2</option>
+                    </CFormSelect>
                     <CFormFeedback invalid>
                       Favor agregar el campo
                     </CFormFeedback>
@@ -288,12 +292,14 @@
                 </div>
 
                 <CCol>
-                  <CFormLabel for="validationCustom02">Tipo de pago</CFormLabel>
-                  <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+                  <CFormLabel for="validationCustom05">Tipo de pago</CFormLabel>
+                    <CFormSelect id="validationCustom05">
+                      <option>Tipo de pago 1</option>
+                      <option>Tipo de pago 2</option>
+                    </CFormSelect>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
                 </CCol>
 
                 <CCol>
@@ -305,7 +311,7 @@
                   </CFormFeedback>
                 </CCol>
 
-                <h4>Retenciones de Ley</h4>
+                <!-- <h4>Retenciones de Ley</h4>
 
                 <CCol>
                   <CFormLabel for="validationCustom02">Impuestos S.R</CFormLabel>
@@ -331,7 +337,7 @@
                   <CFormFeedback invalid>
                     Favor agregar el campo
                   </CFormFeedback>
-                </CCol>
+                </CCol> -->
               </div>
 
               <div class="col-4 border p-3">
@@ -889,7 +895,7 @@ export default {
         fechaNacimiento: new Date(Date.now()),
         lugarNacimiento: null,
         estadoCivil: null,
-        sexo:"M" ,
+        sexo: "M",
         dependientes: 0,
         fechaIngreso: new Date(Date.now()),
         fechaSalida: new Date(Date.now()),
@@ -928,7 +934,7 @@ export default {
         impuestoSobreRenta: 0,
         arsCalculado: true,
         arsFijo: 0,
-        afpCalculado:true,
+        afpCalculado: true,
         afpFijo: 0,
         egresos4: 0,
         egresos5: 0,
