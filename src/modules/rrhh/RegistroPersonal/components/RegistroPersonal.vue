@@ -995,10 +995,10 @@ export default {
           _style: { width: '40%' },
         },
         { key: 'Cargo', label: 'Cargo', _style: { width: '40%' } },
-        { key: 'Sueldo', label: 'Sueldo', _style: { width: '40%' } },
-        { key: 'Forma Pago', label: 'Forma Pago', _style: { width: '40%' } },
-        { key: 'No. Cuenta', label: 'No. Cuenta', _style: { width: '40%' } },
-        { key: 'Código', label: 'Código', _style: { width: '40%' } },
+        { key: 'fechaIngreso', label: 'Fecha ingreso', _style: { width: '40%' } },
+        { key: 'formaPago', label: 'Fecha Nacim.', _style: { width: '40%' } },
+        { key: 'sexo', label: 'Sexo', _style: { width: '40%' } },
+
         {
           key: 'show_details',
           label: '',
