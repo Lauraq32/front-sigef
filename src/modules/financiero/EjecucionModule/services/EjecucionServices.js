@@ -90,7 +90,12 @@ class Ejecucion {
     }
 
 
-    //delete
+    getRegistroGasto(){
+        return http.get(`RegistroGasto?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
+    }
+    postRegistroGasto(post){
+        return http.post(`RegistroGasto`,post)
+    }
 
 }
 
