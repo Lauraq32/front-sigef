@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Condesado</h3>
+  <h3 class="text-center">Conduce</h3>
   <hr />
   <div>
     <div class="d-inline p-2">
@@ -66,7 +66,7 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Condensado</CModalTitle>
+      <CModalTitle>Conduce</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -178,17 +178,18 @@ export default {
   data: () => {
     return {
       postConduce: {
-        secuencial: 0,
-        activoId: 1,
+        id: 0,
+        activoId: 2,
+        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         fecha: new Date(Date.now()),
         motivo: null,
         enviadoA: null,
         autoriza: null,
         realiza: null,
-        estatus: true,
+        estatus: false,
       },
       columns: [
-        { key: 'secuencial', label: 'Codigo' },
+        { key: 'id', label: 'Codigo' },
         { key: 'fecha', label: 'Fecha' },
         { key: 'autoriza', label: 'Autoriza' },
         { key: 'motivo', label: 'Motivo' },
@@ -275,6 +276,8 @@ export default {
           })
           setTimeout(this.getConduce, 500)
           this.postConduce = {
+            id: 0,
+            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
             fecha: new Date(Date.now()),
             motivo: null,
             enviadoA: null,
@@ -290,6 +293,8 @@ export default {
         this.lgDemo = true
         setTimeout(this.getConduce, 500)
         ;(this.postConduce = {
+          id: 0,
+          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
           fecha: new Date(Date.now()),
           motivo: null,
           enviadoA: null,

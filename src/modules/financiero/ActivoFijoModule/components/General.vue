@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">General</h3>
+  <h3 class="text-center">ActivoFijo</h3>
   <hr />
   <div>
     <div class="d-inline p-2">
@@ -77,7 +77,7 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>General</CModalTitle>
+      <CModalTitle>ActivoFijos</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -296,8 +296,8 @@
               v-model="postActivo.llevaMantenimiento"
               id="validationCustom05"
             >
-              <option>Si</option>
-              <option>No</option>
+              <option>S</option>
+              <option>N</option>
             </CFormSelect>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -407,7 +407,7 @@ export default {
         vidaUtil: 0,
         montoMensual: 0,
         areaId: 1,
-        categoriaId: 0,
+        categoriaId: 1,
         depreciacionAcumuladaAnual: 0,
         suplidor: null,
         factura: 0,
