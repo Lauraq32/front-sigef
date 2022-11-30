@@ -54,18 +54,6 @@
           {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
       </td>
-      <td class="py-1">
-        <CButton
-          class="mt-1"
-          color="danger"
-          variant="outline"
-          square
-          size="sm"
-          @click="deleteItem(item)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
-        </CButton>
-      </td>
     </template>
     <template #details="{ item }">
       <CCollapse :visible="this.details.includes(item._id)">
@@ -290,8 +278,8 @@
               v-model="postContribuyente.estatus"
               id="validationCustom05"
             >
-              <option>Activo</option>
-              <option>Inactivo</option>
+              <option>A</option>
+              <option>I</option>
             </CFormSelect>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -327,6 +315,7 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 import Api from '../services/FacturacionCobrosServices'
 
 export default {
@@ -437,6 +426,14 @@ export default {
       } else {
         setTimeout(this.getContribuyente, 500)
         this.addContribuyente(this.postContribuyente)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          text: 'Datos agregados con exito',
+          title: 'Agregado',
+          showConfirmButton: false,
+          timer: 1500,
+        })
         //const form = event.currentTarget
         this.lgDemo = true
         setTimeout(this.getContribuyente, 500)

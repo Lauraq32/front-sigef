@@ -227,8 +227,8 @@
               v-model="postBeneficiario.estatus"
               id="validationCustom05"
             >
-              <option>Activo</option>
-              <option>Inactivo</option>
+              <option>A</option>
+              <option>I</option>
             </CFormSelect>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -257,6 +257,7 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { mapActions, mapState } from 'pinia'
 import { mapStores } from 'pinia'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 import Api from '../services/EjecucionServices'
 
 export default {
@@ -426,6 +427,14 @@ export default {
       } else {
         this.getBeneficiarios()
         this.addBeneficiarios(this.postBeneficiario)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          text: 'Datos agregados con exito',
+          title: 'Agregado',
+          showConfirmButton: false,
+          timer: 1500,
+        })
         //const form = event.currentTarget
         this.lgDemo = true
         setTimeout(this.getBeneficiarios, 500)

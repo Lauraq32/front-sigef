@@ -72,7 +72,7 @@
       <CCardBody>
         <CForm
           class="row g-3 needs-validation"
-          novalidate 
+          novalidate
           :validated="validatedCustom01"
           @submit="handleSubmitCustom01"
         >
@@ -122,17 +122,6 @@
           </CCol>
 
           <CCol :md="4">
-            <CFormLabel for="validationCustom02">Enviado a</CFormLabel>
-            <CFormInput
-              v-model="postRecepcion.enviadoA"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
             <CFormLabel for="validationCustom02">Recibido de</CFormLabel>
             <CFormInput
               v-model="postRecepcion.recibidoDe"
@@ -160,8 +149,8 @@
               v-model="postRecepcion.estatus"
               id="validationCustom05"
             >
-              <option>Activo</option>
-              <option>No Activo</option>
+              <option>True</option>
+              <option>False</option>
             </CFormSelect>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -193,6 +182,7 @@ import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
 import Api from '../services/ActivoFijoServices'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 export default {
   components: {
@@ -202,9 +192,11 @@ export default {
 
   data: () => {
     return {
+      secuencial: null,
       postRecepcion: {
         secuencial: 0,
-        activoId: 0,
+        activoId: 2,
+        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         fecha: new Date(Date.now()),
         motivo: null,
         enviadoA: null,
@@ -220,7 +212,6 @@ export default {
         { key: 'autoriza', label: 'Autoriza' },
         { key: 'motivo', label: 'Motivo' },
         { key: 'realiza', label: 'Realiza' },
-        { key: 'enviadoA', label: 'Enviado a' },
         { key: 'estatus', label: 'Estatus' },
         { key: 'recibidoDe', label: 'Recibido De' },
         { key: 'valor', label: 'Valor' },
@@ -259,7 +250,8 @@ export default {
       this.edit = true
       this.lgDemo = true
       console.log(item.id)
-      Api.getRecepcionByID(item.id).then((response) => {
+      this.secuencial = item.secuencial
+      Api.getRecepcionByID(item.secuencial).then((response) => {
         this.postRecepcion = response.data.data
         console.log(response)
         this.id = item.id
@@ -291,39 +283,52 @@ export default {
     },
 
     submitForm() {
-      if (this.id) {
-        Api.putRecepcion(this.id, this.postRecepcion).then((response) => {
-          console.log(response.data)
-          this.lgDemo = false
-          this.$swal({
-            position: 'top-end',
-            icon: 'success',
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
-          })
-          setTimeout(this.getRecepcion, 500)
-          this.postRecepcion = {
-            fecha: new Date(Date.now()),
-            motivo: null,
-            enviadoA: null,
-            autoriza: null,
-            recibidoDe: null,
-            valor: null,
-            realiza: null,
-            estatus: true,
-          }
-        })
+      console.log(this.postRecepcion.secuencial)
+      if (this.secuencial != null) {
+        Api.putRecepcion(this.secuencial, this.postRecepcion).then(
+          (response) => {
+            console.log(response.data)
+            this.lgDemo = false
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              text: 'Datos agregados con exito',
+              title: 'Agregado',
+              showConfirmButton: false,
+              timer: 1500,
+            })
+            setTimeout(this.getRecepcion, 500)
+            this.postRecepcion = {
+              secuencial: 0,
+              fecha: new Date(Date.now()),
+              motivo: null,
+              autoriza: null,
+              recibidoDe: null,
+              valor: null,
+              realiza: null,
+              estatus: true,
+            }
+            this.secuencial = null
+          },
+        )
         setTimeout(this.getRecepcion, 500)
       } else {
         this.addRecepcion(this.postRecepcion)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          text: 'Datos agregados con exito',
+          title: 'Agregado',
+          showConfirmButton: false,
+          timer: 1500,
+        })
         //const form = event.currentTarget
         this.lgDemo = true
         setTimeout(this.getRecepcion, 500)
         ;(this.postRecepcion = {
+          secuencial: 0,
           fecha: new Date(Date.now()),
           motivo: null,
-          enviadoA: null,
           autoriza: null,
           recibidoDe: null,
           valor: null,

@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Condesado</h3>
+  <h3 class="text-center">Conduce</h3>
   <hr />
   <div>
     <div class="d-inline p-2">
@@ -66,7 +66,7 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Condensado</CModalTitle>
+      <CModalTitle>Conduce</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -135,8 +135,8 @@
           <CCol :md="4">
             <CFormLabel for="validationCustom01">Estatus</CFormLabel>
             <CFormSelect v-model="postConduce.estatus" id="validationCustom05">
-              <option>Activo</option>
-              <option>No Activo</option>
+              <option>true</option>
+              <option>false</option>
             </CFormSelect>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -167,6 +167,7 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 import Api from '../services/ActivoFijoServices'
 
 export default {
@@ -178,17 +179,18 @@ export default {
   data: () => {
     return {
       postConduce: {
-        secuencial: 0,
-        activoId: 0,
+        id: 0,
+        activoId: 2,
+        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         fecha: new Date(Date.now()),
         motivo: null,
         enviadoA: null,
         autoriza: null,
         realiza: null,
-        estatus: true,
+        estatus: false,
       },
       columns: [
-        { key: 'secuencial', label: 'Codigo' },
+        { key: 'id', label: 'Codigo' },
         { key: 'fecha', label: 'Fecha' },
         { key: 'autoriza', label: 'Autoriza' },
         { key: 'motivo', label: 'Motivo' },
@@ -275,6 +277,8 @@ export default {
           })
           setTimeout(this.getConduce, 500)
           this.postConduce = {
+            id: 0,
+            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
             fecha: new Date(Date.now()),
             motivo: null,
             enviadoA: null,
@@ -286,10 +290,20 @@ export default {
         setTimeout(this.getConduce, 500)
       } else {
         this.addConduce(this.postConduce)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          text: 'Datos agregados con exito',
+          title: 'Agregado',
+          showConfirmButton: false,
+          timer: 1500,
+        })
         //const form = event.currentTarget
         this.lgDemo = true
         setTimeout(this.getConduce, 500)
         ;(this.postConduce = {
+          id: 0,
+          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
           fecha: new Date(Date.now()),
           motivo: null,
           enviadoA: null,

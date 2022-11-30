@@ -282,14 +282,14 @@ export default [
 
           {
             component: 'CNavItem',
-            name: 'condensado',
+            name: 'Conduce',
             to: '/ActivoFijoModule/condensadoAcivoFijos',
             icon: 'cilList',
           },
 
           {
             component: 'CNavItem',
-            name: 'recepcion',
+            name: 'Recepcion',
             to: '/ActivoFijoModule/recepcion',
             icon: 'cilList',
           },
@@ -680,7 +680,7 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'General',
+            name: 'ActivoFijo General',
             to: '/CuentasPorPagarModule/general',
             icon: 'cilList',
           },
