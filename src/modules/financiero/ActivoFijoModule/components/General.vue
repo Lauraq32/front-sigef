@@ -87,230 +87,327 @@
           :validated="validatedCustom01"
           @submit="handleSubmitCustom01"
         >
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02"
-              >Fecha inicio mantenimiento</CFormLabel
-            >
-            <CFormInput
-              type="date"
-              v-model="postActivo.fechaInicioMantenimiento"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
+          <div class="row mt-2">
+            <div class="col-6">
+              <CCol class="mt-2" :md="5">
+                <CFormLabel for="validationCustom02">Fecha Compra</CFormLabel>
+                <CFormInput
+                  type="date"
+                  v-model="postActivo.fechaCompra"
+                  id="validationCustom02"
+                  required
+                />
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
 
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02"
-              >Fecha Proximo Mantenimiento</CFormLabel
-            >
-            <CFormInput
-              type="date"
-              v-model="postActivo.fechaProximoMantenimiento"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
+              <CCol class="mt-2" :md="10">
+                <CFormLabel for="validationCustom02">Descripcion</CFormLabel>
+                <CFormInput
+                  v-model="postActivo.descripcion"
+                  id="validationCustom02"
+                  required
+                />
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
 
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02"
-              >Fecha Inicio Depreciacion</CFormLabel
-            >
-            <CFormInput
-              type="date"
-              v-model="postActivo.fechaInicioDepreciacion"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
+              <CCol class="mt-2" :md="10">
+                <CFormLabel for="validationCustom02">Detalle</CFormLabel>
+                <CFormInput
+                  style="height: 120px"
+                  v-model="postActivo.detalle"
+                  id="validationCustom02"
+                  required
+                />
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
 
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02">Fecha vencimiento</CFormLabel>
-            <CFormInput
-              type="date"
-              v-model="postActivo.fechaVencimiento"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
+              <CCol class="mt-2" :md="7">
+                <CFormLabel for="validationCustom02">Marca</CFormLabel>
+                <CFormSelect
+                  v-model="postActivo.marcaId"
+                  id="validationCustom05"
+                >
+                  <option>Activo</option>
+                  <option>Inactivo</option>
+                </CFormSelect>
+              </CCol>
+              <CCol class="mt-2" :md="10">
+                <CFormLabel for="validationCustom02">Modelo</CFormLabel>
+                <CFormSelect
+                  v-model="postActivo.modeloId"
+                  id="validationCustom05"
+                >
+                  <option>Activo</option>
+                  <option>Inactivo</option>
+                </CFormSelect>
+              </CCol>
 
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02"
-              >Depreciacion Acomulada</CFormLabel
-            >
-            <CFormInput
-              v-model="postActivo.depreciacionAcumulada"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
+              <CCol class="mt-2" :md="10">
+                <CFormLabel for="validationCustom02">Serie</CFormLabel>
+                <CFormInput
+                  v-model="postActivo.serie"
+                  id="validationCustom02"
+                  required
+                />
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
 
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02">Suplidor</CFormLabel>
-            <CFormInput
-              v-model="postActivo.suplidor"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
+              <CCol class="mt-2" :md="10">
+                <CFormLabel for="validationCustom05">Suplidor</CFormLabel>
+                <CFormSelect
+                  v-model="postActivo.suplidor"
+                  id="validationCustom05"
+                >
+                  <option>S</option>
+                  <option>N</option>
+                </CFormSelect>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+              <div class="row mt-2">
+                <div class="col-5 mt-2">
+                  <CCol :md="11">
+                    <CFormLabel for="validationCustom05">Factura</CFormLabel>
+                    <CFormInput
+                      v-model="postActivo.factura"
+                      id="validationCustom02"
+                      required
+                    />
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                </div>
+                <div class="col-7"></div>
+              </div>
+            </div>
+            <div class="col-6 mt-2">
+              <CCol :md="11">
+                <CFormLabel for="validationCustom02">Area Ubicacion</CFormLabel>
+                <CFormSelect
+                  v-model="postActivo.areaId"
+                  id="validationCustom05"
+                >
+                  <option>Activo</option>
+                  <option>Inactivo</option>
+                </CFormSelect>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
 
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02">Vida util</CFormLabel>
-            <CFormInput
-              v-model="postActivo.vidaUtil"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
+              <CCol class="mt-2" :md="11">
+                <CFormLabel for="validationCustom02">Categoria</CFormLabel>
+                <CFormSelect
+                  v-model="postActivo.categoriaId"
+                  id="validationCustom05"
+                >
+                  <option>Activo</option>
+                  <option>Inactivo</option>
+                </CFormSelect>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
 
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02">Monto mensual</CFormLabel>
-            <CFormInput
-              v-model="postActivo.montoMensual"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
+              <div class="row mt-2">
+                <div class="col-6">
+                  <CCol :md="10">
+                    <CFormLabel for="validationCustom02">Vida util</CFormLabel>
+                    <CFormInput
+                      v-model="postActivo.vidaUtil"
+                      id="validationCustom02"
+                      required
+                    />
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                </div>
+                <div class="col-6">
+                  <CCol :md="10">
+                    <CFormLabel for="validationCustom02"
+                      >% Deprec. Anual</CFormLabel
+                    >
+                    <CFormInput
+                      v-model="postActivo.depreciacionAcumuladaAnual"
+                      id="validationCustom02"
+                      required
+                    />
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-6">
+                  <CCol :md="10">
+                    <CFormLabel for="validationCustom02"
+                      >Inicio Depreciaion</CFormLabel
+                    >
+                    <CFormInput
+                      type="date"
+                      v-model="postActivo.fechaInicioDepreciacion"
+                      id="validationCustom02"
+                      required
+                    />
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                </div>
+                <div class="col-6">
+                  <CCol :md="10">
+                    <CFormLabel for="validationCustom02"
+                      >Fecha Vencimiento</CFormLabel
+                    >
+                    <CFormInput
+                      type="date"
+                      v-model="postActivo.fechaVencimiento"
+                      id="validationCustom02"
+                      required
+                    />
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                </div>
+              </div>
 
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02">Tipo mantenimiento</CFormLabel>
-            <CFormInput
-              v-model="postActivo.tipoMantenimiento"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02">Fecha verificacion</CFormLabel>
-            <CFormInput
-              type="date"
-              v-model="postActivo.fechaVerificacion"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02">Descrpcion</CFormLabel>
-            <CFormInput
-              v-model="postActivo.descripcion"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02">Detalle</CFormLabel>
-            <CFormInput
-              v-model="postActivo.detalle"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02">Valor en Libro</CFormLabel>
-            <CFormInput
-              v-model="postActivo.valorEnLibro"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02">Fecha compra</CFormLabel>
-            <CFormInput
-              type="date"
-              v-model="postActivo.fechaCompra"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02">Factura</CFormLabel>
-            <CFormInput
-              v-model="postActivo.factura"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02">Serie</CFormLabel>
-            <CFormInput
-              v-model="postActivo.serie"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02">Costo Adquisicion</CFormLabel>
-            <CFormInput
-              v-model="postActivo.costoAdquisicion"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="3">
-            <CFormLabel for="validationCustom05"
-              >Lleva mantenimiento?</CFormLabel
-            >
-            <CFormSelect
-              v-model="postActivo.llevaMantenimiento"
-              id="validationCustom05"
-            >
-              <option>S</option>
-              <option>N</option>
-            </CFormSelect>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="3">
-            <CFormLabel for="validationCustom05">Estatus</CFormLabel>
-            <CFormSelect v-model="postActivo.estatus" id="validationCustom05">
-              <option>Activo</option>
-              <option>Inactivo</option>
-            </CFormSelect>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
+              <div class="row mt-2">
+                <div class="col-6">
+                  <CCol :md="10">
+                    <CFormLabel for="validationCustom02"
+                      >Costo Adquisicion</CFormLabel
+                    >
+                    <CFormInput
+                      v-model="postActivo.costoAdquisicion"
+                      id="validationCustom02"
+                      required
+                    />
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                </div>
+                <div class="col-6">
+                  <CCol :md="10">
+                    <CFormLabel for="validationCustom02"
+                      >Valor en Libro</CFormLabel
+                    >
+                    <CFormInput
+                      v-model="postActivo.valorEnLibro"
+                      id="validationCustom02"
+                      required
+                    />
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-6">
+                  <CCol :md="10">
+                    <CFormLabel for="validationCustom02"
+                      >Deprec. Año</CFormLabel
+                    >
+                    <CFormInput
+                      v-model="postActivo.depreciacionAcumuladaAnual"
+                      id="validationCustom02"
+                      required
+                    />
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                </div>
+                <div class="col-6">
+                  <CCol :md="10">
+                    <CFormLabel for="validationCustom02"
+                      >Deprec. Acum</CFormLabel
+                    >
+                    <CFormInput
+                      v-model="postActivo.depreciacionAcumulada"
+                      id="validationCustom02"
+                      required
+                    />
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                </div>
+              </div>
+              <div class="form-check mt-3">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Lleva mantenimiento?
+                </label>
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  v-model="postActivo.llevaMantenimiento"
+                  id="flexCheckDefault"
+                />
+              </div>
+              <CCol mt-4 :md="6">
+                <CFormLabel for="validationCustom02"
+                  >Tipo de Mantenimiento</CFormLabel
+                >
+                <CFormInput
+                  v-model="postActivo.tipoMantenimiento"
+                  id="validationCustom02"
+                  required
+                />
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+              <div class="row mt-4">
+                <div class="col-6">
+                  <CCol :md="10">
+                    <CFormLabel for="validationCustom02"
+                      >Fecha Mantenimiento</CFormLabel
+                    >
+                    <CFormInput
+                      type="date"
+                      v-model="postActivo.fechaInicioMantenimiento"
+                      id="validationCustom02"
+                      required
+                    />
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                </div>
+                <div class="col-6">
+                  <CCol :md="10">
+                    <CFormLabel for="validationCustom02"
+                      >Fecha Proximo Mantenimiento</CFormLabel
+                    >
+                    <CFormInput
+                      type="date"
+                      v-model="postActivo.fechaProximoMantenimiento"
+                      id="validationCustom02"
+                      required
+                    />
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="modal-footer">
             <button
               type="button"
@@ -429,52 +526,22 @@ export default {
         fechaProximoMantenimiento: new Date(Date.now()),
       },
       columns: [
-        { key: 'id', label: 'ID', _style: { width: '40%' } },
-        { key: 'codigo', label: 'Código', _style: { width: '40%' } },
+        { key: 'id', label: 'Código', _style: { width: '40%' } },
         { key: 'descripcion', label: 'Descripcion', _style: { width: '40%' } },
         { key: 'detalle', label: 'Detalle', _style: { width: '40%' } },
         {
-          key: 'porcientoDepreciacionAnual',
-          label: 'Porciento Depreciacion Anual',
+          key: 'marcaId',
+          label: 'Marca',
           _style: { width: '40%' },
         },
-        { key: 'vidaUtil', label: 'Vida Util', _style: { width: '40%' } },
-        {
-          key: 'montoMensual',
-          label: 'Monto Mensual',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'depreciacionAcumuladaAnual',
-          label: 'depreciacion Acumulada Anual',
-          _style: { width: '40%' },
-        },
-        { key: 'suplidor', label: 'Suplidor', _style: { width: '40%' } },
-        { key: 'factura', label: 'Factura', _style: { width: '40%' } },
         {
           key: 'fechaCompra',
-          label: 'Fecha de Compra',
+          label: 'F.Adquisicion',
           _style: { width: '40%' },
         },
-        {
-          key: 'fechaInicioDepreciacion',
-          label: 'Fecha Inicio Depreciacion',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'fechaVencimiento',
-          label: 'fecha  de Vencimiento',
-          _style: { width: '40%' },
-        },
-        { key: 'serie', label: 'Serie', _style: { width: '40%' } },
         {
           key: 'costoAdquisicion',
-          label: 'Costo deAdquisicion',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'depreciacionAcumulada',
-          label: 'Depreciacion Acumulada',
+          label: 'Costo de Adquisicion',
           _style: { width: '40%' },
         },
         {
@@ -482,33 +549,11 @@ export default {
           label: 'Valor En Libro',
           _style: { width: '40%' },
         },
-        { key: 'estatus', label: 'Estatus', _style: { width: '40%' } },
         {
-          key: 'codfechaVerificacionigo',
-          label: 'Fecha Verificacion',
+          key: 'areaId',
+          label: 'Area Ubicacion',
           _style: { width: '40%' },
         },
-        {
-          key: 'llevaMantenimiento',
-          label: 'lleva Mantenimiento',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'tipoMantenimiento',
-          label: 'Tipo de Mantenimiento',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'fechaInicioMantenimiento',
-          label: 'Fecha inicio mantenimiento',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'fechaProximoMantenimiento',
-          label: 'Fecha Proximo Mantenimiento',
-          _style: { width: '40%' },
-        },
-
         {
           key: 'show_details',
           label: '',

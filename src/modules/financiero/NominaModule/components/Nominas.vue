@@ -91,7 +91,7 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Sectores</CModalTitle>
+      <CModalTitle>Mantenimientos Empleados</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <div class="row">

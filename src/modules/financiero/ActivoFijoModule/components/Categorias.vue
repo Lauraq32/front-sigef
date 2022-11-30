@@ -101,7 +101,7 @@
           </CCol>
 
           <CCol :md="4">
-            <CFormLabel for="validationCustom01">Cuenta de Debito</CFormLabel>
+            <CFormLabel for="validationCustom01">Cuenta del Gasto</CFormLabel>
             <CFormInput
               v-model="postCategorias.cuentaDebido"
               id="validationCustom01"
@@ -113,20 +113,8 @@
           </CCol>
 
           <CCol :md="4">
-            <CFormLabel for="validationCustom01">Cuenta de Credito</CFormLabel>
-            <CFormInput
-              v-model="postCategorias.cuentaCredito"
-              id="validationCustom01"
-              required
-            />
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
             <CFormLabel for="validationCustom01"
-              >Cuenta Despreciacion Acumulada</CFormLabel
+              >Cuenta Depreciable Acumulada</CFormLabel
             >
             <CFormInput
               v-model="postCategorias.cuentaDepreciacionAcumulada"
@@ -138,161 +126,17 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
 
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Despreciacion</CFormLabel>
-            <CFormInput
+          <div class="form-check">
+            <label class="form-check-label" for="flexCheckDefault">
+              Depreciable?
+            </label>
+            <input
+              class="form-check-input"
+              type="checkbox"
               v-model="postCategorias.depreciable"
-              id="validationCustom01"
-              required
+              id="flexCheckDefault"
             />
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01"
-              >Total monto de Compra</CFormLabel
-            >
-            <CFormInput
-              v-model="postCategorias.totalMontoCompra"
-              id="validationCustom01"
-              required
-            />
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01"
-              >Monto Despreciacion Acumulada</CFormLabel
-            >
-            <CFormInput
-              v-model="postCategorias.montoDepreciableAcumulado"
-              id="validationCustom01"
-              required
-            />
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Total Adiciones</CFormLabel>
-            <CFormInput
-              v-model="postCategorias.totalAdiciones"
-              id="validationCustom01"
-              required
-            />
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Total 1ro Retiro</CFormLabel>
-            <CFormInput
-              v-model="postCategorias.totalRetiro1"
-              id="validationCustom01"
-              required
-            />
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01"
-              >Total Transferencia</CFormLabel
-            >
-            <CFormInput
-              v-model="postCategorias.totalTransfer"
-              id="validationCustom01"
-              required
-            />
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01"
-              >Total Saldo Inicial</CFormLabel
-            >
-            <CFormInput
-              v-model="postCategorias.totalSaldoInicial"
-              id="validationCustom01"
-              required
-            />
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01"
-              >Total Despreciacion Acumulad</CFormLabel
-            >
-            <CFormInput
-              v-model="postCategorias.totalDepreciacionAcumulada"
-              id="validationCustom01"
-              required
-            />
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01"
-              >Total Despreciacion Periodo</CFormLabel
-            >
-            <CFormInput
-              v-model="postCategorias.totalDepreciacionPeriodo"
-              id="validationCustom01"
-              required
-            />
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Total 2do Retiro</CFormLabel>
-            <CFormInput
-              v-model="postCategorias.totalRetiro2"
-              id="validationCustom01"
-              required
-            />
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Total Saldo Final</CFormLabel>
-            <CFormInput
-              v-model="postCategorias.totalSaldoFinal"
-              id="validationCustom01"
-              required
-            />
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Total Valor Libro</CFormLabel>
-            <CFormInput
-              v-model="postCategorias.totalValorLibro"
-              id="validationCustom01"
-              required
-            />
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
+          </div>
 
           <div class="modal-footer">
             <button
@@ -361,12 +205,7 @@ export default {
         { key: 'descripcion', label: 'Descripcion', _style: { width: '40%' } },
         {
           key: 'cuentaDebido',
-          label: 'Cuenta de Debito',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'cuentaCredito',
-          label: 'Cuenta de Credito',
+          label: 'Cuenta de gastos',
           _style: { width: '40%' },
         },
         {
@@ -375,65 +214,13 @@ export default {
           _style: { width: '40%' },
         },
         {
+          key: '',
+          label: 'Monto Ultimo Corte',
+          _style: { width: '40%' },
+        },
+        {
           key: 'depreciable',
-          label: 'Despreciacion',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'totalMontoCompra',
-          label: 'Total monto de Compra',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'montoDepreciableAcumulado',
-          label: 'Monto Despreciacion Acumulada',
-          _style: { width: '40%' },
-        },
-        { key: 'totalCosto', label: 'Total Costo', _style: { width: '40%' } },
-        {
-          key: 'totalAdiciones',
-          label: 'Total Adiciones',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'totalRetiro1',
-          label: 'Total 1ro Retiro',
-          _style: { width: '40%' },
-        },
-        { key: 'totalOtros', label: 'Total Otros', _style: { width: '40%' } },
-        {
-          key: 'totalTransfer',
-          label: 'Total Transferencia',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'totalSaldoInicial',
-          label: 'Total Saldo Inicial',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'totalDepreciacionAcumulada',
-          label: 'Total Despreciacion Acumulada',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'totalDepreciacionPeriodo',
-          label: 'Total Despreciacion Periodo',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'totalRetiro2',
-          label: 'Total 2do Retiro',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'totalSaldoFinal',
-          label: 'Total Saldo Final',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'totalValorLibro',
-          label: 'Total Valor Libro',
+          label: 'Despreciable?',
           _style: { width: '40%' },
         },
         {
