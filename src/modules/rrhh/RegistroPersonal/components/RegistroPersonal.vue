@@ -348,7 +348,7 @@
               </div>
             </div>
           </CTabPane>
-          <CTabPane role="tabpanel" aria-labelledby="profile-tab" :visible="tabPaneActiveKey === 2">
+          <!-- <CTabPane role="tabpanel" aria-labelledby="profile-tab" :visible="tabPaneActiveKey === 2">
             <div class="row">
               <div class="col-4 border p-3">
                 <h3>Ingresos</h3>
@@ -479,7 +479,7 @@
                 </CCol>
               </div>
             </div>
-          </CTabPane>
+          </CTabPane> -->
           <CTabPane role="tabpanel" aria-labelledby="contact-tab" :visible="tabPaneActiveKey === 3">
             <div class="row">
               <div class="col-4 border">
@@ -673,7 +673,7 @@
             </div>
           </CTabPane>
 
-          <CTabPane role="tabpanel" aria-labelledby="contact-tab" :visible="tabPaneActiveKey === 5">
+          <!-- <CTabPane role="tabpanel" aria-labelledby="contact-tab" :visible="tabPaneActiveKey === 5">
             <div class="row">
               <div class="col-4 border">
                 <CCol>
@@ -801,7 +801,7 @@
                 </CCol>
               </div>
             </div>
-          </CTabPane>
+          </CTabPane> -->
         </CTabContent>
       </div>
     </CModalBody>
