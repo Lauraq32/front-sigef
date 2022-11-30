@@ -72,6 +72,12 @@ export const useEjecucionIngresoStore = defineStore(
       })
     }
 
+    function putRegistrosGasto(data) {
+      Api.putRegistroGasto(data).then((response) => {
+        console.log(response)
+      })
+    }
+
     return {
       ingresosList,
       getAllIngresos,
@@ -82,7 +88,8 @@ export const useEjecucionIngresoStore = defineStore(
       addIngresos,
       getIngresos,
       addIngresoDetalle,
-      addGastoDetalle
+      addGastoDetalle,
+      putRegistrosGasto
     }
   },
 )
