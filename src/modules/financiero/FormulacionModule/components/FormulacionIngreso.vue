@@ -96,7 +96,7 @@
     </div>
     <hr>
     <CModalBody>
-      <CCardBody>
+      <CCardBody >
         <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01"
           @submit="handleSubmitCustom01">
           <CCol :md="2">
@@ -133,7 +133,7 @@
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <CCol :md="3">
+          <CCol :md="4">
             <CFormLabel for="validationCustom04">Fuente Especifica</CFormLabel>
             <CFormInput :disabled="ctgFuenteEspecificaId" v-model="postIngreso.ctgFuenteEspecificaId"
               id="validationCustom04" required>
@@ -141,9 +141,9 @@
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <CCol :md="3">
+          <CCol :md="4">
             <CFormLabel for="validationCustom05">Organismo Financiador</CFormLabel>
-            <CFormInput :disabled="ctgOrganismoFinanciadorId" v-model="postIngreso.ctgOrganismoFinanciadorId"
+            <CFormInput v-model="postIngreso.ctgOrganismoFinanciadorId"
               id="validationCustom05" required />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
