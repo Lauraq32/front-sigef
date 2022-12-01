@@ -15,6 +15,8 @@ import ContabilidadModule from '../modules/financiero/ContabilidadModule/router'
 import ConciliacionBancaria from '../modules/financiero/ConciliacionBancaria/router'
 import FacturacionCobrosModule from '../modules/financiero/FacturacionCobrosModule/router'
 import CuentasPorPagarModule from '../modules/financiero/CuentasPorPagarModule/router'
+import ProcesoCompras from '../modules/Compras/ProcesoCompras/router'
+import PlanAnual from '../modules/Compras/PlanAnual/router'
 
 const routes = [
   {
@@ -121,6 +123,14 @@ const routes = [
       {
         path: '/CuentasPorPagarModule',
         ...CuentasPorPagarModule
+      },
+      {
+        path: '/ProcesoCompras',
+        ...ProcesoCompras
+      },
+      {
+        path: '/PlanAnual',
+        ...PlanAnual
       },
       {
         path: '/theme',

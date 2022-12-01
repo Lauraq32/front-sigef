@@ -702,10 +702,17 @@ export default [
     items: [
       {
         component: 'CNavItem',
-        name: 'Home',
-        to: '/compras',
-        icon: 'cilHome',
+        name: 'Procesos de Compras',
+        to: '/ProcesoCompras/procesoCompras',
+        icon: 'cil-notes',
       },
+      {
+        component: 'CNavItem',
+        name: 'Plan Anual',
+        to: '/PlanAnual/planAnual',
+        icon: 'cil-notes',
+      },
+     
     ],
   },
   {
