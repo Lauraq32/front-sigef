@@ -9,6 +9,7 @@ export const SET_USER = (state, user) => {
     .then((response) => {
       state.user = response.data
       localStorage.setItem('usuario', response.data.data.usuario.email)
+      localStorage.setItem('image', response.data.data.usuario.ayuntamiento.imagenUrl)
       localStorage.setItem(
         'nombre_ayuntamiento',
         response.data.data.usuario.nombre,

@@ -8,15 +8,16 @@
         <CIcon :icon="logo" height="48" alt="Logo" />
       </CHeaderBrand>
       <CHeaderNav class="d-none d-md-flex me-auto">
-        <CNavItem>
-          <h2>{{ ayuntamiento }}</h2>
-          <CNavLink></CNavLink>
+
+         <CNavItem style="font-size: 20px;margin-top: 15px;">
+          <img style="width: 74px;" :src="url == 'null' ? 'https://media.istockphoto.com/id/874179328/es/vector/rep%C3%BAblica-dominicana.jpg?s=612x612&w=0&k=20&c=f5hftAqUGumB63g_FJL6gazxw41Ks0MTxNhTfl453XY=' : url" />
+         
         </CNavItem>
-        <CNavItem style="font-size: 20px">
-          <img
-            style="width: 300px; margin-left: 600px"
-            src="@/assets/images/logoDistrito.jpg"
-          />
+       
+        <CNavItem>
+          <h4 style="margin-top: 40px; 
+    margin-left: 15px;">{{ ayuntamiento }}</h4>
+
         </CNavItem>
       </CHeaderNav>
       <CHeaderNav>
@@ -67,12 +68,22 @@ export default {
     const ayuntamiento = localStorage.getItem('nombre_ayuntamiento')
     const NoHallado = (ayuntamiento) => {
       if (ayuntamiento === 'null') return 'No encontrado'
+     
     }
+
+    const url =  localStorage.getItem('image');
     return {
       logo,
       ayuntamiento,
       NoHallado,
+      url
     }
+
+
   },
+
+  mounted() {
+    
+  }
 }
 </script>
