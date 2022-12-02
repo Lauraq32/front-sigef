@@ -25,7 +25,8 @@ import {
   cibCcAmex,
   cilAccountLogout,
   cibBitcoin,
-  cidChartLine
+  cidChartLine,
+  cisCheckCircle,
 } from '@coreui/icons-pro'
 import { cifUs, cifBr, cifIn, cifFr, cifEs, cifPl } from '@coreui/icons-pro'
 import {
@@ -119,7 +120,7 @@ import {
   cilDollarSlash,
   cilCompass,
   cilNoteAdd,
-  cilCity
+  cilCity,
 } from '@coreui/icons-pro'
 
 export const iconsSet = Object.assign(
@@ -136,7 +137,7 @@ export const iconsSet = Object.assign(
     cilBasketPlus,
     cilAddressBook,
     cilIdBadge,
-  cilChalkboardTeacher,
+    cilChalkboardTeacher,
     cilIdCard,
     cilBook,
     cilDollarCircle,
@@ -206,11 +207,9 @@ export const iconsSet = Object.assign(
     cilStorage,
     cilClipboard,
     cilContact,
-    cilGlobeAlt,
     cilHealing,
     cilGroup,
     cilWc,
-    cilMenu,
     cilBank,
     cilCart,
     cilHome,
@@ -255,5 +254,8 @@ export const iconsSet = Object.assign(
     cibCcApplePay,
     cibCcAmex,
     cibBitcoin,
+  },
+  {
+    cisCheckCircle,
   },
 )

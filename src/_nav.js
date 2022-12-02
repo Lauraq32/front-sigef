@@ -712,7 +712,7 @@ export default [
         to: '/PlanAnual/planAnual',
         icon: 'cil-notes',
       },
-     
+
     ],
   },
   {
