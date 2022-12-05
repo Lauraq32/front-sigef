@@ -1098,14 +1098,13 @@ export default {
     IngresoReport() {
       window
         .open(
-          `http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fseguridad%2fReport1&rs:Command=Render&id=${localStorage.getItem(
-            'id_ayuntamiento',
-          )}&ano=${localStorage.getItem('ano')}`,
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Gastos_Formulacion_FP08&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem('id_Ayuntamiento')}&FONDO=1&ANO=2022`,
           '_blank',
         )
         .focus()
     },
     cargarEstructuras() {
+      setTimeout(this.getListarGastos, 500);
       Swal.fire({
         position: 'top-end',
         icon: 'success',

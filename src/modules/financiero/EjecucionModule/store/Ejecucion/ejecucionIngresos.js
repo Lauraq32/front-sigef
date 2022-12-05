@@ -72,8 +72,8 @@ export const useEjecucionIngresoStore = defineStore(
       })
     }
 
-    function putRegistrosGasto(data) {
-      Api.putRegistroGasto(data).then((response) => {
+    function putRegistrosGasto(data, id) {
+      Api.putRegistroGasto(id, data).then((response) => {
         console.log(response)
       })
     }

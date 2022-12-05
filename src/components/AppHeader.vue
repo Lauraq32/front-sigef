@@ -12,12 +12,7 @@
           <h2>{{ ayuntamiento }}</h2>
           <CNavLink></CNavLink>
         </CNavItem>
-        <CNavItem style="font-size: 20px">
-          <img
-            style="width: 300px; margin-left: 600px"
-            src="@/assets/images/logoDistrito.jpg"
-          />
-        </CNavItem>
+       
       </CHeaderNav>
       <CHeaderNav>
         <CNavItem>

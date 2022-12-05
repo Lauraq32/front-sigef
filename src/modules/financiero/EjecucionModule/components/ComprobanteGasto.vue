@@ -14,7 +14,7 @@
       >
     </div>
     <div class="d-inline p-2">
-      <CButton color="info">Imprimir Comprobante</CButton>
+      <CButton color="info" @click="IngresoReport">Imprimir Comprobante</CButton>
     </div>
   </div>
   <hr />
@@ -44,7 +44,7 @@
         {{ formatDate(item.fecha) }}
       </td>
     </template>
-    <template #show_details="{ item, index }">
+    <template #show_details="{item}">
       <td class="py-1">
         <CButton
           class="mt-1"
@@ -698,6 +698,7 @@ export default {
       lgDemo: false,
       lgDemo1: false,
       id:null,
+      cabeceraId: null,
       postGasto: {
         id: 0,
         anioFiscalId: parseInt(localStorage.getItem('ano')),
@@ -829,6 +830,21 @@ export default {
         year: 'numeric',
       })
     },
+    toggleDetails1(item) {
+      // if (this.details.includes(item._id)) {
+      //   this.details = this.details.filter((_item) => _item !== item._id)
+      //   return
+      // }
+      // this.details.push(item._id)
+      this.lgDemo = true
+      this.cabeceraId = item.id
+      Api.getRegistroGastobyid(this.cabeceraId).then((response) => {
+        console.log(response.data)
+        this.postGasto.fecha = this.formatDate(response.data.data.fecha)
+        console.log(this.postGasto.fecha)
+        this.postGasto = response.data.data
+      })
+    },
     showDetalle(item){
       this.lgDemo1 = true
       this.id = item.id
@@ -852,7 +868,8 @@ export default {
       this.validatedCustom01 = true
     },
     postCabecera(data) {
-      Api.postRegistroGasto(this.postGasto).then((response) => {
+      if (this.cabeceraId == null) {
+        Api.postRegistroGasto(this.postGasto).then((response) => {
         console.log(response.data.data)
       })
       setTimeout(this.getCabecera, 500)
@@ -864,6 +881,24 @@ export default {
         showConfirmButton: false,
         timer: 1500,
       })
+
+      } else {
+        Api.putRegistroGasto(this.postGasto, this.cabeceraId).then((response) => {
+          console.log(response.data)
+        })
+        setTimeout(this.getCabecera, 500)
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        text: 'Datos Actualizado con exito',
+        title: 'Actualizado',
+        showConfirmButton: false,
+        timer: 1500,
+      })
+      }
+      event.preventDefault()
+        event.stopPropagation()
+      
     },
     postDetalle(){
       Api.postGastoDetalle(this.postGastoDetalle).then((response) => {
@@ -895,6 +930,14 @@ export default {
 
       })
     },
+    // IngresoReport() {
+    //   window
+    //     .open(
+    //       `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Gastos_Formulacion_FP08&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem('id_Ayuntamiento')}&FONDO=1&ANO=2022`,
+    //       '_blank',
+    //     )
+    //     .focus()
+    // },
 
     getBadge(status) {
       switch (status) {

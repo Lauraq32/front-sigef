@@ -20,7 +20,7 @@
               reportes = true
             }
           "
-          >Imprimir Comprobante</CButton
+          >Imprimir Ejecucion</CButton
         >
       </div>
     </div>
@@ -31,7 +31,7 @@
       <CModalTitle>Imprimir Reporte</CModalTitle>
     </CModalHeader>
     <CModalBody
-      ><CFormSelect v-model="parametroReporte" id="validationCustom05">
+      ><CFormSelect v-model="mesReporte" id="validationCustom05">
         <option>1-Enero</option>
         <option>2-Febrero</option>
         <option>3-Marzo</option>
@@ -48,7 +48,7 @@
     >
     <CModalFooter>
       <CButton color="secondary">Close</CButton>
-      <CButton color="primary">Imprimir</CButton>
+      <CButton color="primary" @click="imprimirReporte">Imprimir</CButton>
     </CModalFooter>
   </CModal>
   <CSmartTable
@@ -740,6 +740,7 @@ export default {
 
   data: () => {
     return {
+      mesReporte:null,
       parametroReporte: '',
       reportes:false,
       contribuyentesList: [],
@@ -854,9 +855,7 @@ export default {
     imprimirReporte(){
       window
         .open(
-          `http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fseguridad%2fRep_Ingresos_Formulacion&rs:Command=Render&ANO=1&CAPITULO_AYTO=${localStorage.getItem(
-            'id_Ayuntamiento',
-          )}&ano=${localStorage.getItem('ano')}`,
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Ejecucion&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem('id_Ayuntamiento')}&ANO=2022&PERIODO=${this.mesReporte.split('-')[0]}`,
           '_blank',
         )
         .focus()

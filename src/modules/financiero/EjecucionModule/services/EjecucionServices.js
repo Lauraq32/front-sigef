@@ -32,6 +32,10 @@ class Ejecucion {
     getSectorbyid(id) {
         return http.get(`Sector/${id}`)
     }
+
+    getRegistroGastobyid(id) {
+        return http.get(`RegistroGasto/${id}`)
+    }
     
     getIngresoAll() {
         return http.get(`RegistroIngreso?anio=${localStorage.getItem('ano')}&ID_AYUNTAMIENTO=${localStorage.getItem('id_Ayuntamiento')}`)
@@ -95,8 +99,8 @@ class Ejecucion {
         return http.put(`AnioFiscal/${id}`)
     }
 
-    putRegistroGasto(id) {
-        return http.put(`RegistroGasto/${id}`)
+    putRegistroGasto(data, id) {
+        return http.put(`RegistroGasto/${id}`, data)
     }
 
     getRegistroGasto(){
