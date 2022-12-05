@@ -257,6 +257,7 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { mapActions, mapState } from 'pinia'
 import { mapStores } from 'pinia'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 import Api from '../services/EjecucionServices'
 
 export default {
@@ -287,23 +288,23 @@ export default {
       },
 
       columns: [
-        { key: 'id', label: 'Código', _style: { width: '40%' } },
-        { key: 'ingreso', label: 'Ingreso', _style: { width: '40%' } },
+        { key: 'id', label: 'Código', _style: { width: '10%' } },
         {
           key: 'nombre',
           label: 'Beneficiario',
           _style: { width: '40%' },
         },
-        { key: 'ciudad', label: 'Ciudad', _style: { width: '40%' } },
-        { key: 'direccion', label: 'Cédula', _style: { width: '40%' } },
-        { key: 'tipoDcto', label: 'Tipo', _style: { width: '40%' } },
+        { key: 'direccion', label: 'Cédula', _style: { width: '10%' } },
+        { key: 'ingreso', label: 'Fecha Ingreso', _style: { width: '10%' } },
+        { key: 'tipoDcto', label: 'Tipo', _style: { width: '10%' } },
+        { key: 'ciudad', label: 'Ciudad', _style: { width: '20%' } },
         { key: 'email', label: 'Email', _style: { width: '40%' } },
-        { key: 'contacto', label: 'Contacto', _style: { width: '40%' } },
-        { key: 'telefono', label: 'Teléfono 1', _style: { width: '40%' } },
-        { key: 'celular', label: 'Teléfono 2', _style: { width: '40%' } },
-        { key: 'mensual', label: 'Mensual', _style: { width: '40%' } },
-        { key: 'estatus', label: 'Estatus', _style: { width: '40%' } },
-        { key: 'recomienda', label: 'Recomienda', _style: { width: '40%' } },
+        { key: 'contacto', label: 'Contacto', _style: { width: '35%' } },
+        { key: 'telefono', label: 'Teléfono 1', _style: { width: '20%' } },
+        { key: 'celular', label: 'Teléfono 2', _style: { width: '20%' } },
+        { key: 'mensual', label: 'Mensual', _style: { width: '20%' } },
+        { key: 'estatus', label: 'Estatus', _style: { width: '20%' } },
+        { key: 'recomienda', label: 'Recomienda', _style: { width: '20%' } },
 
         {
           key: 'show_details',
@@ -426,6 +427,14 @@ export default {
       } else {
         this.getBeneficiarios()
         this.addBeneficiarios(this.postBeneficiario)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          text: 'Datos agregados con exito',
+          title: 'Agregado',
+          showConfirmButton: false,
+          timer: 1500,
+        })
         //const form = event.currentTarget
         this.lgDemo = true
         setTimeout(this.getBeneficiarios, 500)

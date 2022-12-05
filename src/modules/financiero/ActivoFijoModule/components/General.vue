@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">General</h3>
+  <h3 class="text-center">ActivoFijo</h3>
   <hr />
   <div>
     <div class="d-inline p-2">
@@ -77,7 +77,7 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>General</CModalTitle>
+      <CModalTitle>ActivoFijos</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -296,8 +296,8 @@
               v-model="postActivo.llevaMantenimiento"
               id="validationCustom05"
             >
-              <option>Si</option>
-              <option>No</option>
+              <option>S</option>
+              <option>N</option>
             </CFormSelect>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -382,6 +382,7 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 import Api from '../services/ActivoFijoServices'
 
 export default {
@@ -407,7 +408,7 @@ export default {
         vidaUtil: 0,
         montoMensual: 0,
         areaId: 1,
-        categoriaId: 0,
+        categoriaId: 1,
         depreciacionAcumuladaAnual: 0,
         suplidor: null,
         factura: 0,
@@ -646,6 +647,14 @@ export default {
         setTimeout(this.getActivo, 500)
       } else {
         this.addActivo(this.postActivo)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          text: 'Datos agregados con exito',
+          title: 'Agregado',
+          showConfirmButton: false,
+          timer: 1500,
+        })
         //const form = event.currentTarget
         this.lgDemo = true
         setTimeout(this.getActivo, 500)

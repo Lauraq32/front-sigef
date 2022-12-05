@@ -109,14 +109,6 @@
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom05">Está activo?</CFormLabel>
-            <CFormSelect id="validationCustom05">
-              <option>Si</option>
-              <option>No</option>
-            </CFormSelect>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
           <div class="modal-footer">
             <button
               type="button"
@@ -146,6 +138,7 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 import Api from '../services/NominaServices'
 export default {
   components: {
@@ -230,6 +223,14 @@ export default {
       } else {
         setTimeout(this.getProgramas, 500)
         this.addProgramas(this.postPrograma)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          text: 'Datos agregados con exito',
+          title: 'Agregado',
+          showConfirmButton: false,
+          timer: 1500,
+        })
         //const form = event.currentTarget
         this.lgDemo = true
         setTimeout(this.getArea, 500)

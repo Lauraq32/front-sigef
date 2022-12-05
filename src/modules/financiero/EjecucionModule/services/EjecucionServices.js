@@ -32,6 +32,10 @@ class Ejecucion {
     getSectorbyid(id) {
         return http.get(`Sector/${id}`)
     }
+
+    getRegistroGastobyid(id) {
+        return http.get(`RegistroGasto/${id}`)
+    }
     
     getIngresoAll() {
         return http.get(`RegistroIngreso?anio=${localStorage.getItem('ano')}&ID_AYUNTAMIENTO=${localStorage.getItem('id_Ayuntamiento')}`)
@@ -57,7 +61,9 @@ class Ejecucion {
         return http.get('RegistroIngreso')
     }
 
-    
+    getRegistroGastoDetalle(id) {
+        return http.get(`RegistroGasto/Detalle?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}&id=${id}`)
+    }
 
     //post
 
@@ -77,6 +83,10 @@ class Ejecucion {
         return http.post('RegistroIngreso/Detalle', data)
     }
 
+    postGastoDetalle(data) {
+        return http.post('RegistroGasto/Detalle', data)
+    }
+
 
 
     //put
@@ -89,8 +99,19 @@ class Ejecucion {
         return http.put(`AnioFiscal/${id}`)
     }
 
+    putRegistroGasto(data, id) {
+        return http.put(`RegistroGasto/${id}`, data)
+    }
 
-    //delete
+    getRegistroGasto(){
+        return http.get(`RegistroGasto?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
+    }
+    postRegistroGasto(post){
+        return http.post(`RegistroGasto`,post)
+    }
+    getClasificador(Clasificador) {
+        return http.get(`PresIngreso/GetClasificadorById/${Clasificador}`)
+      }
 
 }
 
