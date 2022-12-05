@@ -14,7 +14,7 @@
       >
     </div>
     <div class="d-inline p-2">
-      <CButton color="info">Imprimir Comprobante</CButton>
+      <CButton color="info" @click="IngresoReport">Imprimir Comprobante</CButton>
     </div>
   </div>
   <hr />
@@ -44,7 +44,19 @@
         {{ formatDate(item.fecha) }}
       </td>
     </template>
-    <template #show_details="{ item, index }">
+    <template #show_details="{item}">
+      <td class="py-1">
+        <CButton
+          class="mt-1"
+          color="primary"
+          variant="outline"
+          square
+          size="sm"
+          @click="toggleDetails1(item)"
+        >
+          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
+        </CButton>
+      </td>
       <td class="py-2">
         <CButton
           color="primary"
@@ -52,9 +64,7 @@
           square
           size="sm"
           @click="
-            () => {
-              lgDemo1 = true
-            }
+            showDetalle(item)
           "
         >
           {{ Boolean(item._toggled) ? 'Hide' : 'Detalle' }}
@@ -434,7 +444,7 @@
           class="row g-3 needs-validation"
           novalidate
           :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
+          @submit=""
         >
           <div class="row">
             <div class="col-12">
@@ -480,7 +490,7 @@
                   </CCol>
                   <CCol :md="6">
                     <CFormLabel for="validationCustom04">Denominacion</CFormLabel>
-                    <CFormInput id="validationCustom04"> </CFormInput>
+                    <CFormInput v-model="postGastoDetalle.nombre" id="validationCustom04"> </CFormInput>
                     <CFormFeedback valid> Exito! </CFormFeedback>
                     <CFormFeedback invalid>
                       Favor agregar el campo
@@ -533,7 +543,6 @@
                       >Base Imposible</CFormLabel
                     >
                     <CFormInput
-                      v-model="postGastoDetalle.codBenefi"
                       id="validationCustom01"
                       required
                     />
@@ -558,6 +567,36 @@
                       Favor agregar el campo
                     </CFormFeedback>
                   </CCol>
+                  <CCol :md="6">
+                    <CFormLabel for="validationCustom01"
+                      >Retenciones</CFormLabel
+                    >
+                    <CFormInput
+                      v-model="postGastoDetalle.retenciones"
+                      id="validationCustom01"
+                      required
+                    />
+
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                  <CCol :md="6">
+                    <CFormLabel for="validationCustom01"
+                      >Banco</CFormLabel
+                    >
+                    <CFormInput
+                    v-model="postGastoDetalle.bancoId"
+                      id="validationCustom01"
+                      required
+                    />
+
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
                 </div>
               </div>
             </div>
@@ -573,7 +612,7 @@
             </button>
             <button
               class="btn btn-info btn-block mt-1"
-              v-on:click="postCabecera"
+              v-on:click="postDetalle"
             >
               Guardar
             </button>
@@ -590,7 +629,7 @@
           :activePage="1"
           footer
           header
-          :items="[]"
+          :items="detalleGasto"
           :columns="columns2"
           columnFilter
           tableFilter
@@ -615,7 +654,7 @@
                 size="sm"
                 @click="toggleDetails(item, index)"
               >
-                {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
+                {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
               </CButton>
             </td>
           </template>
@@ -654,9 +693,12 @@ export default {
   data: () => {
     return {
       cabeceraGasto: [],
+      detalleGasto:[],
       validatedCustom01: null,
       lgDemo: false,
       lgDemo1: false,
+      id:null,
+      cabeceraId: null,
       postGasto: {
         id: 0,
         anioFiscalId: parseInt(localStorage.getItem('ano')),
@@ -690,7 +732,7 @@ export default {
         id: 0,
         anioFiscalId: parseInt(localStorage.getItem('ano')),
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-        secuenciaComprobante: 0,
+        secuenciaComprobante: null,
         fecha: 0,
         bancoId: 0,
         estProg: '',
@@ -698,7 +740,7 @@ export default {
         ctgFuenteId: '',
         ctgFuenteEspecificaId: '',
         ctgOrganismoFinanciadorId: '',
-        ctgFuncionId: '',
+        ctgFuncionId: '1',
         valorBruto: 0,
         retenciones: 0,
         neto: 0,
@@ -748,7 +790,7 @@ export default {
           label: 'Clasificador',
           _style: { width: '40%' },
         },
-        { key: 'Descripcion', label: 'Descripcion', _style: { width: '40%' } },
+        { key: 'nombre', label: 'Descripcion', _style: { width: '40%' } },
         {
           key: 'ctgFuenteId',
           label: 'Fuente de financiamiento',
@@ -765,7 +807,7 @@ export default {
           _style: { width: '40%' },
         },
         { key: 'Sub_total', label: 'Sub-total', _style: { width: '40%' } },
-        { key: 'Retencion', label: 'Retencion', _style: { width: '40%' } },
+        { key: 'retenciones', label: 'Retencion', _style: { width: '40%' } },
         { key: 'valorBruto', label: 'Valor neto', _style: { width: '40%' } },
 
         {
@@ -788,6 +830,31 @@ export default {
         year: 'numeric',
       })
     },
+    toggleDetails1(item) {
+      // if (this.details.includes(item._id)) {
+      //   this.details = this.details.filter((_item) => _item !== item._id)
+      //   return
+      // }
+      // this.details.push(item._id)
+      this.lgDemo = true
+      this.cabeceraId = item.id
+      Api.getRegistroGastobyid(this.cabeceraId).then((response) => {
+        console.log(response.data)
+        this.postGasto.fecha = this.formatDate(response.data.data.fecha)
+        console.log(this.postGasto.fecha)
+        this.postGasto = response.data.data
+      })
+    },
+    showDetalle(item){
+      this.lgDemo1 = true
+      this.id = item.id
+      this.postGastoDetalle.secuenciaComprobante = item.id
+      Api.getRegistroGastoDetalle(item.id).then(response => {
+        console.log(response.data)
+        this.detalleGasto = response.data.data
+      })
+
+    },
     gotToBeneficiario() {
       this.$router.push({ path: '/Ejecucion/beneficiarios' })
     },
@@ -801,10 +868,44 @@ export default {
       this.validatedCustom01 = true
     },
     postCabecera(data) {
-      Api.postRegistroGasto(this.postGasto).then((response) => {
+      if (this.cabeceraId == null) {
+        Api.postRegistroGasto(this.postGasto).then((response) => {
         console.log(response.data.data)
       })
       setTimeout(this.getCabecera, 500)
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        text: 'Datos agregados con exito',
+        title: 'Agregado',
+        showConfirmButton: false,
+        timer: 1500,
+      })
+
+      } else {
+        Api.putRegistroGasto(this.postGasto, this.cabeceraId).then((response) => {
+          console.log(response.data)
+        })
+        setTimeout(this.getCabecera, 500)
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        text: 'Datos Actualizado con exito',
+        title: 'Actualizado',
+        showConfirmButton: false,
+        timer: 1500,
+      })
+      }
+      event.preventDefault()
+        event.stopPropagation()
+      
+    },
+    postDetalle(){
+      Api.postGastoDetalle(this.postGastoDetalle).then((response) => {
+        console.log(response)
+      })
+      setTimeout(this.getCabecera, 500)
+      setTimeout(showDetalle(this.id))
       Swal.fire({
         position: 'top-end',
         icon: 'success',
@@ -829,6 +930,14 @@ export default {
 
       })
     },
+    // IngresoReport() {
+    //   window
+    //     .open(
+    //       `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Gastos_Formulacion_FP08&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem('id_Ayuntamiento')}&FONDO=1&ANO=2022`,
+    //       '_blank',
+    //     )
+    //     .focus()
+    // },
 
     getBadge(status) {
       switch (status) {

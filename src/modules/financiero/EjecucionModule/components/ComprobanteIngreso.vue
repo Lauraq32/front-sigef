@@ -13,11 +13,44 @@
         >Agregar</CButton
       >
       <div class="d-inline p-2">
-        <CButton color="info">Imprimir Comprobante</CButton>
+        <CButton
+          color="info"
+          @click="
+            () => {
+              reportes = true
+            }
+          "
+          >Imprimir Ejecucion</CButton
+        >
       </div>
     </div>
   </div>
   <hr />
+  <CModal :backdrop="false" :keyboard="false"  :visible="reportes">
+    <CModalHeader>
+      <CModalTitle>Imprimir Reporte</CModalTitle>
+    </CModalHeader>
+    <CModalBody
+      ><CFormSelect v-model="mesReporte" id="validationCustom05">
+        <option>1-Enero</option>
+        <option>2-Febrero</option>
+        <option>3-Marzo</option>
+        <option>4-Abril</option>
+        <option>5-Mayo</option>
+        <option>6-Junio</option>
+        <option>7-Julio</option>
+        <option>8-Agosto</option>
+        <option>9-Septiembre</option>
+        <option>10-Octubre</option>
+        <option>11-Noviembre</option>
+        <option>12-Diciembre</option>
+      </CFormSelect></CModalBody
+    >
+    <CModalFooter>
+      <CButton color="secondary">Close</CButton>
+      <CButton color="primary" @click="imprimirReporte">Imprimir</CButton>
+    </CModalFooter>
+  </CModal>
   <CSmartTable
     clickableRows
     :tableProps="{
@@ -127,21 +160,22 @@
           </CCol>
           <CCol :md="2">
             <CFormLabel for="validationCustom04">Contribuyente</CFormLabel>
-            <vue3-simple-typeahead class="form-control"
-            v-model="ingresoPost.contribuyenteId"
-            id="validationCustom04"
-            placeholder="Escriba Aqui..."
-            :items="contribuyentesName"
-            :minInputLength="1"
-            :itemProjection="itemProjectionFunction"
-            @selectItem="selectItemEventHandler"
-            @onInput="onInputEventHandler"
-            @onFocus="onFocusEventHandler"
-            @onBlur="onBlurEventHandler"
-          >
-          </vue3-simple-typeahead>
+            <vue3-simple-typeahead
+              class="form-control"
+              v-model="ingresoPost.contribuyenteId"
+              id="validationCustom04"
+              placeholder="Escriba Aqui..."
+              :items="contribuyentesName"
+              :minInputLength="1"
+              :itemProjection="itemProjectionFunction"
+              @selectItem="selectItemEventHandler"
+              @onInput="onInputEventHandler"
+              @onFocus="onFocusEventHandler"
+              @onBlur="onBlurEventHandler"
+            >
+            </vue3-simple-typeahead>
           </CCol>
-         
+
           <hr />
           <CCol :md="11">
             <CFormLabel for="validationCustom04">Detalle</CFormLabel>
@@ -706,6 +740,9 @@ export default {
 
   data: () => {
     return {
+      mesReporte:null,
+      parametroReporte: '',
+      reportes:false,
       contribuyentesList: [],
       contribuyentesName: [],
       totales: null,
@@ -775,7 +812,7 @@ export default {
           _style: { width: '40%' },
         },
         {
-          key: 'detalle',
+          key: 'nombre',
           label: 'Descripción',
           _style: { width: '40%' },
         },
@@ -815,6 +852,14 @@ export default {
     ...mapState(useEjecucionIngresoStore, ['ingresosList']),
   },
   methods: {
+    imprimirReporte(){
+      window
+        .open(
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Ejecucion&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem('id_Ayuntamiento')}&ANO=2022&PERIODO=${this.mesReporte.split('-')[0]}`,
+          '_blank',
+        )
+        .focus()
+    },
     formatDate(fecha) {
       return new Date(fecha).toLocaleDateString('en-GB', {
         day: '2-digit',
@@ -832,7 +877,7 @@ export default {
         this.contribuyentesList = response.data.data
         this.contribuyentesList.map((contribuyente) => {
           this.contribuyentesName.push(
-            `${contribuyente.id}-${contribuyente.pais}`,
+            `${contribuyente.id}-${contribuyente.nombre}`,
           )
           console.log(this.contribuyentesName)
         })

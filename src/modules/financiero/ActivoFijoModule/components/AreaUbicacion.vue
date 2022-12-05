@@ -89,7 +89,19 @@
           @submit="handleSubmitCustom01"
         >
           <CCol :md="4">
-            <CFormLabel for="validationCustom02">Descripcion</CFormLabel>
+            <CFormLabel for="validationCustom02" >Código</CFormLabel>
+            <CFormInput
+              v-model="postAreaUbicacion.id"
+              id="validationCustom02"
+              required
+              disabled
+            />
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+
+          <CCol :md="4">
+            <CFormLabel for="validationCustom02">Descripción</CFormLabel>
             <CFormInput
               v-model="postAreaUbicacion.descripcion"
               id="validationCustom02"
@@ -98,9 +110,8 @@
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-
           <CCol :md="4">
-            <CFormLabel for="validationCustom02">Descripcion</CFormLabel>
+            <CFormLabel for="validationCustom02">Ubicación</CFormLabel>
             <CFormInput
               v-model="postAreaUbicacion.descripcion2"
               id="validationCustom02"
@@ -159,7 +170,7 @@ export default {
       columns: [
         { key: 'id', label: 'Codigo' },
         { key: 'descripcion', label: 'Descripcion' },
-        { key: 'descripcion2', label: 'Descripcion' },
+        { key: 'descripcion2', label: 'Ubicación' },
         {
           key: 'show_details',
           label: '',
