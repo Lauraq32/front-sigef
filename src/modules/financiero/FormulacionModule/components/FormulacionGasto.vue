@@ -165,7 +165,7 @@
             <CFormInput
               :disabled="id != null ? true : false"
               v-on:change="sumOfProp"
-              v-model="post.actControl"
+              v-model="post.actObra"
               id="validationCustom03"
               required
             />
@@ -178,7 +178,7 @@
             >
             <CFormInput
               disabled
-              v-model="post.mestprogId"
+              v-model="post.costObra"
               id="validationCustom04"
             >
             </CFormInput>
@@ -215,7 +215,7 @@
               >No. fondo transferido</CFormLabel
             >
             <CFormInput
-              v-model="post.estControl"
+              v-model="post.costObra"
               id="validationCustom04"
             ></CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
@@ -832,11 +832,12 @@ export default {
         ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
         anioFiscalId: localStorage.getItem('ano'),
         mestprogId: '',
+        costObra: '',
         pnap: '',
         nombre: '',
         programa: '',
         proyecto: '',
-        actControl: '',
+        actObra: '',
         estControl: '',
         unidadResp: '',
         tipo: '',
@@ -844,6 +845,7 @@ export default {
         actObra: '',
         pppm: 'n',
         modContatro: '',
+        asignadoA: 0,
         asignadoA: 0,
         fechaIniciada: '2022-10-31T14:18:15.972Z',
         // sumTotalPresupuesto: 0,
@@ -862,7 +864,8 @@ export default {
         { key: 'pnap', label: 'Pnap', _style: { width: '10%' } },
         { key: 'programa', label: 'Programa', _style: { width: '10%' } },
         { key: 'proyecto', label: 'Proyecto', _style: { width: '10%' } },
-        { key: 'actControl', label: 'Control', _style: { width: '10%' } },
+        { key: 'actObra', label: 'Act/Obra', _style: { width: '10%' } },
+        { key: 'estControl', label: 'Control', _style: { width: '10%' } },
         { key: 'nombre', label: 'Denominación', _style: { width: '20%' } },
         // {
         //   key: 'denominacion',
@@ -1145,7 +1148,7 @@ export default {
         this.detallePost.presGastoId = item.id
         this.detallePost.mestProgId = item.mestProgId
         // this.detallePost.ctgFuncionId = item.ctgFuncionId
-        this.post.mestprogId = `${this.post.pnap}${this.post.programa}${this.post.proyecto}${this.post.actControl}`
+        this.post.mestprogId = `${this.post.pnap}${this.post.programa}${this.post.proyecto}${this.post.actObra}`
         this.detallePresGastos = response.data.data.detallePresGastos
 
         //console.log(getGasto.value.data)
