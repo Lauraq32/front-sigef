@@ -76,7 +76,19 @@
           :validated="validatedCustom01"
           @submit="handleSubmitCustom01"
         >
-          <CCol :md="4">
+          <CCol :md="2">
+            <CFormLabel for="validationCustom02">Código</CFormLabel>
+            <CFormInput
+              v-model="postMarcas.id"
+              id="validationCustom02"
+              required
+            />
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+        
+          <CCol :md="6">
+            
             <CFormLabel for="validationCustom02">Marca</CFormLabel>
             <CFormInput
               v-model="postMarcas.nombre"
@@ -128,8 +140,8 @@ export default {
         nombre: null,
       },
       columns: [
-        { key: 'id', label: 'Codigo' },
-        { key: 'nombre', label: 'Marca' },
+        { key: 'id', label: 'Código' },
+        { key: 'nombre', label: 'Descripción' },
         {
           key: 'show_details',
           label: '',
