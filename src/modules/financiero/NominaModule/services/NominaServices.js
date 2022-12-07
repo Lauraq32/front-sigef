@@ -149,8 +149,8 @@ class NominaApi {
     return http.put(`ConfiguracionNomina/${id}`)
   }
 
-  putEmpleado(id) {
-    return http.put(`Empleado/${id}`)
+  putEmpleado(id, data) {
+    return http.put(`Empleado/${id}`, data)
   }
 
   putProgramaDivision(id, data) {
