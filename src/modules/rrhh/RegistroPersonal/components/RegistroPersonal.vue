@@ -1426,7 +1426,7 @@ export default {
 
     deleteItem(item){
       Api.delete
-    }
+    },
 
     submitForm() {
       if (this.id) {
@@ -1447,8 +1447,8 @@ export default {
         nombres: 'Juan Ernesto',
         apellidos: 'pepe Villar',
         tipoDocumento: 'Cedula',
-        cedula: '402561238452',
-        direccion: 'Av. Independencia',
+        cedula: '402123456921',
+        direccion: 'Av. Enrique jimenez moya',
         sectorId: 1,
         telefono: '',
         celular: '84912353499',
