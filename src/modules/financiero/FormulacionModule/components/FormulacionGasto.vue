@@ -786,7 +786,7 @@ export default {
               })
             })
           console.log(this.pregastoMasivo)
-          Api.postCargaMasiva(this.presIngrsoMasivo).then(response => {
+          Api.postCargaMasiva(this.pregastoMasivo).then(response => {
             console.log(response)
           })
         }

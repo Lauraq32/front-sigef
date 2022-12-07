@@ -153,7 +153,7 @@ class FormulacionApi {
   }
 
   postCargaMasiva(post){
-    return http.post(`PresIngreso/range`, post).catch((error) => {
+    return http.post(`PresIngreso/CargaMasiva`, post).catch((error) => {
       Swal.fire({
         position: 'top-end',
         icon: 'error',
