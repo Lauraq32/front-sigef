@@ -12,6 +12,14 @@ class NominaApi {
     return http.get('Posicion')
   }
 
+  getEmpleado() {
+    return http.get('Empleado')
+  }
+
+  getEmpleadoById(value) {
+    return http.get(`Empleado/${value}`)
+  }
+
   getSectores() {
     return http.get('Sector')
   }
@@ -78,6 +86,10 @@ class NominaApi {
     return http.post('Nomina', data)
   }
 
+  postEmpleado(data) {
+    return http.post('Empleado', data)
+  }
+
   postPocision(data) {
     return http.post('Posicion', data)
   }
@@ -135,6 +147,10 @@ class NominaApi {
 
   putConfiguracionNomina(id) {
     return http.put(`ConfiguracionNomina/${id}`)
+  }
+
+  putEmpleado(id) {
+    return http.put(`Empleado/${id}`)
   }
 
   putProgramaDivision(id, data) {
