@@ -43,15 +43,28 @@
       </td>
     </template>
     <template #show_details="{ item, index }">
-      <td class="py-2">
+      <td class="py-1">
         <CButton
+          class="mt-1"
           color="primary"
           variant="outline"
           square
           size="sm"
-          @click="toggleDetails(item, index)"
+          @click="toggleDetails(item)"
         >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
+          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
+        </CButton>
+      </td>
+      <td class="py-1">
+        <CButton
+          class="mt-1"
+          color="danger"
+          variant="outline"
+          square
+          size="sm"
+          @click="deleteItem(item)"
+        >
+          {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
         </CButton>
       </td>
     </template>
@@ -150,7 +163,7 @@
             <div class="row">
               <div class="col-4 border p-3">
                 <h3>Datos generales</h3>
-                <!-- <CCol>
+                <CCol>
                   <CFormLabel for="validationCustom01">Código</CFormLabel>
                   <CFormInput  v-model="postEmpleado.codigo" id="validationCustom01" />
 
@@ -158,7 +171,7 @@
                   <CFormFeedback invalid>
                     Favor agregar el campo
                   </CFormFeedback>
-                </CCol> -->
+                </CCol>
                 <CCol>
                   <CFormLabel for="validationCustom02">Cédula</CFormLabel>
                   <CFormInput
@@ -247,8 +260,23 @@
                     v-model="postEmpleado.tipoDocumento"
                     id="validationCustom05"
                   >
-                    <option>Tipo1</option>
-                    <option>Tipo2</option>
+                    <option>Cedula</option>
+                    <option>Pasaporte</option>
+                  </CFormSelect>
+                  <CFormFeedback invalid>
+                    Favor agregar el campo
+                  </CFormFeedback>
+                </CCol>
+                <CCol>
+                  <CFormLabel for="validationCustom05"
+                    >Estado civil</CFormLabel
+                  >
+                  <CFormSelect
+                    v-model="postEmpleado.estadoCivil"
+                    id="validationCustom05"
+                  >
+                    <option>Soltero</option>
+                    <option>Casado</option>
                   </CFormSelect>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -1203,7 +1231,218 @@ export default {
         // correoElectronico2: null,
         // recomendadoPor: null,
 
-        ayuntamientoId: 1,
+        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        codigo: null,
+        nombres: null,
+        apellidos: null,
+        tipoDocumento: null,
+        cedula: null,
+        direccion: null,
+        sectorId: 1,
+        telefono: null,
+        celular: null,
+        fechaNacimiento: new Date(Date.now()),
+        lugarNacimiento: null,
+        estadoCivil: null,
+        sexo: '',
+        dependientes: 0,
+        fechaIngreso: null,
+        fechaSalida: null,
+        razonSalida: '',
+        reemplear: false,
+        fechaReingreso: new Date(Date.now()),
+        programaDivisionId: 1,
+        departamentoId: 1,
+        areaTrabajoId: 2,
+        posicionId: 1,
+        grupoOcupacional: '',
+        tipoContrato: '',
+        fechaInicioContrato: new Date(Date.now()),
+        fechaFinContrato: new Date(Date.now()),
+        turno: null,
+        periodoPago:null,
+        formaPago: null,
+        numeroCuenta: null,
+        fechaExpitaTarjeta: null,
+        estatus: true,
+        sueldo: 0,
+        sueldoAnterior: 0,
+        fechaSueldoAnterior: new Date(Date.now()),
+        fechaUltimaNomina: new Date(Date.now()),
+        inicioVacaciones: new Date(Date.now()),
+        finVacaciones: new Date(Date.now()),
+        activoNomina: true,
+        ingreso2: 0,
+        ingreso3: 0,
+        ingreso4: 0,
+        ingreso5: 0,
+        ingreso6: 0,
+        ingreso7: 0,
+        ingreso8: 0,
+        ingreso9: 0,
+        ingreso10: 0,
+        impuestoSobreRenta: 0,
+        arsCalculado: true,
+        arsFijo: 0,
+        afpCalculado: true,
+        afpFijo: 0,
+        egresos4: 0,
+        egresos5: 0,
+        egresos6: 0,
+        egresos7: 0,
+        egresos8: 0,
+        egresos9: 0,
+        egresos10: 0,
+        eneroIngreso: 0,
+        febreroIngreso: 0,
+        marzoIngreso: 0,
+        abrilIngreso: 0,
+        mayoIngreso: 0,
+        junioIngreso: 0,
+        julioIngreso: 0,
+        agostoIngreso: 0,
+        septiembreIngreso: 0,
+        octubreIngreso: 0,
+        noviembreIngreso: 0,
+        diciembreIngreso: 0,
+        observacion: '',
+        discapacidad: '',
+        emergenciaNombre: '',
+        emergenciaTelefono: '',
+        emergenciaTelefono2: '',
+        emergenciaDireccion: '',
+        emergenciaParentezco: '',
+        tipoSangreId: 1,
+        emergenciaAlergico: '',
+        emergenciaDiabetico: '',
+        emergenciaInsodepend: '',
+        emergenciaPresionAlta: '',
+        emergenciaPresionBaja: '',
+        emergenciaEnTratamiento: '',
+        emergenciaDiagnostico: '',
+        licenciaConducir: '',
+        fechaExpiracionLicencia: new Date(Date.now()),
+        aplicaSasp: true,
+        nivelEscolar: '',
+        areaTematica: '',
+        tituloObtenido: '',
+        correoElectronico: '',
+        correoElectronico2: '',
+        recomendadoPor: '',
+      },
+
+      tabPaneActiveKey: 1,
+      columns: [
+        { key: 'apellidos', label: 'Apellido', _style: { width: '40%' } },
+        { key: 'nombres', label: 'Nombre', _style: { width: '40%' } },
+        { key: 'cedula', label: 'Cédula', _style: { width: '40%' } },
+        {
+          key: 'programaDivisionId',
+          label: 'Programa',
+          _style: { width: '40%' },
+        },
+        {
+          key: 'Direccion o Dependencia',
+          label: 'Direccion o Dependencia',
+          _style: { width: '40%' },
+        },
+        { key: 'Cargo', label: 'Cargo', _style: { width: '40%' } },
+        {
+          key: 'fechaIngreso',
+          label: 'Fecha ingreso',
+          _style: { width: '40%' },
+        },
+        { key: 'formaPago', label: 'Fecha Nacim.', _style: { width: '40%' } },
+        { key: 'sexo', label: 'Sexo', _style: { width: '40%' } },
+
+        {
+          key: 'show_details',
+          label: '',
+          _style: { width: '1%' },
+          filter: false,
+          sorter: false,
+          // _props: { color: 'primary', class: 'fw-semibold'}
+        },
+      ],
+
+      details: [],
+
+      validatedCustom01: null,
+      lgDemo: false,
+    }
+  },
+
+  computed: {
+    ...mapStores(useRegistroStore),
+    ...mapState(useRegistroStore, ['registroPersonal']),
+  },
+
+  methods: {
+    ...mapActions(useRegistroStore, [
+      'getRegistroPersonal',
+      'addRegistroPersonal',
+    ]),
+
+    handleSubmitCustom01(event) {
+      const form = event.currentTarget
+      if (form.checkValidity() === false) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      this.validatedCustom01 = true
+    },
+
+    getBadge(status) {
+      switch (status) {
+        case 'Active':
+          return 'success'
+        case 'Inactive':
+          return 'secondary'
+        case 'Pending':
+          return 'warning'
+        case 'Banned':
+          return 'danger'
+        default:
+          'primary'
+      }
+    },
+
+    toggleDetails(item) {
+      console.log(item)
+      if (item.empleados !== 0 || item.variacion !== 0) {
+        this.empleadoValue = true
+      } else {
+        this.empleadoValue = false
+      }
+      this.edit = true
+      this.lgDemo = true
+      console.log(item.id)
+      Api.getEmpleadoByID(item).then((response) => {
+        console.log(response)
+        this.id = item.id
+        this.postEmpleado = response.data.data
+      })
+    },
+
+    deleteItem(item){
+      Api.delete
+    }
+
+    submitForm() {
+      if (this.id) {
+        Api.putEmpleado(this.id, this.postEmpleado).then((response) => {
+          console.log(response.data)
+          this.lgDemo = false
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+          setTimeout(this.getRegistroPersonal, 500)
+          this.postEmpleado = {
+            ayuntamientoId: 1,
         codigo: '215328',
         nombres: 'Juan Ernesto',
         apellidos: 'pepe Villar',
@@ -1301,94 +1540,33 @@ export default {
         correoElectronico: '',
         correoElectronico2: '',
         recomendadoPor: '',
-      },
-
-      tabPaneActiveKey: 1,
-      columns: [
-        { key: 'apellidos', label: 'Apellido', _style: { width: '40%' } },
-        { key: 'nombres', label: 'Nombre', _style: { width: '40%' } },
-        { key: 'cedula', label: 'Cédula', _style: { width: '40%' } },
-        {
-          key: 'programaDivisionId',
-          label: 'Programa',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'Direccion o Dependencia',
-          label: 'Direccion o Dependencia',
-          _style: { width: '40%' },
-        },
-        { key: 'Cargo', label: 'Cargo', _style: { width: '40%' } },
-        {
-          key: 'fechaIngreso',
-          label: 'Fecha ingreso',
-          _style: { width: '40%' },
-        },
-        { key: 'formaPago', label: 'Fecha Nacim.', _style: { width: '40%' } },
-        { key: 'sexo', label: 'Sexo', _style: { width: '40%' } },
-
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
-        },
-      ],
-
-      details: [],
-
-      validatedCustom01: null,
-      lgDemo: false,
-    }
-  },
-
-  computed: {
-    ...mapStores(useRegistroStore),
-    ...mapState(useRegistroStore, ['registroPersonal']),
-  },
-
-  methods: {
-    ...mapActions(useRegistroStore, [
-      'getRegistroPersonal',
-      'addRegistroPersonal',
-    ]),
-
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
+          }
+        })
+        setTimeout(this.getRegistroPersonal, 500)
+      } else {
+        this.addRegistroPersonal(this.postEmpleado)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          text: 'Datos agregados con exito',
+          title: 'Agregado',
+          showConfirmButton: false,
+          timer: 1500,
+        })
+        //const form = event.currentTarget
+        this.lgDemo = true
+        setTimeout(this.getRegistroPersonal, 500)
+        ;(this.postEmpleado = {
+          id: 0,
+          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          nombre: null,
+        }),
+          (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
+        setTimeout(this.getRegistroPersonal, 500)
       }
-      this.validatedCustom01 = true
-    },
 
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
-
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
-      }
-      this.details.push(item._id)
-    },
-
-    submitForm() {
-      this.addRegistroPersonal(this.postEmpleado)
     },
   },
 

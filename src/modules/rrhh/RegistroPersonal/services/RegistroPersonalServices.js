@@ -41,8 +41,8 @@ class RegistroPersonal {
 
 
   //put
-  putEmpleado(id) {
-    return http.put(`Empleado/${id}`)
+  putEmpleado(id,data) {
+    return http.put(`Empleado/${id}`,data)
   }
 
   putArea(id) {
