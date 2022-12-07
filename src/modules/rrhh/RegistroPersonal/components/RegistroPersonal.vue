@@ -160,6 +160,18 @@
                   </CFormFeedback>
                 </CCol> -->
                 <CCol>
+                  <CFormLabel for="validationCustom02">Cédula</CFormLabel>
+                  <CFormInput
+                    v-model="postEmpleado.cedula"
+                    id="validationCustom02"
+                    required
+                  />
+                  <CFormFeedback valid> Exito! </CFormFeedback>
+                  <CFormFeedback invalid>
+                    Favor agregar el campo
+                  </CFormFeedback>
+                </CCol>
+                <CCol>
                   <CFormLabel for="validationCustom02">Nombre</CFormLabel>
                   <CFormInput
                     v-model="postEmpleado.nombres"
