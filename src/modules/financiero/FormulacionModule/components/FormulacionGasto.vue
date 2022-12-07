@@ -17,6 +17,11 @@
     </div>
   </div>
   <hr />
+
+  <div>
+    <CFormInput type="file" id="formFile" @change="onFileChange" />
+  </div>
+  <hr />
   <CSmartTable clickableRows :tableProps="{
     striped: false,
     hover: true,
@@ -499,7 +504,7 @@ import { mount } from '@vue/test-utils'
 import { mapStores } from 'pinia'
 import { mapGetters } from 'vuex'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-
+import XLSX from 'xlsx/xlsx.mjs'
 export default {
   components: {
     CSmartTable,
@@ -507,6 +512,7 @@ export default {
   },
   data: () => {
     return {
+      pregastoMasivo: [],
       id: null,
       idDetalle: null,
       detallePresGastos: [],
@@ -702,6 +708,92 @@ export default {
     sumOfProp() {
       this.post.mestprogId = `${this.post.pnap}${this.post.programa}${this.post.proyecto}${this.post.actControl}`
     },
+    onFileChange(event) {
+      this.file = event.target.files ? event.target.files[0] : null;
+      if (this.file) {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+          const bstr = e.target.result;
+          const wb = XLSX.read(bstr, { type: 'binary', cellDates: true, dateNF: 'yyyy/mm/dd;@' });
+          const wsname = wb.SheetNames[0];
+          const ws = wb.Sheets[wsname];
+          const data = XLSX.utils.sheet_to_json(ws);
+          data.map(item => {
+            this.pregastoMasivo.push({
+              presGastoId: 0,
+              ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+              anioFiscalId: parseInt(localStorage.getItem('ano')),
+              mestProgId: `${item['PROGRAMA']}${item['SUB_PROGRAMA'].toString().padStart(1, 0)}${item['PROYECTO'].toString().padStart(2, 0)}${item['ACTIVIDAD_OBRA'].toString().padStart(3, 0)}`,
+              ctgClasificadorId: `${item['TIPO']}${item['CONCEPTO']}${item['CUENTA']}${item['SUB_CUENTA']}${item['AUXILIAR'].toString().padStart(2, 0)}`,
+              cControl: `${item['CUENTA']}`,
+              auxiliar: `${item['AUXILIAR'].toString().padStart(2, 0)}`,
+              ctgFuenteId: `${item['FUENTE_FINANCIAMIENTO']}`,
+              ctgFuenteEspecificaId: `${item['FUENTE_ESPECIFICA']}`,
+              ctgOrganismoFinanciadorId: `${item['ORGANISMO_FINANCIADOR']}`,
+              oriFondos: 0,
+              ctgFuncionId: '1',
+              nombre: null,
+              tipo: '',
+              tipoGasto: '',
+              oriBco1: 0,
+              estimadoBco1: 0,
+              presupuestoBco1: 0,
+              variacionBco1: 0,
+              totalDevengadoBco1: 0,
+              disponiblePagadoBco1: 0,
+              totalPagadoBco1: 0,
+              oriBco2: 0,
+              estimadoBco2: 0,
+              presupuestoBco2: 0,
+              variacionBco2: 0,
+              totalDevengadoBco2: 0,
+              disponiblePagadoBco2: 0,
+              totalPagadoBco2: 0,
+              oriBco3: 0,
+              estimadoBco3: 0,
+              presupuestoBco3: 0,
+              variacionBco3: 0,
+              totalDevengadoBco3: 0,
+              disponiblePagadoBco3: 0,
+              totalPagadoBco3: 0,
+              oriBco4: 0,
+              estimadoBco4: 0,
+              presupuestoBco4: 0,
+              variacionBco4: 0,
+              totalDevengadoBco4: 0,
+              disponiblePagadoBco4: 0,
+              totalPagadoBco4: 0,
+              totalOriginal: 0,
+              totalCompromiso: 0,
+              totalDevengado: 0,
+              totalPagado: 0,
+              totalVariacion: 0,
+              sumTotalOriginal: 0,
+              sumTotalCompromiso: 0,
+              sumTotalDevengado: 0,
+              sumTotalPagado: 0,
+              sumTotalVariacion: 0,
+            })
+
+
+          }
+
+          )
+          this.pregastoMasivo.map(item => {
+              Api.getEstruturaProgramaticaById(item.mestProgId).then(response => {
+                item.nombre = response.data.data.nombre
+              })
+            })
+          console.log(this.pregastoMasivo)
+          Api.postCargaMasiva(this.presIngrsoMasivo).then(response => {
+            console.log(response)
+          })
+        }
+
+        reader.readAsBinaryString(this.file);
+      }
+    },
     Guardar() {
       if (this.id != null) {
         Api.updateFormulacion(this.id, this.post)
@@ -805,7 +897,7 @@ export default {
             Swal.fire({
               position: 'top-end',
               icon: 'warning',
-             
+
               title: 'Clasificador no permitido',
               showConfirmButton: false,
               timer: 1500,

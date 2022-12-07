@@ -42,7 +42,8 @@
     "vue-router": "^4.0.12",
     "vue-sweetalert2": "^5.0.5",
     "vue3-simple-typeahead": "^1.0.11",
-    "vuex": "^4.0.2"
+    "vuex": "^4.0.2",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.1/xlsx-0.19.1.tgz"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
