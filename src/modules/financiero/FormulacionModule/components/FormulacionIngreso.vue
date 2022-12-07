@@ -21,6 +21,11 @@
         >Imprimir</CButton
       >
     </div>
+    <div class="d-inline p-2" style="margin-left:63%">
+      <CButton style="font-weight: bold" color="info" @click="goToGasto"
+        >Ir a Formulacion Gasto</CButton
+      >
+    </div>
   </div>
   <hr />
   <CSmartTable
@@ -46,9 +51,19 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
-    <template #status="{ item }">
+    <template #anioAnt="{ item }">
       <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+        {{ formatPrice(item.anioAnt) }}
+      </td>
+    </template>
+    <template #alaFecha="{ item }">
+      <td>
+        {{ formatPrice(item.alaFecha) }}
+      </td>
+    </template>
+    <template #presForm="{ item }">
+      <td>
+        {{ formatPrice(item.presForm) }}
       </td>
     </template>
     <template #show_details="{ item }">
@@ -171,10 +186,10 @@
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <CCol :md="2">
+          <CCol :md="1">
             <button
-              class="btn btn-primary"
-              style="margin-top: 32px"
+              class="btn btn-primary btn-sm"
+              style="margin-top: 32px;height: 37px;"
               v-on:click="getClasificador"
             >
               Buscar
@@ -191,7 +206,7 @@
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <CCol :md="4">
+          <CCol :md="5">
             <CFormLabel for="validationCustomUsername">Detalle</CFormLabel>
             <CInputGroup class="has-validation">
               <CFormInput
@@ -314,7 +329,7 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/FormulacionServices'
 import { mapActions, mapState } from 'vuex'
-
+import router from '@/router'
 export default {
   components: {
     CSmartTable,
@@ -322,7 +337,6 @@ export default {
   },
   data: () => {
     return {
-
       anofiscal: parseInt(localStorage.getItem('ano')),
       ctgFuenteId: true,
       ctgFuenteEspecificaId: true,
@@ -414,12 +428,16 @@ export default {
     }
   },
   methods: {
-    formatCurrency(anioAnt){
-    return anioAnt.toLocaleString("es-MX", {
-      style: "currency",
-      currency: "DOP",
-    });
-  },
+
+    goToGasto(){
+      router.push({ name: 'Formulacion Gasto' })
+    },
+    formatCurrency(anioAnt) {
+      return anioAnt.toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'DOP',
+      })
+    },
     getTotales() {
       Api.getTotalIngresos(
         localStorage.getItem('id_Ayuntamiento'),
@@ -488,8 +506,8 @@ export default {
     },
 
     submitForm() {
-      const  inputClasificador = document.getElementById('clasifica')
-      inputClasificador.focus();
+      const inputClasificador = document.getElementById('clasifica')
+      inputClasificador.focus()
       if (this.id) {
         Api.editPresIngreso(this.id, this.postIngreso).then((response) => {
           console.log(response.data)
@@ -526,7 +544,7 @@ export default {
           //   localStorage.getItem('ano'),
           // ),
 
-          setTimeout(this.getListarIngresos, 3000);
+          setTimeout(this.getListarIngresos, 3000)
           console.log(this.ingresos)
           //this.getTotal();
           this.getTotales()
@@ -559,12 +577,11 @@ export default {
           variacionResumen: 0,
         }
         this.validatedCustom01 = false
-        setTimeout(this.getListarIngresos, 500);
+        setTimeout(this.getListarIngresos, 500)
         console.log(this.ingresos)
         //this.getTotal();
         this.getTotales()
       }
-
     },
     getClasificador() {
       this.$store.dispatch(
@@ -632,7 +649,9 @@ export default {
     IngresoReport() {
       window
         .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Formulacion&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem('ano')}&ANO=2022`,
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Formulacion&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem(
+            'ano',
+          )}&ANO=2022`,
           '_blank',
         )
         .focus()
@@ -667,8 +686,7 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
-        this.getListarIngresos(),
-          console.log(this.ingresos)
+        this.getListarIngresos(), console.log(this.ingresos)
         //this.getTotal();
         this.getTotales()
       })
@@ -683,8 +701,7 @@ export default {
   //     this.$store.dispatch('Formulacion/getListarIngresos');
   //   },
   created() {
-    this.getListarIngresos(),
-      console.log(this.ingresos)
+    this.getListarIngresos(), console.log(this.ingresos)
     //this.getTotal();
     this.getTotales()
   },

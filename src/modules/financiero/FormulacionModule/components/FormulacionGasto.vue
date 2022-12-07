@@ -15,6 +15,11 @@
     <div class="d-inline p-2">
       <CButton style="font-weight: bold" color="info" @click="cargarEstructuras">Cargar Estructuras</CButton>
     </div>
+    <div class="d-inline p-2" style="margin-left:55%">
+      <CButton style="font-weight: bold" color="info" @click="goToIngreso"
+        >Ir a Formulacion Ingreso</CButton
+      >
+    </div>
   </div>
   <hr />
   <CSmartTable clickableRows :tableProps="{
@@ -111,7 +116,7 @@
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom04">Est. Programática control</CFormLabel>
-            <CFormInput disabled v-model="post.costObra" id="validationCustom04">
+            <CFormInput disabled v-model="post.mestprogId" id="validationCustom04">
             </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -147,11 +152,11 @@
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
               Close
             </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
-              Guardar
-            </button>
             <button class="btn btn-info btn-block mt-1" @click="toggleDetails1()">
-              Guardar Detalle
+              Adicionar Detalle
+            </button>
+            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+              Guardar Estructura
             </button>
           </div>
         </CForm>
@@ -499,7 +504,7 @@ import { mount } from '@vue/test-utils'
 import { mapStores } from 'pinia'
 import { mapGetters } from 'vuex'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-
+import router from '@/router'
 export default {
   components: {
     CSmartTable,
@@ -582,9 +587,9 @@ export default {
         unidadResp: '',
         tipo: '',
         totalPresupuesto: 0,
-        actObra: '',
+        actControl: '',
         pppm: 'n',
-        modContatro: '',
+        modContatro: 'n',
         asignadoA: 0,
         asignadoA: 0,
         fechaIniciada: '2022-10-31T14:18:15.972Z',
@@ -645,17 +650,17 @@ export default {
         {
           key: 'ctgClasificadorId',
           label: 'Clasificador',
-          _style: { width: '40%' },
+          _style: { width: '20%' },
         },
         {
           key: 'nombre',
           label: 'Denominacion',
-          _style: { width: '40%' },
+          _style: { width: '60%' },
         },
         {
           Object: 'detallePresGastos',
           key: 'totalOriginal',
-          label: 'Original',
+          label: 'Presupuesto',
           _style: { width: '40%' },
         },
         {
@@ -700,7 +705,10 @@ export default {
       'getDetalleGasto',
     ]),
     sumOfProp() {
-      this.post.mestprogId = `${this.post.pnap}${this.post.programa}${this.post.proyecto}${this.post.actControl}`
+      this.post.mestprogId = `${this.post.pnap}${this.post.programa}${this.post.proyecto}${this.post.actObra}`
+    },
+    goToIngreso(){
+      router.push({ name: 'Formulacion Ingreso' })
     },
     Guardar() {
       if (this.id != null) {
@@ -872,7 +880,6 @@ export default {
         timer: 1500,
       })
       Api.cargarEstructuras()
-      this.getListarGastos()
     },
 
     getBadge(status) {
