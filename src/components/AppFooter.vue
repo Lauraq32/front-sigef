@@ -17,4 +17,5 @@
 export default {
   name: 'AppFooter',
 }
+
 </script>
