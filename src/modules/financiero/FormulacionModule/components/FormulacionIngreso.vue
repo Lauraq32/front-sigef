@@ -15,22 +15,54 @@
     <div class="d-inline p-2">
       <CButton style="font-weight: bold" color="info" @click="IngresoReport">Imprimir</CButton>
     </div>
+    <div class="d-inline p-2" style="margin-left:63%">
+      <CButton style="font-weight: bold" color="info" @click="goToGasto"
+        >Ir a Formulacion Gasto</CButton
+      >
+    </div>
   </div>
   <hr />
   <div>
     <CFormInput type="file" id="formFile" @change="onFileChange" />
   </div>
   <hr>
-  <CSmartTable clickableRows :tableProps="{
-    striped: false,
-    hover: true,
-  }" :tableHeadProps="{}" :activePage="1" footer header key="ingreso.id" :items="ingresos" :columns="columns"
-    columnFilter tableFilter cleaner itemsPerPageSelect :itemsPerPage="5"
-    :items-per-page-options="[5, 10, 20, 50, 100, 150]" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination>
-    <template #status="{ item }">
+  
+  <CSmartTable
+    clickableRows
+    :tableProps="{
+      striped: false,
+      hover: true,
+    }"
+    :tableHeadProps="{}"
+    :activePage="1"
+    footer
+    header
+    key="ingreso.id"
+    :items="ingresos"
+    :columns="columns"
+    columnFilter
+    tableFilter
+    cleaner
+    itemsPerPageSelect
+    :itemsPerPage="5"
+    :items-per-page-options="[5, 10, 20, 50, 100, 150]"
+    columnSorter
+    :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination
+  >
+    <template #anioAnt="{ item }">
       <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+        {{ formatPrice(item.anioAnt) }}
+      </td>
+    </template>
+    <template #alaFecha="{ item }">
+      <td>
+        {{ formatPrice(item.alaFecha) }}
+      </td>
+    </template>
+    <template #presForm="{ item }">
+      <td>
+        {{ formatPrice(item.presForm) }}
       </td>
     </template>
     <template #show_details="{ item }">
@@ -111,8 +143,12 @@
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <CCol :md="2">
-            <button class="btn btn-primary" style="margin-top: 32px" v-on:click="getClasificador">
+          <CCol :md="1">
+            <button
+              class="btn btn-primary btn-sm"
+              style="margin-top: 32px;height: 37px;"
+              v-on:click="getClasificador"
+            >
               Buscar
             </button>
           </CCol>
@@ -122,7 +158,7 @@
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <CCol :md="4">
+          <CCol :md="5">
             <CFormLabel for="validationCustomUsername">Detalle</CFormLabel>
             <CInputGroup class="has-validation">
               <CFormInput disabled v-model="postIngreso.detalle" id="validationCustomUsername" value=""
@@ -201,6 +237,7 @@ import Api from '../services/FormulacionServices'
 import { mapActions, mapState } from 'vuex'
 import XLSX from 'xlsx/xlsx.mjs'
 
+import router from '@/router'
 export default {
   components: {
     CSmartTable,
@@ -357,11 +394,15 @@ export default {
     },
 
 
+   
+    goToGasto(){
+      router.push({ name: 'Formulacion Gasto' })
+    },
     formatCurrency(anioAnt) {
-      return anioAnt.toLocaleString("es-MX", {
-        style: "currency",
-        currency: "DOP",
-      });
+      return anioAnt.toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'DOP',
+      })
     },
     getTotales() {
       Api.getTotalIngresos(
@@ -469,7 +510,7 @@ export default {
           //   localStorage.getItem('ano'),
           // ),
 
-          setTimeout(this.getListarIngresos, 3000);
+          setTimeout(this.getListarIngresos, 3000)
           console.log(this.ingresos)
           //this.getTotal();
           this.getTotales()
@@ -502,12 +543,11 @@ export default {
           variacionResumen: 0,
         }
         this.validatedCustom01 = false
-        setTimeout(this.getListarIngresos, 500);
+        setTimeout(this.getListarIngresos, 500)
         console.log(this.ingresos)
         //this.getTotal();
         this.getTotales()
       }
-
     },
     getClasificador() {
       this.$store.dispatch(
@@ -575,7 +615,9 @@ export default {
     IngresoReport() {
       window
         .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Formulacion&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem('ano')}&ANO=2022`,
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Formulacion&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem(
+            'ano',
+          )}&ANO=2022`,
           '_blank',
         )
         .focus()
@@ -610,8 +652,7 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
-        this.getListarIngresos(),
-          console.log(this.ingresos)
+        this.getListarIngresos(), console.log(this.ingresos)
         //this.getTotal();
         this.getTotales()
       })
@@ -626,8 +667,7 @@ export default {
   //     this.$store.dispatch('Formulacion/getListarIngresos');
   //   },
   created() {
-    this.getListarIngresos(),
-      console.log(this.ingresos)
+    this.getListarIngresos(), console.log(this.ingresos)
     //this.getTotal();
     this.getTotales()
   },

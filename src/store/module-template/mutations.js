@@ -12,6 +12,10 @@ export const SET_USER = (state, user) => {
       localStorage.setItem('image', response.data.data.usuario.ayuntamiento.imagenUrl)
       localStorage.setItem(
         'nombre_ayuntamiento',
+        response.data.data.usuario.ayuntamiento.descripcion,
+      )
+      localStorage.setItem(
+        'nombre_usuario',
         response.data.data.usuario.nombre,
       )
       localStorage.setItem('ano', response.data.data.anioFiscal.anioFiscalDate)
