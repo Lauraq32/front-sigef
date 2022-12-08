@@ -15,6 +15,16 @@
     <div class="d-inline p-2">
       <CButton style="font-weight: bold" color="info" @click="cargarEstructuras">Cargar Estructuras</CButton>
     </div>
+    <div class="d-inline p-2" style="margin-left:55%">
+      <CButton style="font-weight: bold" color="info" @click="goToIngreso"
+        >Ir a Formulacion Ingreso</CButton
+      >
+    </div>
+  </div>
+  <hr />
+
+  <div>
+    <CFormInput type="file" id="formFile" @change="onFileChange" />
   </div>
   <hr />
   <CSmartTable clickableRows :tableProps="{
@@ -111,7 +121,7 @@
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom04">Est. Programática control</CFormLabel>
-            <CFormInput disabled v-model="post.costObra" id="validationCustom04">
+            <CFormInput disabled v-model="post.mestprogId" id="validationCustom04">
             </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -147,11 +157,11 @@
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
               Close
             </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
-              Guardar
-            </button>
             <button class="btn btn-info btn-block mt-1" @click="toggleDetails1()">
-              Guardar Detalle
+              Adicionar Detalle
+            </button>
+            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+              Guardar Estructura
             </button>
           </div>
         </CForm>
@@ -499,7 +509,8 @@ import { mount } from '@vue/test-utils'
 import { mapStores } from 'pinia'
 import { mapGetters } from 'vuex'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-
+import XLSX from 'xlsx/xlsx.mjs'
+import router from '@/router'
 export default {
   components: {
     CSmartTable,
@@ -507,10 +518,13 @@ export default {
   },
   data: () => {
     return {
+      pregastoMasivo: [],
       id: null,
       idDetalle: null,
       detallePresGastos: [],
       sumOfFlieds: null,
+      pnap : null,
+      programa:null,
       detallePost: {
         id: 0,
         presGastoId: 0,
@@ -582,9 +596,9 @@ export default {
         unidadResp: '',
         tipo: '',
         totalPresupuesto: 0,
-        actObra: '',
+        actControl: '',
         pppm: 'n',
-        modContatro: '',
+        modContatro: 'n',
         asignadoA: 0,
         asignadoA: 0,
         fechaIniciada: '2022-10-31T14:18:15.972Z',
@@ -645,17 +659,17 @@ export default {
         {
           key: 'ctgClasificadorId',
           label: 'Clasificador',
-          _style: { width: '40%' },
+          _style: { width: '20%' },
         },
         {
           key: 'nombre',
           label: 'Denominacion',
-          _style: { width: '40%' },
+          _style: { width: '60%' },
         },
         {
           Object: 'detallePresGastos',
           key: 'totalOriginal',
-          label: 'Original',
+          label: 'Presupuesto',
           _style: { width: '40%' },
         },
         {
@@ -700,7 +714,108 @@ export default {
       'getDetalleGasto',
     ]),
     sumOfProp() {
-      this.post.mestprogId = `${this.post.pnap}${this.post.programa}${this.post.proyecto}${this.post.actControl}`
+      this.post.mestprogId = `${this.post.pnap}${this.post.programa}${this.post.proyecto}${this.post.actObra}`
+    },
+    goToIngreso(){
+      router.push({ name: 'Formulacion Ingreso' })
+    },
+    onFileChange(event) {
+      this.file = event.target.files ? event.target.files[0] : null;
+      if (this.file) {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+          const bstr = e.target.result;
+          const wb = XLSX.read(bstr, { type: 'binary', cellDates: true, dateNF: 'yyyy/mm/dd;@' });
+          const wsname = wb.SheetNames[0];
+          const ws = wb.Sheets[wsname];
+          const data = XLSX.utils.sheet_to_json(ws);
+          data.map(item => {
+           
+            if(item['PROGRAMA'] < 90){
+              this.pnap = '00'
+              this.programa = item['PROGRAMA']
+            }
+            else if(item['PROGRAMA']> 90){
+              this.pnap = item['PROGRAMA']
+              this.programa = '00'
+            }
+         
+
+
+            this.pregastoMasivo.push({
+              presGastoId: 0,
+              ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+              anioFiscalId: parseInt(localStorage.getItem('ano')),
+              mestProgId: `${this.pnap}${this.programa}${item['PROYECTO'].toString().padStart(3, 0)}${item['ACTIVIDAD_OBRA'].toString().padStart(3, 0)}`,
+              ctgClasificadorId: `${item['TIPO']}${item['CONCEPTO']}${item['CUENTA']}${item['SUB_CUENTA']}${item['AUXILIAR'].toString().padStart(2, 0)}`,
+              cControl: `${item['CUENTA']}`,
+              auxiliar: `${item['AUXILIAR'].toString().padStart(2, 0)}`,
+              ctgFuenteId: `${item['FUENTE_FINANCIAMIENTO']}`,
+              ctgFuenteEspecificaId: `${item['FUENTE_ESPECIFICA']}`,
+              ctgOrganismoFinanciadorId: `${item['ORGANISMO_FINANCIADOR']}`,
+              oriFondos: 0,
+              ctgFuncionId: '1',
+              nombre: null,
+              tipo: '',
+              tipoGasto: '',
+              oriBco1: 0,
+              estimadoBco1: 0,
+              presupuestoBco1: 0,
+              variacionBco1: 0,
+              totalDevengadoBco1: 0,
+              disponiblePagadoBco1: 0,
+              totalPagadoBco1: 0,
+              oriBco2: 0,
+              estimadoBco2: 0,
+              presupuestoBco2: 0,
+              variacionBco2: 0,
+              totalDevengadoBco2: 0,
+              disponiblePagadoBco2: 0,
+              totalPagadoBco2: 0,
+              oriBco3: 0,
+              estimadoBco3: 0,
+              presupuestoBco3: 0,
+              variacionBco3: 0,
+              totalDevengadoBco3: 0,
+              disponiblePagadoBco3: 0,
+              totalPagadoBco3: 0,
+              oriBco4: 0,
+              estimadoBco4: 0,
+              presupuestoBco4: 0,
+              variacionBco4: 0,
+              totalDevengadoBco4: 0,
+              disponiblePagadoBco4: 0,
+              totalPagadoBco4: 0,
+              totalOriginal: 0,
+              totalCompromiso: 0,
+              totalDevengado: 0,
+              totalPagado: 0,
+              totalVariacion: 0,
+              sumTotalOriginal: 0,
+              sumTotalCompromiso: 0,
+              sumTotalDevengado: 0,
+              sumTotalPagado: 0,
+              sumTotalVariacion: 0,
+            })
+
+
+          }
+
+          )
+          this.pregastoMasivo.map(item => {
+              Api.getEstruturaProgramaticaById(item.mestProgId).then(response => {
+                item.nombre = response.data.data.nombre
+              })
+            })
+          console.log(this.pregastoMasivo)
+          Api.postCargaMasivaDetalle(this.pregastoMasivo).then(response => {
+            console.log(response)
+          })
+        }
+
+        reader.readAsBinaryString(this.file);
+      }
     },
     Guardar() {
       if (this.id != null) {
@@ -805,7 +920,7 @@ export default {
             Swal.fire({
               position: 'top-end',
               icon: 'warning',
-             
+
               title: 'Clasificador no permitido',
               showConfirmButton: false,
               timer: 1500,
@@ -872,7 +987,6 @@ export default {
         timer: 1500,
       })
       Api.cargarEstructuras()
-      this.getListarGastos()
     },
 
     getBadge(status) {
