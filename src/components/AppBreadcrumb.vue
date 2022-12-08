@@ -1,5 +1,5 @@
 <template>
-  <CBreadcrumb class="d-md-down-none me-auto mb-0">
+  <CBreadcrumb class="d-md-down-none me-auto mb-0 w-100">
     <CBreadcrumbItem
       v-for="item in breadcrumbs"
       :key="item"
@@ -8,6 +8,8 @@
     >
       {{ item.name }}
     </CBreadcrumbItem>
+    <div class="" style="margin-left:60%; float:right"><h6><span style="font-weight: bold;">usuario:</span>  {{ usuario }}</h6>
+</div>
   </CBreadcrumb>
 </template>
 
@@ -18,6 +20,7 @@ import router from '@/router'
 export default {
   name: 'AppBreadcrumb',
   setup() {
+    const usuario = localStorage.getItem('nombre_usuario')
     const breadcrumbs = ref()
 
     const getBreadcrumbs = () => {
@@ -40,6 +43,7 @@ export default {
 
     return {
       breadcrumbs,
+      usuario
     }
   },
 }
