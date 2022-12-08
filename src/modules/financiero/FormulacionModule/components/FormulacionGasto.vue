@@ -517,6 +517,8 @@ export default {
       idDetalle: null,
       detallePresGastos: [],
       sumOfFlieds: null,
+      pnap : null,
+      programa:null,
       detallePost: {
         id: 0,
         presGastoId: 0,
@@ -720,11 +722,23 @@ export default {
           const ws = wb.Sheets[wsname];
           const data = XLSX.utils.sheet_to_json(ws);
           data.map(item => {
+           
+            if(item['PROGRAMA'] < 90){
+              this.pnap = '00'
+              this.programa = item['PROGRAMA']
+            }
+            else if(item['PROGRAMA']> 90){
+              this.pnap = item['PROGRAMA']
+              this.programa = '00'
+            }
+         
+
+
             this.pregastoMasivo.push({
               presGastoId: 0,
               ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
               anioFiscalId: parseInt(localStorage.getItem('ano')),
-              mestProgId: `${item['PROGRAMA']}${item['SUB_PROGRAMA'].toString().padStart(1, 0)}${item['PROYECTO'].toString().padStart(2, 0)}${item['ACTIVIDAD_OBRA'].toString().padStart(3, 0)}`,
+              mestProgId: `${this.pnap}${this.programa}${item['PROYECTO'].toString().padStart(3, 0)}${item['ACTIVIDAD_OBRA'].toString().padStart(3, 0)}`,
               ctgClasificadorId: `${item['TIPO']}${item['CONCEPTO']}${item['CUENTA']}${item['SUB_CUENTA']}${item['AUXILIAR'].toString().padStart(2, 0)}`,
               cControl: `${item['CUENTA']}`,
               auxiliar: `${item['AUXILIAR'].toString().padStart(2, 0)}`,
@@ -786,7 +800,7 @@ export default {
               })
             })
           console.log(this.pregastoMasivo)
-          Api.postCargaMasiva(this.pregastoMasivo).then(response => {
+          Api.postCargaMasivaDetalle(this.pregastoMasivo).then(response => {
             console.log(response)
           })
         }

@@ -165,6 +165,20 @@ class FormulacionApi {
     })
   }
 
+  postCargaMasivaDetalle(post){
+    return http.post(`PresGasto/Detalle/CargaMasiva`, post).catch((error) => {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        text: error.response.data.detail,
+        title: 'Error',
+        showConfirmButton: false,
+        timer: 1500
+      })
+    })
+    
+  }
+
   cargarEstructuras(){
     return http.post(`PresGasto/InsertPresGasto?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`).catch((error) => {
       Swal.fire({
