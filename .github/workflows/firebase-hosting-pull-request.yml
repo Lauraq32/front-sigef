@@ -13,5 +13,5 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SIGEF_MUNICIPAL }}'
-          projectId: sigef-municipal
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SIGEFMUNICIPAL_E0D77 }}'
+          projectId: sigefmunicipal-e0d77
