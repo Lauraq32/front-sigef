@@ -42,7 +42,7 @@
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
-    <template #show_details="{ item, index }">
+    <template #show_details="{ item }">
       <td class="py-1">
         <CButton
           class="mt-1"
@@ -62,7 +62,7 @@
           variant="outline"
           square
           size="sm"
-          @click="deleteItem(item)"
+          @click="deleteEmp(item)"
         >
           {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
         </CButton>
@@ -165,7 +165,10 @@
                 <h3>Datos generales</h3>
                 <CCol>
                   <CFormLabel for="validationCustom01">Código</CFormLabel>
-                  <CFormInput  v-model="postEmpleado.codigo" id="validationCustom01" />
+                  <CFormInput
+                    v-model="postEmpleado.codigo"
+                    id="validationCustom01"
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -220,14 +223,17 @@
                     Favor agregar el campo
                   </CFormFeedback>
                 </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom01">Sector</CFormLabel>
-                  <CFormInput
-                    v-model="postEmpleado.sectorId"
-                    id="validationCustom01"
-                  />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
+                <CCol :md="12">
+                  <CFormLabel for="validationCustom05">Sectores</CFormLabel>
+                  <CFormSelect v-model="sector.id" id="validationCustom05">
+                    <option
+                      v-for="sect in this.sector"
+                      :key="sect.id"
+                      :value="sect.id"
+                    >
+                      {{ sect.nombre }}
+                    </option>
+                  </CFormSelect>
                   <CFormFeedback invalid>
                     Favor agregar el campo
                   </CFormFeedback>
@@ -268,9 +274,7 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom05"
-                    >Estado civil</CFormLabel
-                  >
+                  <CFormLabel for="validationCustom05">Estado civil</CFormLabel>
                   <CFormSelect
                     v-model="postEmpleado.estadoCivil"
                     id="validationCustom05"
@@ -356,9 +360,17 @@
                 </CCol>
                 <CCol :md="12">
                   <CFormLabel for="validationCustom05">Programa</CFormLabel>
-                  <CFormSelect id="validationCustom05">
-                    <option>Programa 1</option>
-                    <option>Programa 2</option>
+                  <CFormSelect
+                    v-model="programaDivision.id"
+                    id="validationCustom05"
+                  >
+                    <option
+                      v-for="programa in this.programaDivision"
+                      :key="programa.id"
+                      :value="programa.id"
+                    >
+                      {{ programa.nombre }}
+                    </option>
                   </CFormSelect>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -369,8 +381,8 @@
                     >Dirección o dependencia</CFormLabel
                   >
                   <CFormSelect id="validationCustom05">
-                    <option>Dirección o dependencia 1</option>
-                    <option>Dirección o dependencia 2</option>
+                    <option>1</option>
+                    <option>2</option>
                   </CFormSelect>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -380,25 +392,32 @@
                   <CFormLabel for="validationCustom05"
                     >Área de trabajo</CFormLabel
                   >
-                  <CFormSelect
-                    v-model="postEmpleado.areaTrabajoId"
-                    id="validationCustom05"
-                  >
-                    <option>Área de trabajo 1</option>
-                    <option>Área de trabajo 2</option>
+                  <CFormSelect v-model="areaTrabajo.id" id="validationCustom05">
+                    <option
+                      v-for="area in this.areaTrabajo"
+                      :key="area.id"
+                      :value="area.id"
+                    >
+                      {{ area.area }}
+                    </option>
                   </CFormSelect>
                   <CFormFeedback invalid>
                     Favor agregar el campo
                   </CFormFeedback>
                 </CCol>
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom05">Cargo</CFormLabel>
+                  <CFormLabel for="validationCustom05">Cargos</CFormLabel>
                   <CFormSelect
-                    v-model="postEmpleado.posicionId"
+                    v-model="posicionCargo.id"
                     id="validationCustom05"
                   >
-                    <option>Cargo 1</option>
-                    <option>Cargo 2</option>
+                    <option
+                      v-for="cargo in this.posicionCargo"
+                      :key="cargo.id"
+                      :value="cargo.id"
+                    >
+                      {{ cargo.nombre }}
+                    </option>
                   </CFormSelect>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -692,7 +711,6 @@
                     v-model="postEmpleado.fechaExpiracionLicencia"
                     type="date"
                     id="validationCustom02"
-                    required
                   />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -705,7 +723,7 @@
                   >
                   <CFormInput
                     v-model="postEmpleado.fechaExpitaTarjeta"
-                    typeof="date"
+                    type="date"
                     id="validationCustom01"
                   />
                   <CFormFeedback valid> Exito! </CFormFeedback>
@@ -1072,6 +1090,8 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
+import Api from '../services/RegistroPersonalServices'
+import apiSectores from '../../../financiero/NominaModule/services/NominaServices'
 
 export default {
   components: {
@@ -1081,6 +1101,15 @@ export default {
 
   data: () => {
     return {
+      posicionCargo: [{}],
+
+      areaTrabajo: [{}],
+      programaDivision: [{}],
+      sector: [
+        {
+          
+        },
+      ],
       postEmpleado: {
         //General
         // codigo: null,
@@ -1133,15 +1162,15 @@ export default {
         // diciembreIngreso:0,
 
         //---------------------------------
-        // id: 0,
+
         // ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         // codigo: null,
         // nombres: null,
         // apellidos: null,
         // tipoDocumento: null,
-        // cedula: '402338292541',
+        // cedula: null,
         // direccion: null,
-        // sectorId: 1,
+        // sectorId: 0,
         // telefono: null,
         // celular: null,
         // fechaNacimiento: new Date(Date.now()),
@@ -1154,7 +1183,7 @@ export default {
         // razonSalida: null,
         // reemplear: true,
         // fechaReingreso: new Date(Date.now()),
-        // departamentoId: 0,
+        // departamentoId: 1,
         // areaTrabajoId: 0,
         // posicionId: 0,
         // grupoOcupacional: null,
@@ -1231,227 +1260,18 @@ export default {
         // correoElectronico2: null,
         // recomendadoPor: null,
 
+        // ----------------------------------------
+
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-        codigo: null,
-        nombres: null,
-        apellidos: null,
-        tipoDocumento: null,
-        cedula: null,
-        direccion: null,
-        sectorId: 1,
-        telefono: null,
-        celular: null,
-        fechaNacimiento: new Date(Date.now()),
-        lugarNacimiento: null,
-        estadoCivil: null,
-        sexo: '',
-        dependientes: 0,
-        fechaIngreso: null,
-        fechaSalida: null,
-        razonSalida: '',
-        reemplear: false,
-        fechaReingreso: new Date(Date.now()),
-        programaDivisionId: 1,
-        departamentoId: 1,
-        areaTrabajoId: 2,
-        posicionId: 1,
-        grupoOcupacional: '',
-        tipoContrato: '',
-        fechaInicioContrato: new Date(Date.now()),
-        fechaFinContrato: new Date(Date.now()),
-        turno: null,
-        periodoPago:null,
-        formaPago: null,
-        numeroCuenta: null,
-        fechaExpitaTarjeta: null,
-        estatus: true,
-        sueldo: 0,
-        sueldoAnterior: 0,
-        fechaSueldoAnterior: new Date(Date.now()),
-        fechaUltimaNomina: new Date(Date.now()),
-        inicioVacaciones: new Date(Date.now()),
-        finVacaciones: new Date(Date.now()),
-        activoNomina: true,
-        ingreso2: 0,
-        ingreso3: 0,
-        ingreso4: 0,
-        ingreso5: 0,
-        ingreso6: 0,
-        ingreso7: 0,
-        ingreso8: 0,
-        ingreso9: 0,
-        ingreso10: 0,
-        impuestoSobreRenta: 0,
-        arsCalculado: true,
-        arsFijo: 0,
-        afpCalculado: true,
-        afpFijo: 0,
-        egresos4: 0,
-        egresos5: 0,
-        egresos6: 0,
-        egresos7: 0,
-        egresos8: 0,
-        egresos9: 0,
-        egresos10: 0,
-        eneroIngreso: 0,
-        febreroIngreso: 0,
-        marzoIngreso: 0,
-        abrilIngreso: 0,
-        mayoIngreso: 0,
-        junioIngreso: 0,
-        julioIngreso: 0,
-        agostoIngreso: 0,
-        septiembreIngreso: 0,
-        octubreIngreso: 0,
-        noviembreIngreso: 0,
-        diciembreIngreso: 0,
-        observacion: '',
-        discapacidad: '',
-        emergenciaNombre: '',
-        emergenciaTelefono: '',
-        emergenciaTelefono2: '',
-        emergenciaDireccion: '',
-        emergenciaParentezco: '',
-        tipoSangreId: 1,
-        emergenciaAlergico: '',
-        emergenciaDiabetico: '',
-        emergenciaInsodepend: '',
-        emergenciaPresionAlta: '',
-        emergenciaPresionBaja: '',
-        emergenciaEnTratamiento: '',
-        emergenciaDiagnostico: '',
-        licenciaConducir: '',
-        fechaExpiracionLicencia: new Date(Date.now()),
-        aplicaSasp: true,
-        nivelEscolar: '',
-        areaTematica: '',
-        tituloObtenido: '',
-        correoElectronico: '',
-        correoElectronico2: '',
-        recomendadoPor: '',
-      },
-
-      tabPaneActiveKey: 1,
-      columns: [
-        { key: 'apellidos', label: 'Apellido', _style: { width: '40%' } },
-        { key: 'nombres', label: 'Nombre', _style: { width: '40%' } },
-        { key: 'cedula', label: 'Cédula', _style: { width: '40%' } },
-        {
-          key: 'programaDivisionId',
-          label: 'Programa',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'Direccion o Dependencia',
-          label: 'Direccion o Dependencia',
-          _style: { width: '40%' },
-        },
-        { key: 'Cargo', label: 'Cargo', _style: { width: '40%' } },
-        {
-          key: 'fechaIngreso',
-          label: 'Fecha ingreso',
-          _style: { width: '40%' },
-        },
-        { key: 'formaPago', label: 'Fecha Nacim.', _style: { width: '40%' } },
-        { key: 'sexo', label: 'Sexo', _style: { width: '40%' } },
-
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
-        },
-      ],
-
-      details: [],
-
-      validatedCustom01: null,
-      lgDemo: false,
-    }
-  },
-
-  computed: {
-    ...mapStores(useRegistroStore),
-    ...mapState(useRegistroStore, ['registroPersonal']),
-  },
-
-  methods: {
-    ...mapActions(useRegistroStore, [
-      'getRegistroPersonal',
-      'addRegistroPersonal',
-    ]),
-
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
-    },
-
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
-
-    toggleDetails(item) {
-      console.log(item)
-      if (item.empleados !== 0 || item.variacion !== 0) {
-        this.empleadoValue = true
-      } else {
-        this.empleadoValue = false
-      }
-      this.edit = true
-      this.lgDemo = true
-      console.log(item.id)
-      Api.getEmpleadoByID(item).then((response) => {
-        console.log(response)
-        this.id = item.id
-        this.postEmpleado = response.data.data
-      })
-    },
-
-    deleteItem(item){
-      Api.delete
-    },
-
-    submitForm() {
-      if (this.id) {
-        Api.putEmpleado(this.id, this.postEmpleado).then((response) => {
-          console.log(response.data)
-          this.lgDemo = false
-          this.$swal({
-            position: 'top-end',
-            icon: 'success',
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
-          })
-          setTimeout(this.getRegistroPersonal, 500)
-          this.postEmpleado = {
-            ayuntamientoId: 1,
         codigo: '215328',
-        nombres: 'Juan Ernesto',
-        apellidos: 'pepe Villar',
+        nombres: 'Ivan Ernesto',
+        apellidos: 'Matos Villar',
         tipoDocumento: 'Cedula',
-        cedula: '402123456921',
-        direccion: 'Av. Enrique jimenez moya',
+        cedula: '12345678941',
+        direccion: 'Av. Independencia',
         sectorId: 1,
         telefono: '',
-        celular: '84912353499',
+        celular: '8498156899',
         fechaNacimiento: '1999-07-12',
         lugarNacimiento: 'Santo Domingo',
         estadoCivil: 'Soltero',
@@ -1540,6 +1360,218 @@ export default {
         correoElectronico: '',
         correoElectronico2: '',
         recomendadoPor: '',
+      },
+
+      tabPaneActiveKey: 1,
+      columns: [
+        { key: 'apellidos', label: 'Apellido', _style: { width: '40%' } },
+        { key: 'nombres', label: 'Nombre', _style: { width: '40%' } },
+        { key: 'cedula', label: 'Cédula', _style: { width: '40%' } },
+        {
+          key: 'programaDivisionId',
+          label: 'Programa',
+          _style: { width: '40%' },
+        },
+        {
+          key: 'Direccion o Dependencia',
+          label: 'Direccion o Dependencia',
+          _style: { width: '40%' },
+        },
+        { key: 'Cargo', label: 'Cargo', _style: { width: '40%' } },
+        {
+          key: 'fechaIngreso',
+          label: 'Fecha ingreso',
+          _style: { width: '40%' },
+        },
+        { key: 'formaPago', label: 'Fecha Nacim.', _style: { width: '40%' } },
+        { key: 'sexo', label: 'Sexo', _style: { width: '40%' } },
+
+        {
+          key: 'show_details',
+          label: '',
+          _style: { width: '1%' },
+          filter: false,
+          sorter: false,
+          // _props: { color: 'primary', class: 'fw-semibold'}
+        },
+      ],
+
+      details: [],
+
+      validatedCustom01: null,
+      lgDemo: false,
+    }
+  },
+
+  computed: {
+    ...mapStores(useRegistroStore),
+    ...mapState(useRegistroStore, ['registroPersonal', 'posicionCargo']),
+  },
+
+  methods: {
+    ...mapActions(useRegistroStore, [
+      'getRegistroPersonal',
+      'addRegistroPersonal',
+      'getPosicion',
+    ]),
+
+    handleSubmitCustom01(event) {
+      const form = event.currentTarget
+      if (form.checkValidity() === false) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      this.validatedCustom01 = true
+    },
+
+    getBadge(status) {
+      switch (status) {
+        case 'Active':
+          return 'success'
+        case 'Inactive':
+          return 'secondary'
+        case 'Pending':
+          return 'warning'
+        case 'Banned':
+          return 'danger'
+        default:
+          'primary'
+      }
+    },
+
+    toggleDetails(item) {
+      console.log(item)
+      if (item.empleados !== 0 || item.variacion !== 0) {
+        this.empleadoValue = true
+      } else {
+        this.empleadoValue = false
+      }
+      this.edit = true
+      this.lgDemo = true
+      console.log(item.id)
+      Api.getEmpleadoByID(item).then((response) => {
+        console.log(response)
+        this.id = item.id
+        this.postEmpleado = response.data.data
+      })
+    },
+
+    // deleteItem(item){
+    //   Api.delete
+    // },
+
+    submitForm() {
+      if (this.id) {
+        Api.putEmpleado(this.id, this.postEmpleado).then((response) => {
+          console.log(response.data)
+          this.lgDemo = false
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+          setTimeout(this.getRegistroPersonal, 500)
+          this.postEmpleado = {
+            ayuntamientoId: 1,
+            codigo: '215328',
+            nombres: 'Juan Ernesto',
+            apellidos: 'pepe Villar',
+            tipoDocumento: 'Cedula',
+            cedula: '402123456921',
+            direccion: 'Av. Enrique jimenez moya',
+            sectorId: 1,
+            telefono: '',
+            celular: '84912353499',
+            fechaNacimiento: '1999-07-12',
+            lugarNacimiento: 'Santo Domingo',
+            estadoCivil: 'Soltero',
+            sexo: 'M',
+            dependientes: 0,
+            fechaIngreso: '2022-12-06',
+            fechaSalida: '2022-12-06',
+            razonSalida: '',
+            reemplear: false,
+            fechaReingreso: '2022-12-06',
+            programaDivisionId: 1,
+            departamentoId: 1,
+            areaTrabajoId: 2,
+            posicionId: 1,
+            grupoOcupacional: '',
+            tipoContrato: '',
+            fechaInicioContrato: '2022-12-06',
+            fechaFinContrato: '2022-12-06',
+            turno: '',
+            periodoPago: '',
+            formaPago: '',
+            numeroCuenta: '',
+            fechaExpitaTarjeta: '2022-12-06',
+            estatus: true,
+            sueldo: 0,
+            sueldoAnterior: 0,
+            fechaSueldoAnterior: '2022-12-06',
+            fechaUltimaNomina: '2022-12-06',
+            inicioVacaciones: '2022-12-06',
+            finVacaciones: '2022-12-06',
+            activoNomina: true,
+            ingreso2: 0,
+            ingreso3: 0,
+            ingreso4: 0,
+            ingreso5: 0,
+            ingreso6: 0,
+            ingreso7: 0,
+            ingreso8: 0,
+            ingreso9: 0,
+            ingreso10: 0,
+            impuestoSobreRenta: 0,
+            arsCalculado: true,
+            arsFijo: 0,
+            afpCalculado: true,
+            afpFijo: 0,
+            egresos4: 0,
+            egresos5: 0,
+            egresos6: 0,
+            egresos7: 0,
+            egresos8: 0,
+            egresos9: 0,
+            egresos10: 0,
+            eneroIngreso: 0,
+            febreroIngreso: 0,
+            marzoIngreso: 0,
+            abrilIngreso: 0,
+            mayoIngreso: 0,
+            junioIngreso: 0,
+            julioIngreso: 0,
+            agostoIngreso: 0,
+            septiembreIngreso: 0,
+            octubreIngreso: 0,
+            noviembreIngreso: 0,
+            diciembreIngreso: 0,
+            observacion: '',
+            discapacidad: '',
+            emergenciaNombre: '',
+            emergenciaTelefono: '',
+            emergenciaTelefono2: '',
+            emergenciaDireccion: '',
+            emergenciaParentezco: '',
+            tipoSangreId: 1,
+            emergenciaAlergico: '',
+            emergenciaDiabetico: '',
+            emergenciaInsodepend: '',
+            emergenciaPresionAlta: '',
+            emergenciaPresionBaja: '',
+            emergenciaEnTratamiento: '',
+            emergenciaDiagnostico: '',
+            licenciaConducir: '',
+            fechaExpiracionLicencia: '2022-12-06',
+            aplicaSasp: true,
+            nivelEscolar: '',
+            areaTematica: '',
+            tituloObtenido: '',
+            correoElectronico: '',
+            correoElectronico2: '',
+            recomendadoPor: '',
           }
         })
         setTimeout(this.getRegistroPersonal, 500)
@@ -1566,12 +1598,48 @@ export default {
         event.stopPropagation()
         setTimeout(this.getRegistroPersonal, 500)
       }
+    },
 
+    deleteEmp(item) {
+      Api.deleteEmpleado(item.id)
+        .then((response) => {
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+        })
+        .catch((error) => {
+          console.log(error)
+          this.$swal({
+            position: 'top-end',
+            icon: 'error',
+            title: error.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+        })
     },
   },
 
   mounted() {
     this.getRegistroPersonal()
+    Api.getPosicion().then((response) => {
+      this.posicionCargo = response.data.data
+    }),
+      Api.getAreaTrabajo().then((response) => {
+        this.areaTrabajo = response.data.data
+      })
+
+    Api.getProgramaDivision().then((response) => {
+      this.programaDivision = response.data.data
+    })
+
+    apiSectores.getSectores().then((response) => {
+      this.sector= response.data.data
+    })
   },
 }
 </script>
