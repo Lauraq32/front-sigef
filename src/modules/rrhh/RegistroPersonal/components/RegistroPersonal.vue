@@ -1449,7 +1449,7 @@ export default {
       this.edit = true
       this.lgDemo = true
       console.log(item.id)
-      Api.getEmpleadoByID(item).then((response) => {
+      Api.getEmpleadoByID(item.id).then((response) => {
         console.log(response)
         this.id = item.id
         this.postEmpleado = response.data.data
