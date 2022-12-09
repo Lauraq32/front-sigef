@@ -9,8 +9,9 @@ import Api from '../../services/RegistroPersonalServices'
 // the first argument is a unique id of the store across your application
 export const useRegistroStore = defineStore('RegistroPersonal', () => {
     const registroPersonal = ref([
-
+    
     ])
+
 
 
     //const name = ref('Eduardo')
@@ -21,6 +22,8 @@ export const useRegistroStore = defineStore('RegistroPersonal', () => {
             registroPersonal.value = response.data.data
         })
     }
+
+
 
     function addRegistroPersonal(data) {
         Api.postEmpleado(data).then((response) => {
@@ -33,6 +36,7 @@ export const useRegistroStore = defineStore('RegistroPersonal', () => {
             console.log(response)
         })
     }
+    
 
-    return { registroPersonal, getRegistroPersonal, getRegistroPersonals, addRegistroPersonal, putRegistroPersonal }
+    return { registroPersonal, getRegistroPersonal, getRegistroPersonals, addRegistroPersonal, putRegistroPersonal}
 })

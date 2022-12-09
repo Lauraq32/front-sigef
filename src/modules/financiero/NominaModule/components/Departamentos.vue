@@ -115,7 +115,10 @@
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom05">Programa</CFormLabel>
-            <CFormSelect id="validationCustom05">
+            <CFormSelect
+              v-model="postDepartamento.programaDivisionId"
+              id="validationCustom05"
+            >
               <option>Programa 1</option>
               <option>Programa 2</option>
               <option>Programa 3</option>
@@ -141,7 +144,10 @@
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom05"> grupos de nóminas</CFormLabel>
-            <CFormSelect id="validationCustom05">
+            <CFormSelect
+              v-model="postDepartamento.grupoNominaId"
+              id="validationCustom05"
+            >
               <option>Cuenta De Banco 1</option>
               <option>Cuenta De Banco 2</option>
               <option>Cuenta De Banco 3</option>
@@ -262,11 +268,11 @@ export default {
     return {
       postDepartamento: {
         id: 0,
-        programaDivisionId: 0,
+        programaDivisionId: 1,
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-        grupoNominaId: 0,
-        nombre: null,
-        saspI: 0,
+        grupoNominaId: 1,
+        nombre: 'social',
+        saspI: 1,
         cuentaBancoId: 0,
         estructur: null,
         ctgClasificadorId: 1,
@@ -336,7 +342,7 @@ export default {
     },
 
     submitForm() {
-      if (this.id) {
+      if (this.id != null) {
         Api.putDepartamento(this.id, this.postDepartamento).then((response) => {
           console.log(response.data)
           this.lgDemo = false
