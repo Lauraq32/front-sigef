@@ -353,7 +353,7 @@ export default {
             this.presIngrsoMasivo.push({
               ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
               anioFiscalId: parseInt(localStorage.getItem('ano')),
-              clasificadorId: `${item['TIPO']}${item['CONCEPTO']}${item['CUENTA']}${item['SUB_CUENTA']}${item['AUXILIAR'].toString().padStart(2, 0)}`,
+              ctgClasificadorId: `${item['TIPO']}${item['CONCEPTO']}${item['CUENTA']}${item['SUB_CUENTA']}${item['AUXILIAR'].toString().padStart(2, 0)}`,
               instOtorga: item['ENTIDAD_OTORGANTE'],
               control: '',
               detalle:  Api.getClasificador(`${item['TIPO']}${item['CONCEPTO']}${item['CUENTA']}${item['SUB_CUENTA']}${item['AUXILIAR'].toString().padStart(2, 0)}`).then(response => {
