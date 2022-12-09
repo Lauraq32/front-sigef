@@ -137,7 +137,7 @@
           @submit="handleSubmitCustom01">
           <CCol :md="2">
             <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
-            <CFormInput :disabled="edit" v-model="postIngreso.clasificadorId" type="number" id="clasifica" required
+            <CFormInput :disabled="edit" v-model="postIngreso.ctgClasificadorId" type="number" id="clasifica" required
               on:keyup.native.enter="getClasificador" />
 
             <CFormFeedback valid> Exito! </CFormFeedback>
@@ -262,7 +262,7 @@ export default {
       postIngreso: {
         anioFiscalId: parseInt(localStorage.getItem('ano')),
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-        clasificadorId: null,
+        ctgClasificadorId: null,
         instOtorga: 0,
         control: '',
         detalle: null,
@@ -281,7 +281,7 @@ export default {
       lgDemo: false,
       columns: [
         {
-          key: 'clasificadorId',
+          key: 'ctgClasificadorId',
           label: 'Clasificador',
           _style: { width: '15%' },
         },
@@ -353,7 +353,7 @@ export default {
             this.presIngrsoMasivo.push({
               ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
               anioFiscalId: parseInt(localStorage.getItem('ano')),
-              clasificadorId: `${item['TIPO']}${item['CONCEPTO']}${item['CUENTA']}${item['SUB_CUENTA']}${item['AUXILIAR'].toString().padStart(2, 0)}`,
+              ctgClasificadorId: `${item['TIPO']}${item['CONCEPTO']}${item['CUENTA']}${item['SUB_CUENTA']}${item['AUXILIAR'].toString().padStart(2, 0)}`,
               instOtorga: item['ENTIDAD_OTORGANTE'],
               control: '',
               detalle:  Api.getClasificador(`${item['TIPO']}${item['CONCEPTO']}${item['CUENTA']}${item['SUB_CUENTA']}${item['AUXILIAR'].toString().padStart(2, 0)}`).then(response => {
@@ -454,7 +454,7 @@ export default {
       this.postIngreso = {
         anioFiscalId: parseInt(localStorage.getItem('ano')),
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-        clasificadorId: null,
+        ctgClasificadorId: null,
         instOtorga: 0,
         control: '',
         detalle: null,
@@ -490,7 +490,7 @@ export default {
           this.postIngreso = {
             anioFiscalId: parseInt(localStorage.getItem('ano')),
             ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-            clasificadorId: null,
+            ctgClasificadorId: null,
             instOtorga: 0,
             control: '',
             detalle: null,
@@ -527,7 +527,7 @@ export default {
         this.postIngreso = {
           anioFiscalId: parseInt(localStorage.getItem('ano')),
           ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-          clasificadorId: null,
+          ctgClasificadorId: null,
           instOtorga: 0,
           control: '',
           detalle: null,
@@ -560,7 +560,7 @@ export default {
         this.postIngreso.CLASIFICA,
       )
 
-      Api.getClasificador(this.postIngreso.clasificadorId).then((response) => {
+      Api.getClasificador(this.postIngreso.ctgClasificadorId).then((response) => {
         console.log(response.data.data)
         this.postIngreso.control = response.data.data.cControl
         this.postIngreso.detalle = response.data.data.nombre
