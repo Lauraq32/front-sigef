@@ -9,12 +9,16 @@ class RegistroPersonal {
 
   getTipoSangreByID(id) {
     return http.get(`TipoSangre/${id}`)
-
   }
 
 
+  
   getAllEmpleado() {
-    return http.get('Empleado')
+    return http.get(`Empleado?ayuntamientoId=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
+  }
+  
+  getProgramaDivision(){
+    return http.get(`ProgramaDivision`)
   }
 
   getEmpleadoByID(id) {
@@ -24,6 +28,11 @@ class RegistroPersonal {
 
   getAreaTrabajo() {
     return http.get('AreaTrabajo')
+  }
+
+  //Combobox cargo
+  getPosicion(){
+    return http.get('Posicion')
   }
 
   getAreaTrabajobyid(id) {
@@ -41,8 +50,8 @@ class RegistroPersonal {
 
 
   //put
-  putEmpleado(id) {
-    return http.put(`Empleado/${id}`)
+  putEmpleado(id,data) {
+    return http.put(`Empleado/${id}`,data)
   }
 
   putArea(id) {
@@ -51,6 +60,10 @@ class RegistroPersonal {
 
   putAreaTrabajo(id) {
     return http.put(`AreaTrabajo/${id}`)
+  }
+
+  deleteEmpleado(id){
+    return http.delete(`Empleado/${id}`)
   }
 }
 
