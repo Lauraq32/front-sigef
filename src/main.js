@@ -13,17 +13,6 @@ import SimpleTypeahead from 'vue3-simple-typeahead'
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
 import VueNumberFormat from 'vue-number-format'
 import { createPinia } from 'pinia'
-import { initializeApp } from "firebase/app";
-
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBpA9qEEBOCRCuZXPVA4wk5nYWZeuHkEoY",
-  authDomain: "sigefmunicipal-e0d77.firebaseapp.com",
-  projectId: "sigefmunicipal-e0d77",
-  storageBucket: "sigefmunicipal-e0d77.appspot.com",
-  messagingSenderId: "886633955815",
-  appId: "1:886633955815:web:12a23effd11c360a72bd42"
-};
 
 
 const pinia = createPinia()
@@ -39,6 +28,5 @@ app.component('DocsExample', DocsExample)
 app.use(VueSweetalert2)
 app.use(SimpleTypeahead)
 app.use(VueNumberFormat, { prefix: '', decimal: '.', thousand: ',' })
-app.use = initializeApp(firebaseConfig);
 
 app.mount('#app')
