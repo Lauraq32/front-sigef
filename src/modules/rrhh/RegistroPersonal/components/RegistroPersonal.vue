@@ -37,9 +37,14 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
-    <template #status="{ item }">
+    <template #fechaIngreso="{ item }">
       <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+        {{ formatDate(item.fechaIngreso) }}
+      </td>
+    </template>
+    <template #formaPago="{ item }">
+      <td>
+        {{ formatDate(item.formaPago) }}
       </td>
     </template>
     <template #show_details="{ item }">
@@ -1105,11 +1110,7 @@ export default {
 
       areaTrabajo: [{}],
       programaDivision: [{}],
-      sector: [
-        {
-          
-        },
-      ],
+      sector: [{}],
       postEmpleado: {
         //General
         // codigo: null,
@@ -1414,6 +1415,13 @@ export default {
       'addRegistroPersonal',
       'getPosicion',
     ]),
+    formatDate(fechaIngreso) {
+      return new Date(fechaIngreso).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      })
+    },
 
     handleSubmitCustom01(event) {
       const form = event.currentTarget
@@ -1638,7 +1646,7 @@ export default {
     })
 
     apiSectores.getSectores().then((response) => {
-      this.sector= response.data.data
+      this.sector = response.data.data
     })
   },
 }
