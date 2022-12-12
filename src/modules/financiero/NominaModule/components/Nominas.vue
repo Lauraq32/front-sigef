@@ -75,7 +75,7 @@
           size="sm"
           @click="toggleDetail2(item)"
         >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Agregar Nomina' }}
+          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
       </td>
     </template>
@@ -1052,6 +1052,7 @@
                   <CFormInput
                     v-model="postEmpleado.eneroIngreso"
                     id="validationCustom01"
+                    v-on:change="sumaIngresos"
                   />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
@@ -1065,6 +1066,7 @@
                     v-model="postEmpleado.febreroIngreso"
                     id="validationCustom02"
                     required
+                    v-on:change="sumaIngresos"
                   />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -1076,6 +1078,7 @@
                   <CFormInput
                     v-model="postEmpleado.marzoIngreso"
                     id="validationCustom01"
+                    v-on:change="sumaIngresos"
                   />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
@@ -1089,6 +1092,7 @@
                     v-model="postEmpleado.abrilIngreso"
                     id="validationCustom02"
                     required
+                    v-on:change="sumaIngresos"
                   />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -1102,6 +1106,7 @@
                   <CFormInput
                     v-model="postEmpleado.mayoIngreso"
                     id="validationCustom01"
+                    v-on:change="sumaIngresos"
                   />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
@@ -1115,6 +1120,7 @@
                     v-model="postEmpleado.junioIngreso"
                     id="validationCustom02"
                     required
+                    v-on:change="sumaIngresos"
                   />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -1126,6 +1132,7 @@
                   <CFormInput
                     v-model="postEmpleado.julioIngreso"
                     id="validationCustom01"
+                    v-on:change="sumaIngresos"
                   />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
@@ -1139,6 +1146,7 @@
                     v-model="postEmpleado.agostoIngreso"
                     id="validationCustom02"
                     required
+                    v-on:change="sumaIngresos"
                   />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -1152,6 +1160,7 @@
                   <CFormInput
                     v-model="postEmpleado.septiembreIngreso"
                     id="validationCustom01"
+                    v-on:change="sumaIngresos"
                   />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
@@ -1165,6 +1174,7 @@
                     v-model="postEmpleado.octubreIngreso"
                     id="validationCustom02"
                     required
+                    v-on:change="sumaIngresos"
                   />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -1176,6 +1186,7 @@
                   <CFormInput
                     v-model="postEmpleado.noviembreIngreso"
                     id="validationCustom01"
+                    v-on:change="sumaIngresos"
                   />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
@@ -1189,17 +1200,23 @@
                     v-model="postEmpleado.diciembreIngreso"
                     id="validationCustom02"
                     required
+                    v-on:change="sumaIngresos"
                   />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
                   </CFormFeedback>
                 </CCol>
+
                 <CCol>
                   <CFormLabel for="validationCustom01"
                     >Valor regalia</CFormLabel
                   >
-                  <CFormInput id="validationCustom01" />
+                  <CFormInput
+                    v-model="resultadoIngresos"
+                    disabled
+                    id="validationCustom01"
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -1210,7 +1227,7 @@
                   <CFormLabel for="validationCustom02"
                     >Meses trabajados</CFormLabel
                   >
-                  <CFormInput id="validationCustom02" required />
+                  <CFormInput type="number" id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -1862,6 +1879,11 @@ export default {
       programaDivision: [{ nombre: null }],
       sector: [{}],
 
+      Acumulado: [],
+
+      unionIngresos: 0,
+      resultadoIngresos: 0,
+
       postEmpleado: {
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         codigo: null,
@@ -2071,6 +2093,33 @@ export default {
         month: '2-digit',
         year: 'numeric',
       })
+    },
+
+    sumaIngresos() {
+      this.Acumulado = [
+        parseInt(this.postEmpleado.eneroIngreso),
+        parseInt(this.postEmpleado.febreroIngreso),
+        parseInt(this.postEmpleado.marzoIngreso),
+        parseInt(this.postEmpleado.abrilIngreso),
+        parseInt(this.postEmpleado.mayoIngreso),
+        parseInt(this.postEmpleado.junioIngreso),
+        parseInt(this.postEmpleado.julioIngreso),
+        parseInt(this.postEmpleado.agostoIngreso),
+        parseInt(this.postEmpleado.septiembreIngreso),
+        parseInt(this.postEmpleado.octubreIngreso),
+        parseInt(this.postEmpleado.noviembreIngreso),
+        parseInt(this.postEmpleado.diciembreIngreso),
+      ]
+      console.log(this.Acumulado)
+
+      this.unionIngresos = this.Acumulado.reduce((a, b) => {
+        return a + b
+      })
+
+      this.resultadoIngresos = this.unionIngresos / 12
+
+      console.log(this.unionIngresos)
+      console.log(this.resultadoIngresos)
     },
     ...mapActions(useRegistroStore, [
       'getNomina',
