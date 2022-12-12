@@ -321,7 +321,6 @@ export default {
   },
   methods: {
     downloadFile() {
-      console.log(this.texto.split(" "))
       XLSX.writeFile(this.texto, 'ingreso.txt')
     },
     onFileChange(event) {
