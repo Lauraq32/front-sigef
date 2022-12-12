@@ -4,7 +4,7 @@
   <hr />
   <div>
     <div class="d-inline p-2">
-      <CButton
+      <!-- <CButton
         color="info"
         @click="
           () => {
@@ -12,7 +12,7 @@
           }
         "
         >Agregar</CButton
-      >
+      > -->
     </div>
 
     <CButton
@@ -48,13 +48,25 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
+    <template #posicion="{ item }">
+      <td>
+        {{ item.posicion.nombre }}
+      </td>
+    </template>
+
+    <template #programaDivision="{ item }">
+      <td>
+        {{ item.programaDivision.nombre }}
+      </td>
+    </template>
+
     <template #fechaIngreso="{ item }">
       <td>
         {{ formatDate(item.fechaIngreso) }}
       </td>
     </template>
     <template #show_details="{ item }">
-      <td class="py-1">
+      <td class="py-1" @click="toggleDetail2(item)">
         <CButton
           class="mt-1"
           color="primary"
@@ -63,7 +75,7 @@
           size="sm"
           @click="toggleDetail2(item)"
         >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
+          {{ Boolean(item._toggled) ? 'Hide' : 'Agregar Nomina' }}
         </CButton>
       </td>
     </template>
@@ -262,14 +274,6 @@
                 </CCol>
 
                 <CCol>
-                  <CFormLabel for="validationCustom02">Ciudad</CFormLabel>
-                  <CFormInput disabled id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
                   <CFormLabel for="validationCustom02">Teléfono</CFormLabel>
                   <CFormInput
                     disabled
@@ -395,21 +399,7 @@
                     Favor agregar el campo
                   </CFormFeedback>
                 </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Direccion o Dependencia</CFormLabel
-                  >
-                  <CFormInput
-                    disabled
-                    v-model="postEmpleado"
-                    id="validationCustom02"
-                    required
-                  />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
+
                 <CCol :md="12">
                   <CFormLabel for="validationCustom05"
                     >Area de trabajo</CFormLabel
@@ -479,38 +469,38 @@
                       Favor agregar el campo
                     </CFormFeedback>
                   </CCol>
-                  <CCol :md="6">
-                    <CFormLabel for="validationCustom05"
-                      >Dias trabajando</CFormLabel
-                    >
-                    <CFormInput
-                      v-model="postEmpleado.sueldo"
-                      type="date"
-                      id="validationCustom02"
-                      required
-                    />
-                    <CFormFeedback valid> Exito! </CFormFeedback>
-                    <CFormFeedback invalid>
-                      Favor agregar el campo
-                    </CFormFeedback>
-                  </CCol>
-
-                  <CCol>
-                    <CFormLabel for="validationCustom02"
-                      >Tipo de cobro</CFormLabel
-                    >
-                    <CFormInput
-                      disabled
-                      v-model="postEmpleado.tipoCobro"
-                      id="validationCustom02"
-                      required
-                    />
-                    <CFormFeedback valid> Exito! </CFormFeedback>
-                    <CFormFeedback invalid>
-                      Favor agregar el campo
-                    </CFormFeedback>
-                  </CCol>
                 </div>
+                <CCol :md="6">
+                  <CFormLabel for="validationCustom05"
+                    >Dias trabajando</CFormLabel
+                  >
+                  <CFormInput
+                    v-model="postEmpleado.sueldo"
+                    type="date"
+                    id="validationCustom02"
+                    required
+                  />
+                  <CFormFeedback valid> Exito! </CFormFeedback>
+                  <CFormFeedback invalid>
+                    Favor agregar el campo
+                  </CFormFeedback>
+                </CCol>
+
+                <CCol>
+                  <CFormLabel for="validationCustom02"
+                    >Tipo de cobro</CFormLabel
+                  >
+                  <CFormInput
+                    disabled
+                    v-model="postEmpleado.tipoCobro"
+                    id="validationCustom02"
+                    required
+                  />
+                  <CFormFeedback valid> Exito! </CFormFeedback>
+                  <CFormFeedback invalid>
+                    Favor agregar el campo
+                  </CFormFeedback>
+                </CCol>
 
                 <CCol>
                   <CFormLabel for="validationCustom05">Tipo de pago</CFormLabel>
@@ -569,6 +559,7 @@
                         v-model="postEmpleado.arsFijo"
                         id="validationCustom02"
                         required
+                        :disabled="postEmpleado.arsCalculado"
                       />
                       <CFormFeedback valid> Exito! </CFormFeedback>
                       <CFormFeedback invalid>
@@ -586,6 +577,7 @@
                         class="form-check-input"
                         type="checkbox"
                         v-model="postEmpleado.arsCalculado"
+                        value="true"
                         id="flexCheckDefault"
                       />
                     </div>
@@ -600,6 +592,7 @@
                         type="number"
                         id="validationCustom02"
                         required
+                        :disabled="postEmpleado.afpCalculado"
                       />
                       <CFormFeedback valid> Exito! </CFormFeedback>
                       <CFormFeedback invalid>
@@ -616,6 +609,7 @@
                       <input
                         class="form-check-input"
                         type="checkbox"
+                        value="true"
                         v-model="postEmpleado.afpCalculado"
                         id="flexCheckDefault"
                       />
@@ -1860,6 +1854,9 @@ export default {
 
   data: () => {
     return {
+      arsCheck: false,
+      afpCheck: false,
+
       posicionCargo: [{}],
       areaTrabajo: [{}],
       programaDivision: [{ nombre: null }],
@@ -2013,37 +2010,37 @@ export default {
 
       tabPaneActiveKey: 1,
       columns: [
-        { key: 'apellidos', label: 'Apellidos', _style: { width: '20%' } },
+        { key: 'apellidos', label: 'Apellidos', _style: { width: '4%' } },
         {
           key: 'nombres',
           label: 'Nombres',
-          _style: { width: '20%' },
+          _style: { width: '4%' },
         },
 
         {
           key: 'cedula',
           label: 'Cedula',
-          _style: { width: '10%' },
+          _style: { width: '4%' },
         },
-        { key: 'codigo', label: 'Codigo', _style: { width: '5%' } },
+        { key: 'codigo', label: 'Codigo', _style: { width: '1%' } },
         {
-          key: 'programaDivisionId',
+          key: 'programaDivision',
           label: 'Programa',
-          _style: { width: '15%' },
+          _style: { width: '5%' },
         },
-        {
-          key: 'Direccion o Dependencia',
-          label: 'Direccion o Dependencia',
-          _style: { width: '15%' },
-        },
-        { key: 'posicionId', label: 'Cargo', _style: { width: '15%' } },
+        // {
+        //   key: 'Direccion o Dependencia',
+        //   label: 'Direccion o Dependencia',
+        //   _style: { width: '15%' },
+        // },
+        { key: 'posicion', label: 'Cargo', _style: { width: '5%' } },
         {
           key: 'fechaIngreso',
           label: 'Fecha Ingreso',
-          _style: { width: '15%' },
+          _style: { width: '2%' },
         },
-        { key: 'sueldo', label: 'Sueldo', _style: { width: '15%' } },
-        { key: 'sexo', label: 'Sexo', _style: { width: '15%' } },
+        { key: 'sueldo', label: 'Sueldo', _style: { width: '1%' } },
+        { key: 'sexo', label: 'Sexo', _style: { width: '1%' } },
         {
           key: 'show_details',
           label: '',
@@ -2262,7 +2259,7 @@ export default {
           ingreso9: 0,
           ingreso10: 0,
           impuestoSobreRenta: 0,
-          arsCalculado: true,
+          arsCalculado: false,
           arsFijo: 0,
           afpCalculado: true,
           afpFijo: 0,
