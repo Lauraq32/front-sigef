@@ -48,9 +48,9 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
-    <template #status="{ item }">
+    <template #fechaIngreso="{ item }">
       <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+        {{ formatDate(item.fechaIngreso) }}
       </td>
     </template>
     <template #show_details="{ item }">
@@ -2068,6 +2068,13 @@ export default {
   },
 
   methods: {
+    formatDate(fechaIngreso) {
+      return new Date(fechaIngreso).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      })
+    },
     ...mapActions(useRegistroStore, [
       'getNomina',
       'addNomina',

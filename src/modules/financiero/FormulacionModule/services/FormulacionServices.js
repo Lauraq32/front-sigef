@@ -25,6 +25,7 @@ class FormulacionApi {
     return http.put(`/PresIngreso/${id}`, data)
   }
 
+
   //PostIngreso
   createIngreso(data) {
     return http.post("PresIngreso", data).catch((error) => {
