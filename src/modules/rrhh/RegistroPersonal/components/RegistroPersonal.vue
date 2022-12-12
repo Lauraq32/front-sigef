@@ -176,6 +176,21 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
+                  <CFormLabel for="validationCustom05"
+                    >Tipo de documento</CFormLabel
+                  >
+                  <CFormSelect
+                    v-model="postEmpleado.tipoDocumento"
+                    id="validationCustom05"
+                  >
+                    <option>Cedula</option>
+                    <option>Pasaporte</option>
+                  </CFormSelect>
+                  <CFormFeedback invalid>
+                    Favor agregar el campo
+                  </CFormFeedback>
+                </CCol>
+                <CCol>
                   <CFormLabel for="validationCustom02">Cédula</CFormLabel>
                   <CFormInput
                     v-model="postEmpleado.cedula"
@@ -258,21 +273,7 @@
                     Favor agregar el campo
                   </CFormFeedback>
                 </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom05"
-                    >Tipo de documento</CFormLabel
-                  >
-                  <CFormSelect
-                    v-model="postEmpleado.tipoDocumento"
-                    id="validationCustom05"
-                  >
-                    <option>Cedula</option>
-                    <option>Pasaporte</option>
-                  </CFormSelect>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
+                
                 <CCol>
                   <CFormLabel for="validationCustom05">Estado civil</CFormLabel>
                   <CFormSelect
@@ -445,8 +446,9 @@
                       v-model="postEmpleado.turno"
                       id="validationCustom05"
                     >
-                      <option>Turno 1</option>
-                      <option>Turno 2</option>
+                      <option>DIURNO</option>
+                      <option>NOCTURNO</option>
+                      <option>ROTATIVO</option>
                     </CFormSelect>
                     <CFormFeedback invalid>
                       Favor agregar el campo
@@ -455,8 +457,8 @@
                   <CCol :md="6">
                     <CFormLabel for="validationCustom05">Tipo cobro</CFormLabel>
                     <CFormSelect id="validationCustom05">
-                      <option>Tipo cobro 1</option>
-                      <option>Tipo cobro 2</option>
+                      <option>MENSUAL</option>
+                      <option>QUINCENAL</option>
                     </CFormSelect>
                     <CFormFeedback invalid>
                       Favor agregar el campo
@@ -470,8 +472,8 @@
                     v-model="postEmpleado.formaPago"
                     id="validationCustom05"
                   >
-                    <option>Tipo de pago 1</option>
-                    <option>Tipo de pago 2</option>
+                    <option>BANCO</option>
+                    <option>CHEQUE</option>
                   </CFormSelect>
                   <CFormFeedback invalid>
                     Favor agregar el campo
