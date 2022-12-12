@@ -15,41 +15,27 @@
     <div class="d-inline p-2">
       <CButton style="font-weight: bold" color="info" @click="IngresoReport">Imprimir</CButton>
     </div>
+    <div class="d-inline p-2" >
+        <CButton style="font-weight: bold" color="info" @click="downloadFile">Descargar</CButton>
+      </div>
     <div class="d-inline p-2" style="margin-left:63%">
-      <CButton style="font-weight: bold" color="info" @click="goToGasto"
-        >Ir a Formulacion Gasto</CButton
-      >
+      <CButton style="font-weight: bold" color="info" @click="goToGasto">Ir a Formulacion Gasto</CButton>
     </div>
+
   </div>
   <hr />
   <div>
     <CFormInput type="file" id="formFile" @change="onFileChange" />
   </div>
   <hr>
-  
-  <CSmartTable
-    clickableRows
-    :tableProps="{
-      striped: false,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    footer
-    header
-    key="ingreso.id"
-    :items="ingresos"
-    :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    :items-per-page-options="[5, 10, 20, 50, 100, 150]"
-    columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination
-  >
+
+  <CSmartTable clickableRows :tableProps="{
+    striped: false,
+    hover: true,
+  }" :tableHeadProps="{}" :activePage="1" footer header key="ingreso.id" :items="ingresos" :columns="columns"
+    columnFilter tableFilter cleaner itemsPerPageSelect :itemsPerPage="5"
+    :items-per-page-options="[5, 10, 20, 50, 100, 150]" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination>
     <template #anioAnt="{ item }">
       <td>
         {{ formatPrice(item.anioAnt) }}
@@ -144,11 +130,7 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="1">
-            <button
-              class="btn btn-primary btn-sm"
-              style="margin-top: 32px;height: 37px;"
-              v-on:click="getClasificador"
-            >
+            <button class="btn btn-primary btn-sm" style="margin-top: 32px;height: 37px;" v-on:click="getClasificador">
               Buscar
             </button>
           </CCol>
@@ -245,6 +227,7 @@ export default {
   },
   data: () => {
     return {
+      texto: null,
       presIngrsoMasivo: [],
       anofiscal: parseInt(localStorage.getItem('ano')),
       ctgFuenteId: true,
@@ -337,7 +320,10 @@ export default {
     }
   },
   methods: {
-
+    downloadFile() {
+      console.log(this.texto.split(" "))
+      XLSX.writeFile(this.texto, 'ingreso.txt')
+    },
     onFileChange(event) {
       this.file = event.target.files ? event.target.files[0] : null;
       if (this.file) {
@@ -349,6 +335,7 @@ export default {
           const wsname = wb.SheetNames[0];
           const ws = wb.Sheets[wsname];
           const data = XLSX.utils.sheet_to_json(ws);
+          this.texto = wb;
           data.map(item => {
             this.presIngrsoMasivo.push({
               ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
@@ -356,13 +343,13 @@ export default {
               ctgClasificadorId: `${item['TIPO']}${item['CONCEPTO']}${item['CUENTA']}${item['SUB_CUENTA']}${item['AUXILIAR'].toString().padStart(2, 0)}`,
               instOtorga: item['ENTIDAD_OTORGANTE'],
               control: '',
-              detalle:  Api.getClasificador(`${item['TIPO']}${item['CONCEPTO']}${item['CUENTA']}${item['SUB_CUENTA']}${item['AUXILIAR'].toString().padStart(2, 0)}`).then(response => {
-             response.data.data.nombre            
-              
-            })[0],
+              detalle: Api.getClasificador(`${item['TIPO']}${item['CONCEPTO']}${item['CUENTA']}${item['SUB_CUENTA']}${item['AUXILIAR'].toString().padStart(2, 0)}`).then(response => {
+                response.data.data.nombre
+
+              })[0],
               ctgFuenteId: item["FUENTE_FINANCIAMIENTO"],
               ctgFuenteEspecificaId: item["FUENTE_ESPECIFICA"],
-              ctgOrganismoFinanciadorId: item["FUENTE_FINANCIAMIENTO"],
+              ctgOrganismoFinanciadorId: item["ORGANISMO_FINANCIADOR"],
               anioAnt: 0,
               alaFecha: item["PRESUPUESTO_ACTUAL"],
               presForm: item["PRESUPUESTO_ACTUAL"],
@@ -383,19 +370,19 @@ export default {
             console.log(response)
           })
 
-        
+
 
           console.log(this.postIngreso)
         };
-       
+
         reader.readAsBinaryString(this.file);
 
       }
     },
 
 
-   
-    goToGasto(){
+
+    goToGasto() {
       router.push({ name: 'Formulacion Gasto' })
     },
     formatCurrency(anioAnt) {

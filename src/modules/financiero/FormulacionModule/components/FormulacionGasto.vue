@@ -20,6 +20,7 @@
         >Ir a Formulacion Ingreso</CButton
       >
     </div>
+   
   </div>
   <hr />
 
@@ -33,9 +34,9 @@
   }" :tableHeadProps="{}" :activePage="1" footer header :items="prepGastoList" :columns="columns" columnFilter
     tableFilter cleaner itemsPerPageSelect :itemsPerPage="5" columnSorter
     :sorterValue="{ column: 'status', state: 'asc' }" pagination>
-    <template #status="{ item }">
+    <template #totalPresupuesto="{ item }">
       <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+        {{ formatPrice(item.totalPresupuesto) }}
       </td>
     </template>
     <!-- Borre el , index  dentro del template de abajo -->
@@ -719,6 +720,7 @@ export default {
     goToIngreso(){
       router.push({ name: 'Formulacion Ingreso' })
     },
+   
     onFileChange(event) {
       this.file = event.target.files ? event.target.files[0] : null;
       if (this.file) {
@@ -734,7 +736,7 @@ export default {
            
             if(item['PROGRAMA'] < 90){
               this.pnap = '00'
-              this.programa = item['PROGRAMA']
+              this.programa = item['PROGRAMA'].toString().padStart(2, 0)
             }
             else if(item['PROGRAMA']> 90){
               this.pnap = item['PROGRAMA']
