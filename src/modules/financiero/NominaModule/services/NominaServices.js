@@ -13,7 +13,7 @@ class NominaApi {
   }
 
   getEmpleado() {
-    return http.get('Empleado')
+    return http.get(`Empleado?ayuntamientoId=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
   }
 
   getEmpleadoById(value) {
@@ -32,6 +32,7 @@ class NominaApi {
     return http.get('GrupoNomina')
   }
 
+  
   getAreaTrabajo() {
     return http.get('AreaTrabajo')
   }

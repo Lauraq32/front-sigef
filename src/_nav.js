@@ -93,12 +93,12 @@ export default [
             component: 'CNavTitle',
             name: 'Procesos',
           },
-          {
-            component: 'CNavItem',
-            name: 'Proyectos',
-            to: '/FinancieroModule/proyectos',
-            icon: 'cilFolderOpen',
-          },
+          // {
+          //   component: 'CNavItem',
+          //   name: 'Proyectos',
+          //   to: '/FinancieroModule/proyectos',
+          //   icon: 'cilFolderOpen',
+          // },
           {
             component: 'CNavItem',
             name: 'Formulación ingreso',

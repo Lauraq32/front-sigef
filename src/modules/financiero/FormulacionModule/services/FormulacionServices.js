@@ -25,6 +25,7 @@ class FormulacionApi {
     return http.put(`/PresIngreso/${id}`, data)
   }
 
+
   //PostIngreso
   createIngreso(data) {
     return http.post("PresIngreso", data).catch((error) => {
@@ -152,6 +153,33 @@ class FormulacionApi {
     })
   }
 
+  postCargaMasiva(post){
+    return http.post(`PresIngreso/CargaMasiva`, post).catch((error) => {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        text: error.response.data.detail,
+        title: 'Error',
+        showConfirmButton: false,
+        timer: 1500
+      })
+    })
+  }
+
+  postCargaMasivaDetalle(post){
+    return http.post(`PresGasto/Detalle/CargaMasiva`, post).catch((error) => {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        text: error.response.data.detail,
+        title: 'Error',
+        showConfirmButton: false,
+        timer: 1500
+      })
+    })
+    
+  }
+
   cargarEstructuras(){
     return http.post(`PresGasto/InsertPresGasto?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`).catch((error) => {
       Swal.fire({
@@ -176,6 +204,10 @@ class FormulacionApi {
         timer: 1500
       })
     })
+  }
+
+  getEstruturaProgramaticaById(value){
+    return http.get(`CtgMestProg/${value}`).catch((error) => {})
   }
 
   // cargarEstructuras(){
