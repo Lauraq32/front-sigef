@@ -83,15 +83,14 @@
       </td>
     </template>
     <template #show_details="{ item, index }">
-      <td class="py-2">
-        <CButton
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails1(item.transaccionId)"
-        >
+      <td class="py-1" >
+        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="toggleDetails1(item.transaccionId)">
           {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
+        </CButton>
+      </td>
+      <td class="py-1" >
+        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="toggleDetails2(item.transaccionId)">
+          {{ Boolean(item._toggled) ? 'Hide' : 'Detalle' }}
         </CButton>
       </td>
     </template>
@@ -130,7 +129,11 @@
         >
           <CCol :md="2">
             <CFormLabel for="validationCustom01">#Comp.</CFormLabel>
-            <CFormInput v-model="ingresoPost.numeroComprobante" id="validationCustom01" required />
+            <CFormInput
+              v-model="ingresoPost.numeroComprobante"
+              id="validationCustom01"
+              required
+            />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -196,7 +199,32 @@
               Guardar
             </button>
           </div>
-          <hr />
+          
+          <div class="modal-footer"></div>
+        </CForm>
+      </CCardBody>
+    </CModalBody>
+  </CModal>
+  <CModal
+    size="xl"
+    :visible="lgDemo1"
+    @close="
+      () => {
+        lgDemo1 = false
+      }
+    "
+  >
+    <CModalHeader>
+      <CModalTitle>Comprobantes de ingresos</CModalTitle>
+    </CModalHeader>
+    <CModalBody>
+      <CCardBody>
+        <CForm
+          class="row g-3 needs-validation"
+          novalidate
+          :validated="validatedCustom01"
+          @submit="handleSubmitCustom01"
+        >
           <CCol :md="2">
             <CButton
               style="font-weight: bold"
@@ -433,6 +461,7 @@ export default {
       id: null,
       validatedCustom01: null,
       lgDemo: false,
+      lgDemo1: false,
       detalle: '',
       detalleRegistroIngresos: [],
       detalleRegistroPost: {
@@ -477,8 +506,8 @@ export default {
           label: 'Contribuyente',
           _style: { width: '10%' },
         },
-        { key: 'detalle', label: 'Detalle', _style: { width: '20%' } },
-        { key: 'totalValor', label: 'Valor', _style: { width: '10%' } },
+        { key: 'detalle', label: 'Detalle', _style: { width: '40%' } },
+        { key: 'totalValor', label: 'Valor', _style: { width: '20%' } },
         {
           key: 'show_details',
           label: '',
@@ -640,7 +669,6 @@ export default {
         showConfirmButton: false,
         timer: 1500,
       })
-      console.log("se llamo mmg")
       setTimeout(this.getDetalle(this.id), 500)
       event.preventDefault()
       event.stopPropagation()
@@ -659,12 +687,10 @@ export default {
           'primary'
       }
     },
-    getDetalle(id){
-      console.log('maldita puerca perra asquerosa puta del monte')
-      Api.getRegistroIngresoDetalle(id).then(response => {
-        this.detalleRegistroIngresos =
-          response.data.data
-          console.log(response.data)
+    getDetalle(id) {
+      Api.getRegistroIngresoDetalle(id).then((response) => {
+        this.detalleRegistroIngresos = response.data.data
+        console.log(response.data)
       })
     },
     toggleDetails1(id) {
@@ -689,6 +715,29 @@ export default {
         console.log(response.data)
       }),
         (this.lgDemo = true)
+    },
+    toggleDetails2(id) {
+      this.getDetalle(id)
+      // if (this.details.includes(item._id)) {
+      //   this.details = this.details.filter((_item) => _item !== item._id)
+      //   return
+      // }
+      // this.details.push(item._id)
+      console.log(id)
+      this.id = id
+      this.getTotalIngreso(this.id)
+      this.getDetalle(id)
+      Api.getIngresoById(
+        id,
+        localStorage.getItem('ano'),
+        localStorage.getItem('id_Ayuntamiento'),
+      ).then((response) => {
+        this.ingresoPost = response.data.data
+        this.detalleRegistroPost.transaccionId =
+          response.data.data.transaccionId
+        console.log(response.data)
+      }),
+        (this.lgDemo1 = true)
     },
     getClasificador() {
       Api.getIngresoClasificadorById(
