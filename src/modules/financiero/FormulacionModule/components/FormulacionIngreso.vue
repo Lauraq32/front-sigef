@@ -392,9 +392,6 @@ export default {
 
       }
     },
-
-
-   
     goToGasto(){
       router.push({ name: 'Formulacion Gasto' })
     },

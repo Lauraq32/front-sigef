@@ -14,7 +14,9 @@
       >
     </div>
     <div class="d-inline p-2">
-      <CButton color="info" @click="IngresoReport">Imprimir Comprobante</CButton>
+      <CButton color="info" @click="IngresoReport"
+        >Imprimir Comprobante</CButton
+      >
     </div>
   </div>
   <hr />
@@ -39,12 +41,27 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
+    <template #totalBruto="{ item }">
+      <td>
+        {{ formatPrice(item.totalBruto) }}
+      </td>
+    </template>
+    <template #totalRetenciones="{ item }">
+      <td>
+        {{ formatPrice(item.totalRetenciones) }}
+      </td>
+    </template>
+    <template #valorNeto="{ item }">
+      <td>
+        {{ formatPrice(item.valorNeto) }}
+      </td>
+    </template>
     <template #fecha="{ item }">
       <td>
         {{ formatDate(item.fecha) }}
       </td>
     </template>
-    <template #show_details="{item}">
+    <template #show_details="{ item }">
       <td class="py-1">
         <CButton
           class="mt-1"
@@ -63,9 +80,7 @@
           variant="outline"
           square
           size="sm"
-          @click="
-            showDetalle(item)
-          "
+          @click="showDetalle(item)"
         >
           {{ Boolean(item._toggled) ? 'Hide' : 'Detalle' }}
         </CButton>
@@ -381,9 +396,9 @@
           :sorterValue="{ column: 'status', state: 'asc' }"
           pagination
         >
-          <template #status="{ item }">
+          <template #nombre="{ item }">
             <td>
-              <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+              {{ item.ctgClasificador.nombre }}
             </td>
           </template>
           <template #show_details="{ item, index }">
@@ -489,8 +504,14 @@
                     </button>
                   </CCol>
                   <CCol :md="6">
-                    <CFormLabel for="validationCustom04">Denominacion</CFormLabel>
-                    <CFormInput v-model="postGastoDetalle.nombre" id="validationCustom04"> </CFormInput>
+                    <CFormLabel for="validationCustom04"
+                      >Denominacion</CFormLabel
+                    >
+                    <CFormInput
+                      v-model="postGastoDetalle.nombre"
+                      id="validationCustom04"
+                    >
+                    </CFormInput>
                     <CFormFeedback valid> Exito! </CFormFeedback>
                     <CFormFeedback invalid>
                       Favor agregar el campo
@@ -542,10 +563,7 @@
                     <CFormLabel for="validationCustom01"
                       >Base Imposible</CFormLabel
                     >
-                    <CFormInput
-                      id="validationCustom01"
-                      required
-                    />
+                    <CFormInput id="validationCustom01" required />
 
                     <CFormFeedback valid> Exito! </CFormFeedback>
                     <CFormFeedback invalid>
@@ -583,11 +601,9 @@
                     </CFormFeedback>
                   </CCol>
                   <CCol :md="6">
-                    <CFormLabel for="validationCustom01"
-                      >Banco</CFormLabel
-                    >
+                    <CFormLabel for="validationCustom01">Banco</CFormLabel>
                     <CFormInput
-                    v-model="postGastoDetalle.bancoId"
+                      v-model="postGastoDetalle.bancoId"
                       id="validationCustom01"
                       required
                     />
@@ -600,7 +616,6 @@
                 </div>
               </div>
             </div>
-           
           </div>
           <div class="modal-footer">
             <button
@@ -640,9 +655,9 @@
           :sorterValue="{ column: 'status', state: 'asc' }"
           pagination
         >
-          <template #status="{ item }">
+          <template #nombre="{ item }">
             <td>
-              <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+              {{ item.ctgClasificador.nombre }}
             </td>
           </template>
           <template #show_details="{ item, index }">
@@ -693,11 +708,11 @@ export default {
   data: () => {
     return {
       cabeceraGasto: [],
-      detalleGasto:[],
+      detalleGasto: [],
       validatedCustom01: null,
       lgDemo: false,
       lgDemo1: false,
-      id:null,
+      id: null,
       cabeceraId: null,
       postGasto: {
         id: 0,
@@ -806,7 +821,7 @@ export default {
           label: 'Organismo de financiamiento',
           _style: { width: '40%' },
         },
-        { key: 'Sub_total', label: 'Sub-total', _style: { width: '40%' } },
+        { key: 'neto', label: 'Sub-total', _style: { width: '40%' } },
         { key: 'retenciones', label: 'Retencion', _style: { width: '40%' } },
         { key: 'valorBruto', label: 'Valor neto', _style: { width: '40%' } },
 
@@ -823,6 +838,10 @@ export default {
     }
   },
   methods: {
+    formatPrice(value) {
+      let val = (value / 1).toFixed(2).replace('.', '.')
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    },
     formatDate(fecha) {
       return new Date(fecha).toLocaleDateString('en-GB', {
         day: '2-digit',
@@ -845,15 +864,14 @@ export default {
         this.postGasto = response.data.data
       })
     },
-    showDetalle(item){
+    showDetalle(item) {
       this.lgDemo1 = true
       this.id = item.id
       this.postGastoDetalle.secuenciaComprobante = item.id
-      Api.getRegistroGastoDetalle(item.id).then(response => {
+      Api.getRegistroGastoDetalle(item.id).then((response) => {
         console.log(response.data)
         this.detalleGasto = response.data.data
       })
-
     },
     gotToBeneficiario() {
       this.$router.push({ path: '/Ejecucion/beneficiarios' })
@@ -870,37 +888,37 @@ export default {
     postCabecera(data) {
       if (this.cabeceraId == null) {
         Api.postRegistroGasto(this.postGasto).then((response) => {
-        console.log(response.data.data)
-      })
-      setTimeout(this.getCabecera, 500)
-      Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        text: 'Datos agregados con exito',
-        title: 'Agregado',
-        showConfirmButton: false,
-        timer: 1500,
-      })
-
-      } else {
-        Api.putRegistroGasto(this.postGasto, this.cabeceraId).then((response) => {
-          console.log(response.data)
+          console.log(response.data.data)
         })
         setTimeout(this.getCabecera, 500)
-      Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        text: 'Datos Actualizado con exito',
-        title: 'Actualizado',
-        showConfirmButton: false,
-        timer: 1500,
-      })
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          text: 'Datos agregados con exito',
+          title: 'Agregado',
+          showConfirmButton: false,
+          timer: 1500,
+        })
+      } else {
+        Api.putRegistroGasto(this.postGasto, this.cabeceraId).then(
+          (response) => {
+            console.log(response.data)
+          },
+        )
+        setTimeout(this.getCabecera, 500)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          text: 'Datos Actualizado con exito',
+          title: 'Actualizado',
+          showConfirmButton: false,
+          timer: 1500,
+        })
       }
       event.preventDefault()
-        event.stopPropagation()
-      
+      event.stopPropagation()
     },
-    postDetalle(){
+    postDetalle() {
       Api.postGastoDetalle(this.postGastoDetalle).then((response) => {
         console.log(response)
       })
@@ -923,12 +941,13 @@ export default {
     },
 
     getClasificador() {
-      Api.getClasificador(this.postGastoDetalle.ctgClasificadorId).then((response) => {
-        console.log(response.data.data)
-        this.postGastoDetalle.nombre = response.data.data.nombre
-        //this.postGastoDetalle. = response.data.data.nombre
-
-      })
+      Api.getClasificador(this.postGastoDetalle.ctgClasificadorId).then(
+        (response) => {
+          console.log(response.data.data)
+          this.postGastoDetalle.nombre = response.data.data.nombre
+          //this.postGastoDetalle. = response.data.data.nombre
+        },
+      )
     },
     // IngresoReport() {
     //   window

@@ -389,7 +389,7 @@
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="2">
-                <button class="btn btn-primary" v-on:click="getClasificador">
+                <button class="btn btn-primary" style="margin-top: 32px; height: 37px;" v-on:click="getClasificador">
                   Buscar
                 </button>
               </CCol>

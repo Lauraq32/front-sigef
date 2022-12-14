@@ -9,6 +9,9 @@
       {{ item.name }}
     </CBreadcrumbItem>
   </CBreadcrumb>
+    <h6 style="margin-top: 25px; margin-left: 15px">
+      <span style="font-weight: bold">usuario:</span> {{ usuario }}
+    </h6>
 </template>
 
 <script>
@@ -18,6 +21,7 @@ import router from '@/router'
 export default {
   name: 'AppBreadcrumb',
   setup() {
+    const usuario = localStorage.getItem('nombre_usuario')
     const breadcrumbs = ref()
 
     const getBreadcrumbs = () => {
@@ -40,6 +44,7 @@ export default {
 
     return {
       breadcrumbs,
+      usuario,
     }
   },
 }
