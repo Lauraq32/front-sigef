@@ -29,6 +29,7 @@
         >Ir a Formulacion Ingreso</CButton
       >
     </div>
+   
   </div>
   <hr />
 
@@ -36,30 +37,15 @@
     <CFormInput type="file" id="formFile" @change="onFileChange" />
   </div>
   <hr />
-  <CSmartTable
-    clickableRows
-    :tableProps="{
-      striped: false,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    footer
-    header
-    :items="prepGastoList"
-    :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'programa', state: 'asc' }"
-    pagination
-  >
-    <template #status="{ item }">
+  <CSmartTable clickableRows :tableProps="{
+    striped: false,
+    hover: true,
+  }" :tableHeadProps="{}" :activePage="1" footer header :items="prepGastoList" :columns="columns" columnFilter
+    tableFilter cleaner itemsPerPageSelect :itemsPerPage="5" columnSorter
+    :sorterValue="{ column: 'status', state: 'asc' }" pagination>
+    <template #totalPresupuesto="{ item }">
       <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+        {{ formatPrice(item.totalPresupuesto) }}
       </td>
     </template>
     <!-- Borre el , index  dentro del template de abajo -->
@@ -986,6 +972,7 @@ export default {
     goToIngreso() {
       router.push({ name: 'Formulacion Ingreso' })
     },
+   
     onFileChange(event) {
       this.file = event.target.files ? event.target.files[0] : null
       if (this.file) {
@@ -1004,8 +991,9 @@ export default {
           data.map((item) => {
             if (item['PROGRAMA'] < 90) {
               this.pnap = '00'
-              this.programa = item['PROGRAMA']
-            } else if (item['PROGRAMA'] > 90) {
+              this.programa = item['PROGRAMA'].toString().padStart(2, 0)
+            }
+            else if(item['PROGRAMA']> 90){
               this.pnap = item['PROGRAMA']
               this.programa = '00'
             }
