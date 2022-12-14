@@ -38,7 +38,7 @@ class Ejecucion {
     }
     
     getIngresoAll() {
-        return http.get(`RegistroIngreso?anio=${localStorage.getItem('ano')}&ID_AYUNTAMIENTO=${localStorage.getItem('id_Ayuntamiento')}`)
+        return http.get(`RegistroIngreso?anio=${localStorage.getItem('ano')}&ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
     }
 
     getIngresoById(id,anioFiscalId,ayuntamientoId) {
@@ -58,7 +58,11 @@ class Ejecucion {
     }
 
     getRegistroIngreso() {
-        return http.get('RegistroIngreso')
+        return http.get('RegistroIngreso/Detalle/Clasificador/')
+    }
+
+    getRegistroIngresoDetalle(id) {
+        return http.get(`RegistroIngreso/Detalle/RegistroIngreso?Transaccion=${id}&anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
     }
 
     getRegistroGastoDetalle(id) {
@@ -112,6 +116,10 @@ class Ejecucion {
     getClasificador(Clasificador) {
         return http.get(`PresIngreso/GetClasificadorById/${Clasificador}`)
       }
+
+      putIngresoCabecera(id,data) {
+        return http.put(`RegistroIngreso?id=${id}`, data)
+    }
 
 }
 

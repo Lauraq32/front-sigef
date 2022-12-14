@@ -26,7 +26,7 @@
     </div>
   </div>
   <hr />
-  <CModal :backdrop="false" :keyboard="false"  :visible="reportes">
+  <CModal :backdrop="false" :keyboard="false" :visible="reportes">
     <CModalHeader>
       <CModalTitle>Imprimir Reporte</CModalTitle>
     </CModalHeader>
@@ -77,6 +77,11 @@
         {{ formatDate(item.fecha) }}
       </td>
     </template>
+    <template #totalValor="{ item }">
+      <td>
+        {{ formatPrice(item.totalValor) }}
+      </td>
+    </template>
     <template #show_details="{ item, index }">
       <td class="py-2">
         <CButton
@@ -125,7 +130,7 @@
         >
           <CCol :md="2">
             <CFormLabel for="validationCustom01">#Comp.</CFormLabel>
-            <CFormInput id="validationCustom01" required />
+            <CFormInput v-model="ingresoPost.numeroComprobante" id="validationCustom01" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -350,9 +355,14 @@
           :sorterValue="{ column: 'status', state: 'asc' }"
           pagination
         >
-          <template #status="{ item }">
+          <template #valor="{ item }">
             <td>
-              <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+              {{ formatPrice(item.valor) }}
+            </td>
+          </template>
+          <template #nombre="{ item }">
+            <td>
+              {{ item.ctgClasificador.nombre }}
             </td>
           </template>
           Borre el index de aquí
@@ -392,332 +402,6 @@
   </CModal>
 </template>
 
-<!-- <template>
-  <h3 class="text-center">Comprobante de Ingreso</h3>
-  <hr />
-  <div>
-    <div class="d-inline p-2">
-      <CButton
-        color="info"
-        @click="
-          () => {
-            lgDemo = true
-          }
-        "
-        >Agregar</CButton
-      >
-    </div>
-  </div>
-  <hr />
-  <CSmartTable
-    clickableRows
-    :tableProps="{
-      striped: false,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    footer
-    header
-    :items="RegistroIngresos"
-    :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination
-  >
-    <template #status="{ item }">
-      <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
-      </td>
-    </template>
-    <template #show_details="{ item }">
-      <td class="py-1">
-        <CButton
-          class="mt-1"
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
-        </CButton>
-      </td>
-      <td class="py-1">
-        <CButton
-          class="mt-1"
-          color="danger"
-          variant="outline"
-          square
-          size="sm"
-          @click="deleteSec(item)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
-        </CButton>
-      </td>
-    </template>
-  </CSmartTable>
-  <CModal
-    size="xl"
-    :visible="lgDemo"
-    @close="
-      () => {
-        lgDemo = false
-      }
-    "
-  >
-    <CModalHeader>
-      <CModalTitle>Comprobantes de ingresos</CModalTitle>
-    </CModalHeader>
-    <CModalBody>
-      <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
-          <CCol :md="2">
-            <CFormLabel for="validationCustom01">#Comp.</CFormLabel>
-            <CFormInput id="validationCustom01" required />
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustom02">Fecha</CFormLabel>
-            <CFormInput type="date" id="validationCustom02" required />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom04">Etapa</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="6">
-            <CFormLabel for="validationCustom04">Contribuyente</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustom04">Recibo</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <hr />
-          <CCol :md="11">
-            <CFormLabel for="validationCustom04">Detalle</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <hr />
-
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-              >Anunc. y Carteles</CButton
-            >
-          </CCol>
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-              >Certific. vida y cost.</CButton
-            >
-          </CCol>
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-              >Arrend. Terrenos</CButton
-            >
-          </CCol>
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-              >Certific. animales</CButton
-            >
-          </CCol>
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-              >Transferencia 60%</CButton
-            >
-          </CCol>
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-              >Transferencia 40%</CButton
-            >
-          </CCol>
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-            ></CButton>
-          </CCol>
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-            ></CButton>
-          </CCol>
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-            ></CButton>
-          </CCol>
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-            ></CButton>
-          </CCol>
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-            ></CButton>
-          </CCol>
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-            ></CButton>
-          </CCol>
-          <hr />
-          <CCol :md="3">
-            <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
-            <CFormInput id="validationCustom01" required />
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="8">
-            <CFormLabel for="validationCustom02">Descripción</CFormLabel>
-            <CFormInput id="validationCustom02" disabled />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom04">Valor</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-
-          <CCol :md="4" class="mt-5">
-            <CButton
-              style="font-weight: bold"
-              color="outline-primary"
-              @click="IngresoReport"
-              >+Adicionar</CButton
-            >
-          </CCol>
-
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
-              Guardar
-            </button>
-          </div>
-        </CForm>
-        <CSmartTable
-          clickableRows
-          :tableProps="{
-            striped: false,
-            hover: true,
-          }"
-          :tableHeadProps="{}"
-          :activePage="1"
-          footer
-          header
-          :items="ComprobanteIngresos"
-          :columns="columns2"
-          columnFilter
-          tableFilter
-          cleaner
-          itemsPerPageSelect
-          :itemsPerPage="5"
-          columnSorter
-          :sorterValue="{ column: 'status', state: 'asc' }"
-          pagination
-        >
-          <template #status="{ item }">
-            <td>
-              <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
-            </td>
-          </template>
-          Borre el index de aquí
-          <template #show_details="{ item }">
-            <td class="py-2">
-              <CButton
-                color="primary"
-                variant="outline"
-                square
-                size="sm"
-                @click="toggleDetails1(item.transaccionId)"
-              >
-                {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
-              </CButton>
-            </td>
-          </template>
-          <template #details="{ item }">
-            <CCollapse :visible="this.details.includes(item._id)">
-              <CCardBody>
-                <h4>
-                  {{ item.username }}
-                </h4>
-                <p class="text-muted">User since: {{ item.registered }}</p>
-                <CButton size="sm" color="info" class="">
-                  User Settings
-                </CButton>
-                <CButton size="sm" color="danger" class="ml-1">
-                  Delete
-                </CButton>
-              </CCardBody>
-            </CCollapse>
-          </template>
-        </CSmartTable>
-        <h5>Total del Comprobante: {{formatPrice(totales)}}</h5>
-      </CCardBody>
-    </CModalBody>
-  </CModal>
-</template> -->
-
 <script>
 import { useRegistroStore } from '../store/Ejecucion/registroIngreso'
 import { CSmartTable } from '@coreui/vue-pro'
@@ -740,9 +424,9 @@ export default {
 
   data: () => {
     return {
-      mesReporte:null,
+      mesReporte: null,
       parametroReporte: '',
-      reportes:false,
+      reportes: false,
       contribuyentesList: [],
       contribuyentesName: [],
       totales: null,
@@ -852,10 +536,12 @@ export default {
     ...mapState(useEjecucionIngresoStore, ['ingresosList']),
   },
   methods: {
-    imprimirReporte(){
+    imprimirReporte() {
       window
         .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Ejecucion&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem('id_Ayuntamiento')}&ANO=2022&PERIODO=${this.mesReporte.split('-')[0]}`,
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Ejecucion&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem(
+            'id_Ayuntamiento',
+          )}&ANO=2022&PERIODO=${this.mesReporte.split('-')[0]}`,
           '_blank',
         )
         .focus()
@@ -907,7 +593,7 @@ export default {
     },
     Guardar() {
       if (this.id != null) {
-        Api.updateFormulacion(this.id, this.post)
+        Api.putIngresoCabecera(this.id, this.ingresoPost)
           .then((response) => {
             Swal.fire({
               position: 'top-end',
@@ -946,7 +632,6 @@ export default {
     GuardarDetalle() {
       this.addIngresoDetalle(this.detalleRegistroPost)
       //this.toggleDetails1(this.id)
-      setTimeout(this.toggleDetails1(this.id), 500)
       Swal.fire({
         position: 'top-end',
         icon: 'success',
@@ -955,6 +640,8 @@ export default {
         showConfirmButton: false,
         timer: 1500,
       })
+      console.log("se llamo mmg")
+      setTimeout(this.getDetalle(this.id), 500)
       event.preventDefault()
       event.stopPropagation()
     },
@@ -972,7 +659,16 @@ export default {
           'primary'
       }
     },
+    getDetalle(id){
+      console.log('maldita puerca perra asquerosa puta del monte')
+      Api.getRegistroIngresoDetalle(id).then(response => {
+        this.detalleRegistroIngresos =
+          response.data.data
+          console.log(response.data)
+      })
+    },
     toggleDetails1(id) {
+      this.getDetalle(id)
       // if (this.details.includes(item._id)) {
       //   this.details = this.details.filter((_item) => _item !== item._id)
       //   return
@@ -981,6 +677,7 @@ export default {
       console.log(id)
       this.id = id
       this.getTotalIngreso(this.id)
+      this.getDetalle(id)
       Api.getIngresoById(
         id,
         localStorage.getItem('ano'),
@@ -989,8 +686,6 @@ export default {
         this.ingresoPost = response.data.data
         this.detalleRegistroPost.transaccionId =
           response.data.data.transaccionId
-        this.detalleRegistroIngresos =
-          response.data.data.detalleRegistroIngresos
         console.log(response.data)
       }),
         (this.lgDemo = true)

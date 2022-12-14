@@ -19,12 +19,6 @@
     margin-left: 15px;">{{ ayuntamiento }}</h4>
 
         </CNavItem>
-
-        <CNavItem>
-          <h4 style="margin-top: 40px; 
-    margin-left: 15px;"><span style="font-weight: bold;">usuario:</span>  {{ usuario }}</h4>
-
-        </CNavItem>
       </CHeaderNav>
       <CHeaderNav>
         <CNavItem>
@@ -72,7 +66,6 @@ export default {
   },
   setup() {
     const ayuntamiento = localStorage.getItem('nombre_ayuntamiento')
-    const usuario = localStorage.getItem('nombre_usuario')
     const NoHallado = (ayuntamiento) => {
       if (ayuntamiento === 'null') return 'No encontrado'
      
@@ -82,7 +75,6 @@ export default {
     return {
       logo,
       ayuntamiento,
-      usuario,
       NoHallado,
       url
     }

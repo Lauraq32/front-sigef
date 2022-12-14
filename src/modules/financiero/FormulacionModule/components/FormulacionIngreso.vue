@@ -378,10 +378,7 @@ export default {
 
       }
     },
-
-
-
-    goToGasto() {
+    goToGasto(){
       router.push({ name: 'Formulacion Gasto' })
     },
     formatCurrency(anioAnt) {
