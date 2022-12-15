@@ -1101,6 +1101,7 @@ export default {
               timer: 1500,
             })
           })
+        
       } else {
         this.addGasto(this.post)
         Swal.fire({
@@ -1111,11 +1112,14 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
+        this.lgDemo1 = true
       }
       event.preventDefault()
       event.stopPropagation()
       this.clearForm()
       setTimeout(this.getListarGastos, 500)
+
+
     },
     guardarDetalleGasto() {
       if (this.idDetalle != null) {

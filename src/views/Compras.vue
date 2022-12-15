@@ -6,6 +6,7 @@
       <CRow>
         <CCol :md="2" class="mt-4" style="font-weight: bolder;">
           <CWidgetStatsD
+          @click="gotToPrueba"
             class="mb-4 shadow"
             style="--cui-card-cap-bg: #002e5d"
             :values="[{ title: 'Plan anual de compras', value: '' }]"
@@ -45,6 +46,7 @@
         </CCol>
         <CCol :md="2" class="mt-4"  style="font-weight: bolder;">
           <CWidgetStatsD
+          @click="gotToPrueba1"
             class="mb-4 shadow"
             style="--cui-card-cap-bg: #002e5d"
             :values="[{ title: 'Proceso de compras', value: '' }]"
@@ -103,6 +105,14 @@ export default {
     }
   },
   name: 'Fianciero',
+  methods: {
+    gotToPrueba() {
+      this.$router.push({ name: 'Plan Anual' })
+    },
+    gotToPrueba1() {
+      this.$router.push({ name: 'ProcesoCompras' })
+    },
+  },
 }
 </script>
 <style lang=""></style>
