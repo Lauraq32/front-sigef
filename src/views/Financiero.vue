@@ -367,7 +367,7 @@ export default {
       this.$router.push({ name: 'categorias' })
     },
     gotToPrueba2() {
-      this.$router.push({ name: 'ejecucionIngreso' })
+      this.$router.push({ name: 'comprobanteIngreso' })
     },
     gotToPrueba3() {
       this.$router.push({ name: 'nominas' })

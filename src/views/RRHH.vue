@@ -4,6 +4,7 @@
       <CRow>
         <CCol :md="2" class="mt-4" style="font-weight: bolder">
           <CWidgetStatsD
+            @click="gotToPrueba"
             class="mb-4 shadow"
             style="--cui-card-cap-bg: #002e5d; height: 240px"
             :values="[{ title: 'Registro de personal', value: '' }]"
@@ -152,6 +153,11 @@ export default {
       cilChalkboardTeacher,
       cilSmilePlus,
     }
+  },
+  methods: {
+    gotToPrueba() {
+      this.$router.push({ name: 'RegistroEmpleados' })
+    },
   },
 }
 </script>

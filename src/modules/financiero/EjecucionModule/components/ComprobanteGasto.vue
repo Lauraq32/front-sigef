@@ -8,6 +8,7 @@
         @click="
           () => {
             lgDemo = true
+            clearModal1()
           }
         "
         >Agregar</CButton
@@ -447,6 +448,7 @@
     @close="
       () => {
         lgDemo1 = false
+        clearModal2()
       }
     "
   >
@@ -849,6 +851,56 @@ export default {
         year: 'numeric',
       })
     },
+    clearModal1() {
+      this.postGasto = {
+        id: 0,
+        anioFiscalId: parseInt(localStorage.getItem('ano')),
+        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        anioFiscal: null,
+        secuencialId: '',
+        numeroComprobante: 0,
+        detalle: '',
+        fecha: '',
+        etapa: '',
+        codBenefi: 0,
+        destGasto: 0,
+        bancoId: 0,
+        nCheque: '',
+        totalBruto: 0,
+        valorNeto: 0,
+        fechaResolucion: '',
+        nResolucion: '',
+        cantFactCXP: 0,
+        totalCXP: 0,
+        cantPGrupo: 0,
+        totalPGrupo: 0,
+        cantRetenci: 0,
+        totalRetenciones: 0,
+        dtoInicial: 0,
+        dtoFinal: 0,
+        cantDocto: 0,
+        estatus: 'A',
+      }
+    },
+    clearModal2() {
+      this.postGastoDetalle = {
+        id: 0,
+        anioFiscalId: parseInt(localStorage.getItem('ano')),
+        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        secuenciaComprobante: null,
+        fecha: 0,
+        bancoId: 0,
+        estProg: '',
+        ctgClasificadorId: '',
+        ctgFuenteId: '',
+        ctgFuenteEspecificaId: '',
+        ctgOrganismoFinanciadorId: '',
+        ctgFuncionId: '1',
+        valorBruto: 0,
+        retenciones: 0,
+        neto: 0,
+      }
+    },
     toggleDetails1(item) {
       // if (this.details.includes(item._id)) {
       //   this.details = this.details.filter((_item) => _item !== item._id)
@@ -899,6 +951,7 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
+        this.clearModal1()
       } else {
         Api.putRegistroGasto(this.postGasto, this.cabeceraId).then(
           (response) => {
@@ -922,8 +975,6 @@ export default {
       Api.postGastoDetalle(this.postGastoDetalle).then((response) => {
         console.log(response)
       })
-      setTimeout(this.getCabecera, 500)
-      setTimeout(showDetalle(this.id))
       Swal.fire({
         position: 'top-end',
         icon: 'success',
@@ -932,6 +983,8 @@ export default {
         showConfirmButton: false,
         timer: 1500,
       })
+      setTimeout(showDetalle(this.id), 500)
+      this.clearModal2()
     },
     getCabecera() {
       Api.getRegistroGasto().then((response) => {

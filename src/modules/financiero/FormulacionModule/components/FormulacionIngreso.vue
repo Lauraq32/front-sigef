@@ -533,15 +533,7 @@ export default {
       }
     },
     getClasificador() {
-      this.$store.dispatch(
-        'Formulacion/getClasificador',
-        this.postIngreso.CLASIFICA,
-      )
-
-      this.$store.dispatch(
-        'Formulacion/getClasificador',
-        this.postIngreso.CLASIFICA,
-      )
+ 
 
       Api.getClasificador(this.postIngreso.ctgClasificadorId).then((response) => {
         console.log(response.data.data)
