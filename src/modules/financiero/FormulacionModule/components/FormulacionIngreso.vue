@@ -377,6 +377,7 @@ export default {
         reader.readAsBinaryString(this.file);
 
       }
+      setTimeout(this.getListarIngresos, 1000)
     },
     goToGasto(){
       router.push({ name: 'Formulacion Gasto' })

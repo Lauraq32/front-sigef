@@ -128,16 +128,6 @@
           @submit="handleSubmitCustom01"
         >
           <CCol :md="2">
-            <CFormLabel for="validationCustom01">#Comp.</CFormLabel>
-            <CFormInput
-              v-model="ingresoPost.numeroComprobante"
-              id="validationCustom01"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
             <CFormLabel for="validationCustom02">Fecha</CFormLabel>
             <CFormInput
               v-model="ingresoPost.fecha"

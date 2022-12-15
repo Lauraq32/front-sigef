@@ -249,19 +249,23 @@
               <div class="col-12">
                 <div class="row">
                   <CCol :md="8">
-                    <CFormLabel for="validationCustom01"
+                    <CFormLabel for="validationCustom04"
                       >Beneficiario</CFormLabel
                     >
-                    <CFormInput
+                    <vue3-simple-typeahead
+                      class="form-control"
                       v-model="postGasto.codBenefi"
-                      id="validationCustom01"
-                      required
-                    />
-
-                    <CFormFeedback valid> Exito! </CFormFeedback>
-                    <CFormFeedback invalid>
-                      Favor agregar el campo
-                    </CFormFeedback>
+                      id="validationCustom04"
+                      placeholder="Escriba Aqui..."
+                      :items="beneficiariosName"
+                      :minInputLength="1"
+                      :itemProjection="itemProjectionFunction"
+                      @selectItem="selectItemEventHandler"
+                      @onInput="onInputEventHandler"
+                      @onFocus="onFocusEventHandler"
+                      @onBlur="onBlurEventHandler"
+                    >
+                    </vue3-simple-typeahead>
                   </CCol>
                   <CCol :md="4">
                     <button
@@ -701,10 +705,13 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/EjecucionServices'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
+import SimpleTypeahead from 'vue3-simple-typeahead'
 export default {
   components: {
     CSmartTable,
     CModal,
+    SimpleTypeahead,
   },
 
   data: () => {
@@ -712,6 +719,8 @@ export default {
       cabeceraGasto: [],
       detalleGasto: [],
       validatedCustom01: null,
+      beneficiariosName: [],
+      beneficiariosList: [],
       lgDemo: false,
       lgDemo1: false,
       id: null,
@@ -916,6 +925,22 @@ export default {
         this.postGasto = response.data.data
       })
     },
+    getBeneficiario() {
+      Api.getBeneficiarios().then((response) => {
+        this.beneficiariosList = response.data.data
+        this.beneficiariosList.map((beneficiario) => {
+          this.beneficiariosName.push(
+            `${beneficiario.id}-${beneficiario.nombre}`,
+          )
+          console.log(this.beneficiariosName)
+        })
+
+        console.log(this.beneficiariosList)
+      })
+    },
+    selectItemEventHandler(id) {
+      this.ingresoPost.codBenefi = id.split('-')[0]
+    },
     showDetalle(item) {
       this.lgDemo1 = true
       this.id = item.id
@@ -1035,6 +1060,7 @@ export default {
   },
   mounted() {
     this.getCabecera()
+    this.getBeneficiario()
   },
 }
 </script>
