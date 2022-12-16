@@ -1,10 +1,9 @@
 <template>
   <h3 class="text-center">Mantenimientos Empleados</h3>
-
   <hr />
   <div>
     <div class="d-inline p-2">
-      <!-- <CButton
+      <CButton
         color="info"
         @click="
           () => {
@@ -12,7 +11,7 @@
           }
         "
         >Agregar</CButton
-      > -->
+      >
     </div>
 
     <CButton
@@ -75,7 +74,7 @@
           size="sm"
           @click="toggleDetail2(item)"
         >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Agregar Nomina' }}
+          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
       </td>
     </template>
@@ -105,7 +104,7 @@
     <CModalHeader>
       <CModalTitle>Formulario de empleados</CModalTitle>
     </CModalHeader>
-    <CModalBody>
+    <CModalBody v-on:mousemove="this.focusInput1">
       <div class="row">
         <CNav variant="tabs" role="tablist">
           <CNavItem>
@@ -183,16 +182,19 @@
             <div class="row">
               <div class="col-4 border p-3">
                 <h3>Datos generales</h3>
+
                 <CCol>
                   <CFormLabel disabled for="validationCustom01"
                     >Código</CFormLabel
                   >
-                  <CFormInput
-                    disabled
+                  <input
+                    autofocus="1"
+                    type="text"
+                    class="form-control"
+                    aria-describedby="basic-addon1"
                     v-model="postEmpleado.codigo"
-                    id="validationCustom01"
+                    ref="name"
                   />
-
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -202,7 +204,6 @@
                 <CCol>
                   <CFormLabel for="validationCustom01">Cedula</CFormLabel>
                   <CFormInput
-                    disabled
                     v-model="postEmpleado.cedula"
                     id="validationCustom01"
                   />
@@ -226,6 +227,7 @@
                     Favor agregar el campo
                   </CFormFeedback>
                 </CCol>
+
                 <CCol>
                   <CFormLabel for="validationCustom01">Apellidos</CFormLabel>
                   <CFormInput
@@ -1052,6 +1054,8 @@
                   <CFormInput
                     v-model="postEmpleado.eneroIngreso"
                     id="validationCustom01"
+                    v-on:change="sumaIngresos"
+                    :change="increment"
                   />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
@@ -1065,6 +1069,7 @@
                     v-model="postEmpleado.febreroIngreso"
                     id="validationCustom02"
                     required
+                    v-on:change="sumaIngresos"
                   />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -1076,6 +1081,7 @@
                   <CFormInput
                     v-model="postEmpleado.marzoIngreso"
                     id="validationCustom01"
+                    v-on:change="sumaIngresos"
                   />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
@@ -1089,6 +1095,7 @@
                     v-model="postEmpleado.abrilIngreso"
                     id="validationCustom02"
                     required
+                    v-on:change="sumaIngresos"
                   />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -1102,6 +1109,7 @@
                   <CFormInput
                     v-model="postEmpleado.mayoIngreso"
                     id="validationCustom01"
+                    v-on:change="sumaIngresos"
                   />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
@@ -1115,6 +1123,7 @@
                     v-model="postEmpleado.junioIngreso"
                     id="validationCustom02"
                     required
+                    v-on:change="sumaIngresos"
                   />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -1126,6 +1135,7 @@
                   <CFormInput
                     v-model="postEmpleado.julioIngreso"
                     id="validationCustom01"
+                    v-on:change="sumaIngresos"
                   />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
@@ -1139,6 +1149,7 @@
                     v-model="postEmpleado.agostoIngreso"
                     id="validationCustom02"
                     required
+                    v-on:change="sumaIngresos"
                   />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -1152,6 +1163,7 @@
                   <CFormInput
                     v-model="postEmpleado.septiembreIngreso"
                     id="validationCustom01"
+                    v-on:change="sumaIngresos"
                   />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
@@ -1165,6 +1177,7 @@
                     v-model="postEmpleado.octubreIngreso"
                     id="validationCustom02"
                     required
+                    v-on:change="sumaIngresos"
                   />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -1176,6 +1189,7 @@
                   <CFormInput
                     v-model="postEmpleado.noviembreIngreso"
                     id="validationCustom01"
+                    v-on:change="sumaIngresos"
                   />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
@@ -1189,17 +1203,23 @@
                     v-model="postEmpleado.diciembreIngreso"
                     id="validationCustom02"
                     required
+                    v-on:change="sumaIngresos"
                   />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
                   </CFormFeedback>
                 </CCol>
+
                 <CCol>
                   <CFormLabel for="validationCustom01"
                     >Valor regalia</CFormLabel
                   >
-                  <CFormInput id="validationCustom01" />
+                  <CFormInput
+                    v-model="resultadoIngresos"
+                    disabled
+                    id="validationCustom01"
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -1210,7 +1230,12 @@
                   <CFormLabel for="validationCustom02"
                     >Meses trabajados</CFormLabel
                   >
-                  <CFormInput id="validationCustom02" required />
+                  <CFormInput
+                    v-model="this.incrementar"
+                    type="number"
+                    id="validationCustom02"
+                    required
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -1862,6 +1887,14 @@ export default {
       programaDivision: [{ nombre: null }],
       sector: [{}],
 
+      Acumulado: [],
+
+      focus: false,
+      unionIngresos: 0,
+      resultadoIngresos: 0,
+      increments: 0,
+      incrementar: 0,
+
       postEmpleado: {
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         codigo: null,
@@ -2071,6 +2104,56 @@ export default {
         month: '2-digit',
         year: 'numeric',
       })
+    },
+
+    // focus() {
+    //   if (this.show) {
+    //     let self = this
+    //     nextTick().then(function () {
+    //       console.log(self.$refs.number.focus())
+    //     })
+    //   }
+    // },
+
+    focusInput() {
+      this.$refs.name.focus()
+      this.focus = true
+      if (!this.focus) {
+        this.focusInput()
+      }
+    },
+
+    focusInput1() {
+      if (!this.focus) {
+        this.focusInput()
+      }
+    },
+
+    sumaIngresos() {
+      this.Acumulado = [
+        parseInt(this.postEmpleado.eneroIngreso),
+        parseInt(this.postEmpleado.febreroIngreso),
+        parseInt(this.postEmpleado.marzoIngreso),
+        parseInt(this.postEmpleado.abrilIngreso),
+        parseInt(this.postEmpleado.mayoIngreso),
+        parseInt(this.postEmpleado.junioIngreso),
+        parseInt(this.postEmpleado.julioIngreso),
+        parseInt(this.postEmpleado.agostoIngreso),
+        parseInt(this.postEmpleado.septiembreIngreso),
+        parseInt(this.postEmpleado.octubreIngreso),
+        parseInt(this.postEmpleado.noviembreIngreso),
+        parseInt(this.postEmpleado.diciembreIngreso),
+      ]
+      console.log(this.Acumulado)
+
+      this.unionIngresos = this.Acumulado.reduce((a, b) => {
+        return a + b
+      })
+
+      this.resultadoIngresos = this.unionIngresos / 12
+
+      console.log(this.unionIngresos)
+      console.log(this.resultadoIngresos)
     },
     ...mapActions(useRegistroStore, [
       'getNomina',
@@ -2354,6 +2437,7 @@ export default {
       //   return
       // }
       // this.details.push(item._id)
+      this.focusInput1()
       console.log(item)
       if (item.Nomina !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
