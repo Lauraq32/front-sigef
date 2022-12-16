@@ -183,6 +183,7 @@
                       >Resolución No.</CFormLabel
                     >
                     <CFormInput
+                    :disabled="postGasto.etapa != 'VARIACION'"
                       v-model="postGasto.nResolucion"
                       id="validationCustom01"
                       required
@@ -199,6 +200,7 @@
                       >Fecha Resol.</CFormLabel
                     >
                     <CFormInput
+                    :disabled="postGasto.etapa != 'VARIACION'"
                       v-model="postGasto.fechaResolucion"
                       type="date"
                       id="validationCustom04"
@@ -221,7 +223,7 @@
                       <option>Cheque</option>
                       <option>Caego Beneficiario</option>
                       <option>Transferencia</option>
-                      <option>Revesar</option>
+                      <option>Reversar</option>
                     </CFormSelect>
                     <CFormFeedback invalid>
                       Favor agregar el campo
@@ -232,6 +234,7 @@
                       >Comp. Modifica</CFormLabel
                     >
                     <CFormInput
+                    :disabled="postGasto.nCheque != 'Reversar'"
                       v-model="postGasto.nResolucion"
                       id="validationCustom01"
                       required
@@ -471,7 +474,7 @@
             <div class="col-12">
               <div class="col-12">
                 <div class="row">
-                  <CCol :md="6">
+                  <CCol :md="4">
                     <CFormLabel for="validationCustom01"
                       >Programa o Proyecto</CFormLabel
                     >
@@ -485,6 +488,30 @@
                     <CFormFeedback invalid>
                       Favor agregar el campo
                     </CFormFeedback>
+                  </CCol>
+                  <CCol :md="6">
+                    <CFormLabel for="validationCustom02"
+                      >Denominacion</CFormLabel
+                    >
+                    <CFormInput
+                    v-model="postGastoDetalle.nombre"
+                   
+                      id="validationCustom02"
+                      required
+                    />
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                  <CCol :md="2">
+                    <button
+                      class="btn btn-primary"
+                      style="margin-top: 32px"
+                      v-on:click="getClasificador"
+                    >
+                      Buscar
+                    </button>
                   </CCol>
                   <CCol :md="4">
                     <CFormLabel for="validationCustom02"
@@ -509,20 +536,7 @@
                       Buscar
                     </button>
                   </CCol>
-                  <CCol :md="6">
-                    <CFormLabel for="validationCustom04"
-                      >Denominacion</CFormLabel
-                    >
-                    <CFormInput
-                      v-model="postGastoDetalle.nombre"
-                      id="validationCustom04"
-                    >
-                    </CFormInput>
-                    <CFormFeedback valid> Exito! </CFormFeedback>
-                    <CFormFeedback invalid>
-                      Favor agregar el campo
-                    </CFormFeedback>
-                  </CCol>
+              
                   <CCol :md="6">
                     <CFormLabel for="validationCustom01">Fuente</CFormLabel>
                     <CFormInput
