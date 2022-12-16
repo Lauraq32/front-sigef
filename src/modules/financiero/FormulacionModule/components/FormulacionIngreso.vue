@@ -218,7 +218,7 @@ import { CModal } from '@coreui/vue'
 import Api from '../services/FormulacionServices'
 import { mapActions, mapState } from 'vuex'
 import XLSX from 'xlsx/xlsx.mjs'
-
+import axios from 'axios'
 import router from '@/router'
 export default {
   components: {
@@ -321,7 +321,16 @@ export default {
   },
   methods: {
     downloadFile() {
-      XLSX.writeFile(this.texto, 'ingreso.txt')
+      Api.downloadIngreso().then((response) => {
+                     var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                     var fURL = document.createElement('a');
+    
+                     fURL.href = fileURL;
+                     fURL.setAttribute('download', `FI-${localStorage.getItem('id_Ayuntamiento')}.csv`);
+                     document.body.appendChild(fURL);
+    
+                     fURL.click();
+                });
     },
     onFileChange(event) {
       this.file = event.target.files ? event.target.files[0] : null;

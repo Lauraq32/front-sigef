@@ -4,6 +4,11 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 
 class FormulacionApi {
+  downloadIngreso(){
+    return http.get(`ExportFile/IngresoFormulacion?ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}&anioFiscalId=${localStorage.getItem('ano')}`)
+  }
+
+
   //-----------------------------CLASIFICADORES---------------------------------------//
   //Obtener listado de Clasificadores
   getListarClasificadores() {
