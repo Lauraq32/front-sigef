@@ -327,14 +327,14 @@
                     </CCol>
                     <CCol :md="6">
                       <CFormLabel for="validationCustom02">Denominacion</CFormLabel>
-                      <CFormInput v-model="postGastoDetalle.nombre" id="validationCustom02" required />
+                      <CFormInput v-model="nombreEst" id="validationCustom02" required />
                       <CFormFeedback valid> Exito! </CFormFeedback>
                       <CFormFeedback invalid>
                         Favor agregar el campo
                       </CFormFeedback>
                     </CCol>
                     <CCol :md="2">
-                      <button class="btn btn-primary" style="margin-top: 32px" v-on:click="getClasificador">
+                      <button class="btn btn-primary" style="margin-top: 32px" v-on:click="getEstructura">
                         Buscar
                       </button>
                     </CCol>
@@ -373,7 +373,7 @@
               <div class="row">
                 <CCol :md="4">
                   <CFormLabel for="validationCustom01">Fuente</CFormLabel>
-                  <CFormInput v-model="postGastoDetalle.ctgFuenteId" id="validationCustom01" required />
+                  <CFormInput disabled v-model="postGastoDetalle.ctgFuenteId" id="validationCustom01" required />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -383,7 +383,7 @@
 
                 <CCol :md="4">
                   <CFormLabel for="validationCustom04">Fte. Especifica</CFormLabel>
-                  <CFormInput v-model="postGastoDetalle.ctgFuenteEspecificaId" id="validationCustom04">
+                  <CFormInput disabled v-model="postGastoDetalle.ctgFuenteEspecificaId" id="validationCustom04">
                   </CFormInput>
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -394,7 +394,7 @@
                 <CCol :md="4">
                   <CFormLabel for="validationCustom05">
                     Org. Financiador</CFormLabel>
-                  <CFormInput v-model="postGastoDetalle.ctgOrganismoFinanciadorId" id="validationCustom04">
+                  <CFormInput disabled v-model="postGastoDetalle.ctgOrganismoFinanciadorId" id="validationCustom04">
                   </CFormInput>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -565,6 +565,7 @@
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/EjecucionServices'
+import ApiFormulacion from '../../FormulacionModule/services/FormulacionServices'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
 import SimpleTypeahead from 'vue3-simple-typeahead'
@@ -578,6 +579,7 @@ export default {
   data: () => {
     return {
       cabeceraGasto: [],
+      nombreEst:"",
       detalleGasto: [],
       validatedCustom01: null,
       beneficiariosName: [],
@@ -878,12 +880,19 @@ export default {
         this.cabeceraGasto = response.data.data
       })
     },
-
+    getEstructura() {
+      ApiFormulacion.getEstruturaProgramaticaById(this.postGastoDetalle.estProg).then(response => {
+        this.nombreEst = response.data.data.nombre
+      })
+    },
     getClasificador() {
       Api.getClasificador(this.postGastoDetalle.ctgClasificadorId).then(
         (response) => {
           console.log(response.data.data)
           this.postGastoDetalle.nombre = response.data.data.nombre
+          this.postGastoDetalle.ctgFuenteId = response.data.data.ctgFuenteId
+          this.postGastoDetalle.ctgFuenteEspecificaId = response.data.data.ctgFuenteEspecificaId
+          this.postGastoDetalle.ctgOrganismoFinanciadorId = response.data.data.ctgOrganismoFinanciadorId
           //this.postGastoDetalle. = response.data.data.nombre
         },
       )
