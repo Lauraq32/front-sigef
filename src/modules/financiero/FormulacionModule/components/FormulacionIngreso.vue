@@ -218,6 +218,7 @@ import { CModal } from '@coreui/vue'
 import Api from '../services/FormulacionServices'
 import { mapActions, mapState } from 'vuex'
 import XLSX from 'xlsx/xlsx.mjs'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 import router from '@/router'
 export default {
@@ -549,6 +550,17 @@ export default {
         this.validateInputctgFuenteEspecificaId()
         this.validateInputctgOrganismoFinanciadorId()
       })
+      .catch((error) => {
+        console.log(error)
+          this.$swal({
+            position: 'top-end',
+            icon: 'error',
+            text: `${error.response.data.details}`,
+            title: 'El clasificador no existe',
+            showConfirmButton: false,
+            timer: 1500,
+          })
+        })
 
       //this.focusAno();
     },
