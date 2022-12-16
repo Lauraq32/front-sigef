@@ -1,8 +1,8 @@
 <template>
-  <h3 class="text-center">Mantenimientos Empleados</h3>
+  <h3 class="text-center">Nomina</h3>
   <hr />
   <div>
-    <div class="d-inline p-2">
+    <!-- <div class="d-inline p-2">
       <CButton
         color="info"
         @click="
@@ -12,7 +12,7 @@
         "
         >Agregar</CButton
       >
-    </div>
+    </div> -->
 
     <CButton
       color="info"
