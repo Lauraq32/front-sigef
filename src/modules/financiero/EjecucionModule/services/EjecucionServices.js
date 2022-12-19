@@ -29,6 +29,10 @@ class Ejecucion {
         return http.get('Contribuyente')
     }
 
+    getContribuyenteById(id) {
+        return http.get(`Contribuyente/${id}`)
+    }
+
     getSectorbyid(id) {
         return http.get(`Sector/${id}`)
     }
@@ -67,6 +71,10 @@ class Ejecucion {
 
     getRegistroGastoDetalle(id) {
         return http.get(`RegistroGasto/Detalle?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}&id=${id}`)
+    }
+
+    getRegistroGastoDetalleMesprog(id) {
+        return http.get(`RegistroGasto/Mesprog?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}&Mesprog=${id}`)
     }
 
     //post
