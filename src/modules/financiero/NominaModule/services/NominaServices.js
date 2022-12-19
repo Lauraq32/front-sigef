@@ -54,6 +54,10 @@ class NominaApi {
     return http.get(`GrupoNomina/${value}`)
   }
 
+  getSalarioById(id) {
+    return http.get(`Empleado/salario/${id}`)
+  }
+
   getDepartamentoById(id) {
     return http.get(`Departamento/${id}`)
   }
