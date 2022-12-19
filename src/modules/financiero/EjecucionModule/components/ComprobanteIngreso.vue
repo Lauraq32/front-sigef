@@ -120,6 +120,7 @@
       <CModalTitle>Comprobantes de ingresos</CModalTitle>
     </CModalHeader>
     <CModalBody>
+    
       <CCardBody>
         <CForm
           class="row g-3 needs-validation"
@@ -580,6 +581,7 @@ export default {
     getContribuyentes() {
       Api.getContribuyente().then((response) => {
         this.contribuyentesList = response.data.data
+     
         this.contribuyentesList.map((contribuyente) => {
           this.contribuyentesName.push(
             `${contribuyente.id}-${contribuyente.nombre}`,
@@ -633,6 +635,7 @@ export default {
               timer: 1500,
             })
           })
+          setTimeout(this.getIngresos, 500)
       } else {
         this.addIngresos(this.ingresoPost)
         setTimeout(this.getIngresos, 500)
@@ -699,6 +702,12 @@ export default {
         localStorage.getItem('ano'),
         localStorage.getItem('id_Ayuntamiento'),
       ).then((response) => {
+        Api.getContribuyenteById(response.data.data.contribuyenteId).then((response) => {
+          this.ingresoPost.contribuyenteId = response.data.data.id
+          // this.selectItemEventHandler(response.data.data.id)
+          // console.log(response.data.data.id)
+         
+        })
         this.ingresoPost = response.data.data
         this.detalleRegistroPost.transaccionId =
           response.data.data.transaccionId
