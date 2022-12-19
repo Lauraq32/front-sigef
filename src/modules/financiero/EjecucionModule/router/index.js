@@ -100,6 +100,14 @@ export default {
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/EjecucionGastos.vue'
         ),
     },
+    {
+      path: 'retenciones',
+      name: 'retenciones',
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/Retenciones.vue'
+        ),
+    },
 
     //  {
     //     path: '',
