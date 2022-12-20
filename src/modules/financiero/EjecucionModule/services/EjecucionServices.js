@@ -129,6 +129,24 @@ class Ejecucion {
         return http.put(`RegistroIngreso?id=${id}`, data)
     }
 
+    //peticiones tipo gasto
+    getTipoGastoList(){
+        return http.get(`TipoGasto?Ayuntamiento=${localStorage.getItem('id_Ayuntamiento')}`)
+    }
+
+    PostTipoGasto(data){
+        return http.post('TipoGasto', data)
+    }
+
+    PutTipoGasto(id, data){
+        return http.put(`TipoGasto/${id}`, data)
+    }
+
+    getTipoGastoById(id){
+        return http.get(`TipoGasto/${id}?Ayuntamiento=${localStorage.getItem('id_Ayuntamiento')}`)
+    }
+
+
 }
 
 export default new Ejecucion()

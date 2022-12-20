@@ -152,11 +152,13 @@
             <div class="col-3">
               <CCol :md="10">
                 <CFormLabel for="validationCustom01">Tipo Documento</CFormLabel>
-                <CFormInput
+                <CFormSelect
                   v-model="postContribuyente.tipoDcto"
-                  id="validationCustom01"
-                  required
-                />
+                  id="validationCustom05"
+                >
+                  <option>CEDULA</option>
+                  <option>RNC</option>
+                </CFormSelect>
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
