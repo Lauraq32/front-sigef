@@ -100,6 +100,16 @@
           :validated="validatedCustom01"
           @submit="handleSubmitCustom01"
         >
+        <CCol :md="4">
+            <CFormLabel for="validationCustom02">Nombre</CFormLabel>
+            <CFormInput
+              v-model="postBeneficiario.nombre"
+              id="validationCustom02"
+              required
+            />
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
           <CCol :md="4">
             <CFormLabel for="validationCustom02"> Tipo de Documento</CFormLabel>
             <CFormInput
@@ -189,7 +199,6 @@
             >
             <CFormInput
               v-model="postBeneficiario.tipo"
-              type="date"
               id="validationCustom04"
             >
             </CFormInput>
@@ -291,7 +300,7 @@ export default {
         { key: 'id', label: 'Código', _style: { width: '10%' } },
         {
           key: 'nombre',
-          label: 'Beneficiario',
+          label: 'Nombre',
           _style: { width: '40%' },
         },
         { key: 'direccion', label: 'Cédula', _style: { width: '10%' } },

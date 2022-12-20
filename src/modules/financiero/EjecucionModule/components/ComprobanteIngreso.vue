@@ -120,6 +120,7 @@
       <CModalTitle>Comprobantes de ingresos</CModalTitle>
     </CModalHeader>
     <CModalBody>
+    
       <CCardBody>
         <CForm
           class="row g-3 needs-validation"
@@ -337,6 +338,7 @@
             <CFormInput
               v-model="detalleRegistroPost.valor"
               id="validationCustom04"
+              type="number"
             >
             </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
@@ -580,6 +582,7 @@ export default {
     getContribuyentes() {
       Api.getContribuyente().then((response) => {
         this.contribuyentesList = response.data.data
+     
         this.contribuyentesList.map((contribuyente) => {
           this.contribuyentesName.push(
             `${contribuyente.id}-${contribuyente.nombre}`,
@@ -622,6 +625,8 @@ export default {
               showConfirmButton: false,
               timer: 1500,
             })
+            this.clearModal2()
+            setTimeout(this.getIngresos, 500)
           })
           .catch((error) => {
             Swal.fire({
@@ -635,7 +640,6 @@ export default {
           })
       } else {
         this.addIngresos(this.ingresoPost)
-        setTimeout(this.getIngresos, 500)
         Swal.fire({
           position: 'top-end',
           icon: 'success',
@@ -644,6 +648,8 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
+        this.clearModal2()
+        setTimeout(this.getIngresos, 500)
       }
       event.preventDefault()
       event.stopPropagation()
@@ -660,6 +666,8 @@ export default {
         timer: 1500,
       })
       setTimeout(this.getDetalle(this.id), 500)
+      setTimeout(this.getTotalIngreso(this.id), 500)
+      this.clearModal1()
       event.preventDefault()
       event.stopPropagation()
     },
@@ -683,6 +691,37 @@ export default {
         console.log(response.data)
       })
     },
+    clearModal1() {
+      this.detalleRegistroPost = {
+        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+        anioFiscalId: localStorage.getItem('ano'),
+        transaccionId: 0,
+        ctgClasificadorId: '',
+        ctgFuenteId: '',
+        ctgFuenteEspecificaId: '',
+        ctgOrganismoFinanciadorId: '',
+        fecha: new Date(Date.now()),
+        etapa: 'INGRESOS',
+        institucionOrtongate: '',
+        valor: 0,
+        estatus: 'A',
+      }
+    },
+    clearModal2() {
+      this.ingresoPost = {
+        transaccionId: 0,
+        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+        anioFiscalId: localStorage.getItem('ano'),
+        numeroComprobante: 0,
+        compIngresosId: '',
+        etapa: 'INGRESOS',
+        contribuyenteId: 0,
+        detalle: '',
+        fecha: new Date(Date.now()),
+        totalValor: 0,
+        estatus: 'A',
+      }
+    },
     toggleDetails1(id) {
       this.getDetalle(id)
       // if (this.details.includes(item._id)) {
@@ -699,6 +738,12 @@ export default {
         localStorage.getItem('ano'),
         localStorage.getItem('id_Ayuntamiento'),
       ).then((response) => {
+        Api.getContribuyenteById(response.data.data.contribuyenteId).then((response) => {
+          this.ingresoPost.contribuyenteId = response.data.data.id
+          // this.selectItemEventHandler(response.data.data.id)
+          // console.log(response.data.data.id)
+         
+        })
         this.ingresoPost = response.data.data
         this.detalleRegistroPost.transaccionId =
           response.data.data.transaccionId

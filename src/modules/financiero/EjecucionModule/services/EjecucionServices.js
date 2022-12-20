@@ -29,6 +29,10 @@ class Ejecucion {
         return http.get('Contribuyente')
     }
 
+    getContribuyenteById(id) {
+        return http.get(`Contribuyente/${id}`)
+    }
+
     getSectorbyid(id) {
         return http.get(`Sector/${id}`)
     }
@@ -77,6 +81,10 @@ class Ejecucion {
     getTipoRetencionById(id){
         return http.get(`TipoRetencion/${id}?Ayuntamiento=${localStorage.getItem('id_Ayuntamiento')}`)
     }
+    getRegistroGastoDetalleMesprog(id) {
+        return http.get(`RegistroGasto/Mesprog?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}&Mesprog=${id}`)
+    }
+
     //post
 
     postAnioFiscal(data) {
@@ -136,6 +144,24 @@ class Ejecucion {
     putTipoRetenciones(id,data){
         return http.put(`TipoRetencion/${id}`,data)
     }
+
+    //peticiones tipo gasto
+    getTipoGastoList(){
+        return http.get(`TipoGasto?Ayuntamiento=${localStorage.getItem('id_Ayuntamiento')}`)
+    }
+
+    PostTipoGasto(data){
+        return http.post('TipoGasto', data)
+    }
+
+    PutTipoGasto(id, data){
+        return http.put(`TipoGasto/${id}`, data)
+    }
+
+    getTipoGastoById(id){
+        return http.get(`TipoGasto/${id}?Ayuntamiento=${localStorage.getItem('id_Ayuntamiento')}`)
+    }
+
 
 }
 
