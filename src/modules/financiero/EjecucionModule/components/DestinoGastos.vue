@@ -25,7 +25,7 @@
     :activePage="1"
     footer
     header
-    :items="this.$store.state.Formulacion.proyecto"
+    :items="tiposGastos"
     :columns="columns"
     columnFilter
     tableFilter
@@ -48,9 +48,9 @@
           variant="outline"
           square
           size="sm"
-          @click="toggleDetails(item, index)"
+          @click="toggleDetails(item.id)"
         >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
+          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
       </td>
     </template>
@@ -77,7 +77,7 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Tipos de retenciones</CModalTitle>
+      <CModalTitle>Tipos de Gastos</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -88,15 +88,15 @@
           @submit="handleSubmitCustom01"
         >
           <CCol :md="4">
-            <CFormLabel for="validationCustom01">Código</CFormLabel>
-            <CFormInput id="validationCustom01" required />
+            <CFormLabel for="validationCustom01">Ayuntamiento</CFormLabel>
+            <CFormInput v-model="postTipoGasto.ayuntamientoId" id="validationCustom01" required />
 
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
             <CFormLabel for="validationCustom02">Descripcion</CFormLabel>
-            <CFormInput id="validationCustom02" required />
+            <CFormInput v-model="postTipoGasto.descripcion" id="validationCustom02" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -120,6 +120,7 @@
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import Api from '../services/EjecucionServices'
 export default {
   components: {
     CSmartTable,
@@ -127,11 +128,22 @@ export default {
   },
   data: () => {
     return {
+      id: null,
+      tiposGastos: [],
       validatedCustom01: null,
       lgDemo: false,
+      postTipoGasto: {
+        id: 0,
+        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        descripcion: '',
+      },
       columns: [
-        { key: 'Código', label: 'Código', _style: { width: '40%' } },
-        { key: 'Destino gasto', label: 'Destino gasto', _style: { width: '40%' } },
+        { key: 'ayuntamientoId', label: 'Ayuntamiento', _style: { width: '40%' } },
+        {
+          key: 'descripcion',
+          label: 'Descripcion',
+          _style: { width: '40%' },
+        },
         {
           key: 'show_details',
           label: '',
@@ -153,6 +165,13 @@ export default {
       }
       this.validatedCustom01 = true
     },
+    clearModal1() {
+      this.postTipoGasto = {
+        id: 0,
+        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        descripcion: '',
+      }
+    },
     getBadge(status) {
       switch (status) {
         case 'Active':
@@ -167,15 +186,61 @@ export default {
           'primary'
       }
     },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
+    getAllTipoGasto(){
+      Api.getTipoGastoList().then((response) => {
+        this.tiposGastos = response.data.data
+        console.log(response.data)
+      })
+    },
+    Guardar(){
+      if (this.id != null) {
+        Api.PutTipoGasto(this.id, this.postTipoGasto)
+          .then((response) => {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              text: 'Datos Actualizado con exito',
+              title: 'Actualizado',
+              showConfirmButton: false,
+              timer: 1500,
+            })
+          })
+          .catch((error) => {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              text: `${error.data.message}`,
+              title: 'Actualizado',
+              showConfirmButton: false,
+              timer: 1500,
+            })
+          })
+          setTimeout(this.getAllTipoGasto, 500)
+      } else {
+        Api.PostTipoGasto(this.postTipoGasto)
+        setTimeout(this.getAllTipoGasto, 500)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          text: 'Datos agregados con exito',
+          title: 'Agregado',
+          showConfirmButton: false,
+          timer: 1500,
+        })
       }
-      this.details.push(item._id)
+      event.preventDefault()
+      event.stopPropagation()
+    },
+    toggleDetails(id) {
+      this.lgDemo = true
+      Api.getTipoGastoById(id).then((response) => {
+        this.id = response.data.data.id
+        this.postTipoGasto = response.data.data
+      })
     },
   },
   mounted() {
+    this.getAllTipoGasto()
     this.$store.dispatch('Formulacion/getProyectos')
   },
 }

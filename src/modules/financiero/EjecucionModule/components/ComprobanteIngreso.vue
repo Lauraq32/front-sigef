@@ -338,6 +338,7 @@
             <CFormInput
               v-model="detalleRegistroPost.valor"
               id="validationCustom04"
+              type="number"
             >
             </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
@@ -624,6 +625,8 @@ export default {
               showConfirmButton: false,
               timer: 1500,
             })
+            this.clearModal2()
+            setTimeout(this.getIngresos, 500)
           })
           .catch((error) => {
             Swal.fire({
@@ -635,10 +638,8 @@ export default {
               timer: 1500,
             })
           })
-          setTimeout(this.getIngresos, 500)
       } else {
         this.addIngresos(this.ingresoPost)
-        setTimeout(this.getIngresos, 500)
         Swal.fire({
           position: 'top-end',
           icon: 'success',
@@ -647,6 +648,8 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
+        this.clearModal2()
+        setTimeout(this.getIngresos, 500)
       }
       event.preventDefault()
       event.stopPropagation()
@@ -663,6 +666,8 @@ export default {
         timer: 1500,
       })
       setTimeout(this.getDetalle(this.id), 500)
+      setTimeout(this.getTotalIngreso(this.id), 500)
+      this.clearModal1()
       event.preventDefault()
       event.stopPropagation()
     },
@@ -685,6 +690,37 @@ export default {
         this.detalleRegistroIngresos = response.data.data
         console.log(response.data)
       })
+    },
+    clearModal1() {
+      this.detalleRegistroPost = {
+        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+        anioFiscalId: localStorage.getItem('ano'),
+        transaccionId: 0,
+        ctgClasificadorId: '',
+        ctgFuenteId: '',
+        ctgFuenteEspecificaId: '',
+        ctgOrganismoFinanciadorId: '',
+        fecha: new Date(Date.now()),
+        etapa: 'INGRESOS',
+        institucionOrtongate: '',
+        valor: 0,
+        estatus: 'A',
+      }
+    },
+    clearModal2() {
+      this.ingresoPost = {
+        transaccionId: 0,
+        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+        anioFiscalId: localStorage.getItem('ano'),
+        numeroComprobante: 0,
+        compIngresosId: '',
+        etapa: 'INGRESOS',
+        contribuyenteId: 0,
+        detalle: '',
+        fecha: new Date(Date.now()),
+        totalValor: 0,
+        estatus: 'A',
+      }
     },
     toggleDetails1(id) {
       this.getDetalle(id)

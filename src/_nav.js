@@ -152,7 +152,7 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Destino gastos',
+            name: 'Tipo gastos',
             to: '/Ejecucion/destinoGastos',
             icon: 'cilLibraryBuilding',
           },

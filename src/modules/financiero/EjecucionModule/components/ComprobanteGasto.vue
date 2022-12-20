@@ -285,12 +285,15 @@
                     <CFormLabel for="validationCustom01"
                       >Concepto/auxiliar</CFormLabel
                     >
-                    <CFormInput
-                      v-model="postGasto.codBenefi"
-                      id="validationCustom01"
-                      required
-                    />
-
+                    <CFormSelect v-model="postGasto.tipoGastoId" id="validationCustom05">
+                    <option
+                      v-for="tipoGasto in this.TipoGastoList"
+                      :key="tipoGasto.id"
+                      :value="tipoGasto.id"
+                    >
+                      {{ tipoGasto.descripcion }}
+                    </option>
+                  </CFormSelect>
                     <CFormFeedback valid> Exito! </CFormFeedback>
                     <CFormFeedback invalid>
                       Favor agregar el campo
@@ -301,6 +304,7 @@
                       type="button"
                       class="btn btn-primary mt-4"
                       data-bs-dismiss="modal"
+                      @click="goToGasto"
                     >
                       Agregar
                     </button>
@@ -937,6 +941,7 @@ export default {
 
   data: () => {
     return {
+      TipoGastoList:[],
       EstructuraByClasificadores: [],
       cabeceraGasto: [],
       nombreEst: '',
@@ -951,6 +956,7 @@ export default {
       cabeceraId: null,
       postGasto: {
         id: 0,
+        tipoGastoId:0,
         anioFiscalId: parseInt(localStorage.getItem('ano')),
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         anioFiscal: null,
@@ -1122,6 +1128,11 @@ export default {
         },
       )
     },
+    getTipoGasto(){
+      Api.getTipoGastoList().then(response =>{
+        this.TipoGastoList = response.data.data
+      })
+    },
     formatPrice(value) {
       let val = (value / 1).toFixed(2).replace('.', '.')
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -1225,6 +1236,9 @@ export default {
     },
     gotToBeneficiario() {
       this.$router.push({ path: '/Ejecucion/beneficiarios' })
+    },
+    goToGasto(){
+      this.$router.push({path: '/Ejecucion/destinoGastos' })
     },
     handleSubmitCustom01(event) {
       const form = event.currentTarget
@@ -1354,6 +1368,7 @@ export default {
   mounted() {
     this.getCabecera()
     this.getBeneficiario()
+    this.getTipoGasto()
   },
 }
 </script>
