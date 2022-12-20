@@ -112,7 +112,7 @@
               <CFormCheck id="flexCheckDefault" label="Valor calculado"/>
             </CCol>
           </div>
-          <CCol :md="3">
+          <CCol :md="12">
             <CFormLabel for="validationCustom05">Afecta el 815:</CFormLabel>
             <CFormCheck inline type="radio" name="inlineRadioOptions" id="inlineCheckbox1" value="option1" label="Restando" />
             <CFormCheck inline type="radio" name="inlineRadioOptions" id="inlineCheckbox2" value="option2" label="Sumando" />

@@ -69,6 +69,14 @@ class Ejecucion {
         return http.get(`RegistroGasto/Detalle?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}&id=${id}`)
     }
 
+
+    //Get tipo retenciones
+    getTipoRetencion(){
+        return http.get(`TipoRetencion`)
+    }
+    getTipoRetencionById(id){
+        return http.get(`TipoRetencion/${id}`)
+    }
     //post
 
     postAnioFiscal(data) {
@@ -91,7 +99,10 @@ class Ejecucion {
         return http.post('RegistroGasto/Detalle', data)
     }
 
-
+    //Post TipoRetencion
+    postTipoRetencion(data){
+        return http.post('TipoRetencion',data)
+    }
 
     //put
 
@@ -117,8 +128,13 @@ class Ejecucion {
         return http.get(`PresIngreso/GetClasificadorById/${Clasificador}`)
       }
 
-      putIngresoCabecera(id,data) {
+    putIngresoCabecera(id,data) {
         return http.put(`RegistroIngreso?id=${id}`, data)
+    }
+
+    //put TipoRetenciones
+    putTipoRetenciones(id,data){
+        return http.put(`TipoRetencion?=${id}`,data)
     }
 
 }
