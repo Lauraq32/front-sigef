@@ -148,7 +148,7 @@ export default {
       postTipoRetenciones: {
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         id: 0,
-        detalle: "asdsad",
+        detalle: null,
         calculada: true,
         porciento: 2,
         tipo: null,
@@ -305,68 +305,3 @@ export default {
 }
 </script>
 
-<!-- <script>
-import { CSmartTable } from '@coreui/vue-pro'
-import { CModal } from '@coreui/vue'
-export default {
-  components: {
-    CSmartTable,
-    CModal,
-  },
-  data: () => {
-    return {
-      validatedCustom01: null,
-      lgDemo: false,
-      columns: [
-        { key: 'Año Fiscal', label: 'Año Fiscal', _style: { width: '40%' } },
-        { key: 'Desde', label: 'Desde', _style: { width: '40%' } },
-        { key: 'Hasta', label: 'Hasta', _style: { width: '40%' } },
-        { key: 'Estatus', label: 'Estatus', _style: { width: '40%' } },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
-        },
-      ],
-      details: [],
-    }
-  },
-  methods: {
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
-    },
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
-      }
-      this.details.push(item._id)
-    },
-  },
-  mounted() {
-    this.$store.dispatch('Formulacion/getProyectos')
-  },
-}
-</script> -->
