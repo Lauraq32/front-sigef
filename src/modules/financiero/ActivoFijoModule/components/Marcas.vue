@@ -86,9 +86,10 @@
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-        
+
+         
+
           <CCol :md="6">
-            
             <CFormLabel for="validationCustom02">Marca</CFormLabel>
             <CFormInput
               v-model="postMarcas.nombre"
@@ -134,6 +135,8 @@ export default {
 
   data: () => {
     return {
+      prueba: [{ prueba: '' }],
+
       postMarcas: {
         id: 0,
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
@@ -165,6 +168,10 @@ export default {
   },
 
   methods: {
+    addField(prueba) {
+      prueba.push({})
+    },
+
     ...mapActions(useRegistroStore, ['getMarcas', 'addMarcas']),
 
     toggleDetails(item) {

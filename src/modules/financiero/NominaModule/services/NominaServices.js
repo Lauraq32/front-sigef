@@ -150,8 +150,8 @@ class NominaApi {
     return http.put(`AreaTrabajo/${id}`, data)
   }
 
-  putConfiguracionNomina(id) {
-    return http.put(`ConfiguracionNomina/${id}`)
+  putConfiguracionNomina(id, data) {
+    return http.put(`ConfiguracionNomina/${id}`, data)
   }
 
   putEmpleado(id, data) {
