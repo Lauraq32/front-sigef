@@ -71,11 +71,11 @@ class Ejecucion {
 
 
     //Get tipo retenciones
-    getTipoRetencion(){
-        return http.get(`TipoRetencion`)
+    getTipoRetencion(id){
+        return http.get(`TipoRetencion?Ayuntamiento=${localStorage.getItem('id_Ayuntamiento')}&id=${id}`)
     }
     getTipoRetencionById(id){
-        return http.get(`TipoRetencion/${id}`)
+        return http.get(`TipoRetencion/${id}?Ayuntamiento=${localStorage.getItem('id_Ayuntamiento')}`)
     }
     //post
 
@@ -134,7 +134,7 @@ class Ejecucion {
 
     //put TipoRetenciones
     putTipoRetenciones(id,data){
-        return http.put(`TipoRetencion?=${id}`,data)
+        return http.put(`TipoRetencion/${id}`,data)
     }
 
 }

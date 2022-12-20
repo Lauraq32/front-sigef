@@ -22,24 +22,12 @@
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
-    <template #show_details="{ item, index }">
-      <td class="py-2">
-        <CButton color="primary" variant="outline" square size="sm" @click="toggleDetails(item, index)">
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
+    <template #show_details="{ item }">
+      <td class="py-1">
+        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="toggleDetails(item)">
+          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
       </td>
-    </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
     </template>
   </CSmartTable>
   <CModal size="md" :visible="lgDemo" @close="
@@ -55,6 +43,13 @@
         <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01"
           @submit="handleSubmitCustom01">
           <CCol :md="12">
+            <CFormLabel for="validationCustom06">Detalle</CFormLabel>
+            <CFormInput v-model="postTipoRetenciones.detalle" id="validationCustom06" />
+
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol :md="12">
             <CFormLabel for="validationCustom02">Beneficiario</CFormLabel>
             <CFormSelect v-model="postTipoRetenciones.beneficiarioId" id="validationCustom02">
               <option v-for="benef in this.beneficiario" :key="benef.id" :value="benef.id">
@@ -62,9 +57,8 @@
               </option>
 
             </CFormSelect>
-            <CFormFeedback invalid>
-              Favor agregar el campo
-            </CFormFeedback>
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <div class="row">
             <CCol :md="6">
@@ -73,9 +67,8 @@
                 <option>PROCESO</option>
                 <option>INFORMATIVO</option>
               </CFormSelect>
-              <CFormFeedback invalid>
-                Favor agregar el campo
-              </CFormFeedback>
+              <CFormFeedback valid> Exito! </CFormFeedback>
+              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </CCol>
             <CCol :md="6">
               <CFormLabel for="validationCustom04">Operación</CFormLabel>
@@ -84,9 +77,8 @@
                 <option>DIVIDIR</option>
                 <option>N/A</option>
               </CFormSelect>
-              <CFormFeedback invalid>
-                Favor agregar el campo
-              </CFormFeedback>
+              <CFormFeedback valid> Exito! </CFormFeedback>
+              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </CCol>
 
 
@@ -100,29 +92,23 @@
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </CCol>
 
-
-            <!-- <CCol :md="6" style="margin-top: 37px;">
-              <CFormCheck v-model="postTipoRetenciones.calculada" id="flexCheckDefault"  label="Valor calculado" />
-            </CCol> -->
             <div style="margin-top: 37px;" class="form-check">
-            <label class="form-check-label" for="flexCheckDefault">
-              Valor calculado
-            </label>
-            <input
-              class="form-check-input"
-              type="checkbox"
-              v-model="postTipoRetenciones.calculada"
-              id="flexCheckDefault"
-            />
-          </div>
+              <CFormLabel class="form-check-label" for="flexCheckDefault">
+                Valor calculado
+              </CFormLabel>
+              <CFormInput class="form-check-input" type="checkbox" v-model="postTipoRetenciones.calculada" />
+              <CFormFeedback valid> Exito! </CFormFeedback>
+              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+            </div>
           </div>
           <CCol :md="12">
             <CFormLabel for="validationCustom05">Afecta el 815:</CFormLabel>
-            <CFormCheck v-model="postTipoRetenciones.mAfecta" inline type="radio" name="inlineRadioOptions" id="inlineCheckbox1"
-              label="Restando" />
-            <CFormCheck v-model="postTipoRetenciones.mAfecta" inline type="radio" name="inlineRadioOptions" id="inlineCheckbox2" 
-              label="Sumando" />
+            <CFormCheck v-model="postTipoRetenciones.mAfecta" inline type="radio" name="inlineRadioOptions"
+              id="inlineCheckbox1" label="Restando" />
+            <CFormCheck v-model="postTipoRetenciones.mAfecta" inline type="radio" name="inlineRadioOptions"
+              id="inlineCheckbox2" label="Sumando" />
 
+            <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
 
@@ -147,6 +133,7 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 import Api from '../services/EjecucionServices'
 
 export default {
@@ -166,19 +153,19 @@ export default {
         porciento: 2,
         tipo: null,
         beneficiarioId: 1,
-        operacion: "sdasdnull",
-        mAfecta: "sdasddas"
+        operacion: null,
+        mAfecta: null
       },
 
       columns: [
-        { key: 'Año Fiscal', label: 'Código', _style: { width: '40%' } },
-        { key: 'Desde', label: 'Detalle', _style: { width: '40%' } },
-        { key: 'Hasta', label: 'Tipo retención', _style: { width: '40%' } },
-        { key: 'Estatus', label: 'Operación', _style: { width: '40%' } },
-        { key: 'Año Fiscal', label: 'Valor o % a retener', _style: { width: '40%' } },
-        { key: 'Desde', label: 'Calculada', _style: { width: '40%' } },
-        { key: 'Hasta', label: 'Modo afecta', _style: { width: '40%' } },
-        { key: 'Estatus', label: 'Beneficiario', _style: { width: '40%' } },
+        { key: 'id', label: 'Código', _style: { width: '40%' } },
+        { key: 'detalle', label: 'Detalle', _style: { width: '40%' } },
+        { key: 'tipo', label: 'Tipo retención', _style: { width: '40%' } },
+        { key: 'operacion', label: 'Operación', _style: { width: '40%' } },
+        { key: 'porciento', label: 'Valor o % a retener', _style: { width: '40%' } },
+        { key: 'calculada', label: 'Valor calculado', _style: { width: '40%' } },
+        { key: 'mAfecta', label: 'Modo afecta', _style: { width: '40%' } },
+        { key: 'beneficiarioId', label: 'Beneficiario', _style: { width: '40%' } },
         {
           key: 'show_details',
           label: '',
@@ -204,11 +191,22 @@ export default {
     ...mapActions(useRegistroStore, ['getTipoRetenciones', 'addTipoRetencion', 'getBeneficiarios']),
 
     toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
+     
+      console.log(item)
+      if (item.TipoRetenciones !== 0 || item.variacion !== 0) {
+        this.formuladoValue = true
+      } else {
+        this.formuladoValue = false
       }
-      this.details.push(item._id)
+      this.edit = true
+      this.lgDemo = true
+      console.log(item.id)
+      Api.getTipoRetencionById(item.id).then((response) => {
+        this.postTipoRetenciones = response.data.data
+        console.log(response)
+        this.id = item.id
+
+      })
     },
 
     getBadge(status) {
@@ -248,26 +246,35 @@ export default {
           })
           this.getTipoRetenciones()
           this.postTipoRetenciones = {
-            id: 0,
-            nombre: null,
-            variacion: 0,
-            ayuntamientoId: 0,
-            ayuntamiento: {
+        
+              //ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
               id: 0,
-              secuencial: 0,
-              codigo: null,
-              descripcion: null,
-            },
+              detalle: null,
+              calculada: true,
+              porciento: 2,
+              tipo: null,
+              beneficiarioId: 1,
+              operacion: null,
+              mAfecta: null
+         
+
           }
         })
         this.getAnioFiscal()
       } else {
         this.addTipoRetencion(this.postTipoRetenciones)
-        //const form = event.currentTarget
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          text: 'Datos agregados con exito',
+          title: 'Agregado',
+          showConfirmButton: false,
+          timer: 1500,
+        })
         this.lgDemo = true
         this.getTipoRetenciones()
           ; (this.postTipoRetenciones = {
-            postTipoRetenciones: {
+         
               ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
               id: 0,
               detalle: null,
@@ -277,7 +284,7 @@ export default {
               beneficiarioId: 1,
               operacion: null,
               mAfecta: null
-            },
+           
           }),
             (this.validatedCustom01 = false)
         event.preventDefault()
@@ -290,7 +297,7 @@ export default {
   mounted() {
     this.getTipoRetenciones()
     Api.getBeneficiarios().then((response) => {
-     
+
       this.beneficiario = response.data.data
     })
 
