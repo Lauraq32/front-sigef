@@ -197,6 +197,12 @@ export default [
             to: '/Ejecucion/transferenciaDatos',
             icon: 'cidChartLine',
           },
+          // {
+          //   component: 'CNavItem',
+          //   name: 'retenciones',
+          //   to: '/Ejecucion/retenciones',
+          //   icon: 'cilChartPie',
+          // },
           {
             component: 'CNavTitle',
             name: 'Consultas',
@@ -213,6 +219,7 @@ export default [
             to: '/Ejecucion/ejecucionGastos',
             icon: 'cilChartPie',
           },
+        
 
           {
             component: 'CNavTitle',
