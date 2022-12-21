@@ -16,6 +16,11 @@ class NominaApi {
     return http.get(`Empleado?ayuntamientoId=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
   }
 
+  getProgramaDivision() {
+
+    return http.get(`ProgramaDivision?AyuntamientoId=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
+  }
+
   getEmpleadoById(value) {
     return http.get(`Empleado/${value}`)
   }
@@ -32,7 +37,7 @@ class NominaApi {
     return http.get('GrupoNomina')
   }
 
-  
+
   getAreaTrabajo() {
     return http.get('AreaTrabajo')
   }
@@ -41,10 +46,6 @@ class NominaApi {
     return http.get('ConfiguracionNomina')
   }
 
-  getProgramaDivision() {
-
-    return http.get('ProgramaDivision')
-  }
 
   getSectorbyid(id) {
     return http.get(`Sector/${id}`)

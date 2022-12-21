@@ -1510,15 +1510,17 @@
           <div class="row">
             <div class="col-7">
               <div class="col-11">
-                <CCol :md="8">
-                  <CFormLabel for="validationCustom01">Programa</CFormLabel>
-                  <CFormInput
-                    v-model="postNomina"
-                    id="validationCustom01"
-                    required
-                  />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
+                <CCol>
+                  <CFormLabel for="validationCustom05">Programa</CFormLabel>
+                  <CFormSelect v-model="programa.id" id="validationCustom05">
+                    <option
+                      v-for="programas in this.programa"
+                      :key="programas.id"
+                      :value="programas.id"
+                    >
+                      {{ programas.nombre }}
+                    </option>
+                  </CFormSelect>
                   <CFormFeedback invalid>
                     Favor agregar el campo
                   </CFormFeedback>
@@ -2278,6 +2280,9 @@ export default {
       arsCheck: false,
       afpCheck: false,
 
+      departamentos: {},
+
+      programa: [{}],
       posicionCargo: [{}],
       areaTrabajo: [{}],
       programaDivision: [{ nombre: null }],
@@ -3145,6 +3150,12 @@ export default {
       }),
       Api.getConfiguracionNomina().then((response) => {
         this.confNomina = response.data.data
+      }),
+      Api.getProgramaDivision().then((response) => {
+        this.programa = response.data.data
+      }),
+      Api.getDepartamentoById().then((response) => {
+        this.departamentoId = response.data.data
       })
   },
 }
