@@ -62,6 +62,9 @@ class NominaApi {
   getDepartamentoById(id) {
     return http.get(`Departamento/${id}`)
   }
+  getDepartamentoByProgramaId(id) {
+    return http.get(`Departamento/Programa/${id}`)
+  }
 
   getPocisionbyid(id) {
     return http.get(`Posicion/${id}`)
