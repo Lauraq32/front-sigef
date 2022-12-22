@@ -1663,15 +1663,13 @@
               <div>
                 <CCol :md="4">
                   <CFormLabel for="validationCustom02">Tipo de Pago</CFormLabel>
-                  <CFormInput
+                  <CFormSelect
                     v-model="postNomina.tipoPago"
-                    id="validationCustom02"
-                    required
-                  />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+                    id="validationCustom05"
+                  >
+                    <option>Cheque</option>
+                    <option>Banco</option>
+                  </CFormSelect>
                 </CCol>
               </div>
 
