@@ -185,7 +185,7 @@
           <CCol :md="3">
             <CFormLabel for="validationCustom05">Denominación</CFormLabel>
             <CFormInput
-              disabled
+             
               v-model="post.nombre"
               id="validationCustom05"
               required
@@ -195,7 +195,7 @@
           <CCol :md="4">
             <CFormLabel for="validationCustom04">Unidad responsable</CFormLabel>
             <CFormInput
-              disabled
+            
               v-model="post.unidadResp"
               id="validationCustom04"
             >
