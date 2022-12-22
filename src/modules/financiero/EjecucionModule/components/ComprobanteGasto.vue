@@ -285,15 +285,18 @@
                     <CFormLabel for="validationCustom01"
                       >Concepto/auxiliar</CFormLabel
                     >
-                    <CFormSelect v-model="postGasto.tipoGastoId" id="validationCustom05">
-                    <option
-                      v-for="tipoGasto in this.TipoGastoList"
-                      :key="tipoGasto.id"
-                      :value="tipoGasto.id"
+                    <CFormSelect
+                      v-model="postGasto.tipoGastoId"
+                      id="validationCustom05"
                     >
-                      {{ tipoGasto.descripcion }}
-                    </option>
-                  </CFormSelect>
+                      <option
+                        v-for="tipoGasto in this.TipoGastoList"
+                        :key="tipoGasto.id"
+                        :value="tipoGasto.id"
+                      >
+                        {{ tipoGasto.descripcion }}
+                      </option>
+                    </CFormSelect>
                     <CFormFeedback valid> Exito! </CFormFeedback>
                     <CFormFeedback invalid>
                       Favor agregar el campo
@@ -501,7 +504,7 @@
                         >Denominacion</CFormLabel
                       >
                       <CFormInput
-                      disabled
+                        disabled
                         v-model="nombreEst"
                         id="validationCustom02"
                         required
@@ -679,27 +682,18 @@
                 <CCol :md="2">
                   <CFormLabel for="validationCustom01">Retenciones</CFormLabel>
                   <CFormSelect
-                      v-model="postGastoDetalle.retenciones"
-                      id="validationCustom05"
+                    v-model="tipoRetencionPost.retencion"
+                    id="validationCustom02"
+                    v-on:change="changeRetenciones($event)"
+                  >
+                    <option
+                      v-for="benef in this.tipoRentencion"
+                      :key="benef.id"
+                      :value="benef.id"
                     >
-                      <option>N/A</option>
-                      <option>AFP</option>
-                      <option>ARS</option>
-                      <option>ISR</option>
-                      <option>10% ALQUILERES</option>
-                      <option>10% SERV. PROFESIONALES</option>
-                      <option>MENOS ITBIS</option>
-                      <option>MAS ITBIS</option>
-                      <option>5% SERVICIOS</option>
-                      <option>1% DE FONDO PENSION</option>
-                      <option>IMP./RENTA.</option>
-                      <option>0.1 CODIA</option>
-                      <option>18% IMP. DIRECCION TECNICA</option>
-                      <option>5% SERVICIOS PE</option>
-                      <option>OPTICA</option>
-                      <option>ARS-SFS</option>
-                      <option>2% SEGUROS Y FIANZA</option>
-                    </CFormSelect>
+                      {{ benef.detalle }}
+                    </option>
+                  </CFormSelect>
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -734,7 +728,7 @@
                     </CCol>
 
                     <CFormInput
-                      v-model="postGastoDetalle.retenciones"
+                      v-model="tipoRetencionPost.mAplicado"
                       id="validationCustom01"
                       required
                     />
@@ -749,7 +743,7 @@
                 <CCol :md="3">
                   <CFormLabel for="validationCustom01">Valor</CFormLabel>
                   <CFormInput
-                    v-model="postGastoDetalle.retenciones"
+                    v-model="tipoRetencionPost.mAplica"
                     id="validationCustom01"
                     required
                   />
@@ -764,7 +758,7 @@
                   <button
                     class="btn btn-primary"
                     style="margin-top: 32px"
-                    v-on:click="getClasificador"
+                    v-on:click="guardarRetencion"
                   >
                     Adicionar Retencion
                   </button>
@@ -852,13 +846,11 @@
   </CModal>
   <CModal
     backdrop="static"
-   
     size="xl"
     :visible="lgDemo3"
     @close="
       () => {
         lgDemo3 = false
-        
       }
     "
   >
@@ -881,7 +873,6 @@
           :items="EstructuraByClasificadores"
           :columns="columns3"
           columnFilter
-
           tableFilter
           cleaner
           itemsPerPageSelect
@@ -941,7 +932,8 @@ export default {
 
   data: () => {
     return {
-      TipoGastoList:[],
+      tipoRentencion: [{}],
+      TipoGastoList: [],
       EstructuraByClasificadores: [],
       cabeceraGasto: [],
       nombreEst: '',
@@ -954,9 +946,30 @@ export default {
       lgDemo3: false,
       id: null,
       cabeceraId: null,
+      tipoRetencionPost: {
+        anioFiscalId: parseInt(localStorage.getItem('ano')),
+        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        id: 0,
+        fecha: new Date(Date.now()),
+        beneficiarioId: 0,
+        bancoId: 0,
+        fAplica: 0,
+        retencion: 0,
+        ctgMestProgId: '',
+        cuenta: '',
+        parteAplica: '',
+        mAplica: 0,
+        mAplicado: 0,
+        orden: 0,
+        estCuenta: '',
+        ctgFuenteId: '',
+        ctgFuenteEspecificaId: '',
+        ctgOrganismoFinanciadorId: '',
+        registroGastoId: 0,
+      },
       postGasto: {
         id: 0,
-        tipoGastoId:0,
+        tipoGastoId: 0,
         anioFiscalId: parseInt(localStorage.getItem('ano')),
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         anioFiscal: null,
@@ -1119,6 +1132,13 @@ export default {
     }
   },
   methods: {
+    changeRetenciones(e){
+      Api.getTipoRetencionById(e.target.value).then(response => {
+        console.log(response.data.data)
+        this.tipoRetencionPost.beneficiarioId = response.data.data.beneficiarioId
+      })
+    },
+
     getEstructuraById() {
       Api.getRegistroGastoDetalleMesprog(this.postGastoDetalle.estProg).then(
         (response) => {
@@ -1128,8 +1148,8 @@ export default {
         },
       )
     },
-    getTipoGasto(){
-      Api.getTipoGastoList().then(response =>{
+    getTipoGasto() {
+      Api.getTipoGastoList().then((response) => {
         this.TipoGastoList = response.data.data
       })
     },
@@ -1222,6 +1242,21 @@ export default {
         console.log(this.beneficiariosList)
       })
     },
+    guardarRetencion() {
+      this.tipoRetencionPost.ctgOrganismoFinanciadorId =
+        this.postGastoDetalle.ctgOrganismoFinanciadorId
+      this.tipoRetencionPost.ctgFuenteEspecificaId =
+        this.postGastoDetalle.ctgFuenteEspecificaId
+      this.tipoRetencionPost.ctgFuenteId = this.postGastoDetalle.ctgFuenteId
+      this.tipoRetencionPost.registroGastoId = this.id
+      this.tipoRetencionPost.cuenta = this.postGastoDetalle.ctgClasificadorId
+      this.tipoRetencionPost.ctgMestProgId = this.postGastoDetalle.estProg
+      Api.postTipoRetencionDetalle(this.tipoRetencionPost).then((response) => {
+        console.log('se guardo')
+      })
+      event.preventDefault()
+      event.stopPropagation()
+    },
     selectItemEventHandler(id) {
       this.ingresoPost.codBenefi = id.split('-')[0]
     },
@@ -1237,8 +1272,8 @@ export default {
     gotToBeneficiario() {
       this.$router.push({ path: '/Ejecucion/beneficiarios' })
     },
-    goToGasto(){
-      this.$router.push({path: '/Ejecucion/destinoGastos' })
+    goToGasto() {
+      this.$router.push({ path: '/Ejecucion/destinoGastos' })
     },
     handleSubmitCustom01(event) {
       const form = event.currentTarget
@@ -1304,11 +1339,16 @@ export default {
         this.cabeceraGasto = response.data.data
       })
     },
-    seletectedItems(item){
-      console.log(item.ctgFuenteEspecificaId, item.ctgOrganismoFinanciadorId, item.ctgFuenteId)
+    seletectedItems(item) {
+      console.log(
+        item.ctgFuenteEspecificaId,
+        item.ctgOrganismoFinanciadorId,
+        item.ctgFuenteId,
+      )
       this.postGastoDetalle.ctgFuenteEspecificaId = item.ctgFuenteEspecificaId
       this.postGastoDetalle.ctgFuenteId = item.ctgFuenteId
-      this.postGastoDetalle.ctgOrganismoFinanciadorId = item.ctgOrganismoFinanciadorId
+      this.postGastoDetalle.ctgOrganismoFinanciadorId =
+        item.ctgOrganismoFinanciadorId
       this.postGastoDetalle.nombre = item.nombre
       this.postGastoDetalle.ctgClasificadorId = item.ctgClasificadorId
       this.lgDemo3 = false
@@ -1366,6 +1406,9 @@ export default {
     },
   },
   mounted() {
+    Api.getTipoRetencion().then((response) => {
+      this.tipoRentencion = response.data.data
+    })
     this.getCabecera()
     this.getBeneficiario()
     this.getTipoGasto()
