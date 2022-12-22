@@ -614,7 +614,7 @@ export default {
       window
         .open(
           `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Formulacion&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem(
-            'ano',
+            'id_Ayuntamiento',
           )}&ANO=2022`,
           '_blank',
         )
