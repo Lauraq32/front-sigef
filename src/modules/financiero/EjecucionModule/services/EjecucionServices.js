@@ -112,6 +112,10 @@ class Ejecucion {
         return http.post('TipoRetencion',data)
     }
 
+    postTipoRetencionDetalle(data){
+        return http.post('DetalleRetencion',data)
+    }
+
     //put
 
     putBeneficiarios(id, data) {
