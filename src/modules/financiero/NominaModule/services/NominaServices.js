@@ -91,6 +91,10 @@ class NominaApi {
   }
   //post
 
+  postnominaGeneral(ayuntamiento, fecha, departamento) {
+    return http.post(`Nomina/GenerarNomina?AyuntamientoId=${ayuntamiento}&Fecha=${fecha}&DepartamentoId=${departamento}`)
+  }
+
   postNomina(data) {
     return http.post('Nomina', data)
   }

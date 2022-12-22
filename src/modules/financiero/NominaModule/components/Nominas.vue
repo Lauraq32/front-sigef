@@ -14,20 +14,39 @@
       >
     </div> -->
 
-    <CButton color="info" @click="
-      () => {
-        lgDemo1 = true
-      }
-    ">Generar Nomina</CButton>
+    <CButton
+      color="info"
+      @click="
+        () => {
+          lgDemo1 = true
+        }
+      "
+      >Generar Nomina</CButton
+    >
   </div>
 
   <hr />
-  <CSmartTable clickableRows :tableProps="{
-    striped: false,
-    hover: true,
-  }" :tableHeadProps="{}" :activePage="1" footer header :items="Empleado" :columns="columns" columnFilter tableFilter
-    cleaner itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination>
+  <CSmartTable
+    clickableRows
+    :tableProps="{
+      striped: false,
+      hover: true,
+    }"
+    :tableHeadProps="{}"
+    :activePage="1"
+    footer
+    header
+    :items="Empleado"
+    :columns="columns"
+    columnFilter
+    tableFilter
+    cleaner
+    itemsPerPageSelect
+    :itemsPerPage="5"
+    columnSorter
+    :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination
+  >
     <template #posicion="{ item }">
       <td>
         {{ item.posicion.nombre }}
@@ -47,7 +66,14 @@
     </template>
     <template #show_details="{ item }">
       <td class="py-1" @click="toggleDetail2(item)">
-        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="toggleDetail2(item)">
+        <CButton
+          class="mt-1"
+          color="primary"
+          variant="outline"
+          square
+          size="sm"
+          @click="toggleDetail2(item)"
+        >
           {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
       </td>
@@ -66,11 +92,15 @@
     </template>
   </CSmartTable>
 
-  <CModal size="xl" :visible="lgDemo" @close="
-    () => {
-      lgDemo = false
-    }
-  ">
+  <CModal
+    size="xl"
+    :visible="lgDemo"
+    @close="
+      () => {
+        lgDemo = false
+      }
+    "
+  >
     <CModalHeader>
       <CModalTitle>Formulario de empleados</CModalTitle>
     </CModalHeader>
@@ -78,20 +108,28 @@
       <div class="row">
         <CNav variant="tabs" role="tablist">
           <CNavItem>
-            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 1" @click="
-              () => {
-                tabPaneActiveKey = 1
-              }
-            ">
+            <CNavLink
+              href="javascript:void(0);"
+              :active="tabPaneActiveKey === 1"
+              @click="
+                () => {
+                  tabPaneActiveKey = 1
+                }
+              "
+            >
               General
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 2" @click="
-              () => {
-                tabPaneActiveKey = 2
-              }
-            ">
+            <CNavLink
+              href="javascript:void(0);"
+              :active="tabPaneActiveKey === 2"
+              @click="
+                () => {
+                  tabPaneActiveKey = 2
+                }
+              "
+            >
               Otros ingresos
             </CNavLink>
           </CNavItem>
@@ -122,25 +160,41 @@
             </CNavLink>
           </CNavItem> -->
           <CNavItem>
-            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 5" @click="
-              () => {
-                tabPaneActiveKey = 5
-              }
-            ">
+            <CNavLink
+              href="javascript:void(0);"
+              :active="tabPaneActiveKey === 5"
+              @click="
+                () => {
+                  tabPaneActiveKey = 5
+                }
+              "
+            >
               Acumulado anual
             </CNavLink>
           </CNavItem>
         </CNav>
         <CTabContent>
-          <CTabPane role="tabpanel" aria-labelledby="home-tab" :visible="tabPaneActiveKey === 1">
+          <CTabPane
+            role="tabpanel"
+            aria-labelledby="home-tab"
+            :visible="tabPaneActiveKey === 1"
+          >
             <div class="row">
               <div class="col-4 border p-3">
                 <h3>Datos generales</h3>
 
                 <CCol>
-                  <CFormLabel disabled for="validationCustom01">Código</CFormLabel>
-                  <input disabled autofocus="1" type="text" class="form-control" aria-describedby="basic-addon1"
-                    v-model="postEmpleado.codigo" />
+                  <CFormLabel disabled for="validationCustom01"
+                    >Código</CFormLabel
+                  >
+                  <input
+                    disabled
+                    autofocus="1"
+                    type="text"
+                    class="form-control"
+                    aria-describedby="basic-addon1"
+                    v-model="postEmpleado.codigo"
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -149,7 +203,11 @@
 
                 <CCol>
                   <CFormLabel for="validationCustom01">Cedula</CFormLabel>
-                  <CFormInput disabled v-model="postEmpleado.cedula" id="validationCustom01" />
+                  <CFormInput
+                    disabled
+                    v-model="postEmpleado.cedula"
+                    id="validationCustom01"
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -159,7 +217,12 @@
 
                 <CCol>
                   <CFormLabel for="validationCustom02">Nombre</CFormLabel>
-                  <CFormInput disabled v-model="postEmpleado.nombres" id="validationCustom02" required />
+                  <CFormInput
+                    disabled
+                    v-model="postEmpleado.nombres"
+                    id="validationCustom02"
+                    required
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -168,7 +231,11 @@
 
                 <CCol>
                   <CFormLabel for="validationCustom01">Apellidos</CFormLabel>
-                  <CFormInput disabled v-model="postEmpleado.apellidos" id="validationCustom01" />
+                  <CFormInput
+                    disabled
+                    v-model="postEmpleado.apellidos"
+                    id="validationCustom01"
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -177,7 +244,12 @@
                 </CCol>
                 <CCol>
                   <CFormLabel for="validationCustom02">Dirección</CFormLabel>
-                  <CFormInput disabled v-model="postEmpleado.direccion" id="validationCustom02" required />
+                  <CFormInput
+                    disabled
+                    v-model="postEmpleado.direccion"
+                    id="validationCustom02"
+                    required
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -186,8 +258,16 @@
 
                 <CCol :md="12">
                   <CFormLabel for="validationCustom05">Sectores</CFormLabel>
-                  <CFormSelect disabled v-model="sector.id" id="validationCustom05">
-                    <option v-for="sect in this.sector" :key="sect.id" :value="sect.id">
+                  <CFormSelect
+                    disabled
+                    v-model="sector.id"
+                    id="validationCustom05"
+                  >
+                    <option
+                      v-for="sect in this.sector"
+                      :key="sect.id"
+                      :value="sect.id"
+                    >
                       {{ sect.nombre }}
                     </option>
                   </CFormSelect>
@@ -198,15 +278,26 @@
 
                 <CCol>
                   <CFormLabel for="validationCustom02">Teléfono</CFormLabel>
-                  <CFormInput disabled v-model="postEmpleado.telefono" id="validationCustom02" required />
+                  <CFormInput
+                    disabled
+                    v-model="postEmpleado.telefono"
+                    id="validationCustom02"
+                    required
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom05">Tipo de documento</CFormLabel>
-                  <CFormSelect disabled v-model="postEmpleado.tipoDocumento" id="validationCustom05">
+                  <CFormLabel for="validationCustom05"
+                    >Tipo de documento</CFormLabel
+                  >
+                  <CFormSelect
+                    disabled
+                    v-model="postEmpleado.tipoDocumento"
+                    id="validationCustom05"
+                  >
                     <option>Cedula</option>
                     <option>Pasaporte</option>
                   </CFormSelect>
@@ -215,16 +306,30 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom01">Fecha nacimiento</CFormLabel>
-                  <CFormInput disabled v-model="postEmpleado.fechaNacimiento" type="date" id="validationCustom01" />
+                  <CFormLabel for="validationCustom01"
+                    >Fecha nacimiento</CFormLabel
+                  >
+                  <CFormInput
+                    disabled
+                    v-model="postEmpleado.fechaNacimiento"
+                    type="date"
+                    id="validationCustom01"
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02">Lugar de nacimiento</CFormLabel>
-                  <CFormInput disabled v-model="postEmpleado.lugarNacimiento" id="validationCustom02" required />
+                  <CFormLabel for="validationCustom02"
+                    >Lugar de nacimiento</CFormLabel
+                  >
+                  <CFormInput
+                    disabled
+                    v-model="postEmpleado.lugarNacimiento"
+                    id="validationCustom02"
+                    required
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -233,7 +338,12 @@
 
                 <CCol>
                   <CFormLabel for="validationCustom02">Sexo</CFormLabel>
-                  <CFormInput disabled v-model="postEmpleado.sexo" id="validationCustom02" required />
+                  <CFormInput
+                    disabled
+                    v-model="postEmpleado.sexo"
+                    id="validationCustom02"
+                    required
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -242,8 +352,13 @@
 
                 <CCol>
                   <CFormLabel for="validationCustom02">Dependientes</CFormLabel>
-                  <CFormInput disabled v-model="postEmpleado.dependientes" type="number" id="validationCustom02"
-                    required />
+                  <CFormInput
+                    disabled
+                    v-model="postEmpleado.dependientes"
+                    type="number"
+                    id="validationCustom02"
+                    required
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -253,8 +368,15 @@
               <div class="col-4 border p-3">
                 <h3>Datos laborales</h3>
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom01">Fecha ingreso</CFormLabel>
-                  <CFormInput disabled v-model="postEmpleado.fechaIngreso" type="date" id="validationCustom01" />
+                  <CFormLabel for="validationCustom01"
+                    >Fecha ingreso</CFormLabel
+                  >
+                  <CFormInput
+                    disabled
+                    v-model="postEmpleado.fechaIngreso"
+                    type="date"
+                    id="validationCustom01"
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -263,8 +385,16 @@
                 </CCol>
                 <CCol :md="12">
                   <CFormLabel for="validationCustom05">Programa</CFormLabel>
-                  <CFormSelect disabled v-model="programaId" id="validationCustom05">
-                    <option v-for="programa in this.programaDivision" :key="programa.id" :value="programa.id">
+                  <CFormSelect
+                    disabled
+                    v-model="programaId"
+                    id="validationCustom05"
+                  >
+                    <option
+                      v-for="programa in this.programaDivision"
+                      :key="programa.id"
+                      :value="programa.id"
+                    >
                       {{ programa.nombre }}
                     </option>
                   </CFormSelect>
@@ -274,9 +404,19 @@
                 </CCol>
 
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom05">Area de trabajo</CFormLabel>
-                  <CFormSelect disabled v-model="areaTrabajo.id" id="validationCustom05">
-                    <option v-for="area in this.areaTrabajo" :key="area.id" :value="area.id">
+                  <CFormLabel for="validationCustom05"
+                    >Area de trabajo</CFormLabel
+                  >
+                  <CFormSelect
+                    disabled
+                    v-model="areaTrabajo.id"
+                    id="validationCustom05"
+                  >
+                    <option
+                      v-for="area in this.areaTrabajo"
+                      :key="area.id"
+                      :value="area.id"
+                    >
                       {{ area.area }}
                     </option>
                   </CFormSelect>
@@ -286,8 +426,16 @@
                 </CCol>
                 <CCol :md="12">
                   <CFormLabel for="validationCustom05">Cargo</CFormLabel>
-                  <CFormSelect disabled v-model="posicionCargo.id" id="validationCustom05">
-                    <option v-for="posicion in this.posicionCargo" :key="posicion.id" :value="posicion.id">
+                  <CFormSelect
+                    disabled
+                    v-model="posicionCargo.id"
+                    id="validationCustom05"
+                  >
+                    <option
+                      v-for="posicion in this.posicionCargo"
+                      :key="posicion.id"
+                      :value="posicion.id"
+                    >
                       {{ posicion.nombre }}
                     </option>
                   </CFormSelect>
@@ -297,8 +445,15 @@
                 </CCol>
                 <div class="row">
                   <CCol>
-                    <CFormLabel for="validationCustom02">Tipo de contrato</CFormLabel>
-                    <CFormInput disabled v-model="postEmpleado.tipoContrato" id="validationCustom02" required />
+                    <CFormLabel for="validationCustom02"
+                      >Tipo de contrato</CFormLabel
+                    >
+                    <CFormInput
+                      disabled
+                      v-model="postEmpleado.tipoContrato"
+                      id="validationCustom02"
+                      required
+                    />
                     <CFormFeedback valid> Exito! </CFormFeedback>
                     <CFormFeedback invalid>
                       Favor agregar el campo
@@ -306,7 +461,12 @@
                   </CCol>
                   <CCol>
                     <CFormLabel for="validationCustom02">Turno</CFormLabel>
-                    <CFormInput disabled v-model="postEmpleado.turno" id="validationCustom02" required />
+                    <CFormInput
+                      disabled
+                      v-model="postEmpleado.turno"
+                      id="validationCustom02"
+                      required
+                    />
                     <CFormFeedback valid> Exito! </CFormFeedback>
                     <CFormFeedback invalid>
                       Favor agregar el campo
@@ -314,8 +474,15 @@
                   </CCol>
                 </div>
                 <CCol :md="6">
-                  <CFormLabel for="validationCustom05">Dias trabajando</CFormLabel>
-                  <CFormInput v-model="postEmpleado.sueldo" type="date" id="validationCustom02" required />
+                  <CFormLabel for="validationCustom05"
+                    >Dias trabajando</CFormLabel
+                  >
+                  <CFormInput
+                    v-model="postEmpleado.sueldo"
+                    type="date"
+                    id="validationCustom02"
+                    required
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -323,8 +490,15 @@
                 </CCol>
 
                 <CCol>
-                  <CFormLabel for="validationCustom02">Tipo de cobro</CFormLabel>
-                  <CFormInput disabled v-model="postEmpleado.tipoCobro" id="validationCustom02" required />
+                  <CFormLabel for="validationCustom02"
+                    >Tipo de cobro</CFormLabel
+                  >
+                  <CFormInput
+                    disabled
+                    v-model="postEmpleado.tipoCobro"
+                    id="validationCustom02"
+                    required
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -333,7 +507,11 @@
 
                 <CCol>
                   <CFormLabel for="validationCustom05">Tipo de pago</CFormLabel>
-                  <CFormSelect disabled v-model="postEmpleado.formaPago" id="validationCustom05">
+                  <CFormSelect
+                    disabled
+                    v-model="postEmpleado.formaPago"
+                    id="validationCustom05"
+                  >
                     <option>Tipo de pago 1</option>
                     <option>Tipo de pago 2</option>
                   </CFormSelect>
@@ -343,8 +521,16 @@
                 </CCol>
 
                 <CCol>
-                  <CFormLabel for="validationCustom02">Sueldo actual</CFormLabel>
-                  <CFormInput disabled v-model="postEmpleado.sueldo" type="number" id="validationCustom02" required />
+                  <CFormLabel for="validationCustom02"
+                    >Sueldo actual</CFormLabel
+                  >
+                  <CFormInput
+                    disabled
+                    v-model="postEmpleado.sueldo"
+                    type="number"
+                    id="validationCustom02"
+                    required
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -354,8 +540,15 @@
                 <h4>Retenciones de Ley</h4>
 
                 <CCol>
-                  <CFormLabel for="validationCustom02">Impuestos S.R</CFormLabel>
-                  <CFormInput ref="name" v-model="postEmpleado.impuestoSobreRenta" id="validationCustom02" required />
+                  <CFormLabel for="validationCustom02"
+                    >Impuestos S.R</CFormLabel
+                  >
+                  <CFormInput
+                    ref="name"
+                    v-model="postEmpleado.impuestoSobreRenta"
+                    id="validationCustom02"
+                    required
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -366,8 +559,12 @@
                   <div class="col-6">
                     <CCol>
                       <CFormLabel for="validationCustom02">ARS</CFormLabel>
-                      <CFormInput v-model="postEmpleado.arsFijo" id="validationCustom02" required
-                        :disabled="postEmpleado.arsCalculado" />
+                      <CFormInput
+                        v-model="postEmpleado.arsFijo"
+                        id="validationCustom02"
+                        required
+                        :disabled="postEmpleado.arsCalculado"
+                      />
                       <CFormFeedback valid> Exito! </CFormFeedback>
                       <CFormFeedback invalid>
                         Favor agregar el campo
@@ -380,8 +577,13 @@
                       <label class="form-check-label" for="flexCheckDefault">
                         ARS AUTOMATICO
                       </label>
-                      <input class="form-check-input" type="checkbox" v-model="postEmpleado.arsCalculado" value="true"
-                        id="flexCheckDefault" />
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        v-model="postEmpleado.arsCalculado"
+                        value="true"
+                        id="flexCheckDefault"
+                      />
                     </div>
                   </div>
                 </div>
@@ -389,8 +591,13 @@
                   <div class="col-6">
                     <CCol>
                       <CFormLabel for="validationCustom02">AFP</CFormLabel>
-                      <CFormInput v-model="postEmpleado.afpFijo" type="number" id="validationCustom02" required
-                        :disabled="postEmpleado.afpCalculado" />
+                      <CFormInput
+                        v-model="postEmpleado.afpFijo"
+                        type="number"
+                        id="validationCustom02"
+                        required
+                        :disabled="postEmpleado.afpCalculado"
+                      />
                       <CFormFeedback valid> Exito! </CFormFeedback>
                       <CFormFeedback invalid>
                         Favor agregar el campo
@@ -403,8 +610,13 @@
                       <label class="form-check-label" for="flexCheckDefault">
                         AFP AUTOMATICO
                       </label>
-                      <input class="form-check-input" type="checkbox" value="true" v-model="postEmpleado.afpCalculado"
-                        id="flexCheckDefault" />
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value="true"
+                        v-model="postEmpleado.afpCalculado"
+                        id="flexCheckDefault"
+                      />
                     </div>
                   </div>
                 </div>
@@ -418,14 +630,21 @@
               </div>
             </div>
           </CTabPane>
-          <CTabPane role="tabpanel" aria-labelledby="profile-tab" :visible="tabPaneActiveKey === 2">
+          <CTabPane
+            role="tabpanel"
+            aria-labelledby="profile-tab"
+            :visible="tabPaneActiveKey === 2"
+          >
             <div class="row">
               <div class="col-4 border p-3">
                 <h3>Ingresos</h3>
                 <hr />
                 <CCol>
                   <CFormLabel for="validationCustom01">Sueldo fijo:</CFormLabel>
-                  <CFormInput v-model="postEmpleado.sueldo" id="validationCustom01" />
+                  <CFormInput
+                    v-model="postEmpleado.sueldo"
+                    id="validationCustom01"
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -433,7 +652,9 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02">Horas extras:</CFormLabel>
+                  <CFormLabel for="validationCustom02"
+                    >Horas extras:</CFormLabel
+                  >
                   <CFormInput id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -441,7 +662,9 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom01">Serv. Especiales:</CFormLabel>
+                  <CFormLabel for="validationCustom01"
+                    >Serv. Especiales:</CFormLabel
+                  >
                   <CFormInput id="validationCustom01" />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -449,7 +672,9 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02">Gastos de rep</CFormLabel>
+                  <CFormLabel for="validationCustom02"
+                    >Gastos de rep</CFormLabel
+                  >
                   <CFormInput id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -458,7 +683,11 @@
                 </CCol>
                 <CCol>
                   <CFormLabel for="validationCustom01">Vacaciones</CFormLabel>
-                  <CFormInput type="date" v-model="postEmpleado.inicioVacaciones" id="validationCustom01" />
+                  <CFormInput
+                    type="date"
+                    v-model="postEmpleado.inicioVacaciones"
+                    id="validationCustom01"
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -472,8 +701,15 @@
                   <div class="col-4">
                     <h3>Retenciones</h3>
                   </div>
-                  <div class="col-4" style="margin-top: 9px; margin-left: 116px">
-                    <a style="padding: 40px" @click.prevent="addField(prueba)" href="">
+                  <div
+                    class="col-4"
+                    style="margin-top: 9px; margin-left: 116px"
+                  >
+                    <a
+                      style="padding: 40px"
+                      @click.prevent="addField(prueba)"
+                      href=""
+                    >
                       <!-- <CIcon
                         style="color: #33a133 position: relative; left: 200px"
                         icon="cilPlus"
@@ -515,22 +751,19 @@
                     </div> -->
 
                 <CCol :md="18">
-                  <CFormInput style="border: 0" placeholder="Nombre Retencion" id="validationCustom02" required />
+                  <CFormInput
+                    style="border: 0"
+                    placeholder="Nombre Retencion"
+                    id="validationCustom02"
+                    required
+                  />
 
-                  <CFormInput v-model="postConfiguracionNomina.retencion1Id" class="mt-2" id="validationCustom02"
-                    required />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-
-                <CCol :md="18">
-                  <CFormInput style="border: 0" placeholder="Nombre Retencion" id="validationCustom02" required />
-
-                  <CFormInput v-model="postConfiguracionNomina.retencion2Id" class="mt-2" id="validationCustom02"
-                    required />
+                  <CFormInput
+                    v-model="postConfiguracionNomina.retencion1Id"
+                    class="mt-2"
+                    id="validationCustom02"
+                    required
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -539,22 +772,19 @@
                 </CCol>
 
                 <CCol :md="18">
-                  <CFormInput style="border: 0" placeholder="Nombre Retencion" id="validationCustom02" required />
+                  <CFormInput
+                    style="border: 0"
+                    placeholder="Nombre Retencion"
+                    id="validationCustom02"
+                    required
+                  />
 
-                  <CFormInput v-model="postConfiguracionNomina.retencion3Id" class="mt-2" id="validationCustom02"
-                    required />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-
-                <CCol :md="18">
-                  <CFormInput style="border: 0" placeholder="Nombre Retencion" id="validationCustom02" required />
-
-                  <CFormInput v-model="postConfiguracionNomina.retencion4Id" class="mt-2" id="validationCustom02"
-                    required />
+                  <CFormInput
+                    v-model="postConfiguracionNomina.retencion2Id"
+                    class="mt-2"
+                    id="validationCustom02"
+                    required
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -563,22 +793,19 @@
                 </CCol>
 
                 <CCol :md="18">
-                  <CFormInput style="border: 0" placeholder="Nombre Retencion" id="validationCustom02" required />
+                  <CFormInput
+                    style="border: 0"
+                    placeholder="Nombre Retencion"
+                    id="validationCustom02"
+                    required
+                  />
 
-                  <CFormInput v-model="postConfiguracionNomina.retencion5Id" class="mt-2" id="validationCustom02"
-                    required />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-
-                <CCol :md="18">
-                  <CFormInput style="border: 0" placeholder="Nombre Retencion" id="validationCustom02" required />
-
-                  <CFormInput v-model="postConfiguracionNomina.retencion6Id" class="mt-2" id="validationCustom02"
-                    required />
+                  <CFormInput
+                    v-model="postConfiguracionNomina.retencion3Id"
+                    class="mt-2"
+                    id="validationCustom02"
+                    required
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -587,22 +814,19 @@
                 </CCol>
 
                 <CCol :md="18">
-                  <CFormInput style="border: 0" placeholder="Nombre Retencion" id="validationCustom02" required />
+                  <CFormInput
+                    style="border: 0"
+                    placeholder="Nombre Retencion"
+                    id="validationCustom02"
+                    required
+                  />
 
-                  <CFormInput v-model="postConfiguracionNomina.retencion7Id" class="mt-2" id="validationCustom02"
-                    required />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-
-                <CCol :md="18">
-                  <CFormInput style="border: 0" placeholder="Nombre Retencion" id="validationCustom02" required />
-
-                  <CFormInput v-model="postConfiguracionNomina.retencion8Id" class="mt-2" id="validationCustom02"
-                    required />
+                  <CFormInput
+                    v-model="postConfiguracionNomina.retencion4Id"
+                    class="mt-2"
+                    id="validationCustom02"
+                    required
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -611,10 +835,19 @@
                 </CCol>
 
                 <CCol :md="18">
-                  <CFormInput style="border: 0" placeholder="Nombre Retencion" id="validationCustom02" required />
+                  <CFormInput
+                    style="border: 0"
+                    placeholder="Nombre Retencion"
+                    id="validationCustom02"
+                    required
+                  />
 
-                  <CFormInput v-model="postConfiguracionNomina.retencion9Id" class="mt-2" id="validationCustom02"
-                    required />
+                  <CFormInput
+                    v-model="postConfiguracionNomina.retencion5Id"
+                    class="mt-2"
+                    id="validationCustom02"
+                    required
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -623,10 +856,103 @@
                 </CCol>
 
                 <CCol :md="18">
-                  <CFormInput style="border: 0" placeholder="Nombre Retencion" id="validationCustom02" required />
+                  <CFormInput
+                    style="border: 0"
+                    placeholder="Nombre Retencion"
+                    id="validationCustom02"
+                    required
+                  />
 
-                  <CFormInput v-model="postConfiguracionNomina.retencion10Id" class="mt-2" id="validationCustom02"
-                    required />
+                  <CFormInput
+                    v-model="postConfiguracionNomina.retencion6Id"
+                    class="mt-2"
+                    id="validationCustom02"
+                    required
+                  />
+
+                  <CFormFeedback valid> Exito! </CFormFeedback>
+                  <CFormFeedback invalid>
+                    Favor agregar el campo
+                  </CFormFeedback>
+                </CCol>
+
+                <CCol :md="18">
+                  <CFormInput
+                    style="border: 0"
+                    placeholder="Nombre Retencion"
+                    id="validationCustom02"
+                    required
+                  />
+
+                  <CFormInput
+                    v-model="postConfiguracionNomina.retencion7Id"
+                    class="mt-2"
+                    id="validationCustom02"
+                    required
+                  />
+
+                  <CFormFeedback valid> Exito! </CFormFeedback>
+                  <CFormFeedback invalid>
+                    Favor agregar el campo
+                  </CFormFeedback>
+                </CCol>
+
+                <CCol :md="18">
+                  <CFormInput
+                    style="border: 0"
+                    placeholder="Nombre Retencion"
+                    id="validationCustom02"
+                    required
+                  />
+
+                  <CFormInput
+                    v-model="postConfiguracionNomina.retencion8Id"
+                    class="mt-2"
+                    id="validationCustom02"
+                    required
+                  />
+
+                  <CFormFeedback valid> Exito! </CFormFeedback>
+                  <CFormFeedback invalid>
+                    Favor agregar el campo
+                  </CFormFeedback>
+                </CCol>
+
+                <CCol :md="18">
+                  <CFormInput
+                    style="border: 0"
+                    placeholder="Nombre Retencion"
+                    id="validationCustom02"
+                    required
+                  />
+
+                  <CFormInput
+                    v-model="postConfiguracionNomina.retencion9Id"
+                    class="mt-2"
+                    id="validationCustom02"
+                    required
+                  />
+
+                  <CFormFeedback valid> Exito! </CFormFeedback>
+                  <CFormFeedback invalid>
+                    Favor agregar el campo
+                  </CFormFeedback>
+                </CCol>
+
+                <CCol :md="18">
+                  <CFormInput
+                    style="border: 0"
+                    placeholder="Nombre Retencion"
+                    id="validationCustom02"
+                    required
+                  />
+
+                  <CFormInput
+                    v-model="postConfiguracionNomina.retencion10Id"
+                    class="mt-2"
+                    id="validationCustom02"
+                    required
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -641,7 +967,9 @@
                 <h3>Inf sobre el movimiento del registro</h3>
                 <hr />
                 <CCol>
-                  <CFormLabel for="validationCustom01">Fecha adiciona</CFormLabel>
+                  <CFormLabel for="validationCustom01"
+                    >Fecha adiciona</CFormLabel
+                  >
                   <CFormInput type="date" id="validationCustom01" />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
@@ -650,7 +978,9 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02">Usuario adiciona:</CFormLabel>
+                  <CFormLabel for="validationCustom02"
+                    >Usuario adiciona:</CFormLabel
+                  >
                   <CFormInput id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -658,7 +988,9 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom01">Fecha modifica:</CFormLabel>
+                  <CFormLabel for="validationCustom01"
+                    >Fecha modifica:</CFormLabel
+                  >
                   <CFormInput id="validationCustom01" />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -666,7 +998,9 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02">Usuario modifica</CFormLabel>
+                  <CFormLabel for="validationCustom02"
+                    >Usuario modifica</CFormLabel
+                  >
                   <CFormInput id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -674,7 +1008,9 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02">Valores anteriores</CFormLabel>
+                  <CFormLabel for="validationCustom02"
+                    >Valores anteriores</CFormLabel
+                  >
                   <CFormInput id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -684,12 +1020,22 @@
               </div>
             </div>
           </CTabPane>
-          <CTabPane role="tabpanel" aria-labelledby="contact-tab" :visible="tabPaneActiveKey === 3">
+          <CTabPane
+            role="tabpanel"
+            aria-labelledby="contact-tab"
+            :visible="tabPaneActiveKey === 3"
+          >
             <div class="row">
               <div class="col-4 border">
                 <CCol>
-                  <CFormLabel for="validationCustom01">Licencia de conducir</CFormLabel>
-                  <CFormInput v-model="postEmpleado.licenciaConducir" type="date" id="validationCustom01" />
+                  <CFormLabel for="validationCustom01"
+                    >Licencia de conducir</CFormLabel
+                  >
+                  <CFormInput
+                    v-model="postEmpleado.licenciaConducir"
+                    type="date"
+                    id="validationCustom01"
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -697,17 +1043,29 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02">Fecha expiraci licencia de conducir</CFormLabel>
-                  <CFormInput v-model="postEmpleado.fechaExpiracionLicencia" type="date" id="validationCustom02"
-                    required />
+                  <CFormLabel for="validationCustom02"
+                    >Fecha expiraci licencia de conducir</CFormLabel
+                  >
+                  <CFormInput
+                    v-model="postEmpleado.fechaExpiracionLicencia"
+                    type="date"
+                    id="validationCustom02"
+                    required
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom01">Fecha expira tarjeta del banco:</CFormLabel>
-                  <CFormInput v-model="postEmpleado.fechaExpitaTarjeta" typeof="date" id="validationCustom01" />
+                  <CFormLabel for="validationCustom01"
+                    >Fecha expira tarjeta del banco:</CFormLabel
+                  >
+                  <CFormInput
+                    v-model="postEmpleado.fechaExpitaTarjeta"
+                    typeof="date"
+                    id="validationCustom01"
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -719,14 +1077,21 @@
               </div>
             </div>
           </CTabPane>
-          <CTabPane role="tabpanel" aria-labelledby="profile-tab" :visible="tabPaneActiveKey === 4">
+          <CTabPane
+            role="tabpanel"
+            aria-labelledby="profile-tab"
+            :visible="tabPaneActiveKey === 4"
+          >
             <div class="row">
               <div class="col-4 border p-3">
                 <h3>En caso de emergencia comunicarse con</h3>
                 <hr />
                 <CCol>
                   <CFormLabel for="validationCustom01">Nombres</CFormLabel>
-                  <CFormInput v-model="postEmpleado.emergenciaNombre" id="validationCustom01" />
+                  <CFormInput
+                    v-model="postEmpleado.emergenciaNombre"
+                    id="validationCustom01"
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -735,7 +1100,11 @@
                 </CCol>
                 <CCol>
                   <CFormLabel for="validationCustom02">Teléfono</CFormLabel>
-                  <CFormInput v-model="postEmpleado.emergenciaTelefono" id="validationCustom02" required />
+                  <CFormInput
+                    v-model="postEmpleado.emergenciaTelefono"
+                    id="validationCustom02"
+                    required
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -743,7 +1112,10 @@
                 </CCol>
                 <CCol>
                   <CFormLabel for="validationCustom01">Dirección</CFormLabel>
-                  <CFormInput v-model="postEmpleado.emergenciaDireccion" id="validationCustom01" />
+                  <CFormInput
+                    v-model="postEmpleado.emergenciaDireccion"
+                    id="validationCustom01"
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -751,7 +1123,10 @@
                 </CCol>
                 <CCol>
                   <CFormLabel for="validationCustom05">Parentezco</CFormLabel>
-                  <CFormSelect v-model="postEmpleado.emergenciaParentezco" id="validationCustom05">
+                  <CFormSelect
+                    v-model="postEmpleado.emergenciaParentezco"
+                    id="validationCustom05"
+                  >
                     <option>Padre</option>
                     <option>Madre</option>
                     <option>Hermano/a</option>
@@ -777,7 +1152,11 @@
                 </CCol>
                 <CCol>
                   <CFormLabel for="validationCustom02">Teléfonos</CFormLabel>
-                  <CFormInput v-model="postEmpleado.telefono" id="validationCustom02" required />
+                  <CFormInput
+                    v-model="postEmpleado.telefono"
+                    id="validationCustom02"
+                    required
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -809,7 +1188,9 @@
                 </CCol>
 
                 <CCol>
-                  <CFormLabel for="validationCustom05">Nivel de presión</CFormLabel>
+                  <CFormLabel for="validationCustom05"
+                    >Nivel de presión</CFormLabel
+                  >
                   <CFormSelect id="validationCustom05">
                     <option>Alta</option>
                     <option>Baja</option>
@@ -823,7 +1204,9 @@
                 <h3>Inf sobre el movimiento del registro</h3>
                 <hr />
                 <CCol>
-                  <CFormLabel for="validationCustom01">Fecha adiciona</CFormLabel>
+                  <CFormLabel for="validationCustom01"
+                    >Fecha adiciona</CFormLabel
+                  >
                   <CFormInput type="date" id="validationCustom01" />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
@@ -832,7 +1215,9 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02">Usuario adiciona:</CFormLabel>
+                  <CFormLabel for="validationCustom02"
+                    >Usuario adiciona:</CFormLabel
+                  >
                   <CFormInput id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -840,7 +1225,9 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom01">Fecha modifica:</CFormLabel>
+                  <CFormLabel for="validationCustom01"
+                    >Fecha modifica:</CFormLabel
+                  >
                   <CFormInput id="validationCustom01" />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -848,7 +1235,9 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02">Usuario modifica</CFormLabel>
+                  <CFormLabel for="validationCustom02"
+                    >Usuario modifica</CFormLabel
+                  >
                   <CFormInput id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -856,7 +1245,9 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02">Valores anteriores</CFormLabel>
+                  <CFormLabel for="validationCustom02"
+                    >Valores anteriores</CFormLabel
+                  >
                   <CFormInput id="validationCustom02" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -867,8 +1258,14 @@
                 <h3>Intervención quirurgica(más reciente)</h3>
 
                 <CCol>
-                  <CFormLabel for="validationCustom02">Detalle diagnostico</CFormLabel>
-                  <CFormInput v-model="postEmpleado.telefono" id="validationCustom02" required />
+                  <CFormLabel for="validationCustom02"
+                    >Detalle diagnostico</CFormLabel
+                  >
+                  <CFormInput
+                    v-model="postEmpleado.telefono"
+                    id="validationCustom02"
+                    required
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -878,12 +1275,19 @@
             </div>
           </CTabPane>
 
-          <CTabPane role="tabpanel" aria-labelledby="contact-tab" :visible="tabPaneActiveKey === 5">
+          <CTabPane
+            role="tabpanel"
+            aria-labelledby="contact-tab"
+            :visible="tabPaneActiveKey === 5"
+          >
             <div class="row">
               <div class="col-4 border">
                 <CCol>
                   <CFormLabel for="validationCustom01">Enero</CFormLabel>
-                  <CFormInput v-model="postEmpleado.eneroIngreso" id="validationCustom01" />
+                  <CFormInput
+                    v-model="postEmpleado.eneroIngreso"
+                    id="validationCustom01"
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -892,8 +1296,12 @@
                 </CCol>
                 <CCol>
                   <CFormLabel for="validationCustom02">Febrero</CFormLabel>
-                  <CFormInput v-model="postEmpleado.febreroIngreso" id="validationCustom02" required
-                    v-on:change="sumaIngresos" />
+                  <CFormInput
+                    v-model="postEmpleado.febreroIngreso"
+                    id="validationCustom02"
+                    required
+                    v-on:change="sumaIngresos"
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -901,7 +1309,11 @@
                 </CCol>
                 <CCol>
                   <CFormLabel for="validationCustom01">Marzo</CFormLabel>
-                  <CFormInput v-model="postEmpleado.marzoIngreso" id="validationCustom01" v-on:change="sumaIngresos" />
+                  <CFormInput
+                    v-model="postEmpleado.marzoIngreso"
+                    id="validationCustom01"
+                    v-on:change="sumaIngresos"
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -910,8 +1322,12 @@
                 </CCol>
                 <CCol>
                   <CFormLabel for="validationCustom02">Abril</CFormLabel>
-                  <CFormInput v-model="postEmpleado.abrilIngreso" id="validationCustom02" required
-                    v-on:change="sumaIngresos" />
+                  <CFormInput
+                    v-model="postEmpleado.abrilIngreso"
+                    id="validationCustom02"
+                    required
+                    v-on:change="sumaIngresos"
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -921,7 +1337,11 @@
               <div class="col-4 border">
                 <CCol>
                   <CFormLabel for="validationCustom01">Mayo</CFormLabel>
-                  <CFormInput v-model="postEmpleado.mayoIngreso" id="validationCustom01" v-on:change="sumaIngresos" />
+                  <CFormInput
+                    v-model="postEmpleado.mayoIngreso"
+                    id="validationCustom01"
+                    v-on:change="sumaIngresos"
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -930,8 +1350,12 @@
                 </CCol>
                 <CCol>
                   <CFormLabel for="validationCustom02">Junio</CFormLabel>
-                  <CFormInput v-model="postEmpleado.junioIngreso" id="validationCustom02" required
-                    v-on:change="sumaIngresos" />
+                  <CFormInput
+                    v-model="postEmpleado.junioIngreso"
+                    id="validationCustom02"
+                    required
+                    v-on:change="sumaIngresos"
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -939,7 +1363,11 @@
                 </CCol>
                 <CCol>
                   <CFormLabel for="validationCustom01">Julio</CFormLabel>
-                  <CFormInput v-model="postEmpleado.julioIngreso" id="validationCustom01" v-on:change="sumaIngresos" />
+                  <CFormInput
+                    v-model="postEmpleado.julioIngreso"
+                    id="validationCustom01"
+                    v-on:change="sumaIngresos"
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -948,8 +1376,12 @@
                 </CCol>
                 <CCol>
                   <CFormLabel for="validationCustom02">Agosto</CFormLabel>
-                  <CFormInput v-model="postEmpleado.agostoIngreso" id="validationCustom02" required
-                    v-on:change="sumaIngresos" />
+                  <CFormInput
+                    v-model="postEmpleado.agostoIngreso"
+                    id="validationCustom02"
+                    required
+                    v-on:change="sumaIngresos"
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -959,8 +1391,11 @@
               <div class="col-4 border">
                 <CCol>
                   <CFormLabel for="validationCustom01">Septiembre</CFormLabel>
-                  <CFormInput v-model="postEmpleado.septiembreIngreso" id="validationCustom01"
-                    v-on:change="sumaIngresos" />
+                  <CFormInput
+                    v-model="postEmpleado.septiembreIngreso"
+                    id="validationCustom01"
+                    v-on:change="sumaIngresos"
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -969,8 +1404,12 @@
                 </CCol>
                 <CCol>
                   <CFormLabel for="validationCustom02">Octubre</CFormLabel>
-                  <CFormInput v-model="postEmpleado.octubreIngreso" id="validationCustom02" required
-                    v-on:change="sumaIngresos" />
+                  <CFormInput
+                    v-model="postEmpleado.octubreIngreso"
+                    id="validationCustom02"
+                    required
+                    v-on:change="sumaIngresos"
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -978,8 +1417,11 @@
                 </CCol>
                 <CCol>
                   <CFormLabel for="validationCustom01">Noviembre</CFormLabel>
-                  <CFormInput v-model="postEmpleado.noviembreIngreso" id="validationCustom01"
-                    v-on:change="sumaIngresos" />
+                  <CFormInput
+                    v-model="postEmpleado.noviembreIngreso"
+                    id="validationCustom01"
+                    v-on:change="sumaIngresos"
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -988,8 +1430,12 @@
                 </CCol>
                 <CCol>
                   <CFormLabel for="validationCustom02">Diciembre</CFormLabel>
-                  <CFormInput v-model="postEmpleado.diciembreIngreso" id="validationCustom02" required
-                    v-on:change="sumaIngresos" />
+                  <CFormInput
+                    v-model="postEmpleado.diciembreIngreso"
+                    id="validationCustom02"
+                    required
+                    v-on:change="sumaIngresos"
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -997,8 +1443,14 @@
                 </CCol>
 
                 <CCol>
-                  <CFormLabel for="validationCustom01">Valor regalia</CFormLabel>
-                  <CFormInput v-model="ingresos.total" disabled id="validationCustom01" />
+                  <CFormLabel for="validationCustom01"
+                    >Valor regalia</CFormLabel
+                  >
+                  <CFormInput
+                    v-model="ingresos.total"
+                    disabled
+                    id="validationCustom01"
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -1006,9 +1458,16 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02">Meses trabajados</CFormLabel>
-                  <CFormInput disabled v-model="ingresos.cantidadIngreso" type="number" id="validationCustom02"
-                    required />
+                  <CFormLabel for="validationCustom02"
+                    >Meses trabajados</CFormLabel
+                  >
+                  <CFormInput
+                    disabled
+                    v-model="ingresos.cantidadIngreso"
+                    type="number"
+                    id="validationCustom02"
+                    required
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -1029,25 +1488,40 @@
       </button>
     </div>
   </CModal>
-  <CModal size="xl" :visible="lgDemo1" @close="
-    () => {
-      lgDemo1 = false
-    }
-  ">
+  <CModal
+    size="xl"
+    :visible="lgDemo1"
+    @close="
+      () => {
+        lgDemo1 = false
+      }
+    "
+  >
     <CModalHeader>
       <CModalTitle>Sectores</CModalTitle>
     </CModalHeader>
     <CModalBody class="mt-2">
       <CCardBody>
-        <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01">
+        <CForm
+          class="row g-3 needs-validation"
+          novalidate
+          :validated="validatedCustom01"
+        >
           <div class="row">
             <div class="col-7">
               <div class="col-11">
                 <CCol>
                   <CFormLabel for="validationCustom05">Programa</CFormLabel>
-                  <CFormSelect v-model="programaId" id="validationCustom05"  v-on:change="changePrograma($event)">
-                    <option v-for="prog in this.programa" :key="prog.id" :value="prog.id"
-                     >
+                  <CFormSelect
+                    v-model="programaId"
+                    id="validationCustom05"
+                    v-on:change="changePrograma($event)"
+                  >
+                    <option
+                      v-for="prog in this.programa"
+                      :key="prog.id"
+                      :value="prog.id"
+                    >
                       {{ prog.nombre }}
                     </option>
                   </CFormSelect>
@@ -1059,8 +1533,16 @@
               <div class="col-11">
                 <CCol :md="8">
                   <CFormLabel for="validationCustom01">Departamento</CFormLabel>
-                  <CFormSelect v-model="departamentoId" id="validationCustom05" v-on:change="changeDepartamento($event)">
-                    <option v-for="departamento in departamentos" :key="departamento.id" :value="departamento.id">
+                  <CFormSelect
+                    v-model="departamentoId"
+                    id="validationCustom05"
+                    v-on:change="changeDepartamento($event)"
+                  >
+                    <option
+                      v-for="departamento in departamentos"
+                      :key="departamento.id"
+                      :value="departamento.id"
+                    >
                       {{ departamento.nombre }}
                     </option>
                   </CFormSelect>
@@ -1071,29 +1553,33 @@
                   </CFormFeedback>
                 </CCol>
               </div>
-              <div>
-                <CCol :md="5">
+              <!-- <div> -->
+              <!-- <CCol :md="5">
                   <CFormLabel for="validationCustom01">PNAP</CFormLabel>
-                  <CFormInput id="validationCustom01" v-model="pnap"  required />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-              </div>
-              <div>
-                <CCol :md="5">
-                  <CFormLabel v-model="postNomina.programaDivisionId" for="validationCustom01">Programa</CFormLabel>
                   <CFormInput id="validationCustom01" required />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
                   </CFormFeedback>
-                </CCol>
-              </div>
-              <div>
+                </CCol> -->
+              <!-- </div> -->
+              <!-- <div> -->
+              <!-- <CCol :md="5">
+                  <CFormLabel for="validationCustom01">Programa</CFormLabel>
+                  <CFormInput
+                    v-model="programid1"
+                    id="validationCustom01"
+                    required
+                  />
+
+                  <CFormFeedback valid> Exito! </CFormFeedback>
+                  <CFormFeedback invalid>
+                    Favor agregar el campo
+                  </CFormFeedback>
+                </CCol> -->
+              <!-- </div> -->
+              <!-- <div>
                 <CCol :md="5">
                   <CFormLabel for="validationCustom01">Sub-Programa</CFormLabel>
                   <CFormInput id="validationCustom01" required />
@@ -1114,8 +1600,8 @@
                     Favor agregar el campo
                   </CFormFeedback>
                 </CCol>
-              </div>
-              <div>
+              </div> -->
+              <!-- <div>
                 <CCol :md="5">
                   <CFormLabel for="validationCustom01">Actividad</CFormLabel>
                   <CFormInput id="validationCustom01" required />
@@ -1125,11 +1611,15 @@
                     Favor agregar el campo
                   </CFormFeedback>
                 </CCol>
-              </div>
+              </div> -->
               <div>
                 <CCol :md="5">
                   <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
-                  <CFormInput id="validationCustom01" required />
+                  <CFormInput
+                    v-model="clasificador"
+                    id="validationCustom01"
+                    required
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -1139,8 +1629,12 @@
               </div>
               <div>
                 <CCol :md="8">
-                  <CFormLabel for="validationCustom01">Desc.Clasificador</CFormLabel>
-                  <CFormInput id="validationCustom01" required />
+                  <CFormLabel for="validationCustom01">Estructura</CFormLabel>
+                  <CFormInput
+                    v-model="estructuras"
+                    id="validationCustom01"
+                    required
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -1150,8 +1644,15 @@
               </div>
               <div>
                 <CCol :md="4">
-                  <CFormLabel for="validationCustom01">Fecha de la Nomina</CFormLabel>
-                  <CFormInput v-model="postConfiguracionNomina.retencion1Id" id="validationCustom01" required />
+                  <CFormLabel for="validationCustom01"
+                    >Fecha de la Nomina</CFormLabel
+                  >
+                  <CFormInput
+                    type="date"
+                    v-model="postGenerarNomina.fecha"
+                    id="validationCustom01"
+                    required
+                  />
 
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -1162,7 +1663,11 @@
               <div>
                 <CCol :md="4">
                   <CFormLabel for="validationCustom02">Tipo de Pago</CFormLabel>
-                  <CFormInput v-model="postNomina.tipoPago" id="validationCustom02" required />
+                  <CFormInput
+                    v-model="postNomina.tipoPago"
+                    id="validationCustom02"
+                    required
+                  />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -1171,48 +1676,128 @@
               </div>
 
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="flexCheckDefault"
+                />
                 <label class="form-check-label" for="flexCheckDefault">
                   Nomina de Regalia?
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="flexCheckDefault"
+                />
                 <label class="form-check-label" for="flexCheckDefault">
                   Permitir Duplicidad en Nomina?
                 </label>
+              </div>
+
+              <hr />
+
+              <div class="mt-5">
+                <p class="font-weight-bold">Nota (Encabezado Nomina):</p>
+                <CCol :md="18">
+                  <CFormInput
+                    id="validationCustom01"
+                    required
+                    placeholder="NOMINA DE PAGO DEL MES DE NOVIEMBRE DEL 2022"
+                  />
+                </CCol>
+                <CCol :md="18">
+                  <input
+                    class="mt-2 form-control form-control-lg"
+                    type="text"
+                    aria-label=".form-control-lg example"
+                  />
+                </CCol>
+                <div class="row">
+                  <div class="col-7">
+                    <button type="button" class="mt-2 btn btn-outline-dark">
+                      Procesar Nomina
+                    </button>
+                  </div>
+
+                  <div class="form-check col-5 mt-2">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="flexCheckDefault"
+                    />
+                    <label class="form-check-label" for="flexCheckDefault">
+                      Nomina de Regalia?
+                    </label>
+                  </div>
+                </div>
+
+                <div class="mt-3">
+                  <button type="button" class="btn btn-outline-dark">
+                    Imprimir Nomina
+                  </button>
+                </div>
+
+                <div class="mt-3">
+                  <button type="button" class="btn btn-outline-dark">
+                    Emp. con descuento MAYOR a % del sueldo, segun Ley
+                  </button>
+                </div>
               </div>
             </div>
 
             <div class="col-5">
               <CNav variant="tabs" role="tablist">
                 <CNavItem>
-                  <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 1" @click="
-                    () => {
-                      tabPaneActiveKey = 1
-                    }
-                  ">
+                  <CNavLink
+                    href="javascript:void(0);"
+                    :active="tabPaneActiveKey === 1"
+                    @click="
+                      () => {
+                        tabPaneActiveKey = 1
+                      }
+                    "
+                  >
                     Retenciones
                   </CNavLink>
                 </CNavItem>
                 <CNavItem>
-                  <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 2" @click="
-                    () => {
-                      tabPaneActiveKey = 2
-                    }
-                  ">
+                  <CNavLink
+                    href="javascript:void(0);"
+                    :active="tabPaneActiveKey === 2"
+                    @click="
+                      () => {
+                        tabPaneActiveKey = 2
+                      }
+                    "
+                  >
                     Profile
                   </CNavLink>
                 </CNavItem>
               </CNav>
               <CTabContent class="border p-3">
-                <CTabPane role="tabpanel" aria-labelledby="home-tab" :visible="tabPaneActiveKey === 1">
+                <CTabPane
+                  role="tabpanel"
+                  aria-labelledby="home-tab"
+                  :visible="tabPaneActiveKey === 1"
+                >
                   <div class="row">
                     <CCol :md="6">
                       <div>
-                        <CFormLabel for="validationCustom01">Retenciones:</CFormLabel>
-                        <CFormInput disabled v-model="postConfiguracionNomina.textoEgr1" id="validationCustom01"
-                          required value="Imp/Renta" />
+                        <CFormLabel for="validationCustom01"
+                          >Retenciones:</CFormLabel
+                        >
+                        <CFormInput
+                          disabled
+                          v-model="postConfiguracionNomina.textoEgr1"
+                          id="validationCustom01"
+                          required
+                          value="Imp/Renta"
+                        />
 
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid>
@@ -1223,8 +1808,12 @@
 
                     <CCol :md="3">
                       <CFormLabel for="validationCustom01">Dividir</CFormLabel>
-                      <CFormInput type="number" v-model="postConfiguracionNomina.factorDivicionEg01"
-                        id="validationCustom01" required />
+                      <CFormInput
+                        type="number"
+                        v-model="postConfiguracionNomina.factorDivicionEg01"
+                        id="validationCustom01"
+                        required
+                      />
 
                       <CFormFeedback valid> Exito! </CFormFeedback>
                       <CFormFeedback invalid>
@@ -1233,7 +1822,9 @@
                     </CCol>
 
                     <CCol :md="3">
-                      <CFormLabel for="validationCustom01">Cod.Ejec/Pres</CFormLabel>
+                      <CFormLabel for="validationCustom01"
+                        >Cod.Ejec/Pres</CFormLabel
+                      >
                       <CFormInput id="validationCustom01" required />
 
                       <CFormFeedback valid> Exito! </CFormFeedback>
@@ -1247,8 +1838,13 @@
                     <CCol :md="6">
                       <div>
                         <CFormLabel for="validationCustom01"></CFormLabel>
-                        <CFormInput value="ARS" disabled v-model="postConfiguracionNomina.textoEgr2"
-                          id="validationCustom01" required />
+                        <CFormInput
+                          value="ARS"
+                          disabled
+                          v-model="postConfiguracionNomina.textoEgr2"
+                          id="validationCustom01"
+                          required
+                        />
 
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid>
@@ -1259,43 +1855,12 @@
 
                     <CCol :md="3">
                       <CFormLabel for="validationCustom01"></CFormLabel>
-                      <CFormInput type="number" v-model="postConfiguracionNomina.factorDivicionEg02"
-                        id="validationCustom01" required />
-
-                      <CFormFeedback valid> Exito! </CFormFeedback>
-                      <CFormFeedback invalid>
-                        Favor agregar el campo
-                      </CFormFeedback>
-                    </CCol>
-
-                    <CCol :md="3">
-                      <CFormLabel for="validationCustom01"></CFormLabel>
-                      <CFormInput id="validationCustom01" required />
-
-                      <CFormFeedback valid> Exito! </CFormFeedback>
-                      <CFormFeedback invalid>
-                        Favor agregar el campo
-                      </CFormFeedback>
-                    </CCol>
-                  </div>
-                  <div class="row">
-                    <CCol :md="6">
-                      <div>
-                        <CFormLabel for="validationCustom01"></CFormLabel>
-                        <CFormInput value="AFP" disabled v-model="postConfiguracionNomina.textoEgr3"
-                          id="validationCustom01" required />
-
-                        <CFormFeedback valid> Exito! </CFormFeedback>
-                        <CFormFeedback invalid>
-                          Favor agregar el campo
-                        </CFormFeedback>
-                      </div>
-                    </CCol>
-
-                    <CCol :md="3">
-                      <CFormLabel for="validationCustom01"></CFormLabel>
-                      <CFormInput type="number" v-model="postConfiguracionNomina.factorDivicionEg03"
-                        id="validationCustom01" required />
+                      <CFormInput
+                        type="number"
+                        v-model="postConfiguracionNomina.factorDivicionEg02"
+                        id="validationCustom01"
+                        required
+                      />
 
                       <CFormFeedback valid> Exito! </CFormFeedback>
                       <CFormFeedback invalid>
@@ -1313,12 +1878,17 @@
                       </CFormFeedback>
                     </CCol>
                   </div>
-
                   <div class="row">
                     <CCol :md="6">
                       <div>
                         <CFormLabel for="validationCustom01"></CFormLabel>
-                        <CFormInput v-model="postConfiguracionNomina.textoEgr4" id="validationCustom01" required />
+                        <CFormInput
+                          value="AFP"
+                          disabled
+                          v-model="postConfiguracionNomina.textoEgr3"
+                          id="validationCustom01"
+                          required
+                        />
 
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid>
@@ -1329,43 +1899,12 @@
 
                     <CCol :md="3">
                       <CFormLabel for="validationCustom01"></CFormLabel>
-                      <CFormInput type="number" v-model="postConfiguracionNomina.factorDivicionEg04"
-                        id="validationCustom01" required />
-
-                      <CFormFeedback valid> Exito! </CFormFeedback>
-                      <CFormFeedback invalid>
-                        Favor agregar el campo
-                      </CFormFeedback>
-                    </CCol>
-
-                    <CCol :md="3">
-                      <CFormLabel for="validationCustom01"></CFormLabel>
-                      <CFormInput id="validationCustom01" required />
-
-                      <CFormFeedback valid> Exito! </CFormFeedback>
-                      <CFormFeedback invalid>
-                        Favor agregar el campo
-                      </CFormFeedback>
-                    </CCol>
-                  </div>
-
-                  <div class="row">
-                    <CCol :md="6">
-                      <div>
-                        <CFormLabel for="validationCustom01"></CFormLabel>
-                        <CFormInput v-model="postConfiguracionNomina.textoEgr5" id="validationCustom01" required />
-
-                        <CFormFeedback valid> Exito! </CFormFeedback>
-                        <CFormFeedback invalid>
-                          Favor agregar el campo
-                        </CFormFeedback>
-                      </div>
-                    </CCol>
-
-                    <CCol :md="3">
-                      <CFormLabel for="validationCustom01"></CFormLabel>
-                      <CFormInput type="number" v-model="postConfiguracionNomina.factorDivicionEg05"
-                        id="validationCustom01" required />
+                      <CFormInput
+                        type="number"
+                        v-model="postConfiguracionNomina.factorDivicionEg03"
+                        id="validationCustom01"
+                        required
+                      />
 
                       <CFormFeedback valid> Exito! </CFormFeedback>
                       <CFormFeedback invalid>
@@ -1388,7 +1927,11 @@
                     <CCol :md="6">
                       <div>
                         <CFormLabel for="validationCustom01"></CFormLabel>
-                        <CFormInput v-model="postConfiguracionNomina.textoEgr6" id="validationCustom01" required />
+                        <CFormInput
+                          v-model="postConfiguracionNomina.textoEgr4"
+                          id="validationCustom01"
+                          required
+                        />
 
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid>
@@ -1399,8 +1942,12 @@
 
                     <CCol :md="3">
                       <CFormLabel for="validationCustom01"></CFormLabel>
-                      <CFormInput type="number" v-model="postConfiguracionNomina.factorDivicionEg06"
-                        id="validationCustom01" required />
+                      <CFormInput
+                        type="number"
+                        v-model="postConfiguracionNomina.factorDivicionEg04"
+                        id="validationCustom01"
+                        required
+                      />
 
                       <CFormFeedback valid> Exito! </CFormFeedback>
                       <CFormFeedback invalid>
@@ -1423,7 +1970,11 @@
                     <CCol :md="6">
                       <div>
                         <CFormLabel for="validationCustom01"></CFormLabel>
-                        <CFormInput v-model="postConfiguracionNomina.textoEgr7" id="validationCustom01" required />
+                        <CFormInput
+                          v-model="postConfiguracionNomina.textoEgr5"
+                          id="validationCustom01"
+                          required
+                        />
 
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid>
@@ -1434,8 +1985,12 @@
 
                     <CCol :md="3">
                       <CFormLabel for="validationCustom01"></CFormLabel>
-                      <CFormInput type="number" v-model="postConfiguracionNomina.factorDivicionEg07"
-                        id="validationCustom01" required />
+                      <CFormInput
+                        type="number"
+                        v-model="postConfiguracionNomina.factorDivicionEg05"
+                        id="validationCustom01"
+                        required
+                      />
 
                       <CFormFeedback valid> Exito! </CFormFeedback>
                       <CFormFeedback invalid>
@@ -1458,7 +2013,11 @@
                     <CCol :md="6">
                       <div>
                         <CFormLabel for="validationCustom01"></CFormLabel>
-                        <CFormInput v-model="postConfiguracionNomina.textoEgr8" id="validationCustom01" required />
+                        <CFormInput
+                          v-model="postConfiguracionNomina.textoEgr6"
+                          id="validationCustom01"
+                          required
+                        />
 
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid>
@@ -1469,8 +2028,12 @@
 
                     <CCol :md="3">
                       <CFormLabel for="validationCustom01"></CFormLabel>
-                      <CFormInput type="number" v-model="postConfiguracionNomina.factorDivicionEg08"
-                        id="validationCustom01" required />
+                      <CFormInput
+                        type="number"
+                        v-model="postConfiguracionNomina.factorDivicionEg06"
+                        id="validationCustom01"
+                        required
+                      />
 
                       <CFormFeedback valid> Exito! </CFormFeedback>
                       <CFormFeedback invalid>
@@ -1493,7 +2056,11 @@
                     <CCol :md="6">
                       <div>
                         <CFormLabel for="validationCustom01"></CFormLabel>
-                        <CFormInput v-model="postConfiguracionNomina.textoEgr9" id="validationCustom01" required />
+                        <CFormInput
+                          v-model="postConfiguracionNomina.textoEgr7"
+                          id="validationCustom01"
+                          required
+                        />
 
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid>
@@ -1504,8 +2071,12 @@
 
                     <CCol :md="3">
                       <CFormLabel for="validationCustom01"></CFormLabel>
-                      <CFormInput type="number" v-model="postConfiguracionNomina.factorDivicionEg09"
-                        id="validationCustom01" required />
+                      <CFormInput
+                        type="number"
+                        v-model="postConfiguracionNomina.factorDivicionEg07"
+                        id="validationCustom01"
+                        required
+                      />
 
                       <CFormFeedback valid> Exito! </CFormFeedback>
                       <CFormFeedback invalid>
@@ -1528,7 +2099,11 @@
                     <CCol :md="6">
                       <div>
                         <CFormLabel for="validationCustom01"></CFormLabel>
-                        <CFormInput v-model="postConfiguracionNomina.textoEgr10" id="validationCustom01" required />
+                        <CFormInput
+                          v-model="postConfiguracionNomina.textoEgr8"
+                          id="validationCustom01"
+                          required
+                        />
 
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid>
@@ -1539,8 +2114,98 @@
 
                     <CCol :md="3">
                       <CFormLabel for="validationCustom01"></CFormLabel>
-                      <CFormInput type="number" v-model="postConfiguracionNomina.factorDivicionEg010"
-                        id="validationCustom01" required />
+                      <CFormInput
+                        type="number"
+                        v-model="postConfiguracionNomina.factorDivicionEg08"
+                        id="validationCustom01"
+                        required
+                      />
+
+                      <CFormFeedback valid> Exito! </CFormFeedback>
+                      <CFormFeedback invalid>
+                        Favor agregar el campo
+                      </CFormFeedback>
+                    </CCol>
+
+                    <CCol :md="3">
+                      <CFormLabel for="validationCustom01"></CFormLabel>
+                      <CFormInput id="validationCustom01" required />
+
+                      <CFormFeedback valid> Exito! </CFormFeedback>
+                      <CFormFeedback invalid>
+                        Favor agregar el campo
+                      </CFormFeedback>
+                    </CCol>
+                  </div>
+
+                  <div class="row">
+                    <CCol :md="6">
+                      <div>
+                        <CFormLabel for="validationCustom01"></CFormLabel>
+                        <CFormInput
+                          v-model="postConfiguracionNomina.textoEgr9"
+                          id="validationCustom01"
+                          required
+                        />
+
+                        <CFormFeedback valid> Exito! </CFormFeedback>
+                        <CFormFeedback invalid>
+                          Favor agregar el campo
+                        </CFormFeedback>
+                      </div>
+                    </CCol>
+
+                    <CCol :md="3">
+                      <CFormLabel for="validationCustom01"></CFormLabel>
+                      <CFormInput
+                        type="number"
+                        v-model="postConfiguracionNomina.factorDivicionEg09"
+                        id="validationCustom01"
+                        required
+                      />
+
+                      <CFormFeedback valid> Exito! </CFormFeedback>
+                      <CFormFeedback invalid>
+                        Favor agregar el campo
+                      </CFormFeedback>
+                    </CCol>
+
+                    <CCol :md="3">
+                      <CFormLabel for="validationCustom01"></CFormLabel>
+                      <CFormInput id="validationCustom01" required />
+
+                      <CFormFeedback valid> Exito! </CFormFeedback>
+                      <CFormFeedback invalid>
+                        Favor agregar el campo
+                      </CFormFeedback>
+                    </CCol>
+                  </div>
+
+                  <div class="row">
+                    <CCol :md="6">
+                      <div>
+                        <CFormLabel for="validationCustom01"></CFormLabel>
+                        <CFormInput
+                          v-model="postConfiguracionNomina.textoEgr10"
+                          id="validationCustom01"
+                          required
+                        />
+
+                        <CFormFeedback valid> Exito! </CFormFeedback>
+                        <CFormFeedback invalid>
+                          Favor agregar el campo
+                        </CFormFeedback>
+                      </div>
+                    </CCol>
+
+                    <CCol :md="3">
+                      <CFormLabel for="validationCustom01"></CFormLabel>
+                      <CFormInput
+                        type="number"
+                        v-model="postConfiguracionNomina.factorDivicionEg010"
+                        id="validationCustom01"
+                        required
+                      />
 
                       <CFormFeedback valid> Exito! </CFormFeedback>
                       <CFormFeedback invalid>
@@ -1561,7 +2226,12 @@
 
                   <hr />
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="flexCheckDefault"
+                    />
                     <label class="form-check-label" for="flexCheckDefault">
                       Nomina con Retenciones?
                     </label>
@@ -1578,7 +2248,11 @@
                     </button>
                   </div>
                 </CTabPane>
-                <CTabPane role="tabpanel" aria-labelledby="profile-tab" :visible="tabPaneActiveKey === 2">
+                <CTabPane
+                  role="tabpanel"
+                  aria-labelledby="profile-tab"
+                  :visible="tabPaneActiveKey === 2"
+                >
                   Food truck fixie locavore, accusamus mcsweeney's marfa nulla
                   single-origin coffee squid. Exercitation +1 labore velit,
                 </CTabPane>
@@ -1586,14 +2260,22 @@
             </div>
           </div>
 
-          <hr />
+          <!-- <hr />
           <div>
             <p class="font-weight-bold">Nota (Encabezado Nomina):</p>
             <CCol :md="7">
-              <CFormInput id="validationCustom01" required placeholder="NOMINA DE PAGO DEL MES DE NOVIEMBRE DEL 2022" />
+              <CFormInput
+                id="validationCustom01"
+                required
+                placeholder="NOMINA DE PAGO DEL MES DE NOVIEMBRE DEL 2022"
+              />
             </CCol>
             <CCol :md="7">
-              <input class="mt-2 form-control form-control-lg" type="text" aria-label=".form-control-lg example" />
+              <input
+                class="mt-2 form-control form-control-lg"
+                type="text"
+                aria-label=".form-control-lg example"
+              />
             </CCol>
             <div class="row">
               <div class="col-3">
@@ -1603,7 +2285,12 @@
               </div>
 
               <div class="form-check col-9 mt-2">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="flexCheckDefault"
+                />
                 <label class="form-check-label" for="flexCheckDefault">
                   Nomina de Regalia?
                 </label>
@@ -1621,13 +2308,22 @@
                 Emp. con descuento MAYOR a % del sueldo, segun Ley
               </button>
             </div>
-          </div>
+          </div> -->
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="close">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              v-on:click="close"
+            >
               Close
             </button>
-            <button v-on:click="submiFormConf" type="button" class="btn btn-primary">
+            <button
+              v-on:click="submiFormConf"
+              type="button"
+              class="btn btn-primary"
+            >
               Guardar
             </button>
           </div>
@@ -1657,9 +2353,10 @@ export default {
     return {
       arsCheck: false,
       afpCheck: false,
+      estructuras: null,
 
-      pnap:null,
-
+      clasificador: null,
+      programid1: null,
       departamentos: [],
       departamentoId: null,
       programaId: null,
@@ -1671,6 +2368,12 @@ export default {
       id: 0,
       Acumulado: [],
       confNomina: [{}],
+
+      postGenerarNomina: {
+        AyuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        fecha: new Date(Date.now()),
+        DepartamentoId: 1,
+      },
 
       postConfiguracionNomina: {
         id: 0,
@@ -1949,15 +2652,18 @@ export default {
     changePrograma(e) {
       Api.getDepartamentoByProgramaId(e.target.value).then((response) => {
         this.departamentos = response.data.data
-        
-      console.log(response.data.data)
+
+        console.log(response.data.data)
       })
       console.log(this.departamentos)
     },
     changeDepartamento(e) {
       Api.getDepartamentoById(e.target.value).then((response) => {
-        this.pnap = response.data.data.ctgClasificadorId
-      console.log(response.data.data)
+        this.clasificador = response.data.data.ctgClasificadorId
+        this.programid1 = response.data.data.programaDivisionId
+        this.estructuras = response.data.data.estructura
+
+        console.log(response.data.data)
       })
       console.log(this.departamentos)
     },
@@ -2034,7 +2740,18 @@ export default {
       'addEmpleado',
     ]),
 
+    submiGeneraNomina() {
+      Api.postnominaGeneral(
+        localStorage.getItem('id_Ayuntamiento'),
+        this.postGenerarNomina.fecha,
+        this.postGenerarNomina.DepartamentoId,
+      ).then((response) => {
+        console.log(response)
+      })
+    },
+
     submiFormConf() {
+      this.submiGeneraNomina()
       if (this.id) {
         Api.putConfiguracionNomina(this.id, this.postConfiguracionNomina).then(
           (response) => {
@@ -2129,69 +2846,69 @@ export default {
         })
         //const form = event.currentTarget
         this.lgDemo = true
-          // setTimeout(this.getEmpleado, 500)
-          ; (this.postConfiguracionNomina = {
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-            textoIng1: null,
-            textoIng2: null,
-            textoIng3: null,
-            textoIng4: null,
-            textoIng5: null,
-            textoIng6: null,
-            textoIng7: null,
-            textoIng8: null,
-            textoIng9: null,
-            textoEgr1: null,
-            textoEgr2: null,
-            textoEgr3: null,
-            textoEgr4: null,
-            textoEgr5: null,
-            textoEgr6: null,
-            textoEgr7: null,
-            textoEgr8: null,
-            textoEgr9: null,
-            textoEgr10: null,
-            retencion1Id: 0,
-            retencion2Id: 0,
-            retencion3Id: 0,
-            retencion4Id: 0,
-            retencion5Id: 0,
-            retencion6Id: 0,
-            retencion7Id: 0,
-            retencion8Id: 0,
-            retencion9Id: 0,
-            retencion10Id: 0,
-            sue: 0,
-            factorDivicionIg02: 0,
-            factorDivicionIg03: 0,
-            factorDivicionIg04: 0,
-            factorDivicionIg05: 0,
-            factorDivicionIg06: 0,
-            factorDivicionIg07: 0,
-            factorDivicionIg08: 0,
-            factorDivicionIg01: 0,
-            factorDivicionIg09: 0,
-            factorDivicionIg010: 0,
-            factorDivicionEg01: 0,
-            factorDivicionEg02: 0,
-            factorDivicionEg03: 0,
-            factorDivicionEg04: 0,
-            factorDivicionEg05: 0,
-            factorDivicionEg06: 0,
-            factorDivicionEg07: 0,
-            factorDivicionEg08: 0,
-            factorDivicionEg09: 0,
-            factorDivicionEg010: 0,
-            porcRetencAfp: 0,
-            porcRetencAfpPatron: 0,
-            porcRetencArs: 0,
-            porcRetencArsPatron: 0,
-            sueldoTopoTss: 0,
-            porcRetencArlPatron: 0,
-            porcLimiteRetenc: 0,
-            id: 0,
-          }),
-            (this.validatedCustom01 = false)
+        // setTimeout(this.getEmpleado, 500)
+        ;(this.postConfiguracionNomina = {
+          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          textoIng1: null,
+          textoIng2: null,
+          textoIng3: null,
+          textoIng4: null,
+          textoIng5: null,
+          textoIng6: null,
+          textoIng7: null,
+          textoIng8: null,
+          textoIng9: null,
+          textoEgr1: null,
+          textoEgr2: null,
+          textoEgr3: null,
+          textoEgr4: null,
+          textoEgr5: null,
+          textoEgr6: null,
+          textoEgr7: null,
+          textoEgr8: null,
+          textoEgr9: null,
+          textoEgr10: null,
+          retencion1Id: 0,
+          retencion2Id: 0,
+          retencion3Id: 0,
+          retencion4Id: 0,
+          retencion5Id: 0,
+          retencion6Id: 0,
+          retencion7Id: 0,
+          retencion8Id: 0,
+          retencion9Id: 0,
+          retencion10Id: 0,
+          sue: 0,
+          factorDivicionIg02: 0,
+          factorDivicionIg03: 0,
+          factorDivicionIg04: 0,
+          factorDivicionIg05: 0,
+          factorDivicionIg06: 0,
+          factorDivicionIg07: 0,
+          factorDivicionIg08: 0,
+          factorDivicionIg01: 0,
+          factorDivicionIg09: 0,
+          factorDivicionIg010: 0,
+          factorDivicionEg01: 0,
+          factorDivicionEg02: 0,
+          factorDivicionEg03: 0,
+          factorDivicionEg04: 0,
+          factorDivicionEg05: 0,
+          factorDivicionEg06: 0,
+          factorDivicionEg07: 0,
+          factorDivicionEg08: 0,
+          factorDivicionEg09: 0,
+          factorDivicionEg010: 0,
+          porcRetencAfp: 0,
+          porcRetencAfpPatron: 0,
+          porcRetencArs: 0,
+          porcRetencArsPatron: 0,
+          sueldoTopoTss: 0,
+          porcRetencArlPatron: 0,
+          porcLimiteRetenc: 0,
+          id: 0,
+        }),
+          (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
         // setTimeout(this.getEmpleado, 500)
@@ -2333,108 +3050,108 @@ export default {
         //const form = event.currentTarget
         this.lgDemo = true
         setTimeout(this.getEmpleado, 500)
-          ; (this.postEmpleado = {
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-            codigo: null,
-            nombres: null,
-            apellidos: null,
-            tipoDocumento: null,
-            cedula: null,
-            direccion: null,
-            sectorId: 0,
-            telefono: null,
-            celular: null,
-            fechaNacimiento: new Date(Date.now()),
-            lugarNacimiento: null,
-            estadoCivil: null,
-            sexo: null,
-            dependientes: 0,
-            fechaIngreso: new Date(Date.now()),
-            fechaSalida: new Date(Date.now()),
-            razonSalida: null,
-            reemplear: false,
-            fechaReingreso: new Date(Date.now()),
-            programaDivisionId: 1,
-            departamentoId: 1,
-            areaTrabajoId: 2,
-            posicionId: 1,
-            grupoOcupacional: null,
-            tipoContrato: null,
-            fechaInicioContrato: new Date(Date.now()),
-            fechaFinContrato: new Date(Date.now()),
-            turno: null,
-            periodoPago: null,
-            formaPago: null,
-            numeroCuenta: null,
-            fechaExpitaTarjeta: new Date(Date.now()),
-            estatus: true,
-            sueldo: 0,
-            sueldoAnterior: 0,
-            fechaSueldoAnterior: new Date(Date.now()),
-            fechaUltimaNomina: new Date(Date.now()),
-            inicioVacaciones: new Date(Date.now()),
-            finVacaciones: new Date(Date.now()),
-            activoNomina: true,
-            ingreso2: 0,
-            ingreso3: 0,
-            ingreso4: 0,
-            ingreso5: 0,
-            ingreso6: 0,
-            ingreso7: 0,
-            ingreso8: 0,
-            ingreso9: 0,
-            ingreso10: 0,
-            impuestoSobreRenta: 0,
-            arsCalculado: false,
-            arsFijo: 0,
-            afpCalculado: true,
-            afpFijo: 0,
-            egresos4: 0,
-            egresos5: 0,
-            egresos6: 0,
-            egresos7: 0,
-            egresos8: 0,
-            egresos9: 0,
-            egresos10: 0,
-            eneroIngreso: 0,
-            febreroIngreso: 0,
-            marzoIngreso: 0,
-            abrilIngreso: 0,
-            mayoIngreso: 0,
-            junioIngreso: 0,
-            julioIngreso: 0,
-            agostoIngreso: 0,
-            septiembreIngreso: 0,
-            octubreIngreso: 0,
-            noviembreIngreso: 0,
-            diciembreIngreso: 0,
-            observacion: null,
-            discapacidad: null,
-            emergenciaNombre: null,
-            emergenciaTelefono: null,
-            emergenciaTelefono2: null,
-            emergenciaDireccion: null,
-            emergenciaParentezco: null,
-            tipoSangreId: 1,
-            emergenciaAlergico: null,
-            emergenciaDiabetico: null,
-            emergenciaInsodepend: null,
-            emergenciaPresionAlta: null,
-            emergenciaPresionBaja: null,
-            emergenciaEnTratamiento: null,
-            emergenciaDiagnostico: null,
-            licenciaConducir: null,
-            fechaExpiracionLicencia: new Date(Date.now()),
-            aplicaSasp: true,
-            nivelEscolar: null,
-            areaTematica: null,
-            tituloObtenido: null,
-            correoElectronico: null,
-            correoElectronico2: null,
-            recomendadoPor: null,
-            id: 0,
-          }),
-            (this.validatedCustom01 = false)
+        ;(this.postEmpleado = {
+          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          codigo: null,
+          nombres: null,
+          apellidos: null,
+          tipoDocumento: null,
+          cedula: null,
+          direccion: null,
+          sectorId: 0,
+          telefono: null,
+          celular: null,
+          fechaNacimiento: new Date(Date.now()),
+          lugarNacimiento: null,
+          estadoCivil: null,
+          sexo: null,
+          dependientes: 0,
+          fechaIngreso: new Date(Date.now()),
+          fechaSalida: new Date(Date.now()),
+          razonSalida: null,
+          reemplear: false,
+          fechaReingreso: new Date(Date.now()),
+          programaDivisionId: 1,
+          departamentoId: 1,
+          areaTrabajoId: 2,
+          posicionId: 1,
+          grupoOcupacional: null,
+          tipoContrato: null,
+          fechaInicioContrato: new Date(Date.now()),
+          fechaFinContrato: new Date(Date.now()),
+          turno: null,
+          periodoPago: null,
+          formaPago: null,
+          numeroCuenta: null,
+          fechaExpitaTarjeta: new Date(Date.now()),
+          estatus: true,
+          sueldo: 0,
+          sueldoAnterior: 0,
+          fechaSueldoAnterior: new Date(Date.now()),
+          fechaUltimaNomina: new Date(Date.now()),
+          inicioVacaciones: new Date(Date.now()),
+          finVacaciones: new Date(Date.now()),
+          activoNomina: true,
+          ingreso2: 0,
+          ingreso3: 0,
+          ingreso4: 0,
+          ingreso5: 0,
+          ingreso6: 0,
+          ingreso7: 0,
+          ingreso8: 0,
+          ingreso9: 0,
+          ingreso10: 0,
+          impuestoSobreRenta: 0,
+          arsCalculado: false,
+          arsFijo: 0,
+          afpCalculado: true,
+          afpFijo: 0,
+          egresos4: 0,
+          egresos5: 0,
+          egresos6: 0,
+          egresos7: 0,
+          egresos8: 0,
+          egresos9: 0,
+          egresos10: 0,
+          eneroIngreso: 0,
+          febreroIngreso: 0,
+          marzoIngreso: 0,
+          abrilIngreso: 0,
+          mayoIngreso: 0,
+          junioIngreso: 0,
+          julioIngreso: 0,
+          agostoIngreso: 0,
+          septiembreIngreso: 0,
+          octubreIngreso: 0,
+          noviembreIngreso: 0,
+          diciembreIngreso: 0,
+          observacion: null,
+          discapacidad: null,
+          emergenciaNombre: null,
+          emergenciaTelefono: null,
+          emergenciaTelefono2: null,
+          emergenciaDireccion: null,
+          emergenciaParentezco: null,
+          tipoSangreId: 1,
+          emergenciaAlergico: null,
+          emergenciaDiabetico: null,
+          emergenciaInsodepend: null,
+          emergenciaPresionAlta: null,
+          emergenciaPresionBaja: null,
+          emergenciaEnTratamiento: null,
+          emergenciaDiagnostico: null,
+          licenciaConducir: null,
+          fechaExpiracionLicencia: new Date(Date.now()),
+          aplicaSasp: true,
+          nivelEscolar: null,
+          areaTematica: null,
+          tituloObtenido: null,
+          correoElectronico: null,
+          correoElectronico2: null,
+          recomendadoPor: null,
+          id: 0,
+        }),
+          (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
         setTimeout(this.getEmpleado, 500)
@@ -2551,7 +3268,6 @@ export default {
     Api.getProgramaDivision().then((response) => {
       this.programa = response.data.data
     })
-
   },
 }
 </script>
