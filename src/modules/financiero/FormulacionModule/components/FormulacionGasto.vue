@@ -1275,7 +1275,7 @@ export default {
           'ano',
         )}&CAPITULO_AYTO=${localStorage.getItem('id_Ayuntamiento')}&FONDO=P`,
         '_blank',
-      )`http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Gastos_Formulacion_FP08&rs:Command=Render&ANO=1&CAPITULO_AYTO=27&FONDO=P`.focus()
+      )`http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Gastos_Formulacion_FP08&rs:Command=Render&ANO=1&CAPITULO_AYTO=${localStorage.getItem('id_Ayuntamiento')}&FONDO=P`.focus()
     },
     cargarEstructuras() {
       setTimeout(this.getListarGastos, 500)
