@@ -159,7 +159,21 @@ class FormulacionApi {
   }
 
   postCargaMasiva(post){
-    return http.post(`PresIngreso/CargaMasiva`, post).catch((error) => {
+    return http.post(`UploadFile/PresIngreso`, post).catch((error) => {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        text: error.response.data.detail,
+        title: 'Error',
+        showConfirmButton: false,
+        timer: 1500
+      })
+    })
+  }
+
+  
+  postCargaMasivaCabecera(post){
+    return http.post(`UploadFile/PresGasto`, post).catch((error) => {
       Swal.fire({
         position: 'top-end',
         icon: 'error',
@@ -172,7 +186,7 @@ class FormulacionApi {
   }
 
   postCargaMasivaDetalle(post){
-    return http.post(`PresGasto/Detalle/CargaMasiva`, post).catch((error) => {
+    return http.post(`UploadFile/PresGasto/Detalle`, post).catch((error) => {
       Swal.fire({
         position: 'top-end',
         icon: 'error',
