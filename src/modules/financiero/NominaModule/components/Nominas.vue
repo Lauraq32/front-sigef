@@ -395,7 +395,7 @@
                       :key="programa.id"
                       :value="programa.id"
                     >
-                      {{ programa.nombre }}
+                      {{}}
                     </option>
                   </CFormSelect>
                   <CFormFeedback invalid>
@@ -1497,9 +1497,9 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Sectores</CModalTitle>
+      <CModalTitle>Generar Nomina</CModalTitle>
     </CModalHeader>
-    <CModalBody class="mt-2" v-on:mousemove="this.focusInput">
+    <CModalBody class="mt-2">
       <CCardBody>
         <CForm
           class="row g-3 needs-validation"
@@ -1533,7 +1533,7 @@
                 <CCol :md="8">
                   <CFormLabel for="validationCustom01">Departamento</CFormLabel>
                   <CFormSelect
-                    v-model="departamentoId"
+                    v-model="postGenerarNomina.DepartamentoId"
                     id="validationCustom05"
                     v-on:change="changeDepartamento($event)"
                   >
@@ -1542,7 +1542,7 @@
                       :key="departamento.id"
                       :value="departamento.id"
                     >
-                      {{ departamento.nombre }}
+                      {{ departamento.id }}
                     </option>
                   </CFormSelect>
 
@@ -1664,7 +1664,7 @@
                 <CCol :md="4">
                   <CFormLabel for="validationCustom02">Tipo de Pago</CFormLabel>
                   <CFormSelect
-                    v-model="postNomina.tipoPago"
+                    v-model="postGenerarNomina.FormaPago"
                     id="validationCustom05"
                   >
                     <option>Cheque</option>
@@ -2370,7 +2370,10 @@ export default {
       postGenerarNomina: {
         AyuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         fecha: new Date(Date.now()),
-        DepartamentoId: 1,
+        DepartamentoId: 0,
+        TipoContrato: null,
+        ProgramaDivision: 0,
+        FormaPago: null,
       },
 
       postConfiguracionNomina: {
@@ -2656,6 +2659,7 @@ export default {
       console.log(this.departamentos)
     },
     changeDepartamento(e) {
+      // console.log(e.target.value)
       Api.getDepartamentoById(e.target.value).then((response) => {
         this.clasificador = response.data.data.ctgClasificadorId
         this.programid1 = response.data.data.programaDivisionId
@@ -2743,7 +2747,10 @@ export default {
       Api.postnominaGeneral(
         localStorage.getItem('id_Ayuntamiento'),
         this.postGenerarNomina.fecha,
+        this.postGenerarNomina.TipoContrato,
+        this.postGenerarNomina.ProgramaDivision,
         this.postGenerarNomina.DepartamentoId,
+        this.postGenerarNomina.FormaPago,
       ).then((response) => {
         console.log(response)
       })
