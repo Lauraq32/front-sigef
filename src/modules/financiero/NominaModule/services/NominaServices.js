@@ -25,8 +25,13 @@ class NominaApi {
     return http.get(`Empleado/${value}`)
   }
 
+  // getSectores() {
+  //   return http.get('Sector')
+  // }
+  // `Sector?AyuntamientoId=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`
+
   getSectores() {
-    return http.get('Sector')
+    return http.get(`Sector?ayuntamiento=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
   }
 
   getDepartamento() {
@@ -48,51 +53,51 @@ class NominaApi {
 
 
   getSectorbyid(id) {
-    return http.get(`Sector/${id}`)
+    return http.get(`Sector / ${id}`)
   }
 
   getGrupoNominaById(value) {
-    return http.get(`GrupoNomina/${value}`)
+    return http.get(`GrupoNomina / ${value}`)
   }
 
   getSalarioById(id) {
-    return http.get(`Empleado/salario/${id}`)
+    return http.get(`Empleado / salario / ${id}`)
   }
 
   getDepartamentoById(id) {
-    return http.get(`Departamento/${id}`)
+    return http.get(`Departamento / ${id}`)
   }
   getDepartamentoByProgramaId(id) {
-    return http.get(`Departamento/Programa/${id}`)
+    return http.get(`Departamento / Programa / ${id}`)
   }
 
   getPocisionbyid(id) {
-    return http.get(`Posicion/${id}`)
+    return http.get(`Posicion / ${id}`)
   }
 
   getConfiguracionNominabyid(id) {
-    return http.get(`ConfiguracionNomina/${id}`)
+    return http.get(`ConfiguracionNomina / ${id}`)
   }
 
   getNominabyid(id) {
-    return http.get(`Nomina/${id}`)
+    return http.get(`Nomina / ${id}`)
   }
 
   getProgramaDivisionbyid(id) {
-    return http.get(`ProgramaDivision/${id}`)
+    return http.get(`ProgramaDivision / ${id}`)
   }
 
   getAreaTrabajobyid(id) {
-    return http.get(`AreaTrabajo/${id}`)
+    return http.get(`AreaTrabajo / ${id}`)
   }
 
   getTotalIngresos(id_ayuntamiento, ano_fiscal) {
-    return http.get(`/ingresoslista/ListarIngresosTotalizado/?ano=${ano_fiscal}&id=${id_ayuntamiento}`)
+    return http.get(`/ ingresoslista / ListarIngresosTotalizado /? ano = ${ano_fiscal} & id=${id_ayuntamiento}`)
   }
   //post
 
   postnominaGeneral(ayuntamiento, fecha, departamento) {
-    return http.post(`Nomina/GenerarNomina?AyuntamientoId=${ayuntamiento}&Fecha=${fecha}&DepartamentoId=${departamento}`)
+    return http.post(`Nomina / GenerarNomina ? AyuntamientoId = ${ayuntamiento} & Fecha=${fecha} & DepartamentoId=${departamento}`)
   }
 
   postNomina(data) {
@@ -135,45 +140,45 @@ class NominaApi {
 
 
   putNomina(id, data) {
-    return http.put(`Nomina/${id}`, data)
+    return http.put(`Nomina / ${id}`, data)
   }
 
   putPocision(id, data) {
-    return http.put(`Posicion/${id}`, data)
+    return http.put(`Posicion / ${id}`, data)
   }
 
   putSector(id, post) {
-    return http.put(`Sector/${id}`, post)
+    return http.put(`Sector / ${id}`, post)
   }
 
   putGrupoNomina(id, data) {
-    return http.put(`GrupoNomina/${id}`, data)
+    return http.put(`GrupoNomina / ${id}`, data)
   }
 
   putDepartamento(id, data) {
-    return http.put(`Departamento/${id}`, data)
+    return http.put(`Departamento / ${id}`, data)
   }
 
   putAreaTrabajo(id, data) {
-    return http.put(`AreaTrabajo/${id}`, data)
+    return http.put(`AreaTrabajo / ${id}`, data)
   }
 
   putConfiguracionNomina(id, data) {
-    return http.put(`ConfiguracionNomina/${id}`, data)
+    return http.put(`ConfiguracionNomina / ${id}`, data)
   }
 
   putEmpleado(id, data) {
-    return http.put(`Empleado/${id}`, data)
+    return http.put(`Empleado / ${id}`, data)
   }
 
   putProgramaDivision(id, data) {
-    return http.put(`ProgramaDivision/${id}`, data)
+    return http.put(`ProgramaDivision / ${id}`, data)
   }
 
   //delete
 
   deleteSector(id) {
-    return http.delete(`Sector/${id}`)
+    return http.delete(`Sector/${id}?ayuntamiento=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
   }
 
 

@@ -68,7 +68,7 @@
     <CModalHeader>
       <CModalTitle>Marcas</CModalTitle>
     </CModalHeader>
-    <CModalBody >
+    <CModalBody>
       <CCardBody>
         <CForm
           class="row g-3 needs-validation"
