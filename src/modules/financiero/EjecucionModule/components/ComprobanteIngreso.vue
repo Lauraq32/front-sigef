@@ -667,6 +667,7 @@ export default {
       })
       setTimeout(this.getDetalle(this.id), 500)
       setTimeout(this.getTotalIngreso(this.id), 500)
+      this.getIngresos()
       this.clearModal1()
       event.preventDefault()
       event.stopPropagation()
