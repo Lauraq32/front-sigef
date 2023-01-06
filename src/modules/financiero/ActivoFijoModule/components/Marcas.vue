@@ -68,7 +68,7 @@
     <CModalHeader>
       <CModalTitle>Marcas</CModalTitle>
     </CModalHeader>
-    <CModalBody>
+    <CModalBody v-on:mousemove="this.focusI">
       <CCardBody>
         <CForm
           class="row g-3 needs-validation"
@@ -87,11 +87,14 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
 
-         
+          <div>
+            <input ref="focusMe" type="text" />
+          </div>
 
           <CCol :md="6">
             <CFormLabel for="validationCustom02">Marca</CFormLabel>
             <CFormInput
+              ref="name"
               v-model="postMarcas.nombre"
               id="validationCustom02"
               required
@@ -99,6 +102,7 @@
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
+
           <div class="modal-footer">
             <button
               type="button"
@@ -136,7 +140,8 @@ export default {
   data: () => {
     return {
       prueba: [{ prueba: '' }],
-
+      // input: this.$refs.email,
+      focus: false,
       postMarcas: {
         id: 0,
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
@@ -170,6 +175,19 @@ export default {
   methods: {
     addField(prueba) {
       prueba.push({})
+    },
+
+    focusInput() {
+      this.$refs.focusMe.focus()
+    },
+
+    focusI() {
+      this.focus = true
+      if (this.focus == true) {
+        this.focusInput()
+      } else if (this.focus == true) {
+        this.focus = false
+      }
     },
 
     ...mapActions(useRegistroStore, ['getMarcas', 'addMarcas']),

@@ -104,7 +104,7 @@
     <CModalHeader>
       <CModalTitle>Formulario de empleados</CModalTitle>
     </CModalHeader>
-    <CModalBody v-on:mousemove="this.focusInput1">
+    <CModalBody>
       <div class="row">
         <CNav variant="tabs" role="tablist">
           <CNavItem>
@@ -544,7 +544,6 @@
                     >Impuestos S.R</CFormLabel
                   >
                   <CFormInput
-                    ref="name"
                     v-model="postEmpleado.impuestoSobreRenta"
                     id="validationCustom02"
                     required
@@ -1500,7 +1499,7 @@
     <CModalHeader>
       <CModalTitle>Sectores</CModalTitle>
     </CModalHeader>
-    <CModalBody class="mt-2">
+    <CModalBody class="mt-2" v-on:mousemove="this.focusInput">
       <CCardBody>
         <CForm
           class="row g-3 needs-validation"
@@ -1616,6 +1615,7 @@
                 <CCol :md="5">
                   <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
                   <CFormInput
+                    ref="name"
                     v-model="clasificador"
                     id="validationCustom01"
                     required
@@ -2692,11 +2692,12 @@ export default {
     // },
 
     focusInput() {
-      this.$refs.name.focus()
-      this.focus = true
-      if (!this.focus) {
-        this.focusInput()
-      }
+      // this.$refs.name.focus()
+      this.$refs.name.$el.focus()
+      // this.focus = true
+      // if (!this.focus) {
+      //   this.focusInput()
+      // }
     },
 
     focusInput1() {
