@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">sectores</h3>
+  <h3 class="text-center">Sectores</h3>
   <hr />
   <div>
     <div class="d-inline p-2">
@@ -11,11 +11,6 @@
           }
         "
         >Agregar</CButton
-      >
-    </div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-        >Imprimir</CButton
       >
     </div>
   </div>
@@ -30,7 +25,7 @@
     :activePage="1"
     footer
     header
-    :items="this.$store.state.RRHHModule.sectores"
+    :items="sectores"
     :columns="columns"
     columnFilter
     tableFilter
@@ -46,30 +41,31 @@
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
-    <template #show_details="{ item, index }">
-      <td class="py-2">
+    <template #show_details="{ item }">
+      <td class="py-1">
         <CButton
+          class="mt-1"
           color="primary"
           variant="outline"
           square
           size="sm"
-          @click="toggleDetails(item, index)"
+          @click="toggleDetails(item)"
         >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
+          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
       </td>
-    </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
+      <td class="py-1">
+        <CButton
+          class="mt-1"
+          color="danger"
+          variant="outline"
+          square
+          size="sm"
+          @click="deleteSec(item)"
+        >
+          {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
+        </CButton>
+      </td>
     </template>
   </CSmartTable>
   <CModal
@@ -82,7 +78,7 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Profesiones</CModalTitle>
+      <CModalTitle>Sectores</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -92,15 +88,13 @@
           :validated="validatedCustom01"
           @submit="handleSubmitCustom01"
         >
-          <CCol :md="2">
-            <CFormLabel for="validationCustom01">Código</CFormLabel>
-            <CFormInput disabled id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustomUsername">sectores</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
+          <CCol :md="4">
+            <CFormLabel for="validationCustom02">Sectores</CFormLabel>
+            <CFormInput
+              v-model="postSectores.nombre"
+              id="validationCustom02"
+              required
+            />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -109,10 +103,11 @@
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
+              v-on:click="close"
             >
               Close
             </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+            <button class="btn btn-info btn-block mt-1" v-on:click="submitForm">
               Guardar
             </button>
           </div>
@@ -121,9 +116,16 @@
     </CModalBody>
   </CModal>
 </template>
+
 <script>
+import { useRegistroStore } from '../store/RegistroPersonal/sectores'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import { mapStores } from 'pinia'
+import { mapState } from 'pinia'
+import { mapActions } from 'pinia'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import Api from '../services/RegistroPersonalServices'
 export default {
   components: {
     CSmartTable,
@@ -131,15 +133,20 @@ export default {
   },
   data: () => {
     return {
-      validatedCustom01: null,
-      lgDemo: false,
-      columns: [
-        { key: 'Código', label: 'Código', _style: { width: '40%' } },
-        {
-          key: 'Posicion o cargo',
-          label: 'sectores',
-          _style: { width: '40%' },
+      postSectores: {
+        id: 0,
+        nombre: null,
+        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamiento: {
+          id: 0,
+          secuencial: 0,
+          codigo: null,
+          descripcion: null,
         },
+      },
+      columns: [
+        { key: 'id', label: 'id', _style: { width: '40%' } },
+        { key: 'nombre', label: 'Sectores', _style: { width: '40%' } },
         {
           key: 'show_details',
           label: '',
@@ -150,25 +157,41 @@ export default {
         },
       ],
       details: [],
+      validatedCustom01: null,
+      lgDemo: false,
     }
   },
+  computed: {
+    ...mapStores(useRegistroStore),
+    ...mapState(useRegistroStore, ['sectores']),
+  },
   methods: {
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
+    ...mapActions(useRegistroStore, ['getSectore', 'addSectores']),
+    close() {
+      this.lgDemo = false
     },
-    // watch: {
-    //   '$store.state.RRHHModule.sectores': {
-    //     handler() {
-    //       this.addPersonal()
-    //     },
-    //     immediate: true,
-    //   },
-    // },
+    toggleDetails(item) {
+      // if (this.details.includes(item._id)) {
+      //   this.details = this.details.filter((_item) => _item !== item._id)
+      //   return
+      // }
+      // this.details.push(item._id)
+      console.log(item)
+      if (item.sectores !== 0 || item.variacion !== 0) {
+        this.formuladoValue = true
+      } else {
+        this.formuladoValue = false
+      }
+      this.edit = true
+      this.lgDemo = true
+      console.log(item.id)
+      Api.getSectorbyid(item.id).then((response) => {
+        this.postSectores = response.data.data
+        console.log(response)
+        this.id = item.id
+        //this.postIngreso = response.data.data
+      })
+    },
     getBadge(status) {
       switch (status) {
         case 'Active':
@@ -183,16 +206,96 @@ export default {
           'primary'
       }
     },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
+    handleSubmitCustom01(event) {
+      const form = event.currentTarget
+      if (form.checkValidity() === false) {
+        event.preventDefault()
+        event.stopPropagation()
       }
-      this.details.push(item._id)
+      this.validatedCustom01 = true
+    },
+    submitForm() {
+      if (this.id) {
+        Api.putSector(this.id, this.postSectores).then((response) => {
+          console.log(response.data)
+          this.lgDemo = false
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+          setTimeout(this.getSectore, 500)
+          this.postSectores = {
+            id: 0,
+            nombre: null,
+            variacion: 0,
+            ayuntamientoId: 0,
+            ayuntamiento: {
+              id: 0,
+              secuencial: 0,
+              codigo: null,
+              descripcion: null,
+            },
+          }
+        })
+        setTimeout(this.getSectore, 500)
+      } else {
+        this.addSectores(this.postSectores)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          text: 'Datos agregados con exito',
+          title: 'Agregado',
+          showConfirmButton: false,
+          timer: 1500,
+        })
+        //const form = event.currentTarget
+        this.lgDemo = true
+        setTimeout(this.getSectore, 500)
+        ;(this.postSectores = {
+          id: 0,
+          nombre: null,
+          ayuntamientoId: 0,
+          ayuntamiento: {
+            id: 0,
+            secuencial: 0,
+            codigo: null,
+            descripcion: null,
+          },
+        }),
+          (this.validatedCustom01 = false)
+        event.preventDefault()
+        event.stopPropagation()
+        setTimeout(this.getSectore, 500)
+      }
+    },
+    deleteSec(item) {
+      Api.deleteSector(item.id)
+        .then((response) => {
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+        })
+        .catch((error) => {
+          console.log(error)
+          this.$swal({
+            position: 'top-end',
+            icon: 'error',
+            title: error.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+        })
     },
   },
   mounted() {
-    this.$store.dispatch('AdministrativoModule/getUsuarios')
+    this.getSectore()
   },
 }
 </script>

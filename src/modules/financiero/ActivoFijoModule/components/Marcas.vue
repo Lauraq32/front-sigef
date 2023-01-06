@@ -76,7 +76,7 @@
           :validated="validatedCustom01"
           @submit="handleSubmitCustom01"
         >
-          <CCol :md="2">
+          <!-- <CCol :md="2">
             <CFormLabel for="validationCustom02">Código</CFormLabel>
             <CFormInput
               v-model="postMarcas.id"
@@ -85,12 +85,16 @@
             />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-        
+          </CCol> -->
+
+          <!-- <div>
+            <input ref="focusMe" type="text" />
+          </div> -->
+
           <CCol :md="6">
-            
             <CFormLabel for="validationCustom02">Marca</CFormLabel>
             <CFormInput
+              ref="name"
               v-model="postMarcas.nombre"
               id="validationCustom02"
               required
@@ -98,6 +102,7 @@
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
+
           <div class="modal-footer">
             <button
               type="button"
@@ -134,6 +139,9 @@ export default {
 
   data: () => {
     return {
+      prueba: [{ prueba: '' }],
+      // input: this.$refs.email,
+      focus: false,
       postMarcas: {
         id: 0,
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
@@ -165,6 +173,23 @@ export default {
   },
 
   methods: {
+    addField(prueba) {
+      prueba.push({})
+    },
+
+    focusInput() {
+      this.$refs.focusMe.focus()
+    },
+
+    // focusI() {
+    //   this.focus = true
+    //   if (this.focus == true) {
+    //     this.focusInput()
+    //   } else if (this.focus == true) {
+    //     this.focus = false
+    //   }
+    // },
+
     ...mapActions(useRegistroStore, ['getMarcas', 'addMarcas']),
 
     toggleDetails(item) {

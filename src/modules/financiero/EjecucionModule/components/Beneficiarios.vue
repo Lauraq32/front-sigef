@@ -100,147 +100,153 @@
           :validated="validatedCustom01"
           @submit="handleSubmitCustom01"
         >
-        <CCol :md="4">
-            <CFormLabel for="validationCustom02">Nombre</CFormLabel>
-            <CFormInput
-              v-model="postBeneficiario.nombre"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02"> Tipo de Documento</CFormLabel>
-            <CFormInput
-              v-model="postBeneficiario.tipoDcto"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
+          <div class="row">
+            <div class="col-6 mt-2">
+              <CCol :md="7">
+                <CFormLabel for="validationCustom02">
+                  Tipo de Documento</CFormLabel
+                >
+                <CFormSelect
+                  v-model="postBeneficiario.tipoDcto"
+                  id="validationCustom05"
+                >
+                  <option>Cedula</option>
+                  <option>Pasaporte</option>
+                </CFormSelect>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
 
-          <CCol :md="3">
-            <CFormLabel for="validationCustom04">Direccion</CFormLabel>
-            <CFormInput
-              v-model="postBeneficiario.direccion"
-              id="validationCustom04"
-            >
-            </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom04">Ciudad</CFormLabel>
-            <CFormInput
-              v-model="postBeneficiario.ciudad"
-              id="validationCustom04"
-            >
-            </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom04">Teléfono 1</CFormLabel>
-            <CFormInput
-              v-model="postBeneficiario.telefono"
-              id="validationCustom04"
-            >
-            </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom04">Teléfono 2</CFormLabel>
-            <CFormInput
-              v-model="postBeneficiario.celular"
-              id="validationCustom04"
-            >
-            </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom04">Contacto</CFormLabel>
-            <CFormInput
-              v-model="postBeneficiario.contacto"
-              id="validationCustom04"
-            >
-            </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom04"> Email</CFormLabel>
-            <CFormInput
-              v-model="postBeneficiario.email"
-              id="validationCustom04"
-            >
-            </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom04">Fecha de ingreso</CFormLabel>
-            <CFormInput
-              v-model="postBeneficiario.ingreso"
-              type="date"
-              id="validationCustom04"
-            >
-            </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
+              <CCol :md="7">
+                <CFormLabel for="validationCustom04">Documento</CFormLabel>
+                <CFormInput
+                  v-model="postBeneficiario.rncCedPas"
+                  id="validationCustom04"
+                >
+                </CFormInput>
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+              <CCol :md="15">
+                <CFormLabel for="validationCustom04">Nombre</CFormLabel>
+                <CFormInput
+                  v-model="postBeneficiario.nombre"
+                  id="validationCustom04"
+                >
+                </CFormInput>
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+              <CCol :md="15">
+                <CFormLabel for="validationCustom04">Direccion</CFormLabel>
+                <CFormInput
+                  v-model="postBeneficiario.direccion"
+                  id="validationCustom04"
+                >
+                </CFormInput>
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
 
-          <CCol :md="3">
-            <CFormLabel for="validationCustom04"
-              >Tipo de Beneficiario</CFormLabel
-            >
-            <CFormInput
-              v-model="postBeneficiario.tipo"
-              id="validationCustom04"
-            >
-            </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
+              <div class="row">
+                <div class="col-6">
+                  <CCol :md="15">
+                    <CFormLabel for="validationCustom04">Teléfono 1</CFormLabel>
+                    <CFormInput
+                      v-model="postBeneficiario.telefono"
+                      id="validationCustom04"
+                    >
+                    </CFormInput>
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                </div>
+                <div class="col-6">
+                  <CCol :md="15">
+                    <CFormLabel for="validationCustom04">Teléfono 1</CFormLabel>
+                    <CFormInput
+                      v-model="postBeneficiario.celular"
+                      id="validationCustom04"
+                    >
+                    </CFormInput>
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                </div>
+              </div>
+              <CCol :md="6">
+                <CFormLabel for="validationCustom04">Contacto</CFormLabel>
+                <CFormInput
+                  v-model="postBeneficiario.contacto"
+                  id="validationCustom04"
+                >
+                </CFormInput>
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+              <CCol :md="15">
+                <CFormLabel for="validationCustom04">Email</CFormLabel>
+                <CFormInput
+                  v-model="postBeneficiario.email"
+                  id="validationCustom04"
+                >
+                </CFormInput>
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
 
-          <hr />
-          <h4 class="text-center">Sólo para pensionados y/o Subvenciones</h4>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Mensual</CFormLabel>
-            <CFormInput
-              v-model="postBeneficiario.mensual"
-              id="validationCustom01"
-              required
-            />
+            <div class="col-6 mt-2" style="position: relative; left: 57px">
+              <CCol :md="7" class="mb-5">
+                <CFormLabel for="validationCustom04"
+                  >Fecha de ingreso</CFormLabel
+                >
+                <CFormInput
+                  v-model="postBeneficiario.ingreso"
+                  type="date"
+                  id="validationCustom04"
+                >
+                </CFormInput>
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
 
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01"> Recomendado</CFormLabel>
-            <CFormInput
-              v-model="postBeneficiario.recomienda"
-              id="validationCustom01"
-              required
-            />
+              <CCol :md="7" class="mb-5">
+                <CFormLabel for="validationCustom04"
+                  >Tipo de Beneficiario</CFormLabel
+                >
+                <CFormSelect
+                  v-model="postBeneficiario.tipo"
+                  id="validationCustom05"
+                >
+                  <option>Ayudas</option>
+                  <option>Empleado</option>
+                  <option>Empresa</option>
+                  <option>Institucional</option>
+                  <option>Pensionado</option>
+                  <option>Personal</option>
+                  <option>Subvencion</option>
+                  <option>Comercial</option>
+                  <option>otros</option>
+                </CFormSelect>
+              </CCol>
 
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom05">Estatus</CFormLabel>
-            <CFormSelect
-              v-model="postBeneficiario.estatus"
-              id="validationCustom05"
-            >
-              <option>A</option>
-              <option>I</option>
-            </CFormSelect>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
+              <CCol :md="7">
+                <CFormLabel for="validationCustom05">Estatus</CFormLabel>
+                <CFormSelect
+                  v-model="postBeneficiario.estatus"
+                  id="validationCustom05"
+                >
+                  <option>A</option>
+                  <option>I</option>
+                </CFormSelect>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
+          </div>
           <div class="modal-footer">
             <button
               type="button"
@@ -300,20 +306,24 @@ export default {
         { key: 'id', label: 'Código', _style: { width: '10%' } },
         {
           key: 'nombre',
-          label: 'Nombre',
-          _style: { width: '40%' },
+          label: 'Beneficiario',
+          _style: { width: '15%' },
         },
-        { key: 'direccion', label: 'Cédula', _style: { width: '10%' } },
-        { key: 'ingreso', label: 'Fecha Ingreso', _style: { width: '10%' } },
+        {
+          key: 'tipo',
+          label: 'Tipo de beneficiario',
+          _style: { width: '10%' },
+        },
+        { key: 'direccion', label: 'Cédula', _style: { width: '15%' } },
+        { key: 'ingreso', label: 'Fecha Ingreso', _style: { width: '15%' } },
         { key: 'tipoDcto', label: 'Tipo', _style: { width: '10%' } },
-        { key: 'ciudad', label: 'Ciudad', _style: { width: '20%' } },
-        { key: 'email', label: 'Email', _style: { width: '40%' } },
-        { key: 'contacto', label: 'Contacto', _style: { width: '35%' } },
+
+        { key: 'email', label: 'Email', _style: { width: '20%' } },
+        { key: 'contacto', label: 'Contacto', _style: { width: '40%' } },
         { key: 'telefono', label: 'Teléfono 1', _style: { width: '20%' } },
         { key: 'celular', label: 'Teléfono 2', _style: { width: '20%' } },
-        { key: 'mensual', label: 'Mensual', _style: { width: '20%' } },
+
         { key: 'estatus', label: 'Estatus', _style: { width: '20%' } },
-        { key: 'recomienda', label: 'Recomienda', _style: { width: '20%' } },
 
         {
           key: 'show_details',

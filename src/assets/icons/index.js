@@ -121,6 +121,8 @@ import {
   cilCompass,
   cilNoteAdd,
   cilCity,
+  cilPlus,
+  cilMinus,
 } from '@coreui/icons-pro'
 
 export const iconsSet = Object.assign(
@@ -218,6 +220,8 @@ export const iconsSet = Object.assign(
     cilMoney,
     cilOpentype,
     cilCreditCard,
+    cilPlus,
+    cilMinus,
   },
   {
     cifUs,
