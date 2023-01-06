@@ -692,20 +692,31 @@ export default {
       })
     },
     clearModal1() {
-      this.detalleRegistroPost = {
-        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
-        anioFiscalId: localStorage.getItem('ano'),
-        transaccionId: 0,
-        ctgClasificadorId: '',
-        ctgFuenteId: '',
-        ctgFuenteEspecificaId: '',
-        ctgOrganismoFinanciadorId: '',
-        fecha: new Date(Date.now()),
-        etapa: 'INGRESOS',
-        institucionOrtongate: '',
-        valor: 0,
-        estatus: 'A',
-      }
+      this.detalleRegistroPost.detalleRegistroPostctgClasificadorId= '',
+      this.detalleRegistroPost.ctgFuenteId = '',
+      this.detalleRegistroPost.ctgClasificadorId = ''
+      this.detalleRegistroPost.ctgFuenteEspecificaId = '',
+      this.detalleRegistroPost.ctgOrganismoFinanciadorId = '',
+      this.detalleRegistroPost.fecha = new Date(Date.now()),
+      this.detalleRegistroPost.etapa = 'INGRESOS',
+      this.detalleRegistroPost.institucionOrtongate = '',
+      this.detalleRegistroPost.valor = 0,
+      this.detalleRegistroPost.estatus = 'A'
+      this.detalle = ''
+      // this.detalleRegistroPost = {
+      //   ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+      //   anioFiscalId: localStorage.getItem('ano'),
+   
+      //   ctgClasificadorId: '',
+      //   ctgFuenteId: '',
+      //   ctgFuenteEspecificaId: '',
+      //   ctgOrganismoFinanciadorId: '',
+      //   fecha: new Date(Date.now()),
+      //   etapa: 'INGRESOS',
+      //   institucionOrtongate: '',
+      //   valor: 0,
+      //   estatus: 'A',
+      // }
     },
     clearModal2() {
       this.ingresoPost = {
