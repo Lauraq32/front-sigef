@@ -288,6 +288,7 @@
                     <CFormSelect
                       v-model="postGasto.tipoGastoId"
                       id="validationCustom05"
+                      v-on:change="changeAuxiliar($event)"
                     >
                       <option
                         v-for="tipoGasto in this.TipoGastoList"
@@ -969,7 +970,7 @@ export default {
       },
       postGasto: {
         id: 0,
-        tipoGastoId: 0,
+        tipoGastoId: 1,
         anioFiscalId: parseInt(localStorage.getItem('ano')),
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         anioFiscal: null,
@@ -1164,9 +1165,21 @@ export default {
         year: 'numeric',
       })
     },
+    changeAuxiliar(e) {
+      console.log(e.target.value)
+
+      this.postGasto.tipoGastoId = e.target.value
+      // Api.getDepartamentoByProgramaId(e.target.value).then((response) => {
+      //   this.post = response.data.data
+
+      //   console.log(response.data.data)
+      // })
+      // console.log(this.departamentos)
+    },
     clearModal1() {
       this.postGasto = {
         id: 0,
+        tipoGastoId: 5,
         anioFiscalId: parseInt(localStorage.getItem('ano')),
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         anioFiscal: null,
@@ -1284,8 +1297,10 @@ export default {
 
       this.validatedCustom01 = true
     },
-    postCabecera(data) {
+    postCabecera() {
       if (this.cabeceraId == null) {
+        console.log(this.postGasto)
+        // this.postGasto.tipoGastoId= 5,
         Api.postRegistroGasto(this.postGasto).then((response) => {
           console.log(response.data.data)
         })

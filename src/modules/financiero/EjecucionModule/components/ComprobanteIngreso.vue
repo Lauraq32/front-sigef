@@ -202,6 +202,7 @@
     @close="
       () => {
         lgDemo1 = false
+        reload()
       }
     "
   >
@@ -671,6 +672,10 @@ export default {
       this.clearModal1()
       event.preventDefault()
       event.stopPropagation()
+    
+    },
+    reload(){
+      window.location.reload();
     },
     getBadge(status) {
       switch (status) {
