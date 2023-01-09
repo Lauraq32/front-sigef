@@ -124,7 +124,7 @@
             <div class="col-6">
               <div class="col-12">
                 <div class="row">
-                  <CCol :md="12">
+                  <!-- <CCol :md="12">
                     <CFormLabel for="validationCustom01">Comp No:</CFormLabel>
                     <CFormInput
                       v-model="postGasto.numeroComprobante"
@@ -136,7 +136,7 @@
                     <CFormFeedback invalid>
                       Favor agregar el campo
                     </CFormFeedback>
-                  </CCol>
+                  </CCol> -->
                   <CCol :md="6">
                     <CFormLabel for="validationCustom04">Fecha</CFormLabel>
                     <CFormInput
@@ -1179,7 +1179,7 @@ export default {
     clearModal1() {
       this.postGasto = {
         id: 0,
-        tipoGastoId: 5,
+        tipoGastoId: null,
         anioFiscalId: parseInt(localStorage.getItem('ano')),
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         anioFiscal: null,
@@ -1271,7 +1271,7 @@ export default {
       event.stopPropagation()
     },
     selectItemEventHandler(id) {
-      this.ingresoPost.codBenefi = id.split('-')[0]
+      this.postGasto.codBenefi = id.split('-')[0]
     },
     showDetalle(item) {
       this.lgDemo1 = true
