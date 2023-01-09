@@ -336,7 +336,7 @@
                   </CCol>
                   <CCol :md="6">
                     <CFormLabel for="validationCustom05">Tipo cobro</CFormLabel>
-                    <CFormSelect id="validationCustom05">
+                    <CFormSelect v-model="postEmpleado.periodoPago" id="validationCustom05">
                       <option>MENSUAL</option>
                       <option>QUINCENAL</option>
                     </CFormSelect>
@@ -1078,9 +1078,9 @@ export default {
         direccion: '',
         sectorId: 12,
         telefono: '',
-        celular: 'string',
+        celular: '',
         fechaNacimiento: new Date(Date.now()),
-        lugarNacimiento: 'string',
+        lugarNacimiento: '',
         estadoCivil: 'M',
         sexo: 'M',
         dependientes: 0,
@@ -1094,12 +1094,12 @@ export default {
         areaTrabajoId: 1,
         posicionId: 1,
         grupoOcupacional: 'string',
-        tipoContrato: 'string',
+        tipoContrato: '',
         fechaInicioContrato: new Date(Date.now()),
         fechaFinContrato: new Date(Date.now()),
-        turno: 'string',
-        periodoPago: 'string',
-        formaPago: 'string',
+        turno: '',
+        periodoPago: '',
+        formaPago: '',
         numeroCuenta: 'string',
         fechaExpitaTarjeta: new Date(Date.now()),
         estatus: true,
