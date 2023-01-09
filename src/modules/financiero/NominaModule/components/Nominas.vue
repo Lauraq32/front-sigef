@@ -400,6 +400,28 @@
                   </CFormFeedback>
                 </CCol>
 
+                <CCol :md="8">
+                  <CFormLabel for="validationCustom01">Departamento</CFormLabel>
+                  <CFormSelect
+                    disabled
+                    v-model="postEmpleado.departamentoId"
+                    id="validationCustom05"
+                  >
+                    <option
+                      v-for="departamento in departamentos"
+                      :key="departamento.id"
+                      :value="departamento.id"
+                    >
+                      {{ departamento.id }}
+                    </option>
+                  </CFormSelect>
+
+                  <CFormFeedback valid> Exito! </CFormFeedback>
+                  <CFormFeedback invalid>
+                    Favor agregar el campo
+                  </CFormFeedback>
+                </CCol>
+
                 <CCol :md="12">
                   <CFormLabel for="validationCustom05"
                     >Area de trabajo</CFormLabel
