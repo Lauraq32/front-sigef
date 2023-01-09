@@ -28,6 +28,10 @@ class RegistroPersonal {
 
   }
 
+  getDepartamentoByProgramaId(id) {
+    return http.get(`Departamento/Programa/${id}`)
+  }
+
   getSectores() {
     return http.get(`Sector?ayuntamiento=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
   }
