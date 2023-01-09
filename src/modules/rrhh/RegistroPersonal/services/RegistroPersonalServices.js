@@ -20,7 +20,7 @@ class RegistroPersonal {
   }
 
   getProgramaDivision() {
-    return http.get(`ProgramaDivision`)
+    return http.get(`ProgramaDivision?AyuntamientoId=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
   }
 
   getEmpleadoByID(id) {
