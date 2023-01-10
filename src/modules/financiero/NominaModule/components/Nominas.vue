@@ -2,17 +2,11 @@
   <h3 class="text-center">Nomina</h3>
   <hr />
   <div>
-    <!-- <div class="d-inline p-2">
-      <CButton
-        color="info"
-        @click="
-          () => {
-            lgDemo = true
-          }
-        "
-        >Agregar</CButton
+    <div class="d-inline p-2">
+      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
+        >Imprimir</CButton
       >
-    </div> -->
+    </div>
 
     <CButton
       color="info"
@@ -2679,6 +2673,17 @@ export default {
   },
 
   methods: {
+    IngresoReport() {
+      window
+        .open(
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_General&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
+            'id_Ayuntamiento',
+          )}&ANO=2022`,
+          '_blank',
+        )
+        .focus()
+    },
+
     changePrograma(e) {
       Api.getDepartamentoByProgramaId(e.target.value).then((response) => {
         this.departamentos = response.data.data
