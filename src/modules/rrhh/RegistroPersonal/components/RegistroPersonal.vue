@@ -397,6 +397,7 @@
                       :key="programa.id"
                       :value="programa.id"
                     >
+                      
                       {{ programa.nombre }}
                     </option>
                   </CFormSelect>
@@ -416,7 +417,7 @@
                       :key="departamento.id"
                       :value="departamento.id"
                     >
-                      {{ departamento.id }}
+                      {{ departamento.nombre }}
                     </option>
                   </CFormSelect>
 
@@ -1388,7 +1389,7 @@ export default {
         tipoDocumento: null,
         cedula: null,
         direccion: null,
-        sectorId: 0,
+        sectorId: 1,
         telefono: null,
         celular: null,
         fechaNacimiento: new Date(Date.now()),
