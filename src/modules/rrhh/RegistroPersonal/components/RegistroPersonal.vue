@@ -263,7 +263,10 @@
                 </CCol>
                 <CCol :md="12">
                   <CFormLabel for="validationCustom05">Sectores</CFormLabel>
-                  <CFormSelect v-model="sector.id" id="validationCustom05">
+                  <CFormSelect
+                    v-model="postEmpleado.sectorId"
+                    id="validationCustom05"
+                  >
                     <option
                       v-for="sect in this.sector"
                       :key="sect.id"
@@ -385,7 +388,7 @@
                 <CCol :md="12">
                   <CFormLabel for="validationCustom05">Programa</CFormLabel>
                   <CFormSelect
-                    v-model="programaDivision.id"
+                    v-model="postEmpleado.programaDivisionId"
                     id="validationCustom05"
                     v-on:change="changePrograma($event)"
                   >
@@ -482,7 +485,10 @@
                   <CFormLabel for="validationCustom05"
                     >Área de trabajo</CFormLabel
                   >
-                  <CFormSelect v-model="areaTrabajo.id" id="validationCustom05">
+                  <CFormSelect
+                    v-model="postEmpleado.areaTrabajoId"
+                    id="validationCustom05"
+                  >
                     <option
                       v-for="area in this.areaTrabajo"
                       :key="area.id"
@@ -498,7 +504,7 @@
                 <CCol :md="12">
                   <CFormLabel for="validationCustom05">Cargos</CFormLabel>
                   <CFormSelect
-                    v-model="posicionCargo.id"
+                    v-model="postEmpleado.posicionId"
                     id="validationCustom05"
                   >
                     <option
@@ -516,7 +522,10 @@
 
                 <CCol :md="12">
                   <CFormLabel for="validationCustom05">Tipo Sangre</CFormLabel>
-                  <CFormSelect v-model="tipoSangre.id" id="validationCustom05">
+                  <CFormSelect
+                    v-model="postEmpleado.tipoSangreId"
+                    id="validationCustom05"
+                  >
                     <option
                       v-for="sangre in this.tipoSangre"
                       :key="sangre.id"
@@ -1373,37 +1382,37 @@ export default {
         // ----------------------------------------
 
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-        codigo: '',
-        nombres: '',
-        apellidos: '',
-        tipoDocumento: '',
-        cedula: '',
-        direccion: '',
-        sectorId: 1,
-        telefono: '',
-        celular: '',
+        codigo: null,
+        nombres: null,
+        apellidos: null,
+        tipoDocumento: null,
+        cedula: null,
+        direccion: null,
+        sectorId: 0,
+        telefono: null,
+        celular: null,
         fechaNacimiento: new Date(Date.now()),
-        lugarNacimiento: '',
+        lugarNacimiento: null,
         estadoCivil: 'M',
-        sexo: 'M',
+        sexo: null,
         dependientes: 0,
         fechaIngreso: new Date(Date.now()),
         fechaSalida: new Date(Date.now()),
-        razonSalida: '',
+        razonSalida: null,
         reemplear: true,
         fechaReingreso: new Date(Date.now()),
-        programaDivisionId: 1,
-        departamentoId: 2,
-        areaTrabajoId: 1,
-        posicionId: 1,
-        grupoOcupacional: '',
-        tipoContrato: '',
+        programaDivisionId: 0,
+        departamentoId: 0,
+        areaTrabajoId: 0,
+        posicionId: 0,
+        grupoOcupacional: null,
+        tipoContrato: null,
         fechaInicioContrato: new Date(Date.now()),
         fechaFinContrato: new Date(Date.now()),
-        turno: '',
-        periodoPago: '',
-        formaPago: '',
-        numeroCuenta: '',
+        turno: null,
+        periodoPago: null,
+        formaPago: null,
+        numeroCuenta: null,
         fechaExpitaTarjeta: new Date(Date.now()),
         estatus: true,
         sueldo: 0.0,
@@ -1446,30 +1455,30 @@ export default {
         octubreIngreso: 0.0,
         noviembreIngreso: 0.0,
         diciembreIngreso: 0.0,
-        observacion: '',
-        discapacidad: '',
-        emergenciaNombre: '',
-        emergenciaTelefono: '',
-        emergenciaTelefono2: '',
-        emergenciaDireccion: '',
-        emergenciaParentezco: '',
-        tipoSangreId: 1,
-        emergenciaAlergico: '',
+        observacion: null,
+        discapacidad: null,
+        emergenciaNombre: null,
+        emergenciaTelefono: null,
+        emergenciaTelefono2: null,
+        emergenciaDireccion: null,
+        emergenciaParentezco: null,
+        tipoSangreId: 0,
+        emergenciaAlergico: null,
         emergenciaDiabetico: 'sT',
         emergenciaInsodepend: 'st',
-        emergenciaPresionAlta: '',
-        emergenciaPresionBaja: '',
+        emergenciaPresionAlta: null,
+        emergenciaPresionBaja: null,
         emergenciaEnTratamiento: 'st',
-        emergenciaDiagnostico: '',
-        licenciaConducir: '',
+        emergenciaDiagnostico: null,
+        licenciaConducir: null,
         fechaExpiracionLicencia: new Date(Date.now()),
         aplicaSasp: true,
-        nivelEscolar: '',
-        areaTematica: '',
-        tituloObtenido: '',
-        correoElectronico: '',
-        correoElectronico2: '',
-        recomendadoPor: '',
+        nivelEscolar: null,
+        areaTematica: null,
+        tituloObtenido: null,
+        correoElectronico: null,
+        correoElectronico2: null,
+        recomendadoPor: null,
       },
 
       tabPaneActiveKey: 1,
@@ -1593,37 +1602,37 @@ export default {
     clearModal1() {
       this.postEmpleado = {
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-        codigo: '',
-        nombres: '',
-        apellidos: '',
-        tipoDocumento: '',
-        cedula: '',
-        direccion: '',
-        sectorId: 12,
-        telefono: '',
-        celular: '',
+        codigo: null,
+        nombres: null,
+        apellidos: null,
+        tipoDocumento: null,
+        cedula: null,
+        direccion: null,
+        sectorId: 0,
+        telefono: null,
+        celular: null,
         fechaNacimiento: new Date(Date.now()),
-        lugarNacimiento: '',
+        lugarNacimiento: null,
         estadoCivil: 'M',
-        sexo: 'M',
+        sexo: null,
         dependientes: 0,
         fechaIngreso: new Date(Date.now()),
         fechaSalida: new Date(Date.now()),
-        razonSalida: '',
+        razonSalida: null,
         reemplear: true,
         fechaReingreso: new Date(Date.now()),
-        programaDivisionId: 1,
-        departamentoId: 13,
-        areaTrabajoId: 1,
-        posicionId: 1,
-        grupoOcupacional: '',
-        tipoContrato: '',
+        programaDivisionId: 0,
+        departamentoId: 0,
+        areaTrabajoId: 0,
+        posicionId: 0,
+        grupoOcupacional: null,
+        tipoContrato: null,
         fechaInicioContrato: new Date(Date.now()),
         fechaFinContrato: new Date(Date.now()),
-        turno: '',
-        periodoPago: '',
-        formaPago: '',
-        numeroCuenta: '',
+        turno: null,
+        periodoPago: null,
+        formaPago: null,
+        numeroCuenta: null,
         fechaExpitaTarjeta: new Date(Date.now()),
         estatus: true,
         sueldo: 0.0,
@@ -1666,30 +1675,30 @@ export default {
         octubreIngreso: 0.0,
         noviembreIngreso: 0.0,
         diciembreIngreso: 0.0,
-        observacion: '',
-        discapacidad: '',
-        emergenciaNombre: '',
-        emergenciaTelefono: '',
-        emergenciaTelefono2: '',
-        emergenciaDireccion: '',
-        emergenciaParentezco: '',
-        tipoSangreId: 1,
-        emergenciaAlergico: '',
+        observacion: null,
+        discapacidad: null,
+        emergenciaNombre: null,
+        emergenciaTelefono: null,
+        emergenciaTelefono2: null,
+        emergenciaDireccion: null,
+        emergenciaParentezco: null,
+        tipoSangreId: 0,
+        emergenciaAlergico: null,
         emergenciaDiabetico: 'sT',
         emergenciaInsodepend: 'st',
-        emergenciaPresionAlta: '',
-        emergenciaPresionBaja: '',
+        emergenciaPresionAlta: null,
+        emergenciaPresionBaja: null,
         emergenciaEnTratamiento: 'st',
-        emergenciaDiagnostico: '',
-        licenciaConducir: '',
+        emergenciaDiagnostico: null,
+        licenciaConducir: null,
         fechaExpiracionLicencia: new Date(Date.now()),
         aplicaSasp: true,
-        nivelEscolar: '',
-        areaTematica: '',
-        tituloObtenido: '',
-        correoElectronico: '',
-        correoElectronico2: '',
-        recomendadoPor: '',
+        nivelEscolar: null,
+        areaTematica: null,
+        tituloObtenido: null,
+        correoElectronico: null,
+        correoElectronico2: null,
+        recomendadoPor: null,
       }
     },
     submitForm() {
@@ -1707,37 +1716,37 @@ export default {
           setTimeout(this.getRegistroPersonal, 500)
           this.postEmpleado = {
             ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-            codigo: '',
-            nombres: '',
-            apellidos: '',
-            tipoDocumento: '',
-            cedula: '',
-            direccion: '',
-            sectorId: 12,
-            telefono: '',
-            celular: 'string',
+            codigo: null,
+            nombres: null,
+            apellidos: null,
+            tipoDocumento: null,
+            cedula: null,
+            direccion: null,
+            sectorId: 0,
+            telefono: null,
+            celular: null,
             fechaNacimiento: new Date(Date.now()),
-            lugarNacimiento: 'string',
+            lugarNacimiento: null,
             estadoCivil: 'M',
-            sexo: 'M',
+            sexo: null,
             dependientes: 0,
             fechaIngreso: new Date(Date.now()),
             fechaSalida: new Date(Date.now()),
-            razonSalida: 'string',
+            razonSalida: null,
             reemplear: true,
             fechaReingreso: new Date(Date.now()),
-            programaDivisionId: 1,
-            departamentoId: 13,
-            areaTrabajoId: 1,
-            posicionId: 1,
-            grupoOcupacional: 'string',
-            tipoContrato: 'string',
+            programaDivisionId: 0,
+            departamentoId: 0,
+            areaTrabajoId: 0,
+            posicionId: 0,
+            grupoOcupacional: null,
+            tipoContrato: null,
             fechaInicioContrato: new Date(Date.now()),
             fechaFinContrato: new Date(Date.now()),
-            turno: 'string',
-            periodoPago: 'string',
-            formaPago: 'string',
-            numeroCuenta: 'string',
+            turno: null,
+            periodoPago: null,
+            formaPago: null,
+            numeroCuenta: null,
             fechaExpitaTarjeta: new Date(Date.now()),
             estatus: true,
             sueldo: 0.0,
@@ -1780,30 +1789,30 @@ export default {
             octubreIngreso: 0.0,
             noviembreIngreso: 0.0,
             diciembreIngreso: 0.0,
-            observacion: 'string',
-            discapacidad: 'string',
-            emergenciaNombre: 'string',
-            emergenciaTelefono: 'string',
-            emergenciaTelefono2: 'string',
-            emergenciaDireccion: 'string',
-            emergenciaParentezco: 'string',
-            tipoSangreId: 1,
-            emergenciaAlergico: 'string',
+            observacion: null,
+            discapacidad: null,
+            emergenciaNombre: null,
+            emergenciaTelefono: null,
+            emergenciaTelefono2: null,
+            emergenciaDireccion: null,
+            emergenciaParentezco: null,
+            tipoSangreId: 0,
+            emergenciaAlergico: null,
             emergenciaDiabetico: 'sT',
             emergenciaInsodepend: 'st',
-            emergenciaPresionAlta: 'string',
-            emergenciaPresionBaja: 'string',
+            emergenciaPresionAlta: null,
+            emergenciaPresionBaja: null,
             emergenciaEnTratamiento: 'st',
-            emergenciaDiagnostico: 'string',
-            licenciaConducir: 'string',
-            fechaExpiracionLicencia: '2023-01-09T14:27:58.426Z',
+            emergenciaDiagnostico: null,
+            licenciaConducir: null,
+            fechaExpiracionLicencia: new Date(Date.now()),
             aplicaSasp: true,
-            nivelEscolar: 'string',
-            areaTematica: 'string',
-            tituloObtenido: 'string',
-            correoElectronico: 'string',
-            correoElectronico2: 'string',
-            recomendadoPor: 'string',
+            nivelEscolar: null,
+            areaTematica: null,
+            tituloObtenido: null,
+            correoElectronico: null,
+            correoElectronico2: null,
+            recomendadoPor: null,
           }
         })
         setTimeout(this.getRegistroPersonal, 500)
@@ -1883,338 +1892,3 @@ export default {
   },
 }
 </script>
-
-<!-- <template>
-  <h3 class="text-center">Registro Personal</h3>
-  zxb <noframes></noframes>
-  <hr />
-  <div>
-    <div class="d-inline p-2">
-      <CButton
-        color="info"
-        @click="
-          () => {
-            lgDemo = true
-          }
-        "
-        >Agregar</CButton
-      >
-    </div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-        >Imprimir</CButton
-      >
-    </div>
-  </div>
-  <hr />
-  <CSmartTable
-    clickableRows
-    :tableProps="{
-      striped: false,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    footer
-    header
-    :items="Personal"
-    :columns="columns"
-    cleaner
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    columnSorter
-    pagination
-  >
-    <template #status="{}">
-      <td>{item.Nombre}</td>
-    </template>
-    <template #show_details="{ item, index }">
-      <td class="py-2">
-        <CButton
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item, index)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
-        </CButton>
-      </td>
-    </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
-    </template>
-  </CSmartTable>
-  <CModal
-    size="lg"
-    :visible="lgDemo"
-    @close="
-      () => {
-        lgDemo = false
-      }
-    "
-  >
-    <CModalHeader>
-      <CModalTitle>Formulación gasto</CModalTitle>
-    </CModalHeader>
-    <CModalBody>
-      <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
-          <CCol :md="2">
-            <CFormLabel for="validationCustom01">Apellido</CFormLabel>
-            <CFormInput
-              v-model="postPersonal.Apellido"
-              id="validationCustom01"
-            />
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustom02">Nombre</CFormLabel>
-            <CFormInput
-              v-model="postPersonal.Nombre"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustomUsername">Cédula</CFormLabel>
-            <CFormInput
-              v-model="postPersonal.Cédula"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom03">Código</CFormLabel>
-            <CFormInput
-              v-model="postPersonal.Código"
-              id="validationCustom03"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom04">Programa</CFormLabel>
-            <CFormInput v-model="postPersonal.Programa" id="validationCustom04">
-            </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom05"
-              >Direccion o Dependencia</CFormLabel
-            >
-            <CFormInput
-              v-model="postPersonal.Direccion"
-              id="validationCustom05"
-              required
-            />
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom04">Cargo</CFormLabel>
-            <CFormInput v-model="postPersonal.Cargo" id="validationCustom04">
-            </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom04">Fecha de ingreso</CFormLabel>
-            <CFormInput
-              v-model="postPersonal.FechaIngreso"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom04"
-              >Fecha de nacimiento</CFormLabel
-            >
-            <CFormInput
-              v-model="postPersonal.FechaNacimiento"
-              id="validationCustom04"
-            ></CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom04">Edad</CFormLabel>
-            <CFormInput
-              v-model="postPersonal.Edad"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom04">Sexo</CFormLabel>
-            <CFormInput
-              v-model="postPersonal.Sexo"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom04">Sueldo</CFormLabel>
-            <CFormInput
-              v-model="postPersonal.Sueldo"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button class="btn btn-info btn-block mt-1">Guardar</button>
-          </div>
-        </CForm>
-      </CCardBody>
-    </CModalBody>
-  </CModal>
-</template>
-
-<script>
-import { CSmartTable } from '@coreui/vue-pro'
-import { CModal } from '@coreui/vue'
-//import store from '@/store'
-import { useRegistroStore } from '../store/RegistroPersonal/Empleados'
-import { computed } from '@vue/reactivity'
-import { onMounted } from '@vue/runtime-core'
-
-export default {
-  components: { CSmartTable },
-
-  setup() {
-    onMounted(() => {
-      console.log('klk')
-      getRegistroPersonal()
-    })
-    function toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
-      }
-      this.details.push(item._id)
-    }
-
-    const validatedCustom01 = null
-    const lgDemo = false
-
-    const postPersonal = {
-      id: 34,
-      Apellido: 'JIMENEZ CORDERO',
-      Nombre: 'EDWING FRANCISCO',
-      Cédula: '001-0004972-5',
-      Código: '377',
-      Programa: '16-DIR. DE CAP. Y FORM',
-      Direccion: '',
-      Cargo: '',
-      FechaIngreso: '01/01/1999',
-      FechaNacimiento: '28/10/1963',
-      Edad: '58',
-      Sexo: 'MASCULINO',
-      Sueldo: '25,000.00 RD$',
-    }
-
-    const store = useRegistroStore()
-    function submit() {
-      this.addPersonal(postPersonal)
-    }
-    const columns = [
-      { key: 'Apellido', label: 'Apellido', _style: { width: '40%' } },
-      { key: 'Nombre', label: 'Nombre', _style: { width: '40%' } },
-      { key: 'Cédula', label: 'Cédula', _style: { width: '40%' } },
-      { key: 'Código', label: 'Código', _style: { width: '40%' } },
-      { key: 'Programa', label: 'Programa', _style: { width: '40%' } },
-      {
-        key: 'Direccion o Dependencia',
-        label: 'Direccion o Dependencia',
-        _style: { width: '40%' },
-      },
-      { key: 'Cargo', label: 'Cargo', _style: { width: '40%' } },
-      {
-        key: 'Fecha de ingreso',
-        label: 'Fecha de ingreso',
-        _style: { width: '40%' },
-      },
-      {
-        key: 'Fecha de nacimiento',
-        label: 'Fecha de nacimiento',
-        _style: { width: '40%' },
-      },
-      { key: 'Edad', label: 'Edad', _style: { width: '40%' } },
-      { key: 'Sexo', label: 'Sexo', _style: { width: '40%' } },
-      { key: 'Sueldo', label: 'Sueldo', _style: { width: '40%' } },
-
-      {
-        key: 'show_details',
-        label: '',
-        _style: { width: '1%' },
-        filter: false,
-        sorter: false,
-        // _props: { color: 'primary', class: 'fw-semibold'}
-      },
-    ]
-    const details = []
-    const {
-      registroPersonal,
-      getRegistroPersonal,
-      addPersonal,
-      getAllPersonal,
-      is_loading,
-    } = store
-
-    return {
-      // you can return the whole store instance to use it in the template
-      store,
-      CModal,
-      CSmartTable,
-      registroPersonal,
-      addPersonal,
-      getAllPersonal,
-      toggleDetails,
-      details,
-      validatedCustom01,
-      lgDemo,
-      columns,
-      submit,
-      is_loading,
-      getRegistroPersonal,
-      Personal: computed(() => store.registroPersonal),
-    }
-  },
-}
-</script> -->

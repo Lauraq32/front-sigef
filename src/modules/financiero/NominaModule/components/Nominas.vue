@@ -384,7 +384,7 @@
                   <CFormLabel for="validationCustom05">Programa</CFormLabel>
                   <CFormSelect
                     disabled
-                    v-model="programaDivision.id"
+                    v-model="postGenerarNomina.programaDivisionId"
                     id="validationCustom05"
                   >
                     <option
@@ -1529,7 +1529,7 @@
                 <CCol>
                   <CFormLabel for="validationCustom05">Programa</CFormLabel>
                   <CFormSelect
-                    v-model="programaId"
+                    v-model="postGenerarNomina.ProgramaDivision"
                     id="validationCustom05"
                     v-on:change="changePrograma($event)"
                   >
@@ -1689,6 +1689,18 @@
                   </CFormSelect>
                 </CCol>
               </div>
+
+              <CCol :md="6">
+                <CFormLabel for="validationCustom05">Tipo contrato</CFormLabel>
+                <CFormSelect
+                  v-model="postGenerarNomina.TipoContrato"
+                  id="validationCustom05"
+                >
+                  <option>MENSUAL</option>
+                  <option>QUINCENAL</option>
+                </CFormSelect>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
 
               <div class="form-check">
                 <input
