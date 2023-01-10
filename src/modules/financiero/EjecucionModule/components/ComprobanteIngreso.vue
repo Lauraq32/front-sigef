@@ -93,6 +93,11 @@
           {{ Boolean(item._toggled) ? 'Hide' : 'Detalle' }}
         </CButton>
       </td>
+      <td class="py-1" >
+        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="imprimirReporte1(item)">
+          {{ Boolean(item._toggled) ? 'Hide' : 'Imprimir' }}
+        </CButton>
+      </td>
     </template>
     <template #details="{ item }">
       <CCollapse :visible="this.details.includes(item._id)">
@@ -564,6 +569,16 @@ export default {
           `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Ejecucion&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem(
             'id_Ayuntamiento',
           )}&ANO=2022&PERIODO=${this.mesReporte.split('-')[0]}`,
+          '_blank',
+        )
+        .focus()
+    },
+    imprimirReporte1(item) {
+      console.log(item)
+      window
+        .open(
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Recibo_Ingresos_A1&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem(
+            'id_Ayuntamiento')}&ID_COMP_INGRESOS=${item.transaccionId}`,
           '_blank',
         )
         .focus()
