@@ -315,6 +315,23 @@
                   </CCol>
 
                   <CCol :md="12">
+                    <CFormLabel for="validationCustom05">
+                      Cuenta de banco</CFormLabel
+                    >
+                    <CFormSelect
+                      v-model="postGasto.bancoId"
+                      id="validationCustom05"
+                    >
+                      <option value=1>Personal</option>
+                      <option value=2>Cargo Beneficiario</option>
+                      <option value=3>Transferencia</option>
+                      <option value=4>Reversar</option>
+                    </CFormSelect>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                  <!-- <CCol :md="12">
                     <CFormLabel for="validationCustom01"
                       >Cuenta de banco</CFormLabel
                     >
@@ -328,8 +345,8 @@
                     <CFormFeedback invalid>
                       Favor agregar el campo
                     </CFormFeedback>
-                  </CCol>
-                  <CCol :md="12">
+                  </CCol> -->
+                  <!-- <CCol :md="12">
                     <CFormLabel for="validationCustom01"
                       >Total Retencion</CFormLabel
                     >
@@ -343,8 +360,8 @@
                     <CFormFeedback invalid>
                       Favor agregar el campo
                     </CFormFeedback>
-                  </CCol>
-                  <CCol :md="12">
+                  </CCol> -->
+                  <!-- <CCol :md="12">
                     <CFormLabel for="validationCustom01">Valor Neto</CFormLabel>
                     <CFormInput
                       v-model="postGasto.valorNeto"
@@ -356,7 +373,7 @@
                     <CFormFeedback invalid>
                       Favor agregar el campo
                     </CFormFeedback>
-                  </CCol>
+                  </CCol> -->
                   <CCol :md="12">
                     <CFormLabel for="validationCustom01">Detalle</CFormLabel>
                     <CFormTextarea
@@ -978,7 +995,7 @@ export default {
         numeroComprobante: 0,
         detalle: '',
         fecha: '',
-        etapa: '',
+        etapa: 'D',
         codBenefi: 0,
         destGasto: 0,
         bancoId: 0,
@@ -1187,7 +1204,7 @@ export default {
         numeroComprobante: 0,
         detalle: '',
         fecha: '',
-        etapa: '',
+        etapa: 'D',
         codBenefi: 0,
         destGasto: 0,
         bancoId: 0,
