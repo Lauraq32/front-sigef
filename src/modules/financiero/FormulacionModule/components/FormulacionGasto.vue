@@ -373,7 +373,7 @@
                       <h3>Cuenta</h3>
                       <div class="col-4">
                         <CFormLabel for="validationCustom04">Personal</CFormLabel>
-                        <CFormInput v-model="this.detallePost.oriBco1" id="validationCustom04">
+                        <CFormInput type="number"  v-model="this.detallePost.oriBco1" id="validationCustom04">
                         </CFormInput>
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid>
@@ -397,7 +397,7 @@
                     <div class="row">
                       <div class="col-4">
                         <CFormLabel for="validationCustom04">Servicios</CFormLabel>
-                        <CFormInput v-model="this.detallePost.oriBco2" id="validationCustom04">
+                        <CFormInput type="number" v-model="this.detallePost.oriBco2" id="validationCustom04">
                         </CFormInput>
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid>
@@ -421,7 +421,7 @@
                     <div class="row">
                       <div class="col-4">
                         <CFormLabel for="validationCustom04">Inversión</CFormLabel>
-                        <CFormInput v-model="this.detallePost.oriBco3" id="validationCustom04">
+                        <CFormInput type="number" v-model="this.detallePost.oriBco3" id="validationCustom04">
                         </CFormInput>
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid>
@@ -445,7 +445,7 @@
                     <div class="row">
                       <div class="col-4">
                         <CFormLabel for="validationCustom04">E/G Salud</CFormLabel>
-                        <CFormInput v-model="this.detallePost.oriBco4" id="validationCustom04">
+                        <CFormInput type="number" v-model="this.detallePost.oriBco4" id="validationCustom04">
                         </CFormInput>
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid>
@@ -945,6 +945,10 @@ export default {
     },
     guardarDetalleGasto() {
       if (this.idDetalle != null) {
+        if(this.detallePost.oriBco1 === ""){ this.detallePost.oriBco1 = 0}
+        if(this.detallePost.oriBco2 === ""){ this.detallePost.oriBco2 = 0}
+        if(this.detallePost.oriBco3 === ""){ this.detallePost.oriBco3 = 0}
+        if(this.detallePost.oriBco4 === ""){ this.detallePost.oriBco4 = 0}
         this.detallePost.presupuestoBco1 = this.detallePost.oriBco1
         this.detallePost.presupuestoBco2 = this.detallePost.oriBco2
         this.detallePost.presupuestoBco3 = this.detallePost.oriBco3
@@ -971,6 +975,10 @@ export default {
             })
           })
       } else {
+        if(this.detallePost.oriBco1 === ""){ this.detallePost.oriBco1 = 0}
+        if(this.detallePost.oriBco2 === ""){ this.detallePost.oriBco2 = 0}
+        if(this.detallePost.oriBco3 === ""){ this.detallePost.oriBco3 = 0}
+        if(this.detallePost.oriBco4 === ""){ this.detallePost.oriBco4 = 0}
         this.detallePost.presupuestoBco1 = this.detallePost.oriBco1
         this.detallePost.presupuestoBco2 = this.detallePost.oriBco2
         this.detallePost.presupuestoBco3 = this.detallePost.oriBco3
