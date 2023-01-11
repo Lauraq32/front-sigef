@@ -16,7 +16,7 @@
                 border-radius: 20px;
               "
             >
-              ADQUISICION DE EQUIPO DE LIMPIEZA
+              COMPRAS POR DEBAJO DEL UMBRAL
             </h5>
           </li>
         </ol>
@@ -31,8 +31,8 @@
                       target="blanck"
                       href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwidl4-sj9n7AhWWmWoFHSE_Di8QFnoECAoQAQ&url=https%3A%2F%2Fwww.digepres.gob.do%2Fwp-content%2Fuploads%2F2019%2F08%2FLey-87-01-que-crea-el-Sistema-Nacional-de-Seguridad-Social.pdf&usg=AOvVaw3emafIdFoY1w09QQ3UwKir"
                     >
-                      ADN-DAF-CM-2022-0002 - Pliego de condiciones -ADQUISICION
-                      DE EQUIPOS DE LIMPIEZA.pdf</a
+                      LMD-UC-CD-2022-0041 CONFECCIÓN DE LETREROS, BROCHUR Y
+                      SELLO OAI.pdf</a
                     >
                   </li>
 
@@ -48,8 +48,7 @@
                       target="blanck"
                       href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwidl4-sj9n7AhWWmWoFHSE_Di8QFnoECAoQAQ&url=https%3A%2F%2Fwww.digepres.gob.do%2Fwp-content%2Fuploads%2F2019%2F08%2FLey-87-01-que-crea-el-Sistema-Nacional-de-Seguridad-Social.pdf&usg=AOvVaw3emafIdFoY1w09QQ3UwKir"
                     >
-                      ADN-DAF-CM-2022-0002-CONVOCATORIA-ADQUISICION DE EQUIPOS
-                      DE LIMPIEZA.pdf</a
+                      LMD-UC-CD-2022-0053 HERRAMIENTAS DE TRABAJO.pdf</a
                     >
                   </li>
 
@@ -62,7 +61,7 @@
                       target="blanck"
                       href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwidl4-sj9n7AhWWmWoFHSE_Di8QFnoECAoQAQ&url=https%3A%2F%2Fwww.digepres.gob.do%2Fwp-content%2Fuploads%2F2019%2F08%2FLey-87-01-que-crea-el-Sistema-Nacional-de-Seguridad-Social.pdf&usg=AOvVaw3emafIdFoY1w09QQ3UwKir"
                     >
-                      ADN-DAF-CM-2022-0002-SOLICITUD DE COMPRAS.pdf</a
+                      LMD-UC-CD-2022-0054 SELLO LIGA MUNICIPAL.pdf</a
                     >
                   </li>
 
@@ -78,7 +77,8 @@
                       target="blanck"
                       href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwidl4-sj9n7AhWWmWoFHSE_Di8QFnoECAoQAQ&url=https%3A%2F%2Fwww.digepres.gob.do%2Fwp-content%2Fuploads%2F2019%2F08%2FLey-87-01-que-crea-el-Sistema-Nacional-de-Seguridad-Social.pdf&usg=AOvVaw3emafIdFoY1w09QQ3UwKir"
                     >
-                      ADN-DAF-CM-2022-0000-REQ-71170.pdf</a
+                      LMD-UC-CD-2022-0055 ALMUERZO 20 PERSONAS LMD Y
+                      FEDOMU.pdf</a
                     >
                   </li>
 
@@ -101,7 +101,7 @@
                 border-radius: 20px;
               "
             >
-              SUMINISTRO Y COLOCACIÓN DE HORMIGÓN
+              COMPRAS MENORES
             </h5>
           </li>
         </ul>
@@ -115,7 +115,7 @@
                       target="blanck"
                       href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwidl4-sj9n7AhWWmWoFHSE_Di8QFnoECAoQAQ&url=https%3A%2F%2Fwww.digepres.gob.do%2Fwp-content%2Fuploads%2F2019%2F08%2FLey-87-01-que-crea-el-Sistema-Nacional-de-Seguridad-Social.pdf&usg=AOvVaw3emafIdFoY1w09QQ3UwKir"
                     >
-                      Apropiacion de Fondos.pdf</a
+                      LMD-DAF-CM-2022-0015 MOBILIARIOS Y ENSERES.pdf</a
                     >
                   </li>
 
@@ -127,7 +127,7 @@
                       target="blanck"
                       href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwidl4-sj9n7AhWWmWoFHSE_Di8QFnoECAoQAQ&url=https%3A%2F%2Fwww.digepres.gob.do%2Fwp-content%2Fuploads%2F2019%2F08%2FLey-87-01-que-crea-el-Sistema-Nacional-de-Seguridad-Social.pdf&usg=AOvVaw3emafIdFoY1w09QQ3UwKir"
                     >
-                      Solicitud de Compra.pdf</a
+                      LMD-DAF-CM-2022-0013 UNIFORMES.pdf</a
                     >
                   </li>
 
@@ -144,7 +144,8 @@
                       target="blanck"
                       href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwidl4-sj9n7AhWWmWoFHSE_Di8QFnoECAoQAQ&url=https%3A%2F%2Fwww.digepres.gob.do%2Fwp-content%2Fuploads%2F2019%2F08%2FLey-87-01-que-crea-el-Sistema-Nacional-de-Seguridad-Social.pdf&usg=AOvVaw3emafIdFoY1w09QQ3UwKir"
                     >
-                      Suministro de Hormigon Convocatoria.pdf</a
+                      LMD-DAF-CM-2022-0014 (CANCELADO) CABLEADO
+                      STRUCTURADO.pdf</a
                     >
                   </li>
 
@@ -153,25 +154,13 @@
                     icon="cisCheckCircle"
                     size="lg"
                   />
-                </div>
-                <div class="d-flex justify-content-between mt-3">
-                  <li>
-                    <a
-                      target="blanck"
-                      href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwidl4-sj9n7AhWWmWoFHSE_Di8QFnoECAoQAQ&url=https%3A%2F%2Fwww.digepres.gob.do%2Fwp-content%2Fuploads%2F2019%2F08%2FLey-87-01-que-crea-el-Sistema-Nacional-de-Seguridad-Social.pdf&usg=AOvVaw3emafIdFoY1w09QQ3UwKir"
-                    >
-                      Suministro de Hormigon Pliego de Condiciones
-                      Especificas.pdf</a
-                    >
-                  </li>
-
-                  <CIcon style="color: red" icon="ccilXCircle" size="lg" />
                 </div>
               </ol>
             </CCardBody>
           </CCard>
         </CCollapse>
       </li>
+
       <li>
         <ul style="list-style: none" class="list">
           <li @click="visible2 = !visible2">
@@ -183,8 +172,7 @@
                 border-radius: 20px;
               "
             >
-              ADQUISICION DE BOMBA DE SUCCION PARA SER UTILIZADA EN CAMION
-              SUCCIONADOR
+              COMPARACION DE PRECIOS
             </h5>
           </li>
         </ul>
@@ -198,7 +186,7 @@
                       target="blanck"
                       href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwidl4-sj9n7AhWWmWoFHSE_Di8QFnoECAoQAQ&url=https%3A%2F%2Fwww.digepres.gob.do%2Fwp-content%2Fuploads%2F2019%2F08%2FLey-87-01-que-crea-el-Sistema-Nacional-de-Seguridad-Social.pdf&usg=AOvVaw3emafIdFoY1w09QQ3UwKir"
                     >
-                      ADN-DAF-CM-2022-0007-CERTIFICACION DE FONDOS.pdf</a
+                      LMD-CCC-CP-2022-0008 CAMION COMPACTADOR.pdf</a
                     >
                   </li>
 
@@ -210,7 +198,7 @@
                       target="blanck"
                       href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwidl4-sj9n7AhWWmWoFHSE_Di8QFnoECAoQAQ&url=https%3A%2F%2Fwww.digepres.gob.do%2Fwp-content%2Fuploads%2F2019%2F08%2FLey-87-01-que-crea-el-Sistema-Nacional-de-Seguridad-Social.pdf&usg=AOvVaw3emafIdFoY1w09QQ3UwKir"
                     >
-                      ADN-DAF-CM-2022-0007-REQUERIMIENTO 71322.pdf</a
+                      LMD-CCC-CP-2022-0010 AQUIPOS FOTOGRAFICOS.pdf</a
                     >
                   </li>
 
@@ -227,20 +215,8 @@
                       target="blanck"
                       href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwidl4-sj9n7AhWWmWoFHSE_Di8QFnoECAoQAQ&url=https%3A%2F%2Fwww.digepres.gob.do%2Fwp-content%2Fuploads%2F2019%2F08%2FLey-87-01-que-crea-el-Sistema-Nacional-de-Seguridad-Social.pdf&usg=AOvVaw3emafIdFoY1w09QQ3UwKir"
                     >
-                      ADN-DAF-CM-2022-0007-SOLICITUD DE COMPRAS.pdf</a
-                    >
-                  </li>
-
-                  <CIcon style="color: red" icon="cilXCircle" size="lg" />
-                </div>
-                <div class="d-flex justify-content-between mt-3">
-                  <li>
-                    <a
-                      target="blanck"
-                      href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwidl4-sj9n7AhWWmWoFHSE_Di8QFnoECAoQAQ&url=https%3A%2F%2Fwww.digepres.gob.do%2Fwp-content%2Fuploads%2F2019%2F08%2FLey-87-01-que-crea-el-Sistema-Nacional-de-Seguridad-Social.pdf&usg=AOvVaw3emafIdFoY1w09QQ3UwKir"
-                    >
-                      ADN-DAF-CM-2022-0007-Pliego de condiciones-Adquisicion de
-                      Bomba de Succion (1).pdf</a
+                      LMD-CCC-CP-2022-0011 DESIERTO TICKETS DE
+                      COMBUSTIBLE.pdf</a
                     >
                   </li>
 
@@ -249,12 +225,26 @@
                     icon="cisCheckCircle"
                     size="lg"
                   />
+                </div>
+                <div class="d-flex justify-content-between mt-3">
+                  <li>
+                    <a
+                      target="blanck"
+                      href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwidl4-sj9n7AhWWmWoFHSE_Di8QFnoECAoQAQ&url=https%3A%2F%2Fwww.digepres.gob.do%2Fwp-content%2Fuploads%2F2019%2F08%2FLey-87-01-que-crea-el-Sistema-Nacional-de-Seguridad-Social.pdf&usg=AOvVaw3emafIdFoY1w09QQ3UwKir"
+                    >
+                      LMD-CCC-CP-2022-0001 ADECUACION Y REMODELACION DE LA
+                      PALANTA FISICA LMD.pdf</a
+                    >
+                  </li>
+
+                  <CIcon style="color: red" icon="ccilXCircle" size="lg" />
                 </div>
               </ol>
             </CCardBody>
           </CCard>
         </CCollapse>
       </li>
+
       <li>
         <ul style="list-style: none" class="list">
           <li @click="visible3 = !visible3">
@@ -266,7 +256,7 @@
                 border-radius: 20px;
               "
             >
-              RECONSTRUCCIÓN DE CANCHA EN SECTOR LOS PERALEJOS
+              LICITACION PUBLICA NACIONAL
             </h5>
           </li>
         </ul>
@@ -280,36 +270,21 @@
                       target="blanck"
                       href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwidl4-sj9n7AhWWmWoFHSE_Di8QFnoECAoQAQ&url=https%3A%2F%2Fwww.digepres.gob.do%2Fwp-content%2Fuploads%2F2019%2F08%2FLey-87-01-que-crea-el-Sistema-Nacional-de-Seguridad-Social.pdf&usg=AOvVaw3emafIdFoY1w09QQ3UwKir"
                     >
-                      Cancha Los Peralejos Convocatoria.pdf</a
-                    >
-                  </li>
-
-                  <CIcon
-                    style="color: #33a133"
-                    icon="cisCheckCircle"
-                    size="lg"
-                  />
-                </div>
-                <div class="d-flex justify-content-between mt-3">
-                  <li>
-                    <a
-                      target="blanck"
-                      href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwidl4-sj9n7AhWWmWoFHSE_Di8QFnoECAoQAQ&url=https%3A%2F%2Fwww.digepres.gob.do%2Fwp-content%2Fuploads%2F2019%2F08%2FLey-87-01-que-crea-el-Sistema-Nacional-de-Seguridad-Social.pdf&usg=AOvVaw3emafIdFoY1w09QQ3UwKir"
-                    >
-                      SNCC_C026_Contrato_Ejecucion_de_Obras.docx</a
+                      LMD-CCC-LPN-2022-0007 ADQUISICION EQUIPOS
+                      TECNOLOGICOS.pdf</a
                     >
                   </li>
 
                   <CIcon style="color: red" icon="cilXCircle" size="lg" />
                 </div>
-
                 <div class="d-flex justify-content-between mt-3">
                   <li>
                     <a
                       target="blanck"
                       href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwidl4-sj9n7AhWWmWoFHSE_Di8QFnoECAoQAQ&url=https%3A%2F%2Fwww.digepres.gob.do%2Fwp-content%2Fuploads%2F2019%2F08%2FLey-87-01-que-crea-el-Sistema-Nacional-de-Seguridad-Social.pdf&usg=AOvVaw3emafIdFoY1w09QQ3UwKir"
                     >
-                      Cancha Los Peralejos Pliego de Condiciones.pdf</a
+                      LMD-CCC-LPN-2022-0003 ADQUISION DE DOS VEHICULOS TIPO
+                      JEEP.pdf</a
                     >
                   </li>
 
@@ -319,13 +294,27 @@
                     size="lg"
                   />
                 </div>
+
                 <div class="d-flex justify-content-between mt-3">
                   <li>
                     <a
                       target="blanck"
                       href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwidl4-sj9n7AhWWmWoFHSE_Di8QFnoECAoQAQ&url=https%3A%2F%2Fwww.digepres.gob.do%2Fwp-content%2Fuploads%2F2019%2F08%2FLey-87-01-que-crea-el-Sistema-Nacional-de-Seguridad-Social.pdf&usg=AOvVaw3emafIdFoY1w09QQ3UwKir"
                     >
-                      SNCC_F034_Presentacion_de_Oferta.docx</a
+                      LMD-LPN-2022-0001 CANCELADA COMPRA E INSTALACION DE
+                      PANELES.pdf</a
+                    >
+                  </li>
+
+                  <CIcon style="color: red" icon="cilXCircle" size="lg" />
+                </div>
+                <div class="d-flex justify-content-between mt-3">
+                  <li>
+                    <a
+                      target="blanck"
+                      href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwidl4-sj9n7AhWWmWoFHSE_Di8QFnoECAoQAQ&url=https%3A%2F%2Fwww.digepres.gob.do%2Fwp-content%2Fuploads%2F2019%2F08%2FLey-87-01-que-crea-el-Sistema-Nacional-de-Seguridad-Social.pdf&usg=AOvVaw3emafIdFoY1w09QQ3UwKir"
+                    >
+                      LMD-CCC-LPN-2022-0006 ADQUISICION DE VEHICULOS.pdf</a
                     >
                   </li>
 
@@ -351,11 +340,96 @@
                 border-radius: 20px;
               "
             >
-              ADQUISICION DE TINTAS PARA IMPRESORAS (TONERS Y CARTUCHOS)
+              PROCESOS EXCEPCION
             </h5>
           </li>
         </ul>
         <CCollapse class="mt-3 mb-3" :visible="visible4">
+          <CCard class="mt-3">
+            <CCardBody>
+              <ol style="">
+                <div class="d-flex justify-content-between mt-3">
+                  <li>
+                    <a
+                      target="blanck"
+                      href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwidl4-sj9n7AhWWmWoFHSE_Di8QFnoECAoQAQ&url=https%3A%2F%2Fwww.digepres.gob.do%2Fwp-content%2Fuploads%2F2019%2F08%2FLey-87-01-que-crea-el-Sistema-Nacional-de-Seguridad-Social.pdf&usg=AOvVaw3emafIdFoY1w09QQ3UwKir"
+                    >
+                      LMD-CCC-PEPU-2022-0002 SEMANA SANTA.pdf</a
+                    >
+                  </li>
+
+                  <CIcon
+                    style="color: #33a133"
+                    icon="cisCheckCircle"
+                    size="lg"
+                  />
+                </div>
+                <div class="d-flex justify-content-between mt-3">
+                  <li>
+                    <a
+                      target="blanck"
+                      href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwidl4-sj9n7AhWWmWoFHSE_Di8QFnoECAoQAQ&url=https%3A%2F%2Fwww.digepres.gob.do%2Fwp-content%2Fuploads%2F2019%2F08%2FLey-87-01-que-crea-el-Sistema-Nacional-de-Seguridad-Social.pdf&usg=AOvVaw3emafIdFoY1w09QQ3UwKir"
+                    >
+                      LMD-CCC-PEEX-2022-0009 CONFERENCIA MAGISTRAL.docx</a
+                    >
+                  </li>
+
+                  <CIcon style="color: red" icon="cilXCircle" size="lg" />
+                </div>
+
+                <div class="d-flex justify-content-between mt-3">
+                  <li>
+                    <a
+                      target="blanck"
+                      href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwidl4-sj9n7AhWWmWoFHSE_Di8QFnoECAoQAQ&url=https%3A%2F%2Fwww.digepres.gob.do%2Fwp-content%2Fuploads%2F2019%2F08%2FLey-87-01-que-crea-el-Sistema-Nacional-de-Seguridad-Social.pdf&usg=AOvVaw3emafIdFoY1w09QQ3UwKir"
+                    >
+                      LMD-CCC-PEEX-2022-0010 AUDIOVIDEO.pdf</a
+                    >
+                  </li>
+
+                  <CIcon
+                    style="color: #33a133"
+                    icon="cisCheckCircle"
+                    size="lg"
+                  />
+                </div>
+                <div class="d-flex justify-content-between mt-3">
+                  <li>
+                    <a
+                      target="blanck"
+                      href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwidl4-sj9n7AhWWmWoFHSE_Di8QFnoECAoQAQ&url=https%3A%2F%2Fwww.digepres.gob.do%2Fwp-content%2Fuploads%2F2019%2F08%2FLey-87-01-que-crea-el-Sistema-Nacional-de-Seguridad-Social.pdf&usg=AOvVaw3emafIdFoY1w09QQ3UwKir"
+                    >
+                      LMD-CCC-PEEX-2022-0001 MAESTRIA DE CEREMONIA.docx</a
+                    >
+                  </li>
+
+                  <CIcon
+                    style="color: #33a133"
+                    icon="cisCheckCircle"
+                    size="lg"
+                  />
+                </div>
+              </ol>
+            </CCardBody>
+          </CCard>
+        </CCollapse>
+      </li>
+      <li>
+        <ul style="list-style: none" class="list">
+          <li @click="visible6 = !visible6">
+            <h5
+              style="
+                background-color: rgb(223 223 225 / 68%);
+
+                padding: 15px;
+                border-radius: 20px;
+              "
+            >
+              PROCESO DE URGENCIA
+            </h5>
+          </li>
+        </ul>
+        <CCollapse class="mt-3 mb-3" :visible="visible6">
           <CCard class="mt-3">
             <CCardBody>
               <ol style="">
@@ -438,6 +512,8 @@ export default {
       visible2: false,
       visible3: false,
       visible4: false,
+      visible5: false,
+      visible6: false,
     }
   },
 }
