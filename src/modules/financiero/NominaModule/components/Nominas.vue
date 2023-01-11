@@ -12,6 +12,7 @@
       color="info"
       @click="
         () => {
+          klk()
           clearModal1()
           lgDemo1 = true
         }
@@ -2395,9 +2396,9 @@ export default {
         AyuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         fecha: new Date(Date.now()),
         DepartamentoId: 0,
-        TipoContrato: null,
+        TipoContrato: 'Cheque',
         ProgramaDivision: 0,
-        FormaPago: null,
+        FormaPago: 'Mensual',
       },
 
       postConfiguracionNomina: {
@@ -2710,6 +2711,15 @@ export default {
       })
       console.log(this.departamentos)
     },
+    klk() {
+      Api.getDepartamentoById(this.departamentos[0].id).then((response) => {
+        this.clasificador = response.data.data.ctgClasificadorId
+        this.programid1 = response.data.data.programaDivisionId
+        this.estructuras = response.data.data.estructura
+
+        console.log(response.data.data)
+      })
+    },
     changeDepartamento(e) {
       console.log(e.target.value)
       this.departamentosId = e.target.value
@@ -2809,7 +2819,6 @@ export default {
         console.log(response)
       })
     },
-
     submiFormConf() {
       this.submiGeneraNomina()
       if (this.id) {
