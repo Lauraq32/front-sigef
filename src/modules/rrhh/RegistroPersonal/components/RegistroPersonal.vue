@@ -242,8 +242,8 @@
                 <CCol>
                   <CFormLabel for="validationCustom05">Estado civil</CFormLabel>
                   <CFormSelect v-model="postEmpleado.estadoCivil" id="validationCustom05">
-                    <option>Soltero</option>
-                    <option>Casado</option>
+                    <option>Soltero/a</option>
+                    <option>Casado/a</option>
                   </CFormSelect>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -498,7 +498,6 @@
 
               <div class="col-4 border p-3">
                 <div class="border" style="height: 40%"></div>
-                <h4>RUTA\34354.JPG</h4>
                 <h4>Guardar Imagen</h4>
                 <h4>Abrir Carpeta</h4>
               </div>
@@ -1184,8 +1183,8 @@ export default {
         celular: null,
         fechaNacimiento: new Date(Date.now()),
         lugarNacimiento: null,
-        estadoCivil: 'M',
-        sexo: null,
+        estadoCivil: 'Soltero',
+        sexo: 'M',
         dependientes: 0,
         fechaIngreso: new Date(Date.now()),
         fechaSalida: new Date(Date.now()),
@@ -1371,13 +1370,12 @@ export default {
           )
           .focus()
       }
-      
+
     },
 
     changePrograma(e) {
       Api.getDepartamentoByProgramaId(e.target.value).then((response) => {
         this.departamentos = response.data.data
-
         console.log(response.data.data)
       })
       console.log(this.departamentos)
@@ -1536,6 +1534,54 @@ export default {
         correoElectronico2: null,
         recomendadoPor: null,
       }
+      Api.getProgramaDivision().then((response) => {
+        this.programaDivision = response.data.data
+        this.postEmpleado.programaDivisionId = this.programaDivision[0].id
+        console.log(this.programaDivision[0].id)
+      })
+
+
+      Api.getPosicion().then((response) => {
+        this.posicionCargo = response.data.data
+        this.postEmpleado.posicionId = this.posicionCargo[0].id
+      })
+
+      Api.getAreaTrabajo().then((response) => {
+        this.areaTrabajo = response.data.data
+        this.postEmpleado.areaTrabajoId = this.areaTrabajo[0].id
+      })
+
+      apiSectores.getSectores().then((response) => {
+        this.sector = response.data.data
+        this.postEmpleado.sectorId = this.sector[0].id
+      })
+
+      Api.getAllTipoSangre().then((response) => {
+        this.tipoSangre = response.data.data
+        this.postEmpleado.tipoSangreId = this.tipoSangre[0].id
+      })
+
+      Api.getProgramaDivision().then((response) => {
+        this.programaDivision = response.data.data
+        this.postEmpleado.programaDivisionId = this.programaDivision[0].id
+        console.log(this.programaDivision[0].id)
+
+
+        Api.getDepartamentoByProgramaId(this.programaDivision[0].id).then((response) => {
+          this.departamentos = response.data.data
+          this.postEmpleado.departamentoId = this.departamentos[0].id
+          console.log(response.data.data)
+          console.log(this.departamentos[0].id)
+        })
+        console.log(this.departamentos)
+
+      })
+
+
+
+
+
+
     },
     submitForm() {
       if (this.id) {
@@ -1709,21 +1755,37 @@ export default {
     this.getRegistroPersonal()
     Api.getPosicion().then((response) => {
       this.posicionCargo = response.data.data
+      this.postEmpleado.posicionId = this.posicionCargo[0].id
     }),
       Api.getAreaTrabajo().then((response) => {
         this.areaTrabajo = response.data.data
+        this.postEmpleado.areaTrabajoId = this.areaTrabajo[0].id
       })
 
     Api.getProgramaDivision().then((response) => {
       this.programaDivision = response.data.data
+      this.postEmpleado.programaDivisionId = this.programaDivision[0].id
+      console.log(this.programaDivision[0].id)
+
+
+      Api.getDepartamentoByProgramaId(this.programaDivision[0].id).then((response) => {
+        this.departamentos = response.data.data
+        this.postEmpleado.departamentoId = this.departamentos[0].id
+        console.log(response.data.data)
+        console.log(this.departamentos[0].id)
+      })
+      console.log(this.departamentos)
+
     })
 
     apiSectores.getSectores().then((response) => {
       this.sector = response.data.data
+      this.postEmpleado.sectorId = this.sector[0].id
     })
 
     Api.getAllTipoSangre().then((response) => {
       this.tipoSangre = response.data.data
+      this.postEmpleado.tipoSangreId = this.tipoSangre[0].id
     })
   },
 }
