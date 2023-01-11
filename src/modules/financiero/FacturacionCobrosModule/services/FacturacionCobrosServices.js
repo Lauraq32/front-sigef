@@ -5,7 +5,7 @@ class FacturacionCobros {
     //-----------------------------CLASIFICADORES---------------------------------------//
     //get
     getContribuyente() {
-        return http.get('Contribuyente')
+        return http.get(`Contribuyente/?ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
     }
 
     getContribuyenteById(id) {
