@@ -328,7 +328,7 @@ export default {
                      var fURL = document.createElement('a');
     
                      fURL.href = fileURL;
-                     fURL.setAttribute('download', `FI-${localStorage.getItem('usuario').substring(4,8)}${localStorage.getItem('usuario')}.csv`);
+                     fURL.setAttribute('download', `FI-${localStorage.getItem('usuario').substring(4,8)}${localStorage.getItem('fecha')}.csv`);
                      document.body.appendChild(fURL);
     
                      fURL.click();
