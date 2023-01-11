@@ -12,6 +12,7 @@
       color="info"
       @click="
         () => {
+          clearModal1()
           lgDemo1 = true
         }
       "
@@ -406,7 +407,7 @@
                       :key="departamento.id"
                       :value="departamento.id"
                     >
-                      {{ departamento.id }}
+                      {{ departamento.nombre }}
                     </option>
                   </CFormSelect>
 
@@ -1553,7 +1554,7 @@
                       :key="departamento.id"
                       :value="departamento.id"
                     >
-                      {{ departamento.id }}
+                      {{ departamento.nombre }}
                     </option>
                   </CFormSelect>
 
@@ -2384,7 +2385,7 @@ export default {
       programa: [{}],
       posicionCargo: [{}],
       areaTrabajo: [{}],
-      programaDivision: [{ nombre: null }],
+      programaDivision: [{}],
       sector: [{}],
       id: 0,
       Acumulado: [],
@@ -2673,6 +2674,23 @@ export default {
   },
 
   methods: {
+    clearModal1() {
+      Api.getProgramaDivision().then((response) => {
+        this.programaDivision = response.data.data
+        this.postGenerarNomina.ProgramaDivision = this.programaDivision[0].id
+        console.log(this.programaDivision[0].id)
+
+        Api.getDepartamentoByProgramaId(this.programaDivision[0].id).then(
+          (response) => {
+            this.departamentos = response.data.data
+            this.postGenerarNomina.DepartamentoId = this.departamentos[0].id
+            console.log(response.data.data)
+            console.log(this.departamentos[0].id)
+          },
+        )
+        console.log(this.departamentos)
+      })
+    },
     IngresoReport() {
       window
         .open(
@@ -2783,7 +2801,7 @@ export default {
       Api.postnominaGeneral(
         localStorage.getItem('id_Ayuntamiento'),
         this.postGenerarNomina.fecha,
-        this.departamentosId,
+        this.postGenerarNomina.DepartamentoId,
         this.postGenerarNomina.ProgramaDivision,
         this.postGenerarNomina.TipoContrato,
         this.postGenerarNomina.FormaPago,
@@ -3309,6 +3327,22 @@ export default {
       })
     Api.getProgramaDivision().then((response) => {
       this.programa = response.data.data
+    })
+
+    Api.getProgramaDivision().then((response) => {
+      this.programaDivision = response.data.data
+      this.postGenerarNomina.ProgramaDivision = this.programaDivision[0].id
+      console.log(this.programaDivision[0].id)
+
+      Api.getDepartamentoByProgramaId(this.programaDivision[0].id).then(
+        (response) => {
+          this.departamentos = response.data.data
+          this.postGenerarNomina.DepartamentoId = this.departamentos[0].id
+          console.log(response.data.data)
+          console.log(this.departamentos[0].id)
+        },
+      )
+      console.log(this.departamentos)
     })
   },
 }
