@@ -1675,25 +1675,27 @@
               </div>
               <div>
                 <CCol :md="4">
-                  <CFormLabel for="validationCustom02">Tipo de Pago</CFormLabel>
+                  <CFormLabel for="validationCustom02"
+                    >Tipo de contrato</CFormLabel
+                  >
                   <CFormSelect
-                    v-model="postGenerarNomina.FormaPago"
+                    v-model="postGenerarNomina.TipoContrato"
                     id="validationCustom05"
                   >
-                    <option>Cheque</option>
-                    <option>Banco</option>
+                    <option>Tipo de contrato 1</option>
+                    <option>Tipo de contrato 2</option>
                   </CFormSelect>
                 </CCol>
               </div>
 
               <CCol :md="6">
-                <CFormLabel for="validationCustom05">Tipo contrato</CFormLabel>
+                <CFormLabel for="validationCustom05">Forma de pago</CFormLabel>
                 <CFormSelect
-                  v-model="postGenerarNomina.TipoContrato"
+                  v-model="postGenerarNomina.FormaPago"
                   id="validationCustom05"
                 >
-                  <option>MENSUAL</option>
-                  <option>QUINCENAL</option>
+                  <option>CHEQUE</option>
+                  <option>BANCO</option>
                 </CFormSelect>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
@@ -2396,9 +2398,9 @@ export default {
         AyuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         fecha: new Date(Date.now()),
         DepartamentoId: 0,
-        TipoContrato: 'Cheque',
+        TipoContrato: 'Tipo de contrato 2',
         ProgramaDivision: 0,
-        FormaPago: 'Mensual',
+        FormaPago: 'BANCO',
       },
 
       postConfiguracionNomina: {
@@ -2813,8 +2815,8 @@ export default {
         this.postGenerarNomina.fecha,
         this.postGenerarNomina.DepartamentoId,
         this.postGenerarNomina.ProgramaDivision,
-        this.postGenerarNomina.TipoContrato,
         this.postGenerarNomina.FormaPago,
+        this.postGenerarNomina.TipoContrato,
       ).then((response) => {
         console.log(response)
       })
