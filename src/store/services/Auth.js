@@ -1,13 +1,14 @@
 import http from '@/Api/http-common'
+import axios from 'axios';
 
 class FormulacionApi {
   //-----------------------------CLASIFICADORES---------------------------------------//
   //Obtener listado de Clasificadores
     
-    login(user) {
+    Login(user) {
       return axios
-        .post(API_URL + 'signin', {
-          username: user.username,
+        .post(process.env.VUE_APP_API_URL+ '/api/' + 'Authentication/login', {
+          usuario: user.usuario,
           password: user.password
         })
         .then(response => {
@@ -19,8 +20,12 @@ class FormulacionApi {
         });
     }
 
+    getAyuntamientoInfo(id) {
+      return http.get(`Ayuntamiento/${id}`)
+    }
 
-  Login(data){
+
+  login(data){
     return http.post(`Authentication/loginfeito`,data);
     
   }

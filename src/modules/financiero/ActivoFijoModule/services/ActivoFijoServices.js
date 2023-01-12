@@ -1,25 +1,41 @@
 import http from '@/Api/http-common'
 
+const token = localStorage.getItem("token");
 class ActivoFijoServices {
   //get
 
   getAllActivo() {
+    if (!token){
+			navigate("/login");
+		}
     return http.get('Activo')
   }
 
   getActivoByID(id) {
+    if (!token){
+			navigate("/login");
+		}
     return http.get(`Activo/${id}`)
   }
 
   getAllRecepcion() {
+    if (!token){
+			navigate("/login");
+		}
     return http.get('Recepcion')
   }
 
   getRecepcionByID(id) {
+    if (!token){
+			navigate("/login");
+		}
     return http.get(`Recepcion/${id}`)
   }
 
   getAllCategoria() {
+    if (!token){
+			navigate("/login");
+		}
     return http.get('Categoria')
   }
 

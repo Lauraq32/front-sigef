@@ -55,10 +55,11 @@ export default {
   setup() {
     const logOut = () => {
       router.push({ name: 'Login' })
-      localStorage.removeItem('ano')
-      localStorage.removeItem('id_Ayuntamiento')
-      localStorage.removeItem('usuario')
-      localStorage.removeItem('nombre_ayuntamiento')
+      // localStorage.removeItem('ano')
+      // localStorage.removeItem('id_Ayuntamiento')
+      // localStorage.removeItem('usuario')
+      // localStorage.removeItem('nombre_ayuntamiento')
+      localStorage.removeItem('token')
     }
     return {
       avatar: avatar,

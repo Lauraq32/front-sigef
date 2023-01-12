@@ -3,27 +3,60 @@
 import router from '@/router'
 import Api from '../services/Auth'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
+import jwt_decode from 'jwt-decode'
 
 export const SET_USER = (state, user) => {
   Api.Login(user)
     .then((response) => {
+      console.log(response.token)
       state.user = response.data
-      localStorage.setItem('usuario', response.data.data.usuario.email)
-      localStorage.setItem('image', response.data.data.usuario.ayuntamiento.imagenUrl)
-      localStorage.setItem('fecha', response.data.data.anioFiscal.anioNumero)
-      localStorage.setItem(
-        'nombre_ayuntamiento',
-        response.data.data.usuario.ayuntamiento.descripcion,
-      )
+      // localStorage.setItem('usuario', response.data.data.usuario.email)
+      // localStorage.setItem('image', response.data.data.usuario.ayuntamiento.imagenUrl)
+      // localStorage.setItem('fecha', response.data.data.anioFiscal.anioNumero)
+      // localStorage.setItem(
+      //   'nombre_ayuntamiento',
+      //   response.data.data.usuario.ayuntamiento.descripcion,
+      // )
+      // localStorage.setItem(
+      //   'nombre_usuario',
+      //   response.data.data.usuario.nombre,
+      // )
+
+      localStorage.setItem('token', response.token)
+
+      let token = response.token
+      const decoded = jwt_decode(token)
+      console.log(decoded)
       localStorage.setItem(
         'nombre_usuario',
-        response.data.data.usuario.nombre,
+        decoded.User,
       )
-      localStorage.setItem('ano', response.data.data.anioFiscal.anioFiscalDate)
+      localStorage.setItem(
+        'ano',
+        decoded.AnioFiscal,
+      )
       localStorage.setItem(
         'id_Ayuntamiento',
-        response.data.data.anioFiscal.ayuntamientoId,
+        decoded.Ayuntamiento,
       )
+
+      Api.getAyuntamientoInfo(decoded.Ayuntamiento).then((response) => {
+        localStorage.setItem(
+          'image',
+          response.data.data.imagenUrl,
+        )
+        localStorage.setItem(
+          'nombre_ayuntamiento',
+          response.data.data.descripcion,
+        )
+      
+        console.log(response)
+      })
+
+      // localStorage.setItem(
+      //   'id_Ayuntamiento',
+      //   response.data.data.anioFiscal.ayuntamientoId,
+      // )
       var now = new Date().getTime()
       localStorage.setItem('setupTime', now)
 
@@ -44,7 +77,7 @@ export const SET_USER = (state, user) => {
         timer: 1500,
       })
     })
-  // router.push({ name: 'financiero' })
+  router.push({ name: 'financiero' })
 }
 
 //actualizar entradas
