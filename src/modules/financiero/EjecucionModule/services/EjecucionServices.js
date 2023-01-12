@@ -26,7 +26,7 @@ class Ejecucion {
     }
 
     getContribuyente() {
-        return http.get('Contribuyente')
+        return http.get(`Contribuyente/?ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
     }
 
     getContribuyenteById(id) {
@@ -73,7 +73,14 @@ class Ejecucion {
         return http.get(`RegistroGasto/Detalle?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}&id=${id}`)
     }
 
-
+    downloadGastoModificacion(value){
+        console.log(value)
+        return http.get(`ExportFile/IngresoModificacion?ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}&anioFiscalId=${localStorage.getItem('ano')}&mes=${value}`)
+      }
+      downloadGastoEjecucion(value){
+        console.log(value)
+        return http.get(`ExportFile/IngresoEjecucion?ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}&anioFiscalId=${localStorage.getItem('ano')}&mes=${value}`)
+      }
     //Get tipo retenciones
     getTipoRetencion(id){
         return http.get(`TipoRetencion?Ayuntamiento=${localStorage.getItem('id_Ayuntamiento')}&id=${id}`)
