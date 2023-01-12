@@ -23,12 +23,35 @@
           >Imprimir Ejecucion</CButton
         >
       </div>
+      <div class="d-inline p-2">
+        <CButton
+          color="info"
+          @click="
+            () => {
+              reportesExportarModal = true
+            }
+          "
+          >Exportar modificacion</CButton
+        >
+      </div>
+      <div class="d-inline p-2">
+        <CButton
+          color="info"
+          @click="
+            () => {
+              reportesExportarModalEjecucion = true
+            }
+          "
+          >Exportar Ejecucion</CButton
+        >
+      </div>
     </div>
   </div>
   <hr />
+ 
   <CModal :backdrop="false" :keyboard="false" :visible="reportes">
     <CModalHeader>
-      <CModalTitle>Imprimir Reporte</CModalTitle>
+      <CModalTitle>Exportar Variacion</CModalTitle>
     </CModalHeader>
     <CModalBody
       ><CFormSelect v-model="mesReporte" id="validationCustom05">
@@ -49,6 +72,56 @@
     <CModalFooter>
       <CButton color="secondary">Close</CButton>
       <CButton color="primary" @click="imprimirReporte">Imprimir</CButton>
+    </CModalFooter>
+  </CModal>
+  <CModal :backdrop="false" :keyboard="false" :visible="reportesExportarModalEjecucion">
+    <CModalHeader>
+      <CModalTitle>Exportar Ejecucion</CModalTitle>
+    </CModalHeader>
+    <CModalBody
+      ><CFormSelect v-model="mesReporte" id="validationCustom05">
+        <option>1-Enero</option>
+        <option>2-Febrero</option>
+        <option>3-Marzo</option>
+        <option>4-Abril</option>
+        <option>5-Mayo</option>
+        <option>6-Junio</option>
+        <option>7-Julio</option>
+        <option>8-Agosto</option>
+        <option>9-Septiembre</option>
+        <option>10-Octubre</option>
+        <option>11-Noviembre</option>
+        <option>12-Diciembre</option>
+      </CFormSelect></CModalBody
+    >
+    <CModalFooter>
+      <CButton color="secondary">Close</CButton>
+      <CButton color="primary" @click="exportarReporteEjecucion">Imprimir</CButton>
+    </CModalFooter>
+  </CModal>
+  <CModal :backdrop="false" :keyboard="false" :visible="reportesExportarModal">
+    <CModalHeader>
+      <CModalTitle>Exportar Modificacion</CModalTitle>
+    </CModalHeader>
+    <CModalBody
+      ><CFormSelect v-model="mesReporte" id="validationCustom05">
+        <option>1-Enero</option>
+        <option>2-Febrero</option>
+        <option>3-Marzo</option>
+        <option>4-Abril</option>
+        <option>5-Mayo</option>
+        <option>6-Junio</option>
+        <option>7-Julio</option>
+        <option>8-Agosto</option>
+        <option>9-Septiembre</option>
+        <option>10-Octubre</option>
+        <option>11-Noviembre</option>
+        <option>12-Diciembre</option>
+      </CFormSelect></CModalBody
+    >
+    <CModalFooter>
+      <CButton color="secondary">Close</CButton>
+      <CButton color="primary" @click="exportarReporte">Imprimir</CButton>
     </CModalFooter>
   </CModal>
   <CSmartTable
@@ -89,7 +162,7 @@
         </CButton>
       </td>
       <td class="py-1" >
-        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="toggleDetails2(item.transaccionId)">
+        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="toggleDetails2(item)">
           {{ Boolean(item._toggled) ? 'Hide' : 'Detalle' }}
         </CButton>
       </td>
@@ -450,9 +523,12 @@ export default {
 
   data: () => {
     return {
-      mesReporte: null,
+      mesReporte: 1,
       parametroReporte: '',
       reportes: false,
+      reportesExportarModal:false,
+      reportesExportarModalEjecucion:false,
+  
       contribuyentesList: [],
       contribuyentesName: [],
       totales: null,
@@ -471,7 +547,7 @@ export default {
         ctgFuenteEspecificaId: '',
         ctgOrganismoFinanciadorId: '',
         fecha: new Date(Date.now()),
-        etapa: 'INGRESOS',
+        etapa: '',
         institucionOrtongate: '',
         valor: 0,
         estatus: 'A',
@@ -573,8 +649,42 @@ export default {
         )
         .focus()
     },
+    exportarReporte() {
+      this.downloadFile()
+     //console.log(this.mesReporte.split('-')[0])
+    },
+    exportarReporteEjecucion() {
+      this.downloadFileEjecucion()
+     //console.log(this.mesReporte.split('-')[0])
+    },
+    downloadFile() {
+      Api.downloadGastoModificacion(this.mesReporte.split('-')[0]).then((response) => {
+                     var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                     var fURL = document.createElement('a');
+    
+                     fURL.href = fileURL;
+                     fURL.setAttribute('download', `ME-${localStorage.getItem('usuario').substring(4,8)}${localStorage.getItem('fecha')}.csv`);
+                     document.body.appendChild(fURL);
+    
+                     fURL.click();
+                });
+                this.mesReporte = 1
+    },
+    downloadFileEjecucion() {
+      Api.downloadGastoEjecucion(this.mesReporte.split('-')[0]).then((response) => {
+                     var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                     var fURL = document.createElement('a');
+    
+                     fURL.href = fileURL;
+                     fURL.setAttribute('download', `EI-${localStorage.getItem('usuario').substring(4,8)}${localStorage.getItem('fecha')}.csv`);
+                     document.body.appendChild(fURL);
+    
+                     fURL.click();
+                });
+                this.mesReporte = 1
+    },
     imprimirReporte1(item) {
-      console.log(item)
+     // console.log(item)
       window
         .open(
           `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Recibo_Ingresos_A1&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem(
@@ -603,10 +713,10 @@ export default {
           this.contribuyentesName.push(
             `${contribuyente.id}-${contribuyente.nombre}`,
           )
-          console.log(this.contribuyentesName)
+          //console.log(this.contribuyentesName)
         })
 
-        console.log(this.contribuyentesList)
+        //console.log(this.contribuyentesList)
       })
     },
     selectItemEventHandler(id) {
@@ -709,7 +819,7 @@ export default {
     getDetalle(id) {
       Api.getRegistroIngresoDetalle(id).then((response) => {
         this.detalleRegistroIngresos = response.data.data
-        console.log(response.data)
+        //console.log(response.data)
       })
     },
     clearModal1() {
@@ -761,7 +871,7 @@ export default {
       //   return
       // }
       // this.details.push(item._id)
-      console.log(id)
+      //console.log(id)
       this.id = id
       this.getTotalIngreso(this.id)
       this.getDetalle(id)
@@ -779,30 +889,31 @@ export default {
         this.ingresoPost = response.data.data
         this.detalleRegistroPost.transaccionId =
           response.data.data.transaccionId
-        console.log(response.data)
+       // console.log(response.data)
       }),
         (this.lgDemo = true)
     },
-    toggleDetails2(id) {
-      this.getDetalle(id)
+    toggleDetails2(item) {
+      this.getDetalle(item)
       // if (this.details.includes(item._id)) {
       //   this.details = this.details.filter((_item) => _item !== item._id)
       //   return
       // }
       // this.details.push(item._id)
-      console.log(id)
-      this.id = id
+      console.log(item)
+      this.id = (item.transaccionId)
       this.getTotalIngreso(this.id)
-      this.getDetalle(id)
+      this.getDetalle(item.transaccionId)
+      this.detalleRegistroPost.etapa = item.etapa
       Api.getIngresoById(
-        id,
+        item.transaccionId,
         localStorage.getItem('ano'),
         localStorage.getItem('id_Ayuntamiento'),
       ).then((response) => {
         this.ingresoPost = response.data.data
         this.detalleRegistroPost.transaccionId =
           response.data.data.transaccionId
-        console.log(response.data)
+        //console.log(response.data)
       }),
         (this.lgDemo1 = true)
     },
@@ -810,7 +921,7 @@ export default {
       Api.getIngresoClasificadorById(
         this.detalleRegistroPost.ctgClasificadorId,
       ).then((response) => {
-        console.log(response.data.data)
+       // console.log(response.data.data)
         this.detalle = response.data.data.detalle
         this.detalleRegistroPost.ctgFuenteId = response.data.data.ctgFuenteId
         this.detalleRegistroPost.ctgFuenteEspecificaId =
@@ -819,6 +930,7 @@ export default {
           response.data.data.ctgOrganismoFinanciadorId
         this.detalleRegistroPost.institucionOrtongate =
           response.data.data.instOtorga
+         
         // this.detallePost.cControl = response.data.data.cControl
         // this.detallePost.nombre = response.data.data.nombre
         // this.postIngreso.control = response.data.data.cControl

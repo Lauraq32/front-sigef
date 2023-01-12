@@ -383,7 +383,7 @@
                       <div class="col-1"></div>
                       <div class="col-4">
                         <CFormLabel for="validationCustom04">Tipo</CFormLabel>
-                        <CFormInput v-model="this.detallePost.tipo" id="validationCustom04">
+                        <CFormInput v-model="this.detallePost.tipo1" id="validationCustom04">
                         </CFormInput>
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid>
@@ -407,7 +407,7 @@
                       <div class="col-1"></div>
                       <div class="col-4">
                         <CFormLabel for="validationCustom04">Tipo</CFormLabel>
-                        <CFormInput v-model="this.detallePost.tipo" id="validationCustom04">
+                        <CFormInput v-model="this.detallePost.tipo2" id="validationCustom04">
                         </CFormInput>
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid>
@@ -431,7 +431,7 @@
                       <div class="col-1"></div>
                       <div class="col-4">
                         <CFormLabel for="validationCustom04">Tipo</CFormLabel>
-                        <CFormInput v-model="this.detallePost.tipo" id="validationCustom04">
+                        <CFormInput v-model="this.detallePost.tipo3" id="validationCustom04">
                         </CFormInput>
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid>
@@ -455,7 +455,7 @@
                       <div class="col-1"></div>
                       <div class="col-4">
                         <CFormLabel for="validationCustom04">Tipo</CFormLabel>
-                        <CFormInput v-model="this.detallePost.tipo" id="validationCustom04">
+                        <CFormInput v-model="this.detallePost.tipo4" id="validationCustom04">
                         </CFormInput>
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid>
@@ -550,6 +550,10 @@ export default {
         ctgFuncionId: '1',
         nombre: '',
         tipo: '',
+        tipo1: '11',
+        tipo2: '12',
+        tipo3: '21',
+        tipo4: '13',
         tipoGasto: '',
         oriBco1: 0,
         estimadoBco1: 0,
