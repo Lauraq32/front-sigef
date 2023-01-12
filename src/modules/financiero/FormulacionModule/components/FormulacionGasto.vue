@@ -373,18 +373,22 @@
                       <h3>Cuenta</h3>
                       <div class="col-4">
                         <CFormLabel for="validationCustom04">Personal</CFormLabel>
-                        <CFormInput type="number"  v-model="this.detallePost.oriBco1" id="validationCustom04">
+                        <CFormInput type="number" v-model="this.detallePost.oriBco1" id="validationCustom04">
                         </CFormInput>
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid>
                           Favor agregar el campo
                         </CFormFeedback>
                       </div>
-                      <div class="col-1"></div>
-                      <div class="col-4">
+                  
+                      <div class="col-8">
                         <CFormLabel for="validationCustom04">Tipo</CFormLabel>
-                        <CFormInput v-model="this.detallePost.tipo1" id="validationCustom04">
-                        </CFormInput>
+                        <CFormSelect v-model="post.tipo1" id="validationCustom04">
+                          <option>11 - GASTOS DE PERSONAL 25%</option>
+                          <option>311 - Para Gastos en Personal (Corto Plazo)</option>
+                          <option>321 - Para Gastos en Personal (Largo Plazo)</option>
+                        </CFormSelect>
+                 
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid>
                           Favor agregar el campo
@@ -404,11 +408,14 @@
                           Favor agregar el campo
                         </CFormFeedback>
                       </div>
-                      <div class="col-1"></div>
-                      <div class="col-4">
+                   
+                      <div class="col-8">
                         <CFormLabel for="validationCustom04">Tipo</CFormLabel>
-                        <CFormInput v-model="this.detallePost.tipo2" id="validationCustom04">
-                        </CFormInput>
+                        <CFormSelect v-model="post.tipo2" id="validationCustom04">
+                          <option>12 - SERVICIOS MUNICIPALES 31% (1.S)</option>
+                          <option>312 - Para Gastos en Servicios (Corto Plazo)</option>
+                          <option>322 - Para Gastos en Servicios (Largo Plazo)</option>
+                        </CFormSelect>
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid>
                           Favor agregar el campo
@@ -428,11 +435,16 @@
                           Favor agregar el campo
                         </CFormFeedback>
                       </div>
-                      <div class="col-1"></div>
-                      <div class="col-4">
+                 
+                      <div class="col-8">
                         <CFormLabel for="validationCustom04">Tipo</CFormLabel>
-                        <CFormInput v-model="this.detallePost.tipo3" id="validationCustom04">
-                        </CFormInput>
+                        <CFormSelect v-model="post.tipo4" id="validationCustom04">
+                          <option>21 - BIENES MUEBLES, INMUEBLES NO CLASIFICADO EN CATEGORIA PROYECTO (I.1)</option>
+                          <option>22 - OBRAS DE INFRAESTRUCTURA (I.2)</option>
+                          <option>23 - GASTOS DE PRE INVERSION ASOCIADOS AL DESARROLLO ECONOMICO LOCALl (I-3)</option>
+                          <option>314 - Para Gastos en Inversion (Corto Plazo)      (SI ES PROGRAMA 96)</option>
+                          <option>324 - Para Gastos en Inversion (Largo Plazo)</option>
+                        </CFormSelect>
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid>
                           Favor agregar el campo
@@ -452,11 +464,14 @@
                           Favor agregar el campo
                         </CFormFeedback>
                       </div>
-                      <div class="col-1"></div>
-                      <div class="col-4">
+                    
+                      <div class="col-8">
                         <CFormLabel for="validationCustom04">Tipo</CFormLabel>
-                        <CFormInput v-model="this.detallePost.tipo4" id="validationCustom04">
-                        </CFormInput>
+                        <CFormSelect v-model="post.tipo4" id="validationCustom04">
+                          <option>13 - PROGRAMAS DE EDUCACION, GENERO Y SALUD 4% (1.E)</option>
+                          <option>313 - Para Gastos en Educacion (Corto Plazo)</option>
+                          <option>323 - Para Gastos en Educacion (Largo Plazo)</option>
+                        </CFormSelect>
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid>
                           Favor agregar el campo
@@ -764,12 +779,12 @@ export default {
             this.proyectosList.push({
               AyuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
               AnioFiscalId: parseInt(localStorage.getItem('ano')),
-              MestProgId:  `0011${item['PROYECTO']
+              MestProgId: `0011${item['PROYECTO']
                 .toString()
                 .padStart(2, 0)}${item['ACTIVIDAD_OBRA']
                   .toString()
                   .padStart(4, 0)}`,
-          
+
               PNAP: this.pnap,
               Programa: this.programa,
               Proyecto: `${item['PROYECTO']}`,
@@ -949,10 +964,10 @@ export default {
     },
     guardarDetalleGasto() {
       if (this.idDetalle != null) {
-        if(this.detallePost.oriBco1 === ""){ this.detallePost.oriBco1 = 0}
-        if(this.detallePost.oriBco2 === ""){ this.detallePost.oriBco2 = 0}
-        if(this.detallePost.oriBco3 === ""){ this.detallePost.oriBco3 = 0}
-        if(this.detallePost.oriBco4 === ""){ this.detallePost.oriBco4 = 0}
+        if (this.detallePost.oriBco1 === "") { this.detallePost.oriBco1 = 0 }
+        if (this.detallePost.oriBco2 === "") { this.detallePost.oriBco2 = 0 }
+        if (this.detallePost.oriBco3 === "") { this.detallePost.oriBco3 = 0 }
+        if (this.detallePost.oriBco4 === "") { this.detallePost.oriBco4 = 0 }
         this.detallePost.presupuestoBco1 = this.detallePost.oriBco1
         this.detallePost.presupuestoBco2 = this.detallePost.oriBco2
         this.detallePost.presupuestoBco3 = this.detallePost.oriBco3
@@ -979,10 +994,10 @@ export default {
             })
           })
       } else {
-        if(this.detallePost.oriBco1 === ""){ this.detallePost.oriBco1 = 0}
-        if(this.detallePost.oriBco2 === ""){ this.detallePost.oriBco2 = 0}
-        if(this.detallePost.oriBco3 === ""){ this.detallePost.oriBco3 = 0}
-        if(this.detallePost.oriBco4 === ""){ this.detallePost.oriBco4 = 0}
+        if (this.detallePost.oriBco1 === "") { this.detallePost.oriBco1 = 0 }
+        if (this.detallePost.oriBco2 === "") { this.detallePost.oriBco2 = 0 }
+        if (this.detallePost.oriBco3 === "") { this.detallePost.oriBco3 = 0 }
+        if (this.detallePost.oriBco4 === "") { this.detallePost.oriBco4 = 0 }
         this.detallePost.presupuestoBco1 = this.detallePost.oriBco1
         this.detallePost.presupuestoBco2 = this.detallePost.oriBco2
         this.detallePost.presupuestoBco3 = this.detallePost.oriBco3
