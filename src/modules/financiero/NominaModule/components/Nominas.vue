@@ -595,6 +595,7 @@
                         v-model="postEmpleado.arsCalculado"
                         value="true"
                         id="flexCheckDefault"
+                        v-on:click="arsCalculado"
                       />
                     </div>
                   </div>
@@ -627,6 +628,7 @@
                         type="checkbox"
                         value="true"
                         v-model="postEmpleado.afpCalculado"
+                        v-on:click="afpCalculado"
                         id="flexCheckDefault"
                       />
                     </div>
@@ -2677,6 +2679,24 @@ export default {
   },
 
   methods: {
+    arsCalculado() {
+      // this.postEmpleado.arsCalculado = false
+      if (this.postEmpleado.arsCalculado == false) {
+        this.postEmpleado.arsFijo = 3.04
+        console.log('llamando')
+      } else {
+        this.postEmpleado.arsFijo = 0
+      }
+    },
+    afpCalculado() {
+      // this.postEmpleado.arsCalculado = false
+      if (this.postEmpleado.afpCalculado == false) {
+        this.postEmpleado.afpFijo = 2.87
+        console.log('llamando')
+      } else {
+        this.postEmpleado.afpFijo = 0
+      }
+    },
     clearModal1() {
       Api.getProgramaDivision().then((response) => {
         this.programaDivision = response.data.data
@@ -2808,6 +2828,13 @@ export default {
       'getEmpleado',
       'addEmpleado',
     ]),
+
+    submiNomina() {
+      Api.postNomina(this.postNomina).then((response) => {
+        this.postNomina.afpMonto = this.postEmpleado.afpFijo
+        console.log(response)
+      })
+    },
 
     submiGeneraNomina() {
       Api.postnominaGeneral(
