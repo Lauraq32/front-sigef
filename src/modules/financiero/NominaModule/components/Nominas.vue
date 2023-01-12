@@ -12,6 +12,8 @@
       color="info"
       @click="
         () => {
+          klk()
+          clearModal1()
           lgDemo1 = true
         }
       "
@@ -406,7 +408,7 @@
                       :key="departamento.id"
                       :value="departamento.id"
                     >
-                      {{ departamento.id }}
+                      {{ departamento.nombre }}
                     </option>
                   </CFormSelect>
 
@@ -1553,7 +1555,7 @@
                       :key="departamento.id"
                       :value="departamento.id"
                     >
-                      {{ departamento.id }}
+                      {{ departamento.nombre }}
                     </option>
                   </CFormSelect>
 
@@ -1673,25 +1675,27 @@
               </div>
               <div>
                 <CCol :md="4">
-                  <CFormLabel for="validationCustom02">Tipo de Pago</CFormLabel>
+                  <CFormLabel for="validationCustom02"
+                    >Tipo de contrato</CFormLabel
+                  >
                   <CFormSelect
-                    v-model="postGenerarNomina.FormaPago"
+                    v-model="postGenerarNomina.TipoContrato"
                     id="validationCustom05"
                   >
-                    <option>Cheque</option>
-                    <option>Banco</option>
+                    <option>Tipo de contrato 1</option>
+                    <option>Tipo de contrato 2</option>
                   </CFormSelect>
                 </CCol>
               </div>
 
               <CCol :md="6">
-                <CFormLabel for="validationCustom05">Tipo contrato</CFormLabel>
+                <CFormLabel for="validationCustom05">Forma de pago</CFormLabel>
                 <CFormSelect
-                  v-model="postGenerarNomina.TipoContrato"
+                  v-model="postGenerarNomina.FormaPago"
                   id="validationCustom05"
                 >
-                  <option>MENSUAL</option>
-                  <option>QUINCENAL</option>
+                  <option>CHEQUE</option>
+                  <option>BANCO</option>
                 </CFormSelect>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
@@ -2384,7 +2388,7 @@ export default {
       programa: [{}],
       posicionCargo: [{}],
       areaTrabajo: [{}],
-      programaDivision: [{ nombre: null }],
+      programaDivision: [{}],
       sector: [{}],
       id: 0,
       Acumulado: [],
@@ -2394,9 +2398,9 @@ export default {
         AyuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         fecha: new Date(Date.now()),
         DepartamentoId: 0,
-        TipoContrato: null,
+        TipoContrato: 'Tipo de contrato 2',
         ProgramaDivision: 0,
-        FormaPago: null,
+        FormaPago: 'BANCO',
       },
 
       postConfiguracionNomina: {
@@ -2673,6 +2677,23 @@ export default {
   },
 
   methods: {
+    clearModal1() {
+      Api.getProgramaDivision().then((response) => {
+        this.programaDivision = response.data.data
+        this.postGenerarNomina.ProgramaDivision = this.programaDivision[0].id
+        console.log(this.programaDivision[0].id)
+
+        Api.getDepartamentoByProgramaId(this.programaDivision[0].id).then(
+          (response) => {
+            this.departamentos = response.data.data
+            this.postGenerarNomina.DepartamentoId = this.departamentos[0].id
+            console.log(response.data.data)
+            console.log(this.departamentos[0].id)
+          },
+        )
+        console.log(this.departamentos)
+      })
+    },
     IngresoReport() {
       window
         .open(
@@ -2691,6 +2712,15 @@ export default {
         console.log(response.data.data)
       })
       console.log(this.departamentos)
+    },
+    klk() {
+      Api.getDepartamentoById(this.departamentos[0].id).then((response) => {
+        this.clasificador = response.data.data.ctgClasificadorId
+        this.programid1 = response.data.data.programaDivisionId
+        this.estructuras = response.data.data.estructura
+
+        console.log(response.data.data)
+      })
     },
     changeDepartamento(e) {
       console.log(e.target.value)
@@ -2783,15 +2813,14 @@ export default {
       Api.postnominaGeneral(
         localStorage.getItem('id_Ayuntamiento'),
         this.postGenerarNomina.fecha,
-        this.departamentosId,
+        this.postGenerarNomina.DepartamentoId,
         this.postGenerarNomina.ProgramaDivision,
-        this.postGenerarNomina.TipoContrato,
         this.postGenerarNomina.FormaPago,
+        this.postGenerarNomina.TipoContrato,
       ).then((response) => {
         console.log(response)
       })
     },
-
     submiFormConf() {
       this.submiGeneraNomina()
       if (this.id) {
@@ -3309,6 +3338,22 @@ export default {
       })
     Api.getProgramaDivision().then((response) => {
       this.programa = response.data.data
+    })
+
+    Api.getProgramaDivision().then((response) => {
+      this.programaDivision = response.data.data
+      this.postGenerarNomina.ProgramaDivision = this.programaDivision[0].id
+      console.log(this.programaDivision[0].id)
+
+      Api.getDepartamentoByProgramaId(this.programaDivision[0].id).then(
+        (response) => {
+          this.departamentos = response.data.data
+          this.postGenerarNomina.DepartamentoId = this.departamentos[0].id
+          console.log(response.data.data)
+          console.log(this.departamentos[0].id)
+        },
+      )
+      console.log(this.departamentos)
     })
   },
 }
