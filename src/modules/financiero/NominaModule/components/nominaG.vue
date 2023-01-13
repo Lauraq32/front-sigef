@@ -1,15 +1,27 @@
 <template>
-  <h3 class="text-center">Empleado</h3>
+  <h3 class="text-center">Nomina general</h3>
   <hr />
   <div>
     <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-        >Imprimir</CButton
+      <CButton @click="volver" style="font-weight: bold" color="info"
+        >Volver</CButton
       >
     </div>
 
-    <CButton
-      class="ml-5"
+    <div class="d-inline p-2">
+      <CButton
+        color="info"
+        @click="
+          () => {
+            clearModal2()
+            reportes = true
+          }
+        "
+        >Consultar Nomina</CButton
+      >
+    </div>
+
+    <!-- <CButton
       color="info"
       @click="
         () => {
@@ -19,13 +31,7 @@
         }
       "
       >Generar Nomina</CButton
-    >
-
-    <div class="d-inline p-2">
-      <CButton @click="nominaGnerallink" style="font-weight: bold" color="info"
-        >Consultar nomina</CButton
-      >
-    </div>
+    > -->
   </div>
 
   <hr />
@@ -2365,6 +2371,159 @@
       </CCardBody>
     </CModalBody>
   </CModal>
+
+  <CModal
+    @close="
+      () => {
+        reportes = false
+      }
+    "
+    size="xl"
+    :backdrop="false"
+    :keyboard="false"
+    :visible="reportes"
+  >
+    <CModalHeader>
+      <CModalTitle>Consultar Nomina</CModalTitle>
+    </CModalHeader>
+    <CModalBody>
+      <CCol :md="12">
+        <CFormLabel for="validationCustom05">Programa</CFormLabel>
+        <CFormSelect
+          v-model="nominaGneral.ProgramaDivision"
+          id="validationCustom05"
+        >
+          <option
+            v-for="programa in this.programaDivision"
+            :key="programa.id"
+            :value="programa.id"
+          >
+            {{ programa.nombre }}
+          </option>
+        </CFormSelect>
+        <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+      </CCol>
+
+      <CCol :md="12">
+        <CFormLabel for="validationCustom01">Departamento</CFormLabel>
+        <CFormSelect
+          v-model="nominaGneral.DepartamentoId"
+          id="validationCustom05"
+        >
+          <option
+            v-for="departamento in departamentos"
+            :key="departamento.id"
+            :value="departamento.id"
+          >
+            {{ departamento.nombre }}
+          </option>
+        </CFormSelect>
+
+        <CFormFeedback valid> Exito! </CFormFeedback>
+        <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+      </CCol>
+
+      <CCol :md="6">
+        <CFormLabel for="validationCustom01">Fecha</CFormLabel>
+        <CFormInput
+          type="date"
+          v-model="nominaGneral.fecha"
+          id="validationCustom01"
+          required
+        />
+
+        <CFormFeedback valid> Exito! </CFormFeedback>
+        <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+      </CCol>
+
+      <CCol :md="6">
+        <CFormLabel for="validationCustom01">Forma de pago</CFormLabel>
+        <CFormSelect v-model="nominaGneral.FormaPago" id="validationCustom05">
+          <option>BANCO</option>
+          <option>CHEQUE</option>
+        </CFormSelect>
+      </CCol>
+
+      <CCol :md="6">
+        <CFormLabel for="validationCustom01">Tipo de contracto</CFormLabel>
+        <CFormSelect
+          v-model="nominaGneral.TipoContrato"
+          id="validationCustom05"
+        >
+          <option>Tipo de contrato 1</option>
+          <option>Tipo de contrato 2</option>
+        </CFormSelect>
+      </CCol>
+    </CModalBody>
+    <CModalFooter>
+      <CButton color="secondary">Close</CButton>
+      <CButton color="primary" @click="getNominaGeneral">Filtrar</CButton>
+    </CModalFooter>
+    <CSmartTable
+      clickableRows
+      :tableProps="{
+        striped: false,
+        hover: true,
+      }"
+      :tableHeadProps="{}"
+      :activePage="1"
+      footer
+      header
+      :items="nominag"
+      :columns="columns2"
+      columnFilter
+      tableFilter
+      cleaner
+      itemsPerPageSelect
+      :itemsPerPage="5"
+      columnSorter
+      :sorterValue="{ column: 'status', state: 'asc' }"
+      pagination
+      :backdrop="false"
+    >
+      <template #programaDivision="{ item }">
+        <td>
+          {{ item.programaDivision.nombre }}
+        </td>
+      </template>
+
+      <template #fecha="{ item }">
+        <td>
+          {{ formatDate(item.fecha) }}
+        </td>
+      </template>
+      <template #nombre="{ item }">
+        <td>
+          {{ item.ctgClasificador.nombre }}
+        </td>
+      </template>
+      <template #show_details="{ item, index }">
+        <td class="py-2">
+          <CButton
+            color="primary"
+            variant="outline"
+            square
+            size="sm"
+            @click="toggleDetails(item, index)"
+          >
+            {{ Boolean(item._toggled) ? 'Hide' : 'Imprimir' }}
+          </CButton>
+        </td>
+      </template>
+      <template #details="{ item }">
+        <CCollapse :visible="this.details.includes(item._id)">
+          <CCardBody>
+            <h4>
+              {{ item.username }}
+            </h4>
+            <p class="text-muted">User since: {{ item.registered }}</p>
+            <CButton size="sm" color="info" class=""> User Settings </CButton>
+            <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
+          </CCardBody>
+        </CCollapse>
+      </template>
+    </CSmartTable>
+  </CModal>
 </template>
 
 <script>
@@ -2386,9 +2545,19 @@ export default {
 
   data: () => {
     return {
+      nominag: [],
+      reportes: false,
       arsCheck: false,
       afpCheck: false,
       estructuras: null,
+      nominaGneral: {
+        AyuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        fecha: new Date(Date.now()),
+        DepartamentoId: 0,
+        TipoContrato: 'Tipo de contrato 1',
+        ProgramaDivision: 0,
+        FormaPago: 'CHEQUE',
+      },
 
       clasificador: null,
       programid1: null,
@@ -2673,6 +2842,56 @@ export default {
         },
       ],
 
+      columns2: [
+        {
+          key: 'fecha',
+          label: 'Fecha',
+          _style: { width: '4%' },
+        },
+        {
+          key: 'programaDivisionId',
+          label: 'programaDivision',
+          _style: { width: '4%' },
+        },
+
+        {
+          key: 'departamentoId',
+          label: 'Departamento',
+          _style: { width: '4%' },
+        },
+        { key: 'formaPago', label: 'Forma de pago', _style: { width: '1%' } },
+        {
+          key: 'tipoContrato',
+          label: 'Tipo de contrato',
+          _style: { width: '5%' },
+        },
+        // {
+        //   key: 'Direccion o Dependencia',
+        //   label: 'Direccion o Dependencia',
+        //   _style: { width: '15%' },
+        // },
+        {
+          key: 'cantidadEmpleados',
+          label: 'Cantidad de empleados',
+          _style: { width: '5%' },
+        },
+        // {
+        //   key: 'fechaIngreso',
+        //   label: 'Fecha Ingreso',
+        //   _style: { width: '2%' },
+        // },
+        // { key: 'sueldo', label: 'Sueldo', _style: { width: '1%' } },
+        // { key: 'sexo', label: 'Sexo', _style: { width: '1%' } },
+        {
+          key: 'show_details',
+          label: '',
+          _style: { width: '1%' },
+          filter: false,
+          sorter: false,
+          // _props: { color: 'primary', class: 'fw-semibold'}
+        },
+      ],
+
       details: [],
 
       validatedCustom01: null,
@@ -2683,10 +2902,16 @@ export default {
 
   computed: {
     ...mapStores(useRegistroStore),
-    ...mapState(useRegistroStore, ['Nomina', 'Empleado']),
+    ...mapState(useRegistroStore, ['Nomina', 'Empleado', 'nominag']),
   },
 
   methods: {
+    getNominaGeneral() {
+      Api.getnominaGeneral(this.nominaGneral).then((response) => {
+        this.nominag = response.data.data
+        console.log(this.klk11)
+      })
+    },
     arsCalculado() {
       // this.postEmpleado.arsCalculado = false
       if (this.postEmpleado.arsCalculado == false) {
@@ -2705,10 +2930,29 @@ export default {
         this.postEmpleado.afpFijo = 0
       }
     },
-    nominaGnerallink() {
-      router.push({ name: 'grupoNominas' })
+    clearModal2() {
+      Api.getProgramaDivision().then((response) => {
+        this.programaDivision = response.data.data
+        this.nominaGneral.ProgramaDivision = this.programaDivision[0].id
+        console.log(this.programaDivision[0].id)
+
+        Api.getDepartamentoByProgramaId(this.programaDivision[0].id).then(
+          (response) => {
+            this.departamentos = response.data.data
+            this.nominaGneral.DepartamentoId = this.departamentos[0].id
+            console.log(response.data.data)
+            console.log(this.departamentos[0].id)
+          },
+        )
+        console.log(this.departamentos)
+      })
+    },
+
+    volver() {
+      router.push({ name: 'nominas' })
       console.log('klk')
     },
+
     clearModal1() {
       Api.getProgramaDivision().then((response) => {
         this.programaDivision = response.data.data
@@ -2784,6 +3028,14 @@ export default {
       })
     },
 
+    formatDate1(fecha) {
+      return new Date(fecha).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      })
+    },
+
     // focus() {
     //   if (this.show) {
     //     let self = this
@@ -2839,6 +3091,7 @@ export default {
       'addNomina',
       'getEmpleado',
       'addEmpleado',
+      'getnominag',
     ]),
 
     submiNomina() {
@@ -3360,6 +3613,11 @@ export default {
 
   mounted() {
     this.getEmpleado()
+
+    Api.getnominaGeneral(this.nominaGneral).then((response) => {
+      this.nominag = response.data.data
+    })
+
     Api.getProgramaDivision().then((response) => {
       this.programaDivision = response.data.data
     }),
@@ -3397,9 +3655,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.blanco {
-  text-decoration: none;
-}
-</style>

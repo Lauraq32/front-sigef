@@ -100,6 +100,11 @@ class NominaApi {
     return http.post(`Nomina/GenerarNomina?AyuntamientoId=${ayuntamiento}&Fecha=${fecha}&TipoContrato=${TipoContrato}&ProgramaDivision=${programa}&DepartamentoId=${departamento}&FormaPago=${tipoPago}`)
   }
 
+  getnominaGeneral(Nomina) {
+
+    return http.get(`Nomina/NominaGeneral?AyuntamientoId=${Nomina.AyuntamientoId ? Nomina.AyuntamientoId : null}&Fecha=${Nomina.fecha ? Nomina.fecha : null}&TipoContrato=${Nomina.TipoContrato ? Nomina.TipoContrato : null}&ProgramaDivision=${Nomina.ProgramaDivision ? Nomina.ProgramaDivision : null}&DepartamentoId=${Nomina.DepartamentoId ? Nomina.DepartamentoId : null}&FormaPago=${Nomina.FormaPago ? Nomina.FormaPago : null}`)
+  }
+
   postNomina(data) {
     return http.post('Nomina', data)
   }
