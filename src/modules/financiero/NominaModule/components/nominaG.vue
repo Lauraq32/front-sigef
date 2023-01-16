@@ -1,24 +1,104 @@
 <template>
   <h3 class="text-center">Nomina general</h3>
   <hr />
-  <div>
-    <div class="d-inline p-2">
-      <CButton @click="volver" style="font-weight: bold" color="info"
-        >Volver</CButton
-      >
+
+  <div class="row">
+    <div class="col-9">
+      <div class="row">
+        <div class="col-3">
+          <CCol :md="9">
+            <CFormLabel for="validationCustom01">Fecha</CFormLabel>
+            <CFormInput
+              type="date"
+              v-model="nominaGneral.fecha"
+              id="validationCustom01"
+              required
+            />
+
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+        </div>
+
+        <div class="col-3" style="position: relative; left: -68px">
+          <CCol :md="9">
+            <CFormLabel for="validationCustom01">Tipo de contracto</CFormLabel>
+            <CFormSelect
+              v-model="nominaGneral.TipoContrato"
+              id="validationCustom05"
+            >
+              <option>Tipo de contrato 1</option>
+              <option>Tipo de contrato 2</option>
+            </CFormSelect>
+          </CCol>
+        </div>
+        <div class="col-3" style="position: relative; left: -130px">
+          <CCol :md="9">
+            <CFormLabel for="validationCustom01">Forma de pago</CFormLabel>
+            <CFormSelect
+              v-model="nominaGneral.FormaPago"
+              id="validationCustom05"
+            >
+              <option>BANCO</option>
+              <option>CHEQUE</option>
+            </CFormSelect>
+          </CCol>
+        </div>
+
+        <div class="col-3">
+          <CButton
+            style="
+              font-weight: bold;
+              position: relative;
+              top: 31px;
+              left: -203px;
+            "
+            color="info"
+            @click="
+              () => {
+                clearModal2()
+                getNominaGeneral()
+              }
+            "
+            >Filtrar</CButton
+          >
+        </div>
+      </div>
     </div>
 
-    <div class="d-inline p-2">
-      <CButton
-        color="info"
-        @click="
-          () => {
-            clearModal2()
-            reportes = true
-          }
-        "
-        >Consultar Nomina</CButton
-      >
+    <div class="col-3" style="position: relative; top: 16px">
+      <div>
+        <div class="d-inline p-2">
+          <CButton
+            style="font-weight: bold"
+            color="info"
+            @click="
+              IngresoReport
+            "
+            >Imprimir Todos</CButton
+          >
+        </div>
+        <div class="d-inline p-2">
+          <CButton
+            style="font-weight: bold"
+            class="ml-5"
+            color="info"
+            @click="
+              () => {
+                klk()
+                clearModal1()
+                lgDemo1 = true
+              }
+            "
+            >Generar Nomina</CButton
+          >
+        </div>
+        <div class="d-inline p-2">
+          <CButton style="font-weight: bold" @click="volver" color="info"
+            >Volver</CButton
+          >
+        </div>
+      </div>
     </div>
 
     <!-- <CButton
@@ -45,7 +125,7 @@
     :activePage="1"
     footer
     header
-    :items="Empleado"
+    :items="nominag"
     :columns="columns"
     columnFilter
     tableFilter
@@ -68,24 +148,40 @@
       </td>
     </template>
 
-    <template #fechaIngreso="{ item }">
+    <template #fecha="{ item }">
       <td>
-        {{ formatDate(item.fechaIngreso) }}
+        {{ formatDate(item.fecha) }}
       </td>
     </template>
     <template #show_details="{ item }">
-      <td class="py-1" @click="toggleDetail2(item)">
+      <td class="py-1">
+        <td class="py-1" >
+        <CButton class="mt-1" color="primary" variant="outline" square size="sm">
+          {{ Boolean(item._toggled) ? 'Hide' : 'Imprimir' }}
+        </CButton>
+      </td>
+      <td class="py-1" >
+        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="
+              () => {
+                reportes = true
+              }
+            ">
+          {{ Boolean(item._toggled) ? 'Hide' : 'Cons/Nomina' }}
+        </CButton>
+      </td>
+      </td>
+
+      <!-- <td class="py-1">
         <CButton
           class="mt-1"
           color="primary"
           variant="outline"
           square
           size="sm"
-          @click="toggleDetail2(item)"
         >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
+          {{ Boolean(item._toggled) ? 'Hide' : 'Imprimir' }}
         </CButton>
-      </td>
+      </td> -->
     </template>
     <template #details="{ item }">
       <CCollapse :visible="this.details.includes(item._id)">
@@ -2423,7 +2519,7 @@
         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
       </CCol>
 
-      <CCol :md="6">
+      <!-- <CCol :md="6">
         <CFormLabel for="validationCustom01">Fecha</CFormLabel>
         <CFormInput
           type="date"
@@ -2453,7 +2549,7 @@
           <option>Tipo de contrato 1</option>
           <option>Tipo de contrato 2</option>
         </CFormSelect>
-      </CCol>
+      </CCol> -->
     </CModalBody>
     <CModalFooter>
       <CButton color="secondary">Close</CButton>
@@ -2801,22 +2897,27 @@ export default {
 
       tabPaneActiveKey: 1,
       columns: [
-        { key: 'apellidos', label: 'Apellidos', _style: { width: '4%' } },
+        { key: 'E/B', label: 'E/B', _style: { width: '1%' } },
+        { key: 'fecha', label: 'Fecha', _style: { width: '4%' } },
         {
-          key: 'nombres',
-          label: 'Nombres',
+          key: 'programaDivisionId',
+          label: 'ProgramaDivision',
           _style: { width: '4%' },
         },
 
         {
-          key: 'cedula',
-          label: 'Cedula',
+          key: 'departamentoId',
+          label: 'Departamento',
           _style: { width: '4%' },
         },
-        { key: 'codigo', label: 'Codigo', _style: { width: '1%' } },
         {
-          key: 'programaDivision',
-          label: 'Programa',
+          key: 'estProgram',
+          label: 'Est Programatica',
+          _style: { width: '1%' },
+        },
+        {
+          key: 'clasificador',
+          label: 'Clasificador',
           _style: { width: '5%' },
         },
         // {
@@ -2824,14 +2925,24 @@ export default {
         //   label: 'Direccion o Dependencia',
         //   _style: { width: '15%' },
         // },
-        { key: 'posicion', label: 'Cargo', _style: { width: '5%' } },
         {
-          key: 'fechaIngreso',
+          key: 'cantidadEmpleados',
+          label: 'cantidad Empleados',
+          _style: { width: '5%' },
+        },
+        {
+          key: 'totalsueldos',
           label: 'Fecha Ingreso',
           _style: { width: '2%' },
         },
-        { key: 'sueldo', label: 'Sueldo', _style: { width: '1%' } },
-        { key: 'sexo', label: 'Sexo', _style: { width: '1%' } },
+        {
+          key: 'total retenciones',
+          label: 'Total retenciones',
+          _style: { width: '1%' },
+        },
+        { key: 'comprobante', label: 'Comprobante', _style: { width: '1%' } },
+        { key: 'Lote/B', label: 'Lote/B', _style: { width: '1%' } },
+
         {
           key: 'show_details',
           label: '',
@@ -3612,7 +3723,7 @@ export default {
   },
 
   mounted() {
-    this.getEmpleado()
+    // this.getEmpleado()
 
     Api.getnominaGeneral(this.nominaGneral).then((response) => {
       this.nominag = response.data.data

@@ -2,13 +2,21 @@
   <h3 class="text-center">Empleado</h3>
   <hr />
   <div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-        >Imprimir</CButton
+    <!-- <div class="d-inline p-2">
+      <CButton
+        style="font-weight: bold"
+        color="info"
+        @click="
+          () => {
+            reportes = true
+          }
+        "
+        >Imprimir Reporte</CButton
       >
     </div>
 
     <CButton
+      style="font-weight: bold"
       class="ml-5"
       color="info"
       @click="
@@ -19,7 +27,7 @@
         }
       "
       >Generar Nomina</CButton
-    >
+    > -->
 
     <div class="d-inline p-2">
       <CButton @click="nominaGnerallink" style="font-weight: bold" color="info"
@@ -2365,6 +2373,21 @@
       </CCardBody>
     </CModalBody>
   </CModal>
+  <CModal :backdrop="false" :keyboard="false" :visible="reportes">
+    <CModalHeader>
+      <CModalTitle>Imprimir Reporte</CModalTitle>
+    </CModalHeader>
+    <CModalBody>
+      <CFormSelect v-model="reporteDepto" id="validationCustom05">
+        <option>1-Reporte Generar nomina por cheque</option>
+        <option>2-Reporte Generar nomina por banco</option>
+      </CFormSelect>
+    </CModalBody>
+    <CModalFooter>
+      <CButton color="secondary">Close</CButton>
+      <CButton color="primary" @click="imprimirReporte">Imprimir</CButton>
+    </CModalFooter>
+  </CModal>
 </template>
 
 <script>
@@ -2386,6 +2409,8 @@ export default {
 
   data: () => {
     return {
+      reporteDepto: 1,
+      reportes: false,
       arsCheck: false,
       afpCheck: false,
       estructuras: null,
@@ -2726,16 +2751,39 @@ export default {
         console.log(this.departamentos)
       })
     },
-    IngresoReport() {
-      window
-        .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_General&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
-            'id_Ayuntamiento',
-          )}&ANO=2022`,
-          '_blank',
-        )
-        .focus()
+
+    imprimirReporte() {
+      console.log(this.reporteDepto.split('-')[0])
+      if (this.reporteDepto.split('-')[0] == 1) {
+        window
+          .open(
+            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_General&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
+              'id_Ayuntamiento',
+            )}&ANO=2022`,
+            '_blank',
+          )
+          .focus()
+      } else if (this.reporteDepto.split('-')[0] == 2) {
+        window
+          .open(
+            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Apellidos&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
+              'id_Ayuntamiento',
+            )}`,
+            '_blank',
+          )
+          .focus()
+      }
     },
+    // IngresoReport() {
+    //   window
+    //     .open(
+    //       `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_General&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
+    //         'id_Ayuntamiento',
+    //       )}&ANO=2022`,
+    //       '_blank',
+    //     )
+    //     .focus()
+    // },
 
     changePrograma(e) {
       Api.getDepartamentoByProgramaId(e.target.value).then((response) => {
