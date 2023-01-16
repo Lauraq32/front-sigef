@@ -14,6 +14,9 @@ export const useRegistroStore = defineStore('Nomina', () => {
     const Empleado = ref([
     ])
 
+    const nominag = ref([
+    ])
+
 
     //const name = ref('Eduardo')
     const getNominas = computed(() => Nomina)
@@ -27,6 +30,12 @@ export const useRegistroStore = defineStore('Nomina', () => {
     function getEmpleado() {
         Api.getEmpleado().then((response) => {
             Empleado.value = response.data.data
+        })
+    }
+
+    function getnominag() {
+        Api.getnominaGeneral().then((response) => {
+            nominag.value = response.data.data
         })
     }
 
@@ -49,5 +58,5 @@ export const useRegistroStore = defineStore('Nomina', () => {
         })
     }
 
-    return { addEmpleado, Empleado, getEmpleado, Nomina, getNomina, getNominas, addNomina, putNomina, }
+    return { addEmpleado, Empleado, getEmpleado, Nomina, getNomina, getNominas, addNomina, putNomina, getnominag, nominag }
 })

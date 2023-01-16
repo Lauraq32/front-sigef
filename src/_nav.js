@@ -219,7 +219,7 @@ export default [
             to: '/Ejecucion/ejecucionGastos',
             icon: 'cilChartPie',
           },
-        
+
 
           {
             component: 'CNavTitle',
@@ -366,8 +366,14 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Nóminas',
+            name: 'Nomina Empleado',
             to: '/NominaModule/Nominas',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Nomina General',
+            to: '/NominaModule/nominaGeneral',
             icon: 'cilList',
           },
           {

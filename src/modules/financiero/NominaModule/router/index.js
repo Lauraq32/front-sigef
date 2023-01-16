@@ -20,6 +20,15 @@ export default {
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/GrupoNominas.vue'
         ),
     },
+
+    {
+      path: 'nominaGeneral',
+      name: 'grupoNominas',
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/nominaG.vue'
+        ),
+    },
     {
       path: 'programas',
       name: 'programas',
