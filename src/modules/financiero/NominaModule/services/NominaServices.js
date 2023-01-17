@@ -102,7 +102,7 @@ class NominaApi {
 
   getnominaGeneral(Nomina) {
 
-    return http.get(`Nomina/NominaGeneral?AyuntamientoId=${Nomina.AyuntamientoId ? Nomina.AyuntamientoId : null}&Fecha=${Nomina.fecha ? Nomina.fecha : null}&TipoContrato=${Nomina.TipoContrato ? Nomina.TipoContrato : null}&ProgramaDivision=${Nomina.ProgramaDivision ? Nomina.ProgramaDivision : null}&DepartamentoId=${Nomina.DepartamentoId ? Nomina.DepartamentoId : null}&FormaPago=${Nomina.FormaPago ? Nomina.FormaPago : null}`)
+    return http.get(`Nomina/NominaGeneral?AyuntamientoId=${Nomina.AyuntamientoId ? Nomina.AyuntamientoId : null}&TipoContrato=${Nomina.TipoContrato ? Nomina.TipoContrato : null}&FormaPago=${Nomina.FormaPago ? Nomina.FormaPago : null}`)
   }
 
   postNomina(data) {

@@ -56,7 +56,7 @@
             color="info"
             @click="
               () => {
-                clearModal2()
+                
                 getNominaGeneral()
               }
             "
@@ -2451,7 +2451,8 @@
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
-              v-on:click="close"
+              @click="closes"
+
             >
               Close
             </button>
@@ -2483,7 +2484,7 @@
       <CModalTitle>Consultar Nomina</CModalTitle>
     </CModalHeader>
     <CModalBody>
-      <CCol :md="12">
+      <!-- <CCol :md="12">
         <CFormLabel for="validationCustom05">Programa</CFormLabel>
         <CFormSelect
           v-model="nominaGneral.ProgramaDivision"
@@ -2493,14 +2494,40 @@
             v-for="programa in this.programaDivision"
             :key="programa.id"
             :value="programa.id"
+            type="number"
           >
-            {{ programa.nombre }}
+            {{ programa.id }}
           </option>
         </CFormSelect>
         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+      </CCol> -->
+      <!-- <CCol :md="6">
+        <CFormLabel for="validationCustom01">Programa division</CFormLabel>
+        <CFormInput
+          type="number"
+          v-model="nominaGneral.ProgramaDivision"
+          id="validationCustom01"
+          required
+        />
+
+        <CFormFeedback valid> Exito! </CFormFeedback>
+        <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
       </CCol>
 
-      <CCol :md="12">
+      <CCol :md="6">
+        <CFormLabel for="validationCustom01">Departamento</CFormLabel>
+        <CFormInput
+          type="number"
+          v-model="nominaGneral.DepartamentoId"
+          id="validationCustom01"
+          required
+        />
+
+        <CFormFeedback valid> Exito! </CFormFeedback>
+        <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+      </CCol> -->
+
+      <CCol :md="4">
         <CFormLabel for="validationCustom01">Departamento</CFormLabel>
         <CFormSelect
           v-model="nominaGneral.DepartamentoId"
@@ -2510,14 +2537,17 @@
             v-for="departamento in departamentos"
             :key="departamento.id"
             :value="departamento.id"
+            type="number"
           >
-            {{ departamento.nombre }}
+            {{ departamento.id }}
           </option>
         </CFormSelect>
 
         <CFormFeedback valid> Exito! </CFormFeedback>
         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
       </CCol>
+
+      <CButton class="mt-3" color="primary" @click="getNominaGeneral">Filtrar</CButton>
 
       <!-- <CCol :md="6">
         <CFormLabel for="validationCustom01">Fecha</CFormLabel>
@@ -2552,8 +2582,7 @@
       </CCol> -->
     </CModalBody>
     <CModalFooter>
-      <CButton color="secondary">Close</CButton>
-      <CButton color="primary" @click="getNominaGeneral">Filtrar</CButton>
+      <CButton @click="closess" color="secondary">Close</CButton>
     </CModalFooter>
     <CSmartTable
       clickableRows
@@ -2648,10 +2677,10 @@ export default {
       estructuras: null,
       nominaGneral: {
         AyuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-        fecha: new Date(Date.now()),
-        DepartamentoId: 0,
+        fecha: '',
+        // DepartamentoId: 0,
         TipoContrato: 'Tipo de contrato 1',
-        ProgramaDivision: 0,
+        // ProgramaDivision: 0,
         FormaPago: 'CHEQUE',
       },
 
@@ -2932,12 +2961,24 @@ export default {
         },
         {
           key: 'totalsueldos',
-          label: 'Fecha Ingreso',
+          label: 'Total Sueldos',
           _style: { width: '2%' },
         },
         {
           key: 'total retenciones',
           label: 'Total retenciones',
+          _style: { width: '1%' },
+        },
+
+        {
+          key: 'totalAPagar',
+          label: 'Total a pagar',
+          _style: { width: '1%' },
+        },
+
+        {
+          key: 'formaPago',
+          label: 'Forma de pago',
           _style: { width: '1%' },
         },
         { key: 'comprobante', label: 'Comprobante', _style: { width: '1%' } },
@@ -3169,6 +3210,17 @@ export default {
       if (!this.focus) {
         this.focusInput()
       }
+    },
+    close() {
+      this.lgDemo = false
+    },
+
+    closes() {
+      this.lgDemo1 = false
+    },
+
+    closess() {
+      this.reportes = false
     },
 
     sumaIngresos() {
@@ -3639,9 +3691,7 @@ export default {
       }
       this.validatedCustom01 = true
     },
-    close() {
-      this.lgDemo = false
-    },
+
     getBadge(status) {
       switch (status) {
         case 'Active':

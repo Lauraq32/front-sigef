@@ -41,6 +41,13 @@
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
+
+    <template #programaDivision="{ item }">
+      <td>
+        {{ item.programaDivision.nombre }}
+      </td>
+    </template>
+
     <template #show_details="{ item }">
       <td class="py-1">
         <CButton
@@ -100,13 +107,19 @@
           :validated="validatedCustom01"
           @submit="handleSubmitCustom01"
         >
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Código</CFormLabel>
-            <CFormInput id="validationCustom01" required />
-
+          <CCol :md="3">
+            <CFormLabel for="validationCustom04"
+              >Nombre dpto. o nómina</CFormLabel
+            >
+            <CFormInput
+              v-model="postDepartamento.nombre"
+              id="validationCustom04"
+            >
+            </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
+
           <CCol :md="4">
             <CFormLabel for="validationCustom02"> Código SASP</CFormLabel>
             <CFormInput id="validationCustom02" required />
@@ -125,18 +138,7 @@
             </CFormSelect>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom04"
-              >Nombre dpto. o nómina</CFormLabel
-            >
-            <CFormInput
-              v-model="postDepartamento.nombre"
-              id="validationCustom04"
-            >
-            </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
+
           <CCol :md="3">
             <CFormLabel for="validationCustom05">Grupo nomina</CFormLabel>
             <CFormInput id="validationCustom05" required />
@@ -266,56 +268,56 @@ export default {
   },
   data: () => {
     return {
+      programaDivision: [{}],
       postDepartamento: {
         id: 0,
         programaDivisionId: 1,
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         grupoNominaId: 1,
-        nombre: 'social',
-        saspI: 1,
-        cuentaBancoId: 0,
+        nombre: null,
+        saspI: 0,
+        cuentaBancoId: 1,
         estructur: null,
-        ctgClasificadorId: 1,
-        ctgOrganismoFinanciadorId: 1,
-        ctgClasificadorRegaliaId: 1,
-        ctgOrganismoFinanciadorRegaliaId: 1,
+        ctgClasificadorId: 111101,
+        ctgOrganismoFinanciadorId: 111101,
+        ctgClasificadorRegaliaId: 111101,
+        ctgOrganismoFinanciadorRegaliaId: 102,
         fuenteEspecifica: null,
         fuenteRegalia: null,
-        fuenteEspecificaRegalia: null,
+        fuenteEspecificaRegalia: 9996,
       },
 
       validatedCustom01: null,
       xlDemo: false,
       columns: [
-        { key: 'Código', label: 'Código', _style: { width: '40%' } },
+        { key: 'id', label: 'Código', _style: { width: '40%' } },
         {
           key: 'nombre',
           label: 'Departamento',
           _style: { width: '40%' },
         },
-        { key: 'Programa', label: 'Programa', _style: { width: '40%' } },
         {
-          key: 'Grupo de nomina',
+          key: 'programaDivision',
+          label: 'ProgramaDivision',
+          _style: { width: '40%' },
+        },
+        {
+          key: 'grupoNominaId',
           label: 'Grupo de nomina',
           _style: { width: '40%' },
         },
         {
-          key: 'estructur',
+          key: 'estructura',
           label: 'Estructura Prog.',
           _style: { width: '40%' },
         },
         {
-          key: 'Clasificador',
+          key: 'ctgClasificadorId',
           label: 'Clasificador',
           _style: { width: '40%' },
         },
-        {
-          key: 'Clasificador',
-          label: 'Clasificador',
-          _style: { width: '40%' },
-        },
-        { key: 'Inactivo', label: 'Inactivo', _style: { width: '40%' } },
-        { key: 'Cta. SASP', label: 'Cta. SASP', _style: { width: '40%' } },
+        { key: '', label: 'Inactivo', _style: { width: '40%' } },
+        { key: 'saspId', label: 'Cta. SASP', _style: { width: '40%' } },
         {
           key: 'show_details',
           label: '',
@@ -439,7 +441,7 @@ export default {
         this.formuladoValue = false
       }
       this.edit = true
-      this.lgDemo = true
+      this.xlDemo = true
       console.log(item.id)
       Api.getDepartamentoById(item.id).then((response) => {
         this.postDepartamento = response.data.data
@@ -451,6 +453,10 @@ export default {
   },
   mounted() {
     this.getDepartamentos()
+
+    Api.getProgramaDivision().then((response) => {
+      this.programaDivision = response.data.data
+    })
   },
 }
 </script>
