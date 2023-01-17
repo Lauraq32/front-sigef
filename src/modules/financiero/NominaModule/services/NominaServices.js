@@ -34,6 +34,10 @@ class NominaApi {
     return http.get(`Sector?ayuntamiento=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
   }
 
+  getEmpleadosPorDepartamentos(id){
+    return http.get(`Empleado/Departamento/${id}`)
+  }
+
   getDepartamento() {
     return http.get('Departamento')
   }
@@ -102,7 +106,7 @@ class NominaApi {
 
   getnominaGeneral(Nomina) {
 
-    return http.get(`Nomina/NominaGeneral?AyuntamientoId=${Nomina.AyuntamientoId ? Nomina.AyuntamientoId : null}&TipoContrato=${Nomina.TipoContrato ? Nomina.TipoContrato : null}&FormaPago=${Nomina.FormaPago ? Nomina.FormaPago : null}`)
+    return http.get(`Nomina/NominaGeneral?AyuntamientoId=${Nomina.AyuntamientoId ? Nomina.AyuntamientoId : null}&TipoContrato=${Nomina.TipoContrato ? Nomina.TipoContrato : null}&FormaPago=${Nomina.FormaPago ? Nomina.FormaPago : null}&Mes=${Nomina.Mes}&Anio=${Nomina.Anio}`)
   }
 
   postNomina(data) {

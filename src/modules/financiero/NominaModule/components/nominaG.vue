@@ -6,21 +6,54 @@
     <div class="col-9">
       <div class="row">
         <div class="col-3">
+          <div class="row">
+            <div class="col-6">
           <CCol :md="9">
-            <CFormLabel for="validationCustom01">Fecha</CFormLabel>
+            <CFormLabel for="validationCustom01">Año</CFormLabel>
             <CFormInput
-              type="date"
-              v-model="nominaGneral.fecha"
-              id="validationCustom01"
-              required
-            />
+            type="number" min="1900" max="2099" step="1" value="2023"
+              
+                    v-model="nominaGneral.Anio"
+                    id="validationCustom01"
+                  />
 
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+                  <CFormFeedback valid> Exito! </CFormFeedback>
+                  <CFormFeedback invalid>
+                    Favor agregar el campo
+                  </CFormFeedback>
           </CCol>
         </div>
+         <div class="col-6" style="    position: relative;
+    left: -42px;
+">
+          <CCol :md="9">
+            <CFormLabel for="validationCustom01">Mes</CFormLabel>
+            <CFormSelect
+            
+              v-model="nominaGneral.Mes"
+              id="validationCustom05"
+            >
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+              <option>11</option>
+              <option>12</option>
+            </CFormSelect>
+          </CCol>
+        </div>
+        </div>
+      </div>
 
-        <div class="col-3" style="position: relative; left: -68px">
+        <div class="col-3" style="    position: relative;
+    left: -84px;
+">
           <CCol :md="9">
             <CFormLabel for="validationCustom01">Tipo de contracto</CFormLabel>
             <CFormSelect
@@ -32,7 +65,8 @@
             </CFormSelect>
           </CCol>
         </div>
-        <div class="col-3" style="position: relative; left: -130px">
+        <div class="col-3" style="position: relative;
+    left: -175px;">
           <CCol :md="9">
             <CFormLabel for="validationCustom01">Forma de pago</CFormLabel>
             <CFormSelect
@@ -51,7 +85,7 @@
               font-weight: bold;
               position: relative;
               top: 31px;
-              left: -203px;
+              left: -265px;
             "
             color="info"
             @click="
@@ -163,6 +197,7 @@
       <td class="py-1" >
         <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="
               () => {
+                clearModal2()
                 reportes = true
               }
             ">
@@ -2530,7 +2565,7 @@
       <CCol :md="4">
         <CFormLabel for="validationCustom01">Departamento</CFormLabel>
         <CFormSelect
-          v-model="nominaGneral.DepartamentoId"
+          v-model="getEmpleado"
           id="validationCustom05"
         >
           <option
@@ -2539,7 +2574,7 @@
             :value="departamento.id"
             type="number"
           >
-            {{ departamento.id }}
+            {{ departamento.nombre }}
           </option>
         </CFormSelect>
 
@@ -2547,7 +2582,7 @@
         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
       </CCol>
 
-      <CButton class="mt-3" color="primary" @click="getNominaGeneral">Filtrar</CButton>
+      <CButton class="mt-3" color="primary" @click="getEmpleadoPorDepartamento">Filtrar</CButton>
 
       <!-- <CCol :md="6">
         <CFormLabel for="validationCustom01">Fecha</CFormLabel>
@@ -2594,7 +2629,7 @@
       :activePage="1"
       footer
       header
-      :items="nominag"
+      :items="getEmpleadosDep"
       :columns="columns2"
       columnFilter
       tableFilter
@@ -2612,16 +2647,22 @@
         </td>
       </template>
 
+      <template #fechaIngreso="{ item }">
+      <td>
+        {{ formatDate(item.fechaIngreso) }}
+      </td>
+    </template>
+
       <template #fecha="{ item }">
         <td>
           {{ formatDate(item.fecha) }}
         </td>
       </template>
-      <template #nombre="{ item }">
-        <td>
-          {{ item.ctgClasificador.nombre }}
-        </td>
-      </template>
+      <template #posicion="{ item }">
+      <td>
+        {{ item.posicion.nombre }}
+      </td>
+    </template>
       <template #show_details="{ item, index }">
         <td class="py-2">
           <CButton
@@ -2675,9 +2716,12 @@ export default {
       arsCheck: false,
       afpCheck: false,
       estructuras: null,
+      getEmpleado: 0,
+      getEmpleadosDep:[],
       nominaGneral: {
         AyuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-        fecha: '',
+        Anio: 2023,
+        Mes: 1,
         // DepartamentoId: 0,
         TipoContrato: 'Tipo de contrato 1',
         // ProgramaDivision: 0,
@@ -2692,7 +2736,7 @@ export default {
       programa: [{}],
       posicionCargo: [{}],
       areaTrabajo: [{}],
-      programaDivision: [{}],
+      programaDivision: [{ nombre: null }],
       sector: [{}],
       id: 0,
       Acumulado: [],
@@ -2926,7 +2970,7 @@ export default {
 
       tabPaneActiveKey: 1,
       columns: [
-        { key: 'E/B', label: 'E/B', _style: { width: '1%' } },
+        // { key: 'E/B', label: 'E/B', _style: { width: '1%' } },
         { key: 'fecha', label: 'Fecha', _style: { width: '4%' } },
         {
           key: 'programaDivisionId',
@@ -2982,7 +3026,7 @@ export default {
           _style: { width: '1%' },
         },
         { key: 'comprobante', label: 'Comprobante', _style: { width: '1%' } },
-        { key: 'Lote/B', label: 'Lote/B', _style: { width: '1%' } },
+        // { key: 'Lote/B', label: 'Lote/B', _style: { width: '1%' } },
 
         {
           key: 'show_details',
@@ -2996,25 +3040,40 @@ export default {
 
       columns2: [
         {
-          key: 'fecha',
-          label: 'Fecha',
+          key: 'apellidos',
+          label: 'Apellidos',
           _style: { width: '4%' },
         },
         {
-          key: 'programaDivisionId',
-          label: 'programaDivision',
+          key: 'nombres',
+          label: 'Nombres',
           _style: { width: '4%' },
         },
 
         {
-          key: 'departamentoId',
-          label: 'Departamento',
+          key: 'cedula',
+          label: 'Cedula',
           _style: { width: '4%' },
         },
-        { key: 'formaPago', label: 'Forma de pago', _style: { width: '1%' } },
+        { key: 'programaDivisionId', label: 'ProgramaDivision', _style: { width: '1%' } },
+        {
+          key: 'departamentoId',
+          label: 'Departamento',
+          _style: { width: '5%' },
+        },
+        {
+          key: 'posicionId',
+          label: 'Cargo',
+          _style: { width: '5%' },
+        },
         {
           key: 'tipoContrato',
           label: 'Tipo de contrato',
+          _style: { width: '5%' },
+        },
+        {
+          key: 'formaPago',
+          label: 'Forma de pago',
           _style: { width: '5%' },
         },
         // {
@@ -3022,17 +3081,13 @@ export default {
         //   label: 'Direccion o Dependencia',
         //   _style: { width: '15%' },
         // },
+     
         {
-          key: 'cantidadEmpleados',
-          label: 'Cantidad de empleados',
-          _style: { width: '5%' },
+          key: 'fechaIngreso',
+          label: 'Fecha Ingreso',
+          _style: { width: '2%' },
         },
-        // {
-        //   key: 'fechaIngreso',
-        //   label: 'Fecha Ingreso',
-        //   _style: { width: '2%' },
-        // },
-        // { key: 'sueldo', label: 'Sueldo', _style: { width: '1%' } },
+        { key: 'sueldo', label: 'Sueldo', _style: { width: '1%' } },
         // { key: 'sexo', label: 'Sexo', _style: { width: '1%' } },
         {
           key: 'show_details',
@@ -3064,6 +3119,12 @@ export default {
         console.log(this.klk11)
       })
     },
+
+    getEmpleadoPorDepartamento() {
+ Api.getEmpleadosPorDepartamentos(this.getEmpleado).then((response) => {
+      this.getEmpleadosDep = response.data.data
+    })
+    },
     arsCalculado() {
       // this.postEmpleado.arsCalculado = false
       if (this.postEmpleado.arsCalculado == false) {
@@ -3092,6 +3153,7 @@ export default {
           (response) => {
             this.departamentos = response.data.data
             this.nominaGneral.DepartamentoId = this.departamentos[0].id
+            this.getEmpleado = this.departamentos[0].id
             console.log(response.data.data)
             console.log(this.departamentos[0].id)
           },
@@ -3777,6 +3839,10 @@ export default {
 
     Api.getnominaGeneral(this.nominaGneral).then((response) => {
       this.nominag = response.data.data
+    })
+
+    Api.getEmpleadosPorDepartamentos(this.getEmpleado).then((response) => {
+      this.getEmpleadosDep = response.data.data
     })
 
     Api.getProgramaDivision().then((response) => {

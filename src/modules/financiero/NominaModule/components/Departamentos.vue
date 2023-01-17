@@ -48,6 +48,12 @@
       </td>
     </template>
 
+    <template #grupoN="{ item }">
+      <td>
+        {{ item.grupoNominaId.id }}
+      </td>
+    </template>
+
     <template #show_details="{ item }">
       <td class="py-1">
         <CButton
@@ -269,6 +275,8 @@ export default {
   data: () => {
     return {
       programaDivision: [{}],
+      empleado: [],
+      grupoN: [{}],
       postDepartamento: {
         id: 0,
         programaDivisionId: 1,
@@ -285,6 +293,7 @@ export default {
         fuenteEspecifica: null,
         fuenteRegalia: null,
         fuenteEspecificaRegalia: 9996,
+        empleado: null,
       },
 
       validatedCustom01: null,
@@ -453,6 +462,14 @@ export default {
   },
   mounted() {
     this.getDepartamentos()
+
+    Api.getEmpleado().then((response) => {
+      this.empleado = response.data.data
+    })
+
+    Api.getGrupoNomina().then((response) => {
+      this.grupoN = response.data.data
+    })
 
     Api.getProgramaDivision().then((response) => {
       this.programaDivision = response.data.data
