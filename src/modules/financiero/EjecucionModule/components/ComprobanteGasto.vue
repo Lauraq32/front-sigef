@@ -322,10 +322,10 @@
                       v-model="postGasto.bancoId"
                       id="validationCustom05"
                     >
-                      <option value=1>Personal</option>
-                      <option value=2>Cargo Beneficiario</option>
-                      <option value=3>Transferencia</option>
-                      <option value=4>Reversar</option>
+                      <option value="1">Personal</option>
+                      <option value="2">Cargo Beneficiario</option>
+                      <option value="3">Transferencia</option>
+                      <option value="4">Reversar</option>
                     </CFormSelect>
                     <CFormFeedback invalid>
                       Favor agregar el campo
@@ -507,7 +507,9 @@
                         >Programa o Proyecto</CFormLabel
                       >
                       <CFormInput
-                        v-model="postGastoDetalle.estProg"
+                        v-model="
+                          postGastoDetalle.detalleRegistroGastoDto.estProg
+                        "
                         id="validationCustom01"
                         required
                       />
@@ -552,7 +554,10 @@
                       >
                       <CFormInput
                         disabled
-                        v-model="postGastoDetalle.ctgClasificadorId"
+                        v-model="
+                          postGastoDetalle.detalleRegistroGastoDto
+                            .ctgClasificadorId
+                        "
                         id="validationCustom02"
                         required
                       />
@@ -567,7 +572,7 @@
                       >
                       <CFormInput
                         disabled
-                        v-model="postGastoDetalle.nombre"
+                        v-model="nombre"
                         id="validationCustom02"
                         required
                       />
@@ -594,7 +599,9 @@
                   <CFormLabel for="validationCustom01">Fuente</CFormLabel>
                   <CFormInput
                     disabled
-                    v-model="postGastoDetalle.ctgFuenteId"
+                    v-model="
+                      postGastoDetalle.detalleRegistroGastoDto.ctgFuenteId
+                    "
                     id="validationCustom01"
                     required
                   />
@@ -611,7 +618,10 @@
                   >
                   <CFormInput
                     disabled
-                    v-model="postGastoDetalle.ctgFuenteEspecificaId"
+                    v-model="
+                      postGastoDetalle.detalleRegistroGastoDto
+                        .ctgFuenteEspecificaId
+                    "
                     id="validationCustom04"
                   >
                   </CFormInput>
@@ -627,7 +637,10 @@
                   >
                   <CFormInput
                     disabled
-                    v-model="postGastoDetalle.ctgOrganismoFinanciadorId"
+                    v-model="
+                      postGastoDetalle.detalleRegistroGastoDto
+                        .ctgOrganismoFinanciadorId
+                    "
                     id="validationCustom04"
                   >
                   </CFormInput>
@@ -637,12 +650,26 @@
                 </CCol>
               </div>
             </div>
-            <hr class="mt-5" />
             <div class="col-12">
               <div class="row">
                 <CCol :md="6">
+                  <CFormLabel for="validationCustom01">Monto Bruto.</CFormLabel>
+                  <CFormInput
+                    v-model="
+                      postGastoDetalle.detalleRegistroGastoDto.valorBruto
+                    "
+                    id="validationCustom01"
+                    required
+                  />
+
+                  <CFormFeedback valid> Exito! </CFormFeedback>
+                  <CFormFeedback invalid>
+                    Favor agregar el campo
+                  </CFormFeedback>
+                </CCol>
+                <CCol :md="6">
                   <CFormLabel for="validationCustom01"
-                    >Base Imposible</CFormLabel
+                    >Base Imponible</CFormLabel
                   >
                   <CFormInput id="validationCustom01" required />
 
@@ -651,140 +678,120 @@
                     Favor agregar el campo
                   </CFormFeedback>
                 </CCol>
-
-                <CCol :md="6">
-                  <CFormLabel for="validationCustom01">Monto Bruto.</CFormLabel>
-                  <CFormInput
-                    v-model="postGastoDetalle.valorBruto"
-                    id="validationCustom01"
-                    required
-                  />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
               </div>
             </div>
+            <div
+              v-for="(inputs, i) in postGastoDetalle.tipoRetencionPost.length"
+            >
+             
+              <CAccordion class="mt-3">
+                <CAccordionItem :item-key="i">
+                  <CAccordionHeader> Retencion </CAccordionHeader>
+                  <CAccordionBody>
+                    <div class="col-12">
+                      <div class="row">
+                        <CCol :md="2">
+                          <CFormLabel for="validationCustom01"
+                            >Retenciones</CFormLabel
+                          >
+                          <CFormSelect
+                            v-model="
+                              postGastoDetalle.tipoRetencionPost[i].retencion
+                            "
+                            id="validationCustom02"
+                            v-on:change="changeRetenciones($event)"
+                          >
+                            <option
+                              v-for="benef in this.tipoRentencion"
+                              :key="benef.id"
+                              :value="benef.id"
+                            >
+                              {{ benef.detalle }}
+                            </option>
+                          </CFormSelect>
+                          <CFormFeedback valid> Exito! </CFormFeedback>
+                          <CFormFeedback invalid>
+                            Favor agregar el campo
+                          </CFormFeedback>
+                        </CCol>
 
-            <!-- <div class="col-12">
-              <div class="col-12">
-                <div class="row">
-                  
-                  
-              
-              
-              
-                  
-               
-                  <CCol :md="6">
-                    <CFormLabel for="validationCustom01">Banco</CFormLabel>
-                    <CFormInput
-                      v-model="postGastoDetalle.bancoId"
-                      id="validationCustom01"
-                      required
-                    />
+                        <CCol :md="4">
+                          <div class="row">
+                            <CCol :md="4">
+                              <CFormCheck
+                                type="radio"
+                                name="flexRadioDefault"
+                                id="flexRadioDefault1"
+                                label="Total"
+                              />
+                            </CCol>
+                            <CCol :md="4">
+                              <CFormCheck
+                                type="radio"
+                                name="flexRadioDefault"
+                                id="flexRadioDefault1"
+                                label="SubTotal"
+                              />
+                            </CCol>
+                            <CCol :md="4">
+                              <CFormCheck
+                                type="radio"
+                                name="flexRadioDefault"
+                                id="flexRadioDefault1"
+                                label="Otros"
+                              />
+                            </CCol>
 
-                    <CFormFeedback valid> Exito! </CFormFeedback>
-                    <CFormFeedback invalid>
-                      Favor agregar el campo
-                    </CFormFeedback>
-                  </CCol>
-                </div>
-              </div>
-            </div> -->
-            <hr class="mt-4" />
-            <div class="col-12">
-              <div class="row">
-                <CCol :md="2">
-                  <CFormLabel for="validationCustom01">Retenciones</CFormLabel>
-                  <CFormSelect
-                    v-model="tipoRetencionPost.retencion"
-                    id="validationCustom02"
-                    v-on:change="changeRetenciones($event)"
-                  >
-                    <option
-                      v-for="benef in this.tipoRentencion"
-                      :key="benef.id"
-                      :value="benef.id"
-                    >
-                      {{ benef.detalle }}
-                    </option>
-                  </CFormSelect>
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
+                            <CFormInput
+                              v-model="
+                                postGastoDetalle.tipoRetencionPost[i].mAplicado
+                              "
+                              id="validationCustom01"
+                              required
+                            />
 
-                <CCol :md="4">
-                  <div class="row">
-                    <CCol :md="4">
-                      <CFormCheck
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault1"
-                        label="Total"
-                      />
-                    </CCol>
-                    <CCol :md="4">
-                      <CFormCheck
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault1"
-                        label="SubTotal"
-                      />
-                    </CCol>
-                    <CCol :md="4">
-                      <CFormCheck
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault1"
-                        label="Otros"
-                      />
-                    </CCol>
+                            <CFormFeedback valid> Exito! </CFormFeedback>
+                            <CFormFeedback invalid>
+                              Favor agregar el campo
+                            </CFormFeedback>
+                          </div>
+                        </CCol>
 
-                    <CFormInput
-                      v-model="tipoRetencionPost.mAplicado"
-                      id="validationCustom01"
-                      required
-                    />
+                        <CCol :md="3">
+                          <CFormLabel for="validationCustom01"
+                            >Valor</CFormLabel
+                          >
+                          <CFormInput
+                            v-model="
+                              postGastoDetalle.tipoRetencionPost[i].mAplica
+                            "
+                            id="validationCustom01"
+                            required
+                          />
 
-                    <CFormFeedback valid> Exito! </CFormFeedback>
-                    <CFormFeedback invalid>
-                      Favor agregar el campo
-                    </CFormFeedback>
-                  </div>
-                </CCol>
-
-                <CCol :md="3">
-                  <CFormLabel for="validationCustom01">Valor</CFormLabel>
-                  <CFormInput
-                    v-model="tipoRetencionPost.mAplica"
-                    id="validationCustom01"
-                    required
-                  />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-
-                <CCol :md="3">
-                  <button
-                    class="btn btn-primary"
-                    style="margin-top: 32px"
-                    v-on:click="guardarRetencion"
-                  >
-                    Adicionar Retencion
-                  </button>
-                </CCol>
-              </div>
+                          <CFormFeedback valid> Exito! </CFormFeedback>
+                          <CFormFeedback invalid>
+                            Favor agregar el campo
+                          </CFormFeedback>
+                        </CCol>
+                      </div>
+                    </div>
+                  </CAccordionBody>
+                </CAccordionItem>
+              </CAccordion>
             </div>
           </div>
-          <hr />
+
+          <CCol :md="3">
+            <button
+              class="btn btn-primary"
+              style="margin-top: 32px"
+              v-on:click="addRetencion"
+            >
+              Adicionar Retencion
+            </button>
+          </CCol>
+    
           <div class="modal-footer">
             <button
               type="button"
@@ -955,6 +962,7 @@ export default {
       EstructuraByClasificadores: [],
       cabeceraGasto: [],
       nombreEst: '',
+      nombre: '',
       detalleGasto: [],
       validatedCustom01: null,
       beneficiariosName: [],
@@ -964,27 +972,6 @@ export default {
       lgDemo3: false,
       id: null,
       cabeceraId: null,
-      tipoRetencionPost: {
-        anioFiscalId: parseInt(localStorage.getItem('ano')),
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-        id: 0,
-        fecha: new Date(Date.now()),
-        beneficiarioId: 0,
-        bancoId: 0,
-        fAplica: 0,
-        retencion: 0,
-        ctgMestProgId: '',
-        cuenta: '',
-        parteAplica: '',
-        mAplica: 0,
-        mAplicado: 0,
-        orden: 0,
-        estCuenta: '',
-        ctgFuenteId: '',
-        ctgFuenteEspecificaId: '',
-        ctgOrganismoFinanciadorId: '',
-        registroGastoId: 0,
-      },
       postGasto: {
         id: 0,
         tipoGastoId: 1,
@@ -1016,21 +1003,46 @@ export default {
         estatus: 'A',
       },
       postGastoDetalle: {
-        id: 0,
-        anioFiscalId: parseInt(localStorage.getItem('ano')),
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-        secuenciaComprobante: null,
-        fecha: 0,
-        bancoId: 0,
-        estProg: '',
-        ctgClasificadorId: '',
-        ctgFuenteId: '',
-        ctgFuenteEspecificaId: '',
-        ctgOrganismoFinanciadorId: '',
-        ctgFuncionId: '1',
-        valorBruto: 0,
-        retenciones: '',
-        neto: 0,
+        detalleRegistroGastoDto: {
+          id: 0,
+          anioFiscalId: parseInt(localStorage.getItem('ano')),
+          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          secuenciaComprobante: 0,
+          fecha: 0,
+          bancoId: 0,
+          estProg: '',
+          ctgClasificadorId: '',
+          ctgFuenteId: '',
+          ctgFuenteEspecificaId: '',
+          ctgOrganismoFinanciadorId: '',
+          ctgFuncionId: '',
+          valorBruto: 0,
+          retenciones: 0,
+          neto: 0,
+        },
+        tipoRetencionPost: [
+          {
+            anioFiscalId: parseInt(localStorage.getItem('ano')),
+            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            id: 0,
+            fecha: new Date(Date.now()),
+            beneficiarioId: 0,
+            bancoId: 0,
+            fAplica: 0,
+            retencion: 0,
+            ctgMestProgId: '',
+            cuenta: '',
+            parteAplica: '',
+            mAplica: 0,
+            mAplicado: 0,
+            orden: 0,
+            estCuenta: '',
+            ctgFuenteId: '',
+            ctgFuenteEspecificaId: '',
+            ctgOrganismoFinanciadorId: '',
+            registroGastoId: 0,
+          },
+        ],
       },
       columns: [
         {
@@ -1150,21 +1162,46 @@ export default {
     }
   },
   methods: {
-    changeRetenciones(e){
-      Api.getTipoRetencionById(e.target.value).then(response => {
+    changeRetenciones(e) {
+      Api.getTipoRetencionById(e.target.value).then((response) => {
         console.log(response.data.data)
-        this.tipoRetencionPost.beneficiarioId = response.data.data.beneficiarioId
+        this.tipoRetencionPost.beneficiarioId =
+          response.data.data.beneficiarioId
       })
+    },
+    addRetencion() {
+      var retencion = {
+        anioFiscalId: parseInt(localStorage.getItem('ano')),
+        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        id: 0,
+        fecha: new Date(Date.now()),
+        beneficiarioId: 0,
+        bancoId: 0,
+        fAplica: 0,
+        retencion: 0,
+        ctgMestProgId: '',
+        cuenta: '',
+        parteAplica: '',
+        mAplica: 0,
+        mAplicado: 0,
+        orden: 0,
+        estCuenta: '',
+        ctgFuenteId: '',
+        ctgFuenteEspecificaId: '',
+        ctgOrganismoFinanciadorId: '',
+        registroGastoId: 0,
+      }
+      this.postGastoDetalle.tipoRetencionPost.push(retencion)
     },
 
     getEstructuraById() {
-      Api.getRegistroGastoDetalleMesprog(this.postGastoDetalle.estProg).then(
-        (response) => {
-          this.EstructuraByClasificadores = response.data.data
-          this.getEstructura()
-          console.log(response.data)
-        },
-      )
+      Api.getRegistroGastoDetalleMesprog(
+        this.postGastoDetalle.detalleRegistroGastoDto.estProg,
+      ).then((response) => {
+        this.EstructuraByClasificadores = response.data.data
+        this.getEstructura()
+        console.log(response.data)
+      })
     },
     getTipoGasto() {
       Api.getTipoGastoList().then((response) => {
@@ -1273,19 +1310,11 @@ export default {
       })
     },
     guardarRetencion() {
-      this.tipoRetencionPost.ctgOrganismoFinanciadorId =
-        this.postGastoDetalle.ctgOrganismoFinanciadorId
-      this.tipoRetencionPost.ctgFuenteEspecificaId =
-        this.postGastoDetalle.ctgFuenteEspecificaId
-      this.tipoRetencionPost.ctgFuenteId = this.postGastoDetalle.ctgFuenteId
-      this.tipoRetencionPost.registroGastoId = this.id
-      this.tipoRetencionPost.cuenta = this.postGastoDetalle.ctgClasificadorId
-      this.tipoRetencionPost.ctgMestProgId = this.postGastoDetalle.estProg
-      Api.postTipoRetencionDetalle(this.tipoRetencionPost).then((response) => {
+      Api.postGastoDetalle(this.postGastoDetalle).then((response) => {
         console.log('se guardo')
       })
-      event.preventDefault()
-      event.stopPropagation()
+      // event.preventDefault()
+      // event.stopPropagation()
     },
     selectItemEventHandler(id) {
       this.postGasto.codBenefi = id.split('-')[0]
@@ -1377,17 +1406,20 @@ export default {
         item.ctgOrganismoFinanciadorId,
         item.ctgFuenteId,
       )
-      this.postGastoDetalle.ctgFuenteEspecificaId = item.ctgFuenteEspecificaId
-      this.postGastoDetalle.ctgFuenteId = item.ctgFuenteId
-      this.postGastoDetalle.ctgOrganismoFinanciadorId =
+      this.postGastoDetalle.detalleRegistroGastoDto.ctgFuenteEspecificaId =
+        item.ctgFuenteEspecificaId
+      this.postGastoDetalle.detalleRegistroGastoDto.ctgFuenteId =
+        item.ctgFuenteId
+      this.postGastoDetalle.detalleRegistroGastoDto.ctgOrganismoFinanciadorId =
         item.ctgOrganismoFinanciadorId
-      this.postGastoDetalle.nombre = item.nombre
-      this.postGastoDetalle.ctgClasificadorId = item.ctgClasificadorId
+      this.nombre = item.nombre
+      this.postGastoDetalle.detalleRegistroGastoDto.ctgClasificadorId =
+        item.ctgClasificadorId
       this.lgDemo3 = false
     },
     getEstructura() {
       ApiFormulacion.getEstruturaProgramaticaById(
-        this.postGastoDetalle.estProg,
+        this.postGastoDetalle.detalleRegistroGastoDto.estProg,
       ).then((response) => {
         this.nombreEst = response.data.data.nombre
       })
