@@ -91,6 +91,10 @@ class NominaApi {
     return http.get(`ProgramaDivision/${id}`)
   }
 
+  getNominaGeneralById(id) {
+    return http.get(`Nomina/NominaGeneral/${id}`)
+  }
+
   getAreaTrabajobyid(id) {
     return http.get(`AreaTrabajo/${id}`)
   }

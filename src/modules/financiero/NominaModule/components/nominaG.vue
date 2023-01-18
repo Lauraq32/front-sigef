@@ -190,7 +190,7 @@
     <template #show_details="{ item }">
       <td class="py-1">
         <td class="py-1" >
-        <CButton class="mt-1" color="primary" variant="outline" square size="sm">
+        <CButton @click="toggleDetail2()" class="mt-1" color="primary" variant="outline" square size="sm">
           {{ Boolean(item._toggled) ? 'Hide' : 'Imprimir' }}
         </CButton>
       </td>
@@ -199,6 +199,7 @@
               () => {
                 clearModal2()
                 reportes = true
+                toggleDetail2(item)
               }
             ">
           {{ Boolean(item._toggled) ? 'Hide' : 'Cons/Nomina' }}
@@ -2582,7 +2583,7 @@
         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
       </CCol>
 
-      <CButton class="mt-3" color="primary" @click="getEmpleadoPorDepartamento">Filtrar</CButton>
+      <CButton class="mt-3" color="primary" @click="getEmpleadoPorDepartamento(this.getEmpleado)">Filtrar</CButton>
 
       <!-- <CCol :md="6">
         <CFormLabel for="validationCustom01">Fecha</CFormLabel>
@@ -2717,7 +2718,11 @@ export default {
       afpCheck: false,
       estructuras: null,
       getEmpleado: 0,
-      getEmpleadosDep:[],
+      getEmpleadosDep:[{ id: 0, DepartamentoId: 0,}],
+
+      getByIdNominaGeneral: {
+        DepartamentoId: 0,
+      },
       nominaGneral: {
         AyuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         Anio: 2023,
@@ -3120,10 +3125,11 @@ export default {
       })
     },
 
-    getEmpleadoPorDepartamento() {
- Api.getEmpleadosPorDepartamentos(this.getEmpleado).then((response) => {
+    getEmpleadoPorDepartamento(departamento) {
+ Api.getEmpleadosPorDepartamentos(departamento).then((response) => {
       this.getEmpleadosDep = response.data.data
     })
+    console.log()
     },
     arsCalculado() {
       // this.postEmpleado.arsCalculado = false
@@ -3814,19 +3820,21 @@ export default {
       //   this.postConfiguracionNomina = response.data.data
       // })
 
-      Api.getSalarioById(item.id).then((response) => {
-        this.ingresos = response.data.data
-      })
-      if (item.Empleado !== 0 || item.variacion !== 0) {
-        this.formuladoValue = true
-      } else {
-        this.formuladoValue = false
-      }
-      this.edit = true
-      this.lgDemo = true
-      console.log(item.id)
-      Api.getEmpleadoById(item.id).then((response) => {
-        this.postEmpleado = response.data.data
+      // Api.getSalarioById(item.id).then((response) => {
+      //   this.ingresos = response.data.data
+      // })
+      // if (item.Empleado !== 0 || item.variacion !== 0) {
+      //   this.formuladoValue = true
+      // } else {
+      //   this.formuladoValue = false
+      // }
+      // this.edit = true
+      // this.lgDemo = true
+      console.log(item.departamentoId)
+      Api.getNominaGeneralById(item.departamentoId).then((response) => {
+        // this.getEmpleadosDep = response.data.data
+        this.getEmpleado = item.departamentoId
+        this.getEmpleadoPorDepartamento(item.departamentoId)
         console.log(response.data.data)
         this.id = item.id
         //this.postIngreso = response.data.data
