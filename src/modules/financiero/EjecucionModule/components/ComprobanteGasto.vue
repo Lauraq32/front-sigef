@@ -8,7 +8,7 @@
         @click="
           () => {
             lgDemo = true
-            clearModal1()
+            //clearModal1()
           }
         "
         >Agregar</CButton
@@ -322,10 +322,10 @@
                       v-model="postGasto.bancoId"
                       id="validationCustom05"
                     >
-                      <option value="1">Personal</option>
-                      <option value="2">Cargo Beneficiario</option>
-                      <option value="3">Transferencia</option>
-                      <option value="4">Reversar</option>
+                      <option value="1">1-Personal</option>
+                      <option value="2">2-Cargo Beneficiario</option>
+                      <option value="3">3-Transferencia</option>
+                      <option value="4">4-Reversar</option>
                     </CFormSelect>
                     <CFormFeedback invalid>
                       Favor agregar el campo
@@ -482,7 +482,7 @@
     @close="
       () => {
         lgDemo1 = false
-        clearModal2()
+        //clearModal2()
       }
     "
   >
@@ -681,7 +681,7 @@
               </div>
             </div>
             <div
-              v-for="(inputs, i) in postGastoDetalle.tipoRetencionPost.length"
+              v-for="(inputs, i) in postGastoDetalle.detaRetencionDto.length"
             >
              
               <CAccordion class="mt-3">
@@ -696,7 +696,7 @@
                           >
                           <CFormSelect
                             v-model="
-                              postGastoDetalle.tipoRetencionPost[i].retencion
+                              postGastoDetalle.detaRetencionDto[i].retencion
                             "
                             id="validationCustom02"
                             v-on:change="changeRetenciones($event)"
@@ -744,7 +744,7 @@
 
                             <CFormInput
                               v-model="
-                                postGastoDetalle.tipoRetencionPost[i].mAplicado
+                                postGastoDetalle.detaRetencionDto[i].mAplicado
                               "
                               id="validationCustom01"
                               required
@@ -763,7 +763,7 @@
                           >
                           <CFormInput
                             v-model="
-                              postGastoDetalle.tipoRetencionPost[i].mAplica
+                              postGastoDetalle.detaRetencionDto[i].mAplica
                             "
                             id="validationCustom01"
                             required
@@ -1020,7 +1020,7 @@ export default {
           retenciones: 0,
           neto: 0,
         },
-        tipoRetencionPost: [
+        detaRetencionDto: [
           {
             anioFiscalId: parseInt(localStorage.getItem('ano')),
             ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
@@ -1165,7 +1165,7 @@ export default {
     changeRetenciones(e) {
       Api.getTipoRetencionById(e.target.value).then((response) => {
         console.log(response.data.data)
-        this.tipoRetencionPost.beneficiarioId =
+        this.detaRetencionDto.beneficiarioId =
           response.data.data.beneficiarioId
       })
     },
@@ -1191,7 +1191,7 @@ export default {
         ctgOrganismoFinanciadorId: '',
         registroGastoId: 0,
       }
-      this.postGastoDetalle.tipoRetencionPost.push(retencion)
+      this.postGastoDetalle.detaRetencionDto.push(retencion)
     },
 
     getEstructuraById() {
@@ -1322,7 +1322,13 @@ export default {
     showDetalle(item) {
       this.lgDemo1 = true
       this.id = item.id
-      this.postGastoDetalle.secuenciaComprobante = item.id
+      Api.getRegistroGastobyid(item.id).then((response) => {
+        console.log(response.data)
+        this.postGastoDetalle.detalleRegistroGastoDto.bancoId = response.data.data.bancoId
+        this.postGastoDetalle.detalleRegistroGastoDto.secuenciaComprobante = item.id
+      })
+   
+      this.postGastoDetalle.detalleRegistroGastoDto.secuenciaComprobante = item.id
       Api.getRegistroGastoDetalle(item.id).then((response) => {
         console.log(response.data)
         this.detalleGasto = response.data.data
@@ -1345,6 +1351,7 @@ export default {
     },
     postCabecera() {
       if (this.cabeceraId == null) {
+        this.postGasto.bancoId = this.postGasto.bancoId.split('-')[0]
         console.log(this.postGasto)
         // this.postGasto.tipoGastoId= 5,
         Api.postRegistroGasto(this.postGasto).then((response) => {
@@ -1359,7 +1366,7 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
-        this.clearModal1()
+        //this.clearModal1()
       } else {
         Api.putRegistroGasto(this.postGasto, this.cabeceraId).then(
           (response) => {
@@ -1392,7 +1399,7 @@ export default {
         timer: 1500,
       })
       setTimeout(showDetalle(this.id), 500)
-      this.clearModal2()
+      //this.clearModal2()
     },
     getCabecera() {
       Api.getRegistroGasto().then((response) => {
