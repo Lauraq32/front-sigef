@@ -1398,6 +1398,7 @@ export default {
         showConfirmButton: false,
         timer: 1500,
       })
+      setTimeout(this.getCabecera(),500)
       setTimeout(showDetalle(this.id), 500)
       //this.clearModal2()
     },
