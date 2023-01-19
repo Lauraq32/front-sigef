@@ -8,7 +8,7 @@
         @click="
           () => {
             lgDemo = true
-            //clearModal1()
+            clearModal1()
           }
         "
         >Agregar</CButton
@@ -323,9 +323,9 @@
                       id="validationCustom05"
                     >
                       <option value="1">1-Personal</option>
-                      <option value="2">2-Cargo Beneficiario</option>
-                      <option value="3">3-Transferencia</option>
-                      <option value="4">4-Reversar</option>
+                      <option value="2">2-Servicios</option>
+                      <option value="3">3-Inversiones</option>
+                      <option value="4">4-Educ</option>
                     </CFormSelect>
                     <CFormFeedback invalid>
                       Favor agregar el campo
@@ -482,7 +482,7 @@
     @close="
       () => {
         lgDemo1 = false
-        //clearModal2()
+        clearModal2()
       }
     "
   >
@@ -681,9 +681,10 @@
               </div>
             </div>
             <div
+              v-if="(isVariacion)"
               v-for="(inputs, i) in postGastoDetalle.detaRetencionDto.length"
             >
-             
+              <hr />
               <CAccordion class="mt-3">
                 <CAccordionItem :item-key="i">
                   <CAccordionHeader> Retencion </CAccordionHeader>
@@ -784,6 +785,7 @@
 
           <CCol :md="3">
             <button
+              v-if="(isVariacion)" 
               class="btn btn-primary"
               style="margin-top: 32px"
               v-on:click="addRetencion"
@@ -791,7 +793,7 @@
               Adicionar Retencion
             </button>
           </CCol>
-    
+
           <div class="modal-footer">
             <button
               type="button"
@@ -957,6 +959,8 @@ export default {
 
   data: () => {
     return {
+      isVariacion: false,
+      isDevengado: false,
       tipoRentencion: [{}],
       TipoGastoList: [],
       EstructuraByClasificadores: [],
@@ -1165,8 +1169,7 @@ export default {
     changeRetenciones(e) {
       Api.getTipoRetencionById(e.target.value).then((response) => {
         console.log(response.data.data)
-        this.detaRetencionDto.beneficiarioId =
-          response.data.data.beneficiarioId
+        this.detaRetencionDto.beneficiarioId = response.data.data.beneficiarioId
       })
     },
     addRetencion() {
@@ -1264,21 +1267,46 @@ export default {
     },
     clearModal2() {
       this.postGastoDetalle = {
-        id: 0,
-        anioFiscalId: parseInt(localStorage.getItem('ano')),
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-        secuenciaComprobante: null,
-        fecha: 0,
-        bancoId: 0,
-        estProg: '',
-        ctgClasificadorId: '',
-        ctgFuenteId: '',
-        ctgFuenteEspecificaId: '',
-        ctgOrganismoFinanciadorId: '',
-        ctgFuncionId: '1',
-        valorBruto: 0,
-        retenciones: 0,
-        neto: 0,
+        detalleRegistroGastoDto: {
+          id: 0,
+          anioFiscalId: parseInt(localStorage.getItem('ano')),
+          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          secuenciaComprobante: 0,
+          fecha: 0,
+          bancoId: 0,
+          estProg: '',
+          ctgClasificadorId: '',
+          ctgFuenteId: '',
+          ctgFuenteEspecificaId: '',
+          ctgOrganismoFinanciadorId: '',
+          ctgFuncionId: '',
+          valorBruto: 0,
+          retenciones: 0,
+          neto: 0,
+        },
+        detaRetencionDto: [
+          {
+            anioFiscalId: parseInt(localStorage.getItem('ano')),
+            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            id: 0,
+            fecha: new Date(Date.now()),
+            beneficiarioId: 0,
+            bancoId: 0,
+            fAplica: 0,
+            retencion: 0,
+            ctgMestProgId: '',
+            cuenta: '',
+            parteAplica: '',
+            mAplica: 0,
+            mAplicado: 0,
+            orden: 0,
+            estCuenta: '',
+            ctgFuenteId: '',
+            ctgFuenteEspecificaId: '',
+            ctgOrganismoFinanciadorId: '',
+            registroGastoId: 0,
+          },
+        ],
       }
     },
     toggleDetails1(item) {
@@ -1323,12 +1351,21 @@ export default {
       this.lgDemo1 = true
       this.id = item.id
       Api.getRegistroGastobyid(item.id).then((response) => {
+        if (response.data.data.etapa ==  'VARIACION' || response.data.data.etapa ==  'DEVENGADO') {
+          this.isVariacion = false
+        } else {
+          this.isVariacion = true
+        }
+        
         console.log(response.data)
-        this.postGastoDetalle.detalleRegistroGastoDto.bancoId = response.data.data.bancoId
-        this.postGastoDetalle.detalleRegistroGastoDto.secuenciaComprobante = item.id
+        this.postGastoDetalle.detalleRegistroGastoDto.bancoId =
+          response.data.data.bancoId
+        this.postGastoDetalle.detalleRegistroGastoDto.secuenciaComprobante =
+          item.id
       })
-   
-      this.postGastoDetalle.detalleRegistroGastoDto.secuenciaComprobante = item.id
+
+      this.postGastoDetalle.detalleRegistroGastoDto.secuenciaComprobante =
+        item.id
       Api.getRegistroGastoDetalle(item.id).then((response) => {
         console.log(response.data)
         this.detalleGasto = response.data.data
@@ -1408,6 +1445,7 @@ export default {
         this.cabeceraGasto = response.data.data
       })
     },
+
     seletectedItems(item) {
       console.log(
         item.ctgFuenteEspecificaId,
