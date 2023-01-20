@@ -96,7 +96,7 @@ class NominaApi {
   }
 
   getNominaByDepartamento(id) {
-    return http.get(`Nomina/${id}`)
+    return http.get(`Nomina/NominagEmpDep/${id}`)
   }
 
   getAreaTrabajobyid(id) {
