@@ -85,7 +85,7 @@
       <div>
         <div class="d-inline p-2">
           <CButton style="font-weight: bold" color="info" @click="
-            IngresoReport
+            imprimriPorTPago
           ">Imprimir Todos</CButton>
         </div>
         <div class="d-inline p-2">
@@ -1992,7 +1992,7 @@
              </div>
              </div>
              
-          <CButton class="mt-3" style="background-color: #375b80;" color="primary" @click="getEmpleadoPorDepartamento(this.getEmpleado)">Imprimir Nomina</CButton>
+          <CButton class="mt-3" style="background-color: #375b80;" color="primary" @click="imprimriPorDep">Imprimir Nomina</CButton>
 
           <!-- <CCol :md="6">
         <CFormLabel for="validationCustom01">Fecha</CFormLabel>
@@ -2035,48 +2035,25 @@
     }" :tableHeadProps="{}" :activePage="1" footer header :items="getEmpleadosDep" :columns="columns2" columnFilter
        itemsPerPageSelect :itemsPerPage="5" columnSorter
       :sorterValue="{ column: 'status', state: 'asc' }" pagination :backdrop="false">
-      <template #departamento="{ item }">
-        <td>
-          {{ item.departamento.nombre }}
-        </td>
-      </template>
+
       
       <template #pocision="{ item }">
         <td>
           {{ item.posicion.nombre }}
         </td>
       </template>
-<!-- 
-      <template #fechaIngreso="{ item }">
-        <td>
-          {{ item.empleado.fechaIngreso }}
-        </td>
-      </template> -->
 
-      
-
-      <template #cedula="{ item }">
-        <td>
-          {{ item.empleado.cedula }}
-        </td>
-      </template>
-
-      <template #fechaIngreso="{ item }">
-        <td>
-          {{ formatDate(item.empleado.fechaIngreso) }}
-        </td>
-      </template>
-
+   
       <template #fecha="{ item }">
         <td>
-          {{ formatDate(item.fecha) }}
+          {{ formatDate(item.fechaIngreso) }}
         </td>
       </template>
-      <template #posicion="{ item }">
+      <!-- <template #posicion="{ item }">
         <td>
           {{ item.posicion.nombre }}
         </td>
-      </template>
+      </template> -->
       <template #show_details="{ item, index }">
         <td class="py-2">
           <CButton color="primary" variant="outline" square size="sm" @click="toggleDetails(item, index)">
@@ -2130,6 +2107,7 @@ export default {
       getEmpleado: 0,
       getEmpleadosDep: [{ id: 0, DepartamentoId: 0, }],
       programaDivision: [],
+      idDep: 0,
 
       empleadosklk: [],
 
@@ -2467,7 +2445,12 @@ export default {
 
       columns2: [
         {
-          key: 'nombreEmpleado',
+          key: 'apellidos',
+          label: 'Apellido',
+          _style: { width: '4%' },
+        },
+        {
+          key: 'nombres',
           label: 'Nombre',
           _style: { width: '4%' },
         },
@@ -2484,7 +2467,7 @@ export default {
         },
 
         {
-          key: 'fechaIngreso',
+          key: 'fecha',
           label: 'Fecha Ingreso',
           _style: { width: '2%' },
         },
@@ -2618,6 +2601,30 @@ export default {
         )
         console.log(this.departamentos)
       })
+    },
+
+    imprimriPorTPago(){
+      window
+        .open(
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_Tipo_Pago&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
+            'id_Ayuntamiento'
+          )}&ANO=2022&FORMA_PAGO=${this.nominaGneral.FormaPago}`,
+          '_blank',
+        )
+        .focus()
+      // http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_Tipo_Pago&rs:Command=Render&ID_AYUNTAMIENTO=1&ANO=2022&FORMA_PAGO=CHEQUE
+    },
+
+    imprimriPorDep(){
+      window
+        .open(
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_Departamento&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
+            'id_Ayuntamiento'
+          )}&ANO=2022&ID_DEPARTAMENTO=${this.idDep}`,
+          '_blank',
+        )
+        .focus()
+      // http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_Departamento&rs:Command=Render&ID_AYUNTAMIENTO=1&ANO=2022&ID_DEPARTAMENTO=3
     },
     IngresoReport() {
       window
@@ -3242,6 +3249,7 @@ export default {
       console.log(item.departamentoId)
       Api.getNominaGeneralById(item.id).then((response) => {
         // this.getEmpleadosDep = response.data.data
+        this.idDep = item.departamentoId
         this.getFiltro = response.data.data
         console.log('mmg')
         console.log(this.getFiltro)
@@ -3250,12 +3258,13 @@ export default {
         // this.id = item.id
         //this.postIngreso = response.data.data
 
-        Api.getNominaByDepartamento(item.departamentoId).then((response) => {
+        Api.getNominaByDepartamento(item.id).then((response) => {
           this.getEmpleadosDep = response.data.data
           console.log('mmg7')
           console.log(this.getEmpleadosDep)
         })
       })
+
     },
   },
 
