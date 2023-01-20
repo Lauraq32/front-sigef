@@ -1148,9 +1148,9 @@ export default {
               anioFiscalId: parseInt(localStorage.getItem('ano')),
               mestProgId: `${this.pnap}${this.programa}${Object.values(item)[4]
                 .toString()
-                .padStart(3, 0)}${Object.values(item)[5]
+                .padStart(2, 0)}${Object.values(item)[5]
                 .toString()
-                .padStart(3, 0)}`,
+                .padStart(4, 0)}`,
               ctgClasificadorId: `${Object.values(item)[6]}${
                 Object.values(item)[7]
               }${Object.values(item)[8]}${
