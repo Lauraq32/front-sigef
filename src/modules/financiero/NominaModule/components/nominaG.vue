@@ -200,7 +200,6 @@
                 clearModal2()
                 reportes = true
                 toggleDetail2(item)
-                toggleDetail3(item)
               }
             ">
           {{ Boolean(item._toggled) ? 'Hide' : 'Cons/Nomina' }}
@@ -2564,132 +2563,6 @@
         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
       </CCol> -->
 
-      <div class="row">
-        <div class="col-6">
-      <CCol :md="7">
-        <CFormLabel for="validationCustom01">Fecha</CFormLabel>
-        <CFormInput
-        disabled
-      
-          v-model="getFiltro.fecha"
-          id="validationCustom01"
-          required
-        />
-
-        <CFormFeedback valid> Exito! </CFormFeedback>
-        <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-      </CCol>
-    </div>
-
-    <div class="col-6" style="position: relative;
-    left: -218px;">
-      <CCol :md="7">
-        <CFormLabel for="validationCustom01">ProgramaDivicion</CFormLabel>
-        <CFormInput
-        disabled
-
-          v-model="getFiltro.programaDivisionId"
-          id="validationCustom01"
-          required
-        />
-
-        <CFormFeedback valid> Exito! </CFormFeedback>
-        <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-      </CCol>
-    </div>
-    </div>
-
-    <div class="row">
-        <div class="col-6">
-      <CCol :md="7">
-        <CFormLabel for="validationCustom01">Tipo de contrato</CFormLabel>
-        <CFormInput
-        disabled
-
-          v-model="getFiltro.tipoContrato"
-          id="validationCustom01"
-          required
-        />
-
-        <CFormFeedback valid> Exito! </CFormFeedback>
-        <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-      </CCol>
-    </div>
-
-    <div class="col-6" style="position: relative;
-    left: -218px;">
-      <CCol :md="7">
-        <CFormLabel for="validationCustom01">Departamento</CFormLabel>
-        <CFormInput
-        disabled
-          
-          v-model="getFiltro.departamentoId"
-          id="validationCustom01"
-          required
-        />
-
-        <CFormFeedback valid> Exito! </CFormFeedback>
-        <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-      </CCol>
-    </div>
-    </div>
-
-    <div class="row">
-        <div class="col-6">
-      <CCol :md="7">
-        <CFormLabel for="validationCustom01">Forma de pago</CFormLabel>
-        <CFormInput
-        disabled      
-          v-model="getFiltro.formaPago"
-          id="validationCustom01"
-          required
-        />
-
-        <CFormFeedback valid> Exito! </CFormFeedback>
-        <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-      </CCol>
-    </div>
-
-    <div class="col-6" style="position: relative;
-    left: -218px;">
-      <CButton class="mt-3" color="primary" @click="getEmpleadoPorDepartamento(this.getEmpleado)">Imprimir Nomina</CButton>
-    </div>
-    </div>
-
-      <!-- <CCol :md="4">
-        <CFormLabel for="validationCustom01">Tipo de contracto</CFormLabel>
-        <CFormInput
-          v-model="getFiltro.TipoContrato"
-          id="validationCustom01"
-          required
-        />
-
-        <CFormFeedback valid> Exito! </CFormFeedback>
-        <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-      </CCol>
-
-
-      <CCol :md="4">
-        <CFormLabel for="validationCustom01">Tipo de pago</CFormLabel>
-        <CFormSelect
-          v-model="getEmpleado"
-          id="validationCustom05"
-        >
-          <option
-            v-for="departamento in departamentos"
-            :key="departamento.id"
-            :value="departamento.id"
-            type="number"
-          >
-            {{ departamento.nombre }}
-          </option>
-        </CFormSelect>
-
-        <CFormFeedback valid> Exito! </CFormFeedback>
-        <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-      </CCol>
-
-
       <CCol :md="4">
         <CFormLabel for="validationCustom01">Departamento</CFormLabel>
         <CFormSelect
@@ -2708,13 +2581,9 @@
 
         <CFormFeedback valid> Exito! </CFormFeedback>
         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-      </CCol> -->
+      </CCol>
 
-
-      
-
-
-    
+      <CButton class="mt-3" color="primary" @click="getEmpleadoPorDepartamento(this.getEmpleado)">Filtrar</CButton>
 
       <!-- <CCol :md="6">
         <CFormLabel for="validationCustom01">Fecha</CFormLabel>
@@ -2804,7 +2673,7 @@
             size="sm"
             @click="toggleDetails(item, index)"
           >
-            {{ Boolean(item._toggled) ? 'Hide' : 'Imprimir Volante' }}
+            {{ Boolean(item._toggled) ? 'Hide' : 'Imprimir' }}
           </CButton>
         </td>
       </template>
@@ -2850,16 +2719,6 @@ export default {
       estructuras: null,
       getEmpleado: 0,
       getEmpleadosDep:[{ id: 0, DepartamentoId: 0,}],
-
-      getFiltro: {
-      fecha: new Date(Date.now()),
-      departamentoId: 0,
-      programaDivisionId: 0,
-      tipoContrato: null,
-      formaPago: null
-      },
-
-      klkG: [{}],
 
       getByIdNominaGeneral: {
         DepartamentoId: 0,
@@ -3201,27 +3060,27 @@ export default {
           label: 'Cedula',
           _style: { width: '4%' },
         },
-        // { key: 'programaDivisionId', label: 'ProgramaDivision', _style: { width: '1%' } },
-        // {
-        //   key: 'departamentoId',
-        //   label: 'Departamento',
-        //   _style: { width: '5%' },
-        // },
+        { key: 'programaDivisionId', label: 'ProgramaDivision', _style: { width: '1%' } },
+        {
+          key: 'departamentoId',
+          label: 'Departamento',
+          _style: { width: '5%' },
+        },
         {
           key: 'posicionId',
           label: 'Cargo',
           _style: { width: '5%' },
         },
-        // {
-        //   key: 'tipoContrato',
-        //   label: 'Tipo de contrato',
-        //   _style: { width: '5%' },
-        // },
-        // {
-        //   key: 'formaPago',
-        //   label: 'Forma de pago',
-        //   _style: { width: '5%' },
-        // },
+        {
+          key: 'tipoContrato',
+          label: 'Tipo de contrato',
+          _style: { width: '5%' },
+        },
+        {
+          key: 'formaPago',
+          label: 'Forma de pago',
+          _style: { width: '5%' },
+        },
         // {
         //   key: 'Direccion o Dependencia',
         //   label: 'Direccion o Dependencia',
@@ -3234,9 +3093,7 @@ export default {
           _style: { width: '2%' },
         },
         { key: 'sueldo', label: 'Sueldo', _style: { width: '1%' } },
-        { key: 'retenciones', label: 'Retenciones', _style: { width: '1%' } },
-        { key: 'totalAPagar', label: 'Neto', _style: { width: '1%' } },
-        { key: '#cheque', label: '#Ck', _style: { width: '1%' } },
+        // { key: 'sexo', label: 'Sexo', _style: { width: '1%' } },
         {
           key: 'show_details',
           label: '',
@@ -3264,7 +3121,7 @@ export default {
     getNominaGeneral() {
       Api.getnominaGeneral(this.nominaGneral).then((response) => {
         this.nominag = response.data.data
-        console.log(this.nominag.formaPago)
+        console.log(this.klk11)
       })
     },
 
@@ -3976,55 +3833,10 @@ export default {
       console.log(item.departamentoId)
       Api.getNominaGeneralById(item.departamentoId).then((response) => {
         // this.getEmpleadosDep = response.data.data
-        // this.getFiltro.TipoContrato = 
         this.getEmpleado = item.departamentoId
-   
         this.getEmpleadoPorDepartamento(item.departamentoId)
         console.log(response.data.data)
         this.id = item.id
-        //this.postIngreso = response.data.data
-      })
-    },
-
-    
-    toggleDetail3(item) {
-      // if (this.details.includes(item._id)) {
-      //   this.details = this.details.filter((_item) => _item !== item._id)
-      //   return
-      // }
-      // this.details.push(item._id)
-      console.log(item)
-
-      // Api.getConfiguracionNominabyid(item.id).then((response) => {
-      //   this.postConfiguracionNomina = response.data.data
-      // })
-
-      // Api.getSalarioById(item.id).then((response) => {
-      //   this.ingresos = response.data.data
-      // })
-      // if (item.Empleado !== 0 || item.variacion !== 0) {
-      //   this.formuladoValue = true
-      // } else {
-      //   this.formuladoValue = false
-      // }
-      // this.edit = true
-      // this.lgDemo = true
-      console.log('llamando')
-     
-      Api.getNominaGeneralById(item.id).then((response) => {
-        
-        this.getFiltro = response.data.data
-        
-        // this.getFiltro.TipoContrato = 
-        // this.getEmpleado = item.departamentoId
-        console.log('llamando')
-        console.log(this.getFiltro)
-
-        console.log(response.data.tipoContrato)
-        console.log(response.data.tipoContrato)
-        // this.getEmpleadoPorDepartamento(item.departamentoId)
-        // console.log(this.getEmpleado)
-        // this.id = item.id
         //this.postIngreso = response.data.data
       })
     },
@@ -4035,7 +3847,6 @@ export default {
 
     Api.getnominaGeneral(this.nominaGneral).then((response) => {
       this.nominag = response.data.data
-      
     })
 
     Api.getEmpleadosPorDepartamentos(this.getEmpleado).then((response) => {
