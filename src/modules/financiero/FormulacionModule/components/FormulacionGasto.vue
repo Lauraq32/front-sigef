@@ -767,30 +767,31 @@ export default {
           const ws = wb.Sheets[wsname]
           const data = XLSX.utils.sheet_to_json(ws)
           data.map((item) => {
-            if (item['PROGRAMA'] < 90) {
+            console.log(item);
+            if (Object.values(item)[2] < 90) {
               this.pnap = '00'
-              this.programa = item['PROGRAMA'].toString().padStart(2, 0)
+              this.programa = Object.values(item)[2].toString().padStart(2, 0)
             }
-            else if (item['PROGRAMA'] > 90) {
-              this.pnap = item['PROGRAMA']
+            else if (Object.values(item)[2] > 90) {
+              this.pnap = Object.values(item)[2]
               this.programa = '00'
             }
 
             this.proyectosList.push({
               AyuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
               AnioFiscalId: parseInt(localStorage.getItem('ano')),
-              MestProgId: `0011${item['PROYECTO']
+              MestProgId: `0011${Object.values(item)[4]
                 .toString()
-                .padStart(2, 0)}${item['ACTIVIDAD_OBRA']
+                .padStart(2, 0)}${Object.values(item)[5]
                   .toString()
                   .padStart(4, 0)}`,
 
               PNAP: this.pnap,
               Programa: this.programa,
-              Proyecto: `${item['PROYECTO']}`,
+              Proyecto: `${Object.values(item)[4]}`,
               ActObra: null,
-              EstControl: `${item['PROGRAMA'].toString()}${item['SUB_PROGRAMA'].toString()}${item['PROYECTO'].toString()}0000`,
-              Nombre: item['NOMBRE DE LA OBRA'],
+              EstControl: `${Object.values(item)[2].toString()}${Object.values(item)[3].toString()}${Object.values(item)[4].toString()}0000`,
+              Nombre: Object.values(item)[6],
               UnidadResp: '',
               Tipo: '',
               CtgFuncionId: '',
@@ -831,12 +832,13 @@ export default {
           const ws = wb.Sheets[wsname]
           const data = XLSX.utils.sheet_to_json(ws)
           data.map((item) => {
-            if (item['PROGRAMA'] < 90) {
+            console.log(item);
+            if (Object.values(item)[2] < 90) {
               this.pnap = '00'
-              this.programa = item['PROGRAMA'].toString().padStart(2, 0)
+              this.programa = Object.values(item)[2].toString().padStart(2, 0)
             }
-            else if (item['PROGRAMA'] > 90) {
-              this.pnap = item['PROGRAMA']
+            else if (Object.values(item)[2] > 90) {
+              this.pnap = Object.values(item)[2]
               this.programa = '00'
             }
 
@@ -844,47 +846,47 @@ export default {
               presGastoId: 0,
               ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
               anioFiscalId: parseInt(localStorage.getItem('ano')),
-              mestProgId: `${this.pnap}${this.programa}${item['PROYECTO']
+              mestProgId: `${this.pnap}${this.programa}${Object.values(item)[4]
                 .toString()
-                .padStart(3, 0)}${item['ACTIVIDAD_OBRA']
+                .padStart(3, 0)}${Object.values(item)[5]
                   .toString()
                   .padStart(3, 0)}`,
-              ctgClasificadorId: `${item['TIPO']}${item['CONCEPTO']}${item['CUENTA']
-                }${item['SUB_CUENTA']}${item['AUXILIAR']
+              ctgClasificadorId: `${Object.values(item)[6]}${Object.values(item)[7]}${Object.values(item)[8]
+                }${Object.values(item)[9]}${Object.values(item)[10]
                   .toString()
                   .padStart(2, 0)}`,
-              cControl: `${item['CUENTA']}`,
-              auxiliar: `${item['AUXILIAR'].toString().padStart(2, 0)}`,
-              ctgFuenteId: `${item['FUENTE_FINANCIAMIENTO']}`,
-              ctgFuenteEspecificaId: `${item['FUENTE_ESPECIFICA']}`,
-              ctgOrganismoFinanciadorId: `${item['ORGANISMO_FINANCIADOR']}`,
+              cControl: `${Object.values(item)[8]}`,
+              auxiliar: `${Object.values(item)[10].toString().padStart(2, 0)}`,
+              ctgFuenteId: `${Object.values(item)[15]}`,
+              ctgFuenteEspecificaId: `${Object.values(item)[16]}`,
+              ctgOrganismoFinanciadorId: `${Object.values(item)[17]}`,
               oriFondos: 0,
               ctgFuncionId: '1',
               nombre: null,
               tipo: '',
               tipoGasto: '',
-              oriBco1: `${item['DESTINO_FONDO'] == 'P' ? item['MONTO'] : 0}`,
+              oriBco1: `${Object.values(item)[11] == 'P' ? Object.values(item)[18] : 0}`,
               estimadoBco1: 0,
               presupuestoBco1: 0,
               variacionBco1: 0,
               totalDevengadoBco1: 0,
               disponiblePagadoBco1: 0,
               totalPagadoBco1: 0,
-              oriBco2: `${item['DESTINO_FONDO'] == 'S' ? item['MONTO'] : 0}`,
+              oriBco2: `${Object.values(item)[11] == 'S' ? Object.values(item)[18] : 0}`,
               estimadoBco2: 0,
               presupuestoBco2: 0,
               variacionBco2: 0,
               totalDevengadoBco2: 0,
               disponiblePagadoBco2: 0,
               totalPagadoBco2: 0,
-              oriBco3: `${item['DESTINO_FONDO'] == 'I' ? item['MONTO'] : 0}`,
+              oriBco3: `${Object.values(item)[11] == 'I' ? Object.values(item)[18] : 0}`,
               estimadoBco3: 0,
               presupuestoBco3: 0,
               variacionBco3: 0,
               totalDevengadoBco3: 0,
               disponiblePagadoBco3: 0,
               totalPagadoBco3: 0,
-              oriBco4: `${item['DESTINO_FONDO'] == 'E' ? item['MONTO'] : 0}`,
+              oriBco4: `${Object.values(item)[11] == 'E' ? Object.values(item)[18] : 0}`,
               estimadoBco4: 0,
               presupuestoBco4: 0,
               variacionBco4: 0,

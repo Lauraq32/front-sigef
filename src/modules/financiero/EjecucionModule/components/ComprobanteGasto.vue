@@ -681,7 +681,7 @@
               </div>
             </div>
             <div
-              v-if="(isVariacion)"
+              v-if="isVariacion"
               v-for="(inputs, i) in postGastoDetalle.detaRetencionDto.length"
             >
               <hr />
@@ -785,7 +785,7 @@
 
           <CCol :md="3">
             <button
-              v-if="(isVariacion)" 
+              v-if="isVariacion"
               class="btn btn-primary"
               style="margin-top: 32px"
               v-on:click="addRetencion"
@@ -884,6 +884,40 @@
     <CModalHeader class="text-center">
       <CModalTitle>Estructurar por Clasificador</CModalTitle>
     </CModalHeader>
+    <div class="row p-1">
+      <div class="col-4">
+        <label
+          for="dni"
+          style="font-weight: bold; margin-left: 12px; margin-top: 7px"
+          >Programa o Proyecto</label
+        >
+
+        <input
+          type="number"
+          name="dni"
+          id="dni"
+          v-model="postGastoDetalle.detalleRegistroGastoDto.estProg"
+          class="form-control"
+          disabled
+        />
+      </div>
+      <div class="col-8">
+        <label
+          for="dni"
+          style="font-weight: bold; margin-left: 12px; margin-top: 7px"
+          >Descripcion</label
+        >
+        <input
+          type="text"
+          name="dni"
+          id="dni"
+          v-model="nombreEst"
+          class="form-control"
+          disabled
+        />
+      </div>
+    </div>
+
     <CModalBody>
       <CCardBody>
         <hr />
@@ -909,6 +943,7 @@
           pagination
         >
           <template #show_details="{ item, index }">
+            <!-- <hr/> -->
             <td class="py-2">
               <CButton
                 color="primary"
@@ -1351,12 +1386,15 @@ export default {
       this.lgDemo1 = true
       this.id = item.id
       Api.getRegistroGastobyid(item.id).then((response) => {
-        if (response.data.data.etapa ==  'VARIACION' || response.data.data.etapa ==  'DEVENGADO') {
+        if (
+          response.data.data.etapa == 'VARIACION' ||
+          response.data.data.etapa == 'DEVENGADO'
+        ) {
           this.isVariacion = false
         } else {
           this.isVariacion = true
         }
-        
+
         console.log(response.data)
         this.postGastoDetalle.detalleRegistroGastoDto.bancoId =
           response.data.data.bancoId
@@ -1435,7 +1473,7 @@ export default {
         showConfirmButton: false,
         timer: 1500,
       })
-      setTimeout(this.getCabecera(),500)
+      setTimeout(this.getCabecera(), 500)
       setTimeout(showDetalle(this.id), 500)
       //this.clearModal2()
     },

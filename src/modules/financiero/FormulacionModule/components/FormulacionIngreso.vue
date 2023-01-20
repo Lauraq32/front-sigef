@@ -347,22 +347,23 @@ export default {
           const data = XLSX.utils.sheet_to_json(ws);
           this.texto = wb;
           data.map(item => {
+            console.log(item);
             this.presIngrsoMasivo.push({
               ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
               anioFiscalId: parseInt(localStorage.getItem('ano')),
-              ctgClasificadorId: `${item['TIPO']}${item['CONCEPTO']}${item['CUENTA']}${item['SUB_CUENTA']}${item['AUXILIAR'].toString().padStart(2, 0)}`,
-              instOtorga: item['ENTIDAD_OTORGANTE'],
+              ctgClasificadorId: `${Object.values(item)[2]}${Object.values(item)[3]}${Object.values(item)[4]}${Object.values(item)[5]}${Object.values(item)[6].toString().padStart(2, 0)}`,
+              instOtorga: Object.values(item)[10],
               control: '',
-              detalle: Api.getClasificador(`${item['TIPO']}${item['CONCEPTO']}${item['CUENTA']}${item['SUB_CUENTA']}${item['AUXILIAR'].toString().padStart(2, 0)}`).then(response => {
+              detalle: Api.getClasificador(`${Object.values(item)[2]}${Object.values(item)[3]}${Object.values(item)[4]}${Object.values(item)[5]}${Object.values(item)[6].toString().padStart(2, 0)}`).then(response => {
                 response.data.data.nombre
 
               })[0],
-              ctgFuenteId: item["FUENTE_FINANCIAMIENTO"],
-              ctgFuenteEspecificaId: item["FUENTE_ESPECIFICA"],
-              ctgOrganismoFinanciadorId: item["ORGANISMO_FINANCIADOR"],
+              ctgFuenteId: Object.values(item)[7],
+              ctgFuenteEspecificaId: Object.values(item)[8],
+              ctgOrganismoFinanciadorId: Object.values(item)[9],
               anioAnt: 0,
-              alaFecha: item["PRESUPUESTO_ACTUAL"],
-              presForm: item["PRESUPUESTO_ACTUAL"],
+              alaFecha: Object.values(item)[12],
+              presForm: Object.values(item)[13],
               variacion: 0,
               ingresos: 0,
               variacionResumen: 0,
