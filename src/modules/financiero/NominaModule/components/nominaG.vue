@@ -120,6 +120,7 @@
   <CSmartTable clickableRows :tableProps="{
     striped: false,
     hover: true,
+     
   }" :tableHeadProps="{}" :activePage="1" footer header :items="nominag" :columns="columns" columnFilter 
      itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
     pagination>
@@ -2032,8 +2033,9 @@
     <CSmartTable clickableRows :tableProps="{
       striped: false,
       hover: true,
+      
     }" :tableHeadProps="{}" :activePage="1" footer header :items="getEmpleadosDep" :columns="columns2" columnFilter
-       itemsPerPageSelect :itemsPerPage="5" columnSorter
+       itemsPerPageSelect :itemsPerPage="5" columnSorter 
       :sorterValue="{ column: 'status', state: 'asc' }" pagination :backdrop="false">
 
       
@@ -2055,11 +2057,33 @@
         </td>
       </template> -->
       <template #show_details="{ item, index }">
-        <td class="py-2">
-          <CButton color="primary" variant="outline" square size="sm" @click="toggleDetails(item, index)">
+        <!-- <td >
+        <CButton color="primary" variant="outline" square size="sm" @click="toggleDetails(item, index)">
+            {{ Boolean(item._toggled) ?'Hide': 'Cons/Nom Empleado' }}
+          </CButton>
+        </td> -->
+
+        <td class="py-1">
+      <td class="py-1">
+        <td class="py-1">
+          <CButton color="primary" variant="outline" square size="sm" @click="
+          () => {
+            toggleDetail3(item, index)
+            reportes = false
+            consulEmple = true          
+          }
+        ">
+            {{ Boolean(item._toggled) ?'Hide': 'Cons/Nom Empleado' }}
+          </CButton>
+        </td>
+      </td>
+      <td class="py-1">
+          <CButton color="primary" variant="outline" square size="sm">
             {{ Boolean(item._toggled) ?'Hide': 'Imprimir volante' }}
           </CButton>
         </td>
+      </td>
+        
       </template>
       <template #details="{ item }">
         <CCollapse :visible="this.details.includes(item._id)">
@@ -2076,6 +2100,90 @@
     </CSmartTable>
     <CModalFooter class="mt-3">
       <CButton @click="closess" color="secondary">Close</CButton>
+    </CModalFooter>
+  </CModal>
+
+  <CModal @close="
+    () => {
+      consulEmple = false
+    }
+  " size="xl" :backdrop="false" :keyboard="false" :visible="consulEmple">
+    <CModalHeader>
+      <CModalTitle>Consultas de Nominas del empleado</CModalTitle>
+    </CModalHeader>
+    <CModalBody>
+     
+    </CModalBody>
+    <!-- <CModalFooter>
+      <CButton @click="closess" color="secondary">Close</CButton>
+    </CModalFooter> -->
+    <CSmartTable clickableRows :tableProps="{
+      striped: false,
+      hover: true,
+      
+    }" :tableHeadProps="{}" :activePage="1" footer header :items="getEmpleadosDep1" :columns="columns3" columnFilter
+       itemsPerPageSelect :itemsPerPage="5" columnSorter 
+      :sorterValue="{ column: 'status', state: 'asc' }" pagination :backdrop="false">
+
+      
+      <!-- <template #pocision="{ item }">
+        <td>
+          {{ item.posicion.nombre }}
+        </td>
+      </template> -->
+
+   
+      <template #fecha="{ item }">
+        <td>
+          {{ formatDate(item.fecha) }}
+        </td>
+      </template>
+      <!-- <template #posicion="{ item }">
+        <td>
+          {{ item.posicion.nombre }}
+        </td>
+      </template> -->
+      <template #show_details="{ item, index }">
+        <td class="py-1">
+      <!-- <td class="py-1">
+        <CButton @click="toggleDetail2()" class="mt-1" color="primary" variant="outline" square size="sm">
+          {{ Boolean(item._toggled) ?'Hide': 'Imprimir' }}
+        </CButton>
+      </td> -->
+      <!-- <td class="py-1">
+        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="
+          () => {
+            clearModal2()
+            reportes = true
+            toggleDetail2(item)
+          }
+        ">
+          {{ Boolean(item._toggled) ?'Hide': 'Cons/Nomina' }}
+        </CButton>
+      </td> -->
+      </td>
+        
+        <!-- <td class="py-2">
+          <CButton color="primary" variant="outline" square size="sm" @click="toggleDetails(item, index)">
+            {{ Boolean(item._toggled) ?'Hide': 'Imprimir volante' }}
+          </CButton>
+        </td> -->
+      </template>
+      <template #details="{ item }">
+        <CCollapse :visible="this.details.includes(item._id)">
+          <CCardBody>
+            <h4>
+              {{ item.username }}
+            </h4>
+            <p class="text-muted">User since: {{ item.registered }}</p>
+            <CButton size="sm" color="info" class=""> User Settings </CButton>
+            <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
+          </CCardBody>
+        </CCollapse>
+      </template>
+    </CSmartTable>
+    <CModalFooter class="mt-3">
+      <CButton color="secondary">Close</CButton>
     </CModalFooter>
   </CModal>
 </template>
@@ -2099,6 +2207,7 @@ export default {
 
   data: () => {
     return {
+      consulEmple: false,
       nominag: [],
       reportes: false,
       arsCheck: false,
@@ -2106,6 +2215,7 @@ export default {
       estructuras: null,
       getEmpleado: 0,
       getEmpleadosDep: [{ id: 0, DepartamentoId: 0, }],
+      getEmpleadosDep1: [],
       programaDivision: [],
       idDep: 0,
 
@@ -2444,6 +2554,12 @@ export default {
       ],
 
       columns2: [
+
+      {
+          key: 'id',
+          label: 'codigo',
+          _style: { width: '4%' },
+        },
         {
           key: 'apellidos',
           label: 'Apellido',
@@ -2483,6 +2599,91 @@ export default {
           label: '#CK',
           _style: { width: '5%' },
         },
+        // {
+        //   key: 'tipoContrato',
+        //   label: 'Tipo de contrato',
+        //   _style: { width: '5%' },
+        // },
+        // {
+        //   key: 'formaPago',
+        //   label: 'Forma de pago',
+        //   _style: { width: '5%' },
+        // },
+        // {
+        //   key: 'Direccion o Dependencia',
+        //   label: 'Direccion o Dependencia',
+        //   _style: { width: '15%' },
+        // },
+
+        // {
+        //   key: 'fechaIngreso',
+        //   label: 'Fecha Ingreso',
+        //   _style: { width: '2%' },
+        // },
+        // { key: 'sueldo', label: 'Sueldo', _style: { width: '1%' } },
+        // { key: 'sexo', label: 'Sexo', _style: { width: '1%' } },
+        {
+          key: 'show_details',
+          label: '',
+          _style: { width: '1%' },
+          // filter: false,
+          sorter: false,
+          // _props: { color: 'primary', class: 'fw-semibold'}
+        },
+      ],
+
+      columns3: [
+
+      {
+          key: 'fecha',
+          label: 'Fecha Nomina',
+          _style: { width: '4%' },
+        },
+        {
+          key: 'codEmpl',
+          label: 'Cod/Empleado',
+          _style: { width: '4%' },
+        },
+
+        {
+          key: 'nombreEmpleado',
+          label: 'Nombre del empleado',
+          _style: { width: '5%' },
+        },
+        {
+          key: 'formaPago',
+          label: 'Forma de pago',
+          _style: { width: '4%' },
+        },
+        {
+          key: 'tipoContrato',
+          label: 'Tipo de contrato',
+          _style: { width: '4%' },
+        },
+
+        {
+          key: 'nombreEmpleado',
+          label: 'Nombre del empleado',
+          _style: { width: '5%' },
+        },
+
+        {
+          key: 'sueldo',
+          label: 'Sueldo bruto',
+          _style: { width: '2%' },
+        },
+
+        // {
+        //   key: 'sueldo',
+        //   label: 'Sueldo bruto',
+        //   _style: { width: '4%' },
+        // },
+        // { key: 'retenciones', label: 'Retenciones', _style: { width: '1%' } },
+        // {
+        //   key: 'noCheque',
+        //   label: '#CK',
+        //   _style: { width: '5%' },
+        // },
         // {
         //   key: 'tipoContrato',
         //   label: 'Tipo de contrato',
@@ -3266,6 +3467,29 @@ export default {
       })
 
     },
+
+    toggleDetail3(item) {
+
+console.log(item.departamentoId)
+Api.getNominaGeneralById(item.id).then((response) => {
+  // this.getEmpleadosDep = response.data.data
+  this.idDep = item.departamentoId
+  this.getFiltro = response.data.data
+  console.log('mmg')
+  console.log(this.getFiltro)
+  // this.getEmpleadoPorDepartamento(item.departamentoId)
+  // console.log(response.data.data)
+  // this.id = item.id
+  //this.postIngreso = response.data.data
+
+  Api.getNominaPorEmpleado(item.id).then((response) => {
+    this.getEmpleadosDep1 = response.data.data
+    console.log('mmg7')
+    console.log(this.getEmpleadosDep)
+  })
+})
+
+},
   },
 
   mounted() {
