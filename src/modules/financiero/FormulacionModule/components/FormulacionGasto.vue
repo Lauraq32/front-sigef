@@ -1117,7 +1117,7 @@ export default {
       }
     },
     onFileChange(event) {
-      this.cargarEstructuras()
+      //this.cargarEstructuras()
       this.file = event.target.files ? event.target.files[0] : null
       if (this.file) {
         const reader = new FileReader()
@@ -1230,7 +1230,7 @@ export default {
               text: response.message,
               title: 'Agregado',
               showConfirmButton: false,
-              timer: 1500,
+              timer: 500,
             })
           })
           setTimeout(this.getListarGastos, 500)
