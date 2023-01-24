@@ -2066,6 +2066,7 @@
         <td class="py-1">
       <td class="py-1">
         <td class="py-1">
+        <td class="py-1">
           <CButton color="primary" variant="outline" square size="sm" @click="
           () => {
             toggleDetail3(item, index)
@@ -2083,6 +2084,7 @@
           </CButton>
         </td>
       </td>
+    </td>
         
       </template>
       <template #details="{ item }">
@@ -2105,6 +2107,7 @@
 
   <CModal @close="
     () => {
+      
       consulEmple = false
     }
   " size="xl" :backdrop="false" :keyboard="false" :visible="consulEmple">
@@ -2183,7 +2186,7 @@
       </template>
     </CSmartTable>
     <CModalFooter class="mt-3">
-      <CButton color="secondary">Close</CButton>
+      <CButton color="secondary" @click="cerrar" >Close</CButton>
     </CModalFooter>
   </CModal>
 </template>
@@ -2885,6 +2888,11 @@ export default {
       })
     },
 
+    cerrar(){
+      this.consulEmple = false
+      this.AbrirToggle()
+    },
+
     formatDate1(fecha) {
       return new Date(fecha).toLocaleDateString('en-GB', {
         day: '2-digit',
@@ -3443,6 +3451,12 @@ export default {
         this.id = item.id
         //this.postIngreso = response.data.data
       })
+    },
+
+    AbrirToggle(){
+     if(this.consulEmple == false){
+      this.reportes = true
+     }
     },
 
     toggleDetail2(item) {
