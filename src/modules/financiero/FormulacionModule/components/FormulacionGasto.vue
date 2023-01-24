@@ -1166,38 +1166,38 @@ export default {
               nombre: null,
               tipo: '',
               tipoGasto: '',
-              oriBco1: `${
+              oriBco1: 0,
+              estimadoBco1: 0,
+              presupuestoBco1: `${
                 Object.values(item)[11] == 'P' ? Object.values(item)[18] : 0
               }`,
-              estimadoBco1: 0,
-              presupuestoBco1: 0,
               variacionBco1: 0,
               totalDevengadoBco1: 0,
               disponiblePagadoBco1: 0,
               totalPagadoBco1: 0,
-              oriBco2: `${
+              oriBco2: 0,
+              estimadoBco2: 0,
+              presupuestoBco2: `${
                 Object.values(item)[11] == 'S' ? Object.values(item)[18] : 0
               }`,
-              estimadoBco2: 0,
-              presupuestoBco2: 0,
               variacionBco2: 0,
               totalDevengadoBco2: 0,
               disponiblePagadoBco2: 0,
               totalPagadoBco2: 0,
-              oriBco3: `${
+              oriBco3:0,
+              estimadoBco3: 0,
+              presupuestoBco3:  `${
                 Object.values(item)[11] == 'I' ? Object.values(item)[18] : 0
               }`,
-              estimadoBco3: 0,
-              presupuestoBco3: 0,
               variacionBco3: 0,
               totalDevengadoBco3: 0,
               disponiblePagadoBco3: 0,
               totalPagadoBco3: 0,
-              oriBco4: `${
+              oriBco4: 0,
+              estimadoBco4: 0,
+              presupuestoBco4: `${
                 Object.values(item)[11] == 'E' ? Object.values(item)[18] : 0
               }`,
-              estimadoBco4: 0,
-              presupuestoBco4: 0,
               variacionBco4: 0,
               totalDevengadoBco4: 0,
               disponiblePagadoBco4: 0,
