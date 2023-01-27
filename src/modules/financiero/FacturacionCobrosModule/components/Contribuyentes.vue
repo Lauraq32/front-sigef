@@ -13,6 +13,10 @@
         >Agregar</CButton
       >
     </div>
+
+    <div class="d-inline p-2">
+      <CButton color="info" @click="volver">Comprobacion Ingreso</CButton>
+    </div>
   </div>
   <hr />
   <CSmartTable
@@ -319,6 +323,7 @@ import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import Api from '../services/FacturacionCobrosServices'
+import router from '@/router'
 
 export default {
   components: {
@@ -394,6 +399,11 @@ export default {
     },
     close() {
       this.lgDemo = false
+    },
+
+    volver() {
+      router.push({ name: 'comprobanteIngreso' })
+      console.log('klk')
     },
 
     submitForm() {

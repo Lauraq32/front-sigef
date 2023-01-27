@@ -235,6 +235,8 @@
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
+
+         
           <CCol :md="2">
             <CFormLabel for="validationCustom04">Contribuyente</CFormLabel>
             <vue3-simple-typeahead
@@ -253,6 +255,17 @@
             </vue3-simple-typeahead>
           </CCol>
 
+          <CCol :md="2">
+          <CButton
+          style="    position: relative;
+    top: 31px;"
+        color="info"
+        @click="
+          volver
+        "
+        >Contribuyentes</CButton
+      >
+    </CCol>
           <hr />
           <CCol :md="11">
             <CFormLabel for="validationCustom04">Detalle</CFormLabel>
@@ -513,6 +526,7 @@ import { mapStores, mapActions, mapState } from 'pinia'
 import { ref } from 'vue'
 import SimpleTypeahead from 'vue3-simple-typeahead'
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
+import router from '@/router'
 
 export default {
   components: {
@@ -639,6 +653,12 @@ export default {
     ...mapState(useEjecucionIngresoStore, ['ingresosList']),
   },
   methods: {
+
+    volver() {
+      router.push({ name: 'Contribuyentes' })
+      console.log('klk')
+    },
+
     imprimirReporte() {
       window
         .open(
