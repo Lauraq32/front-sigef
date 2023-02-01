@@ -9,6 +9,46 @@ class Conciliacion {
     return http.get('Beneficiarios')
   }
 
+  getAllDepositos() {
+    return http.get('ConciliacionDeposito')
+  }
+
+  getAllNotaDebitoById(BancoId) {
+    return http.get(`ConciliacionDebito/${localStorage.getItem('id_Ayuntamiento')}/${BancoId}`)
+  }
+
+  getAllNotaCreditoById(BancoId) {
+    return http.get(`ConciliacionCredito/${localStorage.getItem('id_Ayuntamiento')}/${BancoId}`)
+  }
+
+  getAllCuentaBanco() {
+    return http.get(
+      `ConciliacionCuentaBanco/${localStorage.getItem('id_Ayuntamiento')}`,
+    )
+  }
+
+  getDepositoById(BancoId) {
+    return http.get(
+      `ConciliacionDeposito/${localStorage.getItem(
+        'id_Ayuntamiento',
+      )}/${BancoId}`,
+    )
+  }
+
+  postDeposito(data) {
+    return http.post(
+      'ConciliacionDeposito', data)
+  }
+
+  postNotaDebito(data) {
+    return http.post(
+      'ConciliacionDebito', data)
+  }
+  postNotaCredito(data) {
+    return http.post(
+      'ConciliacionCredito', data)
+  }
+
   getBeneficiariosById(id) {
     return http.get(`Beneficiarios/${id}`)
   }
@@ -19,16 +59,13 @@ class Conciliacion {
     return http.post('AnioFiscal', data)
   }
 
-
   //put
 
   putBeneficiarios(id) {
     return http.put(`Beneficiarios/${id}`)
   }
 
-
   //delete
-
 }
 
 export default new Conciliacion()

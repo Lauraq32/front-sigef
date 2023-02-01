@@ -8,7 +8,7 @@
         @click="
           () => {
             lgDemo = true
-            clearModal1()
+            //clearModal1()
           }
         "
         >Agregar</CButton
