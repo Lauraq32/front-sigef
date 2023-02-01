@@ -14,13 +14,9 @@
             the user navigated through and shows the current location in a
             website or an application. You don’t have to add separators, because
             they automatically added in CSS through
-            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/::before">
-              <code>::before</code>
-            </a>
+        
             and
-            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/content">
-              <code>content</code>
-            </a>
+          
             .
           </p>
           <DocsExample href="components/breadcrumb">

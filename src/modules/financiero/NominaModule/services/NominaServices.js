@@ -117,6 +117,10 @@ class NominaApi {
     return http.get(`Nomina/NominaGeneral?AyuntamientoId=${Nomina.AyuntamientoId ? Nomina.AyuntamientoId : null}&TipoContrato=${Nomina.TipoContrato ? Nomina.TipoContrato : null}&FormaPago=${Nomina.FormaPago ? Nomina.FormaPago : null}&Mes=${Nomina.Mes}&Anio=${Nomina.Anio}`)
   }
 
+  getNominaPorEmpleado(id) {
+    return http.get(`/Nomina/NominaporEmpleado/${id}`)
+  }
+
   postNomina(data) {
     return http.post('Nomina', data)
   }
