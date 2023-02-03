@@ -40,8 +40,36 @@
         >Seleccionar Cuenta</CButton
       >
     </div>
+    <div class="d-inline p-2">
+      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
+        >Imprimir</CButton
+      >
+    </div>
   </div>
   <hr />
+  <CModal :backdrop="false" :keyboard="false" :visible="reportes">
+    <CModalHeader>
+      <CModalTitle>Imprimir</CModalTitle>
+    </CModalHeader>
+    <CModalBody
+      ><CFormInput
+        type="date"
+        v-model="fechaInicio"
+        id="validationCustom05"
+        required
+      />
+      ><CFormInput
+        type="date"
+        v-model="fechaFinal"
+        id="validationCustom05"
+        required
+      />
+    </CModalBody>
+    <CModalFooter>
+      <CButton color="secondary">Close</CButton>
+      <CButton color="primary" @click="imprimirReporteFecha">Imprimir</CButton>
+    </CModalFooter>
+  </CModal>
   <CSmartTable
     clickableRows
     :tableProps="{
@@ -340,9 +368,13 @@ export default {
   data: () => {
     return {
       lgDemo3: false,
-      nombreCuenta:"",
-      detalle: "",
+      fechaInicio: null,
+      fechaFinal: null,
+      nombreCuenta: '',
+      detalle: '',
       Bancos: [],
+      cuentaId:null,
+      reportes: false,
       DepositoList: [],
       postDepositos: {
         ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
@@ -462,20 +494,20 @@ export default {
     //     this.DepositoList = response.data.data
     //   })
     // },
-    Guardar(){
+    Guardar() {
       Api.postDeposito(this.postDepositos).then((response) => {
-        console.log(response);
+        console.log(response)
       })
-      setTimeout(this.getAllBancos , 500)
+      setTimeout(this.getAllBancos, 500)
       Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          text: 'Datos agregados con exito',
-          title: 'Agregado',
-          showConfirmButton: false,
-          timer: 1500,
-        })
-        this.clearModal1()
+        position: 'top-end',
+        icon: 'success',
+        text: 'Datos agregados con exito',
+        title: 'Agregado',
+        showConfirmButton: false,
+        timer: 1500,
+      })
+      this.clearModal1()
     },
     getAllBancos() {
       Api.getAllCuentaBanco().then((response) => {
@@ -484,13 +516,13 @@ export default {
       })
     },
     getSelectCuenta(BancoId, nombre) {
+      this.cuentaId = BancoId
       Api.getDepositoById(BancoId).then((response) => {
         console.log(response.data)
         this.nombreCuenta = nombre
         console.log(nombre)
         this.postDepositos.bancoId = BancoId
         this.DepositoList = response.data.data
-
       })
     },
     getBadge(status) {
@@ -506,6 +538,19 @@ export default {
         default:
           'primary'
       }
+    },
+    IngresoReport() {
+      this.reportes = true
+    },
+    imprimirReporteFecha(){
+       window
+        .open(
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fConciliacionBancaria%2fRep_Depositos&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem(
+            'id_Ayuntamiento')}&CUENTA_BANCO=${this.cuentaId}&FECHA_INICIAL=${this.fechaInicio}&FECHA_FINAL=${this.fechaFinal}`,
+          '_blank',
+        )
+        .focus()
+        this.reportes = false
     },
     toggleDetails(item) {
       if (this.details.includes(item._id)) {
