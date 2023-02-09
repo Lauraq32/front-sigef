@@ -48,7 +48,7 @@
     </div>
   </div>
   <hr />
- 
+
   <CModal :backdrop="false" :keyboard="false" :visible="reportes">
     <CModalHeader>
       <CModalTitle>Exportar Variacion</CModalTitle>
@@ -74,7 +74,11 @@
       <CButton color="primary" @click="imprimirReporte">Imprimir</CButton>
     </CModalFooter>
   </CModal>
-  <CModal :backdrop="false" :keyboard="false" :visible="reportesExportarModalEjecucion">
+  <CModal
+    :backdrop="false"
+    :keyboard="false"
+    :visible="reportesExportarModalEjecucion"
+  >
     <CModalHeader>
       <CModalTitle>Exportar Ejecucion</CModalTitle>
     </CModalHeader>
@@ -96,7 +100,9 @@
     >
     <CModalFooter>
       <CButton color="secondary">Close</CButton>
-      <CButton color="primary" @click="exportarReporteEjecucion">Imprimir</CButton>
+      <CButton color="primary" @click="exportarReporteEjecucion"
+        >Imprimir</CButton
+      >
     </CModalFooter>
   </CModal>
   <CModal :backdrop="false" :keyboard="false" :visible="reportesExportarModal">
@@ -156,18 +162,39 @@
       </td>
     </template>
     <template #show_details="{ item, index }">
-      <td class="py-1" >
-        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="toggleDetails1(item.transaccionId)">
+      <td class="py-1">
+        <CButton
+          class="mt-1"
+          color="primary"
+          variant="outline"
+          square
+          size="sm"
+          @click="toggleDetails1(item.transaccionId)"
+        >
           {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
       </td>
-      <td class="py-1" >
-        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="toggleDetails2(item)">
+      <td class="py-1">
+        <CButton
+          class="mt-1"
+          color="primary"
+          variant="outline"
+          square
+          size="sm"
+          @click="toggleDetails2(item)"
+        >
           {{ Boolean(item._toggled) ? 'Hide' : 'Detalle' }}
         </CButton>
       </td>
-      <td class="py-1" >
-        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="imprimirReporte1(item)">
+      <td class="py-1">
+        <CButton
+          class="mt-1"
+          color="primary"
+          variant="outline"
+          square
+          size="sm"
+          @click="imprimirReporte1(item)"
+        >
           {{ Boolean(item._toggled) ? 'Hide' : 'Imprimir' }}
         </CButton>
       </td>
@@ -198,7 +225,6 @@
       <CModalTitle>Comprobantes de ingresos</CModalTitle>
     </CModalHeader>
     <CModalBody>
-    
       <CCardBody>
         <CForm
           class="row g-3 needs-validation"
@@ -236,7 +262,6 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
 
-         
           <CCol :md="2">
             <CFormLabel for="validationCustom04">Contribuyente</CFormLabel>
             <vue3-simple-typeahead
@@ -256,16 +281,13 @@
           </CCol>
 
           <CCol :md="2">
-          <CButton
-          style="    position: relative;
-    top: 31px;"
-        color="info"
-        @click="
-          volver
-        "
-        >Contribuyentes</CButton
-      >
-    </CCol>
+            <CButton
+              style="position: relative; top: 31px"
+              color="info"
+              @click="volver"
+              >Contribuyentes</CButton
+            >
+          </CCol>
           <hr />
           <CCol :md="11">
             <CFormLabel for="validationCustom04">Detalle</CFormLabel>
@@ -281,7 +303,7 @@
               Guardar
             </button>
           </div>
-          
+
           <div class="modal-footer"></div>
         </CForm>
       </CCardBody>
@@ -540,9 +562,9 @@ export default {
       mesReporte: 1,
       parametroReporte: '',
       reportes: false,
-      reportesExportarModal:false,
-      reportesExportarModalEjecucion:false,
-  
+      reportesExportarModal: false,
+      reportesExportarModalEjecucion: false,
+
       contribuyentesList: [],
       contribuyentesName: [],
       totales: null,
@@ -653,7 +675,6 @@ export default {
     ...mapState(useEjecucionIngresoStore, ['ingresosList']),
   },
   methods: {
-
     volver() {
       router.push({ name: 'Contribuyentes' })
       console.log('klk')
@@ -671,44 +692,59 @@ export default {
     },
     exportarReporte() {
       this.downloadFile()
-     //console.log(this.mesReporte.split('-')[0])
+      //console.log(this.mesReporte.split('-')[0])
     },
     exportarReporteEjecucion() {
       this.downloadFileEjecucion()
-     //console.log(this.mesReporte.split('-')[0])
+      //console.log(this.mesReporte.split('-')[0])
     },
     downloadFile() {
-      Api.downloadGastoModificacion(this.mesReporte.split('-')[0]).then((response) => {
-                     var fileURL = window.URL.createObjectURL(new Blob([response.data]));
-                     var fURL = document.createElement('a');
-    
-                     fURL.href = fileURL;
-                     fURL.setAttribute('download', `ME-${localStorage.getItem('usuario').substring(4,8)}${localStorage.getItem('fecha')}.csv`);
-                     document.body.appendChild(fURL);
-    
-                     fURL.click();
-                });
-                this.mesReporte = 1
+      Api.downloadGastoModificacion(this.mesReporte.split('-')[0]).then(
+        (response) => {
+          var fileURL = window.URL.createObjectURL(new Blob([response.data]))
+          var fURL = document.createElement('a')
+
+          fURL.href = fileURL
+          fURL.setAttribute(
+            'download',
+            `ME-${localStorage
+              .getItem('usuario')
+              .substring(4, 8)}${localStorage.getItem('fecha')}.csv`,
+          )
+          document.body.appendChild(fURL)
+
+          fURL.click()
+        },
+      )
+      this.mesReporte = 1
     },
     downloadFileEjecucion() {
-      Api.downloadGastoEjecucion(this.mesReporte.split('-')[0]).then((response) => {
-                     var fileURL = window.URL.createObjectURL(new Blob([response.data]));
-                     var fURL = document.createElement('a');
-    
-                     fURL.href = fileURL;
-                     fURL.setAttribute('download', `EI-${localStorage.getItem('usuario').substring(4,8)}${localStorage.getItem('fecha')}.csv`);
-                     document.body.appendChild(fURL);
-    
-                     fURL.click();
-                });
-                this.mesReporte = 1
+      Api.downloadGastoEjecucion(this.mesReporte.split('-')[0]).then(
+        (response) => {
+          var fileURL = window.URL.createObjectURL(new Blob([response.data]))
+          var fURL = document.createElement('a')
+
+          fURL.href = fileURL
+          fURL.setAttribute(
+            'download',
+            `EI-${localStorage
+              .getItem('usuario')
+              .substring(4, 8)}${localStorage.getItem('fecha')}.csv`,
+          )
+          document.body.appendChild(fURL)
+
+          fURL.click()
+        },
+      )
+      this.mesReporte = 1
     },
     imprimirReporte1(item) {
-     // console.log(item)
+      // console.log(item)
       window
         .open(
           `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Recibo_Ingresos_A1&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem(
-            'id_Ayuntamiento')}&ID_COMP_INGRESOS=${item.transaccionId}`,
+            'id_Ayuntamiento',
+          )}&ID_COMP_INGRESOS=${item.transaccionId}`,
           '_blank',
         )
         .focus()
@@ -728,7 +764,7 @@ export default {
     getContribuyentes() {
       Api.getContribuyente().then((response) => {
         this.contribuyentesList = response.data.data
-     
+
         this.contribuyentesList.map((contribuyente) => {
           this.contribuyentesName.push(
             `${contribuyente.id}-${contribuyente.nombre}`,
@@ -817,10 +853,9 @@ export default {
       this.clearModal1()
       event.preventDefault()
       event.stopPropagation()
-    
     },
-    reload(){
-      window.location.reload();
+    reload() {
+      window.location.reload()
     },
     getBadge(status) {
       switch (status) {
@@ -843,21 +878,21 @@ export default {
       })
     },
     clearModal1() {
-      this.detalleRegistroPost.detalleRegistroPostctgClasificadorId= '',
-      this.detalleRegistroPost.ctgFuenteId = '',
-      this.detalleRegistroPost.ctgClasificadorId = ''
-      this.detalleRegistroPost.ctgFuenteEspecificaId = '',
-      this.detalleRegistroPost.ctgOrganismoFinanciadorId = '',
-      this.detalleRegistroPost.fecha = new Date(Date.now()),
-      this.detalleRegistroPost.etapa = 'INGRESOS',
-      this.detalleRegistroPost.institucionOrtongate = '',
-      this.detalleRegistroPost.valor = 0,
-      this.detalleRegistroPost.estatus = 'A'
+      ;(this.detalleRegistroPost.detalleRegistroPostctgClasificadorId = ''),
+        (this.detalleRegistroPost.ctgFuenteId = ''),
+        (this.detalleRegistroPost.ctgClasificadorId = '')
+      ;(this.detalleRegistroPost.ctgFuenteEspecificaId = ''),
+        (this.detalleRegistroPost.ctgOrganismoFinanciadorId = ''),
+        (this.detalleRegistroPost.fecha = new Date(Date.now())),
+        (this.detalleRegistroPost.etapa = 'INGRESOS'),
+        (this.detalleRegistroPost.institucionOrtongate = ''),
+        (this.detalleRegistroPost.valor = 0),
+        (this.detalleRegistroPost.estatus = 'A')
       this.detalle = ''
       // this.detalleRegistroPost = {
       //   ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
       //   anioFiscalId: localStorage.getItem('ano'),
-   
+
       //   ctgClasificadorId: '',
       //   ctgFuenteId: '',
       //   ctgFuenteEspecificaId: '',
@@ -900,16 +935,17 @@ export default {
         localStorage.getItem('ano'),
         localStorage.getItem('id_Ayuntamiento'),
       ).then((response) => {
-        Api.getContribuyenteById(response.data.data.contribuyenteId).then((response) => {
-          this.ingresoPost.contribuyenteId = response.data.data.id
-          // this.selectItemEventHandler(response.data.data.id)
-          // console.log(response.data.data.id)
-         
-        })
+        Api.getContribuyenteById(response.data.data.contribuyenteId).then(
+          (response) => {
+            this.ingresoPost.contribuyenteId = response.data.data.id
+            // this.selectItemEventHandler(response.data.data.id)
+            // console.log(response.data.data.id)
+          },
+        )
         this.ingresoPost = response.data.data
         this.detalleRegistroPost.transaccionId =
           response.data.data.transaccionId
-       // console.log(response.data)
+        // console.log(response.data)
       }),
         (this.lgDemo = true)
     },
@@ -921,7 +957,7 @@ export default {
       // }
       // this.details.push(item._id)
       console.log(item)
-      this.id = (item.transaccionId)
+      this.id = item.transaccionId
       this.getTotalIngreso(this.id)
       this.getDetalle(item.transaccionId)
       this.detalleRegistroPost.etapa = item.etapa
@@ -941,7 +977,7 @@ export default {
       Api.getIngresoClasificadorById(
         this.detalleRegistroPost.ctgClasificadorId,
       ).then((response) => {
-       // console.log(response.data.data)
+        // console.log(response.data.data)
         this.detalle = response.data.data.detalle
         this.detalleRegistroPost.ctgFuenteId = response.data.data.ctgFuenteId
         this.detalleRegistroPost.ctgFuenteEspecificaId =
@@ -950,7 +986,7 @@ export default {
           response.data.data.ctgOrganismoFinanciadorId
         this.detalleRegistroPost.institucionOrtongate =
           response.data.data.instOtorga
-         
+
         // this.detallePost.cControl = response.data.data.cControl
         // this.detallePost.nombre = response.data.data.nombre
         // this.postIngreso.control = response.data.data.cControl

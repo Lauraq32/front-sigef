@@ -519,30 +519,29 @@
                   </CFormFeedback>
                 </CCol>
 
-                <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Tipo de cobro</CFormLabel
-                  >
-                  <CFormInput
-                    disabled
-                    v-model="postEmpleado.periodoPago"
-                    id="validationCustom02"
-                    required
-                  />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
+                <CCol :md="6">
+                    <CFormLabel for="validationCustom05">Tipo cobro</CFormLabel>
+                    <CFormSelect
+                      v-model="postEmpleado.periodoPago"
+                      id="validationCustom05"
+                    >
+                      <option>MENSUAL</option>
+                      <option>QUINCENAL</option>
+                    </CFormSelect>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
 
-                <CCol>
+                  <CCol>
                   <CFormLabel for="validationCustom05">Tipo de pago</CFormLabel>
-                  <CFormInput
-                    disabled
+                  <CFormSelect
                     v-model="postEmpleado.formaPago"
-                    id="validationCustom02"
-                    required
-                  />
+                    id="validationCustom05"
+                  >
+                    <option>BANCO</option>
+                    <option>CHEQUE</option>
+                  </CFormSelect>
                   <CFormFeedback invalid>
                     Favor agregar el campo
                   </CFormFeedback>
@@ -552,13 +551,14 @@
                   <CFormLabel for="validationCustom02"
                     >Sueldo actual</CFormLabel
                   >
-                  <CFormInput
-                    disabled
+
+                  <input ref="name" type="number" class="form-control" v-model="postEmpleado.sueldo" id="exampleInputEmail1"  >
+                  <!-- <CFormInput
                     v-model="postEmpleado.sueldo"
                     type="number"
                     id="validationCustom02"
                     required
-                  />
+                  /> -->
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -3326,6 +3326,25 @@ export default {
     close() {
       this.lgDemo = false
     },
+
+    focusInput() {
+      console.log('kaka')
+      this.$refs.name.focus()
+    },
+
+    unaVez() {
+      // if (!this.runOnce) {
+        this.focusInput()
+        // this.runOnce = true
+      // }
+    },
+
+    openModal() {
+      this.lgDemo = true
+      // <input ref="name" type="text" class="form-control" v-model="postMarcas.nombre" id="exampleInputEmail1"  >
+      setTimeout(this.unaVez, 200) 
+    },
+
     getBadge(status) {
       switch (status) {
         case 'Active':
@@ -3375,6 +3394,7 @@ export default {
     },
 
     toggleDetail2(item) {
+      this.openModal()
       // if (this.details.includes(item._id)) {
       //   this.details = this.details.filter((_item) => _item !== item._id)
       //   return

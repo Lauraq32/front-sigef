@@ -105,6 +105,7 @@
               <CCol :md="7">
                 <CFormLabel for="validationCustom02">
                   Tipo de Documento</CFormLabel
+                  
                 >
                 <CFormSelect
                   v-model="postBeneficiario.tipoDcto"
@@ -358,6 +359,24 @@ export default {
 
     close() {
       this.lgDemo = false
+    },
+
+    focusInput() {
+      console.log('kaka')
+      this.$refs.name.focus()
+    },
+
+    unaVez() {
+      // if (!this.runOnce) {
+        this.focusInput()
+        // this.runOnce = true
+      // }
+    },
+
+    openModal() {
+      this.lgDemo = true
+      // <input ref="name" type="text" class="form-control" v-model="postMarcas.nombre" id="exampleInputEmail1"  >
+      setTimeout(this.unaVez, 200) 
     },
 
     handleSubmitCustom01(event) {

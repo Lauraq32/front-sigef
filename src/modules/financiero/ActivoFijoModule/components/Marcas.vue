@@ -1,17 +1,15 @@
 <template>
   <h3 class="text-center">Marcas</h3>
+  
+
+  <!-- <div>
+    <button @click="modal = true">Abrir Modal</button>
+    
+  </div> -->
   <hr />
   <div>
     <div class="d-inline p-2">
-      <CButton
-        color="info"
-        @click="
-          () => {
-            lgDemo = true
-          }
-        "
-        >Agregar</CButton
-      >
+      <CButton color="info" v-on:click="openModal"> >Agregar</CButton>
     </div>
   </div>
   <hr />
@@ -59,16 +57,12 @@
   <CModal
     size="lg"
     :visible="lgDemo"
-    @close="
-      () => {
-        lgDemo = false
-      }
-    "
+    @close="lgDemo = false"
   >
     <CModalHeader>
       <CModalTitle>Marcas</CModalTitle>
     </CModalHeader>
-    <CModalBody>
+    <CModalBody v-on:mousemove="closeModal()">
       <CCardBody>
         <CForm
           class="row g-3 needs-validation"
@@ -93,14 +87,8 @@
 
           <CCol :md="6">
             <CFormLabel for="validationCustom02">Marca</CFormLabel>
-            <CFormInput
-              ref="name"
-              v-model="postMarcas.nombre"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+            
+            <input ref="name" type="text" class="form-control" v-model="postMarcas.nombre" id="exampleInputEmail1"  >
           </CCol>
 
           <div class="modal-footer">
@@ -108,6 +96,7 @@
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
+              v-on:click="unaVez"
             >
               Close
             </button>
@@ -139,6 +128,9 @@ export default {
 
   data: () => {
     return {
+      modal: false,
+      caca: false,
+      runOnc: false,
       prueba: [{ prueba: '' }],
       // input: this.$refs.email,
       focus: false,
@@ -177,9 +169,10 @@ export default {
       prueba.push({})
     },
 
-    focusInput() {
-      this.$refs.focusMe.focus()
-    },
+    // openModal() {
+    //   this.lgDemo = true
+    //   // Aquí puedes llamar a cualquier función que necesites
+    // },
 
     // focusI() {
     //   this.focus = true
@@ -191,6 +184,71 @@ export default {
     // },
 
     ...mapActions(useRegistroStore, ['getMarcas', 'addMarcas']),
+
+    focusInput() {
+      console.log('kaka')
+      this.$refs.name.focus()
+    },
+
+    closeModal() {
+      // this.lgDemo = false
+      // if(this.caca == true){
+      //   this.lgDemo = true
+      //   this.funcionKlk()
+      // }
+      // console.log(this.lgDemo)
+      
+      // this.getMarcas()
+
+      if (this.modal) {
+      this.$nextTick(() => {
+        this.$refs.inputElement.focus()
+        console.log('mmf')
+      })
+    }
+    },
+
+    unaVez() {
+      // if (!this.runOnce) {
+        this.focusInput()
+        // this.runOnce = true
+      // }
+    },
+
+    funcionKlk() {
+   
+      if (this.lgDemo == true) {
+        console.log('klk12')
+        this.unaVez()
+      } else {
+        console.log('klk3')
+        this.unaVez()
+      }
+    },
+
+    // focusKlk() {
+    //   if (this.lgDemo == true) {
+    //     this.focusInput()
+    //   }
+    // },
+
+    focusInput() {
+      console.log('kaka')
+      this.$refs.name.focus()
+    },
+
+    unaVez() {
+      // if (!this.runOnce) {
+        this.focusInput()
+        // this.runOnce = true
+      // }
+    },
+
+    openModal() {
+      this.lgDemo = true
+      // <input ref="name" type="text" class="form-control" v-model="postMarcas.nombre" id="exampleInputEmail1"  >
+      setTimeout(this.unaVez, 200) 
+    },
 
     toggleDetails(item) {
       console.log(item)
@@ -232,6 +290,8 @@ export default {
       }
       this.validatedCustom01 = true
     },
+
+    
 
     submitForm() {
       if (this.id) {
@@ -280,7 +340,13 @@ export default {
   },
 
   mounted() {
-    this.getMarcas()
+    this.closeModal()
+    
+    // console.log(lgDemo)
+    // Api.getAllMarca().then((response) => {
+    //   This.Marcas = response.data.data
+    // })
+    // this.focusInput()
   },
 }
 </script>

@@ -7,7 +7,7 @@
         color="info"
         @click="
           () => {
-            xlDemo = true
+            openModal()
           }
         "
         >Agregar</CButton
@@ -117,11 +117,12 @@
             <CFormLabel for="validationCustom04"
               >Nombre dpto. o nómina</CFormLabel
             >
-            <CFormInput
+            <input ref="name" type="text" class="form-control" v-model="postDepartamento.nombre" id="exampleInputEmail1"  >
+            <!-- <CFormInput
               v-model="postDepartamento.nombre"
               id="validationCustom04"
             >
-            </CFormInput>
+            </CFormInput> -->
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -350,6 +351,23 @@ export default {
 
     close() {
       this.lgDemo = false
+    },
+
+    focusInput() {
+      console.log('kaka')
+      this.$refs.name.focus()
+    },
+    
+    unaVez() {
+      // if (!this.runOnce) {
+        this.focusInput()
+        // this.runOnce = true
+      // }
+    },
+
+    openModal() {
+      this.xlDemo = true
+      setTimeout(this.unaVez, 200) 
     },
 
     submitForm() {

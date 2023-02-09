@@ -7,7 +7,7 @@
         color="info"
         @click="
           () => {
-            lgDemo = true
+            openModal()
           }
         "
         >Agregar</CButton
@@ -96,11 +96,12 @@
             <div class="col-6">
               <CCol :md="10">
                 <CFormLabel for="validationCustom01">Nombre</CFormLabel>
-                <CFormInput
+                <input ref="name" type="text" class="form-control" v-model="postContribuyente.nombre" id="exampleInputEmail1"  >
+                <!-- <CFormInput
                   v-model="postContribuyente.nombre"
                   id="validationCustom01"
                   required
-                />
+                /> -->
 
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -404,6 +405,24 @@ export default {
     volver() {
       router.push({ name: 'comprobanteIngreso' })
       console.log('klk')
+    },
+
+    focusInput() {
+      console.log('kaka')
+      this.$refs.name.focus()
+    },
+
+    unaVez() {
+      // if (!this.runOnce) {
+        this.focusInput()
+        // this.runOnce = true
+      // }
+    },
+
+    openModal() {
+      this.lgDemo = true
+      // <input ref="name" type="text" class="form-control" v-model="postMarcas.nombre" id="exampleInputEmail1"  >
+      setTimeout(this.unaVez, 200) 
     },
 
     submitForm() {

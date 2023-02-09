@@ -1941,8 +1941,7 @@
             </CCol>
           </div>
 
-          <div class="col-6" style="position: relative;
-    left: -218px;">
+          <div class="col-6" style="position: relative;left: -218px;">
             <!-- <CCol :md="7">
               <CFormLabel for="validationCustom01">Departamento</CFormLabel>
               
@@ -2248,6 +2247,7 @@ export default {
 
       clasificador: null,
       programid1: null,
+      
       departamentos: [],
       departamentosId: null,
       programaId: null,

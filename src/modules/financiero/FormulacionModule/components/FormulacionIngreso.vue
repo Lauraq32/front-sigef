@@ -7,7 +7,7 @@
         color="info"
         @click="
           () => {
-            lgDemo = true
+            openModal()
             clearModal()
             edit = false
           }
@@ -184,14 +184,23 @@
         >
           <CCol :md="2">
             <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
-            <CFormInput
+            <input
+              ref="name"
+              required
+              on:keyup.native.enter="getClasificador"
+              class="form-control"
+              v-model="postIngreso.ctgClasificadorId"
+              type="number"
+              id="clasifica"
+            />
+            <!-- <CFormInput
               :disabled="edit"
               v-model="postIngreso.ctgClasificadorId"
               type="number"
               id="clasifica"
               required
               on:keyup.native.enter="getClasificador"
-            />
+            /> -->
 
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -461,6 +470,25 @@ export default {
         fURL.click()
       })
     },
+
+    focusInput() {
+      console.log('kaka')
+      this.$refs.name.focus()
+    },
+
+    unaVez() {
+      // if (!this.runOnce) {
+      this.focusInput()
+      // this.runOnce = true
+      // }
+    },
+
+    openModal() {
+      this.lgDemo = true
+      // <input ref="name" type="text" class="form-control" v-model="postMarcas.nombre" id="exampleInputEmail1"  >
+      setTimeout(this.unaVez, 200)
+    },
+
     onFileChange(event) {
       this.file = event.target.files ? event.target.files[0] : null
       if (this.file) {

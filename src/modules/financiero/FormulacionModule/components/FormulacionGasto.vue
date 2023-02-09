@@ -7,7 +7,7 @@
         color="info"
         @click="
           () => {
-            lgDemo = true
+            openModal()
             clearForm
           }
         "
@@ -139,12 +139,16 @@
         >
           <CCol :md="2">
             <CFormLabel for="validationCustom01">PNAP</CFormLabel>
-            <CFormInput
+            <input ref="name" class="form-control"  :disabled="id != null ? true : false"
+              v-on:change="sumOfProp"
+              v-model="post.pnap"
+              id="validationCustom01"  >
+            <!-- <CFormInput
               :disabled="id != null ? true : false"
               v-on:change="sumOfProp"
               v-model="post.pnap"
               id="validationCustom01"
-            />
+            /> -->
 
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -250,6 +254,7 @@
               class="btn btn-info btn-block mt-1"
               @click="toggleDetails1()"
             >
+            
               Adicionar Detalle
             </button>
             <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
@@ -359,10 +364,11 @@
             >
               <CCol :md="2">
                 <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
-                <CFormInput
+                <input ref="klk" type="text" class="form-control" v-model="detallePost.ctgClasificadorId" id="exampleInputEmail1"  >
+                <!-- <CFormInput
                   v-model="detallePost.ctgClasificadorId"
                   id="validationCustom01"
-                />
+                /> -->
 
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -1116,6 +1122,37 @@ export default {
         reader.readAsBinaryString(this.file)
       }
     },
+
+    focusInput() {
+      console.log('kaka')
+      this.$refs.name.focus()
+    },
+
+    focusInputs() {
+      console.log('kaka')
+      this.$refs.klk.focus()
+    },
+
+    unaVez() {
+      // if (!this.runOnce) {
+        this.focusInput()
+        // this.runOnce = true
+      // }
+    },
+
+    unaVezs() {
+      // if (!this.runOnce) {
+        this.focusInputs()
+        // this.runOnce = true
+      // }
+    },
+
+    openModal() {
+      this.lgDemo = true
+      // <input ref="name" type="text" class="form-control" v-model="postMarcas.nombre" id="exampleInputEmail1"  >
+      setTimeout(this.unaVez, 200) 
+    },
+
     onFileChange(event) {
       //this.cargarEstructuras()
       this.file = event.target.files ? event.target.files[0] : null
@@ -1521,6 +1558,7 @@ export default {
       this.lgDemo = true
     },
     toggleDetails1(item) {
+      setTimeout(this.unaVezs, 200) 
       // if (this.details.includes(item._id)) {
       //   this.details = this.details.filter((_item) => _item !== item._id)
       //   return

@@ -8,7 +8,7 @@
         color="info"
         @click="
           () => {
-            lgDemo = true
+            openModal()
             clearModal1()
           }
         "
@@ -217,7 +217,11 @@
                 <h3>Datos generales</h3>
                 <CCol>
                   <CFormLabel for="validationCustom01">Código</CFormLabel>
+                  <input ref="name" type="text" class="form-control" v-model="postEmpleado.codigo" id="exampleInputEmail1"  >
+             
+                  <!-- <CFormLabel for="validationCustom01">Código</CFormLabel>
                   <CFormInput
+                    ref="name"
                     v-model="postEmpleado.codigo"
                     id="validationCustom01"
                   />
@@ -225,7 +229,7 @@
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
-                  </CFormFeedback>
+                  </CFormFeedback> -->
                 </CCol>
                 <CCol>
                   <CFormLabel for="validationCustom05"
@@ -896,6 +900,7 @@
                 <hr />
                 <CCol>
                   <CFormLabel for="validationCustom01">Nombres</CFormLabel>
+                  
                   <CFormInput
                     v-model="postEmpleado.emergenciaNombre"
                     id="validationCustom01"
@@ -1607,6 +1612,23 @@ export default {
           )
           .focus()
       }
+    },
+
+    focusInput() {
+      console.log('kaka')
+      this.$refs.name.focus()
+      this.$refs.klk.focus()
+    },
+
+    unaVez() {
+      // if (!this.runOnce) {
+      this.focusInput()
+      // this.runOnce = true
+      // }
+    },
+    openModal() {
+      this.lgDemo = true
+      setTimeout(this.unaVez, 200)
     },
 
     changePrograma(e) {
