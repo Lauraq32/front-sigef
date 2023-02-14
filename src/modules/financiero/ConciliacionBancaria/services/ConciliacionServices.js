@@ -21,6 +21,15 @@ class Conciliacion {
     return http.get(`ConciliacionCredito/${localStorage.getItem('id_Ayuntamiento')}/${BancoId}`)
   }
 
+  getAllChequeById(BancoId) {
+    return http.get(`ConciliacionCheque/${localStorage.getItem('id_Ayuntamiento')}/${BancoId}`)
+  }
+
+  getAllHistorico(BancoId, Fecha) {
+    return http.get(`ConciliacionHistorico/${localStorage.getItem('id_Ayuntamiento')}/${BancoId}/${Fecha}`)
+  }
+
+  
   getAllCuentaBanco() {
     return http.get(
       `ConciliacionCuentaBanco/${localStorage.getItem('id_Ayuntamiento')}`,
@@ -47,6 +56,11 @@ class Conciliacion {
   postNotaCredito(data) {
     return http.post(
       'ConciliacionCredito', data)
+  }
+
+  postCheque(data) {
+    return http.post(
+      'ConciliacionCheque', data)
   }
 
   getBeneficiariosById(id) {

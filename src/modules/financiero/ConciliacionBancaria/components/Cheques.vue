@@ -67,6 +67,16 @@
         {{ formatDate(item.fecha) }}
       </td>
     </template>
+    <template #fechaEstatus="{ item }">
+      <td>
+        {{ formatDate(item.fechaEstatus) }}
+      </td>
+    </template>
+    <template #fechaEntrega="{ item }">
+      <td>
+        {{ formatDate(item.fechaEntrega) }}
+      </td>
+    </template>
     <template #valor="{ item }">
       <td>
         {{ formatPrice(item.valor) }}
@@ -155,7 +165,7 @@
           <CCol :md="6">
             <CFormLabel for="validationCustom03">NO. Fisico:</CFormLabel>
             <CFormInput
-              v-model="postCheque.valor"
+              v-model="postCheque.noFisico"
               id="validationCustom03"
               required
             />
@@ -180,21 +190,23 @@
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom04">Valor</CFormLabel>
-            <CFormInput v-model="postCheque.detalle" id="validationCustom04">
+            <CFormInput v-model="postCheque.valor" id="validationCustom04">
             </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom04">Comprobante</CFormLabel>
-            <CFormInput v-model="postCheque.documento" id="validationCustom04">
+            <CFormInput v-model="postCheque.comprobate" id="validationCustom04">
             </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom04">Concepto o Detalle:</CFormLabel>
-            <CFormInput v-model="postCheque.documento" id="validationCustom04">
+            <CFormLabel for="validationCustom04"
+              >Concepto o Detalle:</CFormLabel
+            >
+            <CFormInput v-model="postCheque.detalle" id="validationCustom04">
             </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -348,23 +360,32 @@ export default {
         auxiliar: '',
         valor: 0,
         estatus: '',
+        noFisico: 0,
+        detalle: '',
+        impreso: false,
+        comprobate: 0,
+        estatus: '',
+        fechaEstatus: new Date(Date.now()),
+        usuarioEstatusId: 1,
+        fechaEntrega: new Date(Date.now()),
+        usuarioEntregaId: 1,
       },
       columns: [
         { key: 'secuencial', label: '#Cheque', _style: { width: '8%' } },
         { key: 'fecha', label: 'Fecha', _style: { width: '8%' } },
-        { key: 'documento', label: 'No. Fisico', _style: { width: '8%' } },
-        { key: 'valor', label: 'Beneficiario', _style: { width: '8%' } },
-        { key: 'detalle', label: 'Valor', _style: { width: '40%' } },
-        { key: 'estatus', label: 'Comprobante', _style: { width: '8%' } },
-        { key: 'auxiliar', label: 'Estatus', _style: { width: '8%' } },
+        { key: 'noFisico', label: 'No. Fisico', _style: { width: '8%' } },
+        { key: 'auxiliar', label: 'Beneficiario', _style: { width: '8%' } },
+        { key: 'valor', label: 'Valor', _style: { width: '40%' } },
+        { key: 'comprobate', label: 'Comprobante', _style: { width: '8%' } },
+        { key: 'estatus', label: 'Estatus', _style: { width: '8%' } },
         {
-          key: 'auxiliar',
+          key: 'fechaEstatus',
           label: 'Pagado/Anulado/Cancelado Fecha',
           _style: { width: '8%' },
         },
-        { key: 'auxiliar', label: 'Usuario', _style: { width: '8%' } },
-        { key: 'auxiliar', label: 'Entregado Fecha', _style: { width: '8%' } },
-        { key: 'auxiliar', label: 'Usuario Fecha', _style: { width: '8%' } },
+        { key: 'usuarioEstatusId', label: 'Usuario', _style: { width: '8%' } },
+        { key: 'fechaEntrega', label: 'Entregado Fecha', _style: { width: '8%' } },
+        { key: 'usuarioEntregaId', label: 'Usuario Fecha', _style: { width: '8%' } },
         {
           key: 'show_details',
           label: '',
@@ -447,6 +468,15 @@ export default {
         auxiliar: '',
         valor: 0,
         estatus: '',
+        noFisico: 0,
+        detalle: '',
+        impreso: false,
+        comprobate: 0,
+        estatus: '',
+        fechaEstatus: new Date(Date.now()),
+        usuarioEstatusId: 1,
+        fechaEntrega: new Date(Date.now()),
+        usuarioEntregaId: 1,
       }
     },
     formatDate(fecha) {
@@ -466,7 +496,7 @@ export default {
     //   })
     // },
     Guardar() {
-      Api.postDeposito(this.postCheque).then((response) => {
+      Api.postCheque(this.postCheque).then((response) => {
         console.log(response)
       })
       setTimeout(this.getAllBancos, 500)
@@ -487,7 +517,7 @@ export default {
       })
     },
     getSelectCuenta(BancoId, nombre) {
-      Api.getDepositoById(BancoId).then((response) => {
+      Api.getAllChequeById(BancoId).then((response) => {
         console.log(response.data)
         this.nombreCuenta = nombre
         console.log(nombre)
