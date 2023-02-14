@@ -7,7 +7,7 @@
         color="info"
         @click="
           () => {
-            lgDemo = true
+            openModal()
           }
         "
         >Agregar</CButton
@@ -90,11 +90,12 @@
         >
           <CCol :md="4">
             <CFormLabel for="validationCustom01">Programa</CFormLabel>
-            <CFormInput
+            <input ref="name" type="text" class="form-control" v-model="postPrograma.nombre" id="exampleInputEmail1"  >
+            <!-- <CFormInput
               v-model="postPrograma.nombre"
               id="validationCustom01"
               required
-            />
+            /> -->
 
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -196,6 +197,23 @@ export default {
 
     close() {
       this.lgDemo = false
+    },
+
+    focusInput() {
+      console.log('kaka')
+      this.$refs.name.focus()
+    },
+    
+    unaVez() {
+      // if (!this.runOnce) {
+        this.focusInput()
+        // this.runOnce = true
+      // }
+    },
+
+    openModal() {
+      this.lgDemo = true
+      setTimeout(this.unaVez, 200) 
     },
 
     submitForm() {

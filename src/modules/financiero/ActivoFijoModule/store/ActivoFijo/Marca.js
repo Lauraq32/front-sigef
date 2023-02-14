@@ -16,7 +16,13 @@ export const useRegistroStore = defineStore('Marcas', () => {
     //const name = ref('Eduardo')
     const getMarca = computed(() => Marcas)
 
+    function focus() {
+        
+        this.$refs.name.focus();
+    }
+
     function getMarcas() {
+        // this.focus()
         Api.getAllMarca().then((response) => {
             Marcas.value = response.data.data
         })
@@ -34,5 +40,5 @@ export const useRegistroStore = defineStore('Marcas', () => {
         })
     }
 
-    return { Marcas, getMarca, getMarcas, addMarcas, putMarcas }
+    return { Marcas, getMarca, getMarcas, addMarcas, putMarcas, focus }
 })
