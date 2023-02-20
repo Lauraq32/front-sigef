@@ -4,18 +4,13 @@
       <CHeaderToggler class="ps-1" @click="$store.commit('toggleSidebar')">
         <CIcon icon="cil-menu" size="lg" />
       </CHeaderToggler>
-  
       <CHeaderNav class="d-none d-md-flex me-auto">
-
          <CNavItem style="font-size: 20px;margin-top: 15px;">
           <img style="width: 74px;" :src="url == 'null' ? 'https://media.istockphoto.com/id/874179328/es/vector/rep%C3%BAblica-dominicana.jpg?s=612x612&w=0&k=20&c=f5hftAqUGumB63g_FJL6gazxw41Ks0MTxNhTfl453XY=' : url" />
-         
-        </CNavItem>
-       
+        </CNavItem> 
         <CNavItem>
           <h4 style="margin-top: 40px; 
     margin-left: 15px;">{{ ayuntamiento }}</h4>
-
         </CNavItem>
       </CHeaderNav>
       <CHeaderNav>
@@ -54,7 +49,7 @@
 <script>
 import AppBreadcrumb from './AppBreadcrumb'
 import AppHeaderDropdownAccnt from './AppHeaderDropdownAccnt'
-import { logo } from '@/assets/brand/logo'
+import { logo } from '@/assets/brand/logo' 
 export default {
   name: 'AppHeader',
   components: {
