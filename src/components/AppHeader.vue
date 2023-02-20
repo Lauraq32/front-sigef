@@ -34,7 +34,6 @@
             <CIcon class="mx-2" icon="cil-envelope-open" size="lg" />
           </CNavLink>
         </CNavItem>
-
         <AppHeaderDropdownAccnt />
         <CNavItem>
           <CNavLink>
