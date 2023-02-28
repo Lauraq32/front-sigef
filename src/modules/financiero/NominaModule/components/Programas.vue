@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Programas</h3>
+  <h3 class="text-center">Direccion o Dependencias</h3>
   <hr />
   <div>
     <div class="d-inline p-2">
@@ -69,7 +69,7 @@
     </template>
   </CSmartTable>
   <CModal
-    size="lg"
+    size="md"
     :visible="lgDemo"
     @close="
       () => {
@@ -78,7 +78,7 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Programas</CModalTitle>
+      <CModalTitle>Direccion o Dependencias</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -88,8 +88,25 @@
           :validated="validatedCustom01"
           @submit="handleSubmitCustom01"
         >
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Programa</CFormLabel>
+
+        <div class="row">
+        <div class="col-12">
+        <CCol :md="3">
+            <CFormLabel for="validationCustom01">Codigo</CFormLabel>
+            <input disabled type="text" class="form-control" v-model="postPrograma.id" id="exampleInputEmail1"  >
+            <!-- <CFormInput
+              v-model="postPrograma.nombre"
+              id="validationCustom01"
+              required
+            /> -->
+
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+        </div>
+        <div class="col-12">
+          <CCol :md="12">
+            <CFormLabel for="validationCustom01">Nombre</CFormLabel>
             <input ref="name" type="text" class="form-control" v-model="postPrograma.nombre" id="exampleInputEmail1"  >
             <!-- <CFormInput
               v-model="postPrograma.nombre"
@@ -100,8 +117,10 @@
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
+        </div>
+          <div class="col-12">
           <CCol :md="4">
-            <CFormLabel for="validationCustom02">Estructura</CFormLabel>
+            <CFormLabel for="validationCustom02">Programa</CFormLabel>
             <CFormInput
               v-model="postPrograma.estructura"
               id="validationCustom02"
@@ -110,6 +129,8 @@
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
+        </div>
+        </div>
           <div class="modal-footer">
             <button
               type="button"

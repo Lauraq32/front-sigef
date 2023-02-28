@@ -8,6 +8,10 @@ class NominaApi {
     return http.get('Nomina')
   }
 
+  getAyuntamiento() {
+    return http.get('Ayuntamiento')
+  }
+
   getPocision() {
     return http.get('Posicion')
   }

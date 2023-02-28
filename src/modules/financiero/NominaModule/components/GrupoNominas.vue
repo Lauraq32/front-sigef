@@ -54,18 +54,6 @@
           {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
       </td>
-      <td class="py-1">
-        <CButton
-          class="mt-1"
-          color="danger"
-          variant="outline"
-          square
-          size="sm"
-          @click="deleteItem(item)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
-        </CButton>
-      </td>
     </template>
     <template #details="{ item }">
       <CCollapse :visible="this.details.includes(item._id)">
@@ -81,7 +69,7 @@
     </template>
   </CSmartTable>
   <CModal
-    size="lg"
+    size="md"
     :visible="lgDemo"
     @close="
       () => {
@@ -100,8 +88,51 @@
           :validated="validatedCustom01"
           @submit="handleSubmitCustom01"
         >
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Grupo Nomina</CFormLabel>
+          <div class="row">
+            <div class="col-6">
+              <CCol :md="8">
+                <CFormLabel for="validationCustom02">Codigo</CFormLabel>
+                <input
+                  disabled
+                  type="text"
+                  class="form-control"
+                  v-model="postGrupoNominas.id"
+                  id="exampleInputEmail1"
+                />
+                <!-- <CFormInput
+              v-model="postPosicionesCargo.nombre"
+              id="validationCustom02"
+              required
+            /> -->
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
+            <div class="col-4" style="position: relative; left: 115px">
+              <CCol :md="5">
+                <CFormLabel for="validationCustom02"
+                  >Id_Ayuntamiento</CFormLabel
+                >
+                <input
+                  style="position: relative; left: 25px"
+                  disabled
+                  type="text"
+                  class="form-control"
+                  v-model="postGrupoNominas.id"
+                  id="exampleInputEmail1"
+                />
+                <!-- <CFormInput
+              v-model="postPosicionesCargo.nombre"
+              id="validationCustom02"
+              required
+            /> -->
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
+          </div>
+          <CCol :md="11">
+            <CFormLabel for="validationCustom01">Nombre</CFormLabel>
             <CFormInput
               v-model="postGrupoNominas.nombre"
               id="validationCustom01"
@@ -202,20 +233,20 @@ export default {
             showConfirmButton: false,
             timer: 1500,
           })
-          this.getGNomina()
+          setTimeout(this.getGNomina, 500)
           this.postGrupoNominas = {
             nombre: null,
             variacion: 0,
             ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
           }
         })
-        this.getGNomina()
+        setTimeout(this.getGNomina, 500)
       } else {
-        this.getGNomina()
+        setTimeout(this.getGNomina, 500)
         this.addGrupoNomina(this.postGrupoNominas)
         //const form = event.currentTarget
         this.lgDemo = true
-        this.getGNomina()
+        setTimeout(this.getGNomina, 500)
         ;(this.postGrupoNominas = {
           nombre: null,
           variacion: 0,
@@ -224,7 +255,7 @@ export default {
           (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
-        this.getGNomina()
+        setTimeout(this.getGNomina, 500)
       }
     },
 
@@ -248,7 +279,7 @@ export default {
       this.lgDemo = true
       console.log(item.id)
       Api.getGrupoNominaById(item.id).then((response) => {
-        this.postGrupoNominas = response.data
+        this.postGrupoNominas = response.data.data
         console.log(response)
         this.id = item.id
         //this.postIngreso = response.data.data

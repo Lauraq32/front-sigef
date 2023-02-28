@@ -323,12 +323,12 @@ export default [
           {
             component: 'CNavItem',
             name: 'Grupo nóminas',
-            to: '/NominaModule/GrupoNominas',
+            to: '/NominaModule/grupoNominass',
             icon: 'cilIdCard',
           },
           {
             component: 'CNavItem',
-            name: 'Programas',
+            name: 'Direccion o Dependecias',
             to: '/NominaModule/Programas',
             icon: 'cilChalkboardTeacher',
           },

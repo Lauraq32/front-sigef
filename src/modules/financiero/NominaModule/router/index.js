@@ -13,8 +13,8 @@ export default {
         ),
     },
     {
-      path: 'grupoNominas',
-      name: 'grupoNominas',
+      path: 'grupoNominass',
+      name: 'grupoNominass',
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/GrupoNominas.vue'

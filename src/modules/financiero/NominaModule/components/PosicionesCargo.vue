@@ -69,7 +69,7 @@
     </template>
   </CSmartTable>
   <CModal
-    size="lg"
+    size="md"
     :visible="lgDemo"
     @close="
       () => {
@@ -88,17 +88,136 @@
           :validated="validatedCustom01"
           @submit="handleSubmitCustom01"
         >
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02">Posición o Cargo</CFormLabel>
-            <input ref="name" type="text" class="form-control" v-model="postPosicionesCargo.nombre" id="exampleInputEmail1"  >
-            <!-- <CFormInput
+          <div class="row">
+            <div class="row">
+              <div class="col-6">
+                <CCol :md="8">
+                  <CFormLabel for="validationCustom02">Codigo</CFormLabel>
+                  <input
+                    disabled
+                    type="text"
+                    class="form-control"
+                    v-model="postPosicionesCargo.id"
+                    id="exampleInputEmail1"
+                  />
+                
+                  <CFormFeedback valid> Exito! </CFormFeedback>
+                  <CFormFeedback invalid>
+                    Favor agregar el campo
+                  </CFormFeedback>
+                </CCol>
+              </div>
+              <div class="col-4" style="position: relative; left: 115px">
+                <CCol :md="5">
+                  <CFormLabel for="validationCustom02"
+                    >Id_Ayuntamiento</CFormLabel
+                  >
+                  <input
+                    disabled
+                    type="text"
+                    class="form-control"
+                    v-model="postPosicionesCargo.id"
+                    id="exampleInputEmail1"
+                  />
+                  <!-- <CFormInput
               v-model="postPosicionesCargo.nombre"
               id="validationCustom02"
               required
             /> -->
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
+                  <CFormFeedback valid> Exito! </CFormFeedback>
+                  <CFormFeedback invalid>
+                    Favor agregar el campo
+                  </CFormFeedback>
+                </CCol>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <CCol :md="10">
+              <CFormLabel for="validationCustom02">Nombre</CFormLabel>
+              <input
+                ref="name"
+                type="text"
+                class="form-control"
+                v-model="postPosicionesCargo.nombre"
+                id="exampleInputEmail1"
+              />
+              <!-- <CFormInput
+              v-model="postPosicionesCargo.nombre"
+              id="validationCustom02"
+              required
+            /> -->
+              <CFormFeedback valid> Exito! </CFormFeedback>
+              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+            </CCol>
+          </div>
+
+          <div class="col-12">
+            <div class="row">
+              <div class="col-6">
+                <CFormLabel
+                  style="position: relative; top: 7px"
+                  for="validationCustom02"
+                  >Cod. del map:</CFormLabel
+                >
+              </div>
+
+              <div class="col-6">
+                <CCol :md="5">
+                  <input
+                    style="position: relative; left: -88px"
+                    
+                    type="text"
+                    class="form-control"
+                    v-model="postPosicionesCargo.id"
+                    id="exampleInputEmail1"
+                  />
+                  <!-- <CFormInput
+              v-model="postPosicionesCargo.nombre"
+              id="validationCustom02"
+              required
+            /> -->
+                  <CFormFeedback valid> Exito! </CFormFeedback>
+                  <CFormFeedback invalid>
+                    Favor agregar el campo
+                  </CFormFeedback>
+                </CCol>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="row">
+              <div class="col-6">
+                <CFormLabel
+                  style="position: relative; top: 7px"
+                  for="validationCustom02"
+                  >Grupo ocupacional</CFormLabel
+                >
+              </div>
+
+              <div class="col-6">
+                <CCol :md="5">
+                  <input
+                    style="position: relative; left: -88px"
+                    
+                    type="text"
+                    class="form-control"
+                    v-model="postPosicionesCargo.id"
+                    id="exampleInputEmail1"
+                  />
+                  <!-- <CFormInput
+              v-model="postPosicionesCargo.nombre"
+              id="validationCustom02"
+              required
+            /> -->
+                  <CFormFeedback valid> Exito! </CFormFeedback>
+                  <CFormFeedback invalid>
+                    Favor agregar el campo
+                  </CFormFeedback>
+                </CCol>
+              </div>
+            </div>
+          </div>
           <div class="modal-footer">
             <button
               type="button"
@@ -134,6 +253,8 @@ export default {
   },
   data: () => {
     return {
+      ayun: [],
+
       postPosicionesCargo: {
         id: 0,
         nombre: null,
@@ -182,15 +303,15 @@ export default {
 
     unaVez() {
       // if (!this.runOnce) {
-        this.focusInput()
-        // this.runOnce = true
+      this.focusInput()
+      // this.runOnce = true
       // }
     },
 
     openModal() {
       this.lgDemo = true
       // <input ref="name" type="text" class="form-control" v-model="postMarcas.nombre" id="exampleInputEmail1"  >
-      setTimeout(this.unaVez, 200) 
+      setTimeout(this.unaVez, 200)
     },
 
     toggleDetails(item) {
@@ -290,6 +411,10 @@ export default {
   },
   mounted() {
     this.getPocisions()
+
+    Api.getAyuntamiento().then((response) => {
+      this.ayun = response.data.data
+    })
   },
 }
 </script>

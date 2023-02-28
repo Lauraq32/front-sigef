@@ -94,7 +94,7 @@
     </template>
   </CSmartTable>
   <CModal
-    size="lg"
+    size="md"
     :visible="xlDemo"
     @close="
       () => {
@@ -103,7 +103,27 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Clasificadores</CModalTitle>
+      <CModalTitle>Departamento</CModalTitle>
+
+      <div class="col-4">
+        <CCol :md="5">
+          <CFormLabel
+            style="position: relative; top: 26px; left: 171px"
+            for="validationCustom02"
+            >Id_Ayun</CFormLabel
+          >
+          <input
+            style="position: relative; left: 242px; top: -13px; width: 41px"
+            disabled
+            type="text"
+            class="form-control"
+            id="exampleInputEmail1"
+          />
+
+          <CFormFeedback valid> Exito! </CFormFeedback>
+          <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+        </CCol>
+      </div>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -113,130 +133,255 @@
           :validated="validatedCustom01"
           @submit="handleSubmitCustom01"
         >
-          <CCol :md="3">
-            <CFormLabel for="validationCustom04"
-              >Nombre dpto. o nómina</CFormLabel
-            >
-            <input ref="name" type="text" class="form-control" v-model="postDepartamento.nombre" id="exampleInputEmail1"  >
-            <!-- <CFormInput
-              v-model="postDepartamento.nombre"
-              id="validationCustom04"
-            >
-            </CFormInput> -->
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
+          <!-- <div class="row"> -->
+          <!-- <div class="row">
+              <div class="col-6">
+                <CCol :md="6">
+                  <CFormLabel for="validationCustom02">Codigo</CFormLabel>
+                  <input
+                    disabled
+                    type="text"
+                    class="form-control"
+                    id="exampleInputEmail1"
+                  />
 
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02"> Código SASP</CFormLabel>
-            <CFormInput id="validationCustom02" required />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom05">Programa</CFormLabel>
-            <CFormSelect
-              v-model="postDepartamento.programaDivisionId"
-              id="validationCustom05"
-            >
-              <option>Programa 1</option>
-              <option>Programa 2</option>
-              <option>Programa 3</option>
-            </CFormSelect>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
+                  <CFormFeedback valid> Exito! </CFormFeedback>
+                  <CFormFeedback invalid>
+                    Favor agregar el campo
+                  </CFormFeedback>
+                </CCol>
+              </div>
+              <div class="col-4" style="position: relative; left: -38px">
+                <CCol :md="5">
+                  <CFormLabel for="validationCustom02"
+                    >Id_Ayuntamiento</CFormLabel
+                  >
+                  <input
+                    disabled
+                    type="text"
+                    class="form-control"
+                    id="exampleInputEmail1"
+                  />
 
-          <CCol :md="3">
-            <CFormLabel for="validationCustom05">Grupo nomina</CFormLabel>
-            <CFormInput id="validationCustom05" required />
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom05"> grupos de nóminas</CFormLabel>
-            <CFormSelect
-              v-model="postDepartamento.grupoNominaId"
-              id="validationCustom05"
-            >
-              <option>Cuenta De Banco 1</option>
-              <option>Cuenta De Banco 2</option>
-              <option>Cuenta De Banco 3</option>
-            </CFormSelect>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom04">Estructura prog.</CFormLabel>
-            <CFormInput
-              v-model="postDepartamento.estructur"
-              id="validationCustom04"
-            >
-            </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom04">Clasificador</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom05">
-              Clasificadores a utilizar:</CFormLabel
-            >
-            <CFormSelect id="validationCustom05">
-              <option>211101 - Sueldos fijos</option>
-              <option>211201 - Sueldos Personal contratado y/o Igualado</option>
-              <option>211202 - Sueldos de personal nominal</option>
-              <option>
-                211204 - Sueldos al personal por servicios especiales
-              </option>
-              <option>211206 - Jornales</option>
-              <option>241201 - Ayuda y donaciones a personas</option>
-              <option>
-                241202 - Ayudas y donac. ocas. a hogares y personas
-              </option>
-            </CFormSelect>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <hr />
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Clasif. de regalía</CFormLabel>
-            <CFormInput id="validationCustom01" required />
+                  <CFormFeedback valid> Exito! </CFormFeedback>
+                  <CFormFeedback invalid>
+                    Favor agregar el campo
+                  </CFormFeedback>
+                </CCol>
+              </div>
+            </div>
+          </div> -->
 
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Fuente fin.</CFormLabel>
-            <CFormInput id="validationCustom01" required />
+          <div class="row mt-3">
+            <div class="col-6">
+              <CFormLabel for="validationCustom02"> Código</CFormLabel>
+            </div>
+            <div class="col-6">
+              <CCol :md="7">
+                <CFormInput
+                  disabled
+                  style="position: relative; left: -39px"
+                  id="validationCustom02"
+                  required
+                />
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
+          </div>
 
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">F/Especcif.</CFormLabel>
-            <CFormInput id="validationCustom01" required />
+          <div class="row mt-3">
+            <div class="col-6">
+              <CFormLabel for="validationCustom02"> Código SASP</CFormLabel>
+            </div>
+            <div class="col-6">
+              <CCol :md="7">
+                <CFormInput
+                  style="position: relative; left: -39px"
+                  id="validationCustom02"
+                  required
+                />
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
+          </div>
 
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Org. Fin</CFormLabel>
-            <CFormInput id="validationCustom01" required />
+          <div class="row mt-3">
+            <div class="col-6">
+              <CFormLabel for="validationCustom02"> Nombre</CFormLabel>
+            </div>
+            <div class="col-6">
+              <CCol :md="4">
+                <input
+                  ref="name"
+                  style="position: relative; left: -39px; width: 268px"
+                  type="text"
+                  v-model="postDepartamento.nombre"
+                  class="form-control"
+                  id="exampleInputEmail1"
+                />
 
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom05">
-              Inactivo. (No salen en Rep. Alfabeticos, código, ni por forma de
-              pago)</CFormLabel
-            >
-            <CFormSelect id="validationCustom05">
-              <option>INACTIVO</option>
-            </CFormSelect>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-6">
+              <CFormLabel for="validationCustom05">Programa</CFormLabel>
+            </div>
+            <div class="col-6">
+              <CCol>
+                <CFormSelect
+                  style="position: relative; left: -39px; width: 268px"
+                  v-model="postDepartamento.programaDivisionId"
+                  id="validationCustom05"
+                >
+                  <option>Programa 1</option>
+                  <option>Programa 2</option>
+                  <option>Programa 3</option>
+                </CFormSelect>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-6">
+              <CFormLabel for="validationCustom05">Grupo nomina</CFormLabel>
+            </div>
+            <div class="col-6">
+              <CCol>
+                <CFormSelect
+                  style="position: relative; left: -39px; width: 268px"
+                  v-model="postDepartamento.grupoNominaId"
+                  id="validationCustom05"
+                >
+                  <option>Cuenta De Banco 1</option>
+                  <option>Cuenta De Banco 2</option>
+                  <option>Cuenta De Banco 3</option>
+                </CFormSelect>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-6">
+              <CFormLabel for="validationCustom01">Cuenta de banco</CFormLabel>
+            </div>
+            <div class="col-6">
+              <CCol :md="9">
+                <input
+                  style="position: relative; left: -39px"
+                  type="text"
+                  class="form-control"
+                  id="exampleInputEmail1"
+                />
+              </CCol>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-6">
+              <CFormLabel for="validationCustom01"
+                >Estructura Programatica</CFormLabel
+              >
+            </div>
+            <div class="col-6">
+              <CCol :md="9">
+                <input
+                  style="position: relative; left: -39px"
+                  type="text"
+                  class="form-control"
+                  id="exampleInputEmail1"
+                />
+              </CCol>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-6">
+              <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
+            </div>
+            <div class="col-6">
+              <CCol :md="9">
+                <input
+                  style="position: relative; left: -39px"
+                  type="text"
+                  class="form-control"
+                  id="exampleInputEmail1"
+                />
+              </CCol>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-6">
+              <CFormLabel for="validationCustom01">Fuente</CFormLabel>
+            </div>
+            <div class="col-6">
+              <CCol :md="9">
+                <input
+                  style="position: relative; left: -39px"
+                  type="text"
+                  class="form-control"
+                  id="exampleInputEmail1"
+                />
+              </CCol>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-6">
+              <CFormLabel for="validationCustom01">Fte. Especifica</CFormLabel>
+            </div>
+            <div class="col-6">
+              <CCol :md="9">
+                <input
+                  style="position: relative; left: -39px"
+                  type="text"
+                  class="form-control"
+                  id="exampleInputEmail1"
+                />
+              </CCol>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-6">
+              <CFormLabel for="validationCustom01">Org. Financiador</CFormLabel>
+            </div>
+            <div class="col-6">
+              <CCol :md="9">
+                <input
+                  style="position: relative; left: -39px"
+                  type="text"
+                  class="form-control"
+                  id="exampleInputEmail1"
+                />
+              </CCol>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-6">
+              <CFormLabel for="validationCustom01">Clasif. Regalia</CFormLabel>
+            </div>
+            <div class="col-6">
+              <CCol :md="9">
+                <input
+                  style="position: relative; left: -39px"
+                  type="text"
+                  class="form-control"
+                  id="exampleInputEmail1"
+                />
+              </CCol>
+            </div>
+          </div>
+
           <div class="modal-footer">
             <button
               type="button"
@@ -357,17 +502,17 @@ export default {
       console.log('kaka')
       this.$refs.name.focus()
     },
-    
+
     unaVez() {
       // if (!this.runOnce) {
-        this.focusInput()
-        // this.runOnce = true
+      this.focusInput()
+      // this.runOnce = true
       // }
     },
 
     openModal() {
       this.xlDemo = true
-      setTimeout(this.unaVez, 200) 
+      setTimeout(this.unaVez, 200)
     },
 
     submitForm() {
