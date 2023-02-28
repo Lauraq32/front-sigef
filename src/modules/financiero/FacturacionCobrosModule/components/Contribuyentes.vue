@@ -107,20 +107,6 @@
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
             </div>
-
-            <div class="col-3">
-              <CCol :md="10">
-                <CFormLabel for="validationCustom02">Codigo</CFormLabel>
-                <CFormInput
-                  v-model="postContribuyente.codigo"
-                  id="validationCustom02"
-                  required
-                />
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-            </div>
-
             <div class="col-3">
               <CCol :md="10">
                 <CFormLabel for="validationCustom01">Fecha</CFormLabel>
@@ -360,7 +346,7 @@ export default {
       lgDemo: false,
       columns: [
         { key: 'nombre', label: 'Nombre', _style: { width: '15%' } },
-        { key: 'codigo', label: 'Codigo', _style: { width: '8%' } },
+        { key: 'id', label: 'Codigo', _style: { width: '8%' } },
         { key: 'tipoDcto', label: 'Documento', _style: { width: '10%' } },
         { key: 'direccion', label: 'Direccion', _style: { width: '30%' } },
         { key: 'telefono', label: 'Telefono', _style: { width: '10%' } },
