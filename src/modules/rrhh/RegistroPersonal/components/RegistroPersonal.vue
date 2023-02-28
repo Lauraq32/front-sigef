@@ -1816,7 +1816,7 @@ export default {
         fechaNacimiento: new Date(Date.now()),
         lugarNacimiento: null,
         estadoCivil: 'M',
-        sexo: null,
+        sexo: 'M',
         dependientes: 0,
         fechaIngreso: new Date(Date.now()),
         fechaSalida: new Date(Date.now()),

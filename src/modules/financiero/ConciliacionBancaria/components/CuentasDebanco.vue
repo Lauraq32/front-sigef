@@ -2,7 +2,7 @@
   <h3 class="text-center">Cuentas de banco</h3>
   <hr />
   <div>
-    <div class="d-inline p-2">
+    <div class="d-block p-2">
       <CButton
         color="info"
         @click="
@@ -14,6 +14,11 @@
       >
     </div>
   </div>
+  <div class="d-block p-2">
+      <CButton style="font-weight: bold" color="info" @click="generarCuentas"
+        >Generar Cuenta</CButton
+      >
+    </div>
   <hr />
   <CSmartTable
     clickableRows
@@ -51,7 +56,7 @@
         {{ formatPrice(item.balanceBanco) }}
       </td>
     </template>
-    <template #show_details="{ item, index }">
+    <template #show_details="{ item }">
       <td class="py-2">
         <CButton
           color="primary"
@@ -61,6 +66,17 @@
           @click="setBancoId(item.bancoId, item.nombreCuenta)"
         >
           {{ Boolean(item._toggled) ? 'Hide' : 'Conciliacion' }}
+        </CButton>
+      </td>
+      <td class="py-2">
+        <CButton
+          color="primary"
+          variant="outline"
+          square
+          size="sm"
+          @click="toggleDetails(item.bancoId)"
+        >
+          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
       </td>
     </template>
@@ -99,41 +115,58 @@
         >
           <CCol :md="4">
             <CFormLabel for="validationCustom01">Código</CFormLabel>
-            <CFormInput id="validationCustom01" required />
+            <CFormSelect v-model="CuentaBanco.bancoId" id="validationCustom05">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+            </CFormSelect>
 
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
             <CFormLabel for="validationCustom02">Nombre de Cuenta</CFormLabel>
-            <CFormInput id="validationCustom02" required />
+            <CFormInput
+              v-model="CuentaBanco.nombreCuenta"
+              id="validationCustom02"
+              required
+            />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="6">
             <CFormLabel for="validationCustom03">Numero Cta:</CFormLabel>
-            <CFormInput id="validationCustom03" required />
+            <CFormInput
+              v-model="CuentaBanco.numeroCuenta"
+              id="validationCustom03"
+              required
+            />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom04">Catalgo</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
+            <CFormInput
+              v-model="CuentaBanco.cuentaContgub"
+              id="validationCustom04"
+            >
+            </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom05">Nombre</CFormLabel>
-            <CFormInput id="validationCustom05" required />
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
             <CFormLabel for="validationCustom05">Imprime Modelo</CFormLabel>
-            <CFormSelect id="validationCustom05">
-              <option>1er. Modelo</option>
-              <option>2do. Modelo</option>
-              <option>3er. Modelo</option>
-              <option>4to. Modelo</option>
+            <CFormSelect
+              v-model="CuentaBanco.modeloCheque"
+              id="validationCustom05"
+            >
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
             </CFormSelect>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -141,26 +174,43 @@
             <CFormLabel for="validationCustom05"
               >Ultimo Numero Fisico</CFormLabel
             >
-            <CFormInput id="validationCustom05" required />
+            <CFormInput
+              v-model="CuentaBanco.ultimoNumeroFisico"
+              id="validationCustom05"
+              required
+            />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom05">Fecha Ultimo Corte</CFormLabel>
-            <CFormInput type="date" id="validationCustom05" required />
+            <CFormInput
+              v-model="CuentaBanco.fechaFinConciliacion"
+              type="date"
+              id="validationCustom05"
+              required
+            />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom05"
               >Balance según el banco</CFormLabel
             >
-            <CFormInput id="validationCustom05" required />
+            <CFormInput
+              v-model="CuentaBanco.balanceBanco"
+              id="validationCustom05"
+              required
+            />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom05"
               >Balance según el libro</CFormLabel
             >
-            <CFormInput id="validationCustom05" required />
+            <CFormInput
+              v-model="CuentaBanco.balanceLibro"
+              id="validationCustom05"
+              required
+            />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <div class="modal-footer">
@@ -171,7 +221,7 @@
             >
               Close
             </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+            <button class="btn btn-info btn-block mt-1" v-on:click="submitForm">
               Guardar
             </button>
           </div>
@@ -289,28 +339,36 @@
             Depositos/Transferencias del Mes
           </div>
           <div class="col-4"></div>
-          <div class="col-4" style="font-weight: bold">{{ this.Conciliacion.depositosMes }}</div>
+          <div class="col-4" style="font-weight: bold">
+            {{ this.Conciliacion.depositosMes }}
+          </div>
         </div>
         <div class="row p-4">
           <div class="col-4 font-weight-bold" style="font-weight: bold">
             Notas de Credito
           </div>
           <div class="col-4"></div>
-          <div class="col-4" style="font-weight: bold">{{ this.Conciliacion.creditosMes }}</div>
+          <div class="col-4" style="font-weight: bold">
+            {{ this.Conciliacion.creditosMes }}
+          </div>
         </div>
         <div class="row p-4">
           <div class="col-4 font-weight-bold" style="font-weight: bold">
             Otros
           </div>
           <div class="col-4"></div>
-          <div class="col-4" style="font-weight: bold">{{ this.Conciliacion.otrosCreditosMes }}</div>
+          <div class="col-4" style="font-weight: bold">
+            {{ this.Conciliacion.otrosCreditosMes }}
+          </div>
         </div>
         <div class="row p-4">
           <div class="col-4 font-weight-bold" style="font-weight: bold">
             Sub-Total
           </div>
           <div class="col-4"></div>
-          <div class="col-4" style="font-weight: bold">{{ this.Conciliacion.subTotalCreditosLibro }}</div>
+          <div class="col-4" style="font-weight: bold">
+            {{ this.Conciliacion.subTotalCreditosLibro }}
+          </div>
         </div>
         <h5 class="mb-n4">Menos:</h5>
         <div class="row p-4">
@@ -318,28 +376,36 @@
             Cheques emitidos del Mes
           </div>
           <div class="col-4"></div>
-          <div class="col-4" style="font-weight: bold">{{ this.Conciliacion.chequesEmitidosMes }}</div>
+          <div class="col-4" style="font-weight: bold">
+            {{ this.Conciliacion.chequesEmitidosMes }}
+          </div>
         </div>
         <div class="row p-4">
           <div class="col-4 font-weight-bold" style="font-weight: bold">
             Notas de Debito
           </div>
           <div class="col-4"></div>
-          <div class="col-4" style="font-weight: bold">{{ this.Conciliacion.debitosMes }}</div>
+          <div class="col-4" style="font-weight: bold">
+            {{ this.Conciliacion.debitosMes }}
+          </div>
         </div>
         <div class="row p-4">
           <div class="col-4 font-weight-bold" style="font-weight: bold">
             Otros
           </div>
           <div class="col-4"></div>
-          <div class="col-4" style="font-weight: bold">{{ this.Conciliacion.otrosDebitos }}</div>
+          <div class="col-4" style="font-weight: bold">
+            {{ this.Conciliacion.otrosDebitos }}
+          </div>
         </div>
         <div class="row p-4">
           <div class="col-4 font-weight-bold" style="font-weight: bold">
             Sub-Total
           </div>
           <div class="col-4"></div>
-          <div class="col-4" style="font-weight: bold">{{ this.Conciliacion.subTotalDebitosLibro }}</div>
+          <div class="col-4" style="font-weight: bold">
+            {{ this.Conciliacion.subTotalDebitosLibro }}
+          </div>
         </div>
         <div
           class="row"
@@ -362,7 +428,9 @@
             Balance segun el Banco al:
           </div>
           <div class="col-4"></div>
-          <div class="col-4" style="font-weight: bold">{{ this.Conciliacion.balanceBanco }}</div>
+          <div class="col-4" style="font-weight: bold">
+            {{ this.Conciliacion.balanceBanco }}
+          </div>
         </div>
         <hr />
         <h5 class="mb-n4">Mas:</h5>
@@ -371,24 +439,27 @@
             Depositos en Transito
           </div>
           <div class="col-4"></div>
-          <div class="col-4" style="font-weight: bold">{{ this.Conciliacion.depositosMesTransito
- }}</div>
+          <div class="col-4" style="font-weight: bold">
+            {{ this.Conciliacion.depositosMesTransito }}
+          </div>
         </div>
         <div class="row p-4">
           <div class="col-4 font-weight-bold" style="font-weight: bold">
             Otros
           </div>
           <div class="col-4"></div>
-          <div class="col-4" style="font-weight: bold">{{ this.Conciliacion.otrosDebitosTransito
- }}</div>
+          <div class="col-4" style="font-weight: bold">
+            {{ this.Conciliacion.otrosDebitosTransito }}
+          </div>
         </div>
         <div class="row p-4">
           <div class="col-4 font-weight-bold" style="font-weight: bold">
             Sub-Total
           </div>
           <div class="col-4"></div>
-          <div class="col-4" style="font-weight: bold">{{ this.Conciliacion.subTotalCreditosBanco
- }}</div>
+          <div class="col-4" style="font-weight: bold">
+            {{ this.Conciliacion.subTotalCreditosBanco }}
+          </div>
         </div>
         <h5 class="mb-n4">Menos:</h5>
         <div class="row p-4">
@@ -396,24 +467,27 @@
             Cheques en Transito
           </div>
           <div class="col-4"></div>
-          <div class="col-4" style="font-weight: bold">{{ this.Conciliacion.chequesEmitidosTransito
- }}</div>
+          <div class="col-4" style="font-weight: bold">
+            {{ this.Conciliacion.chequesEmitidosTransito }}
+          </div>
         </div>
         <div class="row p-4">
           <div class="col-4 font-weight-bold" style="font-weight: bold">
             Otros
           </div>
           <div class="col-4"></div>
-          <div class="col-4" style="font-weight: bold">{{ this.Conciliacion.otrosDebitosTransito
- }}</div>
+          <div class="col-4" style="font-weight: bold">
+            {{ this.Conciliacion.otrosDebitosTransito }}
+          </div>
         </div>
         <div class="row p-4">
           <div class="col-4 font-weight-bold" style="font-weight: bold">
             Sub-Total
           </div>
           <div class="col-4"></div>
-          <div class="col-4" style="font-weight: bold">{{ this.Conciliacion.subTotalDebitosBanco
- }}</div>
+          <div class="col-4" style="font-weight: bold">
+            {{ this.Conciliacion.subTotalDebitosBanco }}
+          </div>
         </div>
         <div
           class="row"
@@ -428,8 +502,7 @@
             Balance segun el Banco al:
           </div>
           <div class="col-4"></div>
-          <div class="col-4">{{ this.Conciliacion.balanceBanco
- }}</div>
+          <div class="col-4">{{ this.Conciliacion.balanceBanco }}</div>
         </div>
         <hr />
         <div class="modal-footer">
@@ -440,7 +513,7 @@
           >
             Close
           </button>
-          <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+          <button class="btn btn-info btn-block mt-1" v-on:click="Guardar1">
             Guardar
           </button>
           <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
@@ -456,6 +529,7 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/ConciliacionServices'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
+import { thisTypeAnnotation } from '@babel/types'
 export default {
   components: {
     CSmartTable,
@@ -468,7 +542,21 @@ export default {
       lgDemo3: false,
       Bancos: [],
       BancoId: null,
+      idCuenta: null,
       fechaFiltro: null,
+      CuentaBanco: {
+        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+        bancoId: 0,
+        numeroCuenta: '',
+        nombreCuenta: '',
+        cuentaContgub: '',
+        modeloCheque: 0,
+        fechaFinConciliacion: new Date(Date.now()),
+        balanceBanco: 0,
+        balanceLibro: 0,
+        ultimoNumeroFisico: 0,
+        detalle: '',
+      },
       Conciliacion: {
         ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
         bancoId: 1,
@@ -548,6 +636,60 @@ export default {
       this.BancoId = banco
       this.nombreCuenta = nombreBanco
     },
+    submitForm() {
+      if (this.idCuenta) {
+        Api.putConciliacioncuentaBanco(this.idCuenta,this.CuentaBanco).then(
+          (response) => {
+            console.log(response.data)
+            this.lgDemo = false
+            this.$swal({
+              position: 'top-end',
+              icon: 'success',
+              title: response.data.message,
+              showConfirmButton: false,
+              timer: 1500,
+            })
+            // this.CuentaBanco = {
+            //   ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+            //   bancoId: 0,
+            //   numeroCuenta: '',
+            //   nombreCuenta: '',
+            //   cuentaContgub: '',
+            //   modeloCheque: 0,
+            //   fechaFinConciliacion: new Date(Date.now()),
+            //   balanceBanco: 0,
+            //   balanceLibro: 0,
+            //   ultimoNumeroFisico: 0,
+            //   detalle: '',
+            // }
+            // this.BancoId = null
+          },
+        )
+      } else {
+        Api.postCuentaBancoConciliacion(this.CuentaBanco).then((response) => {
+          console.log(response)
+        })
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          text: 'Datos agregados con exito',
+          title: 'Agregado',
+          showConfirmButton: false,
+          timer: 1500,
+        })
+      }
+    },
+    toggleDetails(banco) {
+      this.lgDemo = true
+      this.BancoId = banco
+      console.log('prueba', this.BancoId)
+      Api.getCuentaById(banco).then((response) => {
+        console.log(response)
+        this.idCuenta = response.data.data.bancoId
+        this.BancoId = banco.bancoId
+        this.CuentaBanco = response.data.data
+      })
+    },
     handleSubmitCustom01(event) {
       const form = event.currentTarget
       if (form.checkValidity() === false) {
@@ -573,14 +715,43 @@ export default {
     getAllBancos() {
       Api.getAllCuentaBanco().then((response) => {
         this.Bancos = response.data.data
-        console.log(response);
+        console.log(response)
       })
     },
     getHistoricoConciliacion(bancoId) {
-      Api.getAllHistorico(this.BancoId, this.fechaFiltro).then((response) => {
+      Api.getAllHistoricos(this.BancoId, this.fechaFiltro).then((response) => {
         this.Conciliacion = response.data.data
         console.log(response)
       })
+    },
+    generarCuentas(){
+      setTimeout(this.getAllBancos, 500)
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        text: 'Estructuras Cargadas',
+        title: 'success',
+        showConfirmButton: false,
+        timer: 1500,
+      })
+      Api.generarCuentas().then((response) => {
+        console.log(response);
+      })
+    },
+    clearModal1() {
+      this.CuentaBanco = {
+        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+        bancoId: 0,
+        numeroCuenta: '',
+        nombreCuenta: '',
+        cuentaContgub: '',
+        modeloCheque: 0,
+        fechaFinConciliacion: new Date(Date.now()),
+        balanceBanco: 0,
+        balanceLibro: 0,
+        ultimoNumeroFisico: 0,
+        detalle: '',
+      }
     },
     formatDate(fecha) {
       return new Date(fecha).toLocaleDateString('en-GB', {
@@ -593,12 +764,31 @@ export default {
       let val = (value / 1).toFixed(2).replace('.', '.')
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
-      }
-      this.details.push(item._id)
+    // Guardar() {
+    //   Api.postCuentaBancoConciliacion(this.CuentaBanco).then((response) => {
+    //     console.log(response)
+    //   })
+    //   Swal.fire({
+    //     position: 'top-end',
+    //     icon: 'success',
+    //     text: 'Datos agregados con exito',
+    //     title: 'Agregado',
+    //     showConfirmButton: false,
+    //     timer: 1500,
+    //   })
+    // },
+    Guardar1() {
+      Api.postHistoricoBanco(this.Conciliacion).then((response) => {
+        console.log(response)
+      })
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        text: 'Datos agregados con exito',
+        title: 'Agregado',
+        showConfirmButton: false,
+        timer: 1500,
+      })
     },
   },
   mounted() {
