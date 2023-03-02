@@ -3,19 +3,39 @@
   <hr />
   <div>
     <div class="d-inline p-2">
-      <CButton color="info" @click="
-        () => {
-          lgDemo = true
-        }
-      ">Agregar</CButton>
+      <CButton
+        color="info"
+        @click="
+          () => {
+            lgDemo = true
+          }
+        "
+        >Agregar</CButton
+      >
     </div>
   </div>
   <hr />
-  <CSmartTable clickableRows :tableProps="{
-    striped: false,
-    hover: true,
-  }" :tableHeadProps="{}" :activePage="1" footer header :items="[]" :columns="columns" columnFilter tableFilter cleaner
-    itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }" pagination>
+  <CSmartTable
+    clickableRows
+    :tableProps="{
+      striped: false,
+      hover: true,
+    }"
+    :tableHeadProps="{}"
+    :activePage="1"
+    footer
+    header
+    :items="[]"
+    :columns="columns"
+    columnFilter
+    tableFilter
+    cleaner
+    itemsPerPageSelect
+    :itemsPerPage="5"
+    columnSorter
+    :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination
+  >
     <template #status="{ item }">
       <td>
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
@@ -23,7 +43,13 @@
     </template>
     <template #show_details="{ item, index }">
       <td class="py-2">
-        <CButton color="primary" variant="outline" square size="sm" @click="toggleDetails(item, index)">
+        <CButton
+          color="primary"
+          variant="outline"
+          square
+          size="sm"
+          @click="toggleDetails(item, index)"
+        >
           {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
         </CButton>
       </td>
@@ -41,18 +67,26 @@
       </CCollapse>
     </template>
   </CSmartTable>
-  <CModal size="md" :visible="lgDemo" @close="
-    () => {
-      lgDemo = false
-    }
-  ">
+  <CModal
+    size="md"
+    :visible="lgDemo"
+    @close="
+      () => {
+        lgDemo = false
+      }
+    "
+  >
     <CModalHeader>
       <CModalTitle>Tipo de retenciones</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
-        <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01"
-          @submit="handleSubmitCustom01">
+        <CForm
+          class="row g-3 needs-validation"
+          novalidate
+          :validated="validatedCustom01"
+          @submit="handleSubmitCustom01"
+        >
           <CCol :md="2">
             <CFormLabel for="validationCustom01">Código</CFormLabel>
             <CFormInput id="validationCustom01" disabled />
@@ -69,9 +103,7 @@
               <option>BENEFICIARIO 4</option>
               <option>BENEFICIARIO 5</option>
             </CFormSelect>
-            <CFormFeedback invalid>
-              Favor agregar el campo
-            </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <div class="row">
             <CCol :md="6">
@@ -80,9 +112,7 @@
                 <option>PROCESO</option>
                 <option>INFORMATIVO</option>
               </CFormSelect>
-              <CFormFeedback invalid>
-                Favor agregar el campo
-              </CFormFeedback>
+              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </CCol>
             <CCol :md="6">
               <CFormLabel for="validationCustom04">Operación</CFormLabel>
@@ -91,37 +121,52 @@
                 <option>DIVIDIR</option>
                 <option>N/A</option>
               </CFormSelect>
-              <CFormFeedback invalid>
-                Favor agregar el campo
-              </CFormFeedback>
+              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </CCol>
-
-
           </div>
           <div class="row">
             <CCol :md="5">
-              <CFormLabel for="validationCustom06">Valor o % de retención:</CFormLabel>
+              <CFormLabel for="validationCustom06"
+                >Valor o % de retención:</CFormLabel
+              >
               <CFormInput id="validationCustom06" />
 
               <CFormFeedback valid> Exito! </CFormFeedback>
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </CCol>
 
-
-            <CCol :md="6" style="margin-top: 37px;">
-              <CFormCheck id="flexCheckDefault" label="Valor calculado"/>
+            <CCol :md="6" style="margin-top: 37px">
+              <CFormCheck id="flexCheckDefault" label="Valor calculado" />
             </CCol>
           </div>
           <CCol :md="12">
             <CFormLabel for="validationCustom05">Afecta el 815:</CFormLabel>
-            <CFormCheck inline type="radio" name="inlineRadioOptions" id="inlineCheckbox1" value="option1" label="Restando" />
-            <CFormCheck inline type="radio" name="inlineRadioOptions" id="inlineCheckbox2" value="option2" label="Sumando" />
+            <CFormCheck
+              inline
+              type="radio"
+              name="inlineRadioOptions"
+              id="inlineCheckbox1"
+              value="option1"
+              label="Restando"
+            />
+            <CFormCheck
+              inline
+              type="radio"
+              name="inlineRadioOptions"
+              id="inlineCheckbox2"
+              value="option2"
+              label="Sumando"
+            />
 
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          
+
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
               Close
             </button>
             <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
@@ -164,7 +209,11 @@ export default {
         { key: 'Desde', label: 'Detalle', _style: { width: '40%' } },
         { key: 'Hasta', label: 'Tipo retención', _style: { width: '40%' } },
         { key: 'Estatus', label: 'Operación', _style: { width: '40%' } },
-        { key: 'Año Fiscal', label: 'Valor o % a retener', _style: { width: '40%' } },
+        {
+          key: 'Año Fiscal',
+          label: 'Valor o % a retener',
+          _style: { width: '40%' },
+        },
         { key: 'Desde', label: 'Calculada', _style: { width: '40%' } },
         { key: 'Hasta', label: 'Modo afecta', _style: { width: '40%' } },
         { key: 'Estatus', label: 'Beneficiario', _style: { width: '40%' } },
@@ -223,125 +272,9 @@ export default {
       }
       this.validatedCustom01 = true
     },
-    submitForm() {
-      // if (this.id) {
-      //   Api.putAnioFiscal(this.id, this.postAnoFiscal).then((response) => {
-      //     console.log(response.data)
-      //     this.lgDemo = false
-      //     this.$swal({
-      //       position: 'top-end',
-      //       icon: 'success',
-      //       title: response.data.message,
-      //       showConfirmButton: false,
-      //       timer: 1500,
-      //     })
-      //     this.getAnioFiscal()
-      //     this.postAnoFiscal = {
-      //       id: 0,
-      //       nombre: null,
-      //       variacion: 0,
-      //       ayuntamientoId: 0,
-      //       ayuntamiento: {
-      //         id: 0,
-      //         secuencial: 0,
-      //         codigo: null,
-      //         descripcion: null,
-      //       },
-      //     }
-      //   })
-      //   this.getAnioFiscal()
-      // } else {
-      //   this.addAnioFiscal(this.postAnoFiscal)
-      //   //const form = event.currentTarget
-      //   this.lgDemo = true
-      //   this.getAnioFiscal()
-      //     ; (this.postAnoFiscal = {
-      //       id: 0,
-      //       nombre: null,
-      //       ayuntamientoId: 0,
-      //       ayuntamiento: {
-      //         id: 0,
-      //         secuencial: 0,
-      //         codigo: null,
-      //         descripcion: null,
-      //       },
-      //     }),
-      //       (this.validatedCustom01 = false)
-      //   event.preventDefault()
-      //   event.stopPropagation()
-      //   this.getAnioFiscal()
-      // }
-    },
+    submitForm() {},
   },
 
-  mounted() {
-    // this.getAnioFiscal()
-  },
+  mounted() {},
 }
 </script>
-
-<!-- <script>
-import { CSmartTable } from '@coreui/vue-pro'
-import { CModal } from '@coreui/vue'
-export default {
-  components: {
-    CSmartTable,
-    CModal,
-  },
-  data: () => {
-    return {
-      validatedCustom01: null,
-      lgDemo: false,
-      columns: [
-        { key: 'Año Fiscal', label: 'Año Fiscal', _style: { width: '40%' } },
-        { key: 'Desde', label: 'Desde', _style: { width: '40%' } },
-        { key: 'Hasta', label: 'Hasta', _style: { width: '40%' } },
-        { key: 'Estatus', label: 'Estatus', _style: { width: '40%' } },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
-        },
-      ],
-      details: [],
-    }
-  },
-  methods: {
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
-    },
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
-      }
-      this.details.push(item._id)
-    },
-  },
-  mounted() {
-    this.$store.dispatch('Formulacion/getProyectos')
-  },
-}
-</script> -->

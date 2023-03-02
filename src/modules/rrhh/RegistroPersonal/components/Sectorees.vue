@@ -171,12 +171,6 @@ export default {
       this.lgDemo = false
     },
     toggleDetails(item) {
-      // if (this.details.includes(item._id)) {
-      //   this.details = this.details.filter((_item) => _item !== item._id)
-      //   return
-      // }
-      // this.details.push(item._id)
-      console.log(item)
       if (item.sectores !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
       } else {
@@ -184,12 +178,10 @@ export default {
       }
       this.edit = true
       this.lgDemo = true
-      console.log(item.id)
+
       Api.getSectorbyid(item.id).then((response) => {
         this.postSectores = response.data.data
-        console.log(response)
         this.id = item.id
-        //this.postIngreso = response.data.data
       })
     },
     getBadge(status) {
@@ -217,7 +209,6 @@ export default {
     submitForm() {
       if (this.id) {
         Api.putSector(this.id, this.postSectores).then((response) => {
-          console.log(response.data)
           this.lgDemo = false
           this.$swal({
             position: 'top-end',
@@ -283,7 +274,6 @@ export default {
           })
         })
         .catch((error) => {
-          console.log(error)
           this.$swal({
             position: 'top-end',
             icon: 'error',

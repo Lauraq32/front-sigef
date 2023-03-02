@@ -78,7 +78,7 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Formulario captura clasificación del gasto</CModalTitle>
+      <CModalTitle>Grupo Nomina</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -99,11 +99,7 @@
                   v-model="postGrupoNominas.id"
                   id="exampleInputEmail1"
                 />
-                <!-- <CFormInput
-              v-model="postPosicionesCargo.nombre"
-              id="validationCustom02"
-              required
-            /> -->
+
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
@@ -224,7 +220,6 @@ export default {
     submitForm() {
       if (this.id) {
         Api.putGrupoNomina(this.id, this.postGrupoNominas).then((response) => {
-          console.log(response.data)
           this.lgDemo = false
           this.$swal({
             position: 'top-end',
@@ -264,12 +259,6 @@ export default {
     },
 
     toggleDetails(item) {
-      // if (this.details.includes(item._id)) {
-      //   this.details = this.details.filter((_item) => _item !== item._id)
-      //   return
-      // }
-      // this.details.push(item._id)
-      console.log(item)
       if (item.grupoNomina !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
       } else {
@@ -280,9 +269,8 @@ export default {
       console.log(item.id)
       Api.getGrupoNominaById(item.id).then((response) => {
         this.postGrupoNominas = response.data.data
-        console.log(response)
+
         this.id = item.id
-        //this.postIngreso = response.data.data
       })
     },
 

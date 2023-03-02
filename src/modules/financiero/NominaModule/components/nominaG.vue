@@ -2737,7 +2737,7 @@ export default {
     getNominaGeneral() {
       Api.getnominaGeneral(this.nominaGneral).then((response) => {
         this.nominag = response.data.data
-        console.log(this.klk11)
+
       })
     },
 
@@ -2745,13 +2745,13 @@ export default {
       Api.getEmpleadosPorDepartamentos(departamento).then((response) => {
         this.getEmpleadosDep = response.data.data
       })
-      console.log()
+
     },
     arsCalculado() {
       // this.postEmpleado.arsCalculado = false
       if (this.postEmpleado.arsCalculado == false) {
         this.postEmpleado.arsFijo = 3.04
-        console.log('llamando')
+
       } else {
         this.postEmpleado.arsFijo = 0
       }
@@ -2760,7 +2760,7 @@ export default {
       // this.postEmpleado.arsCalculado = false
       if (this.postEmpleado.afpCalculado == false) {
         this.postEmpleado.afpFijo = 2.87
-        console.log('llamando')
+
       } else {
         this.postEmpleado.afpFijo = 0
       }
@@ -2769,41 +2769,39 @@ export default {
       Api.getProgramaDivision().then((response) => {
         this.programaDivision = response.data.data
         this.nominaGneral.ProgramaDivision = this.programaDivision[0].id
-        console.log(this.programaDivision[0].id)
+
 
         Api.getDepartamentoByProgramaId(this.programaDivision[0].id).then(
           (response) => {
             this.departamentos = response.data.data
             this.nominaGneral.DepartamentoId = this.departamentos[0].id
             this.getEmpleado = this.departamentos[0].id
-            console.log(response.data.data)
-            console.log(this.departamentos[0].id)
+
           },
         )
-        console.log(this.departamentos)
+ 
       })
     },
 
     volver() {
       router.push({ name: 'nominas' })
-      console.log('klk')
+
     },
 
     clearModal1() {
       Api.getProgramaDivision().then((response) => {
         this.programaDivision = response.data.data
         this.postGenerarNomina.ProgramaDivision = this.programaDivision[0].id
-        console.log(this.programaDivision[0].id)
+
 
         Api.getDepartamentoByProgramaId(this.programaDivision[0].id).then(
           (response) => {
             this.departamentos = response.data.data
             this.postGenerarNomina.DepartamentoId = this.departamentos[0].id
-            console.log(response.data.data)
-            console.log(this.departamentos[0].id)
+
           },
         )
-        console.log(this.departamentos)
+
       })
     },
 
@@ -2845,9 +2843,8 @@ export default {
       Api.getDepartamentoByProgramaId(e.target.value).then((response) => {
         this.departamentos = response.data.data
 
-        console.log(response.data.data)
       })
-      console.log(this.departamentos)
+
     },
     klk() {
       Api.getDepartamentoById(this.departamentos[0].id).then((response) => {
@@ -2855,21 +2852,20 @@ export default {
         this.programid1 = response.data.data.programaDivisionId
         this.estructuras = response.data.data.estructura
 
-        console.log(response.data.data)
       })
     },
     changeDepartamento(e) {
-      console.log(e.target.value)
+
       this.departamentosId = e.target.value
-      //this.postGenerarNomina.DepartamentoId =
+ 
       Api.getDepartamentoById(e.target.value).then((response) => {
         this.clasificador = response.data.data.ctgClasificadorId
         this.programid1 = response.data.data.programaDivisionId
         this.estructuras = response.data.data.estructura
 
-        console.log(response.data.data)
+
       })
-      console.log(this.departamentos)
+
     },
 
     addField(prueba) {
@@ -2901,22 +2897,11 @@ export default {
       })
     },
 
-    // focus() {
-    //   if (this.show) {
-    //     let self = this
-    //     nextTick().then(function () {
-    //       console.log(self.$refs.number.focus())
-    //     })
-    //   }
-    // },
 
     focusInput() {
-      // this.$refs.name.focus()
+
       this.$refs.name.$el.focus()
-      // this.focus = true
-      // if (!this.focus) {
-      //   this.focusInput()
-      // }
+ 
     },
 
     focusInput1() {
@@ -2951,7 +2936,7 @@ export default {
         parseInt(this.postEmpleado.noviembreIngreso),
         parseInt(this.postEmpleado.diciembreIngreso),
       ]
-      console.log(this.Acumulado)
+
 
       this.unionIngresos = this.Acumulado.reduce((a, b) => {
         return a + b
@@ -2959,8 +2944,6 @@ export default {
 
       this.resultadoIngresos = this.unionIngresos / 12
 
-      console.log(this.unionIngresos)
-      console.log(this.resultadoIngresos)
     },
     ...mapActions(useRegistroStore, [
       'getNomina',
@@ -2973,7 +2956,7 @@ export default {
     submiNomina() {
       Api.postNomina(this.postNomina).then((response) => {
         this.postNomina.afpMonto = this.postEmpleado.afpFijo
-        console.log(response)
+  
       })
     },
 
@@ -2986,7 +2969,7 @@ export default {
         this.postGenerarNomina.FormaPago,
         this.postGenerarNomina.TipoContrato,
       ).then((response) => {
-        console.log(response)
+
       })
     },
     submiFormConf() {
@@ -2994,7 +2977,7 @@ export default {
       if (this.id) {
         Api.putConfiguracionNomina(this.id, this.postConfiguracionNomina).then(
           (response) => {
-            console.log(response.data)
+  
             this.lgDemo = false
             this.$swal({
               position: 'top-end',
@@ -3072,7 +3055,7 @@ export default {
       } else {
         Api.postConfiguracionNomina(this.postConfiguracionNomina).then(
           (response) => {
-            console.log(response)
+
           },
         )
         Swal.fire({
@@ -3157,7 +3140,7 @@ export default {
     submitForm() {
       if (this.id) {
         Api.putEmpleado(this.id, this.postEmpleado).then((response) => {
-          console.log(response.data)
+
           this.lgDemo = false
           this.$swal({
             position: 'top-end',
@@ -3275,7 +3258,7 @@ export default {
         this.addEmpleado(this.postEmpleado)
         Api.postConfiguracionNomina(this.postConfiguracionNomina).then(
           (response) => {
-            console.log(response)
+  
           },
         )
         Swal.fire({
@@ -3420,22 +3403,10 @@ export default {
       }
     },
 
-    // toggleDetails(item) {
-    //   if (this.details.includes(item._id)) {
-    //     this.details = this.details.filter((_item) => _item !== item._id)
-    //     return
-    //   }
-    //   this.details.push(item._id)
-    // },
+  
 
     toggleDetails(item) {
-      // if (this.details.includes(item._id)) {
-      //   this.details = this.details.filter((_item) => _item !== item._id)
-      //   return
-      // }
-      // this.details.push(item._id)
 
-      console.log(item)
 
       if (item.postConfiguracionNomina !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
@@ -3444,12 +3415,12 @@ export default {
       }
       this.edit = true
       this.lgDemo = true
-      console.log(item.id)
+  
       Api.getConfiguracionNominabyid(item.id).then((response) => {
         this.postConfiguracionNomina = response.data.data
-        console.log(response)
+     
         this.id = item.id
-        //this.postIngreso = response.data.data
+    
       })
     },
 
@@ -3461,22 +3432,17 @@ export default {
 
     toggleDetail2(item) {
 
-      console.log(item.departamentoId)
+   
       Api.getNominaGeneralById(item.id).then((response) => {
-        // this.getEmpleadosDep = response.data.data
+  
         this.idDep = item.departamentoId
         this.getFiltro = response.data.data
-        console.log('mmg')
-        console.log(this.getFiltro)
-        // this.getEmpleadoPorDepartamento(item.departamentoId)
-        // console.log(response.data.data)
-        // this.id = item.id
-        //this.postIngreso = response.data.data
+
+
 
         Api.getNominaByDepartamento(item.id).then((response) => {
           this.getEmpleadosDep = response.data.data
-          console.log('mmg7')
-          console.log(this.getEmpleadosDep)
+  
         })
       })
 
@@ -3484,22 +3450,17 @@ export default {
 
     toggleDetail3(item) {
 
-console.log(item.departamentoId)
+
 Api.getNominaGeneralById(item.id).then((response) => {
-  // this.getEmpleadosDep = response.data.data
+
   this.idDep = item.departamentoId
   this.getFiltro = response.data.data
-  console.log('mmg')
-  console.log(this.getFiltro)
-  // this.getEmpleadoPorDepartamento(item.departamentoId)
-  // console.log(response.data.data)
-  // this.id = item.id
-  //this.postIngreso = response.data.data
+
+
 
   Api.getNominaPorEmpleado(item.id).then((response) => {
     this.getEmpleadosDep1 = response.data.data
-    console.log('mmg7')
-    console.log(this.getEmpleadosDep)
+
   })
 })
 
@@ -3550,17 +3511,16 @@ Api.getNominaGeneralById(item.id).then((response) => {
     Api.getProgramaDivision().then((response) => {
       this.programaDivision = response.data.data
       this.postGenerarNomina.ProgramaDivision = this.programaDivision[0].id
-      console.log(this.programaDivision[0].id)
+
 
       Api.getDepartamentoByProgramaId(this.programaDivision[0].id).then(
         (response) => {
           this.departamentos = response.data.data
           this.postGenerarNomina.DepartamentoId = this.departamentos[0].id
-          console.log(response.data.data)
-          console.log(this.departamentos[0].id)
+  
         },
       )
-      console.log(this.departamentos)
+   
     })
   },
 }

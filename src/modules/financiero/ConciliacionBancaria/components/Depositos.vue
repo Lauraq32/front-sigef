@@ -373,7 +373,7 @@ export default {
       nombreCuenta: '',
       detalle: '',
       Bancos: [],
-      cuentaId:null,
+      cuentaId: null,
       reportes: false,
       DepositoList: [],
       postDepositos: {
@@ -542,15 +542,18 @@ export default {
     IngresoReport() {
       this.reportes = true
     },
-    imprimirReporteFecha(){
-       window
+    imprimirReporteFecha() {
+      window
         .open(
           `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fConciliacionBancaria%2fRep_Depositos&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem(
-            'id_Ayuntamiento')}&CUENTA_BANCO=${this.cuentaId}&FECHA_INICIAL=${this.fechaInicio}&FECHA_FINAL=${this.fechaFinal}`,
+            'id_Ayuntamiento',
+          )}&CUENTA_BANCO=${this.cuentaId}&FECHA_INICIAL=${
+            this.fechaInicio
+          }&FECHA_FINAL=${this.fechaFinal}`,
           '_blank',
         )
         .focus()
-        this.reportes = false
+      this.reportes = false
     },
     toggleDetails(item) {
       if (this.details.includes(item._id)) {

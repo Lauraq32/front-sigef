@@ -2,7 +2,7 @@ import http from '@/Api/http-common'
 
 class UsuariosApi {
   getUsuarioList() {
-    return http.get("/login/listarUsuarios");
+    return http.get('/login/listarUsuarios')
   }
 }
 

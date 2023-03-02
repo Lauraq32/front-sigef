@@ -364,25 +364,6 @@
 
                 <div class="row mt-3">
                   <div class="col-3">
-                    <CFormLabel for="validationCustom02">Ciudad</CFormLabel>
-                  </div>
-                  <div class="col-9">
-                    <CCol :md="10">
-                      <CFormInput
-                        style="position: relative; right: -52px"
-                        id="validationCustom02"
-                        required
-                      />
-                      <CFormFeedback valid> Exito! </CFormFeedback>
-                      <CFormFeedback invalid>
-                        Favor agregar el campo
-                      </CFormFeedback>
-                    </CCol>
-                  </div>
-                </div>
-
-                <div class="row mt-3">
-                  <div class="col-3">
                     <CFormLabel for="validationCustom02">Teléfono</CFormLabel>
                   </div>
                   <div class="col-9">
@@ -530,7 +511,9 @@
                   </CFormFeedback>
                 </CCol>
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom05">Dirección o dependencia</CFormLabel>
+                  <CFormLabel for="validationCustom05"
+                    >Dirección o dependencia</CFormLabel
+                  >
                   <CFormSelect
                     v-model="postEmpleado.programaDivisionId"
                     id="validationCustom05"
@@ -549,7 +532,7 @@
                   </CFormFeedback>
                 </CCol>
 
-                <CCol >
+                <CCol>
                   <CFormLabel for="validationCustom01">Departamento</CFormLabel>
                   <CFormSelect
                     v-model="postEmpleado.departamentoId"
@@ -613,7 +596,6 @@
                   </CFormFeedback>
                 </CCol> -->
 
-                
                 <CCol :md="12">
                   <CFormLabel for="validationCustom05"
                     >Área de trabajo</CFormLabel
@@ -702,6 +684,9 @@
                       Favor agregar el campo
                     </CFormFeedback>
                   </CCol>
+                </div>
+
+                <div class="row">
                   <CCol :md="6">
                     <CFormLabel for="validationCustom05">Tipo cobro</CFormLabel>
                     <CFormSelect
@@ -715,30 +700,30 @@
                       Favor agregar el campo
                     </CFormFeedback>
                   </CCol>
+                  <CCol style="width: 159px">
+                    <CFormLabel for="validationCustom05"
+                      >Tipo de pago</CFormLabel
+                    >
+                    <CFormSelect
+                      v-model="postEmpleado.formaPago"
+                      id="validationCustom05"
+                    >
+                      <option>BANCO</option>
+                      <option>CHEQUE</option>
+                    </CFormSelect>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
                 </div>
-
-                <CCol style="width: 159px;
-">
-                  <CFormLabel for="validationCustom05">Tipo de pago</CFormLabel>
-                  <CFormSelect
-                    v-model="postEmpleado.formaPago"
-                    id="validationCustom05"
-                  >
-                    <option>BANCO</option>
-                    <option>CHEQUE</option>
-                  </CFormSelect>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
 
                 <CCol>
                   <CFormLabel for="validationCustom02"
                     >Sueldo actual</CFormLabel
                   >
                   <CFormInput
+                    style="width: 159px"
                     v-model="postEmpleado.sueldo"
-                    type="number"
                     id="validationCustom02"
                     required
                   />
@@ -1541,7 +1526,7 @@ export default {
         estadoCivil: 'Soltero',
         sexo: 'M',
         dependientes: 0,
-        fechaIngreso: new Date(Date.now()),
+        fechaIngreso: new Date(),
         fechaSalida: new Date(Date.now()),
         razonSalida: null,
         reemplear: true,
@@ -1684,7 +1669,6 @@ export default {
     ]),
 
     imprimirReporte() {
-      // console.log(this.reporteDepto.split('-')[0])
       if (this.reporteDepto.split('-')[0] == 1) {
         window
           .open(
@@ -1725,7 +1709,6 @@ export default {
     },
 
     focusInput() {
-      console.log('kaka')
       this.$refs.name.focus()
       this.$refs.klk.focus()
     },
@@ -1744,9 +1727,7 @@ export default {
     changePrograma(e) {
       Api.getDepartamentoByProgramaId(e.target.value).then((response) => {
         this.departamentos = response.data.data
-        console.log(response.data.data)
       })
-      console.log(this.departamentos)
     },
     formatDate(fechaIngreso) {
       return new Date(fechaIngreso).toLocaleDateString('en-GB', {
@@ -1781,7 +1762,6 @@ export default {
     },
 
     toggleDetails(item) {
-      console.log(item)
       if (item.empleados !== 0 || item.variacion !== 0) {
         this.empleadoValue = true
       } else {
@@ -1789,9 +1769,7 @@ export default {
       }
       this.edit = true
       this.lgDemo = true
-      console.log(item.id)
       Api.getEmpleadoByID(item.id).then((response) => {
-        console.log(response)
         this.id = item.id
         this.postEmpleado = response.data.data
       })
@@ -1905,7 +1883,6 @@ export default {
       Api.getProgramaDivision().then((response) => {
         this.programaDivision = response.data.data
         this.postEmpleado.programaDivisionId = this.programaDivision[0].id
-        console.log(this.programaDivision[0].id)
       })
 
       Api.getPosicion().then((response) => {
@@ -1931,23 +1908,17 @@ export default {
       Api.getProgramaDivision().then((response) => {
         this.programaDivision = response.data.data
         this.postEmpleado.programaDivisionId = this.programaDivision[0].id
-        console.log(this.programaDivision[0].id)
-
         Api.getDepartamentoByProgramaId(this.programaDivision[0].id).then(
           (response) => {
             this.departamentos = response.data.data
             this.postEmpleado.departamentoId = this.departamentos[0].id
-            console.log(response.data.data)
-            console.log(this.departamentos[0].id)
           },
         )
-        console.log(this.departamentos)
       })
     },
     submitForm() {
       if (this.id) {
         Api.putEmpleado(this.id, this.postEmpleado).then((response) => {
-          console.log(response.data)
           this.lgDemo = false
           this.$swal({
             position: 'top-end',
@@ -2100,7 +2071,6 @@ export default {
           setTimeout(this.getRegistroPersonal, 500)
         })
         .catch((error) => {
-          console.log(error)
           this.$swal({
             position: 'top-end',
             icon: 'error',
@@ -2126,17 +2096,12 @@ export default {
     Api.getProgramaDivision().then((response) => {
       this.programaDivision = response.data.data
       this.postEmpleado.programaDivisionId = this.programaDivision[0].id
-      console.log(this.programaDivision[0].id)
-
       Api.getDepartamentoByProgramaId(this.programaDivision[0].id).then(
         (response) => {
           this.departamentos = response.data.data
           this.postEmpleado.departamentoId = this.departamentos[0].id
-          console.log(response.data.data)
-          console.log(this.departamentos[0].id)
         },
       )
-      console.log(this.departamentos)
     })
 
     apiSectores.getSectores().then((response) => {

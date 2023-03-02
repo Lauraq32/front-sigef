@@ -394,11 +394,9 @@ export default {
   computed: {
     ...mapState('Formulacion', ['ingresos']),
   },
-  // mounted(){
-  //     this.$store.dispatch('Formulacion/getListarIngresos');
-  //   },
+
   created() {
-    this.getListarIngresos(1, 1), console.log(this.ingresos)
+    this.getListarIngresos(1, 1)
   },
 }
 </script>

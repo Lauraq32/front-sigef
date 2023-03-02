@@ -155,10 +155,18 @@ export default {
       validatedCustom01: null,
       lgDemo: false,
       columns: [
-        { key: 'Beneficiario', label: 'Beneficiario', _style: { width: '40%' } },
+        {
+          key: 'Beneficiario',
+          label: 'Beneficiario',
+          _style: { width: '40%' },
+        },
         { key: 'Cédula', label: 'Cédula', _style: { width: '40%' } },
         { key: 'Código', label: 'Código', _style: { width: '40%' } },
-        { key: 'Grupo de Pago', label: 'Grupo de Pago', _style: { width: '40%' } },
+        {
+          key: 'Grupo de Pago',
+          label: 'Grupo de Pago',
+          _style: { width: '40%' },
+        },
         { key: 'Cargo', label: 'Cargo', _style: { width: '40%' } },
         { key: 'Valor', label: 'Valor', _style: { width: '40%' } },
         {

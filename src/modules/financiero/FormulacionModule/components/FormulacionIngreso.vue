@@ -472,20 +472,16 @@ export default {
     },
 
     focusInput() {
-      console.log('kaka')
       this.$refs.name.focus()
     },
 
     unaVez() {
-      // if (!this.runOnce) {
       this.focusInput()
-      // this.runOnce = true
-      // }
     },
 
     openModal() {
       this.lgDemo = true
-      // <input ref="name" type="text" class="form-control" v-model="postMarcas.nombre" id="exampleInputEmail1"  >
+
       setTimeout(this.unaVez, 200)
     },
 
@@ -506,7 +502,6 @@ export default {
           const data = XLSX.utils.sheet_to_json(ws)
           this.texto = wb
           data.map((item) => {
-            console.log(item)
             this.presIngrsoMasivo.push({
               ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
               anioFiscalId: parseInt(localStorage.getItem('ano')),
@@ -537,15 +532,8 @@ export default {
               variacionResumen: 0,
             })
           })
-          // this.presIngrsoMasivo.map(item => {
-          //   Api.getClasificador(item.clasificadorId).then(response => {
-          //     item.detalle = response.data.data.nombre
-          //     console.log(item.detalle)
-          //   })
-          // })
-          Api.postCargaMasiva(this.presIngrsoMasivo).then((response) => {
-            console.log(response)
-          })
+
+          Api.postCargaMasiva(this.presIngrsoMasivo).then((response) => {})
           Swal.fire({
             position: 'top-end',
             icon: 'success',
@@ -554,8 +542,6 @@ export default {
             showConfirmButton: false,
             timer: 1500,
           })
-
-          console.log(this.postIngreso)
         }
 
         reader.readAsBinaryString(this.file)
@@ -643,7 +629,6 @@ export default {
       inputClasificador.focus()
       if (this.id) {
         Api.editPresIngreso(this.id, this.postIngreso).then((response) => {
-          console.log(response.data)
           this.lgDemo = false
           this.$swal({
             position: 'top-end',
@@ -666,20 +651,15 @@ export default {
             ctgFuenteEspecificaId: null,
             ctgOrganismoFinanciadorId: null,
             alaFecha: null,
-            //EST_ACTUAL: 0,
+
             presForm: null,
             variacion: 0,
             ingresos: 0,
             variacionResumen: 0,
           }
-          // this.getListarIngresos(
-          //   localStorage.getItem('id_Ayuntamiento'),
-          //   localStorage.getItem('ano'),
-          // ),
 
           setTimeout(this.getListarIngresos, 3000)
-          console.log(this.ingresos)
-          //this.getTotal();
+
           this.getTotales()
           this.id = null
         })
@@ -703,7 +683,7 @@ export default {
           ctgFuenteEspecificaId: null,
           ctgOrganismoFinanciadorId: null,
           alaFecha: null,
-          //EST_ACTUAL: 0,
+
           presForm: null,
           variacion: 0,
           ingresos: 0,
@@ -711,15 +691,13 @@ export default {
         }
         this.validatedCustom01 = false
         setTimeout(this.getListarIngresos, 500)
-        console.log(this.ingresos)
-        //this.getTotal();
+
         this.getTotales()
       }
     },
     getClasificador() {
       Api.getClasificador(this.postIngreso.ctgClasificadorId)
         .then((response) => {
-          console.log(response.data.data)
           this.postIngreso.control = response.data.data.cControl
           this.postIngreso.detalle = response.data.data.nombre
           this.postIngreso.ctgFuenteId = response.data.data.ctgFuenteId
@@ -732,7 +710,6 @@ export default {
           this.validateInputctgOrganismoFinanciadorId()
         })
         .catch((error) => {
-          console.log(error)
           this.$swal({
             position: 'top-end',
             icon: 'error',
@@ -792,12 +769,6 @@ export default {
         .focus()
     },
     toggleDetails(item) {
-      // if (this.details.includes(item._id)) {
-      //   this.details = this.details.filter((_item) => _item !== item._id)
-      //   return
-      // }
-      // this.details.push(item._id)
-      console.log(item)
       if (item.ingresos !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
       } else {
@@ -805,9 +776,8 @@ export default {
       }
       this.edit = true
       this.lgDemo = true
-      console.log(item.id)
+
       Api.getPresIngresoById(item).then((response) => {
-        console.log(response)
         this.id = item.id
         this.postIngreso = response.data.data
       })
@@ -821,9 +791,7 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
-        this.getListarIngresos(), console.log(this.ingresos)
-        //this.getTotal();
-        this.getTotales()
+        this.getListarIngresos(), this.getTotales()
       })
     },
 
@@ -832,13 +800,9 @@ export default {
   computed: {
     ...mapState('Formulacion', ['ingresos']),
   },
-  // mounted(){
-  //     this.$store.dispatch('Formulacion/getListarIngresos');
-  //   },
+
   created() {
-    this.getListarIngresos(), console.log(this.ingresos)
-    //this.getTotal();
-    this.getTotales()
+    this.getListarIngresos(), this.getTotales()
   },
 }
 </script>

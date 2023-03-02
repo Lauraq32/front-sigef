@@ -26,7 +26,7 @@
     footer
     header
     :items="sectores"
-    :columns="columns" 
+    :columns="columns"
     columnFilter
     tableFilter
     cleaner
@@ -90,7 +90,13 @@
         >
           <CCol :md="4">
             <CFormLabel for="validationCustom02">Sectores</CFormLabel>
-            <input ref="name" type="text" class="form-control" v-model="postSectores.nombre" id="exampleInputEmail1"  >
+            <input
+              ref="name"
+              type="text"
+              class="form-control"
+              v-model="postSectores.nombre"
+              id="exampleInputEmail1"
+            />
             <!-- <CFormInput
               v-model="postSectores.nombre"
               id="validationCustom02"
@@ -173,30 +179,20 @@ export default {
     },
 
     focusInput() {
-      console.log('kaka')
       this.$refs.name.focus()
     },
 
     unaVez() {
-      // if (!this.runOnce) {
-        this.focusInput()
-        // this.runOnce = true
-      // }
+      this.focusInput()
     },
 
     openModal() {
       this.lgDemo = true
-      // <input ref="name" type="text" class="form-control" v-model="postMarcas.nombre" id="exampleInputEmail1"  >
-      setTimeout(this.unaVez, 200) 
+
+      setTimeout(this.unaVez, 200)
     },
 
     toggleDetails(item) {
-      // if (this.details.includes(item._id)) {
-      //   this.details = this.details.filter((_item) => _item !== item._id)
-      //   return
-      // }
-      // this.details.push(item._id)
-      console.log(item)
       if (item.sectores !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
       } else {
@@ -204,12 +200,11 @@ export default {
       }
       this.edit = true
       this.lgDemo = true
-      console.log(item.id)
+
       Api.getSectorbyid(item.id).then((response) => {
         this.postSectores = response.data.data
-        console.log(response)
+
         this.id = item.id
-        //this.postIngreso = response.data.data
       })
     },
     getBadge(status) {
@@ -237,7 +232,6 @@ export default {
     submitForm() {
       if (this.id) {
         Api.putSector(this.id, this.postSectores).then((response) => {
-          console.log(response.data)
           this.lgDemo = false
           this.$swal({
             position: 'top-end',
@@ -271,7 +265,6 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
-        //const form = event.currentTarget
         this.lgDemo = true
         setTimeout(this.getSectore, 500)
         ;(this.postSectores = {
@@ -303,7 +296,6 @@ export default {
           })
         })
         .catch((error) => {
-          console.log(error)
           this.$swal({
             position: 'top-end',
             icon: 'error',

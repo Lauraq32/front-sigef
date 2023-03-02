@@ -1,5 +1,5 @@
 <template>
-  <CDropdown >
+  <CDropdown>
     <CDropdownToggle placement="bottom-end" class="py-0" :caret="false">
       <CAvatar :src="avatar" size="md" />
     </CDropdownToggle>
@@ -38,10 +38,12 @@
       </CDropdownItem>
       <CDropdownDivider />
       <div @click="logOut">
-        <CDropdownItem @click="logOut" >
-        <CIcon icon="cil-shield-alt"  /> Lock Account
-      </CDropdownItem>
-      <CDropdownItem> <CIcon icon="cil-lock-locked" @click="logOut"/> Logout </CDropdownItem>
+        <CDropdownItem @click="logOut">
+          <CIcon icon="cil-shield-alt" /> Lock Account
+        </CDropdownItem>
+        <CDropdownItem>
+          <CIcon icon="cil-lock-locked" @click="logOut" /> Logout
+        </CDropdownItem>
       </div>
     </CDropdownMenu>
   </CDropdown>
@@ -63,7 +65,7 @@ export default {
     return {
       avatar: avatar,
       itemsCount: 42,
-      logOut
+      logOut,
     }
   },
 }

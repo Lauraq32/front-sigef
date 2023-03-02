@@ -100,7 +100,7 @@
                     v-model="postPosicionesCargo.id"
                     id="exampleInputEmail1"
                   />
-                
+
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -166,7 +166,6 @@
                 <CCol :md="5">
                   <input
                     style="position: relative; left: -88px"
-                    
                     type="text"
                     class="form-control"
                     v-model="postPosicionesCargo.id"
@@ -199,7 +198,6 @@
                 <CCol :md="5">
                   <input
                     style="position: relative; left: -88px"
-                    
                     type="text"
                     class="form-control"
                     v-model="postPosicionesCargo.id"
@@ -297,30 +295,20 @@ export default {
     },
 
     focusInput() {
-      console.log('kaka')
       this.$refs.name.focus()
     },
 
     unaVez() {
-      // if (!this.runOnce) {
       this.focusInput()
-      // this.runOnce = true
-      // }
     },
 
     openModal() {
       this.lgDemo = true
-      // <input ref="name" type="text" class="form-control" v-model="postMarcas.nombre" id="exampleInputEmail1"  >
+
       setTimeout(this.unaVez, 200)
     },
 
     toggleDetails(item) {
-      // if (this.details.includes(item._id)) {
-      //   this.details = this.details.filter((_item) => _item !== item._id)
-      //   return
-      // }
-      // this.details.push(item._id)
-      console.log(item)
       if (item.pocision !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
       } else {
@@ -328,13 +316,11 @@ export default {
       }
       this.edit = true
       this.lgDemo = true
-      console.log(item.id)
+
       Api.getPocisionbyid(item.id).then((response) => {
         this.postPosicionesCargo = response.data
-        console.log(response)
-        console.log(this.postPosicionesCargo)
+
         this.id = item.id
-        //this.postIngreso = response.data.data
       })
     },
     getBadge(status) {
@@ -364,8 +350,6 @@ export default {
     submitForm() {
       if (this.id) {
         Api.putPocision(this.id, this.postPosicionesCargo).then((response) => {
-          console.log(response.data)
-
           this.lgDemo = false
           this.$swal({
             position: 'top-end',

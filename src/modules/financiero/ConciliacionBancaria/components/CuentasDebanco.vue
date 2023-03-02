@@ -15,10 +15,10 @@
     </div>
   </div>
   <div class="d-block p-2">
-      <CButton style="font-weight: bold" color="info" @click="generarCuentas"
-        >Generar Cuenta</CButton
-      >
-    </div>
+    <CButton style="font-weight: bold" color="info" @click="generarCuentas"
+      >Generar Cuenta</CButton
+    >
+  </div>
   <hr />
   <CSmartTable
     clickableRows
@@ -638,7 +638,7 @@ export default {
     },
     submitForm() {
       if (this.idCuenta) {
-        Api.putConciliacioncuentaBanco(this.idCuenta,this.CuentaBanco).then(
+        Api.putConciliacioncuentaBanco(this.idCuenta, this.CuentaBanco).then(
           (response) => {
             console.log(response.data)
             this.lgDemo = false
@@ -724,7 +724,7 @@ export default {
         console.log(response)
       })
     },
-    generarCuentas(){
+    generarCuentas() {
       setTimeout(this.getAllBancos, 500)
       Swal.fire({
         position: 'top-end',
@@ -735,7 +735,7 @@ export default {
         timer: 1500,
       })
       Api.generarCuentas().then((response) => {
-        console.log(response);
+        console.log(response)
       })
     },
     clearModal1() {

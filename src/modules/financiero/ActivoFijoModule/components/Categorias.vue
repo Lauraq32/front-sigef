@@ -247,7 +247,6 @@ export default {
     submitForm() {
       if (this.id) {
         Api.editCategoria(this.id, this.postCategorias).then((response) => {
-          console.log(response.data)
           this.lgDemo = false
           this.$swal({
             position: 'top-end',
@@ -348,12 +347,6 @@ export default {
       }
     },
     toggleDetails(item) {
-      // if (this.details.includes(item._id)) {
-      //   this.details = this.details.filter((_item) => _item !== item._id)
-      //   return
-      // }
-      // this.details.push(item._id)
-      console.log(item)
       if (item.categorias !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
       } else {
@@ -361,12 +354,9 @@ export default {
       }
       this.edit = true
       this.lgDemo = true
-      console.log(item.id)
       Api.getCategoriaByID(item.id).then((response) => {
         this.postCategorias = response.data.data
-        console.log(response)
         this.id = item.id
-        //this.postIngreso = response.data.data
       })
     },
   },
@@ -375,78 +365,3 @@ export default {
   },
 }
 </script>
-
-<!-- <script>
-import { CSmartTable } from '@coreui/vue-pro'
-export default {
-  components: {
-    CSmartTable,
-  },
-  data: () => {
-    return {
-      columns: [
-        { key: 'Codigo', label: 'Codigo' },
-        { key: 'Descripcion', label: 'Descripcion' },
-        { key: 'Cuenta Gasto', label: 'Cuenta Gasto' },
-        { key: 'Monto', label: 'Monto' },
-        { key: 'Acumulado', label: 'Acumulado' },
-        { key: 'Corto', label: 'Corto', _style: { width: '20%' } },
-        { key: 'Despreciable', label: 'Despreciable' },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
-        },
-      ],
-      details: [],
-      items: [],
-    }
-  },
-  methods: {
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
-    IngresoReportClsIng() {
-      window
-        .open(
-          `http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fReporte_FP%2fRep_Clasificadores_Ingreso&rs:Command=Render`,
-          '_blank',
-        )
-        .focus()
-    },
-    IngresoReportClsGas() {
-      window
-        .open(
-          `http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fReporte_FP%2fRep_Clasificadores_Gasto&rs:Command=Render`,
-          '_blank',
-        )
-        .focus()
-    },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
-      }
-      this.details.push(item._id)
-    },
-  },
-  computed: {},
-  mounted() {
-    //this.$store.dispatch('Formulacion/getClasificadores');
-  },
-}
-</script> -->

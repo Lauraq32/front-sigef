@@ -1,6 +1,5 @@
 <template>
   <h3 class="text-center">Marcas</h3>
-  
 
   <!-- <div>
     <button @click="modal = true">Abrir Modal</button>
@@ -54,11 +53,7 @@
       </td>
     </template>
   </CSmartTable>
-  <CModal
-    size="lg"
-    :visible="lgDemo"
-    @close="lgDemo = false"
-  >
+  <CModal size="lg" :visible="lgDemo" @close="lgDemo = false">
     <CModalHeader>
       <CModalTitle>Marcas</CModalTitle>
     </CModalHeader>
@@ -87,8 +82,14 @@
 
           <CCol :md="6">
             <CFormLabel for="validationCustom02">Marca</CFormLabel>
-            
-            <input ref="name" type="text" class="form-control" v-model="postMarcas.nombre" id="exampleInputEmail1"  >
+
+            <input
+              ref="name"
+              type="text"
+              class="form-control"
+              v-model="postMarcas.nombre"
+              id="exampleInputEmail1"
+            />
           </CCol>
 
           <div class="modal-footer">
@@ -186,72 +187,47 @@ export default {
     ...mapActions(useRegistroStore, ['getMarcas', 'addMarcas']),
 
     focusInput() {
-      console.log('kaka')
       this.$refs.name.focus()
     },
 
     closeModal() {
-      // this.lgDemo = false
-      // if(this.caca == true){
-      //   this.lgDemo = true
-      //   this.funcionKlk()
-      // }
-      // console.log(this.lgDemo)
-      
-      // this.getMarcas()
-
       if (this.modal) {
-      this.$nextTick(() => {
-        this.$refs.inputElement.focus()
-        console.log('mmf')
-      })
-    }
+        this.$nextTick(() => {
+          this.$refs.inputElement.focus()
+        })
+      }
     },
 
     unaVez() {
       // if (!this.runOnce) {
-        this.focusInput()
-        // this.runOnce = true
+      this.focusInput()
+      // this.runOnce = true
       // }
     },
 
     funcionKlk() {
-   
       if (this.lgDemo == true) {
-        console.log('klk12')
         this.unaVez()
       } else {
-        console.log('klk3')
         this.unaVez()
       }
     },
 
-    // focusKlk() {
-    //   if (this.lgDemo == true) {
-    //     this.focusInput()
-    //   }
-    // },
-
     focusInput() {
-      console.log('kaka')
       this.$refs.name.focus()
     },
 
     unaVez() {
-      // if (!this.runOnce) {
-        this.focusInput()
-        // this.runOnce = true
-      // }
+      this.focusInput()
     },
 
     openModal() {
       this.lgDemo = true
-      // <input ref="name" type="text" class="form-control" v-model="postMarcas.nombre" id="exampleInputEmail1"  >
-      setTimeout(this.unaVez, 200) 
+
+      setTimeout(this.unaVez, 200)
     },
 
     toggleDetails(item) {
-      console.log(item)
       if (item.Marcas !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
       } else {
@@ -259,12 +235,11 @@ export default {
       }
       this.edit = true
       this.lgDemo = true
-      console.log(item.id)
+
       Api.getMarcaByID(item.id).then((response) => {
         this.postMarcas = response.data.data
-        console.log(response)
+
         this.id = item.id
-        //this.postIngreso = response.data.data
       })
     },
     getBadge(status) {
@@ -291,12 +266,9 @@ export default {
       this.validatedCustom01 = true
     },
 
-    
-
     submitForm() {
       if (this.id) {
         Api.putMarca(this.id, this.postMarcas).then((response) => {
-          console.log(response.data)
           this.lgDemo = false
           this.$swal({
             position: 'top-end',
@@ -341,12 +313,6 @@ export default {
 
   mounted() {
     this.closeModal()
-    
-    // console.log(lgDemo)
-    // Api.getAllMarca().then((response) => {
-    //   This.Marcas = response.data.data
-    // })
-    // this.focusInput()
   },
 }
 </script>

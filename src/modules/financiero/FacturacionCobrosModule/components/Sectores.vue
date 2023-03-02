@@ -157,7 +157,6 @@ export default {
 
   setup() {
     onMounted(() => {
-      console.log('klk')
       getSectore()
     }),
       function toggleDetails(item) {
