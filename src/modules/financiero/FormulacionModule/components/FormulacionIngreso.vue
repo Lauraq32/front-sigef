@@ -351,7 +351,6 @@ import { mapActions, mapState } from 'vuex'
 import XLSX from 'xlsx/xlsx.mjs'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 
-import axios from 'axios'
 import router from '@/router'
 export default {
   components: {
@@ -533,7 +532,7 @@ export default {
             })
           })
 
-          Api.postCargaMasiva(this.presIngrsoMasivo).then((response) => {})
+          Api.postCargaMasiva(this.presIngrsoMasivo).then(() => {})
           Swal.fire({
             position: 'top-end',
             icon: 'success',

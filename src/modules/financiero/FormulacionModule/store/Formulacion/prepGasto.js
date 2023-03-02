@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import Api from '../../services/FormulacionServices'
 // You can name the return value of `defineStore()` anything you want,
 // but it's best to use the name of the store and surround it with `use`
@@ -9,7 +9,6 @@ export const usePrepGastoStore = defineStore('prepGasto', () => {
   const prepGastoList = ref([])
   const GastosListDos = ref([])
   let getGasto = ref(null)
-  const is_loading = true
   //const name = ref('Eduardo')
 
   function getListarGastos() {
@@ -39,12 +38,6 @@ export const usePrepGastoStore = defineStore('prepGasto', () => {
       EducGeneroSalud: '1000',
     },
   ]
-
-  const getAllGasto = computed(() => registroPersonal)
-
-  function addPersonal(data) {
-    registroPersonal.value.push(data)
-  }
 
   function addGasto(post) {
     Api.postGastos(post).then((response) => {

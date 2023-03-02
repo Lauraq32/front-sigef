@@ -60,11 +60,9 @@
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
-import { CModal } from '@coreui/vue'
 export default {
   components: {
     CSmartTable,
-    CModal,
   },
 
   data: () => {

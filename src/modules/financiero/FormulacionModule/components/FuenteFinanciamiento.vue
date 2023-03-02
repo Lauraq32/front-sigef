@@ -64,7 +64,7 @@
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
-import { onMounted } from 'vue'
+
 export default {
   components: {
     CSmartTable,

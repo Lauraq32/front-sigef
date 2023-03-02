@@ -10,7 +10,7 @@ import Api from '../../services/EjecucionServices'
 export const useEjecucionIngresoStore = defineStore(
   'useEjecucionIngresoStore',
   () => {
-    const ingresosList = ref([]) 
+    const ingresosList = ref([])
 
     //const name = ref('Eduardo')
     const getList = computed(() => ingresosList)
@@ -27,12 +27,6 @@ export const useEjecucionIngresoStore = defineStore(
       })
     }
 
-    function getIngresoDetalleById(data) {
-      Api.getIngresoByIdAndDetalle(data).then((response) => {
-        console.log(response)
-      })
-    }
-
     function addIngresos(data) {
       Api.postIngresos(data).then((response) => {
         console.log(response)
@@ -45,7 +39,6 @@ export const useEjecucionIngresoStore = defineStore(
       })
     }
 
-    
     function addGastoDetalle(data) {
       Api.postGastoDetalle(data).then((response) => {
         console.log(response)
@@ -53,18 +46,11 @@ export const useEjecucionIngresoStore = defineStore(
     }
 
     function getIngresos() {
-        Api.getIngresoAll().then((response) => {
-          console.log(response)
-          ingresosList.value = response.data.data
-        })
-      }
-
-      function getIngresosById(id) {
-        Api.getIngresoAll().then((response) => {
-          console.log(response)
-          ingresosList.value = response.data.data
-        })
-      }
+      Api.getIngresoAll().then((response) => {
+        console.log(response)
+        ingresosList.value = response.data.data
+      })
+    }
 
     function putIngreso(data) {
       Api.putBeneficiarios(data).then((response) => {
@@ -72,8 +58,8 @@ export const useEjecucionIngresoStore = defineStore(
       })
     }
 
-    function putRegistrosGasto(data, id) {
-      Api.putRegistroGasto(id, data).then((response) => {
+    function putRegistrosGasto(data) {
+      Api.putRegistroGasto(data).then((response) => {
         console.log(response)
       })
     }
@@ -84,12 +70,11 @@ export const useEjecucionIngresoStore = defineStore(
       getList,
       addIngreso,
       putIngreso,
-      ingresosList,
       addIngresos,
       getIngresos,
       addIngresoDetalle,
       addGastoDetalle,
-      putRegistrosGasto
+      putRegistrosGasto,
     }
   },
 )

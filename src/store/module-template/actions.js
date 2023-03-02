@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 
 
-import Api from '../services/Auth'
+
 
 // export const Login = async ({ commit }) => {
 //     Api.Login(user.email, user.password).then(response => {
@@ -12,27 +12,27 @@ import Api from '../services/Auth'
 
 
 //actualizar una entrada
-export const updateEntries = async ({ commit }, entry) => {
+// export const updateEntries = async ({ commit }, entry) => {
 
-    //servicios journalApi
-    const { date, picture, text } = entry
-    const dataTosave = { date, picture, text }
+//     //servicios journalApi
+//     const { date, picture, text } = entry
+//     const dataTosave = { date, picture, text }
 
-    const resp = await journalApi.put(`/entries/${entry.id}.json`, dataTosave)
-    console.log(resp)
+//     const resp = await journalApi.put(`/entries/${entry.id}.json`, dataTosave)
+//     console.log(resp)
 
-    //commit de una mutation
-    commit('updateEntries', { ...entry })
-}
+//     //commit de una mutation
+//     commit('updateEntries', { ...entry })
+// }
 
-//borrar
-export const deleteEntry = async ({ commit }, id) => {
+// //borrar
+// export const deleteEntry = async ({ commit }, id) => {
 
-    //servicios journalApi
-    await journalApi.delete(`/entries/${id}.json`)
+//     //servicios journalApi
+//     await journalApi.delete(`/entries/${id}.json`)
 
-    commit('deleteEntry', id)
+//     commit('deleteEntry', id)
 
-    return id
+//     return id
 
-}
+// }

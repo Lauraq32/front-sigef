@@ -186,23 +186,12 @@ export default {
 
     ...mapActions(useRegistroStore, ['getMarcas', 'addMarcas']),
 
-    focusInput() {
-      this.$refs.name.focus()
-    },
-
     closeModal() {
       if (this.modal) {
         this.$nextTick(() => {
           this.$refs.inputElement.focus()
         })
       }
-    },
-
-    unaVez() {
-      // if (!this.runOnce) {
-      this.focusInput()
-      // this.runOnce = true
-      // }
     },
 
     funcionKlk() {

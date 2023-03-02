@@ -281,7 +281,7 @@
     <CModalBody>
       <CCardBody>
         <hr />
-        <template #show_details="{ item, index }">
+        <template #show_details="{ item }">
           <!-- <hr/> -->
           <td class="py-2">
             <CButton
@@ -529,7 +529,7 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/ConciliacionServices'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-import { thisTypeAnnotation } from '@babel/types'
+
 export default {
   components: {
     CSmartTable,
@@ -541,7 +541,7 @@ export default {
       lgDemo: false,
       lgDemo3: false,
       Bancos: [],
-      BancoId: null,
+
       idCuenta: null,
       fechaFiltro: null,
       CuentaBanco: {
@@ -718,7 +718,7 @@ export default {
         console.log(response)
       })
     },
-    getHistoricoConciliacion(bancoId) {
+    getHistoricoConciliacion() {
       Api.getAllHistoricos(this.BancoId, this.fechaFiltro).then((response) => {
         this.Conciliacion = response.data.data
         console.log(response)

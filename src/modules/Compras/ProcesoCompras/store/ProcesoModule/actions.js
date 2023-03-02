@@ -1,4 +1,3 @@
-import axios from 'axios'
 import Api from '../../services/RegistroPersonalServices'
 
 export const getUsuarios = async ({ commit }) => {

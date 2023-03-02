@@ -133,26 +133,10 @@
   </CContainer>
 </template>
 <script>
-import prueba from '../assets/images/logo.png'
-import { CIcon } from '@coreui/icons-vue'
-import {
-  cilCalendarCheck,
-  cilChalkboardTeacher,
-  cilSmilePlus,
-} from '@coreui/icons-pro'
-
 export default {
-  components: {
-    cilCalendarCheck,
-    cilChalkboardTeacher,
-    cilSmilePlus,
-  },
+  components: {},
   setup() {
-    return {
-      cilCalendarCheck,
-      cilChalkboardTeacher,
-      cilSmilePlus,
-    }
+    return {}
   },
   methods: {
     gotToPrueba() {

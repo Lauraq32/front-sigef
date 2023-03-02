@@ -183,9 +183,7 @@
 //import { useRegistroStore } from '../store/Ejecucion/anioFiscal'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
-import { mapStores } from 'pinia'
-import { mapState } from 'pinia'
-import { mapActions } from 'pinia'
+
 //import Api from '../services/EjecucionServices'
 
 export default {

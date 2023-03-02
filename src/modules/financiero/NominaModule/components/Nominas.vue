@@ -2535,13 +2535,11 @@ import { mapActions } from 'pinia'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import Api from '../services/NominaServices'
 import router from '@/router'
-import moment from 'moment'
 
 export default {
   components: {
     CSmartTable,
     CModal,
-    moment,
   },
 
   data: () => {
@@ -2942,10 +2940,6 @@ export default {
       })
     },
 
-    focusInput() {
-      this.$refs.name.$el.focus()
-    },
-
     focusInput1() {
       if (!this.focus) {
         this.focusInput()
@@ -2954,10 +2948,6 @@ export default {
 
     format() {
       setTimeout(this.formatFecha, 500)
-    },
-
-    formatFecha() {
-      const fechaFormateada = moment(this.fecha12).format('YYYY-MM-DD')
     },
 
     sumaIngresos() {
@@ -2990,7 +2980,7 @@ export default {
     ]),
 
     submiNomina() {
-      Api.postNomina(this.postNomina).then((response) => {
+      Api.postNomina(this.postNomina).then(() => {
         this.postNomina.afpMonto = this.postEmpleado.afpFijo
       })
     },
@@ -3003,7 +2993,7 @@ export default {
         this.postGenerarNomina.ProgramaDivision,
         this.postGenerarNomina.FormaPago,
         this.postGenerarNomina.TipoContrato,
-      ).then((response) => {})
+      ).then(() => {})
     },
     submiFormConf() {
       this.submiGeneraNomina()
@@ -3083,9 +3073,7 @@ export default {
           },
         )
       } else {
-        Api.postConfiguracionNomina(this.postConfiguracionNomina).then(
-          (response) => {},
-        )
+        Api.postConfiguracionNomina(this.postConfiguracionNomina).then(() => {})
         Swal.fire({
           position: 'top-end',
           icon: 'success',
@@ -3282,9 +3270,7 @@ export default {
         setTimeout(this.getEmpleado, 500)
       } else {
         this.addEmpleado(this.postEmpleado)
-        Api.postConfiguracionNomina(this.postConfiguracionNomina).then(
-          (response) => {},
-        )
+        Api.postConfiguracionNomina(this.postConfiguracionNomina).then(() => {})
         Swal.fire({
           position: 'top-end',
           icon: 'success',

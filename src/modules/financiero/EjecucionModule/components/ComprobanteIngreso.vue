@@ -53,8 +53,8 @@
     <CModalHeader>
       <CModalTitle>Exportar Variacion</CModalTitle>
     </CModalHeader>
-    <CModalBody
-      ><CFormSelect v-model="mesReporte" id="validationCustom05">
+    <CModalBody>
+      <CFormSelect v-model="mesReporte" id="validationCustom05">
         <option>1-Enero</option>
         <option>2-Febrero</option>
         <option>3-Marzo</option>
@@ -67,8 +67,8 @@
         <option>10-Octubre</option>
         <option>11-Noviembre</option>
         <option>12-Diciembre</option>
-      </CFormSelect></CModalBody
-    >
+      </CFormSelect>
+    </CModalBody>
     <CModalFooter>
       <CButton color="secondary">Close</CButton>
       <CButton color="primary" @click="imprimirReporte">Imprimir</CButton>
@@ -82,8 +82,8 @@
     <CModalHeader>
       <CModalTitle>Exportar Ejecucion</CModalTitle>
     </CModalHeader>
-    <CModalBody
-      ><CFormSelect v-model="mesReporte" id="validationCustom05">
+    <CModalBody>
+      <CFormSelect v-model="mesReporte" id="validationCustom05">
         <option>1-Enero</option>
         <option>2-Febrero</option>
         <option>3-Marzo</option>
@@ -96,8 +96,8 @@
         <option>10-Octubre</option>
         <option>11-Noviembre</option>
         <option>12-Diciembre</option>
-      </CFormSelect></CModalBody
-    >
+      </CFormSelect>
+    </CModalBody>
     <CModalFooter>
       <CButton color="secondary">Close</CButton>
       <CButton color="primary" @click="exportarReporteEjecucion"
@@ -109,8 +109,8 @@
     <CModalHeader>
       <CModalTitle>Exportar Modificacion</CModalTitle>
     </CModalHeader>
-    <CModalBody
-      ><CFormSelect v-model="mesReporte" id="validationCustom05">
+    <CModalBody>
+      <CFormSelect v-model="mesReporte" id="validationCustom05">
         <option>1-Enero</option>
         <option>2-Febrero</option>
         <option>3-Marzo</option>
@@ -123,8 +123,8 @@
         <option>10-Octubre</option>
         <option>11-Noviembre</option>
         <option>12-Diciembre</option>
-      </CFormSelect></CModalBody
-    >
+      </CFormSelect>
+    </CModalBody>
     <CModalFooter>
       <CButton color="secondary">Close</CButton>
       <CButton color="primary" @click="exportarReporte">Imprimir</CButton>
@@ -161,7 +161,7 @@
         {{ formatPrice(item.totalValor) }}
       </td>
     </template>
-    <template #show_details="{ item, index }">
+    <template #show_details="{ item }">
       <td class="py-1">
         <CButton
           class="mt-1"
@@ -537,16 +537,14 @@
 </template>
 
 <script>
-import { useRegistroStore } from '../store/Ejecucion/registroIngreso'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { useEjecucionIngresoStore } from '../store/Ejecucion/ejecucionIngresos'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-import axios from 'axios'
+
 import Api from '../services/EjecucionServices'
 import { mapStores, mapActions, mapState } from 'pinia'
-import { ref } from 'vue'
-import SimpleTypeahead from 'vue3-simple-typeahead'
+
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
 import router from '@/router'
 
@@ -554,7 +552,6 @@ export default {
   components: {
     CSmartTable,
     CModal,
-    SimpleTypeahead,
   },
 
   data: () => {
@@ -791,7 +788,7 @@ export default {
     Guardar() {
       if (this.id != null) {
         Api.putIngresoCabecera(this.id, this.ingresoPost)
-          .then((response) => {
+          .then(() => {
             Swal.fire({
               position: 'top-end',
               icon: 'success',

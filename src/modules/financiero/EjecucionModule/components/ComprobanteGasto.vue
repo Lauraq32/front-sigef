@@ -495,7 +495,6 @@
           class="row g-3 needs-validation"
           novalidate
           :validated="validatedCustom01"
-          @submit=""
         >
           <div class="row">
             <div class="col-12">
@@ -680,72 +679,92 @@
                 </CCol>
               </div>
             </div>
-            <div
-              v-if="isVariacion"
-              v-for="(inputs, i) in postGastoDetalle.detaRetencionDto.length"
-            >
-              <hr />
-              <CAccordion class="mt-3">
-                <CAccordionItem :item-key="i">
-                  <CAccordionHeader> Retencion </CAccordionHeader>
-                  <CAccordionBody>
-                    <div class="col-12">
-                      <div class="row">
-                        <CCol :md="2">
-                          <CFormLabel for="validationCustom01"
-                            >Retenciones</CFormLabel
-                          >
-                          <CFormSelect
-                            v-model="
-                              postGastoDetalle.detaRetencionDto[i].retencion
-                            "
-                            id="validationCustom02"
-                            v-on:change="changeRetenciones($event)"
-                          >
-                            <option
-                              v-for="benef in this.tipoRentencion"
-                              :key="benef.id"
-                              :value="benef.id"
+            <div v-if="isVariacion">
+              <div
+                :key="i"
+                v-for="i in postGastoDetalle.detaRetencionDto.length"
+              >
+                <hr />
+                <CAccordion class="mt-3">
+                  <CAccordionItem :item-key="i">
+                    <CAccordionHeader> Retencion </CAccordionHeader>
+                    <CAccordionBody>
+                      <div class="col-12">
+                        <div class="row">
+                          <CCol :md="2">
+                            <CFormLabel for="validationCustom01"
+                              >Retenciones</CFormLabel
                             >
-                              {{ benef.detalle }}
-                            </option>
-                          </CFormSelect>
-                          <CFormFeedback valid> Exito! </CFormFeedback>
-                          <CFormFeedback invalid>
-                            Favor agregar el campo
-                          </CFormFeedback>
-                        </CCol>
+                            <CFormSelect
+                              v-model="
+                                postGastoDetalle.detaRetencionDto[i].retencion
+                              "
+                              id="validationCustom02"
+                              v-on:change="changeRetenciones($event)"
+                            >
+                              <option
+                                v-for="benef in this.tipoRentencion"
+                                :key="benef.id"
+                                :value="benef.id"
+                              >
+                                {{ benef.detalle }}
+                              </option>
+                            </CFormSelect>
+                            <CFormFeedback valid> Exito! </CFormFeedback>
+                            <CFormFeedback invalid>
+                              Favor agregar el campo
+                            </CFormFeedback>
+                          </CCol>
 
-                        <CCol :md="4">
-                          <div class="row">
-                            <CCol :md="4">
-                              <CFormCheck
-                                type="radio"
-                                name="flexRadioDefault"
-                                id="flexRadioDefault1"
-                                label="Total"
-                              />
-                            </CCol>
-                            <CCol :md="4">
-                              <CFormCheck
-                                type="radio"
-                                name="flexRadioDefault"
-                                id="flexRadioDefault1"
-                                label="SubTotal"
-                              />
-                            </CCol>
-                            <CCol :md="4">
-                              <CFormCheck
-                                type="radio"
-                                name="flexRadioDefault"
-                                id="flexRadioDefault1"
-                                label="Otros"
-                              />
-                            </CCol>
+                          <CCol :md="4">
+                            <div class="row">
+                              <CCol :md="4">
+                                <CFormCheck
+                                  type="radio"
+                                  name="flexRadioDefault"
+                                  id="flexRadioDefault1"
+                                  label="Total"
+                                />
+                              </CCol>
+                              <CCol :md="4">
+                                <CFormCheck
+                                  type="radio"
+                                  name="flexRadioDefault"
+                                  id="flexRadioDefault1"
+                                  label="SubTotal"
+                                />
+                              </CCol>
+                              <CCol :md="4">
+                                <CFormCheck
+                                  type="radio"
+                                  name="flexRadioDefault"
+                                  id="flexRadioDefault1"
+                                  label="Otros"
+                                />
+                              </CCol>
 
+                              <CFormInput
+                                v-model="
+                                  postGastoDetalle.detaRetencionDto[i].mAplicado
+                                "
+                                id="validationCustom01"
+                                required
+                              />
+
+                              <CFormFeedback valid> Exito! </CFormFeedback>
+                              <CFormFeedback invalid>
+                                Favor agregar el campo
+                              </CFormFeedback>
+                            </div>
+                          </CCol>
+
+                          <CCol :md="3">
+                            <CFormLabel for="validationCustom01"
+                              >Valor</CFormLabel
+                            >
                             <CFormInput
                               v-model="
-                                postGastoDetalle.detaRetencionDto[i].mAplicado
+                                postGastoDetalle.detaRetencionDto[i].mAplica
                               "
                               id="validationCustom01"
                               required
@@ -755,31 +774,13 @@
                             <CFormFeedback invalid>
                               Favor agregar el campo
                             </CFormFeedback>
-                          </div>
-                        </CCol>
-
-                        <CCol :md="3">
-                          <CFormLabel for="validationCustom01"
-                            >Valor</CFormLabel
-                          >
-                          <CFormInput
-                            v-model="
-                              postGastoDetalle.detaRetencionDto[i].mAplica
-                            "
-                            id="validationCustom01"
-                            required
-                          />
-
-                          <CFormFeedback valid> Exito! </CFormFeedback>
-                          <CFormFeedback invalid>
-                            Favor agregar el campo
-                          </CFormFeedback>
-                        </CCol>
+                          </CCol>
+                        </div>
                       </div>
-                    </div>
-                  </CAccordionBody>
-                </CAccordionItem>
-              </CAccordion>
+                    </CAccordionBody>
+                  </CAccordionItem>
+                </CAccordion>
+              </div>
             </div>
           </div>
 
@@ -942,7 +943,7 @@
           :sorterValue="{ column: 'status', state: 'asc' }"
           pagination
         >
-          <template #show_details="{ item, index }">
+          <template #show_details="{ item }">
             <!-- <hr/> -->
             <td class="py-2">
               <CButton
@@ -984,12 +985,11 @@ import Api from '../services/EjecucionServices'
 import ApiFormulacion from '../../FormulacionModule/services/FormulacionServices'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
-import SimpleTypeahead from 'vue3-simple-typeahead'
+
 export default {
   components: {
     CSmartTable,
     CModal,
-    SimpleTypeahead,
   },
 
   data: () => {
@@ -1359,7 +1359,7 @@ export default {
       })
     },
     guardarRetencion() {
-      Api.postGastoDetalle(this.postGastoDetalle).then((response) => {})
+      Api.postGastoDetalle(this.postGastoDetalle).then(() => {})
     },
     selectItemEventHandler(id) {
       this.postGasto.codBenefi = id.split('-')[0]
@@ -1409,7 +1409,7 @@ export default {
         this.postGasto.bancoId = this.postGasto.bancoId.split('-')[0]
 
         // this.postGasto.tipoGastoId= 5,
-        Api.postRegistroGasto(this.postGasto).then((response) => {})
+        Api.postRegistroGasto(this.postGasto).then(() => {})
         setTimeout(this.getCabecera, 500)
         Swal.fire({
           position: 'top-end',
@@ -1420,9 +1420,7 @@ export default {
           timer: 1500,
         })
       } else {
-        Api.putRegistroGasto(this.postGasto, this.cabeceraId).then(
-          (response) => {},
-        )
+        Api.putRegistroGasto(this.postGasto, this.cabeceraId).then(() => {})
         setTimeout(this.getCabecera, 500)
         Swal.fire({
           position: 'top-end',
@@ -1437,7 +1435,7 @@ export default {
       event.stopPropagation()
     },
     postDetalle() {
-      Api.postGastoDetalle(this.postGastoDetalle).then((response) => {})
+      Api.postGastoDetalle(this.postGastoDetalle).then(() => {})
       Swal.fire({
         position: 'top-end',
         icon: 'success',

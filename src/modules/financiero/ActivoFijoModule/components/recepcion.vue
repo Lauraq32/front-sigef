@@ -282,31 +282,29 @@ export default {
 
     submitForm() {
       if (this.secuencial != null) {
-        Api.putRecepcion(this.secuencial, this.postRecepcion).then(
-          (response) => {
-            this.lgDemo = false
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              text: 'Datos agregados con exito',
-              title: 'Agregado',
-              showConfirmButton: false,
-              timer: 1500,
-            })
-            setTimeout(this.getRecepcion, 500)
-            this.postRecepcion = {
-              secuencial: 0,
-              fecha: new Date(Date.now()),
-              motivo: null,
-              autoriza: null,
-              recibidoDe: null,
-              valor: null,
-              realiza: null,
-              estatus: true,
-            }
-            this.secuencial = null
-          },
-        )
+        Api.putRecepcion(this.secuencial, this.postRecepcion).then(() => {
+          this.lgDemo = false
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            text: 'Datos agregados con exito',
+            title: 'Agregado',
+            showConfirmButton: false,
+            timer: 1500,
+          })
+          setTimeout(this.getRecepcion, 500)
+          this.postRecepcion = {
+            secuencial: 0,
+            fecha: new Date(Date.now()),
+            motivo: null,
+            autoriza: null,
+            recibidoDe: null,
+            valor: null,
+            realiza: null,
+            estatus: true,
+          }
+          this.secuencial = null
+        })
         setTimeout(this.getRecepcion, 500)
       } else {
         this.addRecepcion(this.postRecepcion)

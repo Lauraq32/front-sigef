@@ -60,13 +60,14 @@
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
-import { CModal } from '@coreui/vue'
 import { useEjecucionIngresoStore } from '../store/Ejecucion/ejecucionIngresos'
+import { mapStores } from 'pinia'
+import { mapState } from 'pinia'
+import { mapActions } from 'pinia'
 
 export default {
   components: {
     CSmartTable,
-    CModal,
   },
 
   data: () => {

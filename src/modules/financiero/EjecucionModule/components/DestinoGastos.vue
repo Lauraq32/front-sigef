@@ -41,7 +41,7 @@
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
-    <template #show_details="{ item, index }">
+    <template #show_details="{ item }">
       <td class="py-2">
         <CButton
           color="primary"
@@ -128,6 +128,7 @@
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 import Api from '../services/EjecucionServices'
 export default {
   components: {
@@ -206,7 +207,7 @@ export default {
     Guardar() {
       if (this.id != null) {
         Api.PutTipoGasto(this.id, this.postTipoGasto)
-          .then((response) => {
+          .then(() => {
             Swal.fire({
               position: 'top-end',
               icon: 'success',

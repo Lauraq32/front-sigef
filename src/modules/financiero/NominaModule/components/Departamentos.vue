@@ -217,7 +217,6 @@
                   ref="name"
                   style="position: relative; left: -39px; width: 268px"
                   type="text"
-         
                   class="form-control"
                   id="exampleInputEmail1"
                 />
@@ -236,7 +235,6 @@
               <CCol>
                 <CFormSelect
                   style="position: relative; left: -39px; width: 268px"
-                  
                   id="validationCustom05"
                   v-on:change="changeDepartamento($event)"
                 >
@@ -261,7 +259,6 @@
               <CCol>
                 <CFormSelect
                   style="position: relative; left: -39px; width: 268px"
-                  
                   id="validationCustom05"
                 >
                   <option
@@ -285,7 +282,6 @@
               <CCol>
                 <CFormSelect
                   style="position: relative; left: -39px; width: 268px"
-                  
                   id="validationCustom05"
                 >
                   <option
@@ -310,7 +306,6 @@
             <div class="col-6">
               <CCol :md="9">
                 <input
-                
                   style="position: relative; left: -39px"
                   type="text"
                   class="form-control"

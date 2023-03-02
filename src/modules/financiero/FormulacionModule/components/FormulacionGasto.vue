@@ -835,9 +835,9 @@ import Api from '../services/FormulacionServices'
 import axios from 'axios'
 import { mapActions, mapState } from 'pinia'
 import { usePrepGastoStore } from '../store/Formulacion/prepGasto'
-import { mount } from '@vue/test-utils'
+
 import { mapStores } from 'pinia'
-import { mapGetters } from 'vuex'
+
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import XLSX from 'xlsx/xlsx.mjs'
 import router from '@/router'
@@ -845,6 +845,7 @@ export default {
   components: {
     CSmartTable,
     CModal,
+    CCol,
   },
   data: () => {
     return {
@@ -935,7 +936,6 @@ export default {
         actControl: '',
         pppm: 'n',
         modContatro: 'n',
-        asignadoA: 0,
         asignadoA: 0,
         fechaIniciada: '2022-10-31T14:18:15.972Z',
         // sumTotalPresupuesto: 0,
@@ -1273,7 +1273,7 @@ export default {
     Guardar() {
       if (this.id != null) {
         Api.updateFormulacion(this.id, this.post)
-          .then((response) => {
+          .then(() => {
             Swal.fire({
               position: 'top-end',
               icon: 'success',
@@ -1329,7 +1329,7 @@ export default {
         this.detallePost.presupuestoBco3 = this.detallePost.oriBco3
         this.detallePost.presupuestoBco4 = this.detallePost.oriBco4
         Api.updateFormulacionDetalle(this.idDetalle, this.detallePost)
-          .then((response) => {
+          .then(() => {
             Swal.fire({
               position: 'top-end',
               icon: 'success',
@@ -1452,11 +1452,10 @@ export default {
         pppm: 'n',
         modContatro: 'n',
         asignadoA: 0,
-        asignadoA: 0,
         fechaIniciada: '2022-10-31T14:18:15.972Z',
       }
     },
-    handleSubmitCustom01(event) {},
+    handleSubmitCustom01() {},
     getEstructura() {
       Api.getEstruturaProgramaticaById(this.post.mestprogId).then(
         (response) => {
@@ -1530,7 +1529,7 @@ export default {
 
       this.lgDemo = true
     },
-    toggleDetails1(item) {
+    toggleDetails1() {
       setTimeout(this.unaVezs, 200)
       // if (this.details.includes(item._id)) {
       //   this.details = this.details.filter((_item) => _item !== item._id)

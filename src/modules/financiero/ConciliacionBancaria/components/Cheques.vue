@@ -283,7 +283,7 @@
           :sorterValue="{ column: 'status', state: 'asc' }"
           pagination
         >
-          <template #show_details="{ item, index }">
+          <template #show_details="{ item }">
             <!-- <hr/> -->
             <td class="py-2">
               <CButton
@@ -359,7 +359,6 @@ export default {
         fecha: new Date(Date.now()),
         auxiliar: '',
         valor: 0,
-        estatus: '',
         noFisico: 0,
         detalle: '',
         impreso: false,
@@ -475,7 +474,6 @@ export default {
         fecha: new Date(Date.now()),
         auxiliar: '',
         valor: 0,
-        estatus: '',
         noFisico: 0,
         detalle: '',
         impreso: false,

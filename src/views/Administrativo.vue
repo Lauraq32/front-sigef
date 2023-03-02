@@ -284,38 +284,12 @@
   </CContainer>
 </template>
 <script>
-import prueba from '../assets/images/logo.png'
-import { CIcon } from '@coreui/icons-vue'
-import {
-  cilUser,
-  cilCommute,
-  cilPeoplePlus,
-  cilCash,
-  cilPrint,
-  cilWallet,
-  cilPetrolStation,
-} from '@coreui/icons-pro'
+import {} from '@coreui/icons-pro'
 
 export default {
-  components: {
-    CIcon,
-    cilCommute,
-    cilPeoplePlus,
-    cilCash,
-    cilPrint,
-    cilWallet,
-    cilPetrolStation,
-  },
+  components: {},
   setup() {
-    return {
-      cilUser,
-      cilCommute,
-      cilPeoplePlus,
-      cilCash,
-      cilPrint,
-      cilWallet,
-      cilPetrolStation,
-    }
+    return {}
   },
 }
 </script>

@@ -274,7 +274,7 @@
           :sorterValue="{ column: 'status', state: 'asc' }"
           pagination
         >
-          <template #show_details="{ item, index }">
+          <template #show_details="{ item }">
             <!-- <hr/> -->
             <td class="py-2">
               <CButton
@@ -329,9 +329,7 @@ import Api from '../services/ConciliacionServices'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-import { mapStores } from 'pinia'
-import { mapState } from 'pinia'
-import { mapActions } from 'pinia'
+
 export default {
   components: {
     CSmartTable,

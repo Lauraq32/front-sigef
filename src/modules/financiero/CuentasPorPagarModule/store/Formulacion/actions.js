@@ -1,4 +1,3 @@
-import axios from 'axios'
 import Api from '../../services/CuentasPorPagarServices'
 
 export const getClasificadores = async ({ commit }) => {

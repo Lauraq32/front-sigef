@@ -1,5 +1,5 @@
 import http from '@/Api/http-common'
-import VueSweetalert2 from 'vue-sweetalert2'
+
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 class FormulacionApi {
@@ -140,7 +140,7 @@ class FormulacionApi {
 
   //-----------------------------PrepGastos---------------------------------------//
 
-  getListarGastos(id) {
+  getListarGastos() {
     return http.get(
       `PresGasto?anio=${localStorage.getItem(
         'ano',
@@ -241,7 +241,7 @@ class FormulacionApi {
   }
 
   getEstruturaProgramaticaById(value) {
-    return http.get(`CtgMestProg/${value}`).catch((error) => {})
+    return http.get(`CtgMestProg/${value}`).catch(() => {})
   }
 
   // cargarEstructuras(){
