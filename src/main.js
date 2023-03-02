@@ -14,7 +14,6 @@ import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
 import VueNumberFormat from 'vue-number-format'
 import { createPinia } from 'pinia'
 
-
 const pinia = createPinia()
 const app = createApp(App)
 app.use(store)
@@ -28,6 +27,5 @@ app.component('DocsExample', DocsExample)
 app.use(VueSweetalert2)
 app.use(SimpleTypeahead)
 app.use(VueNumberFormat, { prefix: '', decimal: '.', thousand: ',' })
-
 
 app.mount('#app')

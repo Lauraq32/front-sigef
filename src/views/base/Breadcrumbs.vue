@@ -13,11 +13,7 @@
             The breadcrumb navigation provides links back to each previous page
             the user navigated through and shows the current location in a
             website or an application. You don’t have to add separators, because
-            they automatically added in CSS through
-        
-            and
-          
-            .
+            they automatically added in CSS through and .
           </p>
           <DocsExample href="components/breadcrumb">
             <CBreadcrumb>

@@ -9,7 +9,10 @@
             </CCard>
             <CCard class="p-5">
               <CCardBody>
-                <CForm :validated="validatedCustom01" @submit="handleSubmitCustom01">
+                <CForm
+                  :validated="validatedCustom01"
+                  @submit="handleSubmitCustom01"
+                >
                   <h1>Iniciar Sesion</h1>
                   <p class="text-medium-emphasis"></p>
                   <CInputGroup class="mb-3">
@@ -17,22 +20,41 @@
                       <CIcon icon="cil-user" />
                     </CInputGroupText>
 
-
-                    <CFormInput id="validationCustom01" placeholder="Usuario" autocomplete="Correo" required
-                      v-model="userForm.usuario" />
-                    <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+                    <CFormInput
+                      id="validationCustom01"
+                      placeholder="Usuario"
+                      autocomplete="Correo"
+                      required
+                      v-model="userForm.usuario"
+                    />
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
                   </CInputGroup>
                   <CInputGroup class="mb-4">
                     <CInputGroupText>
                       <CIcon icon="cil-lock-locked" />
                     </CInputGroupText>
-                    <CFormInput id="validationCustom02" type="password" placeholder="Contraseña"
-                      autocomplete="current-password" required v-model="userForm.password" />
-                    <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+                    <CFormInput
+                      id="validationCustom02"
+                      type="password"
+                      placeholder="Contraseña"
+                      autocomplete="current-password"
+                      required
+                      v-model="userForm.password"
+                    />
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
                   </CInputGroup>
                   <CRow>
                     <CCol :xs="6" style="width: 100%" class="text-center">
-                      <input value="Ingreso" type="submit" color="primary" class="btn btn-primary btn-block mt-1"/>
+                      <input
+                        value="Ingreso"
+                        type="submit"
+                        color="primary"
+                        class="btn btn-primary btn-block mt-1"
+                      />
                       <!-- <button
               class="btn btn-primary btn-block mt-1"
               @click="getClasificador"
@@ -53,13 +75,11 @@
         </CCol>
       </CRow>
     </CContainer>
-
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-
 
 export default {
   name: 'Login',
@@ -67,11 +87,10 @@ export default {
     return {
       userForm: {
         email: '',
-        password: ''
+        password: '',
       },
       validatedCustom01: null,
       validationCustom02: null,
-
     }
   },
   methods: {
@@ -80,19 +99,19 @@ export default {
       if (form.checkValidity() === false) {
         event.preventDefault()
         event.stopPropagation()
-
       }
       event.preventDefault()
-        event.stopPropagation()
+      event.stopPropagation()
       this.validatedCustom01 = true
       this.$store.commit('myCustomModule/SET_USER', this.userForm)
       //this.gotToDashboard()
       this.$store.dispatch('myCustomModule/Login')
-//this.gotToDashboard()
+      //this.gotToDashboard()
     },
 
-    gotToDashboard() { this.$router.push({ name: 'home' }) },
+    gotToDashboard() {
+      this.$router.push({ name: 'home' })
+    },
   },
-
 }
 </script>

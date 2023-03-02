@@ -1,4 +1,3 @@
-export const SET_USUARIOS = (state,usuarios) => {
-    state.users = usuarios
+export const SET_USUARIOS = (state, usuarios) => {
+  state.users = usuarios
 }
-

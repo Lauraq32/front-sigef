@@ -105,7 +105,6 @@
               <CCol :md="7">
                 <CFormLabel for="validationCustom02">
                   Tipo de Documento</CFormLabel
-                  
                 >
                 <CFormSelect
                   v-model="postBeneficiario.tipoDcto"
@@ -362,21 +361,20 @@ export default {
     },
 
     focusInput() {
-      console.log('kaka')
       this.$refs.name.focus()
     },
 
     unaVez() {
       // if (!this.runOnce) {
-        this.focusInput()
-        // this.runOnce = true
+      this.focusInput()
+      // this.runOnce = true
       // }
     },
 
     openModal() {
       this.lgDemo = true
       // <input ref="name" type="text" class="form-control" v-model="postMarcas.nombre" id="exampleInputEmail1"  >
-      setTimeout(this.unaVez, 200) 
+      setTimeout(this.unaVez, 200)
     },
 
     handleSubmitCustom01(event) {
@@ -404,12 +402,6 @@ export default {
     },
 
     toggleDetails(item) {
-      // if (this.details.includes(item._id)) {
-      //   this.details = this.details.filter((_item) => _item !== item._id)
-      //   return
-      // }
-      // this.details.push(item._id)
-      console.log(item)
       if (item.Beneficiarios !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
       } else {
@@ -417,12 +409,10 @@ export default {
       }
       this.edit = true
       this.lgDemo = true
-      console.log(item.id)
       Api.getBeneficiariosById(item.id).then((response) => {
         this.postBeneficiario = response.data.data
-        console.log(response)
+
         this.id = item.id
-        //this.postIngreso = response.data.data
       })
     },
 
@@ -430,7 +420,6 @@ export default {
       if (this.id) {
         Api.putBeneficiarios(this.id, this.postBeneficiario).then(
           (response) => {
-            console.log(response.data)
             this.lgDemo = false
             this.$swal({
               position: 'top-end',

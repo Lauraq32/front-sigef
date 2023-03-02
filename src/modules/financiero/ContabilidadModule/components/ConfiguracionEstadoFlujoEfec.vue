@@ -67,7 +67,11 @@ export default {
       lgDemo: false,
       columns: [
         { key: 'Código', label: 'Código', _style: { width: '40%' } },
-        { key: 'Area de Trabajo', label: 'Area de Trabajo', _style: { width: '40%' } },
+        {
+          key: 'Area de Trabajo',
+          label: 'Area de Trabajo',
+          _style: { width: '40%' },
+        },
         {
           key: 'show_details',
           label: '',

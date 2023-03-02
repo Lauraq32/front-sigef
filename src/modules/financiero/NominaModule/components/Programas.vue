@@ -88,49 +88,60 @@
           :validated="validatedCustom01"
           @submit="handleSubmitCustom01"
         >
-
-        <div class="row">
-        <div class="col-12">
-        <CCol :md="3">
-            <CFormLabel for="validationCustom01">Codigo</CFormLabel>
-            <input disabled type="text" class="form-control" v-model="postPrograma.id" id="exampleInputEmail1"  >
-            <!-- <CFormInput
+          <div class="row">
+            <div class="col-12">
+              <CCol :md="3">
+                <CFormLabel for="validationCustom01">Codigo</CFormLabel>
+                <input
+                  disabled
+                  type="text"
+                  class="form-control"
+                  v-model="postPrograma.id"
+                  id="exampleInputEmail1"
+                />
+                <!-- <CFormInput
               v-model="postPrograma.nombre"
               id="validationCustom01"
               required
             /> -->
 
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-        </div>
-        <div class="col-12">
-          <CCol :md="12">
-            <CFormLabel for="validationCustom01">Nombre</CFormLabel>
-            <input ref="name" type="text" class="form-control" v-model="postPrograma.nombre" id="exampleInputEmail1"  >
-            <!-- <CFormInput
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
+            <div class="col-12">
+              <CCol :md="12">
+                <CFormLabel for="validationCustom01">Nombre</CFormLabel>
+                <input
+                  ref="name"
+                  type="text"
+                  class="form-control"
+                  v-model="postPrograma.nombre"
+                  id="exampleInputEmail1"
+                />
+                <!-- <CFormInput
               v-model="postPrograma.nombre"
               id="validationCustom01"
               required
             /> -->
 
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-        </div>
-          <div class="col-12">
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02">Programa</CFormLabel>
-            <CFormInput
-              v-model="postPrograma.estructura"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-        </div>
-        </div>
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
+            <div class="col-12">
+              <CCol :md="4">
+                <CFormLabel for="validationCustom02">Programa</CFormLabel>
+                <CFormInput
+                  v-model="postPrograma.estructura"
+                  id="validationCustom02"
+                  required
+                />
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+            </div>
+          </div>
           <div class="modal-footer">
             <button
               type="button"
@@ -221,26 +232,21 @@ export default {
     },
 
     focusInput() {
-      console.log('kaka')
       this.$refs.name.focus()
     },
-    
+
     unaVez() {
-      // if (!this.runOnce) {
-        this.focusInput()
-        // this.runOnce = true
-      // }
+      this.focusInput()
     },
 
     openModal() {
       this.lgDemo = true
-      setTimeout(this.unaVez, 200) 
+      setTimeout(this.unaVez, 200)
     },
 
     submitForm() {
       if (this.id) {
         Api.putProgramaDivision(this.id, this.postPrograma).then((response) => {
-          console.log(response.data)
           this.lgDemo = false
           this.$swal({
             position: 'top-end',
@@ -270,7 +276,7 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
-        //const form = event.currentTarget
+
         this.lgDemo = true
         setTimeout(this.getArea, 500)
         ;(this.postPrograma = {
@@ -309,12 +315,6 @@ export default {
       }
     },
     toggleDetails(item) {
-      // if (this.details.includes(item._id)) {
-      //   this.details = this.details.filter((_item) => _item !== item._id)
-      //   return
-      // }
-      // this.details.push(item._id)
-      console.log(item)
       if (item.programas !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
       } else {
@@ -322,12 +322,11 @@ export default {
       }
       this.edit = true
       this.lgDemo = true
-      console.log(item.id)
+
       Api.getProgramaDivisionbyid(item.id).then((response) => {
         this.postPrograma = response.data.data
-        console.log(response)
+
         this.id = item.id
-        //this.postIngreso = response.data.data
       })
     },
   },

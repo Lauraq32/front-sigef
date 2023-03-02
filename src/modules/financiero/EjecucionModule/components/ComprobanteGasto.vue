@@ -1203,7 +1203,6 @@ export default {
   methods: {
     changeRetenciones(e) {
       Api.getTipoRetencionById(e.target.value).then((response) => {
-        console.log(response.data.data)
         this.detaRetencionDto.beneficiarioId = response.data.data.beneficiarioId
       })
     },
@@ -1238,7 +1237,6 @@ export default {
       ).then((response) => {
         this.EstructuraByClasificadores = response.data.data
         this.getEstructura()
-        console.log(response.data)
       })
     },
     getTipoGasto() {
@@ -1258,15 +1256,7 @@ export default {
       })
     },
     changeAuxiliar(e) {
-      console.log(e.target.value)
-
       this.postGasto.tipoGastoId = e.target.value
-      // Api.getDepartamentoByProgramaId(e.target.value).then((response) => {
-      //   this.post = response.data.data
-
-      //   console.log(response.data.data)
-      // })
-      // console.log(this.departamentos)
     },
     clearModal1() {
       this.postGasto = {
@@ -1353,9 +1343,8 @@ export default {
       this.lgDemo = true
       this.cabeceraId = item.id
       Api.getRegistroGastobyid(this.cabeceraId).then((response) => {
-        console.log(response.data)
         this.postGasto.fecha = this.formatDate(response.data.data.fecha)
-        console.log(this.postGasto.fecha)
+
         this.postGasto = response.data.data
       })
     },
@@ -1366,18 +1355,11 @@ export default {
           this.beneficiariosName.push(
             `${beneficiario.id}-${beneficiario.nombre}`,
           )
-          console.log(this.beneficiariosName)
         })
-
-        console.log(this.beneficiariosList)
       })
     },
     guardarRetencion() {
-      Api.postGastoDetalle(this.postGastoDetalle).then((response) => {
-        console.log('se guardo')
-      })
-      // event.preventDefault()
-      // event.stopPropagation()
+      Api.postGastoDetalle(this.postGastoDetalle).then((response) => {})
     },
     selectItemEventHandler(id) {
       this.postGasto.codBenefi = id.split('-')[0]
@@ -1395,7 +1377,6 @@ export default {
           this.isVariacion = true
         }
 
-        console.log(response.data)
         this.postGastoDetalle.detalleRegistroGastoDto.bancoId =
           response.data.data.bancoId
         this.postGastoDetalle.detalleRegistroGastoDto.secuenciaComprobante =
@@ -1405,7 +1386,6 @@ export default {
       this.postGastoDetalle.detalleRegistroGastoDto.secuenciaComprobante =
         item.id
       Api.getRegistroGastoDetalle(item.id).then((response) => {
-        console.log(response.data)
         this.detalleGasto = response.data.data
       })
     },
@@ -1427,11 +1407,9 @@ export default {
     postCabecera() {
       if (this.cabeceraId == null) {
         this.postGasto.bancoId = this.postGasto.bancoId.split('-')[0]
-        console.log(this.postGasto)
+
         // this.postGasto.tipoGastoId= 5,
-        Api.postRegistroGasto(this.postGasto).then((response) => {
-          console.log(response.data.data)
-        })
+        Api.postRegistroGasto(this.postGasto).then((response) => {})
         setTimeout(this.getCabecera, 500)
         Swal.fire({
           position: 'top-end',
@@ -1441,12 +1419,9 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
-        //this.clearModal1()
       } else {
         Api.putRegistroGasto(this.postGasto, this.cabeceraId).then(
-          (response) => {
-            console.log(response.data)
-          },
+          (response) => {},
         )
         setTimeout(this.getCabecera, 500)
         Swal.fire({
@@ -1462,9 +1437,7 @@ export default {
       event.stopPropagation()
     },
     postDetalle() {
-      Api.postGastoDetalle(this.postGastoDetalle).then((response) => {
-        console.log(response)
-      })
+      Api.postGastoDetalle(this.postGastoDetalle).then((response) => {})
       Swal.fire({
         position: 'top-end',
         icon: 'success',
@@ -1474,22 +1447,14 @@ export default {
         timer: 1500,
       })
       setTimeout(this.getCabecera(), 500)
-      setTimeout(showDetalle(this.id), 500)
-      //this.clearModal2()
     },
     getCabecera() {
       Api.getRegistroGasto().then((response) => {
-        console.log(response.data.data)
         this.cabeceraGasto = response.data.data
       })
     },
 
     seletectedItems(item) {
-      console.log(
-        item.ctgFuenteEspecificaId,
-        item.ctgOrganismoFinanciadorId,
-        item.ctgFuenteId,
-      )
       this.postGastoDetalle.detalleRegistroGastoDto.ctgFuenteEspecificaId =
         item.ctgFuenteEspecificaId
       this.postGastoDetalle.detalleRegistroGastoDto.ctgFuenteId =
@@ -1512,24 +1477,14 @@ export default {
       Api.getRegistroGastoDetalleClasificador(
         this.postGastoDetalle.ctgClasificadorId,
       ).then((response) => {
-        console.log(response.data.data)
         this.postGastoDetalle.nombre = response.data.data[0].nombre
         this.postGastoDetalle.ctgFuenteId = response.data.data[0].ctgFuenteId
         this.postGastoDetalle.ctgFuenteEspecificaId =
           response.data.data[0].ctgFuenteEspecificaId
         this.postGastoDetalle.ctgOrganismoFinanciadorId =
           response.data.data[0].ctgOrganismoFinanciadorId
-        //this.postGastoDetalle. = response.data.data.nombre
       })
     },
-    // IngresoReport() {
-    //   window
-    //     .open(
-    //       `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Gastos_Formulacion_FP08&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem('id_Ayuntamiento')}&FONDO=1&ANO=2022`,
-    //       '_blank',
-    //     )
-    //     .focus()
-    // },
 
     getBadge(status) {
       switch (status) {
@@ -1565,19 +1520,6 @@ export default {
 </script>
 
 <style>
-/* .flex-container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.spacing {
-  display: flex;
-  flex-direction: column;
-  margin-left: 450px;
-} */
-
 .top {
   margin-top: 27px;
 }

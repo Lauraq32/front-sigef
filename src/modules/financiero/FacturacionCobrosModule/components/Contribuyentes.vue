@@ -96,7 +96,13 @@
             <div class="col-6">
               <CCol :md="10">
                 <CFormLabel for="validationCustom01">Nombre</CFormLabel>
-                <input ref="name" type="text" class="form-control" v-model="postContribuyente.nombre" id="exampleInputEmail1"  >
+                <input
+                  ref="name"
+                  type="text"
+                  class="form-control"
+                  v-model="postContribuyente.nombre"
+                  id="exampleInputEmail1"
+                />
                 <!-- <CFormInput
                   v-model="postContribuyente.nombre"
                   id="validationCustom01"
@@ -390,32 +396,26 @@ export default {
 
     volver() {
       router.push({ name: 'comprobanteIngreso' })
-      console.log('klk')
     },
 
     focusInput() {
-      console.log('kaka')
       this.$refs.name.focus()
     },
 
     unaVez() {
-      // if (!this.runOnce) {
-        this.focusInput()
-        // this.runOnce = true
-      // }
+      this.focusInput()
     },
 
     openModal() {
       this.lgDemo = true
-      // <input ref="name" type="text" class="form-control" v-model="postMarcas.nombre" id="exampleInputEmail1"  >
-      setTimeout(this.unaVez, 200) 
+
+      setTimeout(this.unaVez, 200)
     },
 
     submitForm() {
       if (this.id) {
         Api.putContribuyente(this.id, this.postContribuyente).then(
           (response) => {
-            console.log(response.data)
             this.lgDemo = false
             this.$swal({
               position: 'top-end',
@@ -495,12 +495,6 @@ export default {
       }
     },
     toggleDetails(item) {
-      // if (this.details.includes(item._id)) {
-      //   this.details = this.details.filter((_item) => _item !== item._id)
-      //   return
-      // }
-      // this.details.push(item._id)
-      console.log(item)
       if (item.Contribuyente !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
       } else {
@@ -508,12 +502,11 @@ export default {
       }
       this.edit = true
       this.lgDemo = true
-      console.log(item.id)
+
       Api.getContribuyenteById(item.id).then((response) => {
         this.postContribuyente = response.data.data
-        console.log(response)
+
         this.id = item.id
-        //this.postIngreso = response.data.data
       })
     },
   },
@@ -522,94 +515,3 @@ export default {
   },
 }
 </script>
-
-<!-- <script>
-import { useRegistroStore } from '../store/FacturacionCobros/Contribuyente'
-import { computed, onMounted } from '@vue/runtime-core'
-import { CSmartTable } from '@coreui/vue-pro'
-import { CModal } from '@coreui/vue'
-
-export default {
-  components: {
-    CSmartTable,
-    CModal,
-  },
-
-  setup() {
-    onMounted(() => {
-      console.log('klk')
-      getContribuyente()
-    }),
-      function toggleDetails(item) {
-        if (this.details.includes(item._id)) {
-          this.details = this.details.filter((_item) => _item !== item._id)
-          return
-        }
-        this.details.push(item._id)
-      }
-    const columns = [
-      { key: 'id', label: 'ID', _style: { width: '40%' } },
-      { key: 'Codigo', label: 'Codigo', _style: { width: '40%' } },
-      { key: 'Finalidad', label: 'Finalidad', _style: { width: '40%' } },
-      { key: 'funcion', label: 'funcion', _style: { width: '40%' } },
-      { key: 'Sub funcion', label: 'Sub funcion', _style: { width: '40%' } },
-      {
-        key: 'Denominacion',
-        label: 'Denominacion',
-        _style: { width: '40%' },
-      },
-      {
-        key: 'show_details',
-        label: '',
-        _style: { width: '1%' },
-        filter: false,
-        sorter: false,
-        // _props: { color: 'primary', class: 'fw-semibold'}
-      },
-    ]
-
-    function handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
-    }
-
-    function getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    }
-
-    const validatedCustom01 = null
-    const lgDemo = false
-
-    const store = useRegistroStore()
-
-    const { getContribuyente, Contribuyente } = store
-
-    return {
-      store,
-      getContribuyente,
-      Contribuyente,
-      validatedCustom01,
-      handleSubmitCustom01,
-      lgDemo,
-      getBadge,
-      columns,
-      Contribuyentes: computed(() => store.Contribuyente),
-    }
-  },
-}
-</script> -->

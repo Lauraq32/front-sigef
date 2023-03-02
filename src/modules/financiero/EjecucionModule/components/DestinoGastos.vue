@@ -89,14 +89,22 @@
         >
           <CCol :md="4">
             <CFormLabel for="validationCustom01">Ayuntamiento</CFormLabel>
-            <CFormInput v-model="postTipoGasto.ayuntamientoId" id="validationCustom01" required />
+            <CFormInput
+              v-model="postTipoGasto.ayuntamientoId"
+              id="validationCustom01"
+              required
+            />
 
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
             <CFormLabel for="validationCustom02">Descripcion</CFormLabel>
-            <CFormInput v-model="postTipoGasto.descripcion" id="validationCustom02" required />
+            <CFormInput
+              v-model="postTipoGasto.descripcion"
+              id="validationCustom02"
+              required
+            />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -138,7 +146,11 @@ export default {
         descripcion: '',
       },
       columns: [
-        { key: 'ayuntamientoId', label: 'Ayuntamiento', _style: { width: '40%' } },
+        {
+          key: 'ayuntamientoId',
+          label: 'Ayuntamiento',
+          _style: { width: '40%' },
+        },
         {
           key: 'descripcion',
           label: 'Descripcion',
@@ -186,13 +198,12 @@ export default {
           'primary'
       }
     },
-    getAllTipoGasto(){
+    getAllTipoGasto() {
       Api.getTipoGastoList().then((response) => {
         this.tiposGastos = response.data.data
-        console.log(response.data)
       })
     },
-    Guardar(){
+    Guardar() {
       if (this.id != null) {
         Api.PutTipoGasto(this.id, this.postTipoGasto)
           .then((response) => {
@@ -215,7 +226,7 @@ export default {
               timer: 1500,
             })
           })
-          setTimeout(this.getAllTipoGasto, 500)
+        setTimeout(this.getAllTipoGasto, 500)
       } else {
         Api.PostTipoGasto(this.postTipoGasto)
         setTimeout(this.getAllTipoGasto, 500)

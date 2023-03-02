@@ -227,7 +227,6 @@ export default () => ({
       Sexo: 'Masculino',
       Sueldo: '$0.00',
     },
-   
   ],
 
   reclutamientoSolicitud: [

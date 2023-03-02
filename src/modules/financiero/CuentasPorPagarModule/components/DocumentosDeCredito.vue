@@ -120,7 +120,7 @@
           </CCol>
           <CCol :md="4">
             <CFormLabel for="validationCustom01">Tipo Crédito</CFormLabel>
-            <CFormInput  id="validationCustom01" required />
+            <CFormInput id="validationCustom01" required />
 
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -134,7 +134,7 @@
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom04"> Valor Factura.</CFormLabel>
-            <CFormInput  id="validationCustom04"> </CFormInput>
+            <CFormInput id="validationCustom04"> </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -178,14 +178,14 @@ export default {
       validatedCustom01: null,
       lgDemo: false,
       columns: [
-      { key: 'null', label: 'Secuencia', },
-        { key: 'null', label: 'Documento',  },
-        { key: 'null', label: 'Fecha', },
-        { key: 'null', label: 'Tipo',},
-        { key: 'null', label: 'Suplidor', },
-        { key: 'null', label: 'Comprobante fiscal', },
-        { key: 'null', label: 'Valor docto.',},
-        { key: 'null', label: 'Origen',  },
+        { key: 'null', label: 'Secuencia' },
+        { key: 'null', label: 'Documento' },
+        { key: 'null', label: 'Fecha' },
+        { key: 'null', label: 'Tipo' },
+        { key: 'null', label: 'Suplidor' },
+        { key: 'null', label: 'Comprobante fiscal' },
+        { key: 'null', label: 'Valor docto.' },
+        { key: 'null', label: 'Origen' },
         {
           key: 'show_details',
           label: '',

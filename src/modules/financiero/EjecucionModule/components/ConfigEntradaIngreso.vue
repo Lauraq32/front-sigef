@@ -90,7 +90,7 @@
           <CCol :md="4">
             <CFormLabel for="validationCustom01">Código</CFormLabel>
             <CFormInput id="validationCustom01" required />
-           
+
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -101,16 +101,16 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="6">
-            <CFormLabel for="validationCustom03"
-              >Detalle</CFormLabel
-            >
+            <CFormLabel for="validationCustom03">Detalle</CFormLabel>
             <CFormInput id="validationCustom03" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom04">Resumen Descripcion</CFormLabel >
-            <CFormInput  id="validationCustom04"> </CFormInput>
+            <CFormLabel for="validationCustom04"
+              >Resumen Descripcion</CFormLabel
+            >
+            <CFormInput id="validationCustom04"> </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -122,13 +122,9 @@
             >
               Close
             </button>
-            <button
-              class="btn btn-info btn-block mt-1"
-              v-on:click="Guardar"
-            >
-            Guardar
+            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+              Guardar
             </button>
-         
           </div>
         </CForm>
       </CCardBody>
@@ -148,9 +144,17 @@ export default {
       validatedCustom01: null,
       lgDemo: false,
       columns: [
-        { key: 'Clasificador', label: 'Clasificador', _style: { width: '40%' } },
+        {
+          key: 'Clasificador',
+          label: 'Clasificador',
+          _style: { width: '40%' },
+        },
         { key: 'Detalle', label: 'Detalle', _style: { width: '40%' } },
-        { key: 'Resumen Descripcion', label: 'Resumen Descripcion', _style: { width: '40%' } },
+        {
+          key: 'Resumen Descripcion',
+          label: 'Resumen Descripcion',
+          _style: { width: '40%' },
+        },
         {
           key: 'show_details',
           label: '',

@@ -90,7 +90,7 @@
           <CCol :md="4">
             <CFormLabel for="validationCustom01">Código</CFormLabel>
             <CFormInput id="validationCustom01" required />
-           
+
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -108,13 +108,9 @@
             >
               Close
             </button>
-            <button
-              class="btn btn-info btn-block mt-1"
-              v-on:click="Guardar"
-            >
-            Guardar
+            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+              Guardar
             </button>
-         
           </div>
         </CForm>
       </CCardBody>
@@ -135,7 +131,11 @@ export default {
       lgDemo: false,
       columns: [
         { key: 'Código', label: 'Código', _style: { width: '40%' } },
-        { key: 'Area de Trabajo', label: 'Area de Trabajo', _style: { width: '40%' } },
+        {
+          key: 'Area de Trabajo',
+          label: 'Area de Trabajo',
+          _style: { width: '40%' },
+        },
         {
           key: 'show_details',
           label: '',

@@ -94,14 +94,14 @@
         >
           <CCol :md="2">
             <CFormLabel for="validationCustom01">PNAP</CFormLabel>
-            <CFormInput id="validationCustom01"  />
+            <CFormInput id="validationCustom01" />
 
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="2">
             <CFormLabel for="validationCustom02">Programa</CFormLabel>
-            <CFormInput  id="validationCustom02" required />
+            <CFormInput id="validationCustom02" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -109,7 +109,6 @@
             <CFormLabel for="validationCustomUsername">Proyecto</CFormLabel>
             <CInputGroup class="has-validation">
               <CFormInput
-                
                 id="validationCustomUsername"
                 value=""
                 aria-describedby="inputGroupPrepend"
@@ -120,40 +119,35 @@
             </CInputGroup>
           </CCol>
           <CCol :md="4">
-            <CFormLabel for="validationCustom03"
-              >Actividad/Obra</CFormLabel
-            >
-            <CFormInput  id="validationCustom03" required />
+            <CFormLabel for="validationCustom03">Actividad/Obra</CFormLabel>
+            <CFormInput id="validationCustom03" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom04">Est. Programática control</CFormLabel>
-            <CFormInput  id="validationCustom04"> </CFormInput>
+            <CFormLabel for="validationCustom04"
+              >Est. Programática control</CFormLabel
+            >
+            <CFormInput id="validationCustom04"> </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom05"
-              >Denominación</CFormLabel
-            >
-            <CFormInput  id="validationCustom05" required />
+            <CFormLabel for="validationCustom05">Denominación</CFormLabel>
+            <CFormInput id="validationCustom05" required />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
             <CFormLabel for="validationCustom04">Unidad responsable</CFormLabel>
-            <CFormInput id="validationCustom04" > </CFormInput>
+            <CFormInput id="validationCustom04"> </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
             <CFormLabel for="validationCustom04">Tipo</CFormLabel>
             <CFormSelect id="validationCustom04">
-
               <option>DETALLE</option>
               <option>CABECERA</option>
-              
-
             </CFormSelect>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -384,7 +378,14 @@ export default {
       this.validatedCustom01 = true
     },
     IngresoReport() {
-      window.open(`http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fseguridad%2fReport1&rs:Command=Render&id=${localStorage.getItem('id_ayuntamiento')}&ano=${localStorage.getItem('ano')}`, '_blank').focus();
+      window
+        .open(
+          `http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fseguridad%2fReport1&rs:Command=Render&id=${localStorage.getItem(
+            'id_ayuntamiento',
+          )}&ano=${localStorage.getItem('ano')}`,
+          '_blank',
+        )
+        .focus()
     },
     getBadge(status) {
       switch (status) {

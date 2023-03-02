@@ -107,9 +107,7 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom05"
-              >Estatus</CFormLabel
-            >
+            <CFormLabel for="validationCustom05">Estatus</CFormLabel>
             <CFormSelect id="validationCustom05">
               <option>Activo</option>
               <option>Inactivo</option>
@@ -149,9 +147,17 @@ export default {
         { key: 'Código', label: 'Código', _style: { width: '40%' } },
         { key: 'Descripción', label: 'Descripción', _style: { width: '40%' } },
         { key: 'Estatus', label: 'Estatus', _style: { width: '40%' } },
-        { key: '	Fecha inicial', label: '	Fecha inicial', _style: { width: '40%' } },
+        {
+          key: '	Fecha inicial',
+          label: '	Fecha inicial',
+          _style: { width: '40%' },
+        },
         { key: 'Fecha Final', label: 'Fecha Final', _style: { width: '40%' } },
-        { key: 'Usuario Crea', label: 'Usuario Crea', _style: { width: '40%' } },
+        {
+          key: 'Usuario Crea',
+          label: 'Usuario Crea',
+          _style: { width: '40%' },
+        },
         {
           key: 'show_details',
           label: '',
