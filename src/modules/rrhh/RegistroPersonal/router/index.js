@@ -1,6 +1,6 @@
 export default {
-  name: 'RRHHModule',
-  redirect: '/RRHHModule/registroEmpleados',
+  name: 'RRHH',
+  redirect: '/financiero',
   component: () =>
     import('@/modules/rrhh/RegistroPersonal/layout/TemplateLayout.vue'),
   children: [

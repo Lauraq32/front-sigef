@@ -1,6 +1,6 @@
 export default {
   name: 'Financiero',
-  redirect: '/FinancieroModule/clasificadores',
+  redirect: '/financiero',
   component: () =>
     import('@/modules/financiero/FormulacionModule/layout/TemplateLayout.vue'),
   children: [

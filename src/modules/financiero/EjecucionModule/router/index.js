@@ -1,6 +1,6 @@
 export default {
   name: 'Ejecucion',
-  redirect: '/Ejecucion/AnoFiscal',
+  redirect: '/financiero',
   component: () =>
     import('@/modules/financiero/EjecucionModule/layout/TemplateLayout.vue'),
   children: [
