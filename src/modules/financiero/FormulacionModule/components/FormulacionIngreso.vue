@@ -1,9 +1,9 @@
 <template>
   <h3 class="text-center">Formulación ingreso</h3>
-  <hr />
-  <div class="">
+  <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
+        style="font-weight: bold"
         color="info"
         @click="
           () => {
@@ -16,27 +16,30 @@
       >
     </div>
 
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-        >Imprimir</CButton
-      >
+    <div class="p-2">
+      <CButton color="info" @click="IngresoReport">Imprimir</CButton>
     </div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="downloadFile"
-        >Descargar</CButton
-      >
+    <div class="p-2">
+      <CButton color="info" @click="downloadFile">Descargar</CButton>
     </div>
-    <div class="d-inline p-2" style="margin-left: 63%">
-      <CButton style="font-weight: bold" color="info" @click="goToGasto"
-        >Ir a Formulacion Gasto</CButton
-      >
+    <div class="p-2">
+      <CButton color="info" @click="goToGasto">Ir a Formulacion Gasto</CButton>
+    </div>
+    <div class="p-2">
+      <label class="file-select">
+        <!-- We can't use a normal button element here, as it would become the target of the label. -->
+        <div class="select-button">
+          <!-- Display the filename if a file has been selected. -->
+          <CIcon :icon="cilCloudUpload" size="m"/>
+        </div>
+
+        <!-- Now, the file input that we hide. -->
+        <input type="file" id="formFile" @change="onFileChange" />
+      </label>
+      <label v-if="fileName"> {{ fileName }}</label>
+      <!-- <CFormInput type="file" id="formFile" @change="onFileChange" /> -->
     </div>
   </div>
-  <hr />
-  <div>
-    <CFormInput type="file" id="formFile" @change="onFileChange" />
-  </div>
-  <hr />
 
   <CSmartTable
     clickableRows
@@ -115,10 +118,7 @@
       </CCollapse>
     </template>
   </CSmartTable>
-  <div
-    class="font-weight-normal"
-    style="font-weight: 100 !important; margin-top: -3%; float: left"
-  >
+  <div class="font-weight-normal">
     <span style="font-weight: bold"><u>TOTAL PRESUPUESTO:</u></span> Año
     anterior
     <span style="font-weight: 500 !important">{{
@@ -350,17 +350,20 @@ import Api from '../services/FormulacionServices'
 import { mapActions, mapState } from 'vuex'
 import XLSX from 'xlsx/xlsx.mjs'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-
-import axios from 'axios'
+import { CIcon } from '@coreui/icons-vue';
+import { cilCloudUpload } from '@coreui/icons-pro';
 import router from '@/router'
 export default {
   components: {
     CSmartTable,
     CModal,
+    CIcon
   },
   data: () => {
     return {
+      cilCloudUpload,
       texto: null,
+      fileName: '',
       presIngrsoMasivo: [],
       anofiscal: parseInt(localStorage.getItem('ano')),
       ctgFuenteId: true,
@@ -490,6 +493,7 @@ export default {
     },
 
     onFileChange(event) {
+      this.fileName = event.target.files[0].name
       this.file = event.target.files ? event.target.files[0] : null
       if (this.file) {
         const reader = new FileReader()
@@ -842,3 +846,20 @@ export default {
   },
 }
 </script>
+<style scoped>
+.file-select > .select-button {
+  padding: 0.5rem;
+  line-height: 1.5;
+  color: white;
+  background-color: #375b80;
+
+  border-radius: 0.3rem;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* Don't forget to hide the original file input! */
+.file-select > input[type='file'] {
+  display: none;
+}
+</style>

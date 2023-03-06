@@ -6,13 +6,11 @@
     <button @click="modal = true">Abrir Modal</button>
     
   </div> -->
-  <hr />
-  <div>
-    <div class="d-inline p-2">
-      <CButton color="info" v-on:click="openModal"> >Agregar</CButton>
+  <div class="table-headers">
+    <div class="p-2">
+      <CButton color="info" style="font-weight: bold" v-on:click="openModal">Agregar</CButton>
     </div>
   </div>
-  <hr />
   <CSmartTable
     clickableRows
     :tableProps="{

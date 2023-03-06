@@ -30,6 +30,7 @@ import {
 } from '@coreui/icons-pro'
 import { cifUs, cifBr, cifIn, cifFr, cifEs, cifPl } from '@coreui/icons-pro'
 import {
+  cilCloudUpload,
   cilMap,
   cilArrowBottom,
   cilArrowRight,
@@ -128,6 +129,7 @@ import {
 export const iconsSet = Object.assign(
   {},
   {
+    cilCloudUpload,
     cilCity,
     cilNoteAdd,
     cilCompass,

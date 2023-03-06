@@ -1,9 +1,9 @@
 <template>
   <h3 class="text-center">Comprobante de gastos</h3>
-  <hr />
-  <div>
-    <div class="d-inline p-2">
+  <div class="table-headers">
+    <div class="p-2">
       <CButton
+      style="font-weight: bold"
         color="info"
         @click="
           () => {
@@ -14,13 +14,12 @@
         >Agregar</CButton
       >
     </div>
-    <div class="d-inline p-2">
+    <div class="p-2">
       <CButton color="info" @click="IngresoReport"
         >Imprimir Comprobante</CButton
       >
     </div>
   </div>
-  <hr />
   <CSmartTable
     clickableRows
     :tableProps="{

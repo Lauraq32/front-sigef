@@ -1,9 +1,9 @@
 <template>
   <h3 class="text-center">Cargar Formulación del presupuesto de gastos</h3>
-  <hr />
-  <div>
+  <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
+      style="font-weight: bold"
         color="info"
         @click="
           () => {
@@ -14,34 +14,30 @@
         >Agregar</CButton
       >
     </div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
+    <div class="p-2">
+      <CButton color="info" @click="IngresoReport"
         >Imprimir</CButton
       >
     </div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="cargarEstructuras"
+    <div class="p-2">
+      <CButton color="info" @click="cargarEstructuras"
         >Cargar Estructuras</CButton
       >
     </div>
-    <div class="d-inline p-2" style="margin-left: 55%">
-      <CButton style="font-weight: bold" color="info" @click="goToIngreso"
+    <div class="p-2">
+      <CButton color="info" @click="goToIngreso"
         >Ir a Formulacion Ingreso</CButton
       >
     </div>
   </div>
-  <hr />
   <div>
     <h5>Importar Proyectos</h5>
     <CFormInput type="file" id="formFile" @change="onFileChangeProyectos" />
   </div>
-  <hr />
   <div>
     <h5>Importar Formulacion</h5>
     <CFormInput type="file" id="formFile" @change="onFileChange" />
   </div>
-
-  <hr />
   <CSmartTable
     clickableRows
     :tableProps="{

@@ -1,18 +1,20 @@
 <template>
   <h3 class="text-center">Comprobantes de ingresos</h3>
-  <hr />
   <div>
-    <div class="d-inline p-2">
-      <CButton
-        color="info"
-        @click="
-          () => {
-            lgDemo = true
-          }
-        "
-        >Agregar</CButton
-      >
-      <div class="d-inline p-2">
+    <div class="table-headers">
+      <div class="p-2">
+        <CButton
+          style="font-weight: bold"
+          color="info"
+          @click="
+            () => {
+              lgDemo = true
+            }
+          "
+          >Agregar</CButton
+        >
+      </div>
+      <div class="p-2">
         <CButton
           color="info"
           @click="
@@ -23,7 +25,7 @@
           >Imprimir Ejecucion</CButton
         >
       </div>
-      <div class="d-inline p-2">
+      <div class="p-2">
         <CButton
           color="info"
           @click="
@@ -34,7 +36,7 @@
           >Exportar modificacion</CButton
         >
       </div>
-      <div class="d-inline p-2">
+      <div class="p-2">
         <CButton
           color="info"
           @click="
@@ -47,7 +49,6 @@
       </div>
     </div>
   </div>
-  <hr />
 
   <CModal :backdrop="false" :keyboard="false" :visible="reportes">
     <CModalHeader>

@@ -1,9 +1,9 @@
 <template>
   <h3 class="text-center">Beneficiarios</h3>
-  <hr />
-  <div>
-    <div class="d-inline p-2">
+  <div class="table-headers">
+    <div class="p-2">
       <CButton
+      style="font-weight: bold"
         color="info"
         @click="
           () => {
@@ -14,7 +14,6 @@
       >
     </div>
   </div>
-  <hr />
   <CSmartTable
     clickableRows
     :tableProps="{
