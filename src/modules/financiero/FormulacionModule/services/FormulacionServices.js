@@ -1,13 +1,15 @@
 import http from '@/Api/http-common'
-import VueSweetalert2 from 'vue-sweetalert2';
-import Swal from 'sweetalert2/dist/sweetalert2.js';
-
+import VueSweetalert2 from 'vue-sweetalert2'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 class FormulacionApi {
-  downloadIngreso(){
-    return http.get(`ExportFile/IngresoFormulacion?ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}&anioFiscalId=${localStorage.getItem('ano')}`)
+  downloadIngreso() {
+    return http.get(
+      `ExportFile/IngresoFormulacion?ayuntamientoId=${localStorage.getItem(
+        'id_Ayuntamiento',
+      )}&anioFiscalId=${localStorage.getItem('ano')}`,
+    )
   }
-
 
   //-----------------------------CLASIFICADORES---------------------------------------//
   //Obtener listado de Clasificadores
@@ -15,7 +17,7 @@ class FormulacionApi {
     return http.get('/Financiero/ListarClasificadores')
   }
 
-  deleteIngreso(id){
+  deleteIngreso(id) {
     return http.delete(`PresIngreso/${id}`)
   }
 
@@ -23,31 +25,30 @@ class FormulacionApi {
     return http.get(`PresIngreso/GetClasificadorById/${Clasificador}`)
   }
   getPresIngresoById(item) {
-    return http.get(`/PresIngreso/${item.id}?anio=${item.anioFiscalId}&ayuntamientoId=${item.ayuntamientoId}`)
+    return http.get(
+      `/PresIngreso/${item.id}?anio=${item.anioFiscalId}&ayuntamientoId=${item.ayuntamientoId}`,
+    )
   }
 
   editPresIngreso(id, data) {
     return http.put(`/PresIngreso/${id}`, data)
   }
 
-
   //PostIngreso
   createIngreso(data) {
-    return http.post("PresIngreso", data).catch((error) => {
-      console.log(error.response.data.detail);
+    return http.post('PresIngreso', data).catch((error) => {
+      console.log(error.response.data.detail)
       Swal.fire({
         position: 'top-end',
         icon: 'error',
         text: error.response.data.detail,
         title: 'Error',
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       })
 
       //alert(error.response.data.detail)
-    }
-    );
-
+    })
   }
 
   updateFormulacion(id, data) {
@@ -59,11 +60,17 @@ class FormulacionApi {
   }
 
   getDetalle(id) {
-    return http.get(`PresGasto/GetDetallePresGastobyIdAsync/${id}?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
+    return http.get(
+      `PresGasto/GetDetallePresGastobyIdAsync/${id}?anio=${localStorage.getItem(
+        'ano',
+      )}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`,
+    )
   }
 
   getTotalIngresos(id_ayuntamiento, ano_fiscal) {
-    return http.get(`/PresIngreso/GetTotal?anio=${ano_fiscal}&ayuntamientoId=${id_ayuntamiento}`)
+    return http.get(
+      `/PresIngreso/GetTotal?anio=${ano_fiscal}&ayuntamientoId=${id_ayuntamiento}`,
+    )
   }
 
   //Obtener clasificador especifico
@@ -125,24 +132,28 @@ class FormulacionApi {
   // }
   //-----------------------------GASTOS---------------------------------------//
 
-
   //-----------------------------CATALOGO---------------------------------------//
   getListarCatalogo() {
     return http.get('/Financiero/ListarCatalogoFunciones')
   }
   //-----------------------------CATALOGO---------------------------------------//
 
-
-  
-
   //-----------------------------PrepGastos---------------------------------------//
 
   getListarGastos(id) {
-    return http.get(`PresGasto?anio=${localStorage.getItem('ano')}&ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
+    return http.get(
+      `PresGasto?anio=${localStorage.getItem(
+        'ano',
+      )}&ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`,
+    )
   }
 
   getListarGastosById(id) {
-    return http.get(`PresGasto/${id}?anio=${localStorage.getItem('ano')}&ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
+    return http.get(
+      `PresGasto/${id}?anio=${localStorage.getItem(
+        'ano',
+      )}&ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`,
+    )
   }
 
   postGastos(post) {
@@ -153,12 +164,12 @@ class FormulacionApi {
         text: error.response.data.detail,
         title: 'Error',
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       })
     })
   }
 
-  postCargaMasiva(post){
+  postCargaMasiva(post) {
     return http.post(`UploadFile/PresIngreso`, post).catch((error) => {
       Swal.fire({
         position: 'top-end',
@@ -166,13 +177,12 @@ class FormulacionApi {
         text: error.response.data.detail,
         title: 'Error',
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       })
     })
   }
 
-  
-  postCargaMasivaCabecera(post){
+  postCargaMasivaCabecera(post) {
     return http.post(`UploadFile/PresGasto`, post).catch((error) => {
       Swal.fire({
         position: 'top-end',
@@ -180,12 +190,12 @@ class FormulacionApi {
         text: error.response.data.detail,
         title: 'Error',
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       })
     })
   }
 
-  postCargaMasivaDetalle(post){
+  postCargaMasivaDetalle(post) {
     return http.post(`UploadFile/PresGasto/Detalle`, post).catch((error) => {
       Swal.fire({
         position: 'top-end',
@@ -193,23 +203,28 @@ class FormulacionApi {
         text: error.response.data.detail,
         title: 'Error',
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       })
     })
-    
   }
 
-  cargarEstructuras(){
-    return http.post(`PresGasto/InsertPresGasto?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`).catch((error) => {
-      Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        text: error.response.data.detail,
-        title: 'Error',
-        showConfirmButton: false,
-        timer: 1500
+  cargarEstructuras() {
+    return http
+      .post(
+        `PresGasto/InsertPresGasto?anio=${localStorage.getItem(
+          'ano',
+        )}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`,
+      )
+      .catch((error) => {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          text: error.response.data.detail,
+          title: 'Error',
+          showConfirmButton: false,
+          timer: 1500,
+        })
       })
-    })
   }
 
   postDetalleGasto(post) {
@@ -220,12 +235,12 @@ class FormulacionApi {
         text: error.response.data.detail,
         title: 'Error',
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       })
     })
   }
 
-  getEstruturaProgramaticaById(value){
+  getEstruturaProgramaticaById(value) {
     return http.get(`CtgMestProg/${value}`).catch((error) => {})
   }
 

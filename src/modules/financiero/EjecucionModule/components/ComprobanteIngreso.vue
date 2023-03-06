@@ -678,7 +678,6 @@ export default {
   methods: {
     volver() {
       router.push({ name: 'Contribuyentes' })
-      console.log('klk')
     },
 
     imprimirReporte() {
@@ -693,11 +692,9 @@ export default {
     },
     exportarReporte() {
       this.downloadFile()
-      //console.log(this.mesReporte.split('-')[0])
     },
     exportarReporteEjecucion() {
       this.downloadFileEjecucion()
-      //console.log(this.mesReporte.split('-')[0])
     },
     downloadFile() {
       Api.downloadGastoModificacion(this.mesReporte.split('-')[0]).then(
@@ -740,7 +737,6 @@ export default {
       this.mesReporte = 1
     },
     imprimirReporte1(item) {
-      // console.log(item)
       window
         .open(
           `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Recibo_Ingresos_A1&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem(
@@ -770,10 +766,7 @@ export default {
           this.contribuyentesName.push(
             `${contribuyente.id}-${contribuyente.nombre}`,
           )
-          //console.log(this.contribuyentesName)
         })
-
-        //console.log(this.contribuyentesList)
       })
     },
     selectItemEventHandler(id) {
@@ -875,7 +868,6 @@ export default {
     getDetalle(id) {
       Api.getRegistroIngresoDetalle(id).then((response) => {
         this.detalleRegistroIngresos = response.data.data
-        //console.log(response.data)
       })
     },
     clearModal1() {
@@ -890,20 +882,6 @@ export default {
         (this.detalleRegistroPost.valor = 0),
         (this.detalleRegistroPost.estatus = 'A')
       this.detalle = ''
-      // this.detalleRegistroPost = {
-      //   ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
-      //   anioFiscalId: localStorage.getItem('ano'),
-
-      //   ctgClasificadorId: '',
-      //   ctgFuenteId: '',
-      //   ctgFuenteEspecificaId: '',
-      //   ctgOrganismoFinanciadorId: '',
-      //   fecha: new Date(Date.now()),
-      //   etapa: 'INGRESOS',
-      //   institucionOrtongate: '',
-      //   valor: 0,
-      //   estatus: 'A',
-      // }
     },
     clearModal2() {
       this.ingresoPost = {
@@ -922,12 +900,7 @@ export default {
     },
     toggleDetails1(id) {
       this.getDetalle(id)
-      // if (this.details.includes(item._id)) {
-      //   this.details = this.details.filter((_item) => _item !== item._id)
-      //   return
-      // }
-      // this.details.push(item._id)
-      //console.log(id)
+
       this.id = id
       this.getTotalIngreso(this.id)
       this.getDetalle(id)
@@ -939,25 +912,17 @@ export default {
         Api.getContribuyenteById(response.data.data.contribuyenteId).then(
           (response) => {
             this.ingresoPost.contribuyenteId = response.data.data.id
-            // this.selectItemEventHandler(response.data.data.id)
-            // console.log(response.data.data.id)
           },
         )
         this.ingresoPost = response.data.data
         this.detalleRegistroPost.transaccionId =
           response.data.data.transaccionId
-        // console.log(response.data)
       }),
         (this.lgDemo = true)
     },
     toggleDetails2(item) {
       this.getDetalle(item)
-      // if (this.details.includes(item._id)) {
-      //   this.details = this.details.filter((_item) => _item !== item._id)
-      //   return
-      // }
-      // this.details.push(item._id)
-      console.log(item)
+
       this.id = item.transaccionId
       this.getTotalIngreso(this.id)
       this.getDetalle(item.transaccionId)
@@ -970,7 +935,6 @@ export default {
         this.ingresoPost = response.data.data
         this.detalleRegistroPost.transaccionId =
           response.data.data.transaccionId
-        //console.log(response.data)
       }),
         (this.lgDemo1 = true)
     },
@@ -978,7 +942,6 @@ export default {
       Api.getIngresoClasificadorById(
         this.detalleRegistroPost.ctgClasificadorId,
       ).then((response) => {
-        // console.log(response.data.data)
         this.detalle = response.data.data.detalle
         this.detalleRegistroPost.ctgFuenteId = response.data.data.ctgFuenteId
         this.detalleRegistroPost.ctgFuenteEspecificaId =

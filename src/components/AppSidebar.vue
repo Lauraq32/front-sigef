@@ -18,7 +18,6 @@
         height="110"
         width="140"
       />
-      
     </CSidebarBrand>
     <hr />
     <AppSidebarNav />

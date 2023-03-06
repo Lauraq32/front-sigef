@@ -384,8 +384,16 @@ export default {
           _style: { width: '8%' },
         },
         { key: 'usuarioEstatusId', label: 'Usuario', _style: { width: '8%' } },
-        { key: 'fechaEntrega', label: 'Entregado Fecha', _style: { width: '8%' } },
-        { key: 'usuarioEntregaId', label: 'Usuario Fecha', _style: { width: '8%' } },
+        {
+          key: 'fechaEntrega',
+          label: 'Entregado Fecha',
+          _style: { width: '8%' },
+        },
+        {
+          key: 'usuarioEntregaId',
+          label: 'Usuario Fecha',
+          _style: { width: '8%' },
+        },
         {
           key: 'show_details',
           label: '',

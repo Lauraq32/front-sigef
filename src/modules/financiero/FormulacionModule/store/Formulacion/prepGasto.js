@@ -87,6 +87,6 @@ export const usePrepGastoStore = defineStore('prepGasto', () => {
     addDetalleGasto,
     updatePresGasto,
     updatePresGastoDetalle,
-    getDetalleGasto
+    getDetalleGasto,
   }
 })

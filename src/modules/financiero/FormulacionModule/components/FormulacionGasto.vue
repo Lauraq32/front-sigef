@@ -135,10 +135,14 @@
         >
           <CCol :md="2">
             <CFormLabel for="validationCustom01">PNAP</CFormLabel>
-            <input ref="name" class="form-control"  :disabled="id != null ? true : false"
+            <input
+              ref="name"
+              class="form-control"
+              :disabled="id != null ? true : false"
               v-on:change="sumOfProp"
               v-model="post.pnap"
-              id="validationCustom01"  >
+              id="validationCustom01"
+            />
             <!-- <CFormInput
               :disabled="id != null ? true : false"
               v-on:change="sumOfProp"
@@ -250,7 +254,6 @@
               class="btn btn-info btn-block mt-1"
               @click="toggleDetails1()"
             >
-            
               Adicionar Detalle
             </button>
             <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
@@ -360,7 +363,13 @@
             >
               <CCol :md="2">
                 <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
-                <input ref="klk" type="text" class="form-control" v-model="detallePost.ctgClasificadorId" id="exampleInputEmail1"  >
+                <input
+                  ref="klk"
+                  type="text"
+                  class="form-control"
+                  v-model="detallePost.ctgClasificadorId"
+                  id="exampleInputEmail1"
+                />
                 <!-- <CFormInput
                   v-model="detallePost.ctgClasificadorId"
                   id="validationCustom01"
@@ -1045,8 +1054,6 @@ export default {
     },
 
     onFileChangeProyectos(event) {
-      console.log('hola')
-      //this.cargarEstructuras()
       this.file = event.target.files ? event.target.files[0] : null
       if (this.file) {
         const reader = new FileReader()
@@ -1062,7 +1069,6 @@ export default {
           const ws = wb.Sheets[wsname]
           const data = XLSX.utils.sheet_to_json(ws)
           data.map((item) => {
-            console.log(item)
             if (Object.values(item)[2] < 90) {
               this.pnap = '00'
               this.programa = Object.values(item)[2].toString().padStart(2, 0)
@@ -1100,9 +1106,7 @@ export default {
             })
           })
 
-          console.log(this.proyectosList)
           Api.postCargaMasivaCabecera(this.proyectosList).then((response) => {
-            console.log(response)
             Swal.fire({
               position: 'top-end',
               icon: 'success',
@@ -1120,33 +1124,25 @@ export default {
     },
 
     focusInput() {
-      console.log('kaka')
       this.$refs.name.focus()
     },
 
     focusInputs() {
-      console.log('kaka')
       this.$refs.klk.focus()
     },
 
     unaVez() {
-      // if (!this.runOnce) {
-        this.focusInput()
-        // this.runOnce = true
-      // }
+      this.focusInput()
     },
 
     unaVezs() {
-      // if (!this.runOnce) {
-        this.focusInputs()
-        // this.runOnce = true
-      // }
+      this.focusInputs()
     },
 
     openModal() {
       this.lgDemo = true
       // <input ref="name" type="text" class="form-control" v-model="postMarcas.nombre" id="exampleInputEmail1"  >
-      setTimeout(this.unaVez, 200) 
+      setTimeout(this.unaVez, 200)
     },
 
     onFileChange(event) {
@@ -1166,7 +1162,6 @@ export default {
           const ws = wb.Sheets[wsname]
           const data = XLSX.utils.sheet_to_json(ws)
           data.map((item) => {
-            console.log(item)
             if (Object.values(item)[2] < 90) {
               this.pnap = '00'
               this.programa = Object.values(item)[2].toString().padStart(2, 0)
@@ -1217,9 +1212,9 @@ export default {
               totalDevengadoBco2: 0,
               disponiblePagadoBco2: 0,
               totalPagadoBco2: 0,
-              oriBco3:0,
+              oriBco3: 0,
               estimadoBco3: 0,
-              presupuestoBco3:  `${
+              presupuestoBco3: `${
                 Object.values(item)[11] == 'I' ? Object.values(item)[18] : 0
               }`,
               variacionBco3: 0,
@@ -1254,9 +1249,8 @@ export default {
               },
             )
           })
-          console.log(this.pregastoMasivo)
+
           Api.postCargaMasivaDetalle(this.pregastoMasivo).then((response) => {
-            console.log(response)
             Swal.fire({
               position: 'top-end',
               icon: 'success',
@@ -1389,11 +1383,7 @@ export default {
       event.preventDefault()
       event.stopPropagation()
       Api.getListarGastosById(this.detallePost.presGastoId).then((response) => {
-        console.log(response.data.data)
-        console.log(item)
         this.detallePresGastos = response.data.data.detallePresGastos
-        //console.log(getGasto.value.data)
-        //GastosListDos.value = response.data.data
       })
       event.preventDefault()
       event.stopPropagation()
@@ -1404,7 +1394,6 @@ export default {
     getClasificador() {
       Api.getClasificador(this.detallePost.ctgClasificadorId).then(
         (response) => {
-          console.log(response.data.data.cControl)
           if (response.data.data.origen == 'GASTO') {
             this.detallePost.cControl = response.data.data.cControl
             this.detallePost.nombre = response.data.data.nombre
@@ -1463,21 +1452,12 @@ export default {
         fechaIniciada: '2022-10-31T14:18:15.972Z',
       }
     },
-    handleSubmitCustom01(event) {
-      // this.addGasto(this.post)
-      // const form = event.currentTarget
-      // if (form.checkValidity() === false) {
-      //   event.preventDefault()
-      //   event.stopPropagation()
-      // }
-      // this.validatedCustom01 = true
-    },
+    handleSubmitCustom01(event) {},
     getEstructura() {
       Api.getEstruturaProgramaticaById(this.post.mestprogId).then(
         (response) => {
           this.post.nombre = response.data.data.nombre
           this.post.unidadResp = response.data.data.unidadRespon
-          console.log(response)
         },
       )
     },
@@ -1536,25 +1516,18 @@ export default {
       // }
       this.id = item.id
       Api.getListarGastosById(item.id).then((response) => {
-        console.log(response.data.data)
-        console.log(item)
         this.post = response.data.data
         this.detallePost.presGastoId = item.id
         this.detallePost.mestProgId = item.mestProgId
-        // this.detallePost.ctgFuncionId = item.ctgFuncionId
+
         this.post.mestprogId = `${this.post.pnap}${this.post.programa}${this.post.proyecto}${this.post.actObra}`
         this.detallePresGastos = response.data.data.detallePresGastos
-
-        //console.log(getGasto.value.data)
-        //GastosListDos.value = response.data.data
       })
-      // // this.details.push(item._id)
-      // console.log(this.getGasto)
-      //this.post.presGasto.pnap = "00"
+
       this.lgDemo = true
     },
     toggleDetails1(item) {
-      setTimeout(this.unaVezs, 200) 
+      setTimeout(this.unaVezs, 200)
       // if (this.details.includes(item._id)) {
       //   this.details = this.details.filter((_item) => _item !== item._id)
       //   return

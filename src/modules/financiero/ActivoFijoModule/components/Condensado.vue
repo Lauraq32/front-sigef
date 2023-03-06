@@ -223,7 +223,6 @@ export default {
     ...mapActions(useRegistroStore, ['getConduce', 'addConduce']),
 
     toggleDetails(item) {
-      console.log(item)
       if (item.Conduce !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
       } else {
@@ -231,12 +230,11 @@ export default {
       }
       this.edit = true
       this.lgDemo = true
-      console.log(item.id)
+
       Api.getConduceByID(item.id).then((response) => {
         this.postConduce = response.data.data
-        console.log(response)
+
         this.id = item.id
-        //this.postIngreso = response.data.data
       })
     },
     getBadge(status) {
@@ -266,7 +264,6 @@ export default {
     submitForm() {
       if (this.id) {
         Api.putConduce(this.id, this.postConduce).then((response) => {
-          console.log(response.data)
           this.lgDemo = false
           this.$swal({
             position: 'top-end',

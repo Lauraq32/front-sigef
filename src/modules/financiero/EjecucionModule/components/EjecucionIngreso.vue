@@ -2,17 +2,30 @@
   <h3 class="text-center">Ejecución de ingresos</h3>
   <hr />
   <div>
-    <div class="d-inline p-2">
-
-    </div>
+    <div class="d-inline p-2"></div>
   </div>
   <hr />
-  <CSmartTable clickableRows :tableProps="{
-    striped: false,
-    hover: true,
-  }" :tableHeadProps="{}" :activePage="1" footer header :items="ingresosList"
-    :columns="columns" columnFilter tableFilter cleaner itemsPerPageSelect :itemsPerPage="5" columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }" pagination>
+  <CSmartTable
+    clickableRows
+    :tableProps="{
+      striped: false,
+      hover: true,
+    }"
+    :tableHeadProps="{}"
+    :activePage="1"
+    footer
+    header
+    :items="ingresosList"
+    :columns="columns"
+    columnFilter
+    tableFilter
+    cleaner
+    itemsPerPageSelect
+    :itemsPerPage="5"
+    columnSorter
+    :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination
+  >
     <template #status="{ item }">
       <td>
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
@@ -20,7 +33,13 @@
     </template>
     <template #show_details="{ item, index }">
       <td class="py-2">
-        <CButton color="primary" variant="outline" square size="sm" @click="toggleDetails(item, index)">
+        <CButton
+          color="primary"
+          variant="outline"
+          square
+          size="sm"
+          @click="toggleDetails(item, index)"
+        >
           {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
         </CButton>
       </td>
@@ -42,7 +61,7 @@
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
-import {useEjecucionIngresoStore} from "../store/Ejecucion/ejecucionIngresos";
+import { useEjecucionIngresoStore } from '../store/Ejecucion/ejecucionIngresos'
 
 export default {
   components: {
@@ -50,12 +69,9 @@ export default {
     CModal,
   },
 
-
   data: () => {
     return {
-      postIngreso : {
-
-      },
+      postIngreso: {},
       validatedCustom01: null,
       lgDemo: false,
       columns: [
@@ -63,9 +79,17 @@ export default {
         { key: 'Fecha', label: 'Fecha', _style: { width: '40%' } },
         { key: 'Etapa', label: 'Etapa', _style: { width: '40%' } },
         { key: 'No. Recibo', label: 'No. Recibo', _style: { width: '40%' } },
-        { key: 'Contribuyente', label: 'Contribuyente', _style: { width: '40%' } },
+        {
+          key: 'Contribuyente',
+          label: 'Contribuyente',
+          _style: { width: '40%' },
+        },
         { key: 'Detalle', label: 'Detalle', _style: { width: '40%' } },
-        { key: 'Valor detalle', label: 'Valor detalle', _style: { width: '40%' } },
+        {
+          key: 'Valor detalle',
+          label: 'Valor detalle',
+          _style: { width: '40%' },
+        },
         {
           key: 'show_details',
           label: '',

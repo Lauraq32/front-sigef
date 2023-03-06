@@ -1,18 +1,16 @@
 <template lang="">
   <CContainer lg>
-
-
     <div>
       <CRow>
-        <CCol :md="2" class="mt-4" style="font-weight: bolder;">
+        <CCol :md="2" class="mt-4" style="font-weight: bolder">
           <CWidgetStatsD
-          @click="gotToPrueba"
+            @click="gotToPrueba"
             class="mb-4 shadow"
             style="--cui-card-cap-bg: #002e5d"
             :values="[{ title: 'Plan anual de compras', value: '' }]"
           >
             <template #icon>
-              <CIcon :icon="cilList" style="color: #f5f5f5;" size="9xl" />
+              <CIcon :icon="cilList" style="color: #f5f5f5" size="9xl" />
             </template>
             <template #chart>
               <CChart
@@ -44,15 +42,15 @@
             </template>
           </CWidgetStatsD>
         </CCol>
-        <CCol :md="2" class="mt-4"  style="font-weight: bolder;">
+        <CCol :md="2" class="mt-4" style="font-weight: bolder">
           <CWidgetStatsD
-          @click="gotToPrueba1"
+            @click="gotToPrueba1"
             class="mb-4 shadow"
             style="--cui-card-cap-bg: #002e5d"
             :values="[{ title: 'Proceso de compras', value: '' }]"
-        >
+          >
             <template #icon>
-              <CIcon :icon="cilCart" style="color: #f5f5f5;" size="9xl" /> 
+              <CIcon :icon="cilCart" style="color: #f5f5f5" size="9xl" />
             </template>
             <template #chart>
               <CChart
@@ -84,15 +82,13 @@
             </template>
           </CWidgetStatsD>
         </CCol>
-       
-       
       </CRow>
     </div>
   </CContainer>
 </template>
 <script>
 import { CIcon } from '@coreui/icons-vue'
-import { cilWallet, cilCart,cilList } from '@coreui/icons-pro'
+import { cilWallet, cilCart, cilList } from '@coreui/icons-pro'
 export default {
   components: {
     CIcon,
@@ -101,7 +97,7 @@ export default {
     return {
       cilWallet,
       cilCart,
-      cilList
+      cilList,
     }
   },
   name: 'Fianciero',

@@ -15426,25 +15426,24 @@ export default () => ({
     },
   ],
 
-  formulacionGasto2:[
+  formulacionGasto2: [
     {
-      Clasificador:'21',
-      Denominacion:'REMUNERACIONES Y CONTRIBUCIONES',
-      Original:'3,447,789.00',
-      'Gastos Personal':'3,447,789.00',
-      Servicios:'0.00',
-      Inversion:'0.00',
-      'Educ/Genero/Salud':'0.00'
-
+      Clasificador: '21',
+      Denominacion: 'REMUNERACIONES Y CONTRIBUCIONES',
+      Original: '3,447,789.00',
+      'Gastos Personal': '3,447,789.00',
+      Servicios: '0.00',
+      Inversion: '0.00',
+      'Educ/Genero/Salud': '0.00',
     },
     {
-      Clasificador:'211',
-      Denominacion:'REMUNERACIONES ',
-      Original:'2,827,500.00',
-      'Gastos Personal':'2,827,500.00',
-      Servicios:'0.00',
-      Inversion:'0.00',
-      'Educ/Genero/Salud':'0.00'
+      Clasificador: '211',
+      Denominacion: 'REMUNERACIONES ',
+      Original: '2,827,500.00',
+      'Gastos Personal': '2,827,500.00',
+      Servicios: '0.00',
+      Inversion: '0.00',
+      'Educ/Genero/Salud': '0.00',
     },
   ],
 })

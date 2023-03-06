@@ -59,6 +59,11 @@ class NominaApi {
     return http.get('ConfiguracionNomina')
   }
 
+  getAllCuentaBanco() {
+    return http.get(
+      `ConciliacionCuentaBanco/${localStorage.getItem('id_Ayuntamiento')}`,
+    )
+  }
 
   getSectorbyid(id) {
     return http.get(`Sector/${id}`)
@@ -98,6 +103,8 @@ class NominaApi {
   getNominaGeneralById(id) {
     return http.get(`Nomina/NominaGeneral/${id}`)
   }
+
+  
 
   getNominaByDepartamento(id) {
     return http.get(`Nomina/NominagEmpDep/${id}`)

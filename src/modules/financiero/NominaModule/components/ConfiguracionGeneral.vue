@@ -214,7 +214,11 @@
             >
               Close
             </button> -->
-            <button v-on:click="submitForm" type="button" class="btn btn-primary">
+            <button
+              v-on:click="submitForm"
+              type="button"
+              class="btn btn-primary"
+            >
               Guardar
             </button>
           </div>
@@ -227,7 +231,6 @@
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { mapActions, mapState } from 'vuex'
-
 
 export default {
   components: {
@@ -326,18 +329,25 @@ export default {
   },
   methods: {
     submitForm() {
-      this.$store.dispatch('Formulacion/PostIngreso', this.postIngreso);
-      this.lgDemo=false
-      this.$store.dispatch('Formulacion/getListarIngresos');
+      this.$store.dispatch('Formulacion/PostIngreso', this.postIngreso)
+      this.lgDemo = false
+      this.$store.dispatch('Formulacion/getListarIngresos')
     },
     getClasificador() {
-      this.$store.dispatch('Formulacion/getClasificador',this.postIngreso.CLASIFICA)
-      this.postIngreso.CONTROL = this.$store.state.Formulacion.clasificador.ccontrol
-      this.postIngreso.DETALLE = this.$store.state.Formulacion.clasificador.nombre
-      this.postIngreso.FUENTE = this.$store.state.Formulacion.clasificador.iDENTIFICADORdUENTE
-      this.postIngreso.F_ESPECIFIC = this.$store.state.Formulacion.clasificador.iDENTIFICADORfUENTEeSPECIFICA
-      this.postIngreso.ORGA_FIN = this.$store.state.Formulacion.clasificador.identificadorornfin
-
+      this.$store.dispatch(
+        'Formulacion/getClasificador',
+        this.postIngreso.CLASIFICA,
+      )
+      this.postIngreso.CONTROL =
+        this.$store.state.Formulacion.clasificador.ccontrol
+      this.postIngreso.DETALLE =
+        this.$store.state.Formulacion.clasificador.nombre
+      this.postIngreso.FUENTE =
+        this.$store.state.Formulacion.clasificador.iDENTIFICADORdUENTE
+      this.postIngreso.F_ESPECIFIC =
+        this.$store.state.Formulacion.clasificador.iDENTIFICADORfUENTEeSPECIFICA
+      this.postIngreso.ORGA_FIN =
+        this.$store.state.Formulacion.clasificador.identificadorornfin
     },
     handleSubmitCustom01(event) {
       const form = event.currentTarget
@@ -346,7 +356,7 @@ export default {
         event.stopPropagation()
       }
       event.preventDefault()
-        event.stopPropagation()
+      event.stopPropagation()
       this.validatedCustom01 = true
     },
     getBadge(status) {
@@ -364,7 +374,14 @@ export default {
       }
     },
     IngresoReport() {
-      window.open(`http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fseguridad%2fReport1&rs:Command=Render&id=${localStorage.getItem('id_Ayuntamiento')}&ano=${localStorage.getItem('ano')}`, '_blank').focus();
+      window
+        .open(
+          `http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fseguridad%2fReport1&rs:Command=Render&id=${localStorage.getItem(
+            'id_Ayuntamiento',
+          )}&ano=${localStorage.getItem('ano')}`,
+          '_blank',
+        )
+        .focus()
     },
     toggleDetails(item) {
       if (this.details.includes(item._id)) {
@@ -374,17 +391,14 @@ export default {
       this.details.push(item._id)
     },
 
-    ...mapActions('Formulacion', ['getListarIngresos'])
+    ...mapActions('Formulacion', ['getListarIngresos']),
   },
-  computed:{
-    ...mapState( 'Formulacion', ['ingresos'])
+  computed: {
+    ...mapState('Formulacion', ['ingresos']),
   },
-  // mounted(){
-  //     this.$store.dispatch('Formulacion/getListarIngresos');
-  //   },
-    created(){
-      this.getListarIngresos(1,1),
-      console.log(this.ingresos);
-    }
+
+  created() {
+    this.getListarIngresos(1, 1)
+  },
 }
 </script>

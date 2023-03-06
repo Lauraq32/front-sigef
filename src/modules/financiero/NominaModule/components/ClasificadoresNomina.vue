@@ -131,7 +131,11 @@ export default {
       lgDemo: false,
       columns: [
         { key: 'Código', label: 'Código', _style: { width: '40%' } },
-        { key: 'Denominación', label: 'Denominación', _style: { width: '40%' } },
+        {
+          key: 'Denominación',
+          label: 'Denominación',
+          _style: { width: '40%' },
+        },
         {
           key: 'show_details',
           label: '',

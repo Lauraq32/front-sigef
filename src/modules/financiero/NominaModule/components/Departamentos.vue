@@ -217,7 +217,7 @@
                   ref="name"
                   style="position: relative; left: -39px; width: 268px"
                   type="text"
-                  v-model="postDepartamento.nombre"
+         
                   class="form-control"
                   id="exampleInputEmail1"
                 />
@@ -236,12 +236,17 @@
               <CCol>
                 <CFormSelect
                   style="position: relative; left: -39px; width: 268px"
-                  v-model="postDepartamento.programaDivisionId"
+                  
                   id="validationCustom05"
+                  v-on:change="changeDepartamento($event)"
                 >
-                  <option>Programa 1</option>
-                  <option>Programa 2</option>
-                  <option>Programa 3</option>
+                  <option
+                    v-for="programa in this.programaDivision"
+                    :key="programa.id"
+                    :value="programa.id"
+                  >
+                    {{ programa.nombre }}
+                  </option>
                 </CFormSelect>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
@@ -256,12 +261,16 @@
               <CCol>
                 <CFormSelect
                   style="position: relative; left: -39px; width: 268px"
-                  v-model="postDepartamento.grupoNominaId"
+                  
                   id="validationCustom05"
                 >
-                  <option>Cuenta De Banco 1</option>
-                  <option>Cuenta De Banco 2</option>
-                  <option>Cuenta De Banco 3</option>
+                  <option
+                    v-for="grupo in this.grupoN"
+                    :key="grupo.id"
+                    :value="grupo.id"
+                  >
+                    {{ grupo.nombre }}
+                  </option>
                 </CFormSelect>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
@@ -270,16 +279,24 @@
 
           <div class="row mt-3">
             <div class="col-6">
-              <CFormLabel for="validationCustom01">Cuenta de banco</CFormLabel>
+              <CFormLabel for="validationCustom05">Cuenta de banco</CFormLabel>
             </div>
             <div class="col-6">
-              <CCol :md="9">
-                <input
-                  style="position: relative; left: -39px"
-                  type="text"
-                  class="form-control"
-                  id="exampleInputEmail1"
-                />
+              <CCol>
+                <CFormSelect
+                  style="position: relative; left: -39px; width: 268px"
+                  
+                  id="validationCustom05"
+                >
+                  <option
+                    v-for="cuenta in this.CuentaB"
+                    :key="cuenta.id"
+                    :value="cuenta.id"
+                  >
+                    {{ cuenta.nombreCuenta }}
+                  </option>
+                </CFormSelect>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
             </div>
           </div>
@@ -293,6 +310,7 @@
             <div class="col-6">
               <CCol :md="9">
                 <input
+                
                   style="position: relative; left: -39px"
                   type="text"
                   class="form-control"
@@ -382,6 +400,54 @@
             </div>
           </div>
 
+          <div class="row mt-3">
+            <div class="col-6">
+              <CFormLabel for="validationCustom01">Fuente</CFormLabel>
+            </div>
+            <div class="col-6">
+              <CCol :md="9">
+                <input
+                  style="position: relative; left: -39px"
+                  type="text"
+                  class="form-control"
+                  id="exampleInputEmail1"
+                />
+              </CCol>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-6">
+              <CFormLabel for="validationCustom01">Fte. Especifica</CFormLabel>
+            </div>
+            <div class="col-6">
+              <CCol :md="9">
+                <input
+                  style="position: relative; left: -39px"
+                  type="text"
+                  class="form-control"
+                  id="exampleInputEmail1"
+                />
+              </CCol>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-6">
+              <CFormLabel for="validationCustom01">Org. Financiador</CFormLabel>
+            </div>
+            <div class="col-6">
+              <CCol :md="9">
+                <input
+                  style="position: relative; left: -39px"
+                  type="text"
+                  class="form-control"
+                  id="exampleInputEmail1"
+                />
+              </CCol>
+            </div>
+          </div>
+
           <div class="modal-footer">
             <button
               type="button"
@@ -423,24 +489,26 @@ export default {
       programaDivision: [{}],
       empleado: [],
       grupoN: [{}],
+      CuentaB: [{}],
       postDepartamento: {
-        id: 0,
         programaDivisionId: 1,
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-        grupoNominaId: 1,
+        grupoNominaId: 4,
         nombre: null,
-        saspI: 0,
+        saspId: 0,
         cuentaBancoId: 1,
-        estructur: null,
-        ctgClasificadorId: 111101,
-        ctgOrganismoFinanciadorId: 111101,
-        ctgClasificadorRegaliaId: 111101,
-        ctgOrganismoFinanciadorRegaliaId: 102,
-        fuenteEspecifica: null,
-        fuenteRegalia: null,
-        fuenteEspecificaRegalia: 9996,
-        empleado: null,
+        estructura: '1',
+        ctgClasificadorId: '111101',
+        ctgOrganismoFinanciadorId: '1',
+        ctgClasificadorRegaliaId: '1',
+        ctgOrganismoFinanciadorRegaliaId: '1',
+        ctgFuenteId: '70',
+        ctgFuenteEspecificaId: '0332',
+        ctgFuenteRegaliaId: '70',
+        ctgFuenteEspecificaRegaliaId: '0352',
       },
+
+      estructuras: null,
 
       validatedCustom01: null,
       xlDemo: false,
@@ -499,15 +567,11 @@ export default {
     },
 
     focusInput() {
-      console.log('kaka')
       this.$refs.name.focus()
     },
 
     unaVez() {
-      // if (!this.runOnce) {
       this.focusInput()
-      // this.runOnce = true
-      // }
     },
 
     openModal() {
@@ -518,7 +582,6 @@ export default {
     submitForm() {
       if (this.id != null) {
         Api.putDepartamento(this.id, this.postDepartamento).then((response) => {
-          console.log(response.data)
           this.lgDemo = false
           this.$swal({
             position: 'top-end',
@@ -536,7 +599,7 @@ export default {
             nombre: null,
             saspI: 0,
             cuentaBancoId: 0,
-            estructur: null,
+            estructura: null,
             ctgClasificadorId: null,
             ctgOrganismoFinanciadorId: null,
             ctgClasificadorRegaliaId: null,
@@ -562,7 +625,7 @@ export default {
           nombre: null,
           saspI: 0,
           cuentaBancoId: 0,
-          estructur: null,
+          estructura: null,
           ctgClasificadorId: null,
           ctgOrganismoFinanciadorId: null,
           ctgClasificadorRegaliaId: null,
@@ -600,13 +663,27 @@ export default {
           'primary'
       }
     },
+
+    changeDepartamento(e) {
+      this.departamentosId = e.target.value
+      //this.postGenerarNomina.DepartamentoId =
+      Api.getProgramaDivisionbyid(e.target.value).then((response) => {
+        this.clasificador = response.data.data.ctgClasificadorId
+        this.programid1 = response.data.data.programaDivisionId
+        this.postDepartamento.estructura = response.data.data.estructura
+      })
+    },
+
+    klk() {
+      Api.getProgramaDivisionbyid(this.programaDivision[0].id).then(
+        (response) => {
+          this.clasificador = response.data.data.ctgClasificadorId
+          this.programid1 = response.data.data.programaDivisionId
+          this.estructuras = response.data.data.estructura
+        },
+      )
+    },
     toggleDetails(item) {
-      // if (this.details.includes(item._id)) {
-      //   this.details = this.details.filter((_item) => _item !== item._id)
-      //   return
-      // }
-      // this.details.push(item._id)
-      console.log(item)
       if (item.departamento !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
       } else {
@@ -614,12 +691,11 @@ export default {
       }
       this.edit = true
       this.xlDemo = true
-      console.log(item.id)
+
       Api.getDepartamentoById(item.id).then((response) => {
         this.postDepartamento = response.data.data
-        console.log(response)
+
         this.id = item.id
-        //this.postIngreso = response.data.data
       })
     },
   },
@@ -630,12 +706,43 @@ export default {
       this.empleado = response.data.data
     })
 
-    Api.getGrupoNomina().then((response) => {
-      this.grupoN = response.data.data
+    Api.getProgramaDivision().then((response) => {
+      this.programaDivision = response.data.data
     })
 
     Api.getProgramaDivision().then((response) => {
       this.programaDivision = response.data.data
+      this.postDepartamento.programaDivisionId = this.programaDivision[0].id
+
+      Api.getProgramaDivisionbyid(this.programaDivision[0].id).then(
+        (response) => {
+          this.clasificador = response.data.data.ctgClasificadorId
+          this.programid1 = response.data.data.programaDivisionId
+          this.postDepartamento.estructura = response.data.data.estructura
+        },
+      )
+    })
+
+    Api.getGrupoNomina().then((response) => {
+      this.grupoN = response.data.data
+      this.postDepartamento.grupoNominaId = this.grupoN[0].id
+    })
+
+    Api.getAllCuentaBanco().then((response) => {
+      this.CuentaB = response.data.data
+      this.postDepartamento.cuentaBancoId = this.CuentaB[0].id
+    })
+
+    Api.getProgramaDivision().then((response) => {
+      this.programaDivision = response.data.data
+      this.postEmpleado.programaDivisionId = this.programaDivision[0].id
+
+      Api.getDepartamentoByProgramaId(this.programaDivision[0].id).then(
+        (response) => {
+          this.departamentos = response.data.data
+          this.postEmpleado.departamentoId = this.departamentos[0].id
+        },
+      )
     })
   },
 }

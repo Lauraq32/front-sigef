@@ -8,7 +8,14 @@
       >Nombre De La Cuenta</label
     >
 
-    <input type="text" name="dni" id="dni" v-model="nombreCuenta" class="form-control" disabled />
+    <input
+      type="text"
+      name="dni"
+      id="dni"
+      v-model="nombreCuenta"
+      class="form-control"
+      disabled
+    />
   </div>
   <div>
     <div class="d-inline p-2">
@@ -56,7 +63,7 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
-  <template #fecha="{ item }">
+    <template #fecha="{ item }">
       <td>
         {{ formatDate(item.fecha) }}
       </td>
@@ -275,7 +282,7 @@
                 variant="outline"
                 square
                 size="sm"
-                @click="getSelectCuenta(item.bancoId,item.nombreCuenta)"
+                @click="getSelectCuenta(item.bancoId, item.nombreCuenta)"
               >
                 {{ Boolean(item._toggled) ? 'Hide' : 'Seleccionar' }}
               </CButton>
@@ -334,7 +341,7 @@ export default {
     return {
       lgDemo3: false,
       CreditoList: [],
-      nombreCuenta:"",
+      nombreCuenta: '',
       Bancos: [],
       postDepositos: {
         ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
@@ -452,7 +459,7 @@ export default {
     // getAllCredito() {
     //   Api.getAllNotaCredito().then((response) => {
     //     this.CreditoList = response.data.data
-    //   }) 
+    //   })
     // },
     getAllBancos() {
       Api.getAllCuentaBanco().then((response) => {
@@ -464,16 +471,16 @@ export default {
       Api.postNotaCredito(this.postDepositos).then((response) => {
         console.log(response)
       })
-      setTimeout(this.getAllBancos , 500)
+      setTimeout(this.getAllBancos, 500)
       Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          text: 'Datos agregados con exito',
-          title: 'Agregado',
-          showConfirmButton: false,
-          timer: 1500,
-        })
-        this.clearModal1()
+        position: 'top-end',
+        icon: 'success',
+        text: 'Datos agregados con exito',
+        title: 'Agregado',
+        showConfirmButton: false,
+        timer: 1500,
+      })
+      this.clearModal1()
     },
     getSelectCuenta(BancoId, nombre) {
       Api.getAllNotaCreditoById(BancoId).then((response) => {
@@ -482,7 +489,6 @@ export default {
         console.log(nombre)
         // this.postDepositos.bancoId = BancoId
         this.CreditoList = response.data.data
-       
       })
     },
     getBadge(status) {

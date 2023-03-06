@@ -90,7 +90,13 @@
         >
           <CCol :md="4">
             <CFormLabel for="validationCustom02">Area de Trabajo</CFormLabel>
-            <input ref="name" type="text" class="form-control" v-model="postAreaTrabajo.area" id="exampleInputEmail1"  >
+            <input
+              ref="name"
+              type="text"
+              class="form-control"
+              v-model="postAreaTrabajo.area"
+              id="exampleInputEmail1"
+            />
             <!-- <CFormInput
               v-model="postAreaTrabajo.area"
               id="validationCustom02"
@@ -177,27 +183,22 @@ export default {
     ]),
 
     focusInput() {
-      console.log('kaka')
       this.$refs.name.focus()
     },
 
     unaVez() {
-      // if (!this.runOnce) {
-        this.focusInput()
-        // this.runOnce = true
-      // }
+      this.focusInput()
     },
 
     openModal() {
       this.lgDemo = true
-      // <input ref="name" type="text" class="form-control" v-model="postMarcas.nombre" id="exampleInputEmail1"  >
-      setTimeout(this.unaVez, 200) 
+
+      setTimeout(this.unaVez, 200)
     },
 
     submitForm() {
       if (this.id) {
         Api.putAreaTrabajo(this.id, this.postAreaTrabajo).then((response) => {
-          console.log(response.data)
           this.lgDemo = false
           this.$swal({
             position: 'top-end',
@@ -268,12 +269,6 @@ export default {
       }
     },
     toggleDetails(item) {
-      // if (this.details.includes(item._id)) {
-      //   this.details = this.details.filter((_item) => _item !== item._id)
-      //   return
-      // }
-      // this.details.push(item._id)
-      console.log(item)
       if (item.AreaDeTrabajo !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
       } else {
@@ -281,12 +276,11 @@ export default {
       }
       this.edit = true
       this.lgDemo = true
-      console.log(item.id)
+
       Api.getAreaTrabajobyid(item.id).then((response) => {
         this.postAreaTrabajo = response.data
-        console.log(response)
+
         this.id = item.id
-        //this.postIngreso = response.data.data
       })
     },
   },

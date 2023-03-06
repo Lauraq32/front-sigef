@@ -138,7 +138,6 @@ export default {
 
   setup() {
     onMounted(() => {
-      console.log('klk')
       getTipoSangres()
     }),
       function toggleDetails(item) {

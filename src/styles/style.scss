@@ -1,17 +1,27 @@
 // If you want to override variables do it here
-@import "variables";
+@import 'variables';
 
 $enable-ltr: true;
 $enable-rtl: true;
 
 // Import styles
-@import "~@coreui/coreui/scss/coreui";
+@import '~@coreui/coreui/scss/coreui';
 
 // Import Chart.js Tooltips
-@import "~@coreui/chartjs/scss/tooltips";
+@import '~@coreui/chartjs/scss/tooltips';
 
-@import "layout";
-@import "example";
+@import 'layout';
+@import 'example';
 
 // If you want to add something do it here
-@import "custom";
+@import 'custom';
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}

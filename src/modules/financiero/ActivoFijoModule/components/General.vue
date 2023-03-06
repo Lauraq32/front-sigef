@@ -589,7 +589,6 @@ export default {
     ]),
 
     toggleDetails(item) {
-      console.log(item)
       if (item.activo !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
       } else {
@@ -597,12 +596,11 @@ export default {
       }
       this.edit = true
       this.lgDemo = true
-      console.log(item.id)
+
       Api.getActivoByID(item.id).then((response) => {
         this.postActivo = response.data.data
-        console.log(response)
+
         this.id = item.id
-        //this.postIngreso = response.data.data
       })
     },
 
@@ -651,7 +649,6 @@ export default {
     submitForm() {
       if (this.id) {
         Api.putActivo(this.id, this.postActivo).then((response) => {
-          console.log(response.data)
           this.lgDemo = false
           this.$swal({
             position: 'top-end',

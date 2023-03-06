@@ -349,26 +349,6 @@
 
                 <div class="row mt-3">
                   <div class="col-3">
-                    <CFormLabel for="validationCustom02">Ciudad</CFormLabel>
-                  </div>
-                  <div class="col-9">
-                    <CCol :md="10">
-                      <CFormInput
-                        disabled
-                        style="position: relative; right: -52px"
-                        id="validationCustom02"
-                        required
-                      />
-                      <CFormFeedback valid> Exito! </CFormFeedback>
-                      <CFormFeedback invalid>
-                        Favor agregar el campo
-                      </CFormFeedback>
-                    </CCol>
-                  </div>
-                </div>
-
-                <div class="row mt-3">
-                  <div class="col-3">
                     <CFormLabel for="validationCustom02">Teléfono</CFormLabel>
                   </div>
                   <div class="col-9">
@@ -512,8 +492,8 @@
                   >
                   <CFormInput
                     disabled
-                    v-model="postEmpleado.fechaIngreso"
                     type="date"
+                    v-model="fecha12"
                     id="validationCustom01"
                   />
 
@@ -522,7 +502,7 @@
                     Favor agregar el campo
                   </CFormFeedback>
                 </CCol>
-                <CCol :md="12">
+                <CCol :md="12" class="mt-2">
                   <CFormLabel for="validationCustom05">Programa</CFormLabel>
                   <CFormSelect
                     disabled
@@ -542,7 +522,7 @@
                   </CFormFeedback>
                 </CCol>
 
-                <CCol :md="8">
+                <CCol :md="8" class="mt-2">
                   <CFormLabel for="validationCustom01">Departamento</CFormLabel>
                   <CFormSelect
                     disabled
@@ -564,7 +544,7 @@
                   </CFormFeedback>
                 </CCol>
 
-                <CCol :md="12">
+                <CCol :md="12" class="mt-2">
                   <CFormLabel for="validationCustom05"
                     >Area de trabajo</CFormLabel
                   >
@@ -585,7 +565,7 @@
                     Favor agregar el campo
                   </CFormFeedback>
                 </CCol>
-                <CCol :md="12">
+                <CCol :md="12" class="mt-2">
                   <CFormLabel for="validationCustom05">Cargo</CFormLabel>
                   <CFormSelect
                     disabled
@@ -604,7 +584,7 @@
                     Favor agregar el campo
                   </CFormFeedback>
                 </CCol>
-                <div class="row">
+                <div class="row mt-2">
                   <CCol>
                     <CFormLabel for="validationCustom02"
                       >Tipo de contrato</CFormLabel
@@ -634,73 +614,77 @@
                     </CFormFeedback>
                   </CCol>
                 </div>
-                <CCol :md="6">
-                  <CFormLabel for="validationCustom05"
-                    >Dias trabajando</CFormLabel
-                  >
-                  <CFormInput
-                    v-model="postEmpleado.sueldo"
-                    type="date"
-                    id="validationCustom02"
-                    required
-                  />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
 
-                <CCol :md="6">
-                  <CFormLabel for="validationCustom05">Tipo cobro</CFormLabel>
-                  <CFormSelect
-                    v-model="postEmpleado.periodoPago"
-                    id="validationCustom05"
-                  >
-                    <option>MENSUAL</option>
-                    <option>QUINCENAL</option>
-                  </CFormSelect>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
+                <div class="row mt-2">
+                  <CCol :md="6">
+                    <CFormLabel for="validationCustom05">Tipo cobro</CFormLabel>
+                    <CFormSelect
+                      v-model="postEmpleado.periodoPago"
+                      id="validationCustom05"
+                    >
+                      <option>MENSUAL</option>
+                      <option>QUINCENAL</option>
+                    </CFormSelect>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                  <CCol>
+                    <CFormLabel for="validationCustom05"
+                      >Tipo de pago</CFormLabel
+                    >
+                    <CFormSelect
+                      v-model="postEmpleado.formaPago"
+                      id="validationCustom05"
+                    >
+                      <option>BANCO</option>
+                      <option>CHEQUE</option>
+                    </CFormSelect>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                </div>
 
-                <CCol>
-                  <CFormLabel for="validationCustom05">Tipo de pago</CFormLabel>
-                  <CFormSelect
-                    v-model="postEmpleado.formaPago"
-                    id="validationCustom05"
-                  >
-                    <option>BANCO</option>
-                    <option>CHEQUE</option>
-                  </CFormSelect>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
+                <div class="row mt-2">
+                  <CCol :md="6">
+                    <CFormLabel for="validationCustom05"
+                      >Dias trabajando</CFormLabel
+                    >
+                    <CFormInput
+                      v-model="postEmpleado.sueldo"
+                      id="validationCustom02"
+                      required
+                    />
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                  <CCol>
+                    <CFormLabel for="validationCustom02"
+                      >Sueldo actual</CFormLabel
+                    >
 
-                <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Sueldo actual</CFormLabel
-                  >
-
-                  <input
-                    ref="name"
-                    type="number"
-                    class="form-control"
-                    v-model="postEmpleado.sueldo"
-                    id="exampleInputEmail1"
-                  />
-                  <!-- <CFormInput
+                    <input
+                      ref="name"
+                      type="text"
+                      class="form-control"
+                      v-model="postEmpleado.sueldo"
+                      id="exampleInputEmail1"
+                    />
+                    <!-- <CFormInput
                     v-model="postEmpleado.sueldo"
                     type="number"
                     id="validationCustom02"
                     required
                   /> -->
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
+                    <CFormFeedback valid> Exito! </CFormFeedback>
+                    <CFormFeedback invalid>
+                      Favor agregar el campo
+                    </CFormFeedback>
+                  </CCol>
+                </div>
               </div>
               <div class="col-2">
                 <h4 class="mt-3">Retenciones de Ley</h4>
@@ -1689,7 +1673,9 @@
             <div class="col-7">
               <div class="col-11">
                 <CCol>
-                  <CFormLabel for="validationCustom05">Direccion o Dependencia</CFormLabel>
+                  <CFormLabel for="validationCustom05"
+                    >Direccion o Dependencia</CFormLabel
+                  >
                   <CFormSelect
                     v-model="postGenerarNomina.ProgramaDivision"
                     id="validationCustom05"
@@ -1709,7 +1695,7 @@
                 </CCol>
               </div>
               <div class="col-11">
-                <CCol >
+                <CCol>
                   <CFormLabel for="validationCustom01">Departamento</CFormLabel>
                   <CFormSelect
                     v-model="postGenerarNomina.DepartamentoId"
@@ -2549,15 +2535,18 @@ import { mapActions } from 'pinia'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import Api from '../services/NominaServices'
 import router from '@/router'
+import moment from 'moment'
 
 export default {
   components: {
     CSmartTable,
     CModal,
+    moment,
   },
 
   data: () => {
     return {
+      fecha12: new Date(2015, 0, 11),
       reporteDepto: 1,
       reportes: false,
       arsCheck: false,
@@ -2862,10 +2851,8 @@ export default {
 
   methods: {
     arsCalculado() {
-      // this.postEmpleado.arsCalculado = false
       if (this.postEmpleado.arsCalculado == false) {
         this.postEmpleado.arsFijo = 3.04
-        console.log('llamando')
       } else {
         this.postEmpleado.arsFijo = 0
       }
@@ -2874,35 +2861,28 @@ export default {
       // this.postEmpleado.arsCalculado = false
       if (this.postEmpleado.afpCalculado == false) {
         this.postEmpleado.afpFijo = 2.87
-        console.log('llamando')
       } else {
         this.postEmpleado.afpFijo = 0
       }
     },
     nominaGnerallink() {
       router.push({ name: 'grupoNominas' })
-      console.log('klk')
     },
     clearModal1() {
       Api.getProgramaDivision().then((response) => {
         this.programaDivision = response.data.data
         this.postGenerarNomina.ProgramaDivision = this.programaDivision[0].id
-        console.log(this.programaDivision[0].id)
 
         Api.getDepartamentoByProgramaId(this.programaDivision[0].id).then(
           (response) => {
             this.departamentos = response.data.data
             this.postGenerarNomina.DepartamentoId = this.departamentos[0].id
-            console.log(response.data.data)
-            console.log(this.departamentos[0].id)
           },
         )
-        console.log(this.departamentos)
       })
     },
 
     imprimirReporte() {
-      console.log(this.reporteDepto.split('-')[0])
       if (this.reporteDepto.split('-')[0] == 1) {
         window
           .open(
@@ -2923,46 +2903,27 @@ export default {
           .focus()
       }
     },
-    // IngresoReport() {
-    //   window
-    //     .open(
-    //       `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_General&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
-    //         'id_Ayuntamiento',
-    //       )}&ANO=2022`,
-    //       '_blank',
-    //     )
-    //     .focus()
-    // },
 
     changePrograma(e) {
       Api.getDepartamentoByProgramaId(e.target.value).then((response) => {
         this.departamentos = response.data.data
-
-        console.log(response.data.data)
       })
-      console.log(this.departamentos)
     },
     klk() {
       Api.getDepartamentoById(this.departamentos[0].id).then((response) => {
         this.clasificador = response.data.data.ctgClasificadorId
         this.programid1 = response.data.data.programaDivisionId
         this.estructuras = response.data.data.estructura
-
-        console.log(response.data.data)
       })
     },
     changeDepartamento(e) {
-      console.log(e.target.value)
       this.departamentosId = e.target.value
       //this.postGenerarNomina.DepartamentoId =
       Api.getDepartamentoById(e.target.value).then((response) => {
         this.clasificador = response.data.data.ctgClasificadorId
         this.programid1 = response.data.data.programaDivisionId
         this.estructuras = response.data.data.estructura
-
-        console.log(response.data.data)
       })
-      console.log(this.departamentos)
     },
 
     addField(prueba) {
@@ -2981,28 +2942,22 @@ export default {
       })
     },
 
-    // focus() {
-    //   if (this.show) {
-    //     let self = this
-    //     nextTick().then(function () {
-    //       console.log(self.$refs.number.focus())
-    //     })
-    //   }
-    // },
-
     focusInput() {
-      // this.$refs.name.focus()
       this.$refs.name.$el.focus()
-      // this.focus = true
-      // if (!this.focus) {
-      //   this.focusInput()
-      // }
     },
 
     focusInput1() {
       if (!this.focus) {
         this.focusInput()
       }
+    },
+
+    format() {
+      setTimeout(this.formatFecha, 500)
+    },
+
+    formatFecha() {
+      const fechaFormateada = moment(this.fecha12).format('YYYY-MM-DD')
     },
 
     sumaIngresos() {
@@ -3020,16 +2975,12 @@ export default {
         parseInt(this.postEmpleado.noviembreIngreso),
         parseInt(this.postEmpleado.diciembreIngreso),
       ]
-      console.log(this.Acumulado)
 
       this.unionIngresos = this.Acumulado.reduce((a, b) => {
         return a + b
       })
 
       this.resultadoIngresos = this.unionIngresos / 12
-
-      console.log(this.unionIngresos)
-      console.log(this.resultadoIngresos)
     },
     ...mapActions(useRegistroStore, [
       'getNomina',
@@ -3041,7 +2992,6 @@ export default {
     submiNomina() {
       Api.postNomina(this.postNomina).then((response) => {
         this.postNomina.afpMonto = this.postEmpleado.afpFijo
-        console.log(response)
       })
     },
 
@@ -3053,16 +3003,13 @@ export default {
         this.postGenerarNomina.ProgramaDivision,
         this.postGenerarNomina.FormaPago,
         this.postGenerarNomina.TipoContrato,
-      ).then((response) => {
-        console.log(response)
-      })
+      ).then((response) => {})
     },
     submiFormConf() {
       this.submiGeneraNomina()
       if (this.id) {
         Api.putConfiguracionNomina(this.id, this.postConfiguracionNomina).then(
           (response) => {
-            console.log(response.data)
             this.lgDemo = false
             this.$swal({
               position: 'top-end',
@@ -3072,7 +3019,6 @@ export default {
               timer: 1500,
             })
 
-            // setTimeout(this.getEmpleado, 500)
             this.postConfiguracionNomina = {
               id: 0,
               ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
@@ -3136,12 +3082,9 @@ export default {
             }
           },
         )
-        // setTimeout(this.getEmpleado, 500)
       } else {
         Api.postConfiguracionNomina(this.postConfiguracionNomina).then(
-          (response) => {
-            console.log(response)
-          },
+          (response) => {},
         )
         Swal.fire({
           position: 'top-end',
@@ -3151,9 +3094,8 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
-        //const form = event.currentTarget
+
         this.lgDemo = true
-        // setTimeout(this.getEmpleado, 500)
         ;(this.postConfiguracionNomina = {
           ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
           textoIng1: null,
@@ -3225,7 +3167,6 @@ export default {
     submitForm() {
       if (this.id) {
         Api.putEmpleado(this.id, this.postEmpleado).then((response) => {
-          console.log(response.data)
           this.lgDemo = false
           this.$swal({
             position: 'top-end',
@@ -3342,9 +3283,7 @@ export default {
       } else {
         this.addEmpleado(this.postEmpleado)
         Api.postConfiguracionNomina(this.postConfiguracionNomina).then(
-          (response) => {
-            console.log(response)
-          },
+          (response) => {},
         )
         Swal.fire({
           position: 'top-end',
@@ -3477,20 +3416,16 @@ export default {
     },
 
     focusInput() {
-      console.log('kaka')
       this.$refs.name.focus()
     },
 
     unaVez() {
-      // if (!this.runOnce) {
       this.focusInput()
-      // this.runOnce = true
-      // }
     },
 
     openModal() {
       this.lgDemo = true
-      // <input ref="name" type="text" class="form-control" v-model="postMarcas.nombre" id="exampleInputEmail1"  >
+
       setTimeout(this.unaVez, 200)
     },
 
@@ -3509,23 +3444,7 @@ export default {
       }
     },
 
-    // toggleDetails(item) {
-    //   if (this.details.includes(item._id)) {
-    //     this.details = this.details.filter((_item) => _item !== item._id)
-    //     return
-    //   }
-    //   this.details.push(item._id)
-    // },
-
     toggleDetails(item) {
-      // if (this.details.includes(item._id)) {
-      //   this.details = this.details.filter((_item) => _item !== item._id)
-      //   return
-      // }
-      // this.details.push(item._id)
-
-      console.log(item)
-
       if (item.postConfiguracionNomina !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
       } else {
@@ -3533,27 +3452,17 @@ export default {
       }
       this.edit = true
       this.lgDemo = true
-      console.log(item.id)
+
       Api.getConfiguracionNominabyid(item.id).then((response) => {
         this.postConfiguracionNomina = response.data.data
-        console.log(response)
+
         this.id = item.id
-        //this.postIngreso = response.data.data
       })
     },
 
     toggleDetail2(item) {
+      this.format()
       this.openModal()
-      // if (this.details.includes(item._id)) {
-      //   this.details = this.details.filter((_item) => _item !== item._id)
-      //   return
-      // }
-      // this.details.push(item._id)
-      console.log(item)
-
-      // Api.getConfiguracionNominabyid(item.id).then((response) => {
-      //   this.postConfiguracionNomina = response.data.data
-      // })
 
       Api.getSalarioById(item.id).then((response) => {
         this.ingresos = response.data.data
@@ -3565,12 +3474,10 @@ export default {
       }
       this.edit = true
       this.lgDemo = true
-      console.log(item.id)
+
       Api.getEmpleadoById(item.id).then((response) => {
         this.postEmpleado = response.data.data
-        console.log(response.data.data)
         this.id = item.id
-        //this.postIngreso = response.data.data
       })
     },
   },
@@ -3599,17 +3506,13 @@ export default {
     Api.getProgramaDivision().then((response) => {
       this.programaDivision = response.data.data
       this.postGenerarNomina.ProgramaDivision = this.programaDivision[0].id
-      console.log(this.programaDivision[0].id)
 
       Api.getDepartamentoByProgramaId(this.programaDivision[0].id).then(
         (response) => {
           this.departamentos = response.data.data
           this.postGenerarNomina.DepartamentoId = this.departamentos[0].id
-          console.log(response.data.data)
-          console.log(this.departamentos[0].id)
         },
       )
-      console.log(this.departamentos)
     })
   },
 }

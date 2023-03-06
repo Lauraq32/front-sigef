@@ -12,7 +12,7 @@ export default {
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/rrhh/RegistroPersonal/components/RegistroEmpleado.vue'
         ),
     },
-  
+
     //  {
     //     path: '',
     //     name: 'no-entry',

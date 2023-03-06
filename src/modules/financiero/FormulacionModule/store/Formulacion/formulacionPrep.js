@@ -6,9 +6,7 @@ import { computed, ref } from 'vue'
 // and `Store` (e.g. `useUserStore`, `useCartStore`, `useProductStore`)
 // the first argument is a unique id of the store across your application
 export const useFormulacionPrepStore = defineStore('FormulacionPrep', () => {
-  const ingresos = ref([
-
-  ])
+  const ingresos = ref([])
 
   //const name = ref('Eduardo')
   const getAllPersonal = computed(() => registroPersonal)

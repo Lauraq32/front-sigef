@@ -241,7 +241,6 @@ export default {
     ...mapActions(useRegistroStore, ['getRecepcion', 'addRecepcion']),
 
     toggleDetails(item) {
-      console.log(item)
       if (item.Recepcion !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
       } else {
@@ -249,13 +248,12 @@ export default {
       }
       this.edit = true
       this.lgDemo = true
-      console.log(item.id)
+
       this.secuencial = item.secuencial
       Api.getRecepcionByID(item.secuencial).then((response) => {
         this.postRecepcion = response.data.data
-        console.log(response)
+
         this.id = item.id
-        //this.postIngreso = response.data.data
       })
     },
     getBadge(status) {
@@ -283,11 +281,9 @@ export default {
     },
 
     submitForm() {
-      console.log(this.postRecepcion.secuencial)
       if (this.secuencial != null) {
         Api.putRecepcion(this.secuencial, this.postRecepcion).then(
           (response) => {
-            console.log(response.data)
             this.lgDemo = false
             Swal.fire({
               position: 'top-end',

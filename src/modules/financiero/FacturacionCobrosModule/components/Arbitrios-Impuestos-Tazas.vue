@@ -90,7 +90,7 @@
           <CCol :md="4">
             <CFormLabel for="validationCustom01">Proyecto</CFormLabel>
             <CFormInput id="validationCustom01" required />
-           
+
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -101,30 +101,24 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="6">
-            <CFormLabel for="validationCustom03"
-              >Descripción</CFormLabel
-            >
+            <CFormLabel for="validationCustom03">Descripción</CFormLabel>
             <CFormInput id="validationCustom03" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom04">Fecha inicio</CFormLabel >
+            <CFormLabel for="validationCustom04">Fecha inicio</CFormLabel>
             <CFormInput type="date" id="validationCustom04"> </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom05"
-              >Fecha fin</CFormLabel
-            >
+            <CFormLabel for="validationCustom05">Fecha fin</CFormLabel>
             <CFormInput type="date" id="validationCustom05" required />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom05"
-              >Participativo</CFormLabel
-            >
+            <CFormLabel for="validationCustom05">Participativo</CFormLabel>
             <CFormSelect id="validationCustom05">
               <option>Si</option>
               <option>no</option>
@@ -139,13 +133,9 @@
             >
               Close
             </button>
-            <button
-              class="btn btn-info btn-block mt-1"
-              v-on:click="Guardar"
-            >
-            Guardar
+            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+              Guardar
             </button>
-         
           </div>
         </CForm>
       </CCardBody>
