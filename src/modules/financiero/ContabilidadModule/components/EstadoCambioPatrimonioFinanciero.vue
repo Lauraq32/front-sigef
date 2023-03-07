@@ -30,11 +30,9 @@
     :activePage="1"
     footer
     header
+    columnFilter
     :items="items"
     :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
     :itemsPerPage="5"
     columnSorter

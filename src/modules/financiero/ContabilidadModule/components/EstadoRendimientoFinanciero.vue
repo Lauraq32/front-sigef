@@ -20,11 +20,9 @@
     header
     :items="this.$store.state.Formulacion.organismos"
     :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
     :itemsPerPage="5"
+    columnFilter
     columnSorter
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination

@@ -54,10 +54,8 @@
     key="ingreso.id"
     :items="ingresos"
     :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
+    columnFilter
     :itemsPerPage="5"
     :items-per-page-options="[5, 10, 20, 50, 100, 150]"
     columnSorter
@@ -487,10 +485,11 @@ export default {
         {
           key: 'instOtorga',
           label: 'Institución otorgante',
+          filter: false,
           _style: { width: '8%' },
         },
-        { key: 'anioAnt', label: 'Año anterior', _style: { width: '8%' } },
-        { key: 'alaFecha', label: 'A la Fecha', _style: { width: '8%' } },
+        { key: 'anioAnt', label: 'Año anterior', filter: false, _style: { width: '8%' } },
+        { key: 'alaFecha', label: 'A la Fecha', filter: false, _style: { width: '8%' } },
         // {
         //   key: 'esT_ACTUAL',
         //   label: 'Estimado Actual',
@@ -499,7 +498,9 @@ export default {
         {
           key: 'presForm',
           label: 'Presupuesto Formulado',
-          _style: { width: '8%' },
+
+          filter: false,
+          _style: { width: '8%'},
         },
         {
           key: 'show_details',

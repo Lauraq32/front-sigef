@@ -48,11 +48,9 @@
     :activePage="1"
     footer
     header
+    columnFilter
     :items="prepGastoList"
     :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
     :itemsPerPage="5"
     columnSorter
@@ -273,10 +271,8 @@
           header
           :items="detallePresGastos"
           :columns="columns2"
-          columnFilter
-          tableFilter
-          cleaner
           itemsPerPageSelect
+          columnFilter
           :itemsPerPage="5"
           columnSorter
           :sorterValue="{ column: 'status', state: 'asc' }"

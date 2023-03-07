@@ -33,8 +33,6 @@
     :items="this.$store.state.RRHHModule.profesion"
     :columns="columns"
     columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
     :itemsPerPage="5"
     columnSorter

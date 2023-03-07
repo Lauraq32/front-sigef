@@ -53,11 +53,9 @@
     header
     :items="ChequeList"
     :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
     :itemsPerPage="5"
+    columnFilter
     columnSorter
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
@@ -274,10 +272,8 @@
           header
           :items="Bancos"
           :columns="columns3"
-          columnFilter
-          tableFilter
-          cleaner
           itemsPerPageSelect
+          columnFilter
           :itemsPerPage="5"
           columnSorter
           :sorterValue="{ column: 'status', state: 'asc' }"

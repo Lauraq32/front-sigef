@@ -54,8 +54,6 @@
     :items="CreditoList"
     :columns="columns"
     columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
     :itemsPerPage="5"
     columnSorter
@@ -265,8 +263,6 @@
           :items="Bancos"
           :columns="columns3"
           columnFilter
-          tableFilter
-          cleaner
           itemsPerPageSelect
           :itemsPerPage="5"
           columnSorter
