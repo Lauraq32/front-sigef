@@ -9,12 +9,10 @@
     :tableHeadProps="{}"
     :activePage="1"
     footer
+    columnFilter
     header
     :items="this.$store.state.Formulacion.clasificadores"
     :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
     :itemsPerPage="5"
     columnSorter

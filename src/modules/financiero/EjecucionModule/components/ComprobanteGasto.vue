@@ -33,8 +33,6 @@
     :items="cabeceraGasto"
     :columns="columns"
     columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
     :itemsPerPage="5"
     columnSorter
@@ -420,9 +418,6 @@
           header
           :items="[]"
           :columns="columns2"
-          columnFilter
-          tableFilter
-          cleaner
           itemsPerPageSelect
           :itemsPerPage="5"
           columnSorter
@@ -822,9 +817,6 @@
           header
           :items="detalleGasto"
           :columns="columns2"
-          columnFilter
-          tableFilter
-          cleaner
           itemsPerPageSelect
           :itemsPerPage="5"
           columnSorter
@@ -932,9 +924,6 @@
           header
           :items="EstructuraByClasificadores"
           :columns="columns3"
-          columnFilter
-          tableFilter
-          cleaner
           itemsPerPageSelect
           :itemsPerPage="5"
           columnSorter

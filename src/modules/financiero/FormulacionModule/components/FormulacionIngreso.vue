@@ -55,10 +55,8 @@
     key="ingreso.id"
     :items="ingresos"
     :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
+    columnFilter
     :itemsPerPage="5"
     :items-per-page-options="[5, 10, 20, 50, 100, 150]"
     columnSorter

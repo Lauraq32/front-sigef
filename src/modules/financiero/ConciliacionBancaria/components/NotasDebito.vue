@@ -51,12 +51,10 @@
     :tableHeadProps="{}"
     :activePage="1"
     footer
+    columnFilter
     header
     :items="DepositoList"
     :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
     :itemsPerPage="5"
     columnSorter
@@ -266,8 +264,6 @@
           :items="Bancos"
           :columns="columns3"
           columnFilter
-          tableFilter
-          cleaner
           itemsPerPageSelect
           :itemsPerPage="5"
           columnSorter

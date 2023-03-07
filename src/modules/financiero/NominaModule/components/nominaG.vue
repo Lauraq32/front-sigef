@@ -121,7 +121,7 @@
     striped: false,
     hover: true,
      
-  }" :tableHeadProps="{}" :activePage="1" footer header :items="nominag" :columns="columns" columnFilter 
+  }" :tableHeadProps="{}" :activePage="1" footer header :items="nominag" :columns="columns" columnFilter
      itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
     pagination>
     <template #posicion="{ item }">
@@ -2033,8 +2033,8 @@
       striped: false,
       hover: true,
       
-    }" :tableHeadProps="{}" :activePage="1" footer header :items="getEmpleadosDep" :columns="columns2" columnFilter
-       itemsPerPageSelect :itemsPerPage="5" columnSorter 
+    }" :tableHeadProps="{}" :activePage="1" footer header :items="getEmpleadosDep" :columns="columns2"
+       itemsPerPageSelect :itemsPerPage="5" columnSorter columnFilter
       :sorterValue="{ column: 'status', state: 'asc' }" pagination :backdrop="false">
 
       
@@ -2123,8 +2123,8 @@
       striped: false,
       hover: true,
       
-    }" :tableHeadProps="{}" :activePage="1" footer header :items="getEmpleadosDep1" :columns="columns3" columnFilter
-       itemsPerPageSelect :itemsPerPage="5" columnSorter 
+    }" :tableHeadProps="{}" :activePage="1" footer header :items="getEmpleadosDep1" :columns="columns3"
+       itemsPerPageSelect :itemsPerPage="5" columnSorter  columnFilter
       :sorterValue="{ column: 'status', state: 'asc' }" pagination :backdrop="false">
 
       

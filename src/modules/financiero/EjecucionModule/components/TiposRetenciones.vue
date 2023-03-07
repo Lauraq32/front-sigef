@@ -27,10 +27,8 @@
     header
     :items="TipoRetenciones"
     :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
+    columnFilter
     :itemsPerPage="5"
     columnSorter
     :sorterValue="{ column: 'status', state: 'asc' }"

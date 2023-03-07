@@ -143,10 +143,8 @@
     header
     :items="ingresosList"
     :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
+    columnFilter
     :itemsPerPage="5"
     columnSorter
     :sorterValue="{ column: 'status', state: 'asc' }"
@@ -481,9 +479,6 @@
           header
           :items="detalleRegistroIngresos"
           :columns="columns2"
-          columnFilter
-          tableFilter
-          cleaner
           itemsPerPageSelect
           :itemsPerPage="5"
           columnSorter

@@ -59,8 +59,6 @@
     :items="registroPersonal"
     :columns="columns"
     columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
     :itemsPerPage="5"
     columnSorter

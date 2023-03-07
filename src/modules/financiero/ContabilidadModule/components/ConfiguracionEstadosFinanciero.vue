@@ -24,12 +24,10 @@
     :tableHeadProps="{}"
     :activePage="1"
     footer
+    columnFilter
     header
     :items="this.$store.state.Formulacion.proyecto"
     :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
     :itemsPerPage="5"
     columnSorter

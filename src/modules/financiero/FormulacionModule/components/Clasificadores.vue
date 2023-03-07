@@ -33,8 +33,6 @@
     :items="this.$store.state.Formulacion.clasificadores"
     :columns="columns"
     columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
     :itemsPerPage="5"
     :items-per-page-options="[5, 10, 20, 50, 100, 150]"
@@ -83,7 +81,7 @@ export default {
   data: () => {
     return {
       columns: [
-        { key: 'ccontrol', label: 'Cuenta' },
+        { key: 'ccontrol', label: 'Cuenta'},
         { key: 'clasifica', label: 'Clasificador' },
         { key: 'ctA_CONTAG', label: 'Cuenta contable' },
         { key: 'ctA_GASTOS', label: 'Cuenta Gastos' },
@@ -115,6 +113,9 @@ export default {
       ],
       details: [],
       items: [],
+      filter:[{
+        key: 'ccontrol', _style:{color:'success'}
+      }]
     }
   },
   methods: {
