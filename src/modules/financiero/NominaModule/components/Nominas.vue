@@ -58,6 +58,11 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
+  <template #sueldo="{ item }">
+      <td class="text-end">
+        {{ item.sueldo }}
+      </td>
+    </template>
     <template #posicion="{ item }">
       <td>
         {{ item.posicion.nombre }}

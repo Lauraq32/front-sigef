@@ -60,7 +60,7 @@
     pagination
   >
     <template #totalPresupuesto="{ item }">
-      <td>
+      <td class="text-end">
         {{ formatPrice(item.totalPresupuesto) }}
       </td>
     </template>

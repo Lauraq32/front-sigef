@@ -66,22 +66,22 @@
     pagination
   >
     <template #anioAnt="{ item }">
-      <td style="text-align: end;">
+      <td class="text-end">
         {{ formatPrice(item.anioAnt) }}
       </td>
     </template>
     <template #instOtorga="{ item }">
-      <td style="text-align: end;">
+      <td class="text-end">
         {{ formatPrice(item.instOtorga) }}
       </td>
     </template>
     <template #alaFecha="{ item }">
-      <td style="text-align: end;">
+      <td class="text-end">
         {{ formatPrice(item.alaFecha) }}
       </td>
     </template>
     <template #presForm="{ item }">
-      <td style="text-align: end;">
+      <td class="text-end">
         {{ formatPrice(item.presForm) }}
       </td>
     </template>

@@ -47,12 +47,12 @@
       </td>
     </template>
     <template #balanceLibro="{ item }">
-      <td>
+      <td class="text-end">
         {{ formatPrice(item.balanceLibro) }}
       </td>
     </template>
     <template #balanceBanco="{ item }">
-      <td>
+      <td class="text-end">
         {{ formatPrice(item.balanceBanco) }}
       </td>
     </template>

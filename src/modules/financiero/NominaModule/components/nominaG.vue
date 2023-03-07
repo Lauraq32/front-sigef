@@ -129,6 +129,7 @@
         {{ item.posicion.nombre }}
       </td>
     </template>
+    
     <template #departamento="{ item }">
         <td>
           {{ item.departamento.nombre }}
@@ -143,6 +144,16 @@
     <template #fecha="{ item }">
       <td>
         {{ formatDate(item.fecha) }}
+      </td>
+    </template>
+    <template #totalsueldos="{ item }">
+      <td class="text-end">
+        {{ item.totalsueldos }}
+      </td>
+    </template>
+    <template #totalAPagar="{ item }">
+      <td class="text-end">
+        {{ item.totalAPagar }}
       </td>
     </template>
     <template #show_details="{ item }">
