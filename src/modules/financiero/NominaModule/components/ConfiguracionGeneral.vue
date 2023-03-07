@@ -1,7 +1,7 @@
 <template>
   <h3 class="text-center">Formulacion ingreso</h3>
-  <hr />
-  <div class="">
+
+  <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
         color="info"
@@ -20,7 +20,7 @@
       >
     </div>
   </div>
-  <hr />
+
   <CSmartTable
     clickableRows
     :tableProps="{

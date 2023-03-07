@@ -1,10 +1,8 @@
 <template>
   <h3 class="text-center">Ejecución de ingresos</h3>
-  <hr />
-  <div>
+  <div class="table-headers">
     <div class="d-inline p-2"></div>
   </div>
-  <hr />
   <CSmartTable
     clickableRows
     :tableProps="{
