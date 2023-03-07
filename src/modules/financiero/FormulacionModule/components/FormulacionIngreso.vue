@@ -442,10 +442,11 @@ export default {
         {
           key: 'instOtorga',
           label: 'Institución otorgante',
+          filter: false,
           _style: { width: '8%' },
         },
-        { key: 'anioAnt', label: 'Año anterior', _style: { width: '8%' } },
-        { key: 'alaFecha', label: 'A la Fecha', _style: { width: '8%' } },
+        { key: 'anioAnt', label: 'Año anterior', filter: false, _style: { width: '8%' } },
+        { key: 'alaFecha', label: 'A la Fecha', filter: false, _style: { width: '8%' } },
         // {
         //   key: 'esT_ACTUAL',
         //   label: 'Estimado Actual',
@@ -454,6 +455,7 @@ export default {
         {
           key: 'presForm',
           label: 'Presupuesto Formulado',
+          filter: false,
           _style: { width: '8%'},
       
         },
