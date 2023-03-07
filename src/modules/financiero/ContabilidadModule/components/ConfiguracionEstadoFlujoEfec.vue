@@ -1,6 +1,6 @@
 <template>
   <h3 class="text-center">Estado Flujo de efectivo</h3>
-  <hr />
+
 
   <CSmartTable
     clickableRows

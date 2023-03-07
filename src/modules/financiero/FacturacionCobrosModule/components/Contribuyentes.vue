@@ -1,7 +1,7 @@
 <template>
   <h3 class="text-center">Contribuyentes</h3>
-  <hr />
-  <div>
+
+  <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
         color="info"
@@ -18,7 +18,6 @@
       <CButton color="info" @click="volver">Comprobacion Ingreso</CButton>
     </div>
   </div>
-  <hr />
   <CSmartTable
     clickableRows
     :tableProps="{
