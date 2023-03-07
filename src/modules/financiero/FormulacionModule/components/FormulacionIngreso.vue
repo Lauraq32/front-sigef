@@ -30,7 +30,7 @@
         <!-- We can't use a normal button element here, as it would become the target of the label. -->
         <div class="select-button">
           <!-- Display the filename if a file has been selected. -->
-          <CIcon :icon="cilCloudUpload" size="m"/>
+          <CIcon :icon="cilCloudUpload" size="m" />
         </div>
 
         <!-- Now, the file input that we hide. -->
@@ -50,7 +50,6 @@
     :tableHeadProps="{}"
     :activePage="1"
     :footer="footerItem"
-   
     header
     key="ingreso.id"
     :items="ingresos"
@@ -66,27 +65,44 @@
     pagination
   >
     <template #anioAnt="{ item }">
-      <td style="text-align: end;">
+      <td style="text-align: end">
         {{ formatPrice(item.anioAnt) }}
       </td>
     </template>
     <template #instOtorga="{ item }">
-      <td style="text-align: end;">
+      <td style="text-align: end">
         {{ formatPrice(item.instOtorga) }}
       </td>
     </template>
     <template #alaFecha="{ item }">
-      <td style="text-align: end;">
+      <td style="text-align: end">
         {{ formatPrice(item.alaFecha) }}
       </td>
     </template>
     <template #presForm="{ item }">
-      <td style="text-align: end;">
+      <td style="text-align: end">
         {{ formatPrice(item.presForm) }}
       </td>
     </template>
- 
-    
+
+    <template #ctgFuenteId="{ item }">
+      <td style="text-align: center">
+        {{ formatPrice(item.ctgFuenteId) }}
+      </td>
+    </template>
+
+    <template #ctgFuenteEspecificaId="{ item }">
+      <td style="text-align: center">
+        {{ formatPrice(item.ctgFuenteEspecificaId) }}
+      </td>
+    </template>
+
+    <template #ctgOrganismoFinanciadorId="{ item }">
+      <td style="text-align: center">
+        {{ formatPrice(item.ctgOrganismoFinanciadorId) }}
+      </td>
+    </template>
+
     <template #show_details="{ item }">
       <td class="py-1">
         <CButton
@@ -358,14 +374,14 @@ import Api from '../services/FormulacionServices'
 import { mapActions, mapState } from 'vuex'
 import XLSX from 'xlsx/xlsx.mjs'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-import { CIcon } from '@coreui/icons-vue';
-import { cilCloudUpload } from '@coreui/icons-pro';
+import { CIcon } from '@coreui/icons-vue'
+import { cilCloudUpload } from '@coreui/icons-pro'
 import router from '@/router'
 export default {
   components: {
     CSmartTable,
     CModal,
-    CIcon
+    CIcon,
   },
   data: () => {
     return {
@@ -406,18 +422,45 @@ export default {
       },
       validatedCustom01: null,
       lgDemo: false,
-      footerItem:[
-
-     {label:'Total presupuesto',_props: { color: '',colspan: 6, style:"font-weight:bold; text-align:right"},},
-     {label:'prueba',_props: { color: '',colspan: 1, style:"font-weight:bold; text-align:right"},},
-     {label:'prueba',_props: { color: '',colspan: 1, style:"font-weight:bold; text-align:right"},},
-     {label:'preS_FORM',_props: { color: '',colspan: 1, style:"font-weight:bold; text-align:right"},},
+      footerItem: [
+        {
+          label: 'Total presupuesto',
+          _props: {
+            color: '',
+            colspan: 6,
+            style: 'font-weight:bold; text-align:right',
+          },
+        },
+        {
+          label: 'prueba',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold; text-align:right',
+          },
+        },
+        {
+          label: 'prueba',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold; text-align:right',
+          },
+        },
+        {
+          label: 'preS_FORM',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold; text-align:right',
+          },
+        },
       ],
       columns: [
         {
           key: 'ctgClasificadorId',
           label: 'Clasificador',
-          _style: { width: '15%', },
+          _style: { width: '15%' },
         },
         {
           key: 'detalle',
@@ -456,8 +499,7 @@ export default {
         {
           key: 'presForm',
           label: 'Presupuesto Formulado',
-          _style: { width: '8%'},
-      
+          _style: { width: '8%' },
         },
         {
           key: 'show_details',
@@ -584,7 +626,7 @@ export default {
       ).then((response) => {
         this.footerItem[1].label = this.formatPrice(response.data.data.alaFecha)
         this.footerItem[2].label = this.formatPrice(response.data.data.anioAnt)
-        this.footerItem[3].label  = this.formatPrice(response.data.data.presForm)
+        this.footerItem[3].label = this.formatPrice(response.data.data.presForm)
       })
     },
 
@@ -822,7 +864,6 @@ export default {
   },
 
   created() {
-   
     this.getListarIngresos(), this.getTotales()
   },
 }
