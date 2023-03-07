@@ -49,7 +49,8 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    :footer="footerItem"
+   
     header
     key="ingreso.id"
     :items="ingresos"
@@ -65,20 +66,27 @@
     pagination
   >
     <template #anioAnt="{ item }">
-      <td>
+      <td style="text-align: end;">
         {{ formatPrice(item.anioAnt) }}
       </td>
     </template>
+    <template #instOtorga="{ item }">
+      <td style="text-align: end;">
+        {{ formatPrice(item.instOtorga) }}
+      </td>
+    </template>
     <template #alaFecha="{ item }">
-      <td>
+      <td style="text-align: end;">
         {{ formatPrice(item.alaFecha) }}
       </td>
     </template>
     <template #presForm="{ item }">
-      <td>
+      <td style="text-align: end;">
         {{ formatPrice(item.presForm) }}
       </td>
     </template>
+ 
+    
     <template #show_details="{ item }">
       <td class="py-1">
         <CButton
@@ -118,7 +126,7 @@
       </CCollapse>
     </template>
   </CSmartTable>
-  <div class="font-weight-normal">
+  <!-- <div class="font-weight-normal">
     <span style="font-weight: bold"><u>TOTAL PRESUPUESTO:</u></span> Año
     anterior
     <span style="font-weight: 500 !important">{{
@@ -132,7 +140,7 @@
     <span style="font-weight: 500 !important">{{
       formatPrice(formulado.preS_FORM)
     }}</span>
-  </div>
+  </div> -->
   <CModal
     size="lg"
     :visible="lgDemo"
@@ -398,11 +406,18 @@ export default {
       },
       validatedCustom01: null,
       lgDemo: false,
+      footerItem:[
+
+     {label:'Total presupuesto',_props: { color: '',colspan: 6, style:"font-weight:bold; text-align:right"},},
+     {label:'prueba',_props: { color: '',colspan: 1, style:"font-weight:bold; text-align:right"},},
+     {label:'prueba',_props: { color: '',colspan: 1, style:"font-weight:bold; text-align:right"},},
+     {label:'preS_FORM',_props: { color: '',colspan: 1, style:"font-weight:bold; text-align:right"},},
+      ],
       columns: [
         {
           key: 'ctgClasificadorId',
           label: 'Clasificador',
-          _style: { width: '15%' },
+          _style: { width: '15%', },
         },
         {
           key: 'detalle',
@@ -441,7 +456,8 @@ export default {
         {
           key: 'presForm',
           label: 'Presupuesto Formulado',
-          _style: { width: '8%' },
+          _style: { width: '8%'},
+      
         },
         {
           key: 'show_details',
@@ -566,9 +582,9 @@ export default {
         localStorage.getItem('id_Ayuntamiento'),
         localStorage.getItem('ano'),
       ).then((response) => {
-        this.formulado.alafecha = response.data.data.alaFecha
-        this.formulado.anO_ANT = response.data.data.anioAnt
-        this.formulado.preS_FORM = response.data.data.presForm
+        this.footerItem[1].label = this.formatPrice(response.data.data.alaFecha)
+        this.footerItem[2].label = this.formatPrice(response.data.data.anioAnt)
+        this.footerItem[3].label  = this.formatPrice(response.data.data.presForm)
       })
     },
 
@@ -806,6 +822,7 @@ export default {
   },
 
   created() {
+   
     this.getListarIngresos(), this.getTotales()
   },
 }
