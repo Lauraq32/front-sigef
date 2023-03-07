@@ -1,7 +1,7 @@
 <template>
   <h3 class="text-center">Documento por Pagar</h3>
-  <hr />
-  <div>
+ 
+  <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
         color="info"
@@ -19,7 +19,7 @@
       >
     </div>
   </div>
-  <hr />
+ 
   <CSmartTable
     clickableRows
     :tableProps="{

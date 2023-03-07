@@ -1,7 +1,7 @@
 <template>
   <h3 class="text-center">organismos</h3>
   <hr />
-  <div>
+  <div class="table-headers">
     <div class="d-inline p-2">
       <CButton style="font-weight: bold" color="info" @click="IngresoReport"
         >Imprimir</CButton

@@ -1,14 +1,12 @@
 <template>
   <h3 class="text-center">Fuentes Financiamiento</h3>
-  <hr />
-  <div>
+  <div class="table-headers">
     <div class="d-inline p-2">
       <CButton style="font-weight: bold" color="info" @click="IngresoReport"
         >Imprimir</CButton
       >
     </div>
   </div>
-  <hr />
   <CSmartTable
     clickableRows
     :tableProps="{
