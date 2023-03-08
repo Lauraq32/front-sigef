@@ -9,15 +9,24 @@
     --cui-sidebar-width: 22rem !important;
 }
 
-.sidebar:not(.sidebar-end) ~ * {
+.sidebar:not(.sidebar-end)~* {
     --cui-sidebar-occupy-start: 21rem;
 }
-// .sidebar-nav .nav-group-toggle {
-//     cursor: pointer;
-//     font-weight: bold;
-// }
+
+
 
 .table-headers {
     display: flex;
     justify-content: end;
+}
+
+.toast-header {
+    border-bottom: none;
+    background-color: inherit;
+}
+
+
+.fw-bold {
+    font-weight: 700;
+    color: black;
 }
