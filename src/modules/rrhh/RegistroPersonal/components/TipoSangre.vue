@@ -23,7 +23,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -190,7 +190,7 @@ export default {
 
     const validatedCustom01 = null
     const lgDemo = false
-
+    const lgDemow = false
     const store = useRegistroStore()
 
     const { getTipoSangres, tipoSangre } = store
@@ -209,71 +209,3 @@ export default {
   },
 }
 </script>
-
-<!-- <script>
-import { CSmartTable } from '@coreui/vue-pro'
-import { CModal } from '@coreui/vue'
-export default {
-  components: {
-    CSmartTable,
-    CModal,
-  },
-  data: () => {
-    return {
-      validatedCustom01: null,
-      lgDemo: false,
-      columns: [
-        { key: 'Código', label: 'Código', _style: { width: '40%' } },
-        {
-          key: 'Tipo de sangre',
-          label: 'Tipo de sangre',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
-        },
-      ],
-      details: [],
-    }
-  },
-  methods: {
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
-    },
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
-      }
-      this.details.push(item._id)
-    },
-  },
-  mounted() {
-    this.$store.dispatch('AdministrativoModule/getUsuarios')
-  },
-}
-</script> -->

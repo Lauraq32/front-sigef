@@ -1587,12 +1587,6 @@ export default {
       console.log('llamando')
     },
 
-    // alert() {
-    //   if (this.status == 500) {
-    //     this.Error
-    //   }
-    //   this.liveExampleVisible = true
-    // },
 
     deleteEmp(item) {
       setTimeout(this.getRegistroPersonal, 500)
