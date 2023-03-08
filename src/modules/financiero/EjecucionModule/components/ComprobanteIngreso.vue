@@ -156,7 +156,7 @@
       </td>
     </template>
     <template #totalValor="{ item }">
-      <td>
+      <td class="text-end">
         {{ formatPrice(item.totalValor) }}
       </td>
     </template>

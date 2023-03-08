@@ -45,12 +45,12 @@
       </td>
     </template>
     <template #totalRetenciones="{ item }">
-      <td>
+      <td class="text-end">
         {{ formatPrice(item.totalRetenciones) }}
       </td>
     </template>
     <template #valorNeto="{ item }">
-      <td>
+      <td class="text-end">
         {{ formatPrice(item.valorNeto) }}
       </td>
     </template>

@@ -56,6 +56,11 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
+  <template #sueldo="{ item }">
+      <td class="text-end">
+        {{this.formatPrice(item.sueldo)}}
+      </td>
+    </template>
     <template #posicion="{ item }">
       <td>
         {{ item.posicion.nombre }}
@@ -2534,16 +2539,20 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import Api from '../services/NominaServices'
 import router from '@/router'
 import moment from 'moment'
+import { formatPrice } from '../../../../utils/format'
+
 
 export default {
   components: {
     CSmartTable,
     CModal,
     moment,
+
   },
 
   data: () => {
     return {
+      formatPrice,
       fecha12: new Date(2015, 0, 11),
       reporteDepto: 1,
       reportes: false,
@@ -2848,6 +2857,7 @@ export default {
   },
 
   methods: {
+   
     arsCalculado() {
       if (this.postEmpleado.arsCalculado == false) {
         this.postEmpleado.arsFijo = 3.04
@@ -3481,6 +3491,7 @@ export default {
   },
 
   mounted() {
+    console.log(formatPrice(123))
     this.getEmpleado()
     Api.getProgramaDivision().then((response) => {
       this.programaDivision = response.data.data
