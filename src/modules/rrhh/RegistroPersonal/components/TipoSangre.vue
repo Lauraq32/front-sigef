@@ -190,7 +190,7 @@ export default {
 
     const validatedCustom01 = null
     const lgDemo = false
-    const lgDemow = false
+
     const store = useRegistroStore()
 
     const { getTipoSangres, tipoSangre } = store
