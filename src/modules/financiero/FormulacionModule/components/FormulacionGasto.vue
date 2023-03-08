@@ -46,7 +46,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    :footer="footerItem"
     header
     columnFilter
     :items="prepGastoList"
@@ -89,7 +89,7 @@
       </CCollapse>
     </template>
   </CSmartTable>
-  <div
+  <!-- <div
     class="font-weight-normal"
     style="font-weight: 100 !important; margin-top: -3%; float: left"
   >
@@ -106,7 +106,7 @@
     <span style="font-weight: 500 !important">{{
       formatPrice(formulado.preS_FORM)
     }}</span>
-  </div>
+  </div> -->
   <CModal
     size="xl"
     :visible="lgDemo"
@@ -314,7 +314,7 @@
             </CCollapse>
           </template>
         </CSmartTable>
-        <div
+        <!-- <div
           class="font-weight-normal"
           style="font-weight: 100 !important; margin-top: -3%; float: left"
         >
@@ -331,7 +331,7 @@
           <span style="font-weight: 500 !important">{{
             formatPrice(formulado.preS_FORM)
           }}</span>
-        </div>
+        </div> -->
       </CCardBody>
     </CModalBody>
   </CModal>
@@ -798,7 +798,7 @@
             </CForm>
           </CCardBody>
         </CModalBody>
-        <div
+        <!-- <div
           class="font-weight-normal"
           style="font-weight: 100 !important; margin-top: -3%; float: left"
         >
@@ -815,7 +815,7 @@
           <span style="font-weight: 500 !important">{{
             formatPrice(formulado.preS_FORM)
           }}</span>
-        </div>
+        </div> -->
       </div>
     </div>
   </CModal>
@@ -942,6 +942,25 @@ export default {
       lgDemo: false,
       lgDemo1: false,
       lgDemo2: false,
+      footerItem: [
+        {
+          label: '0',
+          _props: {
+            color: '',
+            colspan: 8,
+            style: 'font-weight:bold; text-align:right',
+          },
+        },
+      ,
+        {
+          label: '0',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold; text-align:right',
+          },
+        },
+      ],
       columns: [
         { key: 'pnap', label: 'Pnap', _style: { width: '10%' } },
         { key: 'programa', label: 'Programa', _style: { width: '10%' } },
