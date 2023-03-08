@@ -75,7 +75,6 @@
     </CModalFooter>
   </CModal>
   <CSmartTable
-    
     clickableRows
     :tableProps="{
      striped: true,
