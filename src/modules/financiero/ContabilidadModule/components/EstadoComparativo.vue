@@ -29,7 +29,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     key="ingreso.id"
     :items="ingresos"

@@ -53,7 +53,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     :items="registroPersonal"
     :columns="columns"

@@ -77,7 +77,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     :items="DepositoList"
     :columns="columns"

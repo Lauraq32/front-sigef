@@ -45,7 +45,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     :items="Empleado"
     :columns="columns"

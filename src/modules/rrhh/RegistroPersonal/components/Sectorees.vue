@@ -23,7 +23,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     :items="sectores"
     :columns="columns"

@@ -259,7 +259,7 @@
           }"
           :tableHeadProps="{}"
           :activePage="1"
-          footer
+          
           header
           :items="Bancos"
           :columns="columns3"

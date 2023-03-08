@@ -27,7 +27,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     columnFilter
     :items="this.$store.state.Formulacion.proyecto"

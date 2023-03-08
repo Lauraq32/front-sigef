@@ -29,7 +29,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     :items="ingresos"
     :columns="columns"
     itemsPerPageSelect
