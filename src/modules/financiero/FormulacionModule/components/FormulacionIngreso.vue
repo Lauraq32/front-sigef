@@ -86,28 +86,9 @@
         {{ formatPrice(item.presForm) }}
       </td>
     </template>
+ 
+    
 
-<<<<<<< HEAD
-=======
-    <template #ctgFuenteId="{ item }">
-      <td style="text-align: center">
-        {{ formatPrice(item.ctgFuenteId) }}
-      </td>
-    </template>
-
-    <template #ctgFuenteEspecificaId="{ item }">
-      <td style="text-align: center">
-        {{ formatPrice(item.ctgFuenteEspecificaId) }}
-      </td>
-    </template>
-
-    <template #ctgOrganismoFinanciadorId="{ item }">
-      <td style="text-align: center">
-        {{ formatPrice(item.ctgOrganismoFinanciadorId) }}
-      </td>
-    </template>
-
->>>>>>> 2fa8bd565f2373585ba80922614a8486b4f24c16
     <template #show_details="{ item }">
       <td class="py-1">
         <CButton
@@ -467,14 +448,11 @@ export default {
           key: 'ctgClasificadorId',
           label: 'Clasificador',
           _style: { width: '15%' },
-<<<<<<< HEAD
           filter: (values, onChange) => {
             return h('span', {
               size: 'sm',
             })
           },
-=======
->>>>>>> 2fa8bd565f2373585ba80922614a8486b4f24c16
         },
         {
           key: 'detalle',
@@ -526,11 +504,7 @@ export default {
           label: 'Presupuesto Formulado',
 
           filter: false,
-<<<<<<< HEAD
           _style: { width: '8%' },
-=======
-          _style: { width: '8%'},
->>>>>>> 2fa8bd565f2373585ba80922614a8486b4f24c16
         },
         {
           key: 'show_details',
@@ -657,6 +631,7 @@ export default {
       ).then((response) => {
         this.footerItem[1].label = this.formatPrice(response.data.data.alaFecha)
         this.footerItem[2].label = this.formatPrice(response.data.data.anioAnt)
+        this.footerItem[3].label = this.formatPrice(response.data.data.presForm)
         this.footerItem[3].label = this.formatPrice(response.data.data.presForm)
       })
     },
