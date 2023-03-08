@@ -361,7 +361,7 @@ export default {
   name: 'Fianciero',
   methods: {
     gotToPrueba() {
-      this.$router.push({ name: 'Formulacion Ingreso' })
+      this.$router.push({ name: 'Formulación Ingreso' })
     },
     gotToPrueba1() {
       this.$router.push({ name: 'categorias' })
