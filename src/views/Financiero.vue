@@ -358,7 +358,7 @@ export default {
       cilGarage,
     }
   },
-  name: 'Fianciero',
+  name: 'Financiero',
   methods: {
     gotToPrueba() {
       this.$router.push({ name: 'Formulación Ingreso' })

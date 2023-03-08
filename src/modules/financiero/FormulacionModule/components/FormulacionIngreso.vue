@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Formulación Ingreso</h3>
+  <h3 class="text-center">Formulaci&oacute; Ingreso</h3>
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
