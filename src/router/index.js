@@ -21,7 +21,7 @@ import PlanAnual from '../modules/Compras/PlanAnual/router'
 const routes = [
   {
     path: '/Home',
-    name: 'Home',
+    name: 'home',
     component: DefaultLayout,
     children: [
       {

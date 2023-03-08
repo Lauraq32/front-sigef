@@ -1,29 +1,26 @@
 <template>
-  <div>
-    <CToaster placement="top-end">
+  <!-- <div>
+    <CToaster :style="myStyleObject" placement="top-end">
       <CToast
-        color=""
         v-for="(toast, index) in toasts"
+        :color="toast.color"
         :key="index"
-        delay="3000"
+        :delay="toast.time ?? 6000"
       >
-        <CToastHeader closeButton
-          ><span class="me-auto fw-bold">{{ toast.title }}</span>
-          <small>{{ horaActual }}</small>
-        </CToastHeader>
-        <CToastBody style="font-weight: 700">
-          <CToastClose
-            component="CButton"
-            color="secondary"
-            size="sm"
-            class="ms-1"
-            >Close</CToastClose
-          >
-          {{ toast.content }}
-        </CToastBody>
+        <div class="d-flex flex-wrap">
+          <CToastBody style="font-weight: 700">
+            <span v-if="typeof toast.content === 'string'" v-html="toast.content"></span>
+            <div v-else-if="Array.isArray(toast.content)">
+              <span class="d-md-block" v-for="(msg, i) in toast.content" :key="i" v-html="`- ${msg}`"></span>
+            </div>
+          </CToastBody>
+          <CToastClose v-if="toast.close" class="me-2 m-auto" />
+        </div>
       </CToast>
     </CToaster>
-  </div>
+  </div> -->
+
+  <ToastStack :toasts="toasts" />
 
   <h3 class="text-center">Mantenimientos Empleados</h3>
 
@@ -36,7 +33,6 @@
           () => {
             openModal()
             clearModal1()
-            createToast()
           }
         "
         >Agregar</CButton
@@ -77,7 +73,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -173,17 +169,7 @@
     <CModalHeader>
       <CModalTitle>Formulario de empleados</CModalTitle>
     </CModalHeader>
-    <!-- <CAlert
-      color="primary"
-      :visible="liveExampleVisible"
-      dismissible
-      @close="
-        () => {
-          liveExampleVisible = false
-        }
-      "
-      >{{ Error }}</CAlert
-    > -->
+
     <CModalBody>
       <div class="row">
         <CNav variant="tabs" role="tablist">
@@ -1004,22 +990,26 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import Api from '../services/RegistroPersonalServices'
 import apiSectores from '../../../financiero/NominaModule/services/NominaServices'
 import moment from 'moment'
+import ToastStack from '../../../../components/ToastStack.vue'
 
 export default {
   components: {
     CSmartTable,
     CModal,
     moment,
+    ToastStack,
   },
 
   data: () => {
     return {
+      cambiar: false,
       horaActual: '',
       toasts: [],
+      code: null,
       show: false,
-
+      noEnviado: false,
       Error: '',
-      status: 0,
+      status: null,
       liveExampleVisible: false,
       reporteDepto: 1,
       reportes: false,
@@ -1183,19 +1173,20 @@ export default {
     ]),
 
     createToast() {
+      console.log('klk')
       if (this.status == 200) {
         this.toasts.push({
-          title: 'Mensage',
           content: this.Error,
           viseble: false,
           close: false,
         })
-
-        if (this.liveExampleVisible == true) {
-          this.toasts({
-            close: true,
-          })
-        }
+      } else {
+        this.toasts.push({
+          content: 'Error al intentar enviar el formulario',
+          //. viseble: false,
+          close: true,
+          color: 'danger',
+        })
       }
     },
 
@@ -1257,7 +1248,6 @@ export default {
 
     changePrograma(e) {
       Api.getDepartamentoByProgramaId(e.target.value).then((response) => {
-        Error
         this.departamentos = response.data.data
       })
     },
@@ -1307,7 +1297,17 @@ export default {
       })
     },
 
+    cambiarEstilo() {
+      if (this.cambiar == true) {
+        this.estilo = { backgroundColor: 'rgb(255, 100, 100)', color: 'black' }
+      } else {
+        this.estilo = {}
+      }
+      // Actualizar el objeto de estilo con los nuevos valores
+    },
+
     clearModal1() {
+      this.id = null
       this.postEmpleado = {
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         codigo: null,
@@ -1445,7 +1445,7 @@ export default {
       })
     },
     submitForm() {
-      if (this.id) {
+      if (this.id != null) {
         Api.putEmpleado(this.id, this.postEmpleado).then((response) => {
           this.lgDemo = false
           this.status = response.status
@@ -1556,11 +1556,20 @@ export default {
         setTimeout(this.getRegistroPersonal, 500)
       } else {
         setTimeout(this.getRegistroPersonal, 500)
-        Api.postEmpleado(this.postEmpleado).then((response) => {
-          this.status = response.status
-          this.Error = response.data.message
-          this.createToast()
-        })
+
+        Api.postEmpleado(this.postEmpleado)
+          .then((response) => {
+            this.status = response.status
+            this.createToast()
+          })
+          .catch((error) => {
+            console.error(error)
+            this.status = error.response.status
+            // this.noEnviado = error.message
+            // this.code = error.name
+            // console.log(this.noEnviado)
+            this.createToast()
+          })
 
         setTimeout(this.getRegistroPersonal, 500)
         //const form = event.currentTarget
@@ -1577,16 +1586,6 @@ export default {
         setTimeout(this.getRegistroPersonal, 500)
       }
     },
-
-    addFixedToast() {
-      liveExampleVisible = true
-    },
-
-    cerrarToas() {
-      this.liveExampleVisible = true
-      console.log('llamando')
-    },
-
 
     deleteEmp(item) {
       setTimeout(this.getRegistroPersonal, 500)
