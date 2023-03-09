@@ -1,10 +1,11 @@
 <template>
   <CToaster placement="top-end">
     <CToast
-      v-for="(toast, index) in toasts"
+      v-for="(toast) in messages"
       :color="toast.color"
-      :key="index"
-      :delay="toast.time ?? 6000"
+      :key="toast.id"
+      :delay="toast.time ?? 60000"
+      @close="toastStore.removeMessage(toast.id)"
     >
       <div class="d-flex flex-wrap">
         <CToastBody style="font-weight: 700">
@@ -21,19 +22,23 @@
             ></span>
           </div>
         </CToastBody>
-        <CToastClose v-if="toast.close" class="me-2 m-auto" />
+        <CToastClose v-if="toast.closable" class="me-2 m-auto"/>
       </div>
     </CToast>
   </CToaster>
 </template>
-
 <script>
+import { useToastStore } from '@/store/toast';
+import { computed } from 'vue';
 export default {
   name: 'ToastStack',
-  props: {
-    toast: {
-      type: Array,
-    },
-  },
+  setup() {
+    const toastStore = useToastStore();
+    const messages = computed(() => toastStore.messages)
+    return {
+      toastStore,
+      messages
+    }
+  }
 }
 </script>

@@ -20,7 +20,7 @@
     </CToaster>
   </div> -->
 
-  <ToastStack :toasts="toasts" />
+  <ToastStack color="success" time="6000" content="klk mmg" />
 
   <h3 class="text-center">Mantenimientos Empleados</h3>
 
@@ -991,6 +991,7 @@ import Api from '../services/RegistroPersonalServices'
 import apiSectores from '../../../financiero/NominaModule/services/NominaServices'
 import moment from 'moment'
 import ToastStack from '../../../../components/ToastStack.vue'
+import { useToastStore } from '@/store/toast'
 
 export default {
   components: {
@@ -999,14 +1000,13 @@ export default {
     moment,
     ToastStack,
   },
-
   data: () => {
     return {
       cambiar: false,
       horaActual: '',
       toasts: [],
       code: null,
-      show: false,
+      // show: false,
       noEnviado: false,
       Error: '',
       status: null,
@@ -1161,34 +1161,33 @@ export default {
   },
 
   computed: {
-    ...mapStores(useRegistroStore),
+    ...mapStores(useRegistroStore, useToastStore),
     ...mapState(useRegistroStore, ['registroPersonal', 'posicionCargo']),
   },
 
   methods: {
-    ...mapActions(useRegistroStore, [
-      'getRegistroPersonal',
-      'addRegistroPersonal',
-      'getPosicion',
-    ]),
+    ...mapActions(
+      useRegistroStore, ['getRegistroPersonal', 'addRegistroPersonal', 'getPosicion'],
+    ),
+    ...mapActions(
+      useToastStore, ['show']
+    ),
 
-    createToast() {
-      console.log('klk')
-      if (this.status == 200) {
-        this.toasts.push({
-          content: this.Error,
-          viseble: false,
-          close: false,
-        })
-      } else {
-        this.toasts.push({
-          content: 'Error al intentar enviar el formulario',
-          //. viseble: false,
-          close: true,
-          color: 'danger',
-        })
-      }
-    },
+    // createToast() {
+    //   if (this.status == 200) {
+    //     this.toasts.push({
+    //       content: this.Error,
+    //       viseble: false,
+    //       close: false,
+    //     })
+    //   } else {
+    //     this.toasts.push({
+    //       content: 'Error al intentar enviar el formulario',
+    //       close: true,
+    //       color: 'danger',
+    //     })
+    //   }
+    // },
 
     imprimirReporte() {
       if (this.reporteDepto.split('-')[0] == 1) {
@@ -1448,9 +1447,14 @@ export default {
       if (this.id != null) {
         Api.putEmpleado(this.id, this.postEmpleado).then((response) => {
           this.lgDemo = false
-          this.status = response.status
-          this.Error = response.data.message
-          this.createToast()
+          // this.status = response.status
+          // this.Error = response.data.message
+          // this.createToast()
+          this.show({
+            content: 'Oooooooooooooooooh',
+            closable: true,
+          })
+          
           setTimeout(this.getRegistroPersonal, 500)
           this.postEmpleado = {
             ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
@@ -1568,7 +1572,11 @@ export default {
             // this.noEnviado = error.message
             // this.code = error.name
             // console.log(this.noEnviado)
-            this.createToast()
+            this.show({
+            content: error.message,
+            closable: true,
+            color: 'danger'
+          })
           })
 
         setTimeout(this.getRegistroPersonal, 500)
@@ -1613,6 +1621,8 @@ export default {
   },
 
   mounted() {
+    
+
     setInterval(() => {
       this.horaActual = moment().format('HH:mm')
     }, 1000)
