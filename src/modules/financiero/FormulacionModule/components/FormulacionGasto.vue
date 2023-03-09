@@ -833,6 +833,7 @@ import { mapGetters } from 'vuex'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import XLSX from 'xlsx/xlsx.mjs'
 import router from '@/router'
+import { formatPrice } from '../../../../utils/format'
 export default {
   components: {
     CSmartTable,
@@ -944,7 +945,7 @@ export default {
       lgDemo2: false,
       footerItem: [
         {
-          label: '0',
+          label: formatPrice(0),
           _props: {
             color: '',
             colspan: 8,
@@ -953,7 +954,7 @@ export default {
         },
       ,
         {
-          label: '0',
+          label: formatPrice(0),
           _props: {
             color: '',
             colspan: 1,
