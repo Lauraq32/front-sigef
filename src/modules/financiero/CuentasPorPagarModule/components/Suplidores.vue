@@ -3,12 +3,12 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-      striped: false,
+     striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     columnFilter
     header
     :items="this.$store.state.Formulacion.clasificadores"

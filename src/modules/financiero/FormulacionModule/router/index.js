@@ -54,7 +54,7 @@ export default {
     },
     {
       path: 'formulacionIngreso',
-      name: 'Formulacion Ingreso',
+      name: 'Formulación Ingreso',
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FormulacionModule/components/FormulacionIngreso.vue'

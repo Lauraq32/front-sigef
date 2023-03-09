@@ -18,12 +18,12 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-      striped: false,
+     striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     columnFilter
     :items="this.$store.state.Formulacion.proyecto"

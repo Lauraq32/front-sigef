@@ -23,12 +23,12 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-      striped: false,
+     striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     :items="cabeceraGasto"
     :columns="columns"
@@ -45,12 +45,12 @@
       </td>
     </template>
     <template #totalRetenciones="{ item }">
-      <td>
+      <td class="text-end">
         {{ formatPrice(item.totalRetenciones) }}
       </td>
     </template>
     <template #valorNeto="{ item }">
-      <td>
+      <td class="text-end">
         {{ formatPrice(item.valorNeto) }}
       </td>
     </template>
@@ -409,7 +409,7 @@
         <CSmartTable
           clickableRows
           :tableProps="{
-            striped: false,
+           striped: true,
             hover: true,
           }"
           :tableHeadProps="{}"
@@ -808,7 +808,7 @@
         <CSmartTable
           clickableRows
           :tableProps="{
-            striped: false,
+           striped: true,
             hover: true,
           }"
           :tableHeadProps="{}"
@@ -915,7 +915,7 @@
         <CSmartTable
           clickableRows
           :tableProps="{
-            striped: false,
+           striped: true,
             hover: true,
           }"
           :tableHeadProps="{}"

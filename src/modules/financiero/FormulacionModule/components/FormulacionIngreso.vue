@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Formulación ingreso</h3>
+  <h3 class="text-center">Formulaci&oacute; Ingreso</h3>
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
@@ -23,11 +23,11 @@
       <CButton color="info" @click="downloadFile">Descargar</CButton>
     </div>
     <div class="p-2">
-      <CButton color="info" @click="goToGasto">Ir a Formulacion Gasto</CButton>
+      <CButton color="info" @click="goToGasto">Ir a Formulaci&oacute;n Gasto</CButton>
     </div>
     <div class="p-2">
       <label class="file-select">
-        <!-- We can't use a normal button element here, as it would become the target of the label. -->
+        <!-- We can't use a normal button element &ntilde; here, as it would become the target of the label. -->
         <div class="select-button">
           <!-- Display the filename if a file has been selected. -->
           <CIcon :icon="cilCloudUpload" size="m" />
@@ -44,7 +44,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-      striped: false,
+     striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -63,43 +63,31 @@
     pagination
   >
     <template #anioAnt="{ item }">
-      <td style="text-align: end">
+      <td class="text-end">
         {{ formatPrice(item.anioAnt) }}
       </td>
     </template>
+    <!-- <template #ctgClasificadorId-filter="{ item }">
+      <input type="date"/>
+      <td>{{ item.ctgClasificadorId }}</td>
+    </template> -->
     <template #instOtorga="{ item }">
-      <td style="text-align: end">
+      <td class="text-end">
         {{ formatPrice(item.instOtorga) }}
       </td>
     </template>
     <template #alaFecha="{ item }">
-      <td style="text-align: end">
+      <td class="text-end">
         {{ formatPrice(item.alaFecha) }}
       </td>
     </template>
     <template #presForm="{ item }">
-      <td style="text-align: end">
+      <td class="text-end">
         {{ formatPrice(item.presForm) }}
       </td>
     </template>
-
-    <template #ctgFuenteId="{ item }">
-      <td style="text-align: center">
-        {{ formatPrice(item.ctgFuenteId) }}
-      </td>
-    </template>
-
-    <template #ctgFuenteEspecificaId="{ item }">
-      <td style="text-align: center">
-        {{ formatPrice(item.ctgFuenteEspecificaId) }}
-      </td>
-    </template>
-
-    <template #ctgOrganismoFinanciadorId="{ item }">
-      <td style="text-align: center">
-        {{ formatPrice(item.ctgOrganismoFinanciadorId) }}
-      </td>
-    </template>
+ 
+    
 
     <template #show_details="{ item }">
       <td class="py-1">
@@ -366,7 +354,7 @@
   </CModal>
 </template>
 <script>
-import { CSmartTable } from '@coreui/vue-pro'
+import { CDateRangePicker, CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/FormulacionServices'
 import { mapActions, mapState } from 'vuex'
@@ -375,6 +363,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { CIcon } from '@coreui/icons-vue'
 import { cilCloudUpload } from '@coreui/icons-pro'
 import router from '@/router'
+import { h } from 'vue'
 export default {
   components: {
     CSmartTable,
@@ -459,6 +448,11 @@ export default {
           key: 'ctgClasificadorId',
           label: 'Clasificador',
           _style: { width: '15%' },
+          filter: (values, onChange) => {
+            return h('span', {
+              size: 'sm',
+            })
+          },
         },
         {
           key: 'detalle',
@@ -488,8 +482,18 @@ export default {
           filter: false,
           _style: { width: '8%' },
         },
-        { key: 'anioAnt', label: 'Año anterior', filter: false, _style: { width: '8%' } },
-        { key: 'alaFecha', label: 'A la Fecha', filter: false, _style: { width: '8%' } },
+        {
+          key: 'anioAnt',
+          label: 'Año anterior',
+          filter: false,
+          _style: { width: '8%' },
+        },
+        {
+          key: 'alaFecha',
+          label: 'A la Fecha',
+          filter: false,
+          _style: { width: '8%' },
+        },
         // {
         //   key: 'esT_ACTUAL',
         //   label: 'Estimado Actual',
@@ -500,7 +504,7 @@ export default {
           label: 'Presupuesto Formulado',
 
           filter: false,
-          _style: { width: '8%'},
+          _style: { width: '8%' },
         },
         {
           key: 'show_details',
@@ -627,6 +631,7 @@ export default {
       ).then((response) => {
         this.footerItem[1].label = this.formatPrice(response.data.data.alaFecha)
         this.footerItem[2].label = this.formatPrice(response.data.data.anioAnt)
+        this.footerItem[3].label = this.formatPrice(response.data.data.presForm)
         this.footerItem[3].label = this.formatPrice(response.data.data.presForm)
       })
     },

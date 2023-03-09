@@ -41,7 +41,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-      striped: false,
+     striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -58,7 +58,7 @@
     pagination
   >
     <template #totalPresupuesto="{ item }">
-      <td>
+      <td class="text-end">
         {{ formatPrice(item.totalPresupuesto) }}
       </td>
     </template>
@@ -262,12 +262,12 @@
         <CSmartTable
           clickableRows
           :tableProps="{
-            striped: false,
+           striped: true,
             hover: true,
           }"
           :tableHeadProps="{}"
           :activePage="1"
-          footer
+          
           header
           :items="detallePresGastos"
           :columns="columns2"
@@ -1065,7 +1065,7 @@ export default {
       this.getEstructura()
     },
     goToIngreso() {
-      router.push({ name: 'Formulacion Ingreso' })
+      router.push({ name: 'Formulación Ingreso' })
     },
 
     onFileChangeProyectos(event) {

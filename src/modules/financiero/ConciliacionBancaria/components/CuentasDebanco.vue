@@ -23,12 +23,12 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-      striped: false,
+     striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     columnFilter
     :items="Bancos"
@@ -45,12 +45,12 @@
       </td>
     </template>
     <template #balanceLibro="{ item }">
-      <td>
+      <td class="text-end">
         {{ formatPrice(item.balanceLibro) }}
       </td>
     </template>
     <template #balanceBanco="{ item }">
-      <td>
+      <td class="text-end">
         {{ formatPrice(item.balanceBanco) }}
       </td>
     </template>
