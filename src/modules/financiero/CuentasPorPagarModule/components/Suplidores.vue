@@ -8,7 +8,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     columnFilter
     header
     :items="this.$store.state.Formulacion.clasificadores"

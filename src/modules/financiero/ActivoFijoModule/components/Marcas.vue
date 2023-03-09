@@ -20,7 +20,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     :items="Marcas"
     :columns="columns"

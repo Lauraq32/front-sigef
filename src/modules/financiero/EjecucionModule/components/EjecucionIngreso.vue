@@ -11,7 +11,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     :items="ingresosList"
     :columns="columns"

@@ -28,7 +28,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     :items="areasTrabajo"
     :columns="columns"

@@ -34,7 +34,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     :items="activo"
     :columns="columns"
