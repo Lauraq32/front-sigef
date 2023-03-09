@@ -1,4 +1,5 @@
 <template>
+  <ToastStack color="success" />
   <h3 class="text-center">Recepcion</h3>
   <hr />
   <div>
@@ -18,7 +19,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -182,12 +183,14 @@ import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
 import Api from '../services/ActivoFijoServices'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
+import ToastStack from '../../../../components/ToastStack.vue'
+import { useToastStore } from '@/store/toast'
 
 export default {
   components: {
     CSmartTable,
     CModal,
+    ToastStack,
   },
 
   data: () => {
@@ -221,7 +224,6 @@ export default {
           _style: { width: '1%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
 
@@ -239,6 +241,7 @@ export default {
 
   methods: {
     ...mapActions(useRegistroStore, ['getRecepcion', 'addRecepcion']),
+    ...mapActions(useToastStore, ['show']),
 
     toggleDetails(item) {
       if (item.Recepcion !== 0 || item.variacion !== 0) {
@@ -285,14 +288,12 @@ export default {
         Api.putRecepcion(this.secuencial, this.postRecepcion).then(
           (response) => {
             this.lgDemo = false
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              text: 'Datos agregados con exito',
-              title: 'Agregado',
-              showConfirmButton: false,
-              timer: 1500,
+            this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'success',
             })
+
             setTimeout(this.getRecepcion, 500)
             this.postRecepcion = {
               secuencial: 0,
@@ -309,16 +310,22 @@ export default {
         )
         setTimeout(this.getRecepcion, 500)
       } else {
-        this.addRecepcion(this.postRecepcion)
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          text: 'Datos agregados con exito',
-          title: 'Agregado',
-          showConfirmButton: false,
-          timer: 1500,
-        })
-        //const form = event.currentTarget
+        Api.postRecepcion(this.postRecepcion)
+          .then((response) => {
+            this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'success',
+            })
+          })
+          .catch((error) => {
+            this.show({
+              content: error.message,
+              closable: true,
+              color: 'danger',
+            })
+          })
+
         this.lgDemo = true
         setTimeout(this.getRecepcion, 500)
         ;(this.postRecepcion = {

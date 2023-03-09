@@ -1,9 +1,10 @@
 <template>
+  <ToastStack color="success" />
   <h3 class="text-center">Beneficiarios</h3>
   <div class="table-headers">
     <div class="p-2">
       <CButton
-      style="font-weight: bold"
+        style="font-weight: bold"
         color="info"
         @click="
           () => {
@@ -17,7 +18,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -271,13 +272,15 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { mapActions, mapState } from 'pinia'
 import { mapStores } from 'pinia'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
+import ToastStack from '../../../../components/ToastStack.vue'
+import { useToastStore } from '@/store/toast'
 import Api from '../services/EjecucionServices'
 
 export default {
   components: {
     CSmartTable,
     CModal,
+    ToastStack,
   },
 
   data: () => {
@@ -354,6 +357,7 @@ export default {
       })
     },
     ...mapActions(useRegistroStore, ['getBeneficiarios', 'addBeneficiarios']),
+    ...mapActions(useToastStore, ['show']),
 
     close() {
       this.lgDemo = false
@@ -364,15 +368,11 @@ export default {
     },
 
     unaVez() {
-      // if (!this.runOnce) {
       this.focusInput()
-      // this.runOnce = true
-      // }
     },
 
     openModal() {
       this.lgDemo = true
-      // <input ref="name" type="text" class="form-control" v-model="postMarcas.nombre" id="exampleInputEmail1"  >
       setTimeout(this.unaVez, 200)
     },
 
@@ -420,12 +420,10 @@ export default {
         Api.putBeneficiarios(this.id, this.postBeneficiario).then(
           (response) => {
             this.lgDemo = false
-            this.$swal({
-              position: 'top-end',
-              icon: 'success',
-              title: response.data.message,
-              showConfirmButton: false,
-              timer: 1500,
+            this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'success',
             })
             setTimeout(this.getBeneficiarios, 500)
             this.postBeneficiario = {
@@ -452,7 +450,21 @@ export default {
         setTimeout(this.getBeneficiarios, 500)
       } else {
         this.getBeneficiarios()
-        this.addBeneficiarios(this.postBeneficiario)
+        Api.postBeneficiarios(this.postBeneficiario)
+          .then((response) => {
+            this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'success',
+            })
+          })
+          .catch((error) => {
+            this.show({
+              content: error.message,
+              closable: true,
+              color: 'danger',
+            })
+          })
         Swal.fire({
           position: 'top-end',
           icon: 'success',

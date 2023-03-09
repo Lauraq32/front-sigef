@@ -1,4 +1,5 @@
 <template>
+  <ToastStack color="success" />
   <h3 class="text-center">Area Ubicacion</h3>
   <hr />
   <div>
@@ -18,7 +19,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -148,13 +149,15 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { mapActions } from 'pinia'
 import Api from '../services/ActivoFijoServices'
+import ToastStack from '../../../../components/ToastStack.vue'
+import { useToastStore } from '@/store/toast'
 export default {
   components: {
     CSmartTable,
     CModal,
+    ToastStack,
   },
   data: () => {
     return {
@@ -177,7 +180,6 @@ export default {
           _style: { width: '1%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
       details: [],
@@ -191,18 +193,17 @@ export default {
 
   methods: {
     ...mapActions(useRegistroStore, ['getArea', 'addArea', 'putArea']),
+    ...mapActions(useToastStore, ['show']),
 
     submitForm() {
       if (this.id) {
         Api.putArea(this.id, this.postAreaUbicacion).then((response) => {
           this.lgDemo = false
-          this.$swal({
-            position: 'top-end',
-            icon: 'success',
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
+          this.show({
+            content: response.data.message,
+            closable: true,
           })
+
           setTimeout(this.getArea, 500)
           this.postAreaUbicacion = {
             id: 0,
@@ -216,15 +217,21 @@ export default {
       } else {
         setTimeout(this.getArea, 500)
         this.addArea(this.postAreaUbicacion)
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          text: 'Datos agregados con exito',
-          title: 'Agregado',
-          showConfirmButton: false,
-          timer: 1500,
-        })
-        //const form = event.currentTarget
+        Api.postArea(this.postAreaUbicacion)
+          .then((response) => {
+            this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'success',
+            })
+          })
+          .catch((error) => {
+            this.show({
+              content: error.message,
+              closable: true,
+              color: 'danger',
+            })
+          })
         this.lgDemo = true
         setTimeout(this.getArea, 500)
         ;(this.postAreaUbicacion = {

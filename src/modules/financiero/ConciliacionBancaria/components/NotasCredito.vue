@@ -1,4 +1,5 @@
 <template>
+  <ToastStack color="success" />
   <h3 class="text-center">Notas de Credito</h3>
   <hr />
   <div class="col-4 mb-3">
@@ -45,7 +46,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -256,7 +257,7 @@
         <CSmartTable
           clickableRows
           :tableProps="{
-           striped: true,
+            striped: true,
             hover: true,
           }"
           :tableHeadProps="{}"
@@ -328,14 +329,15 @@
 import Api from '../services/ConciliacionServices'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
-import { mapStores } from 'pinia'
-import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
+import ToastStack from '../../../../components/ToastStack.vue'
+import { useToastStore } from '@/store/toast'
+
 export default {
   components: {
     CSmartTable,
     CModal,
+    ToastStack,
   },
   data: () => {
     return {
@@ -425,6 +427,8 @@ export default {
   computed: {},
 
   methods: {
+    ...mapActions(useToastStore, ['show']),
+
     handleSubmitCustom01(event) {
       const form = event.currentTarget
       if (form.checkValidity() === false) {
@@ -468,18 +472,23 @@ export default {
       })
     },
     Guardar() {
-      Api.postNotaCredito(this.postDepositos).then((response) => {
-        console.log(response)
-      })
+      Api.postNotaCredito(this.postDepositos)
+        .then((response) => {
+          this.show({
+            content: response.data.message,
+            closable: true,
+            color: 'success',
+          })
+        })
+        .catch((error) => {
+          this.show({
+            content: error.message,
+            closable: true,
+            color: 'danger',
+          })
+        })
       setTimeout(this.getAllBancos, 500)
-      Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        text: 'Datos agregados con exito',
-        title: 'Agregado',
-        showConfirmButton: false,
-        timer: 1500,
-      })
+    
       this.clearModal1()
     },
     getSelectCuenta(BancoId, nombre) {

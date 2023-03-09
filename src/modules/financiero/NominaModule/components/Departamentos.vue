@@ -1,4 +1,5 @@
 <template>
+  <ToastStack color="success" />
   <h3 class="text-center">Departamentos</h3>
   <hr />
   <div>
@@ -18,7 +19,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -133,45 +134,6 @@
           :validated="validatedCustom01"
           @submit="handleSubmitCustom01"
         >
-          <!-- <div class="row"> -->
-          <!-- <div class="row">
-              <div class="col-6">
-                <CCol :md="6">
-                  <CFormLabel for="validationCustom02">Codigo</CFormLabel>
-                  <input
-                    disabled
-                    type="text"
-                    class="form-control"
-                    id="exampleInputEmail1"
-                  />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-              </div>
-              <div class="col-4" style="position: relative; left: -38px">
-                <CCol :md="5">
-                  <CFormLabel for="validationCustom02"
-                    >Id_Ayuntamiento</CFormLabel
-                  >
-                  <input
-                    disabled
-                    type="text"
-                    class="form-control"
-                    id="exampleInputEmail1"
-                  />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-              </div>
-            </div>
-          </div> -->
-
           <div class="row mt-3">
             <div class="col-6">
               <CFormLabel for="validationCustom02"> Código</CFormLabel>
@@ -217,7 +179,6 @@
                   ref="name"
                   style="position: relative; left: -39px; width: 268px"
                   type="text"
-         
                   class="form-control"
                   id="exampleInputEmail1"
                 />
@@ -236,7 +197,6 @@
               <CCol>
                 <CFormSelect
                   style="position: relative; left: -39px; width: 268px"
-                  
                   id="validationCustom05"
                   v-on:change="changeDepartamento($event)"
                 >
@@ -261,7 +221,6 @@
               <CCol>
                 <CFormSelect
                   style="position: relative; left: -39px; width: 268px"
-                  
                   id="validationCustom05"
                 >
                   <option
@@ -285,7 +244,6 @@
               <CCol>
                 <CFormSelect
                   style="position: relative; left: -39px; width: 268px"
-                  
                   id="validationCustom05"
                 >
                   <option
@@ -310,7 +268,6 @@
             <div class="col-6">
               <CCol :md="9">
                 <input
-                
                   style="position: relative; left: -39px"
                   type="text"
                   class="form-control"
@@ -477,12 +434,15 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
+import ToastStack from '../../../../components/ToastStack.vue'
+import { useToastStore } from '@/store/toast'
 import Api from '../services/NominaServices'
 
 export default {
   components: {
     CSmartTable,
     CModal,
+    ToastStack,
   },
   data: () => {
     return {
@@ -561,6 +521,7 @@ export default {
 
   methods: {
     ...mapActions(useRegistroStore, ['getDepartamentos', 'addDepartamento']),
+    ...mapActions(useToastStore, ['show']),
 
     close() {
       this.lgDemo = false
@@ -583,12 +544,10 @@ export default {
       if (this.id != null) {
         Api.putDepartamento(this.id, this.postDepartamento).then((response) => {
           this.lgDemo = false
-          this.$swal({
-            position: 'top-end',
-            icon: 'success',
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
+          this.show({
+            content: response.data.message,
+            closable: true,
+            color: 'success',
           })
           setTimeout(this.getArea, 500)
           this.postDepartamento = {
@@ -613,8 +572,22 @@ export default {
         setTimeout(this.getDepartamentos, 500)
       } else {
         setTimeout(this.getDepartamentos, 500)
-        this.addDepartamento(this.postDepartamento)
-        //const form = event.currentTarget
+        Api.postDepartamento(this.postDepartamento)
+          .then((response) => {
+            this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'success',
+            })
+          })
+          .catch((error) => {
+            this.show({
+              content: error.message,
+              closable: true,
+              color: 'danger',
+            })
+          })
+
         this.lgDemo = true
         setTimeout(this.getDepartamentos, 500)
         ;(this.postDepartamento = {

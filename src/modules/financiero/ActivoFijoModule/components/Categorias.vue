@@ -1,4 +1,5 @@
 <template>
+  <ToastStack color="success" />
   <h3 class="text-center">Categoria</h3>
   <div class="table-headers">
     <div class="p-2">
@@ -17,7 +18,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -165,12 +166,15 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
+import ToastStack from '../../../../components/ToastStack.vue'
+import { useToastStore } from '@/store/toast'
+
 import Api from '../services/ActivoFijoServices'
 export default {
   components: {
     CSmartTable,
     CModal,
+    ToastStack,
   },
   data: () => {
     return {
@@ -242,17 +246,15 @@ export default {
 
   methods: {
     ...mapActions(useRegistroStore, ['getCategoria', 'addCategoria']),
+    ...mapActions(useToastStore, ['show']),
 
     submitForm() {
       if (this.id) {
         Api.editCategoria(this.id, this.postCategorias).then((response) => {
           this.lgDemo = false
-          this.$swal({
-            position: 'top-end',
-            icon: 'success',
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
+          this.show({
+            content: response.data.message,
+            closable: true,
           })
           setTimeout(this.getCategoria, 500)
           this.postCategorias = {
@@ -282,16 +284,21 @@ export default {
         setTimeout(this.getCategoria, 500)
       } else {
         setTimeout(this.getCategoria, 500)
-        this.addCategoria(this.postCategorias)
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          text: 'Datos agregados con exito',
-          title: 'Agregado',
-          showConfirmButton: false,
-          timer: 1500,
-        })
-        //const form = event.currentTarget
+        Api.postCategoria(this.postCategorias)
+          .then((response) => {
+            this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'success',
+            })
+          })
+          .catch((error) => {
+            this.show({
+              content: error.message,
+              closable: true,
+              color: 'danger',
+            })
+          })
         this.lgDemo = true
         setTimeout(this.getCategoria, 500)
         ;(this.postCategorias = {

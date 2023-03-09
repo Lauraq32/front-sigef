@@ -1,9 +1,10 @@
 <template>
+  <ToastStack color="success" />
   <h3 class="text-center">Comprobante de gastos</h3>
   <div class="table-headers">
     <div class="p-2">
       <CButton
-      style="font-weight: bold"
+        style="font-weight: bold"
         color="info"
         @click="
           () => {
@@ -23,7 +24,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -123,19 +124,6 @@
             <div class="col-6">
               <div class="col-12">
                 <div class="row">
-                  <!-- <CCol :md="12">
-                    <CFormLabel for="validationCustom01">Comp No:</CFormLabel>
-                    <CFormInput
-                      v-model="postGasto.numeroComprobante"
-                      id="validationCustom01"
-                      required
-                    />
-
-                    <CFormFeedback valid> Exito! </CFormFeedback>
-                    <CFormFeedback invalid>
-                      Favor agregar el campo
-                    </CFormFeedback>
-                  </CCol> -->
                   <CCol :md="6">
                     <CFormLabel for="validationCustom04">Fecha</CFormLabel>
                     <CFormInput
@@ -330,49 +318,6 @@
                       Favor agregar el campo
                     </CFormFeedback>
                   </CCol>
-                  <!-- <CCol :md="12">
-                    <CFormLabel for="validationCustom01"
-                      >Cuenta de banco</CFormLabel
-                    >
-                    <CFormInput
-                      v-model="postGasto.bancoId"
-                      id="validationCustom01"
-                      required
-                    />
-
-                    <CFormFeedback valid> Exito! </CFormFeedback>
-                    <CFormFeedback invalid>
-                      Favor agregar el campo
-                    </CFormFeedback>
-                  </CCol> -->
-                  <!-- <CCol :md="12">
-                    <CFormLabel for="validationCustom01"
-                      >Total Retencion</CFormLabel
-                    >
-                    <CFormInput
-                      v-model="postGasto.totalRetenciones"
-                      id="validationCustom01"
-                      required
-                    />
-
-                    <CFormFeedback valid> Exito! </CFormFeedback>
-                    <CFormFeedback invalid>
-                      Favor agregar el campo
-                    </CFormFeedback>
-                  </CCol> -->
-                  <!-- <CCol :md="12">
-                    <CFormLabel for="validationCustom01">Valor Neto</CFormLabel>
-                    <CFormInput
-                      v-model="postGasto.valorNeto"
-                      id="validationCustom01"
-                      required
-                    />
-
-                    <CFormFeedback valid> Exito! </CFormFeedback>
-                    <CFormFeedback invalid>
-                      Favor agregar el campo
-                    </CFormFeedback>
-                  </CCol> -->
                   <CCol :md="12">
                     <CFormLabel for="validationCustom01">Detalle</CFormLabel>
                     <CFormTextarea
@@ -411,7 +356,7 @@
         <CSmartTable
           clickableRows
           :tableProps="{
-           striped: true,
+            striped: true,
             hover: true,
           }"
           :tableHeadProps="{}"
@@ -580,11 +525,6 @@
                         Favor agregar el campo
                       </CFormFeedback>
                     </CCol>
-                    <!-- <CCol :md="2">
-                      <button class="btn btn-primary" style="margin-top: 32px" v-on:click="getClasificador">
-                        Buscar
-                      </button>
-                    </CCol> -->
                   </div>
                 </div>
                 <div class="col-2">
@@ -813,7 +753,7 @@
         <CSmartTable
           clickableRows
           :tableProps="{
-           striped: true,
+            striped: true,
             hover: true,
           }"
           :tableHeadProps="{}"
@@ -923,7 +863,7 @@
         <CSmartTable
           clickableRows
           :tableProps="{
-           striped: true,
+            striped: true,
             hover: true,
           }"
           :tableHeadProps="{}"
@@ -981,14 +921,16 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/EjecucionServices'
 import ApiFormulacion from '../../FormulacionModule/services/FormulacionServices'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
 import SimpleTypeahead from 'vue3-simple-typeahead'
+import ToastStack from '../../../../components/ToastStack.vue'
+import { useToastStore } from '@/store/toast'
 export default {
   components: {
     CSmartTable,
     CModal,
     SimpleTypeahead,
+    ToastStack,
   },
 
   data: () => {
@@ -1200,6 +1142,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(useToastStore, ['show']),
     changeRetenciones(e) {
       Api.getTipoRetencionById(e.target.value).then((response) => {
         this.detaRetencionDto.beneficiarioId = response.data.data.beneficiarioId
@@ -1408,43 +1351,45 @@ export default {
         this.postGasto.bancoId = this.postGasto.bancoId.split('-')[0]
 
         // this.postGasto.tipoGastoId= 5,
-        Api.postRegistroGasto(this.postGasto).then((response) => {})
-        setTimeout(this.getCabecera, 500)
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          text: 'Datos agregados con exito',
-          title: 'Agregado',
-          showConfirmButton: false,
-          timer: 1500,
+        Api.postRegistroGasto(this.postGasto).then((response) => {
+          this.show({
+            content: response.data.message,
+            closable: true,
+            color: 'success',
+          })
         })
+        setTimeout(this.getCabecera, 500)
       } else {
         Api.putRegistroGasto(this.postGasto, this.cabeceraId).then(
-          (response) => {},
+          (response) => {
+            this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'success',
+            })
+          },
         )
         setTimeout(this.getCabecera, 500)
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          text: 'Datos Actualizado con exito',
-          title: 'Actualizado',
-          showConfirmButton: false,
-          timer: 1500,
-        })
       }
       event.preventDefault()
       event.stopPropagation()
     },
     postDetalle() {
-      Api.postGastoDetalle(this.postGastoDetalle).then((response) => {})
-      Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        text: 'Datos agregados con exito',
-        title: 'Agregado',
-        showConfirmButton: false,
-        timer: 1500,
-      })
+      Api.postGastoDetalle(this.postGastoDetalle)
+        .then((response) => {
+          this.show({
+            content: response.data.message,
+            closable: true,
+            color: 'success',
+          })
+        })
+        .catch((error) => {
+          this.show({
+            content: error.message,
+            closable: true,
+            color: 'danger',
+          })
+        })
       setTimeout(this.getCabecera(), 500)
     },
     getCabecera() {

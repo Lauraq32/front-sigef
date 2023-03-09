@@ -1,4 +1,5 @@
 <template>
+  <ToastStack color="success" />
   <h3 class="text-center">Posición o Cargo</h3>
   <hr />
   <div>
@@ -18,7 +19,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -119,11 +120,6 @@
                     v-model="postPosicionesCargo.id"
                     id="exampleInputEmail1"
                   />
-                  <!-- <CFormInput
-              v-model="postPosicionesCargo.nombre"
-              id="validationCustom02"
-              required
-            /> -->
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -142,11 +138,7 @@
                 v-model="postPosicionesCargo.nombre"
                 id="exampleInputEmail1"
               />
-              <!-- <CFormInput
-              v-model="postPosicionesCargo.nombre"
-              id="validationCustom02"
-              required
-            /> -->
+
               <CFormFeedback valid> Exito! </CFormFeedback>
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </CCol>
@@ -171,11 +163,7 @@
                     v-model="postPosicionesCargo.id"
                     id="exampleInputEmail1"
                   />
-                  <!-- <CFormInput
-              v-model="postPosicionesCargo.nombre"
-              id="validationCustom02"
-              required
-            /> -->
+
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -203,11 +191,6 @@
                     v-model="postPosicionesCargo.id"
                     id="exampleInputEmail1"
                   />
-                  <!-- <CFormInput
-              v-model="postPosicionesCargo.nombre"
-              id="validationCustom02"
-              required
-            /> -->
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -241,13 +224,15 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
+import ToastStack from '../../../../components/ToastStack.vue'
+import { useToastStore } from '@/store/toast'
 import Api from '../services/NominaServices'
 
 export default {
   components: {
     CSmartTable,
     CModal,
+    ToastStack,
   },
   data: () => {
     return {
@@ -272,7 +257,6 @@ export default {
           _style: { width: '1%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
       details: [],
@@ -289,6 +273,7 @@ export default {
 
   methods: {
     ...mapActions(useRegistroStore, ['getPocisions', 'addPocision']),
+    ...mapActions(useToastStore, ['show']),
 
     close() {
       this.lgDemo = false
@@ -351,12 +336,10 @@ export default {
       if (this.id) {
         Api.putPocision(this.id, this.postPosicionesCargo).then((response) => {
           this.lgDemo = false
-          this.$swal({
-            position: 'top-end',
-            icon: 'success',
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
+          this.show({
+            content: response.data.message,
+            closable: true,
+            color: 'success',
           })
           this.postPosicionesCargo = {
             id: 0,
@@ -369,16 +352,22 @@ export default {
         })
         setTimeout(this.getPocisions, 500)
       } else {
-        this.addPocision(this.postPosicionesCargo)
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          text: 'Datos agregados con exito',
-          title: 'Agregado',
-          showConfirmButton: false,
-          timer: 1500,
-        })
-        //const form = event.currentTarget
+        Api.postPocision(this.postPosicionesCargo)
+          .then((response) => {
+            this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'success',
+            })
+          })
+          .catch((error) => {
+            this.show({
+              content: error.message,
+              closable: true,
+              color: 'danger',
+            })
+          })
+
         this.lgDemo = true
         setTimeout(this.getPocisions, 500)
         ;(this.postPosicionesCargo = {

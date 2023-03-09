@@ -1,4 +1,5 @@
 <template>
+  <ToastStack color="success" />
   <h3 class="text-center">Grupo nomina</h3>
   <hr />
   <div>
@@ -18,7 +19,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -117,11 +118,6 @@
                   v-model="postGrupoNominas.id"
                   id="exampleInputEmail1"
                 />
-                <!-- <CFormInput
-              v-model="postPosicionesCargo.nombre"
-              id="validationCustom02"
-              required
-            /> -->
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
@@ -169,12 +165,15 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
+import ToastStack from '../../../../components/ToastStack.vue'
+import { useToastStore } from '@/store/toast'
 import Api from '../services/NominaServices'
 
 export default {
   components: {
     CSmartTable,
     CModal,
+    ToastStack,
   },
 
   data: () => {
@@ -198,7 +197,6 @@ export default {
           _style: { width: '1%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
 
@@ -216,17 +214,16 @@ export default {
 
   methods: {
     ...mapActions(useRegistroStore, ['getGNomina', 'addGrupoNomina']),
+    ...mapActions(useToastStore, ['show']),
 
     submitForm() {
       if (this.id) {
         Api.putGrupoNomina(this.id, this.postGrupoNominas).then((response) => {
           this.lgDemo = false
-          this.$swal({
-            position: 'top-end',
-            icon: 'success',
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
+          this.show({
+            content: response.data.message,
+            closable: true,
+            color: 'success',
           })
           setTimeout(this.getGNomina, 500)
           this.postGrupoNominas = {
@@ -238,8 +235,21 @@ export default {
         setTimeout(this.getGNomina, 500)
       } else {
         setTimeout(this.getGNomina, 500)
-        this.addGrupoNomina(this.postGrupoNominas)
-        //const form = event.currentTarget
+        Api.postGrupoNomina(this.postGrupoNominas)
+          .then((response) => {
+            this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'success',
+            })
+          })
+          .catch((error) => {
+            this.show({
+              content: error.message,
+              closable: true,
+              color: 'danger',
+            })
+          })
         this.lgDemo = true
         setTimeout(this.getGNomina, 500)
         ;(this.postGrupoNominas = {
@@ -304,72 +314,3 @@ export default {
   },
 }
 </script>
-
-<!-- <script>
-import { CSmartTable } from '@coreui/vue-pro'
-import { CModal } from '@coreui/vue'
-export default {
-  components: {
-    CSmartTable,
-    CModal,
-  },
-  data: () => {
-    return {
-      validatedCustom01: null,
-      lgDemo: false,
-      columns: [
-        { key: 'Código', label: 'Código', _style: { width: '40%' } },
-        {
-          key: 'Descripción',
-          label: 'Descripción',
-          _style: { width: '40%' },
-        },
-        { key: 'Estructura', label: 'Estructura', _style: { width: '40%' } },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
-        },
-      ],
-      details: [],
-    }
-  },
-  methods: {
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
-    },
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
-      }
-      this.details.push(item._id)
-    },
-  },
-  mounted() {
-    this.$store.dispatch('Formulacion/getProyectos')
-  },
-}
-</script> -->

@@ -1,26 +1,5 @@
 <template>
-  <!-- <div>
-    <CToaster :style="myStyleObject" placement="top-end">
-      <CToast
-        v-for="(toast, index) in toasts"
-        :color="toast.color"
-        :key="index"
-        :delay="toast.time ?? 6000"
-      >
-        <div class="d-flex flex-wrap">
-          <CToastBody style="font-weight: 700">
-            <span v-if="typeof toast.content === 'string'" v-html="toast.content"></span>
-            <div v-else-if="Array.isArray(toast.content)">
-              <span class="d-md-block" v-for="(msg, i) in toast.content" :key="i" v-html="`- ${msg}`"></span>
-            </div>
-          </CToastBody>
-          <CToastClose v-if="toast.close" class="me-2 m-auto" />
-        </div>
-      </CToast>
-    </CToaster>
-  </div> -->
-
-  <ToastStack color="success" time="6000" content="klk mmg" />
+  <ToastStack color="success" />
 
   <h3 class="text-center">Mantenimientos Empleados</h3>
 
@@ -1166,12 +1145,12 @@ export default {
   },
 
   methods: {
-    ...mapActions(
-      useRegistroStore, ['getRegistroPersonal', 'addRegistroPersonal', 'getPosicion'],
-    ),
-    ...mapActions(
-      useToastStore, ['show']
-    ),
+    ...mapActions(useRegistroStore, [
+      'getRegistroPersonal',
+      'addRegistroPersonal',
+      'getPosicion',
+    ]),
+    ...mapActions(useToastStore, ['show']),
 
     // createToast() {
     //   if (this.status == 200) {
@@ -1447,14 +1426,11 @@ export default {
       if (this.id != null) {
         Api.putEmpleado(this.id, this.postEmpleado).then((response) => {
           this.lgDemo = false
-          // this.status = response.status
-          // this.Error = response.data.message
-          // this.createToast()
           this.show({
-            content: 'Oooooooooooooooooh',
+            content: response.data.message,
             closable: true,
           })
-          
+
           setTimeout(this.getRegistroPersonal, 500)
           this.postEmpleado = {
             ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
@@ -1563,24 +1539,21 @@ export default {
 
         Api.postEmpleado(this.postEmpleado)
           .then((response) => {
-            this.status = response.status
-            this.createToast()
+            this.show({
+              content: response.data.message,
+              closable: true,
+            })
           })
           .catch((error) => {
-            console.error(error)
-            this.status = error.response.status
-            // this.noEnviado = error.message
-            // this.code = error.name
-            // console.log(this.noEnviado)
             this.show({
-            content: error.message,
-            closable: true,
-            color: 'danger'
-          })
+              content: error.message,
+              closable: true,
+              color: 'danger',
+            })
           })
 
         setTimeout(this.getRegistroPersonal, 500)
-        //const form = event.currentTarget
+
         this.lgDemo = true
         setTimeout(this.getRegistroPersonal, 500)
         ;(this.postEmpleado = {
@@ -1599,12 +1572,10 @@ export default {
       setTimeout(this.getRegistroPersonal, 500)
       Api.deleteEmpleado(item.id)
         .then((response) => {
-          this.$swal({
-            position: 'top-end',
-            icon: 'success',
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
+          this.show({
+            content: response.data.message,
+            closable: true,
+            color: 'success',
           })
           setTimeout(this.getRegistroPersonal, 500)
         })
@@ -1621,8 +1592,6 @@ export default {
   },
 
   mounted() {
-    
-
     setInterval(() => {
       this.horaActual = moment().format('HH:mm')
     }, 1000)

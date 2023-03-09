@@ -1,4 +1,5 @@
 <template>
+  <ToastStack color="success" />
   <h3 class="text-center">Direccion o Dependencias</h3>
   <hr />
   <div>
@@ -18,7 +19,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -99,12 +100,6 @@
                   v-model="postPrograma.id"
                   id="exampleInputEmail1"
                 />
-                <!-- <CFormInput
-              v-model="postPrograma.nombre"
-              id="validationCustom01"
-              required
-            /> -->
-
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
@@ -119,12 +114,6 @@
                   v-model="postPrograma.nombre"
                   id="exampleInputEmail1"
                 />
-                <!-- <CFormInput
-              v-model="postPrograma.nombre"
-              id="validationCustom01"
-              required
-            /> -->
-
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
@@ -171,12 +160,14 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
+import ToastStack from '../../../../components/ToastStack.vue'
+import { useToastStore } from '@/store/toast'
 import Api from '../services/NominaServices'
 export default {
   components: {
     CSmartTable,
     CModal,
+    ToastStack,
   },
   data: () => {
     return {
@@ -226,6 +217,7 @@ export default {
       'addProgramas',
       'putProgramas',
     ]),
+    ...mapActions(useToastStore, ['show']),
 
     close() {
       this.lgDemo = false
@@ -248,12 +240,10 @@ export default {
       if (this.id) {
         Api.putProgramaDivision(this.id, this.postPrograma).then((response) => {
           this.lgDemo = false
-          this.$swal({
-            position: 'top-end',
-            icon: 'success',
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
+          this.show({
+            content: response.data.message,
+            closable: true,
+            color: 'success',
           })
           setTimeout(this.getProgramas, 500)
           this.postPrograma = {
@@ -267,15 +257,21 @@ export default {
         setTimeout(this.getProgramas, 500)
       } else {
         setTimeout(this.getProgramas, 500)
-        this.addProgramas(this.postPrograma)
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          text: 'Datos agregados con exito',
-          title: 'Agregado',
-          showConfirmButton: false,
-          timer: 1500,
-        })
+        Api.postProgramaDivision(this.postPrograma)
+          .then((response) => {
+            this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'success',
+            })
+          })
+          .catch((error) => {
+            this.show({
+              content: error.message,
+              closable: true,
+              color: 'danger',
+            })
+          })
 
         this.lgDemo = true
         setTimeout(this.getArea, 500)

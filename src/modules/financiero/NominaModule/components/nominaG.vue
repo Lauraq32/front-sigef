@@ -1,4 +1,5 @@
 <template>
+   <ToastStack color="success" />
   <h3 class="text-center">Nomina general</h3>
   <hr />
 
@@ -103,17 +104,7 @@
       </div>
     </div>
 
-    <!-- <CButton
-      color="info"
-      @click="
-        () => {
-          klk()
-          clearModal1()
-          lgDemo1 = true
-        }
-      "
-      >Generar Nomina</CButton
-    > -->
+   
   </div>
 
   <hr />
@@ -165,17 +156,6 @@
       </td>
       </td>
 
-      <!-- <td class="py-1">
-        <CButton
-          class="mt-1"
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Imprimir' }}
-        </CButton>
-      </td> -->
     </template>
     <template #details="{ item }">
       <CCollapse :visible="this.details.includes(item._id)">
@@ -220,32 +200,7 @@
               Otros ingresos
             </CNavLink>
           </CNavItem>
-          <!-- <CNavItem>
-            <CNavLink
-              href="javascript:void(0);"
-              :active="tabPaneActiveKey === 3"
-              @click="
-                () => {
-                  tabPaneActiveKey = 3
-                }
-              "
-            >
-              Observación
-            </CNavLink>
-          </CNavItem> -->
-          <!-- <CNavItem>
-            <CNavLink
-              href="javascript:void(0);"
-              :active="tabPaneActiveKey === 4"
-              @click="
-                () => {
-                  tabPaneActiveKey = 4
-                }
-              "
-            >
-              Historial clínico
-            </CNavLink>
-          </CNavItem> -->
+      
           <CNavItem>
             <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 5" @click="
               () => {
@@ -1205,65 +1160,7 @@
                   </CFormFeedback>
                 </CCol>
               </div>
-              <!-- <div> -->
-              <!-- <CCol :md="5">
-                  <CFormLabel for="validationCustom01">PNAP</CFormLabel>
-                  <CFormInput id="validationCustom01" required />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol> -->
-              <!-- </div> -->
-              <!-- <div> -->
-              <!-- <CCol :md="5">
-                  <CFormLabel for="validationCustom01">Programa</CFormLabel>
-                  <CFormInput
-                    v-model="programid1"
-                    id="validationCustom01"
-                    required
-                  />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol> -->
-              <!-- </div> -->
-              <!-- <div>
-                <CCol :md="5">
-                  <CFormLabel for="validationCustom01">Sub-Programa</CFormLabel>
-                  <CFormInput id="validationCustom01" required />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-              </div>
-              <div>
-                <CCol :md="5">
-                  <CFormLabel for="validationCustom01">Proyecto</CFormLabel>
-                  <CFormInput id="validationCustom01" required />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-              </div> -->
-              <!-- <div>
-                <CCol :md="5">
-                  <CFormLabel for="validationCustom01">Actividad</CFormLabel>
-                  <CFormInput id="validationCustom01" required />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-              </div> -->
+            
               <div>
                 <CCol :md="5">
                   <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
@@ -1771,56 +1668,6 @@
             </div>
           </div>
 
-          <!-- <hr />
-          <div>
-            <p class="font-weight-bold">Nota (Encabezado Nomina):</p>
-            <CCol :md="7">
-              <CFormInput
-                id="validationCustom01"
-                required
-                placeholder="NOMINA DE PAGO DEL MES DE NOVIEMBRE DEL 2022"
-              />
-            </CCol>
-            <CCol :md="7">
-              <input
-                class="mt-2 form-control form-control-lg"
-                type="text"
-                aria-label=".form-control-lg example"
-              />
-            </CCol>
-            <div class="row">
-              <div class="col-3">
-                <button type="button" class="mt-2 btn btn-outline-dark">
-                  Procesar Nomina
-                </button>
-              </div>
-
-              <div class="form-check col-9 mt-2">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  value=""
-                  id="flexCheckDefault"
-                />
-                <label class="form-check-label" for="flexCheckDefault">
-                  Nomina de Regalia?
-                </label>
-              </div>
-            </div>
-
-            <div class="mt-3">
-              <button type="button" class="btn btn-outline-dark">
-                Imprimir Nomina
-              </button>
-            </div>
-
-            <div class="mt-3">
-              <button type="button" class="btn btn-outline-dark">
-                Emp. con descuento MAYOR a % del sueldo, segun Ley
-              </button>
-            </div>
-          </div> -->
-
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="closes">
               Close
@@ -1843,48 +1690,7 @@
       <CModalTitle>Consultar Nomina</CModalTitle>
     </CModalHeader>
     <CModalBody>
-      <!-- <CCol :md="12">
-        <CFormLabel for="validationCustom05">Programa</CFormLabel>
-        <CFormSelect
-          v-model="nominaGneral.ProgramaDivision"
-          id="validationCustom05"
-        >
-          <option
-            v-for="programa in this.programaDivision"
-            :key="programa.id"
-            :value="programa.id"
-            type="number"
-          >
-            {{ programa.id }}
-          </option>
-        </CFormSelect>
-        <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-      </CCol> -->
-      <!-- <CCol :md="6">
-        <CFormLabel for="validationCustom01">Programa division</CFormLabel>
-        <CFormInput
-          type="number"
-          v-model="nominaGneral.ProgramaDivision"
-          id="validationCustom01"
-          required
-        />
-
-        <CFormFeedback valid> Exito! </CFormFeedback>
-        <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-      </CCol>
-
-      <CCol :md="6">
-        <CFormLabel for="validationCustom01">Departamento</CFormLabel>
-        <CFormInput
-          type="number"
-          v-model="nominaGneral.DepartamentoId"
-          id="validationCustom01"
-          required
-        />
-
-        <CFormFeedback valid> Exito! </CFormFeedback>
-        <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-      </CCol> -->
+     
    
       
         <div class="row">
@@ -1900,14 +1706,7 @@
 
           <div class="col-6" style="position: relative;
     left: -218px;">
-            <!-- <CCol :md="7">
-              <CFormLabel for="validationCustom01">ProgramaDivicion</CFormLabel>
-              <CFormInput disabled v-model="getFiltro.programaDivisionId" id="validationCustom01" required />
-
-              <CFormFeedback valid> Exito! </CFormFeedback>
-              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-            </CCol> -->
-
+ 
             <CCol :md="7">
                   <CFormLabel for="validationCustom05">ProgramaDivicion</CFormLabel>
                   <CFormSelect
@@ -1942,16 +1741,7 @@
           </div>
 
           <div class="col-6" style="position: relative;left: -218px;">
-            <!-- <CCol :md="7">
-              <CFormLabel for="validationCustom01">Departamento</CFormLabel>
-              
-              <CFormInput  disabled  v-model="getFiltro.departamentoId"  id="validationCustom01"  required  />
-              
-               <CFormFeedback valid> Exito! </CFormFeedback>
-               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              
-            </CCol> -->
-
+   
             <CCol :md="7">
                   <CFormLabel for="validationCustom01">Departamento</CFormLabel>
                   <CFormSelect
@@ -1994,40 +1784,10 @@
              
           <CButton class="mt-3" style="background-color: #375b80;" color="primary" @click="imprimriPorDep">Imprimir Nomina</CButton>
 
-          <!-- <CCol :md="6">
-        <CFormLabel for="validationCustom01">Fecha</CFormLabel>
-        <CFormInput
-          type="date"
-          v-model="nominaGneral.fecha"
-          id="validationCustom01"
-          required
-        />
 
-        <CFormFeedback valid> Exito! </CFormFeedback>
-        <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-      </CCol>
-
-      <CCol :md="6">
-        <CFormLabel for="validationCustom01">Forma de pago</CFormLabel>
-        <CFormSelect v-model="nominaGneral.FormaPago" id="validationCustom05">
-          <option>BANCO</option>
-          <option>CHEQUE</option>
-        </CFormSelect>
-      </CCol>
-
-      <CCol :md="6">
-        <CFormLabel for="validationCustom01">Tipo de contracto</CFormLabel>
-        <CFormSelect
-          v-model="nominaGneral.TipoContrato"
-          id="validationCustom05"
-        >
-          <option>Tipo de contrato 1</option>
-          <option>Tipo de contrato 2</option>
-        </CFormSelect>
-      </CCol> -->
     </CModalBody>
     <CModalFooter>
-      <!-- <CButton @click="closess" color="secondary">Close</CButton> -->
+
     </CModalFooter>
     <CSmartTable clickableRows :tableProps="{
      striped: true,
@@ -2050,17 +1810,9 @@
           {{ formatDate(item.fechaIngreso) }}
         </td>
       </template>
-      <!-- <template #posicion="{ item }">
-        <td>
-          {{ item.posicion.nombre }}
-        </td>
-      </template> -->
+
       <template #show_details="{ item, index }">
-        <!-- <td >
-        <CButton color="primary" variant="outline" square size="sm" @click="toggleDetails(item, index)">
-            {{ Boolean(item._toggled) ?'Hide': 'Cons/Nom Empleado' }}
-          </CButton>
-        </td> -->
+     
 
         <td class="py-1">
       <td class="py-1">
@@ -2116,9 +1868,7 @@
     <CModalBody>
      
     </CModalBody>
-    <!-- <CModalFooter>
-      <CButton @click="closess" color="secondary">Close</CButton>
-    </CModalFooter> -->
+
     <CSmartTable clickableRows :tableProps="{
      striped: true,
       hover: true,
@@ -2127,12 +1877,7 @@
        itemsPerPageSelect :itemsPerPage="5" columnSorter 
       :sorterValue="{ column: 'status', state: 'asc' }" pagination :backdrop="false">
 
-      
-      <!-- <template #pocision="{ item }">
-        <td>
-          {{ item.posicion.nombre }}
-        </td>
-      </template> -->
+  
 
    
       <template #fecha="{ item }">
@@ -2140,36 +1885,13 @@
           {{ formatDate(item.fecha) }}
         </td>
       </template>
-      <!-- <template #posicion="{ item }">
-        <td>
-          {{ item.posicion.nombre }}
-        </td>
-      </template> -->
+    
       <template #show_details="{ item, index }">
         <td class="py-1">
-      <!-- <td class="py-1">
-        <CButton @click="toggleDetail2()" class="mt-1" color="primary" variant="outline" square size="sm">
-          {{ Boolean(item._toggled) ?'Hide': 'Imprimir' }}
-        </CButton>
-      </td> -->
-      <!-- <td class="py-1">
-        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="
-          () => {
-            clearModal2()
-            reportes = true
-            toggleDetail2(item)
-          }
-        ">
-          {{ Boolean(item._toggled) ?'Hide': 'Cons/Nomina' }}
-        </CButton>
-      </td> -->
+     
       </td>
         
-        <!-- <td class="py-2">
-          <CButton color="primary" variant="outline" square size="sm" @click="toggleDetails(item, index)">
-            {{ Boolean(item._toggled) ?'Hide': 'Imprimir volante' }}
-          </CButton>
-        </td> -->
+
       </template>
       <template #details="{ item }">
         <CCollapse :visible="this.details.includes(item._id)">
@@ -2197,7 +1919,8 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
+import ToastStack from '../../../../components/ToastStack.vue'
+import { useToastStore } from '@/store/toast'
 import Api from '../services/NominaServices'
 import router from '@/router'
 
@@ -2205,6 +1928,7 @@ export default {
   components: {
     CSmartTable,
     CModal,
+    ToastStack,
   },
 
   data: () => {
@@ -2511,11 +2235,7 @@ export default {
           label: 'Clasificador',
           _style: { width: '5%' },
         },
-        // {
-        //   key: 'Direccion o Dependencia',
-        //   label: 'Direccion o Dependencia',
-        //   _style: { width: '15%' },
-        // },
+
         {
           key: 'cantidadEmpleados',
           label: 'cantidad Empleados',
@@ -2602,36 +2322,14 @@ export default {
           label: '#CK',
           _style: { width: '5%' },
         },
-        // {
-        //   key: 'tipoContrato',
-        //   label: 'Tipo de contrato',
-        //   _style: { width: '5%' },
-        // },
-        // {
-        //   key: 'formaPago',
-        //   label: 'Forma de pago',
-        //   _style: { width: '5%' },
-        // },
-        // {
-        //   key: 'Direccion o Dependencia',
-        //   label: 'Direccion o Dependencia',
-        //   _style: { width: '15%' },
-        // },
-
-        // {
-        //   key: 'fechaIngreso',
-        //   label: 'Fecha Ingreso',
-        //   _style: { width: '2%' },
-        // },
-        // { key: 'sueldo', label: 'Sueldo', _style: { width: '1%' } },
-        // { key: 'sexo', label: 'Sexo', _style: { width: '1%' } },
+       
         {
           key: 'show_details',
           label: '',
           _style: { width: '1%' },
-          // filter: false,
+
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
+
         },
       ],
 
@@ -2676,47 +2374,12 @@ export default {
           _style: { width: '2%' },
         },
 
-        // {
-        //   key: 'sueldo',
-        //   label: 'Sueldo bruto',
-        //   _style: { width: '4%' },
-        // },
-        // { key: 'retenciones', label: 'Retenciones', _style: { width: '1%' } },
-        // {
-        //   key: 'noCheque',
-        //   label: '#CK',
-        //   _style: { width: '5%' },
-        // },
-        // {
-        //   key: 'tipoContrato',
-        //   label: 'Tipo de contrato',
-        //   _style: { width: '5%' },
-        // },
-        // {
-        //   key: 'formaPago',
-        //   label: 'Forma de pago',
-        //   _style: { width: '5%' },
-        // },
-        // {
-        //   key: 'Direccion o Dependencia',
-        //   label: 'Direccion o Dependencia',
-        //   _style: { width: '15%' },
-        // },
-
-        // {
-        //   key: 'fechaIngreso',
-        //   label: 'Fecha Ingreso',
-        //   _style: { width: '2%' },
-        // },
-        // { key: 'sueldo', label: 'Sueldo', _style: { width: '1%' } },
-        // { key: 'sexo', label: 'Sexo', _style: { width: '1%' } },
+        
         {
           key: 'show_details',
           label: '',
           _style: { width: '1%' },
-          // filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
 
@@ -2734,6 +2397,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(useToastStore, ['show']),
     getNominaGeneral() {
       Api.getnominaGeneral(this.nominaGneral).then((response) => {
         this.nominag = response.data.data
@@ -2979,12 +2643,10 @@ export default {
           (response) => {
   
             this.lgDemo = false
-            this.$swal({
-              position: 'top-end',
-              icon: 'success',
-              title: response.data.message,
-              showConfirmButton: false,
-              timer: 1500,
+            this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'success',
             })
 
             // setTimeout(this.getEmpleado, 500)
@@ -3053,11 +2715,20 @@ export default {
         )
         // setTimeout(this.getEmpleado, 500)
       } else {
-        Api.postConfiguracionNomina(this.postConfiguracionNomina).then(
-          (response) => {
-
-          },
-        )
+        Api.postConfiguracionNomina(this.postConfiguracionNomina).then((response) => {
+            this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'success',
+            })
+          })
+          .catch((error) => {
+            this.show({
+              content: error.message,
+              closable: true,
+              color: 'danger',
+            })
+          })
         Swal.fire({
           position: 'top-end',
           icon: 'success',
@@ -3133,23 +2804,18 @@ export default {
             (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
-        // setTimeout(this.getEmpleado, 500)
       }
     },
 
     submitForm() {
       if (this.id) {
         Api.putEmpleado(this.id, this.postEmpleado).then((response) => {
-
-          this.lgDemo = false
-          this.$swal({
-            position: 'top-end',
-            icon: 'success',
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
-          })
-
+          this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'success',
+            })
+            this.lgDemo = false
           setTimeout(this.getEmpleado, 500)
           this.postEmpleado = {
             id: 0,
@@ -3255,21 +2921,35 @@ export default {
         })
         setTimeout(this.getEmpleado, 500)
       } else {
-        this.addEmpleado(this.postEmpleado)
-        Api.postConfiguracionNomina(this.postConfiguracionNomina).then(
-          (response) => {
-  
-          },
-        )
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          text: 'Datos agregados con exito',
-          title: 'Agregado',
-          showConfirmButton: false,
-          timer: 1500,
-        })
-        //const form = event.currentTarget
+        Api.postEmpleado(this.postEmpleado).then((response) => {
+            this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'success',
+            })
+          })
+          .catch((error) => {
+            this.show({
+              content: error.message,
+              closable: true,
+              color: 'danger',
+            })
+          })
+        Api.postConfiguracionNomina(this.postConfiguracionNomina).then((response) => {
+            this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'success',
+            })
+          })
+          .catch((error) => {
+            this.show({
+              content: error.message,
+              closable: true,
+              color: 'danger',
+            })
+          })
+        
         this.lgDemo = true
         setTimeout(this.getEmpleado, 500)
           ; (this.postEmpleado = {

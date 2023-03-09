@@ -1,34 +1,8 @@
 <template>
+  <ToastStack color="success" />
   <h3 class="text-center">Empleado</h3>
   <hr />
   <div>
-    <!-- <div class="d-inline p-2">
-      <CButton
-        style="font-weight: bold"
-        color="info"
-        @click="
-          () => {
-            reportes = true
-          }
-        "
-        >Imprimir Reporte</CButton
-      >
-    </div>
-
-    <CButton
-      style="font-weight: bold"
-      class="ml-5"
-      color="info"
-      @click="
-        () => {
-          klk()
-          clearModal1()
-          lgDemo1 = true
-        }
-      "
-      >Generar Nomina</CButton
-    > -->
-
     <div class="d-inline p-2">
       <CButton @click="nominaGnerallink" style="font-weight: bold" color="info"
         >Consultar nomina</CButton
@@ -40,7 +14,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -144,32 +118,6 @@
               Otros ingresos
             </CNavLink>
           </CNavItem>
-          <!-- <CNavItem>
-            <CNavLink
-              href="javascript:void(0);"
-              :active="tabPaneActiveKey === 3"
-              @click="
-                () => {
-                  tabPaneActiveKey = 3
-                }
-              "
-            >
-              Observación
-            </CNavLink>
-          </CNavItem> -->
-          <!-- <CNavItem>
-            <CNavLink
-              href="javascript:void(0);"
-              :active="tabPaneActiveKey === 4"
-              @click="
-                () => {
-                  tabPaneActiveKey = 4
-                }
-              "
-            >
-              Historial clínico
-            </CNavLink>
-          </CNavItem> -->
           <CNavItem>
             <CNavLink
               href="javascript:void(0);"
@@ -1717,65 +1665,6 @@
                   </CFormFeedback>
                 </CCol>
               </div>
-              <!-- <div> -->
-              <!-- <CCol :md="5">
-                  <CFormLabel for="validationCustom01">PNAP</CFormLabel>
-                  <CFormInput id="validationCustom01" required />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol> -->
-              <!-- </div> -->
-              <!-- <div> -->
-              <!-- <CCol :md="5">
-                  <CFormLabel for="validationCustom01">Programa</CFormLabel>
-                  <CFormInput
-                    v-model="programid1"
-                    id="validationCustom01"
-                    required
-                  />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol> -->
-              <!-- </div> -->
-              <!-- <div>
-                <CCol :md="5">
-                  <CFormLabel for="validationCustom01">Sub-Programa</CFormLabel>
-                  <CFormInput id="validationCustom01" required />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-              </div>
-              <div>
-                <CCol :md="5">
-                  <CFormLabel for="validationCustom01">Proyecto</CFormLabel>
-                  <CFormInput id="validationCustom01" required />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-              </div> -->
-              <!-- <div>
-                <CCol :md="5">
-                  <CFormLabel for="validationCustom01">Actividad</CFormLabel>
-                  <CFormInput id="validationCustom01" required />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-              </div> -->
               <div>
                 <CCol :md="5">
                   <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
@@ -2436,57 +2325,6 @@
               </CTabContent>
             </div>
           </div>
-
-          <!-- <hr />
-          <div>
-            <p class="font-weight-bold">Nota (Encabezado Nomina):</p>
-            <CCol :md="7">
-              <CFormInput
-                id="validationCustom01"
-                required
-                placeholder="NOMINA DE PAGO DEL MES DE NOVIEMBRE DEL 2022"
-              />
-            </CCol>
-            <CCol :md="7">
-              <input
-                class="mt-2 form-control form-control-lg"
-                type="text"
-                aria-label=".form-control-lg example"
-              />
-            </CCol>
-            <div class="row">
-              <div class="col-3">
-                <button type="button" class="mt-2 btn btn-outline-dark">
-                  Procesar Nomina
-                </button>
-              </div>
-
-              <div class="form-check col-9 mt-2">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  value=""
-                  id="flexCheckDefault"
-                />
-                <label class="form-check-label" for="flexCheckDefault">
-                  Nomina de Regalia?
-                </label>
-              </div>
-            </div>
-
-            <div class="mt-3">
-              <button type="button" class="btn btn-outline-dark">
-                Imprimir Nomina
-              </button>
-            </div>
-
-            <div class="mt-3">
-              <button type="button" class="btn btn-outline-dark">
-                Emp. con descuento MAYOR a % del sueldo, segun Ley
-              </button>
-            </div>
-          </div> -->
-
           <div class="modal-footer">
             <button
               type="button"
@@ -2532,7 +2370,8 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
+import ToastStack from '../../../../components/ToastStack.vue'
+import { useToastStore } from '@/store/toast'
 import Api from '../services/NominaServices'
 import router from '@/router'
 import moment from 'moment'
@@ -2542,6 +2381,7 @@ export default {
     CSmartTable,
     CModal,
     moment,
+    ToastStack,
   },
 
   data: () => {
@@ -2850,6 +2690,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(useToastStore, ['show']),
     arsCalculado() {
       if (this.postEmpleado.arsCalculado == false) {
         this.postEmpleado.arsFijo = 3.04
@@ -3011,12 +2852,10 @@ export default {
         Api.putConfiguracionNomina(this.id, this.postConfiguracionNomina).then(
           (response) => {
             this.lgDemo = false
-            this.$swal({
-              position: 'top-end',
-              icon: 'success',
-              title: response.data.message,
-              showConfirmButton: false,
-              timer: 1500,
+            this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'success',
             })
 
             this.postConfiguracionNomina = {
@@ -3083,17 +2922,21 @@ export default {
           },
         )
       } else {
-        Api.postConfiguracionNomina(this.postConfiguracionNomina).then(
-          (response) => {},
-        )
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          text: 'Datos agregados con exito',
-          title: 'Agregado',
-          showConfirmButton: false,
-          timer: 1500,
-        })
+        Api.postConfiguracionNomina(this.postConfiguracionNomina)
+          .then((response) => {
+            this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'success',
+            })
+          })
+          .catch((error) => {
+            this.show({
+              content: error.message,
+              closable: true,
+              color: 'danger',
+            })
+          })
 
         this.lgDemo = true
         ;(this.postConfiguracionNomina = {
@@ -3167,15 +3010,13 @@ export default {
     submitForm() {
       if (this.id) {
         Api.putEmpleado(this.id, this.postEmpleado).then((response) => {
-          this.lgDemo = false
-          this.$swal({
-            position: 'top-end',
-            icon: 'success',
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
+          this.lgDemo = false.catch((error) => {
+            this.show({
+              content: error.message,
+              closable: true,
+              color: 'danger',
+            })
           })
-
           setTimeout(this.getEmpleado, 500)
           this.postEmpleado = {
             id: 0,
@@ -3281,7 +3122,21 @@ export default {
         })
         setTimeout(this.getEmpleado, 500)
       } else {
-        this.addEmpleado(this.postEmpleado)
+        Api.postEmpleado(this.postEmpleado)
+          .then((response) => {
+            this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'success',
+            })
+          })
+          .catch((error) => {
+            this.show({
+              content: error.message,
+              closable: true,
+              color: 'danger',
+            })
+          })
         Api.postConfiguracionNomina(this.postConfiguracionNomina).then(
           (response) => {},
         )

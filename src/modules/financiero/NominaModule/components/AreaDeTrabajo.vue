@@ -1,4 +1,5 @@
 <template>
+  <ToastStack color="success" />
   <h3 class="text-center">Areas de Trabajo</h3>
   <hr />
   <div>
@@ -18,7 +19,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -134,12 +135,15 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
+import ToastStack from '../../../../components/ToastStack.vue'
+import { useToastStore } from '@/store/toast'
 import Api from '../services/NominaServices'
+
 export default {
   components: {
     CSmartTable,
     CModal,
+    ToastStack,
   },
   data: () => {
     return {
@@ -181,6 +185,7 @@ export default {
       'addAreaTrabajo',
       'putAreaTrabajo',
     ]),
+    ...mapActions(useToastStore, ['show']),
 
     focusInput() {
       this.$refs.name.focus()
@@ -200,12 +205,10 @@ export default {
       if (this.id) {
         Api.putAreaTrabajo(this.id, this.postAreaTrabajo).then((response) => {
           this.lgDemo = false
-          this.$swal({
-            position: 'top-end',
-            icon: 'success',
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
+          this.show({
+            content: response.data.message,
+            closable: true,
+            color: 'success',
           })
           setTimeout(this.AreaTrabajo, 500)
           this.postAreaTrabajo = {
@@ -217,16 +220,22 @@ export default {
         })
         setTimeout(this.AreaTrabajo, 500)
       } else {
-        this.addAreaTrabajo(this.postAreaTrabajo)
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          text: 'Datos agregados con exito',
-          title: 'Agregado',
-          showConfirmButton: false,
-          timer: 1500,
-        })
-        //const form = event.currentTarget
+        Api.postAreaTrabajo(this.postAreaTrabajo)
+          .then((response) => {
+            this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'success',
+            })
+          })
+          .catch((error) => {
+            this.show({
+              content: error.message,
+              closable: true,
+              color: 'danger',
+            })
+          })
+
         this.lgDemo = true
         setTimeout(this.AreaTrabajo, 500)
         ;(this.postAreaTrabajo = {

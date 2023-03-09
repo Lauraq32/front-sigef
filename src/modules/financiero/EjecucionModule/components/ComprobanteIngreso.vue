@@ -1,4 +1,5 @@
 <template>
+  <ToastStack color="success" />
   <h3 class="text-center">Comprobantes de ingresos</h3>
   <div>
     <div class="table-headers">
@@ -134,7 +135,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -472,7 +473,7 @@
         <CSmartTable
           clickableRows
           :tableProps="{
-           striped: true,
+            striped: true,
             hover: true,
           }"
           :tableHeadProps="{}"
@@ -546,7 +547,8 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import axios from 'axios'
 import Api from '../services/EjecucionServices'
 import { mapStores, mapActions, mapState } from 'pinia'
-import { ref } from 'vue'
+import ToastStack from '../../../../components/ToastStack.vue'
+import { useToastStore } from '@/store/toast'
 import SimpleTypeahead from 'vue3-simple-typeahead'
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
 import router from '@/router'
@@ -556,6 +558,7 @@ export default {
     CSmartTable,
     CModal,
     SimpleTypeahead,
+    ToastStack,
   },
 
   data: () => {
@@ -676,6 +679,7 @@ export default {
     ...mapState(useEjecucionIngresoStore, ['ingresosList']),
   },
   methods: {
+    ...mapActions(useToastStore, ['show']),
     volver() {
       router.push({ name: 'Contribuyentes' })
     },
@@ -793,25 +797,19 @@ export default {
       if (this.id != null) {
         Api.putIngresoCabecera(this.id, this.ingresoPost)
           .then((response) => {
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              text: 'Datos Actualizado con exito',
-              title: 'Actualizado',
-              showConfirmButton: false,
-              timer: 1500,
+            this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'success',
             })
             this.clearModal2()
             setTimeout(this.getIngresos, 500)
           })
           .catch((error) => {
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              text: `${error.data.message}`,
-              title: 'Actualizado',
-              showConfirmButton: false,
-              timer: 1500,
+            this.show({
+              content: error.message,
+              closable: true,
+              color: 'danger',
             })
           })
       } else {
