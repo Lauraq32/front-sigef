@@ -19,7 +19,7 @@ export const SET_USER = (state, user) => {
         'nombre_usuario',
         response.data.data.usuario.nombre,
       )
-      localStorage.setItem('ano', response.data.data.anioFiscal.anioFiscalDate)
+      localStorage.setItem('ano', response.data.data.anioFiscal.id)
       localStorage.setItem(
         'id_Ayuntamiento',
         response.data.data.anioFiscal.ayuntamientoId,
