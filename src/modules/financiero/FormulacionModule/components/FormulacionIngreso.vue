@@ -62,11 +62,35 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
+
     <template #anioAnt="{ item }">
-      <td class="text-end">
-        {{ formatPrice(item.anioAnt) }}
+      <td class="text-center">
+        {{ item.anioAnt }}
       </td>
     </template>
+
+    <template #ctgFuenteEspecificaId="{ item }">
+      <td class="text-center">
+        {{ item. ctgFuenteEspecificaId }}
+      </td>
+    </template>
+
+   
+
+
+    <template #ctgFuenteId="{ item }">
+      <td class="text-center">
+        {{ item.ctgFuenteId }}
+      </td>
+    </template>
+
+    <template #ctgOrganismoFinanciadorId="{ item }">
+      <td class="text-center">
+        {{ item.ctgOrganismoFinanciadorId }}
+      </td>
+    </template>
+
+ 
     <!-- <template #ctgClasificadorId-filter="{ item }">
       <input type="date"/>
       <td>{{ item.ctgClasificadorId }}</td>
