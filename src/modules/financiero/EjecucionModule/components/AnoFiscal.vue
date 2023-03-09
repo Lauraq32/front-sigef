@@ -82,35 +82,46 @@
         <CForm
           class="row g-3 needs-validation"
           novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
         >
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Año Fiscal NO.</CFormLabel>
-            <CFormInput id="validationCustom01" required />
+          <CCol :md="12">
+            <CFormLabel >Año Fiscal NO.</CFormLabel>
+            <!-- <CFormInput disabled id="validationCustom01" required />
 
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          <CFormFeedback valid> Exito! </CFormFeedback>
+          <CFormFeedback invalid> Favor agregar el campo </CFormFeedback> -->
           </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02">Desde</CFormLabel>
-            <CFormInput id="validationCustom02" required />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+        
+        <CCol :md="6">
+          <CCol :md="12">
+            <CFormLabel>Fecha Inicio</CFormLabel>
+            <CFormInput name="fechaInicio" @change =changeDate($event) type="date" v-model="fechaInicial" />
           </CCol>
+          <CCol :md="12">
+            <CFormLabel >Fecha Final</CFormLabel>
+            <CFormInput name="fechaInicio" @change =changeDate($event) type="date" v-model="fechaFinal"> </CFormInput>
+          </CCol>
+        </CCol>
+        <CCol :md="6">
+          <CCol :md="12">
+            <CFormLabel >Comprobante Gasto</CFormLabel>
+            <CFormInput  v-model="postAnoFiscal.compGastos"> </CFormInput>
+          </CCol>
+          <CCol :md="12">
+            <CFormLabel
+              >Comprobante Ingreso</CFormLabel
+            >
+            <CFormInput v-model="postAnoFiscal.compIngresos"> </CFormInput>
+          </CCol>
+        </CCol>
+          
+          
           <CCol :md="3">
-            <CFormLabel for="validationCustom04">Hasta</CFormLabel>
-            <CFormInput type="date" id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom05">Estatus</CFormLabel>
-            <CFormSelect id="validationCustom05">
+            <CFormLabel>Estatus</CFormLabel>
+            <CFormSelect >
               <option>Activo</option>
-              <option>Inactivo</option>
+              <option>Abierto</option>
+              <option>Cerrado</option>
             </CFormSelect>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <div class="modal-footer">
             <button
@@ -118,7 +129,7 @@
               class="btn btn-secondary"
               data-bs-dismiss="modal"
             >
-              Close
+              Cancelar
             </button>
             <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
               Guardar
@@ -147,18 +158,20 @@ export default {
 
   data: () => {
     return {
+      fechaInicial: null,
+      fechaFinal: null,
       postAnoFiscal: {
         id: 0,
-        ayuntamientoId: 0,
-        compGastos: 0,
-        compIngresos: 0,
+        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+        compGastos: null,
+        compIngresos: null,
         estatus: null,
       },
 
       columns: [
         { key: 'Año Fiscal', label: 'Año Fiscal', _style: { width: '40%' } },
-        { key: 'Desde', label: 'Desde', _style: { width: '40%' } },
-        { key: 'Hasta', label: 'Hasta', _style: { width: '40%' } },
+        { key: 'Desde', label: 'Fecha Inicio', _style: { width: '40%' } },
+        { key: 'Hasta', label: 'Fecha Final', _style: { width: '40%' } },
         { key: 'Estatus', label: 'Estatus', _style: { width: '40%' } },
         {
           key: 'show_details',
@@ -184,6 +197,15 @@ export default {
   methods: {
     ...mapActions(useRegistroStore, ['getAnioFiscal', 'addAnioFiscal']),
 
+    changeDate (event) {
+      if(event.target.name == 'fechaInicio'){
+        this.postAnoFiscal.compGastos = new Date(event.target.value).getFullYear().toString().substring(2, 4) + '0000'
+        this.postAnoFiscal.compIngresos = new Date(event.target.value).getFullYear().toString().substring(2, 4) + '0000'
+      } 
+  console.log(event.target.name)
+},
+
+    
     toggleDetails(item) {
       if (this.details.includes(item._id)) {
         this.details = this.details.filter((_item) => _item !== item._id)
@@ -191,7 +213,6 @@ export default {
       }
       this.details.push(item._id)
     },
-
     getBadge(status) {
       switch (status) {
         case 'Active':
@@ -266,73 +287,9 @@ export default {
   },
 
   mounted() {
+    this.postAnoFiscal.compGastos
+  
     this.getAnioFiscal()
   },
 }
 </script>
-
-<!-- <script>
-import { CSmartTable } from '@coreui/vue-pro'
-import { CModal } from '@coreui/vue'
-export default {
-  components: {
-    CSmartTable,
-    CModal,
-  },
-  data: () => {
-    return {
-      validatedCustom01: null,
-      lgDemo: false,
-      columns: [
-        { key: 'Año Fiscal', label: 'Año Fiscal', _style: { width: '40%' } },
-        { key: 'Desde', label: 'Desde', _style: { width: '40%' } },
-        { key: 'Hasta', label: 'Hasta', _style: { width: '40%' } },
-        { key: 'Estatus', label: 'Estatus', _style: { width: '40%' } },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
-        },
-      ],
-      details: [],
-    }
-  },
-  methods: {
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
-    },
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
-      }
-      this.details.push(item._id)
-    },
-  },
-  mounted() {
-    this.$store.dispatch('Formulacion/getProyectos')
-  },
-}
-</script> -->
