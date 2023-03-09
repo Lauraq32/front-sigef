@@ -77,7 +77,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -1563,7 +1563,7 @@ export default {
         })
 
         setTimeout(this.getRegistroPersonal, 500)
-        //const form = event.currentTarget
+
         this.lgDemo = true
         setTimeout(this.getRegistroPersonal, 500)
         ;(this.postEmpleado = {
@@ -1586,7 +1586,6 @@ export default {
       this.liveExampleVisible = true
       console.log('llamando')
     },
-
 
     deleteEmp(item) {
       setTimeout(this.getRegistroPersonal, 500)
