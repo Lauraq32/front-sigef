@@ -2212,7 +2212,6 @@ export default {
 
       tabPaneActiveKey: 1,
       columns: [
-        // { key: 'E/B', label: 'E/B', _style: { width: '1%' } },
         { key: 'fecha', label: 'Fecha', _style: { width: '4%' } },
         {
           key: 'programaDivision',
@@ -2272,7 +2271,7 @@ export default {
           _style: { width: '1%' },
           // filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
+
         },
       ],
 
@@ -2806,6 +2805,7 @@ export default {
         event.stopPropagation()
       }
     },
+
 
     submitForm() {
       if (this.id) {
