@@ -1,4 +1,30 @@
 <template>
+  <div>
+    <CToaster placement="top-end">
+      <CToast
+        color=""
+        v-for="(toast, index) in toasts"
+        :key="index"
+        delay="3000"
+      >
+        <CToastHeader closeButton
+          ><span class="me-auto fw-bold">{{ toast.title }}</span>
+          <small>{{ horaActual }}</small>
+        </CToastHeader>
+        <CToastBody style="font-weight: 700">
+          <CToastClose
+            component="CButton"
+            color="secondary"
+            size="sm"
+            class="ms-1"
+            >Close</CToastClose
+          >
+          {{ toast.content }}
+        </CToastBody>
+      </CToast>
+    </CToaster>
+  </div>
+
   <h3 class="text-center">Mantenimientos Empleados</h3>
 
   <div class="table-headers">
@@ -9,6 +35,7 @@
           () => {
             openModal()
             clearModal1()
+            createToast()
           }
         "
         >Agregar</CButton
@@ -32,6 +59,7 @@
     <CModalHeader>
       <CModalTitle>Imprimir Reporte</CModalTitle>
     </CModalHeader>
+
     <CModalBody>
       <CFormSelect v-model="reporteDepto" id="validationCustom05">
         <option>1-Reporte empleados por nombre</option>
@@ -48,7 +76,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-      striped: false,
+     striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -142,6 +170,17 @@
     <CModalHeader>
       <CModalTitle>Formulario de empleados</CModalTitle>
     </CModalHeader>
+    <!-- <CAlert
+      color="primary"
+      :visible="liveExampleVisible"
+      dismissible
+      @close="
+        () => {
+          liveExampleVisible = false
+        }
+      "
+      >{{ Error }}</CAlert
+    > -->
     <CModalBody>
       <div class="row">
         <CNav variant="tabs" role="tablist">
@@ -158,15 +197,7 @@
               General
             </CNavLink>
           </CNavItem>
-          <!-- <CNavItem>
-            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 2" @click="
-              () => {
-                tabPaneActiveKey = 2
-              }
-            ">
-              Otros ingresos
-            </CNavLink>
-          </CNavItem> -->
+
           <CNavItem>
             <CNavLink
               href="javascript:void(0);"
@@ -193,15 +224,6 @@
               Historial clínico
             </CNavLink>
           </CNavItem>
-          <!-- <CNavItem>
-            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 5" @click="
-              () => {
-                tabPaneActiveKey = 5
-              }
-            ">
-              Acumulado anual
-            </CNavLink>
-          </CNavItem> -->
         </CNav>
         <CTabContent>
           <CTabPane
@@ -549,49 +571,6 @@
                     Favor agregar el campo
                   </CFormFeedback>
                 </CCol>
-                <!--                  
-                <CCol>
-                  <CFormLabel for="validationCustom05">Programa</CFormLabel>
-                  <CFormSelect
-                    v-model="programaId"
-                    id="validationCustom05"
-                    v-on:change="changePrograma($event)"
-                  >
-                    <option
-                      v-for="prog in this.programa"
-                      :key="prog.id"
-                      :value="prog.id"
-                    >
-                      {{ prog.nombre }}
-                    </option>
-                  </CFormSelect>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-              </div>
-              <div class="col-11">
-                <CCol :md="8">
-                  <CFormLabel for="validationCustom01">Departamento</CFormLabel>
-                  <CFormSelect
-                    v-model="postEmpleado.departamentoId"
-                    id="validationCustom05"
-                    v-on:change="changeDepartamento($event)"
-                  >
-                    <option
-                      v-for="departamento in departamentos"
-                      :key="departamento.id"
-                      :value="departamento.id"
-                    >
-                      {{ departamento.id }}
-                    </option>
-                  </CFormSelect>
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol> -->
 
                 <CCol :md="12">
                   <CFormLabel for="validationCustom05"
@@ -729,43 +708,7 @@
                     Favor agregar el campo
                   </CFormFeedback>
                 </CCol>
-
-                <!-- <h4>Retenciones de Ley</h4>
-
-                <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Impuestos S.R</CFormLabel
-                  >
-                  <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom02">ARS</CFormLabel>
-                  <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-
-                <CCol>
-                  <CFormLabel for="validationCustom02">AFP</CFormLabel>
-                  <CFormInput type="number" id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol> -->
               </div>
-
-              <!-- <div class="col-4 border p-3">
-                <div class="border" style="height: 40%"></div>
-                <h4>Guardar Imagen</h4>
-                <h4>Abrir Carpeta</h4>
-              </div> -->
 
               <div
                 class="col-2"
@@ -777,154 +720,7 @@
               </div>
             </div>
           </CTabPane>
-          <!-- <CTabPane role="tabpanel" aria-labelledby="profile-tab" :visible="tabPaneActiveKey === 2">
-            <div class="row">
-              <div class="col-4 border p-3">
-                <h3>Ingresos</h3>
-                <hr />
-                <CCol>
-                  <CFormLabel for="validationCustom01">Sueldo fijo:</CFormLabel>
-                  <CFormInput disabled id="validationCustom01" />
 
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Horas extras:</CFormLabel
-                  >
-                  <CFormInput disabled id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom01"
-                    >Serv. Especiales:</CFormLabel
-                  >
-                  <CFormInput disabled id="validationCustom01" />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Gastos de rep</CFormLabel
-                  >
-                  <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom01">Vacaciones</CFormLabel>
-                  <CFormInput id="validationCustom01" />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-              </div>
-              <div class="col-4 border p-3">
-                <h3>Retenciones</h3>
-                <hr />
-                <CCol>
-                  <CFormLabel for="validationCustom01">SFS ADIC.</CFormLabel>
-                  <CFormInput id="validationCustom01" />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom02">SFS COMP:</CFormLabel>
-                  <CFormInput disabled id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom01">COOPADOMU</CFormLabel>
-                  <CFormInput disabled id="validationCustom01" />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom02">IMRESCONDO</CFormLabel>
-                  <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-              </div>
-              <div class="col-4 border p-3">
-                <h3>Inf sobre el movimiento del registro</h3>
-                <hr />
-                <CCol>
-                  <CFormLabel for="validationCustom01"
-                    >Fecha adiciona</CFormLabel
-                  >
-                  <CFormInput type="date" id="validationCustom01" />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Usuario adiciona:</CFormLabel
-                  >
-                  <CFormInput disabled id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom01"
-                    >Fecha modifica:</CFormLabel
-                  >
-                  <CFormInput disabled id="validationCustom01" />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Usuario modifica</CFormLabel
-                  >
-                  <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Valores anteriores</CFormLabel
-                  >
-                  <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-              </div>
-            </div>
-          </CTabPane> -->
           <CTabPane
             role="tabpanel"
             aria-labelledby="contact-tab"
@@ -1180,140 +976,6 @@
               </div>
             </div>
           </CTabPane>
-
-          <!-- <CTabPane role="tabpanel" aria-labelledby="contact-tab" :visible="tabPaneActiveKey === 5">
-            <div class="row">
-              <div class="col-4 border">
-                <CCol>
-                  <CFormLabel for="validationCustom01">Enero</CFormLabel>
-                  <CFormInput id="validationCustom01" />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom02">Febrero</CFormLabel>
-                  <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom01">Marzo</CFormLabel>
-                  <CFormInput id="validationCustom01" />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom02">Abril</CFormLabel>
-                  <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-              </div>
-              <div class="col-4 border">
-                <CCol>
-                  <CFormLabel for="validationCustom01">Mayo</CFormLabel>
-                  <CFormInput id="validationCustom01" />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom02">Junio</CFormLabel>
-                  <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom01">Julio</CFormLabel>
-                  <CFormInput id="validationCustom01" />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom02">Agosto</CFormLabel>
-                  <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-              </div>
-              <div class="col-4 border">
-                <CCol>
-                  <CFormLabel for="validationCustom01">Septiembre</CFormLabel>
-                  <CFormInput id="validationCustom01" />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom02">Octubre</CFormLabel>
-                  <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom01">Noviembre</CFormLabel>
-                  <CFormInput id="validationCustom01" />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom02">Diciembre</CFormLabel>
-                  <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom01"
-                    >Valor regalia</CFormLabel
-                  >
-                  <CFormInput disabled id="validationCustom01" />
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom02"
-                    >Meses trabajados</CFormLabel
-                  >
-                  <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-              </div>
-            </div>
-          </CTabPane> -->
         </CTabContent>
       </div>
     </CModalBody>
@@ -1338,15 +1000,24 @@ import { mapActions } from 'pinia'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import Api from '../services/RegistroPersonalServices'
 import apiSectores from '../../../financiero/NominaModule/services/NominaServices'
+import moment from 'moment'
 
 export default {
   components: {
     CSmartTable,
     CModal,
+    moment,
   },
 
   data: () => {
     return {
+      horaActual: '',
+      toasts: [],
+      show: false,
+
+      Error: '',
+      status: 0,
+      liveExampleVisible: false,
       reporteDepto: 1,
       reportes: false,
       posicionCargo: [{}],
@@ -1357,157 +1028,6 @@ export default {
       sector: [{}],
       departamentos: [],
       postEmpleado: {
-        //General
-        // codigo: null,
-        // nombres:null,
-        // apellidos:null,
-        // tipoDocumento:null,
-        // cedula:null,
-        // direccion:null,
-        // sectorId:0,
-        // telefono:"",
-        // fechaNacimiento:new Date(Date.now()),
-        // lugarNacimiento:"",
-        // estadoCivil:"",
-        // sexo:0,
-        // dependientes:0,
-        // fechaIngreso:new Date(Date.now()),
-        // programaDivisionId:0,
-        // areaTrabajoId:0,
-        // posicionId:0,
-        // tipoContrato:"",
-        // turno:"",
-        // formaPago:"",
-        // sueldo:0,
-        // impuestoSobreRenta:0,
-        // arsFijo:0,
-        // afpfijo:0,
-
-        // //Observacion
-        // licenciaConducir:"",
-        // fechaExpiracionLicencia:new Date(Date.now()),
-        // fechaExpitaTarjeta:new Date(Date.now()),
-        // //HistorialClinico
-        // emergenciaNombre:"",
-        // emergenciaTelefono:"",
-        // emergenciaDireccion:"",
-        // emergenciaParentezco:"",
-
-        // //Acumulado anual
-        // eneroIngreso:0,
-        // febreroIngreso:0,
-        // marzoIngreso:0,
-        // abrilIngreso:0,
-        // mayoIngreso:0,
-        // junioIngreso:0,
-        // julioIngreso:0,
-        // agostoIngreso:0,
-        // septiembreIngreso:0,
-        // octubreIngreso:0,
-        // noviembreIngreso:0,
-        // diciembreIngreso:0,
-
-        //---------------------------------
-
-        // ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-        // codigo: null,
-        // nombres: null,
-        // apellidos: null,
-        // tipoDocumento: null,
-        // cedula: null,
-        // direccion: null,
-        // sectorId: 0,
-        // telefono: null,
-        // celular: null,
-        // fechaNacimiento: new Date(Date.now()),
-        // lugarNacimiento: null,
-        // estadoCivil: null,
-        // sexo: "M",
-        // dependientes: 0,
-        // fechaIngreso: new Date(Date.now()),
-        // fechaSalida: new Date(Date.now()),
-        // razonSalida: null,
-        // reemplear: true,
-        // fechaReingreso: new Date(Date.now()),
-        // departamentoId: 1,
-        // areaTrabajoId: 0,
-        // posicionId: 0,
-        // grupoOcupacional: null,
-        // tipoContrato: null,
-        // fechaInicioContrato: new Date(Date.now()),
-        // fechaFinContrato: new Date(Date.now()),
-        // turno: null,
-        // periodoPago: null,
-        // formaPago: null,
-        // numeroCuenta: null,
-        // fechaExpitaTarjeta: new Date(Date.now()),
-        // estatus: true,
-        // sueldo: 0,
-        // sueldoAnterior: 0,
-        // fechaSueldoAnterior: new Date(Date.now()),
-        // fechaUltimaNomina: new Date(Date.now()),
-        // inicioVacaciones: new Date(Date.now()),
-        // finVacaciones: new Date(Date.now()),
-        // activoNomina: true,
-        // ingreso2: 0,
-        // ingreso3: 0,
-        // ingreso4: 0,
-        // ingreso5: 0,
-        // ingreso6: 0,
-        // ingreso7: 0,
-        // ingreso8: 0,
-        // ingreso9: 0,
-        // ingreso10: 0,
-        // impuestoSobreRenta: 0,
-        // arsCalculado: true,
-        // arsFijo: 0,
-        // afpCalculado: true,
-        // afpFijo: 0,
-        // egresos4: 0,
-        // egresos5: 0,
-        // egresos6: 0,
-        // egresos7: 0,
-        // egresos8: 0,
-        // egresos9: 0,
-        // egresos10: 0,
-        // eneroIngreso: 0,
-        // febreroIngreso: 0,
-        // marzoIngreso: 0,
-        // abrilIngreso: 0,
-        // mayoIngreso: 0,
-        // junioIngreso: 0,
-        // julioIngreso: 0,
-        // agostoIngreso: 0,
-        // septiembreIngreso: 0,
-        // octubreIngreso: 0,
-        // noviembreIngreso: 0,
-        // diciembreIngreso: 0,
-        // observacion: null,
-        // discapacidad: null,
-        // emergenciaNombre: null,
-        // emergenciaTelefono: null,
-        // emergenciaTelefono2: null,
-        // emergenciaDireccion: null,
-        // emergenciaParentezco: null,
-        // tipoSangreId: 0,
-        // emergenciaAlergico: null,
-        // emergenciaDiabetico: null,
-        // emergenciaInsodepend: null,
-        // emergenciaPresionAlta: null,
-        // emergenciaPresionBaja: null,
-        // emergenciaEnTratamiento: null,
-        // emergenciaDiagnostico: null,
-        // licenciaConducir: null,
-        // fechaExpiracionLicencia: null,
-        // aplicaSasp: true,
-        // nivelEscolar: null,
-        // tituloObtenido: null,
-        // correoElectronico: null,
-        // correoElectronico2: null,
-        // recomendadoPor: null,
-
-        // ----------------------------------------
-
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         codigo: null,
         nombres: null,
@@ -1618,11 +1138,6 @@ export default {
           label: 'Programa',
           _style: { width: '20%' },
         },
-        // {
-        //   key: 'Direccion o Dependencia',
-        //   label: 'Direccion o Dependencia',
-        //   _style: { width: '40%' },
-        // },
         { key: 'posicion', label: 'Cargo', _style: { width: '10%' } },
         {
           key: 'fechaIngreso',
@@ -1642,7 +1157,6 @@ export default {
           _style: { width: '1%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
 
@@ -1664,6 +1178,23 @@ export default {
       'addRegistroPersonal',
       'getPosicion',
     ]),
+
+    createToast() {
+      if (this.status == 200) {
+        this.toasts.push({
+          title: 'Mensage',
+          content: this.Error,
+          viseble: false,
+          close: false,
+        })
+
+        if (this.liveExampleVisible == true) {
+          this.toasts({
+            close: true,
+          })
+        }
+      }
+    },
 
     imprimirReporte() {
       if (this.reporteDepto.split('-')[0] == 1) {
@@ -1723,6 +1254,7 @@ export default {
 
     changePrograma(e) {
       Api.getDepartamentoByProgramaId(e.target.value).then((response) => {
+        Error
         this.departamentos = response.data.data
       })
     },
@@ -1771,10 +1303,6 @@ export default {
         this.postEmpleado = response.data.data
       })
     },
-
-    // deleteItem(item){
-    //   Api.delete
-    // },
 
     clearModal1() {
       this.postEmpleado = {
@@ -1917,13 +1445,9 @@ export default {
       if (this.id) {
         Api.putEmpleado(this.id, this.postEmpleado).then((response) => {
           this.lgDemo = false
-          this.$swal({
-            position: 'top-end',
-            icon: 'success',
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
-          })
+          this.status = response.status
+          this.Error = response.data.message
+          this.createToast()
           setTimeout(this.getRegistroPersonal, 500)
           this.postEmpleado = {
             ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
@@ -2029,15 +1553,12 @@ export default {
         setTimeout(this.getRegistroPersonal, 500)
       } else {
         setTimeout(this.getRegistroPersonal, 500)
-        this.addRegistroPersonal(this.postEmpleado)
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          text: 'Datos agregados con exito',
-          title: 'Agregado',
-          showConfirmButton: false,
-          timer: 1500,
+        Api.postEmpleado(this.postEmpleado).then((response) => {
+          this.status = response.status
+          this.Error = response.data.message
+          this.createToast()
         })
+
         setTimeout(this.getRegistroPersonal, 500)
         //const form = event.currentTarget
         this.lgDemo = true
@@ -2053,6 +1574,16 @@ export default {
         setTimeout(this.getRegistroPersonal, 500)
       }
     },
+
+    addFixedToast() {
+      liveExampleVisible = true
+    },
+
+    cerrarToas() {
+      this.liveExampleVisible = true
+      console.log('llamando')
+    },
+
 
     deleteEmp(item) {
       setTimeout(this.getRegistroPersonal, 500)
@@ -2080,6 +1611,10 @@ export default {
   },
 
   mounted() {
+    setInterval(() => {
+      this.horaActual = moment().format('HH:mm')
+    }, 1000)
+
     this.getRegistroPersonal()
     Api.getPosicion().then((response) => {
       this.posicionCargo = response.data.data
@@ -2113,3 +1648,9 @@ export default {
   },
 }
 </script>
+
+<style>
+.toast {
+  background-color: rgb(208, 253, 208);
+}
+</style>

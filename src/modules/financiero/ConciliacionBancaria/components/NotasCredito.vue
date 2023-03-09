@@ -44,7 +44,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-      striped: false,
+     striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -253,7 +253,7 @@
         <CSmartTable
           clickableRows
           :tableProps="{
-            striped: false,
+           striped: true,
             hover: true,
           }"
           :tableHeadProps="{}"

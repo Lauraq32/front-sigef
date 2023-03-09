@@ -118,7 +118,7 @@
 
   <hr />
   <CSmartTable clickableRows :tableProps="{
-    striped: false,
+   striped: true,
     hover: true,
      
   }" :tableHeadProps="{}" :activePage="1" footer header :items="nominag" :columns="columns" columnFilter
@@ -2041,7 +2041,7 @@
       <!-- <CButton @click="closess" color="secondary">Close</CButton> -->
     </CModalFooter>
     <CSmartTable clickableRows :tableProps="{
-      striped: false,
+     striped: true,
       hover: true,
       
     }" :tableHeadProps="{}" :activePage="1" footer header :items="getEmpleadosDep" :columns="columns2"
@@ -2131,7 +2131,7 @@
       <CButton @click="closess" color="secondary">Close</CButton>
     </CModalFooter> -->
     <CSmartTable clickableRows :tableProps="{
-      striped: false,
+     striped: true,
       hover: true,
       
     }" :tableHeadProps="{}" :activePage="1" footer header :items="getEmpleadosDep1" :columns="columns3"

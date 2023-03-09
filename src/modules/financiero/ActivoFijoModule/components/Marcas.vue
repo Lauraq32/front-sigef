@@ -7,13 +7,15 @@
   </div> -->
   <div class="table-headers">
     <div class="p-2">
-      <CButton color="info" style="font-weight: bold" v-on:click="openModal">Agregar</CButton>
+      <CButton color="info" style="font-weight: bold" v-on:click="openModal"
+        >Agregar</CButton
+      >
     </div>
   </div>
   <CSmartTable
     clickableRows
     :tableProps="{
-      striped: false,
+     striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -53,6 +55,17 @@
     <CModalHeader>
       <CModalTitle>Marcas</CModalTitle>
     </CModalHeader>
+    <CAlert
+      color="primary"
+      :visible="liveExampleVisible"
+      dismissible
+      @close="
+        () => {
+          liveExampleVisible = false
+        }
+      "
+      >{{ Error }}</CAlert
+    >
     <CModalBody v-on:mousemove="closeModal()">
       <CCardBody>
         <CForm
@@ -114,7 +127,6 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
 import Api from '../services/ActivoFijoServices'
 
 export default {
@@ -125,6 +137,9 @@ export default {
 
   data: () => {
     return {
+      Error: '',
+      status: 0,
+      liveExampleVisible: false,
       modal: false,
       caca: false,
       runOnc: false,
@@ -223,6 +238,16 @@ export default {
       setTimeout(this.unaVez, 200)
     },
 
+    alert() {
+      if (this.status == 200) {
+        this.Error
+      } else {
+        this.Error = 'klk'
+      }
+
+      this.liveExampleVisible = true
+    },
+
     toggleDetails(item) {
       if (item.Marcas !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
@@ -266,13 +291,10 @@ export default {
       if (this.id) {
         Api.putMarca(this.id, this.postMarcas).then((response) => {
           this.lgDemo = false
-          this.$swal({
-            position: 'top-end',
-            icon: 'success',
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
-          })
+          this.status = response.status
+          this.Error = response.data.message
+          this.alert()
+          console.log(this.Error)
           setTimeout(this.getMarcas, 500)
           this.postMarcas = {
             id: 0,
@@ -283,15 +305,8 @@ export default {
         setTimeout(this.getMarcas, 500)
       } else {
         this.addMarcas(this.postMarcas)
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          text: 'Datos agregados con exito',
-          title: 'Agregado',
-          showConfirmButton: false,
-          timer: 1500,
-        })
-        //const form = event.currentTarget
+        this.alert()
+
         this.lgDemo = true
         setTimeout(this.getMarcas, 500)
         ;(this.postMarcas = {
