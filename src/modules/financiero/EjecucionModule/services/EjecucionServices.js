@@ -14,7 +14,7 @@ class Ejecucion {
 
     
     getAnioFiscal() {
-        return http.get('AnioFiscal')
+        return http.get(`anios-fiscales/?ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
     }
 
     getAnioFiscalbyid(id) {
@@ -95,7 +95,7 @@ class Ejecucion {
     //post
 
     postAnioFiscal(data) {
-        return http.post('AnioFiscal', data)
+        return http.post('anios-fiscales', data)
     }
 
     postBeneficiarios(data) {
@@ -129,8 +129,8 @@ class Ejecucion {
         return http.put(`Beneficiarios/${id}`, data)
     }
 
-    putAnioFiscal(id) {
-        return http.put(`AnioFiscal/${id}`)
+    putAnioFiscal(id, data) {
+        return http.put(`anios-fiscales/?ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}${id}`, data)
     }
 
     putRegistroGasto(data, id) {

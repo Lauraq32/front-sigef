@@ -34,9 +34,14 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
-    <template #status="{ item }">
+    <template #fechaInicial="{ item }">
       <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+        {{ formatDate(item.fechaInicial) }}
+      </td>
+    </template>
+    <template #fechaFinal="{ item }">
+      <td>
+        {{ formatDate(item.fechaFinal) }}
       </td>
     </template>
     <template #show_details="{ item, index }">
@@ -46,9 +51,9 @@
           variant="outline"
           square
           size="sm"
-          @click="toggleDetails(item, index)"
+          @click="toggleDetails(item)"
         >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
+          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
       </td>
     </template>
@@ -79,41 +84,47 @@
     </CModalHeader>
     <CModalBody>
       <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-        >
+        <CForm class="row g-3 needs-validation" novalidate>
           <CCol :md="12">
-            <CFormLabel >Año Fiscal NO.</CFormLabel>
+            <CFormLabel>Año Fiscal NO.</CFormLabel>
+            <CFormInput v-model="postAnoFiscal.anio" />
           </CCol>
-        
-        <CCol :md="6">
-          <CCol :md="12">
-            <CFormLabel>Fecha Inicio</CFormLabel>
-            <CFormInput name="fechaInicio" @change =changeDate($event) type="date" v-model="fechaInicial" />
+
+          <CCol :md="6">
+            <CCol :md="12">
+              <CFormLabel>Fecha Inicio</CFormLabel>
+              <CFormInput
+                name="fechaInicio"
+                @change="changeDate($event)"
+                type="date"
+                v-model="postAnoFiscal.fechaInicial"
+              />
+            </CCol>
+            <CCol :md="12">
+              <CFormLabel>Fecha Final</CFormLabel>
+              <CFormInput
+                name="fechaFinal"
+                @change="changeDate($event)"
+                type="date"
+                v-model="postAnoFiscal.fechaFinal"
+              >
+              </CFormInput>
+            </CCol>
           </CCol>
-          <CCol :md="12">
-            <CFormLabel >Fecha Final</CFormLabel>
-            <CFormInput name="fechaFinal" @change =changeDate($event) type="date" v-model="fechaFinal"> </CFormInput>
+          <CCol :md="6">
+            <CCol :md="12">
+              <CFormLabel>Comprobante Gasto</CFormLabel>
+              <CFormInput v-model="postAnoFiscal.compGastos"> </CFormInput>
+            </CCol>
+            <CCol :md="12">
+              <CFormLabel>Comprobante Ingreso</CFormLabel>
+              <CFormInput v-model="postAnoFiscal.compIngresos"> </CFormInput>
+            </CCol>
           </CCol>
-        </CCol>
-        <CCol :md="6">
-          <CCol :md="12">
-            <CFormLabel >Comprobante Gasto</CFormLabel>
-            <CFormInput  v-model="postAnoFiscal.compGastos"> </CFormInput>
-          </CCol>
-          <CCol :md="12">
-            <CFormLabel
-              >Comprobante Ingreso</CFormLabel
-            >
-            <CFormInput v-model="postAnoFiscal.compIngresos"> </CFormInput>
-          </CCol>
-        </CCol>
-          
-          
+
           <CCol :md="3">
             <CFormLabel>Estatus</CFormLabel>
-            <CFormSelect >
+            <CFormSelect v-model="postAnoFiscal.estatus">
               <option>Activo</option>
               <option>Abierto</option>
               <option>Cerrado</option>
@@ -127,7 +138,10 @@
             >
               Cancelar
             </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+            <button
+              class="btn btn-info btn-block mt-1"
+              v-on:click="submitForm"
+            >
               Guardar
             </button>
           </div>
@@ -138,7 +152,7 @@
 </template>
 
 <script>
-import { useRegistroStore } from '../store/Ejecucion/anioFiscal'
+// import { useRegistroStore } from '../store/Ejecucion/anioFiscal'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
@@ -154,21 +168,27 @@ export default {
 
   data: () => {
     return {
-      fechaInicial: null,
-      fechaFinal: null,
+      anioFiscal: [],
       postAnoFiscal: {
         id: 0,
         ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
         compGastos: null,
         compIngresos: null,
         estatus: null,
+        anio: 0,
+        fechaInicial: new Date(Date.now()),
+        fechaFinal: new Date(Date.now()),
       },
 
       columns: [
-        { key: 'Año Fiscal', label: 'Año Fiscal', _style: { width: '40%' } },
-        { key: 'Desde', label: 'Fecha Inicio', _style: { width: '40%' } },
-        { key: 'Hasta', label: 'Fecha Final', _style: { width: '40%' } },
-        { key: 'Estatus', label: 'Estatus', _style: { width: '40%' } },
+        { key: 'anio', label: 'Año Fiscal', _style: { width: '40%' } },
+        {
+          key: 'fechaInicial',
+          label: 'Fecha Inicio',
+          _style: { width: '40%' },
+        },
+        { key: 'fechaFinal', label: 'Fecha Final', _style: { width: '40%' } },
+        { key: 'estatus', label: 'Estatus', _style: { width: '40%' } },
         {
           key: 'show_details',
           label: '',
@@ -186,29 +206,40 @@ export default {
   },
 
   computed: {
-    ...mapStores(useRegistroStore),
-    ...mapState(useRegistroStore, ['anioFiscal']),
+    // ...mapStores(useRegistroStore),
+    // ...mapState(useRegistroStore, ['anioFiscal']),
   },
 
   methods: {
-    ...mapActions(useRegistroStore, ['getAnioFiscal', 'addAnioFiscal']),
+    // ...mapActions(useRegistroStore, ['getAnioFiscal', 'addAnioFiscal']),
 
-    changeDate ({target : {name, value}}) {
-      if(name == 'fechaInicio'){
-        const selectedDate = new Date(value);
-        const selectedYear = selectedDate.getFullYear().toString().substring(2, 4) + '0000';
-        this.postAnoFiscal.compGastos = selectedYear ;
-        this.postAnoFiscal.compIngresos = selectedYear;
-      } 
-},
-
-    
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
+    changeDate({ target: { name, value } }) {
+      if (name == 'fechaInicio') {
+        const selectedDate = new Date(value)
+        const selectedYear =
+          selectedDate.getFullYear().toString().substring(2, 4) + '0000'
+        this.postAnoFiscal.compGastos = selectedYear
+        this.postAnoFiscal.compIngresos = selectedYear
       }
-      this.details.push(item._id)
+    },
+    formatDate(fecha) {
+      return new Date(fecha).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      })
+    },
+    getAnioFiscalAll() {
+      Api.getAnioFiscal().then((response) => {
+        this.anioFiscal = response.data.data
+        console.log(response.data)
+      })
+    },
+    toggleDetails(item) {
+      this.id = item.id
+      this.postAnoFiscal = item
+      this.lgDemo = true
+      console.log('2', item)
     },
     getBadge(status) {
       switch (status) {
@@ -225,66 +256,51 @@ export default {
       }
     },
 
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
+    prueba() {
+      console.log('hola')
     },
-    submitForm() {
+
+    submitForm(event) {
+      event.preventDefault()
+        event.stopPropagation()
       if (this.id) {
         Api.putAnioFiscal(this.id, this.postAnoFiscal).then((response) => {
           this.lgDemo = false
-          this.$swal({
-            position: 'top-end',
-            icon: 'success',
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
-          })
-          this.getAnioFiscal()
+          // this.getAnioFiscal()
           this.postAnoFiscal = {
             id: 0,
-            nombre: null,
-            variacion: 0,
-            ayuntamientoId: 0,
-            ayuntamiento: {
-              id: 0,
-              secuencial: 0,
-              codigo: null,
-              descripcion: null,
-            },
+            ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+            compGastos: null,
+            compIngresos: null,
+            estatus: null,
+            anio: 0,
+            fechaInicial: new Date(Date.now()),
+            fechaFinal: new Date(Date.now()),
           }
         })
-        this.getAnioFiscal()
+        // this.getAnioFiscal()
       } else {
-        this.addAnioFiscal(this.postAnoFiscal)
-        //const form = event.currentTarget
-        this.lgDemo = true
-        this.getAnioFiscal()
-        ;(this.postAnoFiscal = {
-          id: 0,
-          nombre: null,
-          ayuntamientoId: 0,
-          ayuntamiento: {
+        Api.postAnioFiscal(this.postAnoFiscal)
+        (this.lgDemo = true(
+          // this.getAnioFiscal()
+          (this.postAnoFiscal = {
             id: 0,
-            secuencial: 0,
-            codigo: null,
-            descripcion: null,
-          },
-        }),
-          (this.validatedCustom01 = false)
-        event.preventDefault()
-        event.stopPropagation()
-        this.getAnioFiscal()
+            ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+            compGastos: null,
+            compIngresos: null,
+            estatus: null,
+            anio: 0,
+            fechaInicial: new Date(Date.now()),
+            fechaFinal: new Date(Date.now()),
+          }),
+        )),
+          this.getAnioFiscalAll()
       }
     },
   },
 
   mounted() {
-    this.getAnioFiscal()
+    this.getAnioFiscalAll()
   },
 }
 </script>
