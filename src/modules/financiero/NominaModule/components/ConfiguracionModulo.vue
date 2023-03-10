@@ -24,12 +24,12 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-      striped: false,
+     striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     :items="ingresos"
     :columns="columns"
     itemsPerPageSelect

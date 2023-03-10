@@ -134,12 +134,12 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-      striped: false,
+     striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     :items="ingresosList"
     :columns="columns"
@@ -156,7 +156,7 @@
       </td>
     </template>
     <template #totalValor="{ item }">
-      <td>
+      <td class="text-end">
         {{ formatPrice(item.totalValor) }}
       </td>
     </template>
@@ -470,7 +470,7 @@
         <CSmartTable
           clickableRows
           :tableProps="{
-            striped: false,
+           striped: true,
             hover: true,
           }"
           :tableHeadProps="{}"

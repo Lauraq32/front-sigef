@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Formulación ingreso</h3>
+  <h3 class="text-center">Formulaci&oacute;n Ingreso</h3>
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
@@ -23,11 +23,11 @@
       <CButton color="info" @click="downloadFile">Descargar</CButton>
     </div>
     <div class="p-2">
-      <CButton color="info" @click="goToGasto">Ir a Formulacion Gasto</CButton>
+      <CButton color="info" @click="goToGasto">Ir a Formulaci&oacute;n Gasto</CButton>
     </div>
     <div class="p-2">
       <label class="file-select">
-        <!-- We can't use a normal button element here, as it would become the target of the label. -->
+        <!-- We can't use a normal button element &ntilde; here, as it would become the target of the label. -->
         <div class="select-button">
           <!-- Display the filename if a file has been selected. -->
           <CIcon :icon="cilCloudUpload" size="m" />
@@ -44,7 +44,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-      striped: false,
+     striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -62,27 +62,51 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
+
     <template #anioAnt="{ item }">
-      <td style="text-align: end">
-        {{ formatPrice(item.anioAnt) }}
+      <td class="text-center">
+        {{ item.anioAnt }}
       </td>
     </template>
+
+    <template #ctgFuenteEspecificaId="{ item }">
+      <td class="text-center">
+        {{ item. ctgFuenteEspecificaId }}
+      </td>
+    </template>
+
+   
+
+
+    <template #ctgFuenteId="{ item }">
+      <td class="text-center">
+        {{ item.ctgFuenteId }}
+      </td>
+    </template>
+
+    <template #ctgOrganismoFinanciadorId="{ item }">
+      <td class="text-center">
+        {{ item.ctgOrganismoFinanciadorId }}
+      </td>
+    </template>
+
+ 
     <!-- <template #ctgClasificadorId-filter="{ item }">
       <input type="date"/>
       <td>{{ item.ctgClasificadorId }}</td>
     </template> -->
     <template #instOtorga="{ item }">
-      <td style="text-align: end">
+      <td class="text-end">
         {{ formatPrice(item.instOtorga) }}
       </td>
     </template>
     <template #alaFecha="{ item }">
-      <td style="text-align: end">
+      <td class="text-end">
         {{ formatPrice(item.alaFecha) }}
       </td>
     </template>
     <template #presForm="{ item }">
-      <td style="text-align: end">
+      <td class="text-end">
         {{ formatPrice(item.presForm) }}
       </td>
     </template>

@@ -41,12 +41,12 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-      striped: false,
+     striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    :footer="footerItem"
     header
     columnFilter
     :items="prepGastoList"
@@ -58,7 +58,7 @@
     pagination
   >
     <template #totalPresupuesto="{ item }">
-      <td>
+      <td class="text-end">
         {{ formatPrice(item.totalPresupuesto) }}
       </td>
     </template>
@@ -89,7 +89,7 @@
       </CCollapse>
     </template>
   </CSmartTable>
-  <div
+  <!-- <div
     class="font-weight-normal"
     style="font-weight: 100 !important; margin-top: -3%; float: left"
   >
@@ -106,7 +106,7 @@
     <span style="font-weight: 500 !important">{{
       formatPrice(formulado.preS_FORM)
     }}</span>
-  </div>
+  </div> -->
   <CModal
     size="xl"
     :visible="lgDemo"
@@ -262,12 +262,12 @@
         <CSmartTable
           clickableRows
           :tableProps="{
-            striped: false,
+           striped: true,
             hover: true,
           }"
           :tableHeadProps="{}"
           :activePage="1"
-          footer
+          
           header
           :items="detallePresGastos"
           :columns="columns2"
@@ -314,7 +314,7 @@
             </CCollapse>
           </template>
         </CSmartTable>
-        <div
+        <!-- <div
           class="font-weight-normal"
           style="font-weight: 100 !important; margin-top: -3%; float: left"
         >
@@ -331,7 +331,7 @@
           <span style="font-weight: 500 !important">{{
             formatPrice(formulado.preS_FORM)
           }}</span>
-        </div>
+        </div> -->
       </CCardBody>
     </CModalBody>
   </CModal>
@@ -798,7 +798,7 @@
             </CForm>
           </CCardBody>
         </CModalBody>
-        <div
+        <!-- <div
           class="font-weight-normal"
           style="font-weight: 100 !important; margin-top: -3%; float: left"
         >
@@ -815,7 +815,7 @@
           <span style="font-weight: 500 !important">{{
             formatPrice(formulado.preS_FORM)
           }}</span>
-        </div>
+        </div> -->
       </div>
     </div>
   </CModal>
@@ -833,6 +833,7 @@ import { mapGetters } from 'vuex'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import XLSX from 'xlsx/xlsx.mjs'
 import router from '@/router'
+import { formatPrice } from '../../../../utils/format'
 export default {
   components: {
     CSmartTable,
@@ -942,6 +943,25 @@ export default {
       lgDemo: false,
       lgDemo1: false,
       lgDemo2: false,
+      footerItem: [
+        {
+          label: formatPrice(0),
+          _props: {
+            color: '',
+            colspan: 8,
+            style: 'font-weight:bold; text-align:right',
+          },
+        },
+      ,
+        {
+          label: formatPrice(0),
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold; text-align:right',
+          },
+        },
+      ],
       columns: [
         { key: 'pnap', label: 'Pnap', _style: { width: '10%' } },
         { key: 'programa', label: 'Programa', _style: { width: '10%' } },
@@ -1046,7 +1066,7 @@ export default {
       this.getEstructura()
     },
     goToIngreso() {
-      router.push({ name: 'Formulacion Ingreso' })
+      router.push({ name: 'Formulación Ingreso' })
     },
 
     onFileChangeProyectos(event) {
