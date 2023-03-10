@@ -1,8 +1,8 @@
 <template>
       
   <h3 class="text-center">Areas de Trabajo</h3>
-  <hr />
-  <div>
+
+  <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
         color="info"
@@ -15,7 +15,6 @@
       >
     </div>
   </div>
-  <hr />
   <CSmartTable
     clickableRows
     :tableProps="{
@@ -24,13 +23,11 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     :items="AreaDeTrabajo"
     :columns="columns"
     columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
     :itemsPerPage="5"
     columnSorter

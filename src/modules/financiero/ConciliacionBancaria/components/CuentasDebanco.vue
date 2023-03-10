@@ -29,13 +29,11 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
+    columnFilter
     :items="Bancos"
     :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
     :itemsPerPage="5"
     columnSorter
@@ -48,12 +46,12 @@
       </td>
     </template>
     <template #balanceLibro="{ item }">
-      <td>
+      <td class="text-end">
         {{ formatPrice(item.balanceLibro) }}
       </td>
     </template>
     <template #balanceBanco="{ item }">
-      <td>
+      <td class="text-end">
         {{ formatPrice(item.balanceBanco) }}
       </td>
     </template>

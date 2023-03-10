@@ -1,5 +1,4 @@
 <template>
-  <ToastStack color="success" />
   <h3 class="text-center">Empleado</h3>
   <hr />
   <div>
@@ -10,7 +9,7 @@
     </div>
   </div>
 
-  <hr />
+ 
   <CSmartTable
     clickableRows
     :tableProps="{
@@ -19,19 +18,22 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     :items="Empleado"
     :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
+    columnFilter
     :itemsPerPage="5"
     columnSorter
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
+  <template #sueldo="{ item }">
+      <td class="text-end">
+        {{this.formatPrice(item.sueldo)}}
+      </td>
+    </template>
     <template #posicion="{ item }">
       <td>
         {{ item.posicion.nombre }}
@@ -2370,22 +2372,23 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
-import ToastStack from '../../../../components/ToastStack.vue'
 import { useToastStore } from '@/store/toast'
 import Api from '../services/NominaServices'
 import router from '@/router'
 import moment from 'moment'
+import { formatPrice } from '../../../../utils/format'
+
 
 export default {
   components: {
     CSmartTable,
     CModal,
     moment,
-    ToastStack,
   },
 
   data: () => {
     return {
+      formatPrice,
       fecha12: new Date(2015, 0, 11),
       reporteDepto: 1,
       reportes: false,
@@ -3335,6 +3338,7 @@ export default {
   },
 
   mounted() {
+    console.log(formatPrice(123))
     this.getEmpleado()
     Api.getProgramaDivision().then((response) => {
       this.programaDivision = response.data.data

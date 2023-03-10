@@ -1,7 +1,6 @@
 <template>
       
   <h3 class="text-center">Depósitos</h3>
-  <hr />
   <div class="col-4 mb-3">
     <label
       for="dni"
@@ -18,7 +17,7 @@
       disabled
     />
   </div>
-  <div>
+  <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
         color="info"
@@ -79,13 +78,11 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     :items="DepositoList"
     :columns="columns"
     columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
     :itemsPerPage="5"
     columnSorter
@@ -294,10 +291,8 @@
           header
           :items="Bancos"
           :columns="columns3"
-          columnFilter
-          tableFilter
-          cleaner
           itemsPerPageSelect
+          columnFilter
           :itemsPerPage="5"
           columnSorter
           :sorterValue="{ column: 'status', state: 'asc' }"

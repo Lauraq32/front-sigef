@@ -1,10 +1,8 @@
 <template>
   <h3 class="text-center">Ejecución de ingresos</h3>
-  <hr />
-  <div>
+  <div class="table-headers">
     <div class="d-inline p-2"></div>
   </div>
-  <hr />
   <CSmartTable
     clickableRows
     :tableProps="{
@@ -13,14 +11,12 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     :items="ingresosList"
     :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
+    columnFilter
     :itemsPerPage="5"
     columnSorter
     :sorterValue="{ column: 'status', state: 'asc' }"

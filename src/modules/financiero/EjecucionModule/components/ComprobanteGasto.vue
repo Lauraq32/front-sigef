@@ -29,13 +29,11 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     :items="cabeceraGasto"
     :columns="columns"
     columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
     :itemsPerPage="5"
     columnSorter
@@ -48,12 +46,12 @@
       </td>
     </template>
     <template #totalRetenciones="{ item }">
-      <td>
+      <td class="text-end">
         {{ formatPrice(item.totalRetenciones) }}
       </td>
     </template>
     <template #valorNeto="{ item }">
-      <td>
+      <td class="text-end">
         {{ formatPrice(item.valorNeto) }}
       </td>
     </template>
@@ -365,9 +363,6 @@
           header
           :items="[]"
           :columns="columns2"
-          columnFilter
-          tableFilter
-          cleaner
           itemsPerPageSelect
           :itemsPerPage="5"
           columnSorter
@@ -762,9 +757,6 @@
           header
           :items="detalleGasto"
           :columns="columns2"
-          columnFilter
-          tableFilter
-          cleaner
           itemsPerPageSelect
           :itemsPerPage="5"
           columnSorter
@@ -872,9 +864,6 @@
           header
           :items="EstructuraByClasificadores"
           :columns="columns3"
-          columnFilter
-          tableFilter
-          cleaner
           itemsPerPageSelect
           :itemsPerPage="5"
           columnSorter

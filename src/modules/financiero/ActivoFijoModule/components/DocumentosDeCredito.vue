@@ -1,7 +1,7 @@
 <template>
   <h3 class="text-center">Documento de Crédito</h3>
   <hr />
-  <div>
+  <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
         color="info"
@@ -28,14 +28,12 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     :items="this.$store.state.Formulacion.proyecto"
     :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
+    columnFilter
     :itemsPerPage="5"
     columnSorter
     :sorterValue="{ column: 'status', state: 'asc' }"

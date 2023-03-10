@@ -1,14 +1,12 @@
 <template>
   <h3 class="text-center">Fuentes Financiamiento</h3>
-  <hr />
-  <div>
+  <div class="table-headers">
     <div class="d-inline p-2">
       <CButton style="font-weight: bold" color="info" @click="IngresoReport"
         >Imprimir</CButton
       >
     </div>
   </div>
-  <hr />
   <CSmartTable
     clickableRows
     :tableProps="{
@@ -17,15 +15,13 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     :items="this.$store.state.Formulacion.fuentesFianciamiento"
     :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
     :itemsPerPage="5"
+    columnFilter
     columnSorter
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination

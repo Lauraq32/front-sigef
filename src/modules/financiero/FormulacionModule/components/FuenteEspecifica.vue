@@ -1,7 +1,7 @@
 <template>
   <h3 class="text-center">Fuente Específica</h3>
   <hr />
-  <div>
+  <div class="table-headers">
     <div class="d-inline p-2">
       <CButton style="font-weight: bold" color="info" @click="IngresoReport"
         >Imprimir</CButton
@@ -17,15 +17,13 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     :items="this.$store.state.Formulacion.fuenteEspecificas"
     :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
     :itemsPerPage="5"
+    columnFilter
     columnSorter
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination

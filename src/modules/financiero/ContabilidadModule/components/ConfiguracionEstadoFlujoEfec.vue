@@ -1,6 +1,6 @@
 <template>
   <h3 class="text-center">Estado Flujo de efectivo</h3>
-  <hr />
+
 
   <CSmartTable
     clickableRows
@@ -10,14 +10,12 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     :items="this.$store.state.Formulacion.proyecto"
     :columns="columns"
-    columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
+    columnFilter
     :itemsPerPage="5"
     columnSorter
     :sorterValue="{ column: 'status', state: 'asc' }"

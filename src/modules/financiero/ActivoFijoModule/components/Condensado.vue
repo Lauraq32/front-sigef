@@ -2,7 +2,7 @@
       
   <h3 class="text-center">Conduce</h3>
   <hr />
-  <div>
+  <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
         color="info"
@@ -24,13 +24,11 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    footer
+    
     header
     :items="Conduce"
     :columns="columns"
     columnFilter
-    tableFilter
-    cleaner
     itemsPerPageSelect
     :itemsPerPage="5"
     columnSorter
