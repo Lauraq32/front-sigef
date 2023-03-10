@@ -3003,7 +3003,6 @@ export default {
           (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
-        // setTimeout(this.getEmpleado, 500)
       }
     },
 
