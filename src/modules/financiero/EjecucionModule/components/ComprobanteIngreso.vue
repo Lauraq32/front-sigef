@@ -1,5 +1,5 @@
 <template>
-  <ToastStack color="success" />
+      
   <h3 class="text-center">Comprobantes de ingresos</h3>
   <div>
     <div class="table-headers">
@@ -547,7 +547,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import axios from 'axios'
 import Api from '../services/EjecucionServices'
 import { mapStores, mapActions, mapState } from 'pinia'
-import ToastStack from '../../../../components/ToastStack.vue'
+ 
 import { useToastStore } from '@/store/toast'
 import SimpleTypeahead from 'vue3-simple-typeahead'
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
@@ -558,7 +558,7 @@ export default {
     CSmartTable,
     CModal,
     SimpleTypeahead,
-    ToastStack,
+      
   },
 
   data: () => {
@@ -797,19 +797,19 @@ export default {
       if (this.id != null) {
         Api.putIngresoCabecera(this.id, this.ingresoPost)
           .then((response) => {
-            this.show({
-              content: response.data.message,
+                 this.show({
+              content: 'Registro añadido correctamente',
               closable: true,
-              color: 'success',
             })
             this.clearModal2()
             setTimeout(this.getIngresos, 500)
           })
-          .catch((error) => {
+           .catch((error) => {
             this.show({
-              content: error.message,
+              content: 'Error al enviar el formulario',
               closable: true,
               color: 'danger',
+              class: 'text-white',
             })
           })
       } else {

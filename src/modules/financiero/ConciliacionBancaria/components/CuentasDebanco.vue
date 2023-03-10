@@ -1,5 +1,5 @@
 <template>
-  <ToastStack color="success" />
+      
   <h3 class="text-center">Cuentas de banco</h3>
   <hr />
   <div>
@@ -530,14 +530,14 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/ConciliacionServices'
 import { mapActions } from 'pinia'
-import ToastStack from '../../../../components/ToastStack.vue'
+ 
 import { useToastStore } from '@/store/toast'
 import { thisTypeAnnotation } from '@babel/types'
 export default {
   components: {
     CSmartTable,
     CModal,
-    ToastStack,
+      
   },
   data: () => {
     return {
@@ -646,10 +646,9 @@ export default {
         Api.putConciliacioncuentaBanco(this.idCuenta, this.CuentaBanco).then(
           (response) => {
             this.lgDemo = false
-            this.show({
-              content: response.data.message,
+                 this.show({
+              content: 'Registro añadido correctamente',
               closable: true,
-              color: 'success',
             })
 
             // this.CuentaBanco = {
@@ -671,17 +670,17 @@ export default {
       } else {
         Api.postCuentaBancoConciliacion(this.CuentaBanco)
           .then((response) => {
-            this.show({
-              content: response.data.message,
+                 this.show({
+              content: 'Registro añadido correctamente',
               closable: true,
-              color: 'success',
             })
           })
-          .catch((error) => {
+           .catch((error) => {
             this.show({
-              content: error.message,
+              content: 'Error al enviar el formulario',
               closable: true,
               color: 'danger',
+              class: 'text-white',
             })
           })
       }

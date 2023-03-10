@@ -1,5 +1,5 @@
 <template>
-  <ToastStack color="success" />
+      
   <h3 class="text-center">Depósitos</h3>
   <hr />
   <div class="col-4 mb-3">
@@ -358,13 +358,13 @@ import Api from '../services/ConciliacionServices'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { mapActions } from 'pinia'
-import ToastStack from '../../../../components/ToastStack.vue'
+ 
 import { useToastStore } from '@/store/toast'
 export default {
   components: {
     CSmartTable,
     CModal,
-    ToastStack,
+      
   },
   data: () => {
     return {

@@ -1,5 +1,4 @@
 <template>
-  <ToastStack color="success" />
   <h3 class="text-center">Marcas</h3>
   <div class="table-headers">
     <div class="p-2">
@@ -111,14 +110,13 @@ import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
 import Api from '../services/ActivoFijoServices'
-import ToastStack from '../../../../components/ToastStack.vue'
+
 import { useToastStore } from '@/store/toast'
 
 export default {
   components: {
     CSmartTable,
     CModal,
-    ToastStack,
   },
 
   data: () => {
@@ -260,7 +258,7 @@ export default {
       if (this.id) {
         Api.putMarca(this.id, this.postMarcas).then((response) => {
           this.show({
-            content: response.data.message,
+            content: 'Registro añadido correctamente',
             closable: true,
           })
 
@@ -276,16 +274,16 @@ export default {
         Api.postMarca(this.postMarcas)
           .then((response) => {
             this.show({
-              content: response.data.message,
+              content: 'Registro añadido correctamente',
               closable: true,
-              color: 'success',
             })
           })
           .catch((error) => {
             this.show({
-              content: error.message,
+              content: 'Error al enviar el formulario',
               closable: true,
               color: 'danger',
+              class: 'text-white',
             })
           })
 

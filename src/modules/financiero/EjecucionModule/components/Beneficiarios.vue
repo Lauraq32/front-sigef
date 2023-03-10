@@ -1,5 +1,5 @@
 <template>
-  <ToastStack color="success" />
+      
   <h3 class="text-center">Beneficiarios</h3>
   <div class="table-headers">
     <div class="p-2">
@@ -272,7 +272,7 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { mapActions, mapState } from 'pinia'
 import { mapStores } from 'pinia'
-import ToastStack from '../../../../components/ToastStack.vue'
+ 
 import { useToastStore } from '@/store/toast'
 import Api from '../services/EjecucionServices'
 
@@ -280,7 +280,7 @@ export default {
   components: {
     CSmartTable,
     CModal,
-    ToastStack,
+      
   },
 
   data: () => {
@@ -420,10 +420,9 @@ export default {
         Api.putBeneficiarios(this.id, this.postBeneficiario).then(
           (response) => {
             this.lgDemo = false
-            this.show({
-              content: response.data.message,
+                 this.show({
+              content: 'Registro añadido correctamente',
               closable: true,
-              color: 'success',
             })
             setTimeout(this.getBeneficiarios, 500)
             this.postBeneficiario = {
@@ -452,17 +451,17 @@ export default {
         this.getBeneficiarios()
         Api.postBeneficiarios(this.postBeneficiario)
           .then((response) => {
-            this.show({
-              content: response.data.message,
+                 this.show({
+              content: 'Registro añadido correctamente',
               closable: true,
-              color: 'success',
             })
           })
-          .catch((error) => {
+           .catch((error) => {
             this.show({
-              content: error.message,
+              content: 'Error al enviar el formulario',
               closable: true,
               color: 'danger',
+              class: 'text-white',
             })
           })
         Swal.fire({

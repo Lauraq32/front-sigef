@@ -1,5 +1,5 @@
 <template>
-   <ToastStack color="success" />
+       
   <h3 class="text-center">Nomina general</h3>
   <hr />
 
@@ -1919,7 +1919,7 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
-import ToastStack from '../../../../components/ToastStack.vue'
+ 
 import { useToastStore } from '@/store/toast'
 import Api from '../services/NominaServices'
 import router from '@/router'
@@ -1928,7 +1928,7 @@ export default {
   components: {
     CSmartTable,
     CModal,
-    ToastStack,
+      
   },
 
   data: () => {
@@ -2642,10 +2642,9 @@ export default {
           (response) => {
   
             this.lgDemo = false
-            this.show({
-              content: response.data.message,
+                 this.show({
+              content: 'Registro añadido correctamente',
               closable: true,
-              color: 'success',
             })
 
             // setTimeout(this.getEmpleado, 500)
@@ -2715,17 +2714,17 @@ export default {
         // setTimeout(this.getEmpleado, 500)
       } else {
         Api.postConfiguracionNomina(this.postConfiguracionNomina).then((response) => {
-            this.show({
-              content: response.data.message,
+                 this.show({
+              content: 'Registro añadido correctamente',
               closable: true,
-              color: 'success',
             })
           })
-          .catch((error) => {
+           .catch((error) => {
             this.show({
-              content: error.message,
+              content: 'Error al enviar el formulario',
               closable: true,
               color: 'danger',
+              class: 'text-white',
             })
           })
         Swal.fire({
@@ -2810,10 +2809,9 @@ export default {
     submitForm() {
       if (this.id) {
         Api.putEmpleado(this.id, this.postEmpleado).then((response) => {
-          this.show({
-              content: response.data.message,
+               this.show({
+              content: 'Registro añadido correctamente',
               closable: true,
-              color: 'success',
             })
             this.lgDemo = false
           setTimeout(this.getEmpleado, 500)
@@ -2922,31 +2920,31 @@ export default {
         setTimeout(this.getEmpleado, 500)
       } else {
         Api.postEmpleado(this.postEmpleado).then((response) => {
-            this.show({
-              content: response.data.message,
+                 this.show({
+              content: 'Registro añadido correctamente',
               closable: true,
-              color: 'success',
             })
           })
-          .catch((error) => {
+           .catch((error) => {
             this.show({
-              content: error.message,
+              content: 'Error al enviar el formulario',
               closable: true,
               color: 'danger',
+              class: 'text-white',
             })
           })
         Api.postConfiguracionNomina(this.postConfiguracionNomina).then((response) => {
-            this.show({
-              content: response.data.message,
+                 this.show({
+              content: 'Registro añadido correctamente',
               closable: true,
-              color: 'success',
             })
           })
-          .catch((error) => {
+           .catch((error) => {
             this.show({
-              content: error.message,
+              content: 'Error al enviar el formulario',
               closable: true,
               color: 'danger',
+              class: 'text-white',
             })
           })
         

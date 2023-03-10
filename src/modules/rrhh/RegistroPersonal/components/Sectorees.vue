@@ -233,17 +233,17 @@ export default {
       } else {
         Api.postSectores(this.postSectores)
           .then((response) => {
-            this.show({
-              content: response.data.message,
+                 this.show({
+              content: 'Registro añadido correctamente',
               closable: true,
-              color: 'success',
             })
           })
-          .catch((error) => {
+           .catch((error) => {
             this.show({
-              content: error.message,
+              content: 'Error al enviar el formulario',
               closable: true,
               color: 'danger',
+              class: 'text-white',
             })
           })
         this.lgDemo = true

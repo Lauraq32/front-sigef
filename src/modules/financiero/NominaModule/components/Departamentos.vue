@@ -1,5 +1,5 @@
 <template>
-  <ToastStack color="success" />
+      
   <h3 class="text-center">Departamentos</h3>
   <hr />
   <div>
@@ -434,7 +434,7 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
-import ToastStack from '../../../../components/ToastStack.vue'
+ 
 import { useToastStore } from '@/store/toast'
 import Api from '../services/NominaServices'
 
@@ -442,7 +442,7 @@ export default {
   components: {
     CSmartTable,
     CModal,
-    ToastStack,
+      
   },
   data: () => {
     return {
@@ -574,17 +574,17 @@ export default {
         setTimeout(this.getDepartamentos, 500)
         Api.postDepartamento(this.postDepartamento)
           .then((response) => {
-            this.show({
-              content: response.data.message,
+                 this.show({
+              content: 'Registro añadido correctamente',
               closable: true,
-              color: 'success',
             })
           })
-          .catch((error) => {
+           .catch((error) => {
             this.show({
-              content: error.message,
+              content: 'Error al enviar el formulario',
               closable: true,
               color: 'danger',
+              class: 'text-white',
             })
           })
 

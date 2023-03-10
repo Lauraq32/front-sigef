@@ -3010,12 +3010,10 @@ export default {
     submitForm() {
       if (this.id) {
         Api.putEmpleado(this.id, this.postEmpleado).then((response) => {
-          this.lgDemo = false.catch((error) => {
-            this.show({
-              content: error.message,
-              closable: true,
-              color: 'danger',
-            })
+          this.lgDemo = false
+          this.show({
+            content: 'Registro añadido correctamente',
+            closable: true,
           })
           setTimeout(this.getEmpleado, 500)
           this.postEmpleado = {

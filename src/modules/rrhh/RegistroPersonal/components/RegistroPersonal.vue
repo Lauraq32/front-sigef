@@ -1,6 +1,4 @@
 <template>
-  <ToastStack color="success" />
-
   <h3 class="text-center">Mantenimientos Empleados</h3>
 
   <hr />
@@ -969,7 +967,6 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import Api from '../services/RegistroPersonalServices'
 import apiSectores from '../../../financiero/NominaModule/services/NominaServices'
 import moment from 'moment'
-import ToastStack from '../../../../components/ToastStack.vue'
 import { useToastStore } from '@/store/toast'
 
 export default {
@@ -977,7 +974,6 @@ export default {
     CSmartTable,
     CModal,
     moment,
-    ToastStack,
   },
   data: () => {
     return {
@@ -1427,7 +1423,7 @@ export default {
         Api.putEmpleado(this.id, this.postEmpleado).then((response) => {
           this.lgDemo = false
           this.show({
-            content: response.data.message,
+            content: 'Registro actualizado correctamente',
             closable: true,
           })
 
@@ -1540,15 +1536,16 @@ export default {
         Api.postEmpleado(this.postEmpleado)
           .then((response) => {
             this.show({
-              content: response.data.message,
+              content: 'Registro añadido correctamente',
               closable: true,
             })
           })
           .catch((error) => {
             this.show({
-              content: error.message,
+              content: 'Error al enviar el formulario',
               closable: true,
               color: 'danger',
+              class: 'text-white',
             })
           })
 
@@ -1575,7 +1572,7 @@ export default {
           this.show({
             content: response.data.message,
             closable: true,
-            color: 'success',
+            color: 'inherit',
           })
           setTimeout(this.getRegistroPersonal, 500)
         })
@@ -1629,9 +1626,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.toast {
-  background-color: rgb(208, 253, 208);
-}
-</style>

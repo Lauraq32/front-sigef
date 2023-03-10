@@ -1,5 +1,5 @@
 <template>
-  <ToastStack color="success" />
+      
   <h3 class="text-center">Comprobante de gastos</h3>
   <div class="table-headers">
     <div class="p-2">
@@ -923,14 +923,14 @@ import Api from '../services/EjecucionServices'
 import ApiFormulacion from '../../FormulacionModule/services/FormulacionServices'
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
 import SimpleTypeahead from 'vue3-simple-typeahead'
-import ToastStack from '../../../../components/ToastStack.vue'
+ 
 import { useToastStore } from '@/store/toast'
 export default {
   components: {
     CSmartTable,
     CModal,
     SimpleTypeahead,
-    ToastStack,
+      
   },
 
   data: () => {
@@ -1362,10 +1362,9 @@ export default {
       } else {
         Api.putRegistroGasto(this.postGasto, this.cabeceraId).then(
           (response) => {
-            this.show({
-              content: response.data.message,
+                 this.show({
+              content: 'Registro añadido correctamente',
               closable: true,
-              color: 'success',
             })
           },
         )

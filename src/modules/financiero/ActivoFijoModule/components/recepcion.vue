@@ -1,5 +1,5 @@
 <template>
-  <ToastStack color="success" />
+      
   <h3 class="text-center">Recepcion</h3>
   <hr />
   <div>
@@ -183,14 +183,14 @@ import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
 import Api from '../services/ActivoFijoServices'
-import ToastStack from '../../../../components/ToastStack.vue'
+ 
 import { useToastStore } from '@/store/toast'
 
 export default {
   components: {
     CSmartTable,
     CModal,
-    ToastStack,
+      
   },
 
   data: () => {
@@ -288,10 +288,9 @@ export default {
         Api.putRecepcion(this.secuencial, this.postRecepcion).then(
           (response) => {
             this.lgDemo = false
-            this.show({
-              content: response.data.message,
+                 this.show({
+              content: 'Registro añadido correctamente',
               closable: true,
-              color: 'success',
             })
 
             setTimeout(this.getRecepcion, 500)
@@ -312,17 +311,17 @@ export default {
       } else {
         Api.postRecepcion(this.postRecepcion)
           .then((response) => {
-            this.show({
-              content: response.data.message,
+                 this.show({
+              content: 'Registro añadido correctamente',
               closable: true,
-              color: 'success',
             })
           })
-          .catch((error) => {
+           .catch((error) => {
             this.show({
-              content: error.message,
+              content: 'Error al enviar el formulario',
               closable: true,
               color: 'danger',
+              class: 'text-white',
             })
           })
 
