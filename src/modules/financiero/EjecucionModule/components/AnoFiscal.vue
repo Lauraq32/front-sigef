@@ -85,10 +85,6 @@
         >
           <CCol :md="12">
             <CFormLabel >Año Fiscal NO.</CFormLabel>
-            <!-- <CFormInput disabled id="validationCustom01" required />
-
-          <CFormFeedback valid> Exito! </CFormFeedback>
-          <CFormFeedback invalid> Favor agregar el campo </CFormFeedback> -->
           </CCol>
         
         <CCol :md="6">
@@ -98,7 +94,7 @@
           </CCol>
           <CCol :md="12">
             <CFormLabel >Fecha Final</CFormLabel>
-            <CFormInput name="fechaInicio" @change =changeDate($event) type="date" v-model="fechaFinal"> </CFormInput>
+            <CFormInput name="fechaFinal" @change =changeDate($event) type="date" v-model="fechaFinal"> </CFormInput>
           </CCol>
         </CCol>
         <CCol :md="6">
@@ -197,12 +193,13 @@ export default {
   methods: {
     ...mapActions(useRegistroStore, ['getAnioFiscal', 'addAnioFiscal']),
 
-    changeDate (event) {
-      if(event.target.name == 'fechaInicio'){
-        this.postAnoFiscal.compGastos = new Date(event.target.value).getFullYear().toString().substring(2, 4) + '0000'
-        this.postAnoFiscal.compIngresos = new Date(event.target.value).getFullYear().toString().substring(2, 4) + '0000'
+    changeDate ({target : {name, value}}) {
+      if(name == 'fechaInicio'){
+        const selectedDate = new Date(value);
+        const selectedYear = selectedDate.getFullYear().toString().substring(2, 4) + '0000';
+        this.postAnoFiscal.compGastos = selectedYear ;
+        this.postAnoFiscal.compIngresos = selectedYear;
       } 
-  console.log(event.target.name)
 },
 
     
@@ -287,8 +284,6 @@ export default {
   },
 
   mounted() {
-    this.postAnoFiscal.compGastos
-  
     this.getAnioFiscal()
   },
 }
