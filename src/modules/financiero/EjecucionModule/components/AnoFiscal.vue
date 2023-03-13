@@ -152,12 +152,8 @@
 </template>
 
 <script>
-// import { useRegistroStore } from '../store/Ejecucion/anioFiscal'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
-import { mapStores } from 'pinia'
-import { mapState } from 'pinia'
-import { mapActions } from 'pinia'
 import Api from '../services/EjecucionServices'
 
 export default {
@@ -195,7 +191,6 @@ export default {
           _style: { width: '1%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
       details: [],
@@ -205,14 +200,9 @@ export default {
     }
   },
 
-  computed: {
-    // ...mapStores(useRegistroStore),
-    // ...mapState(useRegistroStore, ['anioFiscal']),
-  },
+  computed: {},
 
   methods: {
-    // ...mapActions(useRegistroStore, ['getAnioFiscal', 'addAnioFiscal']),
-
     changeDate({ target: { name, value } }) {
       if (name == 'fechaInicio') {
         const selectedDate = new Date(value)
@@ -239,7 +229,6 @@ export default {
       this.id = item.id
       this.postAnoFiscal = item
       this.lgDemo = true
-      console.log('2', item)
     },
     getBadge(status) {
       switch (status) {
@@ -255,18 +244,12 @@ export default {
           'primary'
       }
     },
-
-    prueba() {
-      console.log('hola')
-    },
-
     submitForm(event) {
       event.preventDefault()
         event.stopPropagation()
       if (this.id) {
-        Api.putAnioFiscal(this.id, this.postAnoFiscal).then((response) => {
+        Api.putAnioFiscal(this.id, this.postAnoFiscal).then(() => {
           this.lgDemo = false
-          // this.getAnioFiscal()
           this.postAnoFiscal = {
             id: 0,
             ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
@@ -278,11 +261,9 @@ export default {
             fechaFinal: new Date(Date.now()),
           }
         })
-        // this.getAnioFiscal()
       } else {
         Api.postAnioFiscal(this.postAnoFiscal)
         (this.lgDemo = true(
-          // this.getAnioFiscal()
           (this.postAnoFiscal = {
             id: 0,
             ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
