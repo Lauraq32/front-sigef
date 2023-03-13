@@ -30,7 +30,7 @@
     :activePage="1"
     
     header
-    :items="this.$store.state.Formulacion.clasificadores"
+    :items="items"
     :columns="columns"
     columnFilter
     itemsPerPageSelect
@@ -73,7 +73,9 @@
   </CSmartTable>
 </template>
 <script>
+import { AppSidebarNav } from '@/components/AppSidebarNav'
 import { CSmartTable } from '@coreui/vue-pro'
+import Api from '../services/FormulacionServices'
 export default {
   components: {
     CSmartTable,
@@ -81,9 +83,9 @@ export default {
   data: () => {
     return {
       columns: [
-        { key: 'ccontrol', label: 'Cuenta'},
+        { key: 'cControl', label: 'Cuenta'},
         { key: 'clasifica', label: 'Clasificador' },
-        { key: 'ctA_CONTAG', label: 'Cuenta contable' },
+        { key: 'cuentaContag', label: 'Cuenta contable' },
         { key: 'ctA_GASTOS', label: 'Cuenta Gastos' },
         { key: 'ctA_INGRESO', label: 'Cuenta ingreso' },
         { key: 'detalle', label: 'Detalle', _style: { width: '20%' } },
@@ -156,9 +158,14 @@ export default {
       }
       this.details.push(item._id)
     },
+    getClasificadores(){
+      Api.getListarClasificadores( ).then(response => {
+        this.items = response.data.data})
+    }
   },
   computed: {},
   mounted() {
+    this.getClasificadores()
     //this.$store.dispatch('Formulacion/getClasificadores');
   },
 }
