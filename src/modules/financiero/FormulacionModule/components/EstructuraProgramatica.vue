@@ -71,6 +71,7 @@ export default {
         { key: 'programa', label: 'Programa', _style: { width: '20%' } },
         { key: 'proyecto', label: 'Proyecto', _style: { width: '20%' } },
         { key: 'actObra', label: 'Actividad_Obra', _style: { width: '20%' } },
+        { key: 'ccontrol', label: 'Control', _style: { width: '20%' } },
         { key: 'nombre', label: 'Denominacion', _style: { width: '20%' } },
         {
           key: 'unidadResponsable',
