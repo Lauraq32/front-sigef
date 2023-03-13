@@ -2,44 +2,21 @@
   <h3 class="text-center">Clasificadores</h3>
   <div class="table-headers">
     <div class="p-2">
-      <CButton
-
-        style="font-weight: bold"
-        color="info"
-        @click="IngresoReportClsIng"
-        >Imprimir Clasificadores de Ingresos</CButton
-      >
+      <CButton style="font-weight: bold" color="info" @click="IngresoReportClsIng">Imprimir Clasificadores de Ingresos
+      </CButton>
     </div>
     <div class="p-2">
-      <CButton
-
-        style="font-weight: bold"
-        color="info"
-        @click="IngresoReportClsGas"
-        >Imprimir Clasificadores de Gastos</CButton
-      >
+      <CButton style="font-weight: bold" color="info" @click="IngresoReportClsGas">Imprimir Clasificadores de Gastos
+      </CButton>
     </div>
   </div>
-  <CSmartTable
-    clickableRows
-    :tableProps="{
-     striped: true,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    
-    header
-    :items="this.$store.state.Formulacion.clasificadores"
-    :columns="columns"
-    columnFilter
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    :items-per-page-options="[5, 10, 20, 50, 100, 150]"
-    columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination
-  >
+  <CSmartTable clickableRows :tableProps="{
+    striped: true,
+    hover: true,
+  }" :tableHeadProps="{}" :activePage="1" header :items="this.$store.state.Formulacion.clasificadores"
+    :columns="columns" columnFilter itemsPerPageSelect :itemsPerPage="5"
+    :items-per-page-options="[5, 10, 20, 50, 100, 150]" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination>
     <template #status="{ item }">
       <td>
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
@@ -47,13 +24,7 @@
     </template>
     <template #show_details="{ item, index }">
       <td class="py-2">
-        <CButton
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item, index)"
-        >
+        <CButton color="primary" variant="outline" square size="sm" @click="toggleDetails(item, index)">
           {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
         </CButton>
       </td>
@@ -81,18 +52,20 @@ export default {
   data: () => {
     return {
       columns: [
-        { key: 'ccontrol', label: 'Cuenta'},
+        { key: 'ccontrol', label: 'Cuenta' },
         { key: 'clasifica', label: 'Clasificador' },
         { key: 'ctA_CONTAG', label: 'Cuenta contable' },
-        { key: 'ctA_GASTOS', label: 'Cuenta Gastos' },
+   
         { key: 'ctA_INGRESO', label: 'Cuenta ingreso' },
+
+        { key: 'ctA_GASTOS', label: 'Cuenta Gastos' },
         { key: 'detalle', label: 'Detalle', _style: { width: '20%' } },
         { key: 'iDENTIFICADORdUENTE', label: 'Fuente' },
         { key: 'iDENTIFICADORfUENTEeSPECIFICA', label: 'Fuente especifica' },
-        { key: 'nombre', label: 'Nombre' },
+        // { key: 'nombre', label: 'Nombre' },
         // { key: 'identificadorornfin', label:'Nombre' },
-        { key: 'nombrefUENTE', label: 'Nombre Fuente' },
-        { key: 'nombrefuenteespecifica', label: 'Nombre Fuente especifica' },
+        // { key: 'nombrefUENTE', label: 'Nombre Fuente' },
+        // { key: 'nombrefuenteespecifica', label: 'Nombre Fuente especifica' },
         { key: 'nombreorgfin', label: 'Organismo Financiero' },
         {
           key: 'tipo',
@@ -113,8 +86,8 @@ export default {
       ],
       details: [],
       items: [],
-      filter:[{
-        key: 'ccontrol', _style:{color:'success'}
+      filter: [{
+        key: 'ccontrol', _style: { color: 'success' }
       }]
     }
   },
