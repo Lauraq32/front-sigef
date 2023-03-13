@@ -23,7 +23,9 @@
       <CButton color="info" @click="downloadFile">Descargar</CButton>
     </div>
     <div class="p-2">
-      <CButton color="info" @click="goToGasto">Ir a Formulaci&oacute;n Gasto</CButton>
+      <CButton color="info" @click="goToGasto"
+        >Ir a Formulaci&oacute;n Gasto</CButton
+      >
     </div>
     <div class="p-2">
       <label class="file-select">
@@ -44,7 +46,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -62,7 +64,6 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
-
     <template #anioAnt="{ item }">
       <td class="text-center">
         {{ item.anioAnt }}
@@ -71,12 +72,9 @@
 
     <template #ctgFuenteEspecificaId="{ item }">
       <td class="text-center">
-        {{ item. ctgFuenteEspecificaId }}
+        {{ item.ctgFuenteEspecificaId }}
       </td>
     </template>
-
-   
-
 
     <template #ctgFuenteId="{ item }">
       <td class="text-center">
@@ -90,14 +88,13 @@
       </td>
     </template>
 
- 
     <!-- <template #ctgClasificadorId-filter="{ item }">
       <input type="date"/>
       <td>{{ item.ctgClasificadorId }}</td>
     </template> -->
     <template #instOtorga="{ item }">
       <td class="text-end">
-        {{ formatPrice(item.instOtorga) }}
+        {{ item.instOtorga }}
       </td>
     </template>
     <template #alaFecha="{ item }">
@@ -110,8 +107,6 @@
         {{ formatPrice(item.presForm) }}
       </td>
     </template>
- 
-    
 
     <template #show_details="{ item }">
       <td class="py-1">
@@ -471,38 +466,37 @@ export default {
         {
           key: 'ctgClasificadorId',
           label: 'Clasificador',
-          _style: { width: '15%' },
-          filter: (values, onChange) => {
-            return h('span', {
-              size: 'sm',
-            })
-          },
+          _style: { width: '8%' },
+          // filter: (values, onChange) => {
+          //   return h('span', {
+          //     size: 'sm',
+          //   })
+          // },
         },
         {
           key: 'detalle',
           label: 'Descripción',
-          filter: false,
           sorter: false,
-          _style: { width: '55%' },
+          _style: { width: '13%' },
         },
         {
           key: 'ctgFuenteId',
-          label: 'Fuentes de financiamiento',
+          label: 'F/Financiamiento',
           _style: { width: '8%' },
         },
         {
           key: 'ctgFuenteEspecificaId',
-          label: 'Fuente especifica',
+          label: 'F/Específica',
           _style: { width: '8%' },
         },
         {
           key: 'ctgOrganismoFinanciadorId',
-          label: 'Organismo de financiamiento',
+          label: 'Org/Financiamiento',
           _style: { width: '8%' },
         },
         {
           key: 'instOtorga',
-          label: 'Institución otorgante',
+          label: 'Inst/Otorgante',
           filter: false,
           _style: { width: '8%' },
         },
@@ -525,7 +519,7 @@ export default {
         // },
         {
           key: 'presForm',
-          label: 'Presupuesto Formulado',
+          label: 'Pre/Formulado',
 
           filter: false,
           _style: { width: '8%' },
