@@ -12,15 +12,14 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
     header
-    :items="this.$store.state.Formulacion.estructuras"
-    :columns="item"
+    :items="EstPros"
+    :columns="columns"
     columnFilter
     itemsPerPageSelect
     :itemsPerPage="5"
@@ -33,35 +32,28 @@
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
-    <template #show_details="{ item, index }">
-      <td class="py-2">
+    <template #show_details="{ item }">
+      <td class="py-1">
         <CButton
+          class="mt-1"
           color="primary"
           variant="outline"
           square
           size="sm"
-          @click="toggleDetails(item, index)"
+          @click="toggleDetails(item)"
         >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
+          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
       </td>
-    </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
     </template>
   </CSmartTable>
 </template>
 <script>
+import { useRegistroStore } from '../store/Formulacion/EstProgramatica'
 import { CSmartTable } from '@coreui/vue-pro'
+import { mapStores } from 'pinia'
+import { mapState } from 'pinia'
+import { mapActions } from 'pinia'
 export default {
   components: {
     CSmartTable,
@@ -69,41 +61,22 @@ export default {
   data: () => {
     return {
       columns: [
-        { key: 'id', label: 'Id', _style: { width: '40%' } },
+        { key: 'numero', label: 'Id', _style: { width: '40%' } },
         {
-          key: 'codigo',
-          label: 'Código',
-          filter: false,
+          key: 'pnap',
+          label: 'Pnap',
           sorter: false,
           _style: { width: '20%' },
         },
-        { key: 'pnap', label: 'PNAP', _style: { width: '20%' } },
         { key: 'programa', label: 'Programa', _style: { width: '20%' } },
         { key: 'proyecto', label: 'Proyecto', _style: { width: '20%' } },
-        { key: 'actividad', label: 'Actividad', _style: { width: '20%' } },
-        {
-          key: 'estProgControl',
-          label: 'Estructura programatica',
-          _style: { width: '20%' },
-        },
-        {
-          key: 'denominacion',
-          label: 'Denominación',
-          _style: { width: '20%' },
-        },
+        { key: 'actObra', label: 'Actividad_Obra', _style: { width: '20%' } },
+        { key: 'nombre', label: 'Denominacion', _style: { width: '20%' } },
         {
           key: 'unidadResponsable',
           label: 'Unidad Responsable',
           _style: { width: '20%' },
         },
-        { key: 'tipo', label: 'Tipo', _style: { width: '20%' } },
-        { key: 'funcion', label: 'Función', _style: { width: '20%' } },
-        {
-          key: 'participacion',
-          label: 'Participación',
-          _style: { width: '20%' },
-        },
-        { key: 'contrato', label: 'Contrato', _style: { width: '20%' } },
         {
           key: 'show_details',
           label: '',
@@ -116,7 +89,14 @@ export default {
       details: [],
     }
   },
+
+  computed: {
+    ...mapStores(useRegistroStore),
+    ...mapState(useRegistroStore, ['EstPros']),
+  },
   methods: {
+    ...mapActions(useRegistroStore, ['getEstructura']),
+
     getBadge(status) {
       switch (status) {
         case 'Active':
@@ -147,13 +127,9 @@ export default {
       this.details.push(item._id)
     },
   },
-  computed: {
-    getEstructuras() {
-      return this.$store.getters['Formulacion/getEstructurasProgramaticas']
-    },
-  },
   mounted() {
-    this.$store.dispatch('Formulacion/getEstructurasProgramaticas')
+    this.getEstructura()
+    console.log(this.EstPros)
   },
 }
 </script>
