@@ -13,7 +13,7 @@
   <CSmartTable clickableRows :tableProps="{
     striped: true,
     hover: true,
-  }" :tableHeadProps="{}" :activePage="1" header :items="this.$store.state.Formulacion.clasificadores"
+  }" :tableHeadProps="{}" :activePage="1" header :items="items"
     :columns="columns" columnFilter itemsPerPageSelect :itemsPerPage="5"
     :items-per-page-options="[5, 10, 20, 50, 100, 150]" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
     pagination>
@@ -22,34 +22,35 @@
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
-    <template #ccontrol="{ item }">
-      <td class="text-center">
-        {{item.ccontrol}}
+    <template #cControl="{ item }">
+      <td >
+        {{item.cControl}}
       </td>
     </template>
-    <template #iDENTIFICADORdUENTE="{ item }">
+    <template #cuentaContag="{ item }">
       <td class="text-center">
-        {{item.iDENTIFICADORdUENTE}}
+        {{item.cuentaContag.padEnd(14,0)}}
+      </td>
+    </template>
+    <template #ctgFuenteId="{ item }">
+      <td class="text-center">
+        {{item.ctgFuenteId}}
       </td>
     </template>
     <template #clasifica="{ item }">
-      <td class="text-center">
+      <td >
         {{item.clasifica}}
       </td>
     </template>
-    <template #ctA_CONTAG="{ item }">
+  
+    <template #ctgFuenteEspecificaId="{ item }">
       <td class="text-center">
-        {{item.ctA_CONTAG}}
+        {{item.ctgFuenteEspecificaId}}
       </td>
     </template>
-    <template #iDENTIFICADORfUENTEeSPECIFICA="{ item }">
+    <template #ctgOrganismoFinanciadorId="{ item }">
       <td class="text-center">
-        {{item.iDENTIFICADORfUENTEeSPECIFICA}}
-      </td>
-    </template>
-    <template #nombreorgfin="{ item }">
-      <td class="text-center">
-     {{item.nombreorgfin}}
+     {{item.ctgOrganismoFinanciadorId}}
       </td>
     </template>
     <template #show_details="{ item, index }">
@@ -75,6 +76,7 @@
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
+import Api from '../services/FormulacionServices'
 export default {
   components: {
     CSmartTable,
@@ -82,19 +84,19 @@ export default {
   data: () => {
     return {
       columns: [
-        { key: 'ccontrol', label: 'Cuenta' },
+        { key: 'cControl', label: 'Cuenta' },
         { key: 'clasifica', label: 'Clasificador' },
-        { key: 'ctA_CONTAG', label: 'Cuenta contable' },
+        { key: 'cuentaContag', label: 'Cuenta contable' },
    
 
-        { key: 'ctA_GASTOS', label: 'Detalle', _style: { width: '25%' } },
-        { key: 'iDENTIFICADORdUENTE', label: 'Fuente',_style:{textAling:'center'}},
-        { key: 'iDENTIFICADORfUENTEeSPECIFICA', label: 'Fuente especifica' },
+        { key: 'nombre', label: 'Detalle', _style: { width: '25%' } },
+        { key: 'ctgFuenteId', label: 'Fuente',_style:{textAling:'center'}},
+        { key: 'ctgFuenteEspecificaId', label: 'Fuente especifica' },
         // { key: 'nombre', label: 'Nombre' },
         // { key: 'identificadorornfin', label:'Nombre' },
         // { key: 'nombrefUENTE', label: 'Nombre Fuente' },
         // { key: 'nombrefuenteespecifica', label: 'Nombre Fuente especifica' },
-        { key: 'nombreorgfin', label: 'Organismo Financiero' },
+        { key: 'ctgOrganismoFinanciadorId', label: 'Organismo Financiero' },
         {
           key: 'tipo',
           label: 'Tipo',
@@ -153,6 +155,10 @@ export default {
   },
   computed: {},
   mounted() {
+  Api.getListarClasificadores().then(response => {
+    this.items = response.data.data
+    console.log(this.items)
+  })
     //this.$store.dispatch('Formulacion/getClasificadores');
   },
 }
