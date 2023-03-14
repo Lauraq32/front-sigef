@@ -14,7 +14,7 @@ class FormulacionApi {
   //-----------------------------CLASIFICADORES---------------------------------------//
   //Obtener listado de Clasificadores
   getListarClasificadores() {
-    return http.get('/Financiero/ListarClasificadores')
+    return http.get('/CtgClasificador')
   }
   getListarOrganismo() {
     return http.get('/CtgOrganismoFinanciador')
