@@ -339,7 +339,6 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { CIcon } from '@coreui/icons-vue'
 import { cilCloudUpload } from '@coreui/icons-pro'
 import router from '@/router'
-import { h } from 'vue'
 export default {
   components: {
     CSmartTable,
@@ -749,7 +748,6 @@ export default {
             timer: 1500,
           })
         })
-
     },
     focusAno() {
       this.$refs.anoAnteriorRef.focus()
