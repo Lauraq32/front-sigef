@@ -23,28 +23,25 @@
       <CButton color="info" @click="downloadFile">Descargar</CButton>
     </div>
     <div class="p-2">
-      <CButton color="info" @click="goToGasto">Ir a Formulaci&oacute;n Gasto</CButton>
+      <CButton color="info" @click="goToGasto"
+        >Ir a Formulaci&oacute;n Gasto</CButton
+      >
     </div>
     <div class="p-2">
       <label class="file-select">
-        <!-- We can't use a normal button element &ntilde; here, as it would become the target of the label. -->
         <div class="select-button">
-          <!-- Display the filename if a file has been selected. -->
           <CIcon :icon="cilCloudUpload" size="m" />
         </div>
-
-        <!-- Now, the file input that we hide. -->
         <input type="file" id="formFile" @change="onFileChange" />
       </label>
       <label v-if="fileName"> {{ fileName }}</label>
-      <!-- <CFormInput type="file" id="formFile" @change="onFileChange" /> -->
     </div>
   </div>
 
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -62,21 +59,11 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
-
-    <template #anioAnt="{ item }">
-      <td class="text-center">
-        {{ item.anioAnt }}
-      </td>
-    </template>
-
     <template #ctgFuenteEspecificaId="{ item }">
       <td class="text-center">
-        {{ item. ctgFuenteEspecificaId }}
+        {{ item.ctgFuenteEspecificaId }}
       </td>
     </template>
-
-   
-
 
     <template #ctgFuenteId="{ item }">
       <td class="text-center">
@@ -90,14 +77,9 @@
       </td>
     </template>
 
- 
-    <!-- <template #ctgClasificadorId-filter="{ item }">
-      <input type="date"/>
-      <td>{{ item.ctgClasificadorId }}</td>
-    </template> -->
     <template #instOtorga="{ item }">
-      <td class="text-end">
-        {{ formatPrice(item.instOtorga) }}
+      <td class="text-center">
+        {{ item.instOtorga }}
       </td>
     </template>
     <template #alaFecha="{ item }">
@@ -105,38 +87,42 @@
         {{ formatPrice(item.alaFecha) }}
       </td>
     </template>
+    <template #anioAnt="{ item }">
+      <td class="text-end">
+        {{ formatPrice(item.anioAnt) }}
+      </td>
+    </template>
+
     <template #presForm="{ item }">
       <td class="text-end">
         {{ formatPrice(item.presForm) }}
       </td>
     </template>
- 
-    
 
     <template #show_details="{ item }">
-      <td class="py-1">
-        <CButton
-          class="mt-1"
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
-        </CButton>
-      </td>
-      <td class="py-1">
-        <CButton
-          class="mt-1"
-          color="danger"
-          variant="outline"
-          square
-          size="sm"
-          @click="deleteItem(item)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
-        </CButton>
+      <td class="py-2">
+        <div class="d-flex justify-content-around">
+          <CButton
+            class="mt-1"
+            color="primary"
+            variant="outline"
+            square
+            size="sm"
+            @click="toggleDetails(item)"
+          >
+            {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
+          </CButton>
+          <CButton
+            class="mt-1"
+            color="danger"
+            variant="outline"
+            square
+            size="sm"
+            @click="deleteItem(item)"
+          >
+            {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
+          </CButton>
+        </div>
       </td>
     </template>
     <template #details="{ item }">
@@ -152,21 +138,6 @@
       </CCollapse>
     </template>
   </CSmartTable>
-  <!-- <div class="font-weight-normal">
-    <span style="font-weight: bold"><u>TOTAL PRESUPUESTO:</u></span> Año
-    anterior
-    <span style="font-weight: 500 !important">{{
-      formatPrice(formulado.anO_ANT)
-    }}</span>
-    A la fecha:
-    <span style="font-weight: 500 !important">{{
-      formatPrice(formulado.alafecha)
-    }}</span>
-    Presupuesto formulado:
-    <span style="font-weight: 500 !important">{{
-      formatPrice(formulado.preS_FORM)
-    }}</span>
-  </div> -->
   <CModal
     size="lg"
     :visible="lgDemo"
@@ -176,9 +147,6 @@
       }
     "
   >
-    <!-- <CModalHeader >
-      <CModalTitle style="height: 20px;">Partida del presupuesto de ingresos</CModalTitle>
-    </CModalHeader> -->
     <div class="row">
       <div class="col-8 mt-3">
         <CModalTitle style="margin-top: 13px; margin-left: 4px">
@@ -227,15 +195,6 @@
               type="number"
               id="clasifica"
             />
-            <!-- <CFormInput
-              :disabled="edit"
-              v-model="postIngreso.ctgClasificadorId"
-              type="number"
-              id="clasifica"
-              required
-              on:keyup.native.enter="getClasificador"
-            /> -->
-
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -356,13 +315,6 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <div class="modal-footer">
-            <!-- <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button> -->
             <button
               :disabled="formuladoValue"
               v-on:click="submitForm"
@@ -387,7 +339,6 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { CIcon } from '@coreui/icons-vue'
 import { cilCloudUpload } from '@coreui/icons-pro'
 import router from '@/router'
-import { h } from 'vue'
 export default {
   components: {
     CSmartTable,
@@ -425,7 +376,6 @@ export default {
         ctgOrganismoFinanciadorId: null,
         anioAnt: null,
         alaFecha: null,
-        //EST_ACTUAL: 0,
         presForm: null,
         variacion: 0,
         ingresos: 0,
@@ -471,38 +421,32 @@ export default {
         {
           key: 'ctgClasificadorId',
           label: 'Clasificador',
-          _style: { width: '15%' },
-          filter: (values, onChange) => {
-            return h('span', {
-              size: 'sm',
-            })
-          },
+          _style: { width: '8%' },
         },
         {
           key: 'detalle',
           label: 'Descripción',
-          filter: false,
           sorter: false,
-          _style: { width: '55%' },
+          _style: { width: '13%' },
         },
         {
           key: 'ctgFuenteId',
-          label: 'Fuentes de financiamiento',
-          _style: { width: '8%' },
+          label: 'F/Financiamiento',
+          _style: { width: '14%' },
         },
         {
           key: 'ctgFuenteEspecificaId',
-          label: 'Fuente especifica',
+          label: 'F/Específica',
           _style: { width: '8%' },
         },
         {
           key: 'ctgOrganismoFinanciadorId',
-          label: 'Organismo de financiamiento',
-          _style: { width: '8%' },
+          label: 'Org/Financiamiento',
+          _style: { width: '14%' },
         },
         {
           key: 'instOtorga',
-          label: 'Institución otorgante',
+          label: 'Inst/Otorgante',
           filter: false,
           _style: { width: '8%' },
         },
@@ -518,14 +462,9 @@ export default {
           filter: false,
           _style: { width: '8%' },
         },
-        // {
-        //   key: 'esT_ACTUAL',
-        //   label: 'Estimado Actual',
-        //   _style: { width: '8%' },
-        // },
         {
           key: 'presForm',
-          label: 'Presupuesto Formulado',
+          label: 'Pre/Formulado',
 
           filter: false,
           _style: { width: '8%' },
@@ -536,7 +475,6 @@ export default {
           _style: { width: '10%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
       details: [],
@@ -708,7 +646,6 @@ export default {
         ctgFuenteEspecificaId: null,
         ctgOrganismoFinanciadorId: null,
         alaFecha: null,
-        //EST_ACTUAL: 0,
         presForm: null,
         variacion: 0,
         ingresos: 0,
@@ -811,18 +748,7 @@ export default {
             timer: 1500,
           })
         })
-
-      //this.focusAno();
     },
-    // getTotal() {
-    //   axios
-    //   Api.getTotalIngresos(localStorage.getItem('id_Ayuntamiento'), localStorage.getItem('ano'))
-    //     .then(response => {
-    //       this.formulado.alafecha = response.data.alafecha
-    //       this.formulado.anO_ANT = response.data.anO_ANT
-    //       this.formulado.preS_FORM = response.data.preS_FORM
-    //     })
-    // },
     focusAno() {
       this.$refs.anoAnteriorRef.focus()
     },
@@ -910,7 +836,6 @@ export default {
   text-align: center;
 }
 
-/* Don't forget to hide the original file input! */
 .file-select > input[type='file'] {
   display: none;
 }

@@ -301,8 +301,6 @@ export default {
 
   mounted() {
     this.closeModal()
-
-    console.log(this.Marcas)
   },
 }
 </script>
