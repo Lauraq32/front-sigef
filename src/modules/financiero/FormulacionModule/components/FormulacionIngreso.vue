@@ -29,17 +29,12 @@
     </div>
     <div class="p-2">
       <label class="file-select">
-        <!-- We can't use a normal button element &ntilde; here, as it would become the target of the label. -->
         <div class="select-button">
-          <!-- Display the filename if a file has been selected. -->
           <CIcon :icon="cilCloudUpload" size="m" />
         </div>
-
-        <!-- Now, the file input that we hide. -->
         <input type="file" id="formFile" @change="onFileChange" />
       </label>
       <label v-if="fileName"> {{ fileName }}</label>
-      <!-- <CFormInput type="file" id="formFile" @change="onFileChange" /> -->
     </div>
   </div>
 
@@ -88,10 +83,6 @@
       </td>
     </template>
 
-    <!-- <template #ctgClasificadorId-filter="{ item }">
-      <input type="date"/>
-      <td>{{ item.ctgClasificadorId }}</td>
-    </template> -->
     <template #instOtorga="{ item }">
       <td class="text-end">
         {{ item.instOtorga }}
@@ -147,21 +138,6 @@
       </CCollapse>
     </template>
   </CSmartTable>
-  <!-- <div class="font-weight-normal">
-    <span style="font-weight: bold"><u>TOTAL PRESUPUESTO:</u></span> Año
-    anterior
-    <span style="font-weight: 500 !important">{{
-      formatPrice(formulado.anO_ANT)
-    }}</span>
-    A la fecha:
-    <span style="font-weight: 500 !important">{{
-      formatPrice(formulado.alafecha)
-    }}</span>
-    Presupuesto formulado:
-    <span style="font-weight: 500 !important">{{
-      formatPrice(formulado.preS_FORM)
-    }}</span>
-  </div> -->
   <CModal
     size="lg"
     :visible="lgDemo"
@@ -171,9 +147,6 @@
       }
     "
   >
-    <!-- <CModalHeader >
-      <CModalTitle style="height: 20px;">Partida del presupuesto de ingresos</CModalTitle>
-    </CModalHeader> -->
     <div class="row">
       <div class="col-8 mt-3">
         <CModalTitle style="margin-top: 13px; margin-left: 4px">
@@ -222,15 +195,6 @@
               type="number"
               id="clasifica"
             />
-            <!-- <CFormInput
-              :disabled="edit"
-              v-model="postIngreso.ctgClasificadorId"
-              type="number"
-              id="clasifica"
-              required
-              on:keyup.native.enter="getClasificador"
-            /> -->
-
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -351,13 +315,6 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <div class="modal-footer">
-            <!-- <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button> -->
             <button
               :disabled="formuladoValue"
               v-on:click="submitForm"
@@ -420,7 +377,6 @@ export default {
         ctgOrganismoFinanciadorId: null,
         anioAnt: null,
         alaFecha: null,
-        //EST_ACTUAL: 0,
         presForm: null,
         variacion: 0,
         ingresos: 0,
@@ -467,11 +423,6 @@ export default {
           key: 'ctgClasificadorId',
           label: 'Clasificador',
           _style: { width: '8%' },
-          // filter: (values, onChange) => {
-          //   return h('span', {
-          //     size: 'sm',
-          //   })
-          // },
         },
         {
           key: 'detalle',
@@ -512,11 +463,6 @@ export default {
           filter: false,
           _style: { width: '8%' },
         },
-        // {
-        //   key: 'esT_ACTUAL',
-        //   label: 'Estimado Actual',
-        //   _style: { width: '8%' },
-        // },
         {
           key: 'presForm',
           label: 'Pre/Formulado',
@@ -530,7 +476,6 @@ export default {
           _style: { width: '10%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
       details: [],
@@ -702,7 +647,6 @@ export default {
         ctgFuenteEspecificaId: null,
         ctgOrganismoFinanciadorId: null,
         alaFecha: null,
-        //EST_ACTUAL: 0,
         presForm: null,
         variacion: 0,
         ingresos: 0,
@@ -806,17 +750,7 @@ export default {
           })
         })
 
-      //this.focusAno();
     },
-    // getTotal() {
-    //   axios
-    //   Api.getTotalIngresos(localStorage.getItem('id_Ayuntamiento'), localStorage.getItem('ano'))
-    //     .then(response => {
-    //       this.formulado.alafecha = response.data.alafecha
-    //       this.formulado.anO_ANT = response.data.anO_ANT
-    //       this.formulado.preS_FORM = response.data.preS_FORM
-    //     })
-    // },
     focusAno() {
       this.$refs.anoAnteriorRef.focus()
     },
@@ -904,7 +838,6 @@ export default {
   text-align: center;
 }
 
-/* Don't forget to hide the original file input! */
 .file-select > input[type='file'] {
   display: none;
 }
