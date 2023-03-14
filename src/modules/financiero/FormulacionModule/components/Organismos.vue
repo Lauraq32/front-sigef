@@ -33,6 +33,22 @@
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
+    <template #codigo="{ item }">
+      <td class="text-center">
+      {{item.codigo}}
+      </td>
+    </template>
+    <template #sGrupo="{ item }">
+      <td class="text-center">
+      {{item.sGrupo}}
+      </td>
+    </template>
+    <template #organismoFinanciador="{ item }">
+      <td class="text-center">
+      {{item.organismoFinanciador}}
+      </td>
+    </template>
+    
     <template #show_details="{ item, index }">
       <td class="py-2">
         <CButton
