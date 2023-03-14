@@ -96,7 +96,7 @@
                 name="fechaInicio"
                 @change="changeDate($event)"
                 type="date"
-                v-model="postAnoFiscal.fechaInicial"
+                v-model="initialDate"
               />
             </CCol>
             <CCol :md="12">
@@ -105,7 +105,7 @@
                 name="fechaFinal"
                 @change="changeDate($event)"
                 type="date"
-                v-model="postAnoFiscal.fechaFinal"
+                v-model="finalDate"
               >
               </CFormInput>
             </CCol>
@@ -124,9 +124,9 @@
           <CCol :md="3">
             <CFormLabel>Estatus</CFormLabel>
             <CFormSelect v-model="postAnoFiscal.estatus">
-              <option>Activo</option>
-              <option>Abierto</option>
-              <option>Cerrado</option>
+              <option>ACTIVO</option>
+              <option>ABIERTO</option>
+              <option>CERRADO</option>
             </CFormSelect>
           </CCol>
           <div class="modal-footer">
@@ -229,9 +229,9 @@ export default {
       })
     },
     toggleDetails(item) {
-      this.id = item.id
-      this.postAnoFiscal = item
-      this.lgDemo = true
+      this.id = item.id;
+      this.postAnoFiscal = {...item};
+      this.lgDemo = true;
     },
     clearModal1() {
       this.postAnoFiscal = {
@@ -278,6 +278,8 @@ export default {
               class: 'text-white',
             })
           })
+          this.clearModal1();
+          this.lgDemo = false;
       } else {
         Api.postAnioFiscal(this.postAnoFiscal)
           .then((response) => {
@@ -294,7 +296,39 @@ export default {
               class: 'text-white',
             })
           }),
-          this.getAnioFiscalAll()
+          this.getAnioFiscalAll();
+          this.clearModal1();
+          this.lgDemo = false;
+      }
+      
+    },
+  },
+
+  computed: {
+    initialDate: {
+      get() {
+        let date = this.postAnoFiscal.fechaInicial;
+        if (typeof this.postAnoFiscal.fechaInicial === "string") {
+          date = new Date(this.postAnoFiscal.fechaInicial);
+        }
+
+        return date.toISOString().split('T')[0];
+      },
+      set(value) {
+        return this.postAnoFiscal.fechaInicial = new Date(value);
+      }
+    },
+    finalDate: {
+      get() {
+        let date = this.postAnoFiscal.fechaFinal;
+        if (typeof this.postAnoFiscal.fechaFinal === "string") {
+          date = new Date(this.postAnoFiscal.fechaFinal);
+        }
+
+        return date.toISOString().split('T')[0];
+      },
+      set(value) {
+        return this.postAnoFiscal.fechaFinal = new Date(value);
       }
     },
   },
