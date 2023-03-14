@@ -6,19 +6,19 @@ import Api from '../../services/FormulacionServices'
 // and `Store` (e.g. `useUserStore`, `useCartStore`, `useProductStore`)
 // the first argument is a unique id of the store across your application
 export const useRegistroStore = defineStore('EstProgramatica', () => {
-  const EstPros = ref([])
+  const estProgramatica = ref([])
 
-  const getAllEstPro = computed(() => EstPros)
+  const getAllEstProgramatica = computed(() => estProgramatica)
 
   function getEstructura() {
     Api.getEstProgramatica().then((response) => {
-      EstPros.value = response.data.data
+      estProgramatica.value = response.data.data
     })
   }
 
   return {
     getEstructura,
-    EstPros,
-    getAllEstPro,
+    estProgramatica,
+    getAllEstProgramatica,
   }
 })

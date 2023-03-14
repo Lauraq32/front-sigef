@@ -18,7 +18,7 @@
     :tableHeadProps="{}"
     :activePage="1"
     header
-    :items="EstPros"
+    :items="estProgramatica"
     :columns="columns"
     columnFilter
     itemsPerPageSelect
@@ -84,7 +84,6 @@ export default {
           _style: { width: '1%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
       details: [],
@@ -93,7 +92,7 @@ export default {
 
   computed: {
     ...mapStores(useRegistroStore),
-    ...mapState(useRegistroStore, ['EstPros']),
+    ...mapState(useRegistroStore, ['estProgramatica']),
   },
   methods: {
     ...mapActions(useRegistroStore, ['getEstructura']),
@@ -130,7 +129,7 @@ export default {
   },
   mounted() {
     this.getEstructura()
-    console.log(this.EstPros)
+    console.log(this.estProgramatica)
   },
 }
 </script>
