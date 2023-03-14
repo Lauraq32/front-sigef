@@ -26,7 +26,21 @@
 }
 
 
+
 .fw-bold {
     font-weight: 700;
+    color: black;
+}
+
+
+.toast {
+    --cui-toast-bg: rgba(208, 253, 208);
+}
+
+.white-text {
+    color: white;
+}
+
+.black-text {
     color: black;
 }

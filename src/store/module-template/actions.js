@@ -1,15 +1,6 @@
 /* eslint-disable prettier/prettier */
 
 
-import Api from '../services/Auth'
-
-// export const Login = async ({ commit }) => {
-//     Api.Login(user.email, user.password).then(response => {
-//         console.log(response.data)
-//         commit('SET_USER', response.data)
-//     })
-// }
-
 
 //actualizar una entrada
 export const updateEntries = async ({ commit }, entry) => {
@@ -35,4 +26,9 @@ export const deleteEntry = async ({ commit }, id) => {
 
     return id
 
+
 }
+
+
+
+

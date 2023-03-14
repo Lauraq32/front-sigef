@@ -1,10 +1,5 @@
 <template>
   <h3 class="text-center">Marcas</h3>
-
-  <!-- <div>
-    <button @click="modal = true">Abrir Modal</button>
-    
-  </div> -->
   <div class="table-headers">
     <div class="p-2">
       <CButton color="info" style="font-weight: bold" v-on:click="openModal"
@@ -15,7 +10,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -74,21 +69,6 @@
           :validated="validatedCustom01"
           @submit="handleSubmitCustom01"
         >
-          <!-- <CCol :md="2">
-            <CFormLabel for="validationCustom02">Código</CFormLabel>
-            <CFormInput
-              v-model="postMarcas.id"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol> -->
-
-          <!-- <div>
-            <input ref="focusMe" type="text" />
-          </div> -->
-
           <CCol :md="6">
             <CFormLabel for="validationCustom02">Marca</CFormLabel>
 
@@ -129,6 +109,8 @@ import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
 import Api from '../services/ActivoFijoServices'
 
+import { useToastStore } from '@/store/toast'
+
 export default {
   components: {
     CSmartTable,
@@ -160,7 +142,6 @@ export default {
           _style: { width: '1%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
 
@@ -181,21 +162,8 @@ export default {
       prueba.push({})
     },
 
-    // openModal() {
-    //   this.lgDemo = true
-    //   // Aquí puedes llamar a cualquier función que necesites
-    // },
-
-    // focusI() {
-    //   this.focus = true
-    //   if (this.focus == true) {
-    //     this.focusInput()
-    //   } else if (this.focus == true) {
-    //     this.focus = false
-    //   }
-    // },
-
     ...mapActions(useRegistroStore, ['getMarcas', 'addMarcas']),
+    ...mapActions(useToastStore, ['show']),
 
     focusInput() {
       this.$refs.name.focus()
@@ -210,10 +178,7 @@ export default {
     },
 
     unaVez() {
-      // if (!this.runOnce) {
       this.focusInput()
-      // this.runOnce = true
-      // }
     },
 
     funcionKlk() {
@@ -290,11 +255,11 @@ export default {
     submitForm() {
       if (this.id) {
         Api.putMarca(this.id, this.postMarcas).then((response) => {
-          this.lgDemo = false
-          this.status = response.status
-          this.Error = response.data.message
-          this.alert()
-          console.log(this.Error)
+          this.show({
+            content: 'Registro añadido correctamente',
+            closable: true,
+          })
+
           setTimeout(this.getMarcas, 500)
           this.postMarcas = {
             id: 0,
@@ -304,8 +269,21 @@ export default {
         })
         setTimeout(this.getMarcas, 500)
       } else {
-        this.addMarcas(this.postMarcas)
-        this.alert()
+        Api.postMarca(this.postMarcas)
+          .then((response) => {
+            this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
+            })
+          })
+          .catch((error) => {
+            this.show({
+              content: 'Error al enviar el formulario',
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+            })
+          })
 
         this.lgDemo = true
         setTimeout(this.getMarcas, 500)
