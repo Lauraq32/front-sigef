@@ -32,20 +32,6 @@
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
-    <template #show_details="{ item }">
-      <td class="py-1">
-        <CButton
-          class="mt-1"
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
-        </CButton>
-      </td>
-    </template>
   </CSmartTable>
 </template>
 <script>
@@ -77,13 +63,6 @@ export default {
           key: 'unidadRespon',
           label: 'Unidad Responsable',
           _style: { width: '5%' },
-        },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
         },
       ],
       details: [],
