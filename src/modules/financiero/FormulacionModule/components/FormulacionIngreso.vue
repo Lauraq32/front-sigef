@@ -591,8 +591,8 @@ export default {
         localStorage.getItem('id_Ayuntamiento'),
         localStorage.getItem('ano'),
       ).then((response) => {
-        this.footerItem[1].label = this.formatPrice(response.data.data.alaFecha)
-        this.footerItem[2].label = this.formatPrice(response.data.data.anioAnt)
+        this.footerItem[1].label = this.formatPrice(response.data.data.anioAnt)
+        this.footerItem[2].label = this.formatPrice(response.data.data.alaFecha)
         this.footerItem[3].label = this.formatPrice(response.data.data.presForm)
         this.footerItem[3].label = this.formatPrice(response.data.data.presForm)
       })
