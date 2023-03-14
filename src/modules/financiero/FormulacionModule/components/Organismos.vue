@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">organismos</h3>
+  <h3 class="text-center">Organismos</h3>
   <hr />
   <div class="table-headers">
     <div class="d-inline p-2">
@@ -69,7 +69,7 @@ export default {
   data: () => {
     return {
       columns: [
-        { key: 'id', label: 'ID', _style: { width: '40%' } },
+        { key: 'id', label: 'ID', _style: { width: '40%',display:'none' } },
         { key: 'grupo', label: 'Grupo', _style: { width: '40%' } },
         { key: 'subgrupo', label: 'Subgrupo', _style: { width: '20%' } },
         {
