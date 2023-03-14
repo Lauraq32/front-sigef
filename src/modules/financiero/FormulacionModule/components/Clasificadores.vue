@@ -13,44 +13,43 @@
   <CSmartTable clickableRows :tableProps="{
     striped: true,
     hover: true,
-  }" :tableHeadProps="{}" :activePage="1" header :items="items"
-    :columns="columns" columnFilter itemsPerPageSelect :itemsPerPage="5"
-    :items-per-page-options="[5, 10, 20, 50, 100, 150]" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination>
+  }" :tableHeadProps="{}" :activePage="1" header :items="items" :columns="columns" columnFilter itemsPerPageSelect
+    :itemsPerPage="5" :items-per-page-options="[5, 10, 20, 50, 100, 150]" columnSorter
+    :sorterValue="{ column: 'status', state: 'asc' }" pagination>
     <template #status="{ item }">
       <td>
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
     <template #cControl="{ item }">
-      <td >
-        {{item.cControl}}
+      <td>
+        {{ item.cControl }}
       </td>
     </template>
     <template #cuentaContag="{ item }">
       <td class="text-center">
-        {{item.cuentaContag.padEnd(14,0)}}
+        {{ item.cuentaContag.padEnd(15, 0) }}
       </td>
     </template>
     <template #ctgFuenteId="{ item }">
       <td class="text-center">
-        {{item.ctgFuenteId}}
+        {{ item.ctgFuenteId }}
       </td>
     </template>
     <template #clasifica="{ item }">
-      <td >
-        {{item.clasifica}}
+      <td>
+        {{ item.clasifica }}
       </td>
     </template>
-  
+
     <template #ctgFuenteEspecificaId="{ item }">
       <td class="text-center">
-        {{item.ctgFuenteEspecificaId}}
+        {{ item.ctgFuenteEspecificaId }}
       </td>
     </template>
     <template #ctgOrganismoFinanciadorId="{ item }">
       <td class="text-center">
-     {{item.ctgOrganismoFinanciadorId}}
+        {{ item.ctgOrganismoFinanciadorId }}
       </td>
     </template>
     <template #show_details="{ item, index }">
@@ -87,15 +86,11 @@ export default {
         { key: 'cControl', label: 'Cuenta' },
         { key: 'clasifica', label: 'Clasificador' },
         { key: 'cuentaContag', label: 'Cuenta contable' },
-   
+
 
         { key: 'nombre', label: 'Detalle', _style: { width: '25%' } },
-        { key: 'ctgFuenteId', label: 'Fuente',_style:{textAling:'center'}},
+        { key: 'ctgFuenteId', label: 'Fuente', _style: { textAling: 'center' } },
         { key: 'ctgFuenteEspecificaId', label: 'Fuente especifica' },
-        // { key: 'nombre', label: 'Nombre' },
-        // { key: 'identificadorornfin', label:'Nombre' },
-        // { key: 'nombrefUENTE', label: 'Nombre Fuente' },
-        // { key: 'nombrefuenteespecifica', label: 'Nombre Fuente especifica' },
         { key: 'ctgOrganismoFinanciadorId', label: 'Organismo Financiero' },
         {
           key: 'tipo',
@@ -104,8 +99,6 @@ export default {
           sorter: false,
           _style: { width: '5%' },
         },
-        //{ key: 'ctA_GASTOS', _style: { width: '20%'} },
-      
       ],
       details: [],
       items: [],
@@ -155,10 +148,10 @@ export default {
   },
   computed: {},
   mounted() {
-  Api.getListarClasificadores().then(response => {
-    this.items = response.data.data
-    console.log(this.items)
-  })
+    Api.getListarClasificadores().then(response => {
+      this.items = response.data.data
+      console.log(this.items)
+    })
     //this.$store.dispatch('Formulacion/getClasificadores');
   },
 }
