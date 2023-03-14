@@ -978,7 +978,6 @@ export default {
       horaActual: '',
       toasts: [],
       code: null,
-      // show: false,
       noEnviado: false,
       Error: '',
       status: null,
