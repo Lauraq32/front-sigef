@@ -18,12 +18,11 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
     header
     :items="anioFiscal"
     :columns="columns"
@@ -87,7 +86,7 @@
         <CForm class="row g-3 needs-validation" novalidate>
           <CCol :md="12">
             <CFormLabel>Año Fiscal NO.</CFormLabel>
-            <CFormInput v-model="postAnoFiscal.anio" />
+            <CFormInput disabled v-model="postAnoFiscal.anio" />
           </CCol>
 
           <CCol :md="6">
@@ -135,13 +134,15 @@
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
+              @click="
+                () => {
+                  lgDemo = false
+                }
+              "
             >
               Cancelar
             </button>
-            <button
-              class="btn btn-info btn-block mt-1"
-              v-on:click="submitForm"
-            >
+            <button class="btn btn-info btn-block mt-1" v-on:click="submitForm">
               Guardar
             </button>
           </div>
@@ -200,8 +201,6 @@ export default {
     }
   },
 
-  computed: {},
-
   methods: {
     changeDate({ target: { name, value } }) {
       if (name == 'fechaInicio') {
@@ -210,6 +209,7 @@ export default {
           selectedDate.getFullYear().toString().substring(2, 4) + '0000'
         this.postAnoFiscal.compGastos = selectedYear
         this.postAnoFiscal.compIngresos = selectedYear
+        this.postAnoFiscal.anio = selectedDate.getFullYear().toString()
       }
     },
     formatDate(fecha) {
@@ -246,7 +246,7 @@ export default {
     },
     submitForm(event) {
       event.preventDefault()
-        event.stopPropagation()
+      event.stopPropagation()
       if (this.id) {
         Api.putAnioFiscal(this.id, this.postAnoFiscal).then(() => {
           this.lgDemo = false
@@ -262,19 +262,20 @@ export default {
           }
         })
       } else {
-        Api.postAnioFiscal(this.postAnoFiscal)
-        (this.lgDemo = true(
-          (this.postAnoFiscal = {
-            id: 0,
-            ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
-            compGastos: null,
-            compIngresos: null,
-            estatus: null,
-            anio: 0,
-            fechaInicial: new Date(Date.now()),
-            fechaFinal: new Date(Date.now()),
-          }),
-        )),
+        Api.postAnioFiscal(this.postAnoFiscal)(
+          (this.lgDemo = true(
+            (this.postAnoFiscal = {
+              id: 0,
+              ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+              compGastos: null,
+              compIngresos: null,
+              estatus: null,
+              anio: 0,
+              fechaInicial: new Date(Date.now()),
+              fechaFinal: new Date(Date.now()),
+            }),
+          )),
+        ),
           this.getAnioFiscalAll()
       }
     },
