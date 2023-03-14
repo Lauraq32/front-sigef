@@ -103,14 +103,7 @@ export default {
           _style: { width: '5%' },
         },
         //{ key: 'ctA_GASTOS', _style: { width: '20%'} },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
-        },
+      
       ],
       details: [],
       items: [],
