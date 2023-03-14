@@ -15,7 +15,6 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
     header
     :items="Marcas"
     :columns="columns"
@@ -302,6 +301,8 @@ export default {
 
   mounted() {
     this.closeModal()
+
+    console.log(this.Marcas)
   },
 }
 </script>

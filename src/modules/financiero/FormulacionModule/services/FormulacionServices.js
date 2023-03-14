@@ -17,6 +17,10 @@ class FormulacionApi {
     return http.get('/Financiero/ListarClasificadores')
   }
 
+  getEstProgramatica() {
+    return http.get('CtgMestProg')
+  }
+
   deleteIngreso(id) {
     return http.delete(`PresIngreso/${id}`)
   }
