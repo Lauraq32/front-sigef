@@ -61,22 +61,22 @@ export default {
   data: () => {
     return {
       columns: [
-        { key: 'numero', label: 'Id', _style: { width: '40%' } },
+        { key: 'numero', label: 'Id', _style: { width: '5%' } },
         {
           key: 'pnap',
           label: 'Pnap',
           sorter: false,
-          _style: { width: '20%' },
+          _style: { width: '5%' },
         },
-        { key: 'programa', label: 'Programa', _style: { width: '20%' } },
-        { key: 'proyecto', label: 'Proyecto', _style: { width: '20%' } },
-        { key: 'actObra', label: 'Actividad_Obra', _style: { width: '20%' } },
-        { key: 'ccontrol', label: 'Control', _style: { width: '20%' } },
-        { key: 'nombre', label: 'Denominacion', _style: { width: '20%' } },
+        { key: 'programa', label: 'Programa', _style: { width: '5%' } },
+        { key: 'proyecto', label: 'Proyecto', _style: { width: '5%' } },
+        { key: 'actObra', label: 'Actividad Obra', _style: { width: '5%' } },
+        { key: 'ccontrol', label: 'Control', _style: { width: '5%' } },
+        { key: 'nombre', label: 'Denominacion', _style: { width: '10%' } },
         {
-          key: 'unidadResponsable',
+          key: 'unidadRespon',
           label: 'Unidad Responsable',
-          _style: { width: '20%' },
+          _style: { width: '5%' },
         },
         {
           key: 'show_details',
