@@ -5,13 +5,13 @@
       <AppHeader />
       <div class="body flex-grow-1 px-3">
         <CContainer fluid class="p-1">
-          <ToastStack />
           <router-view />
         </CContainer>
       </div>
       <AppFooter />
     </div>
   </div>
+  <ToastStack />
 </template>
 <script>
 import { CContainer } from '@coreui/vue'
