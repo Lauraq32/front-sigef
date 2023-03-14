@@ -7,7 +7,7 @@
         color="info"
         @click="
           () => {
-            lgDemo = true
+            lgDemo = true, clearModal1()
           }
         "
         >Agregar</CButton
@@ -156,6 +156,8 @@
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/EjecucionServices'
+import { useToastStore } from '@/store/toast'
+import { mapActions } from 'pinia'
 
 export default {
   components: {
@@ -202,6 +204,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(useToastStore, ['show']),
     changeDate({ target: { name, value } }) {
       if (name == 'fechaInicio') {
         const selectedDate = new Date(value)
@@ -230,6 +233,18 @@ export default {
       this.postAnoFiscal = item
       this.lgDemo = true
     },
+    clearModal1() {
+      this.postAnoFiscal = {
+        id: 0,
+        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+        compGastos: null,
+        compIngresos: null,
+        estatus: null,
+        anio: 0,
+        fechaInicial: new Date(Date.now()),
+        fechaFinal: new Date(Date.now()),
+      }
+    },
     getBadge(status) {
       switch (status) {
         case 'Active':
@@ -248,34 +263,37 @@ export default {
       event.preventDefault()
       event.stopPropagation()
       if (this.id) {
-        Api.putAnioFiscal(this.id, this.postAnoFiscal).then(() => {
-          this.lgDemo = false
-          this.postAnoFiscal = {
-            id: 0,
-            ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
-            compGastos: null,
-            compIngresos: null,
-            estatus: null,
-            anio: 0,
-            fechaInicial: new Date(Date.now()),
-            fechaFinal: new Date(Date.now()),
-          }
-        })
+        Api.putAnioFiscal(this.id, this.postAnoFiscal)
+          .then(() => {
+            this.show({
+              content: 'Registro actualizado correctamente',
+              closable: true,
+            })
+          })
+          .catch((error) => {
+            this.show({
+              content: 'Error al enviar el formulario',
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+            })
+          })
       } else {
-        Api.postAnioFiscal(this.postAnoFiscal)(
-          (this.lgDemo = true(
-            (this.postAnoFiscal = {
-              id: 0,
-              ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
-              compGastos: null,
-              compIngresos: null,
-              estatus: null,
-              anio: 0,
-              fechaInicial: new Date(Date.now()),
-              fechaFinal: new Date(Date.now()),
-            }),
-          )),
-        ),
+        Api.postAnioFiscal(this.postAnoFiscal)
+          .then((response) => {
+            this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
+            })
+          })
+          .catch((error) => {
+            this.show({
+              content: 'Error al enviar el formulario',
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+            })
+          }),
           this.getAnioFiscalAll()
       }
     },

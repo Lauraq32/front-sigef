@@ -130,7 +130,7 @@ class Ejecucion {
     }
 
     putAnioFiscal(id, data) {
-        return http.put(`anios-fiscales/?ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}${id}`, data)
+        return http.put(`anios-fiscales/${id}?ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`, data)
     }
 
     putRegistroGasto(data, id) {
