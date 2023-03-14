@@ -16,6 +16,9 @@ class FormulacionApi {
   getListarClasificadores() {
     return http.get('/Financiero/ListarClasificadores')
   }
+  getListarOrganismo() {
+    return http.get('/CtgOrganismoFinanciador')
+  }
 
   getEstProgramatica() {
     return http.get('CtgMestProg')
