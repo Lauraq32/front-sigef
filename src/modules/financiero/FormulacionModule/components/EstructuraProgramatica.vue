@@ -18,7 +18,7 @@
     :tableHeadProps="{}"
     :activePage="1"
     header
-    :items="estProgramatica"
+    :items="estructuraProgramatica"
     :columns="columns"
     columnFilter
     itemsPerPageSelect
@@ -92,7 +92,7 @@ export default {
 
   computed: {
     ...mapStores(useRegistroStore),
-    ...mapState(useRegistroStore, ['estProgramatica']),
+    ...mapState(useRegistroStore, ['estructuraProgramatica']),
   },
   methods: {
     ...mapActions(useRegistroStore, ['getEstructura']),
@@ -129,7 +129,7 @@ export default {
   },
   mounted() {
     this.getEstructura()
-    console.log(this.estProgramatica)
+    console.log(this.estructuraProgramatica)
   },
 }
 </script>
