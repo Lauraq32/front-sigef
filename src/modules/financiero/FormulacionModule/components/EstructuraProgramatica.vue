@@ -129,7 +129,6 @@ export default {
   },
   mounted() {
     this.getEstructura()
-    console.log(this.estructuraProgramatica)
   },
 }
 </script>
