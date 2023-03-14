@@ -19,7 +19,7 @@
     :activePage="1"
     
     header
-    :items="this.$store.state.Formulacion.organismos"
+    :items="items"
     :columns="columns"
     itemsPerPageSelect
     :itemsPerPage="5"
@@ -62,6 +62,7 @@
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
+import Api from '../services/FormulacionServices'
 export default {
   components: {
     CSmartTable,
@@ -69,31 +70,24 @@ export default {
   data: () => {
     return {
       columns: [
-        { key: 'id', label: 'ID', _style: { width: '40%',display:'none' } },
-        { key: 'grupo', label: 'Grupo', _style: { width: '40%' } },
-        { key: 'subgrupo', label: 'Subgrupo', _style: { width: '20%' } },
+        { key: 'codigo', label: 'Grupo' },
+        { key: 'sGrupo', label: 'Subgrupo', _style: { width: '20%' } },
         {
-          key: 'orgafin',
+          key: 'organismoFinanciador',
           label: 'Organismo Financiero',
           filter: false,
           sorter: false,
           _style: { width: '20%' },
         },
         {
-          key: 'denominacion',
+          key: 'detalle',
           label: 'Denominación',
           _style: { width: '40%' },
         },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
-        },
+      
       ],
       details: [],
+      items:[]
     }
   },
   methods: {
@@ -128,7 +122,9 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('Formulacion/getOrganismos')
+    Api.getListarOrganismo().then(response => {
+      this.items = response.data.data
+    })
   },
 }
 </script>

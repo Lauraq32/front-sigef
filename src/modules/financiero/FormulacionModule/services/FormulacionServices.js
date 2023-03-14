@@ -16,6 +16,9 @@ class FormulacionApi {
   getListarClasificadores() {
     return http.get('/Financiero/ListarClasificadores')
   }
+  getListarOrganismo() {
+    return http.get('/CtgOrganismoFinanciador')
+  }
 
   deleteIngreso(id) {
     return http.delete(`PresIngreso/${id}`)
