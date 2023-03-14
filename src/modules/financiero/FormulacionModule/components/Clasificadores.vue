@@ -22,6 +22,36 @@
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
+    <template #ccontrol="{ item }">
+      <td class="text-center">
+        {{item.ccontrol}}
+      </td>
+    </template>
+    <template #iDENTIFICADORdUENTE="{ item }">
+      <td class="text-center">
+        {{item.iDENTIFICADORdUENTE}}
+      </td>
+    </template>
+    <template #clasifica="{ item }">
+      <td class="text-center">
+        {{item.clasifica}}
+      </td>
+    </template>
+    <template #ctA_CONTAG="{ item }">
+      <td class="text-center">
+        {{item.ctA_CONTAG}}
+      </td>
+    </template>
+    <template #iDENTIFICADORfUENTEeSPECIFICA="{ item }">
+      <td class="text-center">
+        {{item.iDENTIFICADORfUENTEeSPECIFICA}}
+      </td>
+    </template>
+    <template #nombreorgfin="{ item }">
+      <td class="text-center">
+     {{item.nombreorgfin}}
+      </td>
+    </template>
     <template #show_details="{ item, index }">
       <td class="py-2">
         <CButton color="primary" variant="outline" square size="sm" @click="toggleDetails(item, index)">
@@ -56,11 +86,9 @@ export default {
         { key: 'clasifica', label: 'Clasificador' },
         { key: 'ctA_CONTAG', label: 'Cuenta contable' },
    
-        { key: 'ctA_INGRESO', label: 'Cuenta ingreso' },
 
-        { key: 'ctA_GASTOS', label: 'Cuenta Gastos' },
-        { key: 'detalle', label: 'Detalle', _style: { width: '20%' } },
-        { key: 'iDENTIFICADORdUENTE', label: 'Fuente' },
+        { key: 'ctA_GASTOS', label: 'Detalle', _style: { width: '25%' } },
+        { key: 'iDENTIFICADORdUENTE', label: 'Fuente',_style:{textAling:'center'}},
         { key: 'iDENTIFICADORfUENTEeSPECIFICA', label: 'Fuente especifica' },
         // { key: 'nombre', label: 'Nombre' },
         // { key: 'identificadorornfin', label:'Nombre' },
