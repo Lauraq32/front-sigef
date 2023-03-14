@@ -72,7 +72,7 @@ export default {
         { key: 'proyecto', label: 'Proyecto', _style: { width: '5%' } },
         { key: 'actObra', label: 'Actividad Obra', _style: { width: '5%' } },
         { key: 'ccontrol', label: 'Control', _style: { width: '5%' } },
-        { key: 'nombre', label: 'Denominacion', _style: { width: '10%' } },
+        { key: 'nombre', label: 'Denominación', _style: { width: '10%' } },
         {
           key: 'unidadRespon',
           label: 'Unidad Responsable',
