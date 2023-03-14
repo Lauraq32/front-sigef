@@ -1145,22 +1145,6 @@ export default {
     ]),
     ...mapActions(useToastStore, ['show']),
 
-    // createToast() {
-    //   if (this.status == 200) {
-    //     this.toasts.push({
-    //       content: this.Error,
-    //       viseble: false,
-    //       close: false,
-    //     })
-    //   } else {
-    //     this.toasts.push({
-    //       content: 'Error al intentar enviar el formulario',
-    //       close: true,
-    //       color: 'danger',
-    //     })
-    //   }
-    // },
-
     imprimirReporte() {
       if (this.reporteDepto.split('-')[0] == 1) {
         window
@@ -1207,10 +1191,7 @@ export default {
     },
 
     unaVez() {
-      // if (!this.runOnce) {
       this.focusInput()
-      // this.runOnce = true
-      // }
     },
     openModal() {
       this.lgDemo = true
@@ -1266,15 +1247,6 @@ export default {
         this.id = item.id
         this.postEmpleado = response.data.data
       })
-    },
-
-    cambiarEstilo() {
-      if (this.cambiar == true) {
-        this.estilo = { backgroundColor: 'rgb(255, 100, 100)', color: 'black' }
-      } else {
-        this.estilo = {}
-      }
-      // Actualizar el objeto de estilo con los nuevos valores
     },
 
     clearModal1() {
