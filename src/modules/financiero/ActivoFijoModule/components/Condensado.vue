@@ -1,4 +1,5 @@
 <template>
+      
   <h3 class="text-center">Conduce</h3>
   <hr />
   <div class="table-headers">
@@ -18,7 +19,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -165,13 +166,15 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
+ 
+import { useToastStore } from '@/store/toast'
 import Api from '../services/ActivoFijoServices'
 
 export default {
   components: {
     CSmartTable,
     CModal,
+      
   },
 
   data: () => {
@@ -201,7 +204,6 @@ export default {
           _style: { width: '1%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
 
@@ -219,6 +221,7 @@ export default {
 
   methods: {
     ...mapActions(useRegistroStore, ['getConduce', 'addConduce']),
+    ...mapActions(useToastStore, ['show']),
 
     toggleDetails(item) {
       if (item.Conduce !== 0 || item.variacion !== 0) {
@@ -263,12 +266,10 @@ export default {
       if (this.id) {
         Api.putConduce(this.id, this.postConduce).then((response) => {
           this.lgDemo = false
-          this.$swal({
-            position: 'top-end',
-            icon: 'success',
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
+          this.show({
+            content: response.data.message,
+            closable: true,
+            color: 'success',
           })
           setTimeout(this.getConduce, 500)
           this.postConduce = {
@@ -284,16 +285,21 @@ export default {
         })
         setTimeout(this.getConduce, 500)
       } else {
-        this.addConduce(this.postConduce)
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          text: 'Datos agregados con exito',
-          title: 'Agregado',
-          showConfirmButton: false,
-          timer: 1500,
-        })
-        //const form = event.currentTarget
+        Api.postConduce(this.postConduce)
+          .then((response) => {
+                 this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
+            })
+          })
+           .catch((error) => {
+            this.show({
+              content: 'Error al enviar el formulario',
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+            })
+          })
         this.lgDemo = true
         setTimeout(this.getConduce, 500)
         ;(this.postConduce = {

@@ -1,4 +1,5 @@
 <template>
+      
   <h3 class="text-center">Cuentas de banco</h3>
   <hr />
   <div>
@@ -23,7 +24,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -526,12 +527,15 @@
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/ConciliacionServices'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
+import { mapActions } from 'pinia'
+ 
+import { useToastStore } from '@/store/toast'
 import { thisTypeAnnotation } from '@babel/types'
 export default {
   components: {
     CSmartTable,
     CModal,
+      
   },
   data: () => {
     return {
@@ -629,6 +633,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(useToastStore, ['show']),
     setBancoId(banco, nombreBanco) {
       this.lgDemo3 = true
       this.BancoId = banco
@@ -638,15 +643,12 @@ export default {
       if (this.idCuenta) {
         Api.putConciliacioncuentaBanco(this.idCuenta, this.CuentaBanco).then(
           (response) => {
-            console.log(response.data)
             this.lgDemo = false
-            this.$swal({
-              position: 'top-end',
-              icon: 'success',
-              title: response.data.message,
-              showConfirmButton: false,
-              timer: 1500,
+                 this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
             })
+
             // this.CuentaBanco = {
             //   ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
             //   bancoId: 0,
@@ -664,17 +666,21 @@ export default {
           },
         )
       } else {
-        Api.postCuentaBancoConciliacion(this.CuentaBanco).then((response) => {
-          console.log(response)
-        })
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          text: 'Datos agregados con exito',
-          title: 'Agregado',
-          showConfirmButton: false,
-          timer: 1500,
-        })
+        Api.postCuentaBancoConciliacion(this.CuentaBanco)
+          .then((response) => {
+                 this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
+            })
+          })
+           .catch((error) => {
+            this.show({
+              content: 'Error al enviar el formulario',
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+            })
+          })
       }
     },
     toggleDetails(banco) {
@@ -776,17 +782,21 @@ export default {
     //   })
     // },
     Guardar1() {
-      Api.postHistoricoBanco(this.Conciliacion).then((response) => {
-        console.log(response)
-      })
-      Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        text: 'Datos agregados con exito',
-        title: 'Agregado',
-        showConfirmButton: false,
-        timer: 1500,
-      })
+      Api.postHistoricoBanco(this.Conciliacion)
+        .then((response) => {
+          this.show({
+            content: response.data.message,
+            closable: true,
+            color: 'success',
+          })
+        })
+        .catch((error) => {
+          this.show({
+            content: error.message,
+            closable: true,
+            color: 'danger',
+          })
+        })
     },
   },
   mounted() {
