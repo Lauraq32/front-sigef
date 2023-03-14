@@ -59,12 +59,6 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
-    <template #anioAnt="{ item }">
-      <td class="text-center">
-        {{ item.anioAnt }}
-      </td>
-    </template>
-
     <template #ctgFuenteEspecificaId="{ item }">
       <td class="text-center">
         {{ item.ctgFuenteEspecificaId }}
@@ -84,7 +78,7 @@
     </template>
 
     <template #instOtorga="{ item }">
-      <td class="text-end">
+      <td class="text-center">
         {{ item.instOtorga }}
       </td>
     </template>
@@ -93,6 +87,12 @@
         {{ formatPrice(item.alaFecha) }}
       </td>
     </template>
+    <template #anioAnt="{ item }">
+      <td class="text-end">
+        {{ formatPrice(item.anioAnt) }}
+      </td>
+    </template>
+
     <template #presForm="{ item }">
       <td class="text-end">
         {{ formatPrice(item.presForm) }}
@@ -100,29 +100,29 @@
     </template>
 
     <template #show_details="{ item }">
-      <td class="py-1">
-        <CButton
-          class="mt-1"
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
-        </CButton>
-      </td>
-      <td class="py-1">
-        <CButton
-          class="mt-1"
-          color="danger"
-          variant="outline"
-          square
-          size="sm"
-          @click="deleteItem(item)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
-        </CButton>
+      <td class="py-2">
+        <div class="d-flex justify-content-around">
+          <CButton
+            class="mt-1"
+            color="primary"
+            variant="outline"
+            square
+            size="sm"
+            @click="toggleDetails(item)"
+          >
+            {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
+          </CButton>
+          <CButton
+            class="mt-1"
+            color="danger"
+            variant="outline"
+            square
+            size="sm"
+            @click="deleteItem(item)"
+          >
+            {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
+          </CButton>
+        </div>
       </td>
     </template>
     <template #details="{ item }">
@@ -432,7 +432,7 @@ export default {
         {
           key: 'ctgFuenteId',
           label: 'F/Financiamiento',
-          _style: { width: '8%' },
+          _style: { width: '14%' },
         },
         {
           key: 'ctgFuenteEspecificaId',
@@ -442,7 +442,7 @@ export default {
         {
           key: 'ctgOrganismoFinanciadorId',
           label: 'Org/Financiamiento',
-          _style: { width: '8%' },
+          _style: { width: '14%' },
         },
         {
           key: 'instOtorga',
