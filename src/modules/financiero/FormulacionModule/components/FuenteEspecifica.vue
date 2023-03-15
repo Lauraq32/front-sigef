@@ -46,7 +46,7 @@ export default {
     return {
       fuenteLista: [],
       columns: [
-        { key: 'id', label: 'Fuente Especifica', _style: { width: '10%' } },
+        { key: 'id', label: 'Fuente Específica', _style: { width: '10%' } },
         {
           key: 'ctgFuenteId',
           label: 'Fuente',
@@ -55,7 +55,7 @@ export default {
         },
         {
           key: 'descripcion',
-          label: 'Descripcion',
+          label: 'Descripción',
           _style: { width: '20%' },
         },
         {
