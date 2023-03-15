@@ -7,7 +7,7 @@
         color="info"
         @click="
           () => {
-            lgDemo = true, clearModal1()
+            ;(lgDemo = true), clearModal1()
           }
         "
         >Agregar</CButton
@@ -175,8 +175,8 @@ export default {
         compIngresos: null,
         estatus: null,
         anio: 0,
-        fechaInicial: new Date(Date.now()),
-        fechaFinal: new Date(Date.now()),
+        fechaInicial: null,
+        fechaFinal: null,
       },
 
       columns: [
@@ -215,7 +215,7 @@ export default {
         this.postAnoFiscal.anio = selectedDate.getFullYear().toString()
       }
     },
-    
+
     formatDate(fecha) {
       return new Date(fecha).toLocaleDateString('en-GB', {
         day: '2-digit',
@@ -230,9 +230,9 @@ export default {
       })
     },
     toggleDetails(item) {
-      this.id = item.id;
-      this.postAnoFiscal = {...item};
-      this.lgDemo = true;
+      this.id = item.id
+      this.postAnoFiscal = { ...item }
+      this.lgDemo = true
     },
     clearModal1() {
       this.postAnoFiscal = {
@@ -242,8 +242,8 @@ export default {
         compIngresos: null,
         estatus: null,
         anio: 0,
-        fechaInicial: new Date(Date.now()),
-        fechaFinal: new Date(Date.now()),
+        fechaInicial: null,
+        fechaFinal: null,
       }
     },
     getBadge(status) {
@@ -279,8 +279,8 @@ export default {
               class: 'text-white',
             })
           })
-          this.clearModal1();
-          this.lgDemo = false;
+        this.clearModal1()
+        this.lgDemo = false
       } else {
         Api.postAnioFiscal(this.postAnoFiscal)
           .then((response) => {
@@ -297,40 +297,48 @@ export default {
               class: 'text-white',
             })
           }),
-          this.getAnioFiscalAll();
-          this.clearModal1();
-          this.lgDemo = false;
+          this.getAnioFiscalAll()
+        this.clearModal1()
+        this.lgDemo = false
       }
-      
     },
   },
 
   computed: {
     initialDate: {
       get() {
-        let date = this.postAnoFiscal.fechaInicial;
-        if (typeof this.postAnoFiscal.fechaInicial === "string") {
-          date = new Date(this.postAnoFiscal.fechaInicial);
+        if (this.postAnoFiscal.fechaInicial !== null) {
+          let date = this.postAnoFiscal.fechaInicial
+          if (typeof this.postAnoFiscal.fechaInicial === 'string') {
+            date = new Date(this.postAnoFiscal.fechaInicial)
+            return date.toISOString().split('T')[0]
+          }
+        }else{
+          return
         }
 
-        return date.toISOString().split('T')[0];
       },
       set(value) {
-        return this.postAnoFiscal.fechaInicial = new Date(`${value}T00:00:00`);
-      }
+        return (this.postAnoFiscal.fechaInicial = new Date(`${value}T00:00:00`))
+      },
     },
     finalDate: {
       get() {
-        let date = this.postAnoFiscal.fechaFinal;
-        if (typeof this.postAnoFiscal.fechaFinal === "string") {
-          date = new Date(this.postAnoFiscal.fechaFinal);
-        }
+        if(this.postAnoFiscal.fechaFinal !== null){
 
-        return date.toISOString().split('T')[0];
+          let date = this.postAnoFiscal.fechaFinal
+          if (typeof this.postAnoFiscal.fechaFinal === 'string') {
+            date = new Date(this.postAnoFiscal.fechaFinal)
+          }
+  
+          return date.toISOString().split('T')[0]
+        }else{
+          return
+        }
       },
       set(value) {
-        return this.postAnoFiscal.fechaFinal = new Date(`${value}T00:00:00`);
-      }
+        return (this.postAnoFiscal.fechaFinal = new Date(`${value}T00:00:00`))
+      },
     },
   },
 
