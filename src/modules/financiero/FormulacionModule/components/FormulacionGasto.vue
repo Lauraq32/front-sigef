@@ -1049,6 +1049,17 @@ export default {
           status: 'Pending',
         },
       ],
+      footerItem: [
+        {
+          label: 'Total presupuesto',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
+      ],
     }
   },
   methods: {
@@ -1566,6 +1577,7 @@ export default {
     //  ...mapGetters(usePrepGastoStore,['getAllGasto']),
     ...mapState(usePrepGastoStore, [
       'prepGastoList',
+      'gastoListCount',
       'GastosListDos',
       'getGasto',
       'dataDummy',
@@ -1574,6 +1586,7 @@ export default {
 
   mounted() {
     this.getListarGastos()
+    this.footerItem[0].label = `Total items: ${this.gastoListCount}` 
   },
 }
 </script>

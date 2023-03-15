@@ -17,7 +17,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     :items="this.$store.state.Formulacion.organismos"
     :columns="columns"
@@ -93,6 +93,17 @@ export default {
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
+      footerItem: [
+        {
+          label: 'Total presupuesto',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
+      ],
       details: [],
     }
   },
@@ -128,7 +139,10 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('Formulacion/getOrganismos')
+    Api.getListarOrganismo().then(response => {
+      this.items = response.data.data
+      this.footerItem[0].label = `Total items: ${response.data.data.length}` 
+    })
   },
 }
 </script>
