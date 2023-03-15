@@ -215,7 +215,7 @@ export default {
         this.postAnoFiscal.anio = selectedDate.getFullYear().toString()
       }
     },
-    
+
     formatDate(fecha) {
       return new Date(fecha).toLocaleDateString('en-GB', {
         day: '2-digit',
@@ -315,9 +315,6 @@ export default {
 
         return date.toISOString().split('T')[0];
       },
-      set(value) {
-        return this.postAnoFiscal.fechaInicial = new Date(value);
-      }
     },
     finalDate: {
       get() {
@@ -328,9 +325,6 @@ export default {
 
         return date.toISOString().split('T')[0];
       },
-      set(value) {
-        return this.postAnoFiscal.fechaFinal = new Date(value);
-      }
     },
   },
 
