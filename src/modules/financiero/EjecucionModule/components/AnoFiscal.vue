@@ -215,6 +215,7 @@ export default {
         this.postAnoFiscal.anio = selectedDate.getFullYear().toString()
       }
     },
+    
     formatDate(fecha) {
       return new Date(fecha).toLocaleDateString('en-GB', {
         day: '2-digit',
