@@ -70,8 +70,8 @@ export default {
   data: () => {
     return {
       columns: [
-        { key: 'id', label: 'ID', _style: { width: '40%' } },
         { key: 'codigo', label: 'Código', _style: { width: '40%' } },
+        { key: 'grupo', label: 'Grupo', _style: { width: '20%' } },
         {
           key: 'fuente',
           label: 'Fuente',
@@ -79,14 +79,14 @@ export default {
           sorter: false,
           _style: { width: '20%' },
         },
-        { key: 'fondo', label: 'Fondo', _style: { width: '20%' } },
         { key: 'origen', label: 'Origne', _style: { width: '20%' } },
+        { key: 'descripcion', label: 'Descripcion', _style: { width: '20%' } },
         {
-          key: 'denominacion',
-          label: 'Denominación',
+          key: 'detalle',
+          label: 'Detalle',
           _style: { width: '40%' },
         },
-        { key: 'grupo', label: 'Grupo', _style: { width: '40%' } },
+        { key: 'orden', label: 'Orden', _style: { width: '40%' } },
         {
           key: 'show_details',
           label: '',
