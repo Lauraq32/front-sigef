@@ -13,7 +13,7 @@
   <CSmartTable clickableRows :tableProps="{
     striped: true,
     hover: true,
-  }" :tableHeadProps="{}" :activePage="1" header :items="items" :columns="columns" columnFilter itemsPerPageSelect
+  }" :tableHeadProps="{}" :activePage="1" header :items="items" :columns="columns" columnFilter itemsPerPageSelect :footer="footerItem"
     :itemsPerPage="5" :items-per-page-options="[5, 10, 20, 50, 100, 150]" columnSorter
     :sorterValue="{ column: 'status', state: 'asc' }" pagination>
     <template #status="{ item }">
@@ -82,6 +82,18 @@ export default {
   },
   data: () => {
     return {
+      itemsCount:null,
+      footerItem: [
+        {
+          label: 'Total presupuesto',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+       
+      ],
       columns: [
         { key: 'cControl', label: 'Cuenta' },
         { key: 'clasifica', label: 'Clasificador' },
@@ -151,6 +163,8 @@ export default {
     Api.getListarClasificadores().then(response => {
       this.items = response.data.data
       console.log(this.items)
+      this.itemsCount = this.items.length
+      this.footerItem[0].label = `Total items: ${this.itemsCount}`
     })
     //this.$store.dispatch('Formulacion/getClasificadores');
   },
