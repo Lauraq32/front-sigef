@@ -85,7 +85,7 @@
       <CCardBody>
         <CForm class="row g-3 needs-validation" novalidate>
           <CCol :md="12">
-            <CFormLabel>Año Fiscal NO.</CFormLabel>
+            <CFormLabel>Año Fiscal</CFormLabel>
             <CFormInput disabled v-model="postAnoFiscal.anio" />
           </CCol>
 
@@ -307,7 +307,7 @@ export default {
   computed: {
     initialDate: {
       get() {
-        if (this.postAnoFiscal.fechaInicial !== null) {
+        if (this.postAnoFiscal.fechaInicial !== null && this.postAnoFiscal.fechaInicial?.toString() !== 'Invalid Date') {
           let date = this.postAnoFiscal.fechaInicial
           if (typeof this.postAnoFiscal.fechaInicial === 'string') {
             date = new Date(this.postAnoFiscal.fechaInicial)
@@ -324,7 +324,7 @@ export default {
     },
     finalDate: {
       get() {
-        if(this.postAnoFiscal.fechaFinal !== null){
+        if(this.postAnoFiscal.fechaFinal !== null && this.postAnoFiscal.fechaFinal?.toString() !== 'Invalid Date'){
 
           let date = this.postAnoFiscal.fechaFinal
           if (typeof this.postAnoFiscal.fechaFinal === 'string') {
