@@ -83,15 +83,9 @@ export default {
   data: () => {
     return {
       columns: [
-        { key: 'cControl', label: 'Cuenta' },
         { key: 'clasifica', label: 'Clasificador' },
-        { key: 'cuentaContag', label: 'Cuenta contable' },
-
-
+        { key: 'cControl', label: 'Control' },
         { key: 'nombre', label: 'Detalle', _style: { width: '25%' } },
-        { key: 'ctgFuenteId', label: 'Fuente', _style: { textAling: 'center' } },
-        { key: 'ctgFuenteEspecificaId', label: 'Fuente especifica' },
-        { key: 'ctgOrganismoFinanciadorId', label: 'Organismo Financiero' },
         {
           key: 'tipo',
           label: 'Tipo',
@@ -99,6 +93,12 @@ export default {
           sorter: false,
           _style: { width: '5%' },
         },
+        { key: 'cuentaContag', label: 'Cuenta contable' },
+
+
+        { key: 'ctgFuenteId', label: 'Fuente', _style: { textAling: 'center' } },
+        { key: 'ctgFuenteEspecificaId', label: 'Fuente especifica' },
+        { key: 'ctgOrganismoFinanciadorId', label: 'Organismo Financiero' },
       ],
       details: [],
       items: [],
