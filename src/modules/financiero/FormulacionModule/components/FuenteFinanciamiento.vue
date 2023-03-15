@@ -28,42 +28,12 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
-    <template #status="{ item }">
-      <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
-      </td>
-    </template>
-    <template #show_details="{ item, index }">
-      <td class="py-2">
-        <CButton
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item, index)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
-        </CButton>
-      </td>
-    </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
-    </template>
   </CSmartTable>
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import Api from '../services/FormulacionServices'
-import { onMounted } from 'vue'
+
 export default {
   components: {
     CSmartTable,
@@ -72,7 +42,7 @@ export default {
     return {
       fuenteList: [],
       columns: [
-        { key: 'grupo', label: 'Grupo', _style: { width: '2%' } },
+        { key: 'grupo', label: 'Grupo', _style: { width: '2%',  } },
         { key: 'origen', label: 'Origen', _style: { width: '5%' } },
         {
           key: 'id',
@@ -86,14 +56,6 @@ export default {
           _style: { width: '10%' },
         },
         { key: 'detalle', label: 'Detalle', _style: { width: '20%' } },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
-        },
       ],
       details: [],
     }
