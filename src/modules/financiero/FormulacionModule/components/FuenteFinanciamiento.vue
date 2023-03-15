@@ -19,7 +19,7 @@
     :activePage="1"
     
     header
-    :items="this.$store.state.Formulacion.fuentesFianciamiento"
+    :items="fuenteList"
     :columns="columns"
     itemsPerPageSelect
     columnFilter
@@ -62,6 +62,7 @@
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
+import Api from '../services/FormulacionServices'
 import { onMounted } from 'vue'
 export default {
   components: {
@@ -69,24 +70,22 @@ export default {
   },
   data: () => {
     return {
+      fuenteList: [],
       columns: [
-        { key: 'codigo', label: 'Código', _style: { width: '40%' } },
-        { key: 'grupo', label: 'Grupo', _style: { width: '20%' } },
+        { key: 'grupo', label: 'Grupo', _style: { width: '2%' } },
+        { key: 'origen', label: 'Origen', _style: { width: '5%' } },
         {
-          key: 'fuente',
+          key: 'id',
           label: 'Fuente',
-          filter: false,
           sorter: false,
-          _style: { width: '20%' },
+          _style: { width: '2%' },
         },
-        { key: 'origen', label: 'Origne', _style: { width: '20%' } },
-        { key: 'descripcion', label: 'Descripcion', _style: { width: '20%' } },
         {
-          key: 'detalle',
-          label: 'Detalle',
-          _style: { width: '40%' },
+          key: 'descripcion',
+          label: 'Descripcion',
+          _style: { width: '10%' },
         },
-        { key: 'orden', label: 'Orden', _style: { width: '40%' } },
+        { key: 'detalle', label: 'Detalle', _style: { width: '20%' } },
         {
           key: 'show_details',
           label: '',
@@ -129,9 +128,14 @@ export default {
       }
       this.details.push(item._id)
     },
+    getAllFuente() {
+      Api.getFuenteEspecifica().then((response) => {
+        this.fuenteList = response.data.data
+      })
+    }
   },
   mounted() {
-    this.$store.dispatch('Formulacion/getListarFuentesFinanciamiento')
+    this.getAllFuente()
   },
 }
 </script>

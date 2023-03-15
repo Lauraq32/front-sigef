@@ -96,7 +96,7 @@ class FormulacionApi {
 
   //-----------------------------FUENTE ESPECIFICA---------------------------------------//
   getFuenteEspecifica() {
-    return http.get('/Financiero/ListarFuentesEsp')
+    return http.get('/CtgFuente')
   }
   //-----------------------------FUENTE ESPECIFICA---------------------------------------//
 
