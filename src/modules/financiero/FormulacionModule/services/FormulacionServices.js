@@ -100,6 +100,9 @@ class FormulacionApi {
   }
   //-----------------------------FUENTE ESPECIFICA---------------------------------------//
 
+  getFuente() {
+    return http.get('/CtgFuenteEspecifica')
+  }
   //-----------------------------FUENTE FINANCIAMIENTO---------------------------------------//
   getListarFuentesFinanciamiento() {
     return http.get('/Financiero/ListarFuentes')
