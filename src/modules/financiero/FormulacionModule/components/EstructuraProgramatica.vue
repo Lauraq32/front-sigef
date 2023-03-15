@@ -47,7 +47,6 @@ export default {
   data: () => {
     return {
       columns: [
-        { key: 'numero', label: 'Id', _style: { width: '5%' } },
         {
           key: 'pnap',
           label: 'Pnap',
