@@ -38,6 +38,7 @@
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import Api from '../services/FormulacionServices'
+
 export default {
   components: {
     CSmartTable,
