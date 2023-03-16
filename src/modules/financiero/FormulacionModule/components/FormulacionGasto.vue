@@ -38,7 +38,7 @@
     <h5>Importar Formulacion</h5>
     <CFormInput type="file" id="formFile" @change="onFileChange" />
   </div>
-  <CSmartTable
+  <CSmartTable class="sticky-top"
     clickableRows
     :tableProps="{
      striped: true,
@@ -259,7 +259,7 @@
             </button>
           </div>
         </CForm>
-        <CSmartTable
+        <CSmartTable class="sticky-top"
           clickableRows
           :tableProps="{
            striped: true,
