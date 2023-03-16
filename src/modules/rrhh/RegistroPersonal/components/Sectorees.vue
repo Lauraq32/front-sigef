@@ -18,7 +18,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -208,12 +208,10 @@ export default {
       if (this.id) {
         Api.putSector(this.id, this.postSectores).then((response) => {
           this.lgDemo = false
-          this.$swal({
-            position: 'top-end',
-            icon: 'success',
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
+          this.show({
+            content: response.data.message,
+            closable: true,
+            color: 'success',
           })
           setTimeout(this.getSectore, 500)
           this.postSectores = {
@@ -231,16 +229,21 @@ export default {
         })
         setTimeout(this.getSectore, 500)
       } else {
-        this.addSectores(this.postSectores)
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          text: 'Datos agregados con exito',
-          title: 'Agregado',
-          showConfirmButton: false,
-          timer: 1500,
-        })
-        //const form = event.currentTarget
+        Api.postSectores(this.postSectores)
+          .then((response) => {
+                 this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
+            })
+          })
+           .catch((error) => {
+            this.show({
+              content: 'Error al enviar el formulario',
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+            })
+          })
         this.lgDemo = true
         setTimeout(this.getSectore, 500)
         ;(this.postSectores = {

@@ -1,4 +1,5 @@
 <template>
+      
   <h3 class="text-center">ActivoFijo</h3>
   <hr />
   <div class="table-headers">
@@ -29,7 +30,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -471,19 +472,20 @@
 
 <script>
 import { useRegistroStore } from '../store/ActivoFijo/activo'
-// import { useRegistroStores } from '../store/ActivoFijo/Despreciacion'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
+ 
+import { useToastStore } from '@/store/toast'
 import Api from '../services/ActivoFijoServices'
 
 export default {
   components: {
     CSmartTable,
     CModal,
+      
   },
 
   data: () => {
@@ -558,7 +560,6 @@ export default {
           _style: { width: '1%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
 
@@ -572,19 +573,12 @@ export default {
 
   computed: {
     ...mapStores(useRegistroStore),
-    ...mapState(useRegistroStore, [
-      'activo',
-      // 'Depreciacion',
-    ]),
+    ...mapState(useRegistroStore, ['activo']),
   },
 
   methods: {
-    ...mapActions(useRegistroStore, [
-      'getActivo',
-      'addActivo',
-      // 'getDepreciacion',
-      // 'addDepreciacion',
-    ]),
+    ...mapActions(useRegistroStore, ['getActivo', 'addActivo']),
+    ...mapActions(useToastStore, ['show']),
 
     toggleDetails(item) {
       if (item.activo !== 0 || item.variacion !== 0) {
@@ -603,11 +597,6 @@ export default {
     },
 
     toggleDetails1() {
-      // if (this.details.includes(item._id)) {
-      //   this.details = this.details.filter((_item) => _item !== item._id)
-      //   return
-      // }
-      // this.details.push(item._id)
       this.lgDemo1 = true
     },
 
@@ -648,12 +637,9 @@ export default {
       if (this.id) {
         Api.putActivo(this.id, this.postActivo).then((response) => {
           this.lgDemo = false
-          this.$swal({
-            position: 'top-end',
-            icon: 'success',
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
+          this.show({
+            content: 'Registro añadido correctamente',
+            closable: true,
           })
           setTimeout(this.getActivo, 500)
           this.postActivo = {
@@ -686,16 +672,22 @@ export default {
         })
         setTimeout(this.getActivo, 500)
       } else {
-        this.addActivo(this.postActivo)
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          text: 'Datos agregados con exito',
-          title: 'Agregado',
-          showConfirmButton: false,
-          timer: 1500,
-        })
-        //const form = event.currentTarget
+        Api.postActivo(this.postActivo)
+          .then((response) => {
+                 this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
+            })
+          })
+           .catch((error) => {
+            this.show({
+              content: 'Error al enviar el formulario',
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+            })
+          })
+
         this.lgDemo = true
         setTimeout(this.getActivo, 500)
         ;(this.postActivo = {

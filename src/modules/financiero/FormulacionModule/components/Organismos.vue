@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">organismos</h3>
+  <h3 class="text-center">Organismos</h3>
   <hr />
   <div class="table-headers">
     <div class="d-inline p-2">
@@ -19,7 +19,7 @@
     :activePage="1"
     :footer="footerItem"
     header
-    :items="this.$store.state.Formulacion.organismos"
+    :items="items"
     :columns="columns"
     itemsPerPageSelect
     :itemsPerPage="5"
@@ -33,6 +33,22 @@
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
+    <template #codigo="{ item }">
+      <td class="text-center">
+      {{item.codigo}}
+      </td>
+    </template>
+    <template #sGrupo="{ item }">
+      <td class="text-center">
+      {{item.sGrupo}}
+      </td>
+    </template>
+    <template #organismoFinanciador="{ item }">
+      <td class="text-center">
+      {{item.organismoFinanciador}}
+      </td>
+    </template>
+    
     <template #show_details="{ item, index }">
       <td class="py-2">
         <CButton
@@ -62,6 +78,7 @@
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
+import Api from '../services/FormulacionServices'
 export default {
   components: {
     CSmartTable,
@@ -69,29 +86,21 @@ export default {
   data: () => {
     return {
       columns: [
-        { key: 'id', label: 'ID', _style: { width: '40%' } },
-        { key: 'grupo', label: 'Grupo', _style: { width: '40%' } },
-        { key: 'subgrupo', label: 'Subgrupo', _style: { width: '20%' } },
+        { key: 'codigo', label: 'Grupo' },
+        { key: 'sGrupo', label: 'Subgrupo', _style: { width: '20%' } },
         {
-          key: 'orgafin',
+          key: 'organismoFinanciador',
           label: 'Organismo Financiero',
           filter: false,
           sorter: false,
           _style: { width: '20%' },
         },
         {
-          key: 'denominacion',
+          key: 'detalle',
           label: 'Denominación',
           _style: { width: '40%' },
         },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
-        },
+      
       ],
       footerItem: [
         {
@@ -105,6 +114,7 @@ export default {
 
       ],
       details: [],
+      items:[]
     }
   },
   methods: {

@@ -1,30 +1,4 @@
 <template>
-  <div>
-    <CToaster placement="top-end">
-      <CToast
-        color=""
-        v-for="(toast, index) in toasts"
-        :key="index"
-        delay="3000"
-      >
-        <CToastHeader closeButton
-          ><span class="me-auto fw-bold">{{ toast.title }}</span>
-          <small>{{ horaActual }}</small>
-        </CToastHeader>
-        <CToastBody style="font-weight: 700">
-          <CToastClose
-            component="CButton"
-            color="secondary"
-            size="sm"
-            class="ms-1"
-            >Close</CToastClose
-          >
-          {{ toast.content }}
-        </CToastBody>
-      </CToast>
-    </CToaster>
-  </div>
-
   <h3 class="text-center">Mantenimientos Empleados</h3>
 
   <div class="table-headers">
@@ -35,7 +9,6 @@
           () => {
             openModal()
             clearModal1()
-            createToast()
           }
         "
         >Agregar</CButton
@@ -170,17 +143,7 @@
     <CModalHeader>
       <CModalTitle>Formulario de empleados</CModalTitle>
     </CModalHeader>
-    <!-- <CAlert
-      color="primary"
-      :visible="liveExampleVisible"
-      dismissible
-      @close="
-        () => {
-          liveExampleVisible = false
-        }
-      "
-      >{{ Error }}</CAlert
-    > -->
+
     <CModalBody>
       <div class="row">
         <CNav variant="tabs" role="tablist">
@@ -1001,6 +964,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import Api from '../services/RegistroPersonalServices'
 import apiSectores from '../../../financiero/NominaModule/services/NominaServices'
 import moment from 'moment'
+import { useToastStore } from '@/store/toast'
 
 export default {
   components: {
@@ -1008,15 +972,15 @@ export default {
     CModal,
     moment,
   },
-
   data: () => {
     return {
+      cambiar: false,
       horaActual: '',
       toasts: [],
-      show: false,
-
+      code: null,
+      noEnviado: false,
       Error: '',
-      status: 0,
+      status: null,
       liveExampleVisible: false,
       reporteDepto: 1,
       reportes: false,
@@ -1168,7 +1132,7 @@ export default {
   },
 
   computed: {
-    ...mapStores(useRegistroStore),
+    ...mapStores(useRegistroStore, useToastStore),
     ...mapState(useRegistroStore, ['registroPersonal', 'posicionCargo']),
   },
 
@@ -1178,23 +1142,7 @@ export default {
       'addRegistroPersonal',
       'getPosicion',
     ]),
-
-    createToast() {
-      if (this.status == 200) {
-        this.toasts.push({
-          title: 'Mensage',
-          content: this.Error,
-          viseble: false,
-          close: false,
-        })
-
-        if (this.liveExampleVisible == true) {
-          this.toasts({
-            close: true,
-          })
-        }
-      }
-    },
+    ...mapActions(useToastStore, ['show']),
 
     imprimirReporte() {
       if (this.reporteDepto.split('-')[0] == 1) {
@@ -1242,10 +1190,7 @@ export default {
     },
 
     unaVez() {
-      // if (!this.runOnce) {
       this.focusInput()
-      // this.runOnce = true
-      // }
     },
     openModal() {
       this.lgDemo = true
@@ -1254,7 +1199,6 @@ export default {
 
     changePrograma(e) {
       Api.getDepartamentoByProgramaId(e.target.value).then((response) => {
-        Error
         this.departamentos = response.data.data
       })
     },
@@ -1305,6 +1249,7 @@ export default {
     },
 
     clearModal1() {
+      this.id = null
       this.postEmpleado = {
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         codigo: null,
@@ -1442,12 +1387,14 @@ export default {
       })
     },
     submitForm() {
-      if (this.id) {
+      if (this.id != null) {
         Api.putEmpleado(this.id, this.postEmpleado).then((response) => {
           this.lgDemo = false
-          this.status = response.status
-          this.Error = response.data.message
-          this.createToast()
+          this.show({
+            content: 'Registro actualizado correctamente',
+            closable: true,
+          })
+
           setTimeout(this.getRegistroPersonal, 500)
           this.postEmpleado = {
             ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
@@ -1553,11 +1500,22 @@ export default {
         setTimeout(this.getRegistroPersonal, 500)
       } else {
         setTimeout(this.getRegistroPersonal, 500)
-        Api.postEmpleado(this.postEmpleado).then((response) => {
-          this.status = response.status
-          this.Error = response.data.message
-          this.createToast()
-        })
+
+        Api.postEmpleado(this.postEmpleado)
+          .then((response) => {
+            this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
+            })
+          })
+          .catch((error) => {
+            this.show({
+              content: 'Error al enviar el formulario',
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+            })
+          })
 
         setTimeout(this.getRegistroPersonal, 500)
 
@@ -1575,25 +1533,14 @@ export default {
       }
     },
 
-    addFixedToast() {
-      liveExampleVisible = true
-    },
-
-    cerrarToas() {
-      this.liveExampleVisible = true
-      console.log('llamando')
-    },
-
     deleteEmp(item) {
       setTimeout(this.getRegistroPersonal, 500)
       Api.deleteEmpleado(item.id)
         .then((response) => {
-          this.$swal({
-            position: 'top-end',
-            icon: 'success',
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
+          this.show({
+            content: response.data.message,
+            closable: true,
+            color: 'inherit',
           })
           setTimeout(this.getRegistroPersonal, 500)
         })
@@ -1647,9 +1594,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.toast {
-  background-color: rgb(208, 253, 208);
-}
-</style>

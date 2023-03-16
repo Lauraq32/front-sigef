@@ -14,7 +14,14 @@ class FormulacionApi {
   //-----------------------------CLASIFICADORES---------------------------------------//
   //Obtener listado de Clasificadores
   getListarClasificadores() {
-    return http.get('/Financiero/ListarClasificadores')
+    return http.get('/CtgClasificador')
+  }
+  getListarOrganismo() {
+    return http.get('/CtgOrganismoFinanciador')
+  }
+
+  getEstProgramatica() {
+    return http.get('CtgMestProg')
   }
 
   deleteIngreso(id) {
@@ -89,7 +96,7 @@ class FormulacionApi {
 
   //-----------------------------FUENTE ESPECIFICA---------------------------------------//
   getFuenteEspecifica() {
-    return http.get('/Financiero/ListarFuentesEsp')
+    return http.get('/CtgFuente')
   }
   //-----------------------------FUENTE ESPECIFICA---------------------------------------//
 

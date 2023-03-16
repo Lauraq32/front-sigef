@@ -17,7 +17,7 @@
             >
               the HTML5 <code>&lt;progress&gt;</code> element
             </a>
-            , ensuring you can stack progress bars, animate them, and place text
+           ensuring you can stack progress bars, animate them, and place text
             labels over them.
           </p>
           <DocsExample href="components/progress.html">
