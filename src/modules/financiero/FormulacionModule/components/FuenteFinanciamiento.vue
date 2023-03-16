@@ -52,7 +52,7 @@ export default {
         },
         {
           key: 'descripcion',
-          label: 'Descripcion',
+          label: 'Descripción',
           _style: { width: '10%' },
         },
         { key: 'detalle', label: 'Detalle', _style: { width: '20%' } },
