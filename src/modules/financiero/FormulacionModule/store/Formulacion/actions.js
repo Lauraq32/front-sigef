@@ -29,6 +29,7 @@ export const getEstructurasProgramaticas = async ({ commit }) => {
   Api.getListarEstructuraProgramatica().then((response) => {
     console.log(response.data)
     commit('SET_ESTRUCTURAS_PROGRAMATICAS', response.data)
+    commit('SET_ESTRUCTURAPROGCOUNT', response.data.length)
   })
 }
 
@@ -46,8 +47,7 @@ export const getClasificador = async ({ commit }, clasificador) => {
 }
 export const PostIngreso = async ({ commit }, data) => {
   Api.createIngreso(data).then((response) => {
-    console.log(response.data.data)
-
+  
     commit('SET_INGRESO', data.data)
   })
 }
@@ -57,6 +57,7 @@ export const getListarIngresos = async ({ commit }) => {
     localStorage.getItem('ano'),
   ).then((response) => {
     console.log(response.data.data)
+    commit('SET_INGRESOCOUNT',response.data.data.length)
     commit('SET_INGRESOS', response.data.data)
   })
 }

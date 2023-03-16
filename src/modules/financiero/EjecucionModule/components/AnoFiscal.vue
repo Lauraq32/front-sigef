@@ -23,7 +23,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     :items="anioFiscal"
     :columns="columns"
@@ -154,7 +154,17 @@ export default {
         compIngresos: 0,
         estatus: null,
       },
+      footerItem: [
+        {
+          label: 'Total presupuesto',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
 
+      ],
       columns: [
         { key: 'Año Fiscal', label: 'Año Fiscal', _style: { width: '40%' } },
         { key: 'Desde', label: 'Desde', _style: { width: '40%' } },

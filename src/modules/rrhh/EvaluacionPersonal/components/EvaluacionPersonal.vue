@@ -143,7 +143,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     :items="this.$store.state.AdministrativoModule.users"
     :columns="columns"
@@ -211,6 +211,7 @@ export default {
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
+      
       details: [],
     }
   },

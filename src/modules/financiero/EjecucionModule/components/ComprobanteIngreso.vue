@@ -144,6 +144,7 @@
     header
     :items="ingresosList"
     :columns="columns"
+    :footer="footerItem"
     itemsPerPageSelect
     columnFilter
     :itemsPerPage="5"
@@ -625,6 +626,17 @@ export default {
           sorter: false,
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
+      ],
+      footerItem: [
+        {
+          label: 'Total presupuesto',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
       ],
       details: [],
       columns2: [

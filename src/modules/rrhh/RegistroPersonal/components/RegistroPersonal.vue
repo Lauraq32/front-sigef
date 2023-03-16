@@ -54,7 +54,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     :items="registroPersonal"
     :columns="columns"
@@ -1122,6 +1122,17 @@ export default {
           filter: false,
           sorter: false,
         },
+      ],
+      footerItem: [
+        {
+          label: 'Total presupuesto',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
       ],
 
       details: [],

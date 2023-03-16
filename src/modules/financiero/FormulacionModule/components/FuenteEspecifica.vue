@@ -112,6 +112,7 @@ export default {
     getFuente(){
       Api.getFuente().then((response) => {
         this.fuenteLista = response.data.data
+        this.footerItem[0].label = `Total items: ${response.data.data.length}` 
       })
     },
   },

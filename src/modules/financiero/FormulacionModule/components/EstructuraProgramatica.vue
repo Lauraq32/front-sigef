@@ -82,7 +82,7 @@ export default {
 
   computed: {
     ...mapStores(useRegistroStore),
-    ...mapState(useRegistroStore, ['estructuraProgramatica']),
+    ...mapState(useRegistroStore, ['estructuraProgramatica','']),
   },
   methods: {
     ...mapActions(useRegistroStore, ['getEstructura']),
@@ -119,6 +119,7 @@ export default {
   },
   mounted() {
     this.getEstructura()
+    this.footerItem[0].label = this.estructuraProgCount
   },
 }
 </script>

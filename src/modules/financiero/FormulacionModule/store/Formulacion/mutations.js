@@ -21,6 +21,12 @@ export const SET_ORGANISMO = (state, organismos) => {
 export const SET_CLASIFICADOR = (state, clasificador) => {
   state.clasificador = clasificador
 }
+export const SET_INGRESOCOUNT = (state, ingresosCount) => {
+  state.ingresosCount = ingresosCount
+}
+export const SET_ESTRUCTURAPROGCOUNT = (state, estructuraProgCount) => {
+  state.estructuraProgCount = estructuraProgCount
+}
 export const SET_INGRESO = (state, ingreso) => {
   state.ingreso = ingreso
   Swal.fire({

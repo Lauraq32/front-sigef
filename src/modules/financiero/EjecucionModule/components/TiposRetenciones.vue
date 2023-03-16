@@ -21,7 +21,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     :items="TipoRetenciones"
     :columns="columns"
@@ -213,6 +213,7 @@ export default {
   data: () => {
     return {
       beneficiario: [{}],
+      
       postTipoRetenciones: {
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         id: 0,
@@ -254,6 +255,17 @@ export default {
           sorter: false,
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
+      ],
+      footerItem: [
+        {
+          label: 'Total presupuesto',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
       ],
       details: [],
 

@@ -389,7 +389,7 @@ export default {
           _props: {
             color: '',
             colspan: 6,
-            style: 'font-weight:bold; text-align:right',
+            style: 'font-weight:bold',
           },
         },
         {
@@ -594,7 +594,7 @@ export default {
         this.footerItem[1].label = this.formatPrice(response.data.data.anioAnt)
         this.footerItem[2].label = this.formatPrice(response.data.data.alaFecha)
         this.footerItem[3].label = this.formatPrice(response.data.data.presForm)
-        this.footerItem[3].label = this.formatPrice(response.data.data.presForm)
+       
       })
     },
 
@@ -816,11 +816,12 @@ export default {
     ...mapActions('Formulacion', ['getListarIngresos']),
   },
   computed: {
-    ...mapState('Formulacion', ['ingresos']),
+    ...mapState('Formulacion', ['ingresos','ingresosCount']),
   },
 
   created() {
     this.getListarIngresos(), this.getTotales()
+    this.footerItem[0].label = `Total Items: ${this.ingresosCount}`
   },
 }
 </script>
