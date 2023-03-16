@@ -7,7 +7,7 @@
         color="info"
         @click="
           () => {
-            ;(lgDemo = true), clearModal1()
+            ;(lgDemo = true), clearModal1(), disabledCheckbox()
           }
         "
         >Agregar</CButton
@@ -121,14 +121,33 @@
             </CCol>
           </CCol>
 
-          <CCol :md="3">
-            <CFormLabel>Estatus</CFormLabel>
-            <CFormSelect v-model="postAnoFiscal.estatus">
-              <option>ACTIVO</option>
-              <option>ABIERTO</option>
-              <option>CERRADO</option>
-            </CFormSelect>
-          </CCol>
+          <div class="row">
+            <div class="col-6">
+              <CCol :md="5">
+                <CFormLabel>Estatus</CFormLabel>
+                <CFormSelect v-model="postAnoFiscal.estatus">
+                  <option>ACTIVO</option>
+                  <option>ABIERTO</option>
+                  <option>CERRADO</option>
+                </CFormSelect>
+              </CCol>
+            </div>
+            <div class="col-6" style="position: relative; left: 11px">
+              <div class="form-check" style="margin-top: 39px">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Aprobado
+                </label>
+                <input
+                  :disabled="isDisabled"
+                  class="form-check-input"
+                  type="checkbox"
+                  id="flexCheckDefault"
+                  v-on:click="arsCalculado"
+                />
+              </div>
+            </div>
+          </div>
+
           <div class="modal-footer">
             <button
               type="button"
@@ -168,6 +187,7 @@ export default {
   data: () => {
     return {
       anioFiscal: [],
+      isDisabled: true,
       postAnoFiscal: {
         id: 0,
         ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
@@ -216,6 +236,15 @@ export default {
       }
     },
 
+    enableCheckbox() {
+      this.isDisabled = false
+    },
+
+    disabledCheckbox() {
+      this.isDisabled = true
+    },
+
+
     formatDate(fecha) {
       return new Date(fecha).toLocaleDateString('en-GB', {
         day: '2-digit',
@@ -230,6 +259,7 @@ export default {
       })
     },
     toggleDetails(item) {
+      this.enableCheckbox()
       this.id = item.id
       this.postAnoFiscal = { ...item }
       this.lgDemo = true
@@ -307,16 +337,18 @@ export default {
   computed: {
     initialDate: {
       get() {
-        if (this.postAnoFiscal.fechaInicial !== null && this.postAnoFiscal.fechaInicial?.toString() !== 'Invalid Date') {
+        if (
+          this.postAnoFiscal.fechaInicial !== null &&
+          this.postAnoFiscal.fechaInicial?.toString() !== 'Invalid Date'
+        ) {
           let date = this.postAnoFiscal.fechaInicial
           if (typeof this.postAnoFiscal.fechaInicial === 'string') {
             date = new Date(this.postAnoFiscal.fechaInicial)
             return date.toISOString().split('T')[0]
           }
-        }else{
+        } else {
           return
         }
-
       },
       set(value) {
         return (this.postAnoFiscal.fechaInicial = new Date(`${value}T00:00:00`))
@@ -324,15 +356,17 @@ export default {
     },
     finalDate: {
       get() {
-        if(this.postAnoFiscal.fechaFinal !== null && this.postAnoFiscal.fechaFinal?.toString() !== 'Invalid Date'){
-
+        if (
+          this.postAnoFiscal.fechaFinal !== null &&
+          this.postAnoFiscal.fechaFinal?.toString() !== 'Invalid Date'
+        ) {
           let date = this.postAnoFiscal.fechaFinal
           if (typeof this.postAnoFiscal.fechaFinal === 'string') {
             date = new Date(this.postAnoFiscal.fechaFinal)
           }
-  
+
           return date.toISOString().split('T')[0]
-        }else{
+        } else {
           return
         }
       },
