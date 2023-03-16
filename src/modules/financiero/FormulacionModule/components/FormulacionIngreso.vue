@@ -139,11 +139,12 @@
     </template>
   </CSmartTable>
   <CModal
+  backdrop="static"
     size="lg"
     :visible="lgDemo"
     @close="
       () => {
-        lgDemo = false
+        this.lgDemo = false
       }
     "
   >
@@ -195,8 +196,6 @@
               type="number"
               id="clasifica"
             />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="1">
             <button
@@ -207,7 +206,7 @@
               Buscar
             </button>
           </CCol>
-          <CCol :md="4">
+          <CCol :md="2">
             <CFormLabel for="validationCustom02">Cta. Control</CFormLabel>
             <CFormInput
               disabled
@@ -215,10 +214,8 @@
               id="validationCustom02"
               required
             />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <CCol :md="5">
+          <CCol :md="7">
             <CFormLabel for="validationCustomUsername">Detalle</CFormLabel>
             <CInputGroup class="has-validation">
               <CFormInput
@@ -229,8 +226,6 @@
                 aria-describedby="inputGroupPrepend"
                 required
               />
-              <CFormFeedback valid> Exito! </CFormFeedback>
-              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </CInputGroup>
           </CCol>
           <CCol :md="3">
@@ -243,11 +238,9 @@
               id="validationCustom03"
               required
             />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom04">Fuente Especifica</CFormLabel>
+            <CFormLabel for="validationCustom04">Fuente Específica</CFormLabel>
             <CFormInput
               :disabled="ctgFuenteEspecificaId"
               v-model="postIngreso.ctgFuenteEspecificaId"
@@ -255,66 +248,86 @@
               required
             >
             </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom05"
               >Organismo Financiador</CFormLabel
             >
             <CFormInput
-              disabled
+              :disabled="ctgOrganismoFinanciadorId"
               v-model="postIngreso.ctgOrganismoFinanciadorId"
               id="validationCustom05"
               required
             />
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel>Institucion Otorgante</CFormLabel>
+            <CFormLabel>Institución Otorgante</CFormLabel>
             <CFormInput
               v-model="postIngreso.instOtorga"
               type="number"
               step="any"
             >
             </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <hr />
           <CCol :md="4">
             <CFormLabel>Año Anterior</CFormLabel>
-            <CFormInput
-              v-model="postIngreso.anioAnt"
-              type="decimal"
-              step="any"
+            <VueNumberFormat
+              v-model:value="postIngreso.anioAnt"
+              type="text"
+              class="form-control"
+              :options="{
+                precision: 2,
+                prefix: '',
+                decimal: '.',
+                thousand: ',',
+              }"
               ref="anoAnteriorRef"
             >
-            </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+            </VueNumberFormat>
           </CCol>
           <CCol :md="4">
             <CFormLabel>A la Fecha</CFormLabel>
-            <CFormInput
-              v-model="postIngreso.alaFecha"
-              type="number"
-              step="any"
-            ></CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+            <VueNumberFormat
+              v-model:value="postIngreso.alaFecha"
+              type="text"
+              class="form-control"
+              :options="{
+                precision: 2,
+                prefix: '',
+                decimal: '.',
+                thousand: ',',
+              }"
+            ></VueNumberFormat>
           </CCol>
           <CCol :md="4">
             <CFormLabel>Presupuesto Formulado</CFormLabel>
-            <CFormInput
-              v-model="postIngreso.presForm"
-              type="number"
+            <VueNumberFormat
+              v-model:value="postIngreso.presForm"
+              type="text"
               step="any"
-            ></CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              class="form-control"
+              :options="{
+                precision: 2,
+                prefix: '',
+                decimal: '.',
+                thousand: ',',
+              }"
+            ></VueNumberFormat>
           </CCol>
           <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              @click="
+                () => {
+                  lgDemo = false
+                }
+              "
+            >
+              Cancelar
+            </button>
             <button
               :disabled="formuladoValue"
               v-on:click="submitForm"
@@ -330,7 +343,8 @@
   </CModal>
 </template>
 <script>
-import { CDateRangePicker, CSmartTable } from '@coreui/vue-pro'
+import { CSmartTable } from '@coreui/vue-pro'
+import VueNumberFormat from 'vue-number-format'
 import { CModal } from '@coreui/vue'
 import Api from '../services/FormulacionServices'
 import { mapActions, mapState } from 'vuex'

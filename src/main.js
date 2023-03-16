@@ -26,6 +26,6 @@ app.component('DocsCallout', DocsCallout)
 app.component('DocsExample', DocsExample)
 app.use(VueSweetalert2)
 app.use(SimpleTypeahead)
-app.use(VueNumberFormat, { prefix: '', decimal: '.', thousand: ',' })
+app.use(VueNumberFormat, { prefix: 'DOP', decimal: '.', thousand: ',' })
 
 app.mount('#app')
