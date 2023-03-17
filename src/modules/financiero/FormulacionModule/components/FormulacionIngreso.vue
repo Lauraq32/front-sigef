@@ -326,7 +326,7 @@
                 }
               "
             >
-              Cancelar
+              Cerrar
             </button>
             <button
               :disabled="formuladoValue"
