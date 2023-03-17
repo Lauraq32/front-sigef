@@ -26,7 +26,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     columnFilter
     :items="Contribuyente"

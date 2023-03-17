@@ -23,7 +23,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     :items="Sectore"
     :columns="columns"
@@ -185,6 +185,18 @@ export default {
       },
     ]
 
+    const  footerItem = [
+        {
+          label: 'Total presupuesto',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
+      ]
+
     function handleSubmitCustom01(event) {
       const form = event.currentTarget
       if (form.checkValidity() === false) {
@@ -225,6 +237,7 @@ export default {
       lgDemo,
       getBadge,
       columns,
+      footerItem,
       Sectore: computed(() => store.Sectores),
     }
   },
