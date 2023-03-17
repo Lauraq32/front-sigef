@@ -38,7 +38,7 @@
     </div>
   </div>
 
-  <CSmartTable
+  <CSmartTable class="sticky-top"
     clickableRows
     :tableProps="{
       striped: true,
