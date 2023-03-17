@@ -21,7 +21,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     :items="tiposGastos"
     :columns="columns"
@@ -161,6 +161,17 @@ export default {
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
+      footerItem: [
+        {
+          label: 'Total presupuesto',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
+      ],
       details: [],
     }
   },
@@ -197,6 +208,7 @@ export default {
     getAllTipoGasto() {
       Api.getTipoGastoList().then((response) => {
         this.tiposGastos = response.data.data
+        this.footerItem[0].label = response.data.data.length
       })
     },
     Guardar() {

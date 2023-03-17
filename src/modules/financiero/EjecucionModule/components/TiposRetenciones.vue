@@ -386,6 +386,7 @@ export default {
     this.getTipoRetenciones()
     Api.getBeneficiarios().then((response) => {
       this.beneficiario = response.data.data
+      this.footerItem[0].label = response.data.data.length
     })
   },
 }
