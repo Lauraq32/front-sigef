@@ -347,7 +347,7 @@ import { CSmartTable } from '@coreui/vue-pro'
 import VueNumberFormat from 'vue-number-format'
 import { CModal } from '@coreui/vue'
 import Api from '../services/FormulacionServices'
-import { mapActions} from 'pinia'
+import { mapActions } from 'pinia'
 import XLSX from 'xlsx/xlsx.mjs'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { CIcon } from '@coreui/icons-vue'
@@ -677,7 +677,7 @@ export default {
         Api.editPresIngreso(this.id, this.postIngreso).then((response) => {
           // this.lgDemo = false
           this.show({
-            content:'Registro actualizado correctamente',
+            content: 'Registro actualizado correctamente',
             closable: true,
           })
 
@@ -745,7 +745,7 @@ export default {
     },
     getClasificador() {
       Api.getClasificador(this.postIngreso.ctgClasificadorId)
-        .then(({response}) => {
+        .then(({ response }) => {
           // if(!data) {
           //   return Promise.reject(response)
           // }
@@ -756,7 +756,7 @@ export default {
           //   response.data.data.ctgFuenteEspecificaId
           // this.postIngreso.ctgOrganismoFinanciadorId =
           //   response.data.data.ctgOrganismoFinanciadorId
-          console.log('344',response);
+          console.log('344', response)
           this.validateInputctgFuente()
           this.validateInputctgFuenteEspecificaId()
           this.validateInputctgOrganismoFinanciadorId()
@@ -820,28 +820,36 @@ export default {
         this.postIngreso = response.data.data
       })
     },
-    getAllIngreso(){
+    getAllIngreso() {
       Api.getAllFormulacionIngreso().then((response) => {
-        console.log('233',response.data);
+        console.log('233', response.data)
         this.ingresos = response.data.data
       })
     },
     deleteItem(item) {
-      Api.deleteIngreso(item.id).then((response) => {
-        this.$swal({
-          position: 'top-end',
-          icon: 'success',
-          title: response.data.message,
-          showConfirmButton: false,
-          timer: 1500,
-        })
-        this.getAllIngreso(), this.getTotales()
+      this.$swal({
+        title: 'Estás seguro que quieres eliminar este registro?',
+        text: 'No podras revertirlo',
+        icon: 'Atencion',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar!',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Api.deleteIngreso(item.id).then((response) => {
+            this.show({
+              content: 'Eliminado correctamente',
+              closable: true,
+            })
+          })
+          setTimeout(this.getListarIngresos, 1000)
+          console.log(this.show)
+        }
       })
     },
-
   },
-  computed: {
-  },
+  computed: {},
 
   mounted() {
     this.getTotales()
