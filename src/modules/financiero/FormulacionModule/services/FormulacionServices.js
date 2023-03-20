@@ -41,21 +41,32 @@ class FormulacionApi {
     return http.put(`/PresIngreso/${id}`, data)
   }
 
+  postFormulacionIngreso(data) {
+    return http.post('PresIngreso', data)
+  }
   //PostIngreso
-  createIngreso(data) {
-    return http.post('PresIngreso', data).catch((error) => {
-      console.log(error.response.data.detail)
-      Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        text: error.response.data.detail,
-        title: 'Error',
-        showConfirmButton: false,
-        timer: 1500,
-      })
+  // createIngreso(data) {
+  //   return http.post('PresIngreso', data).catch((error) => {
+  //     console.log(error.response.data.detail)
+  //     Swal.fire({
+  //       position: 'top-end',
+  //       icon: 'error',
+  //       text: error.response.data.detail,
+  //       title: 'Error',
+  //       showConfirmButton: false,
+  //       timer: 1500,
+  //     })
 
-      //alert(error.response.data.detail)
-    })
+  //     //alert(error.response.data.detail)
+  //   })
+  // }
+
+  getAllFormulacionIngreso() {
+    return http.get(
+      `PresIngreso?anio=${localStorage.getItem(
+        'ano',
+      )}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`,
+    )
   }
 
   updateFormulacion(id, data) {
