@@ -347,7 +347,7 @@ import { CSmartTable } from '@coreui/vue-pro'
 import VueNumberFormat from 'vue-number-format'
 import { CModal } from '@coreui/vue'
 import Api from '../services/FormulacionServices'
-import { mapActions} from 'pinia'
+import { mapActions } from 'pinia'
 import XLSX from 'xlsx/xlsx.mjs'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { CIcon } from '@coreui/icons-vue'
@@ -677,7 +677,7 @@ export default {
         Api.editPresIngreso(this.id, this.postIngreso).then((response) => {
           // this.lgDemo = false
           this.show({
-            content:'Registro actualizado correctamente',
+            content: 'Registro actualizado correctamente',
             closable: true,
           })
 
@@ -716,10 +716,7 @@ export default {
             closable: true,
           })
           console.log(response)
-        })
-
-        // this.lgDemo = true
-        this.postIngreso = {
+          this.postIngreso = {
           anioFiscalId: parseInt(localStorage.getItem('ano')),
           ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
           ctgClasificadorId: null,
@@ -737,36 +734,51 @@ export default {
           ingresos: 0,
           variacionResumen: 0,
         }
+        }).catch((error) => {
+          console.log(error)
+        })
+
+        // this.lgDemo = true
+        
         this.validatedCustom01 = false
         setTimeout(this.getAllIngreso, 500)
-        this.clearModal()
+        // this.clearModal()
         this.getTotales()
       }
     },
     getClasificador() {
       Api.getClasificador(this.postIngreso.ctgClasificadorId)
-        .then(({response}) => {
-          // if(!data) {
-          //   return Promise.reject(response)
-          // }
-          // this.postIngreso.control = response.data.data.cControl
-          // this.postIngreso.detalle = response.data.data.nombre
-          // this.postIngreso.ctgFuenteId = response.data.data.ctgFuenteId
-          // this.postIngreso.ctgFuenteEspecificaId =
-          //   response.data.data.ctgFuenteEspecificaId
-          // this.postIngreso.ctgOrganismoFinanciadorId =
-          //   response.data.data.ctgOrganismoFinanciadorId
-          console.log('344',response);
-          this.validateInputctgFuente()
-          this.validateInputctgFuenteEspecificaId()
-          this.validateInputctgOrganismoFinanciadorId()
+        .then((response) => {
+          if (response.data.data) {
+            this.postIngreso.control = response.data.data.cControl
+            this.postIngreso.detalle = response.data.data.nombre
+            this.postIngreso.ctgFuenteId = response.data.data.ctgFuenteId
+            this.postIngreso.ctgFuenteEspecificaId =
+              response.data.data.ctgFuenteEspecificaId
+            this.postIngreso.ctgOrganismoFinanciadorId =
+              response.data.data.ctgOrganismoFinanciadorId
+            this.validateInputctgFuente()
+            this.validateInputctgFuenteEspecificaId()
+            this.validateInputctgOrganismoFinanciadorId()
+            return
+          } else if (response.data.Data) {
+            console.log()
+            return this.show({
+              content: error.message,
+              closable: true,
+              color: 'danger',
+            })
+          }
+          // return Promise.reject(new Error(response.data.Data))
         })
         .catch((error) => {
-          this.show({
-            content: error.message,
-            closable: true,
-            color: 'danger',
-          })
+          if (response.Errors == null) {
+            return this.show({
+              content: error.message,
+              closable: true,
+              color: 'danger',
+            })
+          }
         })
     },
     focusAno() {
@@ -820,9 +832,9 @@ export default {
         this.postIngreso = response.data.data
       })
     },
-    getAllIngreso(){
+    getAllIngreso() {
       Api.getAllFormulacionIngreso().then((response) => {
-        console.log('233',response.data);
+        console.log('233', response.data)
         this.ingresos = response.data.data
       })
     },
@@ -838,10 +850,8 @@ export default {
         this.getAllIngreso(), this.getTotales()
       })
     },
-
   },
-  computed: {
-  },
+  computed: {},
 
   mounted() {
     this.getTotales()
