@@ -150,7 +150,7 @@ class FormulacionApi {
 
   //-----------------------------PrepGastos---------------------------------------//
 
-  getListarGastos(id) {
+  getListarGastos() {
     return http.get(
       `PresGasto?anio=${localStorage.getItem(
         'ano',

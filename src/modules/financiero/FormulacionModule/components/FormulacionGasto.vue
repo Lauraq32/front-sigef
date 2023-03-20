@@ -1,9 +1,9 @@
 <template>
-  <h3 class="text-center">Cargar Formulación del presupuesto de gastos</h3>
+  <h3 class="text-center">Formulación Gastos</h3>
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
-      style="font-weight: bold"
+        style="font-weight: bold"
         color="info"
         @click="
           () => {
@@ -15,9 +15,7 @@
       >
     </div>
     <div class="p-2">
-      <CButton color="info" @click="IngresoReport"
-        >Imprimir</CButton
-      >
+      <CButton color="info" @click="IngresoReport">Imprimir</CButton>
     </div>
     <div class="p-2">
       <CButton color="info" @click="cargarEstructuras"
@@ -26,22 +24,31 @@
     </div>
     <div class="p-2">
       <CButton color="info" @click="goToIngreso"
-        >Ir a Formulacion Ingreso</CButton
+        >Ir a Formulación Ingreso</CButton
       >
     </div>
+    <div class="p-2">
+      <label class="file-select btn" role="button">
+        <CIcon :icon="cilCloudUpload" size="m" />
+        <input type="file" id="formFile" @change="onFileChangeProyectos" />
+        <span  class="label">Importar Proyectos</span>
+      </label>
+      <label v-if="fileName"> {{ fileName }}</label>
+    </div>
+    <div class="p-2">
+      <label class="file-select btn" role="button">
+        <CIcon :icon="cilCloudUpload" size="m" />
+        <input type="file" id="formFile" @change="onFileChange" />
+        <span  class="label">Importar Formulación</span>
+      </label>
+      <label v-if="fileName"> {{ fileName }}</label>
+    </div>
   </div>
-  <div>
-    <h5>Importar Proyectos</h5>
-    <CFormInput type="file" id="formFile" @change="onFileChangeProyectos" />
-  </div>
-  <div>
-    <h5>Importar Formulacion</h5>
-    <CFormInput type="file" id="formFile" @change="onFileChange" />
-  </div>
-  <CSmartTable class="sticky-top"
+  <CSmartTable
+    class="sticky-top"
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -60,6 +67,11 @@
     <template #totalPresupuesto="{ item }">
       <td class="text-end">
         {{ formatPrice(item.totalPresupuesto) }}
+      </td>
+    </template>
+    <template #unidadResp="{ item }">
+      <td class="text-end">
+        {{ item.unidadResp == null ? '' : item.unidadResp }}
       </td>
     </template>
     <!-- Borre el , index  dentro del template de abajo -->
@@ -259,15 +271,15 @@
             </button>
           </div>
         </CForm>
-        <CSmartTable class="sticky-top"
+        <CSmartTable
+          class="sticky-top"
           clickableRows
           :tableProps="{
-           striped: true,
+            striped: true,
             hover: true,
           }"
           :tableHeadProps="{}"
           :activePage="1"
-          
           header
           :items="detallePresGastos"
           :columns="columns2"
@@ -827,13 +839,13 @@ import Api from '../services/FormulacionServices'
 import axios from 'axios'
 import { mapActions, mapState } from 'pinia'
 import { usePrepGastoStore } from '../store/Formulacion/prepGasto'
-import { mount } from '@vue/test-utils'
 import { mapStores } from 'pinia'
-import { mapGetters } from 'vuex'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import XLSX from 'xlsx/xlsx.mjs'
 import router from '@/router'
 import { formatPrice } from '../../../../utils/format'
+import { cilCloudUpload } from '@coreui/icons-pro'
+import { useToastStore } from '@/store/toast'
 export default {
   components: {
     CSmartTable,
@@ -841,6 +853,7 @@ export default {
   },
   data: () => {
     return {
+      cilCloudUpload,
       proyectosList: [],
       pregastoMasivo: [],
       id: null,
@@ -952,7 +965,7 @@ export default {
             style: 'font-weight:bold; text-align:right',
           },
         },
-      ,
+        ,
         {
           label: formatPrice(0),
           _props: {
@@ -974,7 +987,7 @@ export default {
         //   label: 'Denominacion',
         //   _style: { width: '40%' },
         // },
-        { key: 'tipo', label: 'tipo', _style: { width: '20%' } },
+        { key: 'tipo', label: 'Tipo', _style: { width: '20%' } },
         {
           key: 'unidadResp',
           label: 'Unidad responsable',
@@ -982,7 +995,7 @@ export default {
         },
         {
           key: 'totalPresupuesto',
-          label: 'presupuesto',
+          label: 'Presupuesto',
           _style: { width: '40%' },
         },
         {
@@ -1052,6 +1065,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(useToastStore, ['show']),
     ...mapActions(usePrepGastoStore, [
       'getListarGastos',
       'getListarGastosById',
@@ -1123,13 +1137,9 @@ export default {
           })
 
           Api.postCargaMasivaCabecera(this.proyectosList).then((response) => {
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              text: response.message,
-              title: 'Agregado',
-              showConfirmButton: false,
-              timer: 1500,
+            this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
             })
           })
           setTimeout(this.getListarGastos, 500)
@@ -1267,13 +1277,9 @@ export default {
           })
 
           Api.postCargaMasivaDetalle(this.pregastoMasivo).then((response) => {
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              text: response.message,
-              title: 'Agregado',
-              showConfirmButton: false,
-              timer: 500,
+            this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
             })
           })
           setTimeout(this.getListarGastos, 500)
@@ -1577,3 +1583,34 @@ export default {
   },
 }
 </script>
+<style scoped>
+.file-select {
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  align-items: center;
+  background-color: #375b80;
+  color: white;
+}
+
+.file-select > .label {
+  margin-left: .1rem;
+}
+/* .file-select {
+  padding: 0.5rem;
+  line-height: 1.5;
+  color: white;
+  background-color: #375b80;
+
+  border-radius: 0.3rem;
+  cursor: pointer;
+  text-align: center;
+} */
+
+.file-select > input[type='file'] {
+  visibility: hidden;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+</style>
