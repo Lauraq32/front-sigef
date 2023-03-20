@@ -592,7 +592,7 @@ export default {
 
         reader.readAsBinaryString(this.file)
       }
-      setTimeout(this.getListarIngresos, 1000)
+      setTimeout(this.getAllIngreso, 1000)
     },
     goToGasto() {
       router.push({ name: 'Formulacion Gasto' })
@@ -843,7 +843,7 @@ export default {
               closable: true,
             })
           })
-          setTimeout(this.getListarIngresos, 1000)
+          setTimeout(this.getAllIngreso, 1000)
           console.log(this.show)
         }
       })
