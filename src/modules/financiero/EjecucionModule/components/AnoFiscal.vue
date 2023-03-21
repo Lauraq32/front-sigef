@@ -138,11 +138,12 @@
                   Aprobado
                 </label>
                 <input
+                  v-model="isChecked"
                   :disabled="isDisabled"
                   class="form-check-input"
                   type="checkbox"
                   id="flexCheckDefault"
-                  v-on:click="arsCalculado"
+                  v-on:click="updateModelValue"
                 />
               </div>
             </div>
@@ -186,10 +187,12 @@ export default {
 
   data: () => {
     return {
+      isChecked: false,
       anioFiscal: [],
       isDisabled: true,
       postAnoFiscal: {
         id: 0,
+        esAprovado: 0,
         ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
         compGastos: null,
         compIngresos: null,
@@ -225,6 +228,12 @@ export default {
 
   methods: {
     ...mapActions(useToastStore, ['show']),
+
+    updateModelValue() {
+      this.postAnoFiscal.esAprovado = this.isChecked ? 0 : 1
+      console.log(this.postAnoFiscal.esAprovado)
+    },
+
     changeDate({ target: { name, value } }) {
       if (name == 'fechaInicio') {
         const selectedDate = new Date(value)
@@ -243,7 +252,6 @@ export default {
     disabledCheckbox() {
       this.isDisabled = true
     },
-
 
     formatDate(fecha) {
       return new Date(fecha).toLocaleDateString('en-GB', {
