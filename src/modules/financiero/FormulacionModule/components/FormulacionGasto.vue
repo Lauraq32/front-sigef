@@ -255,8 +255,9 @@
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
+              v-on:click="close"
             >
-              Close
+            Cancelar
             </button>
             <button
               class="btn btn-info btn-block mt-1"
@@ -795,8 +796,9 @@
                   type="button"
                   class="btn btn-secondary"
                   data-bs-dismiss="modal"
+                  v-on:click="close"
                 >
-                  Close
+                Cancelar
                 </button>
                 <button
                   class="btn btn-info btn-block mt-1"
@@ -1063,6 +1065,13 @@ export default {
     }
   },
   methods: {
+    close() {
+      if (this.lgDemo) {
+        return this.lgDemo = false
+      } else if (this.lgDemo1) {
+        return this.lgDemo1 = false
+      }
+    },
     ...mapActions(useToastStore, ['show']),
     ...mapActions(usePrepGastoStore, [
       'getListarGastos',
