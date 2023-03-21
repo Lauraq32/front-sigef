@@ -674,7 +674,6 @@ export default {
       inputClasificador.focus()
       if (this.id) {
         Api.editPresIngreso(this.id, this.postIngreso).then((response) => {
-          // this.lgDemo = false
           this.show({
             content: 'Registro actualizado correctamente',
             closable: true,
@@ -714,7 +713,6 @@ export default {
             content: 'Registro añadido correctamente',
             closable: true,
           })
-          console.log(response)
           this.postIngreso = {
           anioFiscalId: parseInt(localStorage.getItem('ano')),
           ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
@@ -761,7 +759,6 @@ export default {
             this.validateInputctgOrganismoFinanciadorId()
             return
           } else if (response.data.Data) {
-            console.log()
             return this.show({
               content: error.message,
               closable: true,
@@ -833,7 +830,6 @@ export default {
     },
     getAllIngreso() {
       Api.getAllFormulacionIngreso().then((response) => {
-        console.log('233', response.data)
         this.ingresos = response.data.data
       })
     },
