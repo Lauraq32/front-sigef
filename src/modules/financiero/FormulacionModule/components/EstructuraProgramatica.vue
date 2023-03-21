@@ -41,12 +41,26 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
+import Api from '../services/FormulacionServices'
+
 export default {
   components: {
     CSmartTable,
   },
   data: () => {
     return {
+      estructuraProgramatica: [],
+      itemsCount: null,
+      footerItem: [
+        {
+          label: 'Total presupuesto',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+      ],
       columns: [
         {
           key: 'pnap',
@@ -74,7 +88,6 @@ export default {
             style: 'font-weight:bold;',
           },
         },
-
       ],
       details: [],
     }
@@ -82,7 +95,7 @@ export default {
 
   computed: {
     ...mapStores(useRegistroStore),
-    ...mapState(useRegistroStore, ['estructuraProgramatica','']),
+    ...mapState(useRegistroStore, ['estructuraProgramatica', '']),
   },
   methods: {
     ...mapActions(useRegistroStore, ['getEstructura']),
@@ -118,8 +131,13 @@ export default {
     },
   },
   mounted() {
-    this.getEstructura()
-    this.footerItem[0].label = this.estructuraProgCount
+    // this.getEstructura()
+    Api.getEstProgramatica().then((response) => {
+      this.estructuraProgramatica = response.data.data
+      this.itemsCount = this.estructuraProgramatica.length
+      console.log(this.itemsCount)
+      this.footerItem[0].label = `Total items: ${this.itemsCount}`
+    })
   },
 }
 </script>

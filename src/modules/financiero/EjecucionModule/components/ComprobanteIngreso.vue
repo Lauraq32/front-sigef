@@ -1,5 +1,4 @@
 <template>
-      
   <h3 class="text-center">Comprobantes de ingresos</h3>
   <div>
     <div class="table-headers">
@@ -140,7 +139,6 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
     header
     :items="ingresosList"
     :columns="columns"
@@ -543,7 +541,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import axios from 'axios'
 import Api from '../services/EjecucionServices'
 import { mapStores, mapActions, mapState } from 'pinia'
- 
+
 import { useToastStore } from '@/store/toast'
 import SimpleTypeahead from 'vue3-simple-typeahead'
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
@@ -554,17 +552,17 @@ export default {
     CSmartTable,
     CModal,
     SimpleTypeahead,
-      
   },
 
   data: () => {
     return {
+      itemsCount: null,
       mesReporte: 1,
       parametroReporte: '',
       reportes: false,
       reportesExportarModal: false,
       reportesExportarModalEjecucion: false,
-
+      ingresosList: [],
       contribuyentesList: [],
       contribuyentesName: [],
       totales: null,
@@ -629,14 +627,13 @@ export default {
       ],
       footerItem: [
         {
-          label: 'Total presupuesto',
+          label: 'Total items',
           _props: {
             color: '',
             colspan: 1,
             style: 'font-weight:bold;',
           },
         },
-
       ],
       details: [],
       columns2: [
@@ -804,14 +801,14 @@ export default {
       if (this.id != null) {
         Api.putIngresoCabecera(this.id, this.ingresoPost)
           .then((response) => {
-                 this.show({
+            this.show({
               content: 'Registro añadido correctamente',
               closable: true,
             })
             this.clearModal2()
             setTimeout(this.getIngresos, 500)
           })
-           .catch((error) => {
+          .catch((error) => {
             this.show({
               content: 'Error al enviar el formulario',
               closable: true,
@@ -967,7 +964,12 @@ export default {
   mounted() {
     this.getIngresos()
     this.getContribuyentes()
+    Api.getIngresoAll().then((response) => {
+      this.ingresosList = response.data.data
+      this.itemsCount = this.ingresosList.length
+      console.log(this.itemsCount)
+      this.footerItem[0].label = `Total items: ${this.itemsCount}`
+    })
   },
 }
 </script>
--->

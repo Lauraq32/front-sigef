@@ -594,7 +594,6 @@ export default {
         this.footerItem[1].label = this.formatPrice(response.data.data.anioAnt)
         this.footerItem[2].label = this.formatPrice(response.data.data.alaFecha)
         this.footerItem[3].label = this.formatPrice(response.data.data.presForm)
-       
       })
     },
 
@@ -816,11 +815,12 @@ export default {
     ...mapActions('Formulacion', ['getListarIngresos']),
   },
   computed: {
-    ...mapState('Formulacion', ['ingresos','ingresosCount']),
+    ...mapState('Formulacion', ['ingresos', 'ingresosCount']),
   },
 
   created() {
-    this.getListarIngresos(), this.getTotales()
+    this.getListarIngresos()
+    this.getTotales()
     this.footerItem[0].label = `Total Items: ${this.ingresosCount}`
   },
 }

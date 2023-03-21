@@ -16,7 +16,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -213,7 +213,7 @@ export default {
   data: () => {
     return {
       beneficiario: [{}],
-      
+
       postTipoRetenciones: {
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
         id: 0,
@@ -265,7 +265,6 @@ export default {
             style: 'font-weight:bold;',
           },
         },
-
       ],
       details: [],
 

@@ -16,7 +16,7 @@
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -231,7 +231,6 @@ export default {
             style: 'font-weight:bold;',
           },
         },
-
       ],
       details: [],
 
