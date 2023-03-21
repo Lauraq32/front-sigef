@@ -239,7 +239,7 @@
             />
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom04">Fuente Específica</CFormLabel>
+            <CFormLabel for="validationCustom04">Fuente Espec&iacute;fica</CFormLabel>
             <CFormInput
               :disabled="ctgFuenteEspecificaId"
               v-model="postIngreso.ctgFuenteEspecificaId"
@@ -260,7 +260,7 @@
             />
           </CCol>
           <CCol :md="3">
-            <CFormLabel>Institución Otorgante</CFormLabel>
+            <CFormLabel>Instituci&oacute;n Otorgante</CFormLabel>
             <CFormInput
               v-model="postIngreso.instOtorga"
               type="number"
@@ -732,7 +732,11 @@ export default {
           variacionResumen: 0,
         }
         }).catch((error) => {
-          console.log(error)
+          this.show({
+            content: error.message,
+              closable: true,
+              color: 'danger',
+          })
         })
 
         // this.lgDemo = true
