@@ -908,6 +908,7 @@
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import {mapActions} from 'pinia'
 import Api from '../services/EjecucionServices'
 import ApiFormulacion from '../../FormulacionModule/services/FormulacionServices'
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'

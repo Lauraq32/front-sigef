@@ -2,18 +2,13 @@
   <h3 class="text-center">Formulaci&oacute;n Ingreso</h3>
   <div class="table-headers">
     <div class="d-inline p-2">
-      <CButton
-        style="font-weight: bold"
-        color="info"
-        @click="
-          () => {
-            openModal()
-            clearModal()
-            edit = false
-          }
-        "
-        >Agregar</CButton
-      >
+      <CButton style="font-weight: bold" color="info" @click="
+        () => {
+          openModal()
+          clearModal()
+          edit = false
+        }
+      ">Agregar</CButton>
     </div>
 
     <div class="p-2">
@@ -23,9 +18,7 @@
       <CButton color="info" @click="downloadFile">Descargar</CButton>
     </div>
     <div class="p-2">
-      <CButton color="info" @click="goToGasto"
-        >Ir a Formulaci&oacute;n Gasto</CButton
-      >
+      <CButton color="info" @click="goToGasto">Ir a Formulaci&oacute;n Gasto</CButton>
     </div>
     <div class="p-2">
       <label class="file-select">
@@ -38,27 +31,13 @@
     </div>
   </div>
 
-  <CSmartTable
-    clickableRows
-    :tableProps="{
-      striped: true,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    :footer="footerItem"
-    header
-    key="ingreso.id"
-    :items="ingresos"
-    :columns="columns"
-    itemsPerPageSelect
-    columnFilter
-    :itemsPerPage="5"
-    :items-per-page-options="[5, 10, 20, 50, 100, 150]"
-    columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination
-  >
+  <CSmartTable clickableRows :tableProps="{
+    striped: true,
+    hover: true,
+  }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header key="ingreso.id" :items="ingresos"
+    :columns="columns" itemsPerPageSelect columnFilter :itemsPerPage="5"
+    :items-per-page-options="[5, 10, 20, 50, 100, 150]" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination>
     <template #ctgFuenteEspecificaId="{ item }">
       <td class="text-center">
         {{ item.ctgFuenteEspecificaId }}
@@ -102,24 +81,10 @@
     <template #show_details="{ item }">
       <td class="py-2">
         <div class="d-flex justify-content-around">
-          <CButton
-            class="mt-1"
-            color="primary"
-            variant="outline"
-            square
-            size="sm"
-            @click="toggleDetails(item)"
-          >
+          <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="toggleDetails(item)">
             {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
           </CButton>
-          <CButton
-            class="mt-1"
-            color="danger"
-            variant="outline"
-            square
-            size="sm"
-            @click="deleteItem(item)"
-          >
+          <CButton class="mt-1" color="danger" variant="outline" square size="sm" @click="deleteItem(item)">
             {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
           </CButton>
         </div>
@@ -138,15 +103,12 @@
       </CCollapse>
     </template>
   </CSmartTable>
-  <CModal
-    size="lg"
-    :visible="lgDemo"
-    @close="
-      () => {
-        lgDemo = false
-      }
-    "
-  >
+
+  <CModal backdrop="static" size="lg" :visible="lgDemo" @close="
+    () => {
+      lgDemo = false
+    }
+  ">
     <div class="row">
       <div class="col-8 mt-3">
         <CModalTitle style="margin-top: 13px; margin-left: 4px">
@@ -156,21 +118,10 @@
       <div class="col-4">
         <div class="row mt-4">
           <div class="col-4 bold">
-            <label
-              for="dni"
-              style="font-weight: bold; margin-left: 12px; margin-top: 7px"
-              >Período</label
-            >
+            <label for="dni" style="font-weight: bold; margin-left: 12px; margin-top: 7px">Período</label>
           </div>
           <div class="col-6">
-            <input
-              type="number"
-              name="dni"
-              id="dni"
-              v-model="anofiscal"
-              class="form-control"
-              disabled
-            />
+            <input type="number" name="dni" id="dni" v-model="anofiscal" class="form-control" disabled />
           </div>
         </div>
       </div>
@@ -178,105 +129,59 @@
     <hr />
     <CModalBody>
       <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
-          <CCol :md="2">
+        <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01" @submit="handleSubmitCustom01">
+          <CCol :md="3">
             <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
-            <input
-              ref="name"
-              required
-              on:keyup.native.enter="getClasificador"
-              class="form-control"
-              v-model="postIngreso.ctgClasificadorId"
-              type="number"
-              id="clasifica"
-            />
+            <input ref="name" required on:keyup.native.enter="getClasificador" class="form-control"
+              v-model="postIngreso.ctgClasificadorId" type="number" id="clasifica" />
+            <div style="cursor: pointer;
+    position: absolute;
+    top: 55px;
+    left: 163px;">
+
+              <CIcon icon="cisSearch" size="xl" v-on:click="getClasificador" />
+            </div>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <CCol :md="1">
-            <button
-              class="btn btn-primary btn-sm"
-              style="margin-top: 32px; height: 37px"
-              v-on:click="getClasificador"
-            >
-              Buscar
-            </button>
-          </CCol>
+
           <CCol :md="4">
             <CFormLabel for="validationCustom02">Cta. Control</CFormLabel>
-            <CFormInput
-              disabled
-              v-model="postIngreso.control"
-              id="validationCustom02"
-              required
-            />
+            <CFormInput disabled v-model="postIngreso.control" id="validationCustom02" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="5">
             <CFormLabel for="validationCustomUsername">Detalle</CFormLabel>
             <CInputGroup class="has-validation">
-              <CFormInput
-                disabled
-                v-model="postIngreso.detalle"
-                id="validationCustomUsername"
-                value=""
-                aria-describedby="inputGroupPrepend"
-                required
-              />
+              <CFormInput disabled v-model="postIngreso.detalle" id="validationCustomUsername" value=""
+                aria-describedby="inputGroupPrepend" required />
               <CFormFeedback valid> Exito! </CFormFeedback>
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </CInputGroup>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom03"
-              >Fuente Financiamiento</CFormLabel
-            >
-            <CFormInput
-              :disabled="ctgFuenteId"
-              v-model="postIngreso.ctgFuenteId"
-              id="validationCustom03"
-              required
-            />
+            <CFormLabel for="validationCustom03">Fuente Financiamiento</CFormLabel>
+            <CFormInput :disabled="ctgFuenteId" v-model="postIngreso.ctgFuenteId" id="validationCustom03" required />
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom04">Fuente Especifica</CFormLabel>
-            <CFormInput
-              :disabled="ctgFuenteEspecificaId"
-              v-model="postIngreso.ctgFuenteEspecificaId"
-              id="validationCustom04"
-              required
-            >
+            <CFormInput :disabled="ctgFuenteEspecificaId" v-model="postIngreso.ctgFuenteEspecificaId"
+              id="validationCustom04" required>
             </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom05"
-              >Organismo Financiador</CFormLabel
-            >
-            <CFormInput
-              disabled
-              v-model="postIngreso.ctgOrganismoFinanciadorId"
-              id="validationCustom05"
-              required
-            />
+            <CFormLabel for="validationCustom05">Organismo Financiador</CFormLabel>
+            <CFormInput disabled v-model="postIngreso.ctgOrganismoFinanciadorId" id="validationCustom05" required />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
             <CFormLabel>Institucion Otorgante</CFormLabel>
-            <CFormInput
-              v-model="postIngreso.instOtorga"
-              type="number"
-              step="any"
-            >
+            <CFormInput v-model="postIngreso.instOtorga" type="number" step="any">
             </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -284,49 +189,87 @@
           <hr />
           <CCol :md="4">
             <CFormLabel>Año Anterior</CFormLabel>
-            <CFormInput
-              v-model="postIngreso.anioAnt"
-              type="decimal"
-              step="any"
-              ref="anoAnteriorRef"
-            >
+            <CFormInput v-model="postIngreso.anioAnt" type="decimal" step="any" ref="anoAnteriorRef">
             </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
             <CFormLabel>A la Fecha</CFormLabel>
-            <CFormInput
-              v-model="postIngreso.alaFecha"
-              type="number"
-              step="any"
-            ></CFormInput>
+            <CFormInput v-model="postIngreso.alaFecha" type="number" step="any"></CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
             <CFormLabel>Presupuesto Formulado</CFormLabel>
-            <CFormInput
-              v-model="postIngreso.presForm"
-              type="number"
-              step="any"
-            ></CFormInput>
+            <CFormInput v-model="postIngreso.presForm" type="number" step="any"></CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <div class="modal-footer">
-            <button
-              :disabled="formuladoValue"
-              v-on:click="submitForm"
-              type="button"
-              class="btn btn-primary"
-            >
+            <button :disabled="formuladoValue" @click="() => { lgDemo = false }" type="button" class="btn btn-secondary">
+              Cerrar
+            </button>
+            <button :disabled="formuladoValue" v-on:click="submitForm" type="button" class="btn btn-primary">
               Guardar
             </button>
+
           </div>
         </CForm>
       </CCardBody>
     </CModalBody>
+  </CModal>
+  <CModal size="lg" :visible="findClasificadorModal" @close="
+    () => {
+      findClasificadorModal = false
+    }
+  ">
+
+
+    <CModalBody>
+      <CCardBody>
+        <CSmartTable clickableRows :tableProps="{
+          striped: true,
+          hover: true,
+        }" :tableHeadProps="{}" :activePage="1" tableFilter header key="ingreso.id" :items="clasificadorItems"
+          :columns="clasificadorColumns" itemsPerPageSelect :itemsPerPage="5"
+          :items-per-page-options="[5, 10, 20, 50, 100, 150]" columnSorter
+          :sorterValue="{ column: 'status', state: 'asc' }" pagination>
+
+          <template #show_details="{ item }">
+            <td class="py-2">
+              <div class="d-flex justify-content-around">
+                <CButton class="mt-1" color="primary" variant="outline" square size="sm"
+                  @click="SelectClasificador(item)">
+                  {{ Boolean(item._toggled) ? 'Hide' : 'Seleccionar' }}
+                </CButton>
+              </div>
+            </td>
+          </template>
+          <template #details="{ item }">
+            <CCollapse :visible="this.details.includes(item._id)">
+              <CCardBody>
+                <h4>
+                  {{ item.username }}
+                </h4>
+                <p class="text-muted">User since: {{ item.registered }}</p>
+                <CButton size="sm" color="info" class=""> User Settings </CButton>
+                <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
+              </CCardBody>
+            </CCollapse>
+
+          </template>
+        </CSmartTable>
+        <div class="d-flex flex-row-reverse">
+          <button @click="() => { findClasificadorModal = false }" type="button" class="btn btn-secondary">
+            Cerrar
+          </button>
+        </div>
+
+      </CCardBody>
+
+    </CModalBody>
+
   </CModal>
 </template>
 <script>
@@ -347,9 +290,11 @@ export default {
   },
   data: () => {
     return {
+      clasificadorItems: [],
       cilCloudUpload,
       texto: null,
       fileName: '',
+      findClasificadorModal: false,
       presIngrsoMasivo: [],
       anofiscal: parseInt(localStorage.getItem('ano')),
       ctgFuenteId: true,
@@ -478,6 +423,25 @@ export default {
         },
       ],
       details: [],
+      clasificadorColumns: [
+        { key: 'clasifica', label: 'Clasificador' },
+        { key: 'cControl', label: 'Control' },
+        { key: 'nombre', label: 'Detalle', _style: { width: '25%' } },
+        {
+          key: 'tipo',
+          label: 'Tipo',
+          filter: false,
+          sorter: false,
+          _style: { width: '5%' },
+        },
+        {
+          key: 'show_details',
+          label: '',
+          _style: { width: '10%' },
+          filter: false,
+          sorter: false,
+        }
+      ],
     }
   },
   methods: {
@@ -512,6 +476,17 @@ export default {
 
       setTimeout(this.unaVez, 200)
     },
+    SelectClasificador(clasificador) {
+      this.postIngreso.ctgClasificadorId = clasificador.clasifica
+      this.postIngreso.control = clasificador.cControl
+      this.postIngreso.detalle = clasificador.nombre
+      this.postIngreso.ctgFuenteId = clasificador.ctgFuenteId
+      this.postIngreso.ctgFuenteEspecificaId =
+        clasificador.ctgFuenteEspecificaId
+      this.postIngreso.ctgOrganismoFinanciadorId =
+        clasificador.ctgOrganismoFinanciadorId
+      this.findClasificadorModal = false
+    },
 
     onFileChange(event) {
       this.fileName = event.target.files[0].name
@@ -534,16 +509,13 @@ export default {
             this.presIngrsoMasivo.push({
               ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
               anioFiscalId: parseInt(localStorage.getItem('ano')),
-              ctgClasificadorId: `${Object.values(item)[2]}${
-                Object.values(item)[3]
-              }${Object.values(item)[4]}${
-                Object.values(item)[5]
-              }${Object.values(item)[6].toString().padStart(2, 0)}`,
+              ctgClasificadorId: `${Object.values(item)[2]}${Object.values(item)[3]
+                }${Object.values(item)[4]}${Object.values(item)[5]
+                }${Object.values(item)[6].toString().padStart(2, 0)}`,
               instOtorga: Object.values(item)[10],
               control: '',
               detalle: Api.getClasificador(
-                `${Object.values(item)[2]}${Object.values(item)[3]}${
-                  Object.values(item)[4]
+                `${Object.values(item)[2]}${Object.values(item)[3]}${Object.values(item)[4]
                 }${Object.values(item)[5]}${Object.values(item)[6]
                   .toString()
                   .padStart(2, 0)}`,
@@ -562,7 +534,7 @@ export default {
             })
           })
 
-          Api.postCargaMasiva(this.presIngrsoMasivo).then((response) => {})
+          Api.postCargaMasiva(this.presIngrsoMasivo).then((response) => { })
           Swal.fire({
             position: 'top-end',
             icon: 'success',
@@ -725,29 +697,34 @@ export default {
       }
     },
     getClasificador() {
-      Api.getClasificador(this.postIngreso.ctgClasificadorId)
-        .then((response) => {
-          this.postIngreso.control = response.data.data.cControl
-          this.postIngreso.detalle = response.data.data.nombre
-          this.postIngreso.ctgFuenteId = response.data.data.ctgFuenteId
-          this.postIngreso.ctgFuenteEspecificaId =
-            response.data.data.ctgFuenteEspecificaId
-          this.postIngreso.ctgOrganismoFinanciadorId =
-            response.data.data.ctgOrganismoFinanciadorId
-          this.validateInputctgFuente()
-          this.validateInputctgFuenteEspecificaId()
-          this.validateInputctgOrganismoFinanciadorId()
-        })
-        .catch((error) => {
-          this.$swal({
-            position: 'top-end',
-            icon: 'error',
-            text: `${error.response.data.details}`,
-            title: 'El clasificador no existe',
-            showConfirmButton: false,
-            timer: 1500,
-          })
-        })
+      this.findClasificadorModal = true
+      Api.getListarClasificadores().then(response => {
+        this.clasificadorItems = response.data.data
+        console.log(response)
+      })
+      // Api.getClasificador(this.postIngreso.ctgClasificadorId)
+      //   .then((response) => {
+      //     this.postIngreso.control = response.data.data.cControl
+      //     this.postIngreso.detalle = response.data.data.nombre
+      //     this.postIngreso.ctgFuenteId = response.data.data.ctgFuenteId
+      //     this.postIngreso.ctgFuenteEspecificaId =
+      //       response.data.data.ctgFuenteEspecificaId
+      //     this.postIngreso.ctgOrganismoFinanciadorId =
+      //       response.data.data.ctgOrganismoFinanciadorId
+      //     this.validateInputctgFuente()
+      //     this.validateInputctgFuenteEspecificaId()
+      //     this.validateInputctgOrganismoFinanciadorId()
+      //   })
+      //   .catch((error) => {
+      //     this.$swal({
+      //       position: 'top-end',
+      //       icon: 'error',
+      //       text: `${error.response.data.details}`,
+      //       title: 'El clasificador no existe',
+      //       showConfirmButton: false,
+      //       timer: 1500,
+      //     })
+      //   })
     },
     focusAno() {
       this.$refs.anoAnteriorRef.focus()
@@ -825,7 +802,7 @@ export default {
 }
 </script>
 <style scoped>
-.file-select > .select-button {
+.file-select>.select-button {
   padding: 0.5rem;
   line-height: 1.5;
   color: white;
@@ -836,7 +813,7 @@ export default {
   text-align: center;
 }
 
-.file-select > input[type='file'] {
+.file-select>input[type='file'] {
   display: none;
 }
 </style>
