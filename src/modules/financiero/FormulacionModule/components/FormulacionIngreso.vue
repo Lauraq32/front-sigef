@@ -708,23 +708,24 @@ export default {
         this.postIngreso.anioAnt = parseFloat(this.postIngreso.anioAnt)
         this.postIngreso.alaFecha = parseFloat(this.postIngreso.alaFecha)
         this.postIngreso.presForm = parseFloat(this.postIngreso.presForm)
-        Api.postFormulacionIngreso(this.postIngreso).then((response) => {
-          this.show({
-            content: 'Registro añadido correctamente',
-            closable: true,
-          })
-          this.postIngreso = {
-          anioFiscalId: parseInt(localStorage.getItem('ano')),
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-          ctgClasificadorId: null,
-          instOtorga: 0,
-          control: '',
-          detalle: null,
-          anioAnt: 0,
-          ctgFuenteId: null,
-          ctgFuenteEspecificaId: null,
-          ctgOrganismoFinanciadorId: null,
-          alaFecha: 0,
+        Api.postFormulacionIngreso(this.postIngreso)
+          .then((response) => {
+            this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
+            })
+            this.postIngreso = {
+              anioFiscalId: parseInt(localStorage.getItem('ano')),
+              ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+              ctgClasificadorId: null,
+              instOtorga: 0,
+              control: '',
+              detalle: null,
+              anioAnt: 0,
+              ctgFuenteId: null,
+              ctgFuenteEspecificaId: null,
+              ctgOrganismoFinanciadorId: null,
+              alaFecha: 0,
 
           presForm: 0,
           variacion: 0,
@@ -740,7 +741,7 @@ export default {
         })
 
         // this.lgDemo = true
-        
+
         this.validatedCustom01 = false
         setTimeout(this.getAllIngreso, 500)
         // this.clearModal()
@@ -838,15 +839,25 @@ export default {
       })
     },
     deleteItem(item) {
-      Api.deleteIngreso(item.id).then((response) => {
-        this.$swal({
-          position: 'top-end',
-          icon: 'success',
-          title: response.data.message,
-          showConfirmButton: false,
-          timer: 1500,
-        })
-        this.getAllIngreso(), this.getTotales()
+      this.$swal({
+        title: 'Estás seguro que quieres eliminar este registro?',
+        text: 'No podras revertirlo',
+        icon: 'Atencion',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar!',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Api.deleteIngreso(item.id).then((response) => {
+            this.show({
+              content: 'Eliminado correctamente',
+              closable: true,
+            })
+          })
+          setTimeout(this.getAllIngreso, 1000)
+          console.log(this.show)
+        }
       })
     },
   },
