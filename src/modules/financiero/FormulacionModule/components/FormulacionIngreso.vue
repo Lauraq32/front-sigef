@@ -34,7 +34,6 @@
         </div>
         <input type="file" id="formFile" @change="onFileChange" />
       </label>
-      <label v-if="fileName"> {{ fileName }}</label>
     </div>
   </div>
 
@@ -390,9 +389,9 @@ export default {
         ctgFuenteId: null,
         ctgFuenteEspecificaId: null,
         ctgOrganismoFinanciadorId: null,
-        anioAnt: null,
-        alaFecha: null,
-        presForm: null,
+        anioAnt: 0,
+        alaFecha: 0,
+        presForm: 0,
         variacion: 0,
         ingresos: 0,
         variacionResumen: 0,
@@ -658,12 +657,12 @@ export default {
         instOtorga: 0,
         control: '',
         detalle: null,
-        anioAnt: null,
+        anioAnt: 0,
         ctgFuenteId: null,
         ctgFuenteEspecificaId: null,
         ctgOrganismoFinanciadorId: null,
-        alaFecha: null,
-        presForm: null,
+        alaFecha: 0,
+        presForm: 0,
         variacion: 0,
         ingresos: 0,
         variacionResumen: 0,
@@ -675,7 +674,6 @@ export default {
       inputClasificador.focus()
       if (this.id) {
         Api.editPresIngreso(this.id, this.postIngreso).then((response) => {
-          // this.lgDemo = false
           this.show({
             content: 'Registro actualizado correctamente',
             closable: true,
@@ -689,13 +687,13 @@ export default {
             instOtorga: 0,
             control: '',
             detalle: null,
-            anioAnt: null,
+            anioAnt: 0,
             ctgFuenteId: null,
             ctgFuenteEspecificaId: null,
             ctgOrganismoFinanciadorId: null,
-            alaFecha: null,
+            alaFecha: 0,
 
-            presForm: null,
+            presForm: 0,
             variacion: 0,
             ingresos: 0,
             variacionResumen: 0,
@@ -710,36 +708,40 @@ export default {
         this.postIngreso.anioAnt = parseFloat(this.postIngreso.anioAnt)
         this.postIngreso.alaFecha = parseFloat(this.postIngreso.alaFecha)
         this.postIngreso.presForm = parseFloat(this.postIngreso.presForm)
-        Api.postFormulacionIngreso(this.postIngreso).then((response) => {
-          this.show({
-            content: 'Registro añadido correctamente',
-            closable: true,
+        Api.postFormulacionIngreso(this.postIngreso)
+          .then((response) => {
+            this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
+            })
+            this.postIngreso = {
+              anioFiscalId: parseInt(localStorage.getItem('ano')),
+              ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+              ctgClasificadorId: null,
+              instOtorga: 0,
+              control: '',
+              detalle: null,
+              anioAnt: 0,
+              ctgFuenteId: null,
+              ctgFuenteEspecificaId: null,
+              ctgOrganismoFinanciadorId: null,
+              alaFecha: 0,
+
+              presForm: 0,
+              variacion: 0,
+              ingresos: 0,
+              variacionResumen: 0,
+            }
           })
-          console.log(response)
-        })
+          .catch((error) => {
+            console.log(error)
+          })
 
         // this.lgDemo = true
-        this.postIngreso = {
-          anioFiscalId: parseInt(localStorage.getItem('ano')),
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-          ctgClasificadorId: null,
-          instOtorga: 0,
-          control: '',
-          detalle: null,
-          anioAnt: null,
-          ctgFuenteId: null,
-          ctgFuenteEspecificaId: null,
-          ctgOrganismoFinanciadorId: null,
-          alaFecha: null,
 
-          presForm: null,
-          variacion: 0,
-          ingresos: 0,
-          variacionResumen: 0,
-        }
         this.validatedCustom01 = false
         setTimeout(this.getAllIngreso, 500)
-        this.clearModal()
+        // this.clearModal()
         this.getTotales()
       }
     },
@@ -762,11 +764,13 @@ export default {
           this.validateInputctgOrganismoFinanciadorId()
         })
         .catch((error) => {
-          this.show({
-            content: error.message,
-            closable: true,
-            color: 'danger',
-          })
+          if (response.Errors == null) {
+            return this.show({
+              content: error.message,
+              closable: true,
+              color: 'danger',
+            })
+          }
         })
     },
     focusAno() {
@@ -822,7 +826,6 @@ export default {
     },
     getAllIngreso() {
       Api.getAllFormulacionIngreso().then((response) => {
-        console.log('233', response.data)
         this.ingresos = response.data.data
       })
     },
