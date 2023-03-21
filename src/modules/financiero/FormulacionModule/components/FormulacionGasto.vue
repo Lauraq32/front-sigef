@@ -24,7 +24,7 @@
     </div>
     <div class="p-2">
       <CButton color="info" @click="goToIngreso"
-        >Ir a Formulación Ingreso</CButton
+        >Ir a Formulaci&oacute;n Ingreso</CButton
       >
     </div>
     <div class="p-2">
@@ -33,15 +33,13 @@
         <input type="file" id="formFile" @change="onFileChangeProyectos" />
         <span  class="label">Importar Proyectos</span>
       </label>
-      <label v-if="fileName"> {{ fileName }}</label>
     </div>
     <div class="p-2">
       <label class="file-select btn" role="button">
         <CIcon :icon="cilCloudUpload" size="m" />
         <input type="file" id="formFile" @change="onFileChange" />
-        <span  class="label">Importar Formulación</span>
+        <span  class="label">Importar Formulaci&oacute;n</span>
       </label>
-      <label v-if="fileName"> {{ fileName }}</label>
     </div>
   </div>
   <CSmartTable
@@ -1596,16 +1594,6 @@ export default {
 .file-select > .label {
   margin-left: .1rem;
 }
-/* .file-select {
-  padding: 0.5rem;
-  line-height: 1.5;
-  color: white;
-  background-color: #375b80;
-
-  border-radius: 0.3rem;
-  cursor: pointer;
-  text-align: center;
-} */
 
 .file-select > input[type='file'] {
   visibility: hidden;
