@@ -591,7 +591,7 @@ export default {
 
         reader.readAsBinaryString(this.file)
       }
-      setTimeout(this.getListarIngresos, 1000)
+      setTimeout(this.getAllIngreso, 1000)
     },
     goToGasto() {
       router.push({ name: 'Formulacion Gasto' })
@@ -750,27 +750,21 @@ export default {
     },
     getClasificador() {
       Api.getClasificador(this.postIngreso.ctgClasificadorId)
-        .then((response) => {
-          if (response.data.data) {
-            this.postIngreso.control = response.data.data.cControl
-            this.postIngreso.detalle = response.data.data.nombre
-            this.postIngreso.ctgFuenteId = response.data.data.ctgFuenteId
-            this.postIngreso.ctgFuenteEspecificaId =
-              response.data.data.ctgFuenteEspecificaId
-            this.postIngreso.ctgOrganismoFinanciadorId =
-              response.data.data.ctgOrganismoFinanciadorId
-            this.validateInputctgFuente()
-            this.validateInputctgFuenteEspecificaId()
-            this.validateInputctgOrganismoFinanciadorId()
-            return
-          } else if (response.data.Data) {
-            return this.show({
-              content: error.message,
-              closable: true,
-              color: 'danger',
-            })
-          }
-          // return Promise.reject(new Error(response.data.Data))
+        .then(({ response }) => {
+          // if(!data) {
+          //   return Promise.reject(response)
+          // }
+          // this.postIngreso.control = response.data.data.cControl
+          // this.postIngreso.detalle = response.data.data.nombre
+          // this.postIngreso.ctgFuenteId = response.data.data.ctgFuenteId
+          // this.postIngreso.ctgFuenteEspecificaId =
+          //   response.data.data.ctgFuenteEspecificaId
+          // this.postIngreso.ctgOrganismoFinanciadorId =
+          //   response.data.data.ctgOrganismoFinanciadorId
+          console.log('344', response)
+          this.validateInputctgFuente()
+          this.validateInputctgFuenteEspecificaId()
+          this.validateInputctgOrganismoFinanciadorId()
         })
         .catch((error) => {
           if (response.Errors == null) {
