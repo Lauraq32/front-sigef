@@ -8,7 +8,7 @@
         @click="
           () => {
             openModal()
-            clearModal()
+
             edit = false
           }
         "
@@ -139,11 +139,12 @@
     </template>
   </CSmartTable>
   <CModal
+    backdrop="static"
     size="lg"
     :visible="lgDemo"
     @close="
       () => {
-        lgDemo = false
+        this.lgDemo = false
       }
     "
   >
@@ -159,7 +160,7 @@
             <label
               for="dni"
               style="font-weight: bold; margin-left: 12px; margin-top: 7px"
-              >Período</label
+              >A&ntilde;o</label
             >
           </div>
           <div class="col-6">
@@ -195,8 +196,6 @@
               type="number"
               id="clasifica"
             />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="1">
             <button
@@ -207,7 +206,7 @@
               Buscar
             </button>
           </CCol>
-          <CCol :md="4">
+          <CCol :md="2">
             <CFormLabel for="validationCustom02">Cta. Control</CFormLabel>
             <CFormInput
               disabled
@@ -215,10 +214,8 @@
               id="validationCustom02"
               required
             />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <CCol :md="5">
+          <CCol :md="7">
             <CFormLabel for="validationCustomUsername">Detalle</CFormLabel>
             <CInputGroup class="has-validation">
               <CFormInput
@@ -229,8 +226,6 @@
                 aria-describedby="inputGroupPrepend"
                 required
               />
-              <CFormFeedback valid> Exito! </CFormFeedback>
-              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </CInputGroup>
           </CCol>
           <CCol :md="3">
@@ -243,11 +238,9 @@
               id="validationCustom03"
               required
             />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom04">Fuente Especifica</CFormLabel>
+            <CFormLabel for="validationCustom04">Fuente Específica</CFormLabel>
             <CFormInput
               :disabled="ctgFuenteEspecificaId"
               v-model="postIngreso.ctgFuenteEspecificaId"
@@ -255,66 +248,86 @@
               required
             >
             </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
             <CFormLabel for="validationCustom05"
               >Organismo Financiador</CFormLabel
             >
             <CFormInput
-              disabled
+              :disabled="ctgOrganismoFinanciadorId"
               v-model="postIngreso.ctgOrganismoFinanciadorId"
               id="validationCustom05"
               required
             />
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
-            <CFormLabel>Institucion Otorgante</CFormLabel>
+            <CFormLabel>Institución Otorgante</CFormLabel>
             <CFormInput
               v-model="postIngreso.instOtorga"
               type="number"
               step="any"
             >
             </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <hr />
           <CCol :md="4">
             <CFormLabel>Año Anterior</CFormLabel>
-            <CFormInput
-              v-model="postIngreso.anioAnt"
-              type="decimal"
-              step="any"
+            <VueNumberFormat
+              v-model:value="postIngreso.anioAnt"
+              type="text"
+              class="form-control"
+              :options="{
+                precision: 2,
+                prefix: '',
+                decimal: '.',
+                thousand: ',',
+              }"
               ref="anoAnteriorRef"
             >
-            </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+            </VueNumberFormat>
           </CCol>
           <CCol :md="4">
             <CFormLabel>A la Fecha</CFormLabel>
-            <CFormInput
-              v-model="postIngreso.alaFecha"
-              type="number"
-              step="any"
-            ></CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+            <VueNumberFormat
+              v-model:value="postIngreso.alaFecha"
+              type="text"
+              class="form-control"
+              :options="{
+                precision: 2,
+                prefix: '',
+                decimal: '.',
+                thousand: ',',
+              }"
+            ></VueNumberFormat>
           </CCol>
           <CCol :md="4">
             <CFormLabel>Presupuesto Formulado</CFormLabel>
-            <CFormInput
-              v-model="postIngreso.presForm"
-              type="number"
+            <VueNumberFormat
+              v-model:value="postIngreso.presForm"
+              type="text"
               step="any"
-            ></CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              class="form-control"
+              :options="{
+                precision: 2,
+                prefix: '',
+                decimal: '.',
+                thousand: ',',
+              }"
+            ></VueNumberFormat>
           </CCol>
           <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              @click="
+                () => {
+                  lgDemo = false
+                }
+              "
+            >
+              Cerrar
+            </button>
             <button
               :disabled="formuladoValue"
               v-on:click="submitForm"
@@ -330,14 +343,16 @@
   </CModal>
 </template>
 <script>
-import { CDateRangePicker, CSmartTable } from '@coreui/vue-pro'
+import { CSmartTable } from '@coreui/vue-pro'
+import VueNumberFormat from 'vue-number-format'
 import { CModal } from '@coreui/vue'
 import Api from '../services/FormulacionServices'
-import { mapActions, mapState } from 'vuex'
+import { mapActions } from 'pinia'
 import XLSX from 'xlsx/xlsx.mjs'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { CIcon } from '@coreui/icons-vue'
 import { cilCloudUpload } from '@coreui/icons-pro'
+import { useToastStore } from '@/store/toast'
 import router from '@/router'
 export default {
   components: {
@@ -350,6 +365,7 @@ export default {
       cilCloudUpload,
       texto: null,
       fileName: '',
+      ingresos: [],
       presIngrsoMasivo: [],
       anofiscal: parseInt(localStorage.getItem('ano')),
       ctgFuenteId: true,
@@ -481,6 +497,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(useToastStore, ['show']),
     downloadFile() {
       Api.downloadIngreso().then((response) => {
         var fileURL = window.URL.createObjectURL(new Blob([response.data]))
@@ -657,16 +674,13 @@ export default {
       inputClasificador.focus()
       if (this.id) {
         Api.editPresIngreso(this.id, this.postIngreso).then((response) => {
-          this.lgDemo = false
-          this.$swal({
-            position: 'top-end',
-            icon: 'success',
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
+          // this.lgDemo = false
+          this.show({
+            content: 'Registro actualizado correctamente',
+            closable: true,
           })
 
-          this.$store.dispatch('Formulacion/getListarIngresos')
+          this.getAllIngreso()
           this.postIngreso = {
             anioFiscalId: parseInt(localStorage.getItem('ano')),
             ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
@@ -686,7 +700,7 @@ export default {
             variacionResumen: 0,
           }
 
-          setTimeout(this.getListarIngresos, 3000)
+          setTimeout(this.getAllIngreso, 3000)
 
           this.getTotales()
           this.id = null
@@ -695,11 +709,13 @@ export default {
         this.postIngreso.anioAnt = parseFloat(this.postIngreso.anioAnt)
         this.postIngreso.alaFecha = parseFloat(this.postIngreso.alaFecha)
         this.postIngreso.presForm = parseFloat(this.postIngreso.presForm)
-        this.$store.dispatch('Formulacion/PostIngreso', this.postIngreso)
-
-        // this.lgDemo = true
-        this.$store.dispatch('Formulacion/getListarIngresos')
-        this.postIngreso = {
+        Api.postFormulacionIngreso(this.postIngreso).then((response) => {
+          this.show({
+            content: 'Registro añadido correctamente',
+            closable: true,
+          })
+          console.log(response)
+          this.postIngreso = {
           anioFiscalId: parseInt(localStorage.getItem('ano')),
           ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
           ctgClasificadorId: null,
@@ -717,35 +733,51 @@ export default {
           ingresos: 0,
           variacionResumen: 0,
         }
-        this.validatedCustom01 = false
-        setTimeout(this.getListarIngresos, 500)
+        }).catch((error) => {
+          console.log(error)
+        })
 
+        // this.lgDemo = true
+        
+        this.validatedCustom01 = false
+        setTimeout(this.getAllIngreso, 500)
+        // this.clearModal()
         this.getTotales()
       }
     },
     getClasificador() {
       Api.getClasificador(this.postIngreso.ctgClasificadorId)
         .then((response) => {
-          this.postIngreso.control = response.data.data.cControl
-          this.postIngreso.detalle = response.data.data.nombre
-          this.postIngreso.ctgFuenteId = response.data.data.ctgFuenteId
-          this.postIngreso.ctgFuenteEspecificaId =
-            response.data.data.ctgFuenteEspecificaId
-          this.postIngreso.ctgOrganismoFinanciadorId =
-            response.data.data.ctgOrganismoFinanciadorId
-          this.validateInputctgFuente()
-          this.validateInputctgFuenteEspecificaId()
-          this.validateInputctgOrganismoFinanciadorId()
+          if (response.data.data) {
+            this.postIngreso.control = response.data.data.cControl
+            this.postIngreso.detalle = response.data.data.nombre
+            this.postIngreso.ctgFuenteId = response.data.data.ctgFuenteId
+            this.postIngreso.ctgFuenteEspecificaId =
+              response.data.data.ctgFuenteEspecificaId
+            this.postIngreso.ctgOrganismoFinanciadorId =
+              response.data.data.ctgOrganismoFinanciadorId
+            this.validateInputctgFuente()
+            this.validateInputctgFuenteEspecificaId()
+            this.validateInputctgOrganismoFinanciadorId()
+            return
+          } else if (response.data.Data) {
+            console.log()
+            return this.show({
+              content: error.message,
+              closable: true,
+              color: 'danger',
+            })
+          }
+          // return Promise.reject(new Error(response.data.Data))
         })
         .catch((error) => {
-          this.$swal({
-            position: 'top-end',
-            icon: 'error',
-            text: `${error.response.data.details}`,
-            title: 'El clasificador no existe',
-            showConfirmButton: false,
-            timer: 1500,
-          })
+          if (response.Errors == null) {
+            return this.show({
+              content: error.message,
+              closable: true,
+              color: 'danger',
+            })
+          }
         })
     },
     focusAno() {
@@ -799,6 +831,12 @@ export default {
         this.postIngreso = response.data.data
       })
     },
+    getAllIngreso() {
+      Api.getAllFormulacionIngreso().then((response) => {
+        console.log('233', response.data)
+        this.ingresos = response.data.data
+      })
+    },
     deleteItem(item) {
       Api.deleteIngreso(item.id).then((response) => {
         this.$swal({
@@ -808,20 +846,15 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
-        this.getListarIngresos(), this.getTotales()
+        this.getAllIngreso(), this.getTotales()
       })
     },
-
-    ...mapActions('Formulacion', ['getListarIngresos']),
   },
-  computed: {
-    ...mapState('Formulacion', ['ingresos', 'ingresosCount']),
-  },
+  computed: {},
 
-  created() {
-    this.getListarIngresos()
+  mounted() {
     this.getTotales()
-    this.footerItem[0].label = `Total Items: ${this.ingresosCount}`
+    this.getAllIngreso()
   },
 }
 </script>
