@@ -27,7 +27,6 @@
         </div>
         <input type="file" id="formFile" @change="onFileChange" />
       </label>
-      <label v-if="fileName"> {{ fileName }}</label>
     </div>
   </div>
 
@@ -323,9 +322,9 @@ export default {
         ctgFuenteId: null,
         ctgFuenteEspecificaId: null,
         ctgOrganismoFinanciadorId: null,
-        anioAnt: null,
-        alaFecha: null,
-        presForm: null,
+        anioAnt: 0,
+        alaFecha: 0,
+        presForm: 0,
         variacion: 0,
         ingresos: 0,
         variacionResumen: 0,
@@ -657,12 +656,12 @@ export default {
         instOtorga: 0,
         control: '',
         detalle: null,
-        anioAnt: null,
+        anioAnt: 0,
         ctgFuenteId: null,
         ctgFuenteEspecificaId: null,
         ctgOrganismoFinanciadorId: null,
-        alaFecha: null,
-        presForm: null,
+        alaFecha: 0,
+        presForm: 0,
         variacion: 0,
         ingresos: 0,
         variacionResumen: 0,
@@ -688,13 +687,13 @@ export default {
             instOtorga: 0,
             control: '',
             detalle: null,
-            anioAnt: null,
+            anioAnt: 0,
             ctgFuenteId: null,
             ctgFuenteEspecificaId: null,
             ctgOrganismoFinanciadorId: null,
-            alaFecha: null,
+            alaFecha: 0,
 
-            presForm: null,
+            presForm: 0,
             variacion: 0,
             ingresos: 0,
             variacionResumen: 0,
@@ -716,23 +715,23 @@ export default {
           })
           console.log(response)
           this.postIngreso = {
-            anioFiscalId: parseInt(localStorage.getItem('ano')),
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-            ctgClasificadorId: null,
-            instOtorga: 0,
-            control: '',
-            detalle: null,
-            anioAnt: null,
-            ctgFuenteId: null,
-            ctgFuenteEspecificaId: null,
-            ctgOrganismoFinanciadorId: null,
-            alaFecha: null,
+          anioFiscalId: parseInt(localStorage.getItem('ano')),
+          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ctgClasificadorId: null,
+          instOtorga: 0,
+          control: '',
+          detalle: null,
+          anioAnt: 0,
+          ctgFuenteId: null,
+          ctgFuenteEspecificaId: null,
+          ctgOrganismoFinanciadorId: null,
+          alaFecha: 0,
 
-            presForm: null,
-            variacion: 0,
-            ingresos: 0,
-            variacionResumen: 0,
-          }
+          presForm: 0,
+          variacion: 0,
+          ingresos: 0,
+          variacionResumen: 0,
+        }
         }).catch((error) => {
           console.log(error)
         })
