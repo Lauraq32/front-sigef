@@ -132,14 +132,12 @@
         <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01" @submit="handleSubmitCustom01">
           <CCol :md="3">
             <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
-            <input ref="name" required on:keyup.native.enter="getClasificador" class="form-control"
-              v-model="postIngreso.ctgClasificadorId" type="number" id="clasifica" />
-            <div style="cursor: pointer;
-    position: absolute;
-    top: 55px;
-    left: 163px;">
-
-              <CIcon icon="cisSearch" size="xl" v-on:click="getClasificador" />
+            <div class="position-relative">
+              <input ref="name" required on:keyup.native.enter="getClasificador" class="form-control padding-input"
+                v-model="postIngreso.ctgClasificadorId" type="number" id="clasifica" />
+                <span class="position-absolute icon-input">
+                  <CIcon icon="cisSearch" size="xl" v-on:click="getClasificador" />
+                </span>
             </div>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -802,6 +800,17 @@ export default {
 }
 </script>
 <style scoped>
+.padding-input{
+  padding-right: 2.5rem;
+}
+.icon-input{
+  padding: 0.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    right: 2px;
+}
+
 .file-select>.select-button {
   padding: 0.5rem;
   line-height: 1.5;
