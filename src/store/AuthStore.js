@@ -23,6 +23,7 @@ export const useAuthStore = defineStore('Auth', () => {
     return Api.Login(user).then((response) => {
       authInfo.value = response.data.data
       localStorage.setItem('usuario', JSON.stringify(authInfo.value))
+      console.log(authInfo.value)
       return Promise.resolve(true)
     })
   }

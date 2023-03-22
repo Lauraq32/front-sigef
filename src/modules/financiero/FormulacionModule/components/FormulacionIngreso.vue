@@ -346,12 +346,13 @@ import { CSmartTable } from '@coreui/vue-pro'
 import VueNumberFormat from 'vue-number-format'
 import { CModal } from '@coreui/vue'
 import Api from '../services/FormulacionServices'
-import { mapActions } from 'pinia'
+import { mapActions, mapStores,mapState } from 'pinia'
 import XLSX from 'xlsx/xlsx.mjs'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { CIcon } from '@coreui/icons-vue'
 import { cilCloudUpload } from '@coreui/icons-pro'
 import { useToastStore } from '@/store/toast'
+import { useAuthStore } from '@/store/AuthStore'
 import router from '@/router'
 export default {
   components: {
@@ -603,6 +604,7 @@ export default {
       })
     },
     getTotales() {
+      console.log(this.AuthStore.user)
       Api.getTotalIngresos(
         localStorage.getItem('id_Ayuntamiento'),
         localStorage.getItem('ano'),
@@ -828,6 +830,7 @@ export default {
       })
     },
     getAllIngreso() {
+      console.log(useAuthStore.user)
       Api.getAllFormulacionIngreso().then((response) => {
         this.ingresos = response.data.data
       })
@@ -855,7 +858,9 @@ export default {
       })
     },
   },
-  computed: {},
+  computed: {
+    ...mapStores(useAuthStore),
+    ...mapState(useAuthStore, ['user']),},
 
   mounted() {
     this.getTotales()
