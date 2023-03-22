@@ -14,8 +14,8 @@ export const useAuthStore = defineStore('Auth', () => {
   const fiscalYear = computed(() => authInfo.fiscalYear !== null)
 
   ;(() => {
-    if (authInfo == null && localStorage.getItem('usuario') != null) {
-      authInfo.value = localStorage.getItem('usuario')
+    if (authInfo.value == null && localStorage.getItem('usuario') != null) {
+      authInfo.value = JSON.parse(localStorage.getItem('usuario'))
     }
   })()
 
@@ -23,7 +23,7 @@ export const useAuthStore = defineStore('Auth', () => {
     return Api.Login(user).then((response) => {
       authInfo.value = response.data.data
       localStorage.setItem('usuario', JSON.stringify(authInfo.value))
-      console.log(authInfo.value)
+      console.log(authInfo.value.user)
       return Promise.resolve(true)
     })
   }

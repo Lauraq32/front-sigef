@@ -17,11 +17,13 @@
 <script>
 import { onMounted, ref } from 'vue'
 import router from '@/router'
+import { useAuthStore } from '@/store/AuthStore'
 
 export default {
   name: 'AppBreadcrumb',
   setup() {
-    const usuario = localStorage.getItem('nombre_usuario')
+    const authStore = useAuthStore()
+    const usuario = authStore.authInfo.user.nombre
     const breadcrumbs = ref()
 
     const getBreadcrumbs = () => {

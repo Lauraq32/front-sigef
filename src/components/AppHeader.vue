@@ -58,6 +58,7 @@
 import AppBreadcrumb from './AppBreadcrumb'
 import AppHeaderDropdownAccnt from './AppHeaderDropdownAccnt'
 import { logo } from '@/assets/brand/logo'
+import { useAuthStore } from '@/store/AuthStore'
 export default {
   name: 'AppHeader',
   components: {
@@ -65,7 +66,10 @@ export default {
     AppHeaderDropdownAccnt,
   },
   setup() {
-    const ayuntamiento = localStorage.getItem('nombre_ayuntamiento')
+  
+
+const authStore = useAuthStore()
+    const ayuntamiento = authStore.authInfo.user.ayuntamiento.descripcion
     const NoHallado = (ayuntamiento) => {
       if (ayuntamiento === 'null') return 'No encontrado'
     }

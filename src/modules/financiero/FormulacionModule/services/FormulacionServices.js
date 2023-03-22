@@ -61,11 +61,9 @@ class FormulacionApi {
   //   })
   // }
 
-  getAllFormulacionIngreso() {
+  getAllFormulacionIngreso(anioFiscal,ayuntamientoId) {
     return http.get(
-      `PresIngreso?anio=${localStorage.getItem(
-        'ano',
-      )}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`,
+      `PresIngreso?anio=${anioFiscal}&AyuntamientoId=${ayuntamientoId}`,
     )
   }
 
@@ -85,7 +83,7 @@ class FormulacionApi {
     )
   }
 
-  getTotalIngresos(id_ayuntamiento, ano_fiscal) {
+  getTotalIngresos(ano_fiscal,id_ayuntamiento) {
     return http.get(
       `/PresIngreso/GetTotal?anio=${ano_fiscal}&ayuntamientoId=${id_ayuntamiento}`,
     )

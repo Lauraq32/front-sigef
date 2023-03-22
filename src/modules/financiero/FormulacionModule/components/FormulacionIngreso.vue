@@ -606,8 +606,8 @@ export default {
     getTotales() {
       console.log(this.AuthStore.user)
       Api.getTotalIngresos(
-        localStorage.getItem('id_Ayuntamiento'),
-        localStorage.getItem('ano'),
+        this.authInfo.user.ayuntamiento.id,
+        this.authInfo.currentFiscalYearId,
       ).then((response) => {
         this.footerItem[1].label = this.formatPrice(response.data.data.anioAnt)
         this.footerItem[2].label = this.formatPrice(response.data.data.alaFecha)
@@ -830,8 +830,7 @@ export default {
       })
     },
     getAllIngreso() {
-      console.log(useAuthStore.user)
-      Api.getAllFormulacionIngreso().then((response) => {
+      Api.getAllFormulacionIngreso(this.authInfo.currentFiscalYearId,this.authInfo.user.ayuntamiento.id).then((response) => {
         this.ingresos = response.data.data
       })
     },
@@ -860,7 +859,7 @@ export default {
   },
   computed: {
     ...mapStores(useAuthStore),
-    ...mapState(useAuthStore, ['user']),},
+    ...mapState(useAuthStore, ['authInfo']),},
 
   mounted() {
     this.getTotales()
