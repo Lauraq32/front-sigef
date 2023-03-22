@@ -25,6 +25,28 @@
           >Imprimir Reporte</CButton
         >
       </div>
+      <div class="d-inline p-2">
+        <CButton
+          color="info"
+          @click="
+            () => {
+              reportes = true
+            }
+          "
+          >Evaluaci&oacuten de desempe&ntilde;o</CButton
+        >
+      </div>
+      <div class="d-inline p-2">
+        <CButton
+          color="info"
+          @click="
+            () => {
+              reportes = true
+            }
+          "
+          >Acci&oacute;n de personal</CButton
+        >
+      </div>
     </div>
   </div>
  
@@ -65,6 +87,11 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
+  <template #sexo="{ item }">
+      <td>
+        {{ item.sexo == 'M' ? 'Masculino' : 'Femenino'  }}
+      </td>
+    </template>
     <template #posicion="{ item }">
       <td>
         {{ item.posicion.nombre }}
@@ -1097,6 +1124,7 @@ export default {
         { key: 'apellidos', label: 'Apellido', _style: { width: '15%' } },
         { key: 'nombres', label: 'Nombre', _style: { width: '15%' } },
         { key: 'cedula', label: 'Cédula', _style: { width: '10%' } },
+        { key: 'codigo', label: 'Codigo', _style: { width: '10%' } },
         {
           key: 'programaDivision',
           label: 'Programa',
@@ -1108,11 +1136,7 @@ export default {
           label: 'Fecha ingreso',
           _style: { width: '15%' },
         },
-        {
-          key: 'fechaNacimiento',
-          label: 'Fecha Nacim.',
-          _style: { width: '20%' },
-        },
+       
         { key: 'sexo', label: 'Sexo', _style: { width: '2%' } },
 
         {
