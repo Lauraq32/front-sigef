@@ -1153,29 +1153,6 @@ export default {
       }
     },
 
-    // formatearNumero(numero) {
-    //   if (!this.hasRun) {
-    //     const opciones = {
-    //       minimumFractionDigits: 2,
-    //       maximumFractionDigits: 2,
-    //     }
-    //     const numeroFormateado = numero.toLocaleString('es-ES', opciones)
-    //     this.hasRun = true
-    //     return numeroFormateado
-    //   } else {
-    //     return numero
-    //   }
-    // },
-
-    formatearNumero(numero) {
-      const opciones = {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      }
-      const numeroFormateado = numero.toLocaleString('es-ES', opciones)
-      return numeroFormateado
-    },
-
     focusInput() {
       this.$refs.name.focus()
     },
@@ -1579,12 +1556,12 @@ export default {
           this.sumaServicio += parseInt(detalle.oriBco2)
           this.sumaInversion += parseInt(detalle.oriBco3)
           this.sumaEdiGenero += parseInt(detalle.oriBco4)
-          this.footerItems[1].label = this.formatearNumero(this.sumaPresupuesto)
-          this.footerItems[2].label = this.formatearNumero(this.sumaGPersonal)
-          this.footerItems[3].label = this.formatearNumero(this.sumaServicio)
-          this.footerItems[4].label = this.formatearNumero(this.sumaInversion)
-          this.footerItems[5].label = this.formatearNumero(this.sumaEdiGenero)
-          this.numeroFormateado = this.formatearNumero(this.numero)
+          this.footerItems[1].label = this.formatPrice(this.sumaPresupuesto)
+          this.footerItems[2].label = this.formatPrice(this.sumaGPersonal)
+          this.footerItems[3].label = this.formatPrice(this.sumaServicio)
+          this.footerItems[4].label = this.formatPrice(this.sumaInversion)
+          this.footerItems[5].label = this.formatPrice(this.sumaEdiGenero)
+          this.numeroFormateado = this.formatPrice(this.numero)
           console.log(this.numeroFormateado)
         })
         this.totalItems = this.detallePresGastos.length
