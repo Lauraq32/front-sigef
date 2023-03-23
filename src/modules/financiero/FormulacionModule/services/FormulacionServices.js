@@ -161,17 +161,17 @@ class FormulacionApi {
 
   getListarGastos(id) {
     return http.get(
-      `PresGasto?anio=${localStorage.getItem(
-        'ano',
-      )}&ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`,
+      `PresGasto?anio=${JSON.parse(localStorage.getItem(
+        'usuario',
+      )).user.ayuntamiento.id}&ayuntamientoId=${JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId}`,
     )
   }
 
   getListarGastosById(id) {
     return http.get(
-      `PresGasto/${id}?anio=${localStorage.getItem(
-        'ano',
-      )}&ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`,
+      `PresGasto?anio=${JSON.parse(localStorage.getItem(
+        'usuario',
+      )).user.ayuntamiento.id}&ayuntamientoId=${JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId}`,
     )
   }
 
@@ -230,9 +230,9 @@ class FormulacionApi {
   cargarEstructuras() {
     return http
       .post(
-        `PresGasto/InsertPresGasto?anio=${localStorage.getItem(
-          'ano',
-        )}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`,
+        `PresGasto?anio=${JSON.parse(localStorage.getItem(
+          'usuario',
+        )).user.ayuntamiento.id}&ayuntamientoId=${JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId}`,
       )
       .catch((error) => {
         Swal.fire({

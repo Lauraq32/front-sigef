@@ -852,8 +852,8 @@ export default {
       detallePost: {
         id: 0,
         presGastoId: 0,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-        anioFiscalId: parseInt(localStorage.getItem('ano')),
+        ayuntamientoId: JSON.parse(localStorage.getItem( 'usuario', )).user.ayuntamiento.id,
+        anioFiscalId: JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId,
         mestProgId: '',
         ctgClasificadorId: '',
         cControl: '',
@@ -912,8 +912,8 @@ export default {
       },
       post: {
         clasifica: '',
-        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
-        anioFiscalId: localStorage.getItem('ano'),
+        ayuntamientoId: JSON.parse(localStorage.getItem( 'usuario', )).user.ayuntamiento.id,
+        anioFiscalId: JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId,
         mestprogId: '',
         costObra: '',
         pnap: '',
@@ -1094,8 +1094,8 @@ export default {
             }
 
             this.proyectosList.push({
-              AyuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-              AnioFiscalId: parseInt(localStorage.getItem('ano')),
+              AyuntamientoId: JSON.parse(localStorage.getItem( 'usuario', )).user.ayuntamiento.id,
+              AnioFiscalId: JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId,
               MestProgId: `0011${Object.values(item)[4]
                 .toString()
                 .padStart(2, 0)}${Object.values(item)[5]
