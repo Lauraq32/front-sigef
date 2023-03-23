@@ -61,7 +61,7 @@ class FormulacionApi {
   //   })
   // }
 
-  getAllFormulacionIngreso(anioFiscal,ayuntamientoId) {
+  getAllFormulacionIngreso(anioFiscal, ayuntamientoId) {
     return http.get(
       `PresIngreso?anio=${anioFiscal}&AyuntamientoId=${ayuntamientoId}`,
     )
@@ -77,13 +77,15 @@ class FormulacionApi {
 
   getDetalle(id) {
     return http.get(
-      `PresGasto/GetDetallePresGastobyIdAsync/${id}?anio=${localStorage.getItem(
-        'ano',
-      )}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`,
+      `PresGasto/GetDetallePresGastobyIdAsync/${id}?anio=${
+        JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId
+      }&AyuntamientoId=${
+        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+      }`,
     )
   }
 
-  getTotalIngresos(ano_fiscal,id_ayuntamiento) {
+  getTotalIngresos(ano_fiscal, id_ayuntamiento) {
     return http.get(
       `/PresIngreso/GetTotal?anio=${ano_fiscal}&ayuntamientoId=${id_ayuntamiento}`,
     )
@@ -161,17 +163,21 @@ class FormulacionApi {
 
   getListarGastos(id) {
     return http.get(
-      `PresGasto?anio=${JSON.parse(localStorage.getItem(
-        'usuario',
-      )).user.ayuntamiento.id}&ayuntamientoId=${JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId}`,
+      `PresGasto?anio=${
+        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+      }&ayuntamientoId=${
+        JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId
+      }`,
     )
   }
 
   getListarGastosById(id) {
     return http.get(
-      `PresGasto?anio=${JSON.parse(localStorage.getItem(
-        'usuario',
-      )).user.ayuntamiento.id}&ayuntamientoId=${JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId}`,
+      `PresGasto?anio=${
+        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+      }&ayuntamientoId=${
+        JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId
+      }`,
     )
   }
 
@@ -230,9 +236,11 @@ class FormulacionApi {
   cargarEstructuras() {
     return http
       .post(
-        `PresGasto?anio=${JSON.parse(localStorage.getItem(
-          'usuario',
-        )).user.ayuntamiento.id}&ayuntamientoId=${JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId}`,
+        `PresGasto?anio=${
+          JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+        }&ayuntamientoId=${
+          JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId
+        }`,
       )
       .catch((error) => {
         Swal.fire({
@@ -264,7 +272,7 @@ class FormulacionApi {
   }
 
   // cargarEstructuras(){
-  //   return http.post(`PresGasto/InsertPresGasto?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`).catch((error) => {
+  //   return http.post(`PresGasto/InsertPresGasto?anio=${localStorage.getItem('ano')}&AyuntamientoId=${JSON.parse(localStorage.getItem( 'usuario', )).user.ayuntamiento.id}`).catch((error) => {
   //     Swal.fire({
   //       position: 'top-end',
   //       icon: 'error',

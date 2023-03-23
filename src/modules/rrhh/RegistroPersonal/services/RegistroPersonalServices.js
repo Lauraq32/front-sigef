@@ -16,16 +16,23 @@ class RegistroPersonal {
   }
 
   getAllEmpleado() {
-    return http.get(`Empleado?ayuntamientoId=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
+    return http.get(
+      `Empleado?ayuntamientoId=${
+        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+      }`,
+    )
   }
 
   getProgramaDivision() {
-    return http.get(`ProgramaDivision?AyuntamientoId=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
+    return http.get(
+      `ProgramaDivision?AyuntamientoId=${
+        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+      }`,
+    )
   }
 
   getEmpleadoByID(id) {
     return http.get(`Empleado/${id}`)
-
   }
 
   getDepartamentoByProgramaId(id) {
@@ -33,7 +40,11 @@ class RegistroPersonal {
   }
 
   getSectores() {
-    return http.get(`Sector?ayuntamiento=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
+    return http.get(
+      `Sector?ayuntamiento=${
+        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+      }`,
+    )
   }
 
   getAreaTrabajo() {
@@ -62,7 +73,6 @@ class RegistroPersonal {
     return http.post('AreaTrabajo', data)
   }
 
-
   //put
   putEmpleado(id, data) {
     return http.put(`Empleado/${id}`, data)
@@ -85,9 +95,12 @@ class RegistroPersonal {
   }
 
   deleteSector(id) {
-    return http.delete(`Sector/${id}?ayuntamiento=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
+    return http.delete(
+      `Sector/${id}?ayuntamiento=${
+        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+      }`,
+    )
   }
-
 }
 
 export default new RegistroPersonal()
