@@ -912,6 +912,7 @@ import Api from '../services/EjecucionServices'
 import ApiFormulacion from '../../FormulacionModule/services/FormulacionServices'
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
 import SimpleTypeahead from 'vue3-simple-typeahead'
+import AppPageHeader from '@/components/AppPageHeader.vue'
  
 import { useToastStore } from '@/store/toast'
 export default {
@@ -919,6 +920,7 @@ export default {
     CSmartTable,
     CModal,
     SimpleTypeahead,
+    AppPageHeader,
       
   },
 

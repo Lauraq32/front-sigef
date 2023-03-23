@@ -1,34 +1,21 @@
 <template>
   <h3 class="text-center">Documento por Pagar</h3>
- 
-  <div class="table-headers">
-    <div class="d-inline p-2">
-      <CButton
-        color="info"
-        @click="
-          () => {
-            lgDemo = true
-          }
-        "
-        >Agregar</CButton
-      >
-    </div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-        >Imprimir</CButton
-      >
-    </div>
-  </div>
- 
+  <AppPageHeader
+  :addDropdowm="true"
+    :addButtonForm="addbuttonform"
+    :actions="acciones"
+    :anoFiscal="true"
+    :addButton="true"
+  />
+
   <CSmartTable
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
     header
     :items="this.$store.state.Formulacion.proyecto"
     :columns="columns"
@@ -187,13 +174,31 @@
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import AppPageHeader from '@/components/AppPageHeader.vue'
 export default {
   components: {
     CSmartTable,
     CModal,
+    AppPageHeader,
   },
-  data: () => {
+  data: function () {
     return {
+      addbuttonform: {
+        label: 'Agregar',
+        accion: () => {
+          this.lgDemo = true
+        },
+      },
+
+      acciones: [
+        {
+          label: 'Generar Cuenta',
+          accion: () => {
+            this.IngresoReport = true
+          },
+        },
+      ],
+
       validatedCustom01: null,
       lgDemo: false,
       columns: [

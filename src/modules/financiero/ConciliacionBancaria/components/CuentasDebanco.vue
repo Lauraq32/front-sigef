@@ -1,26 +1,15 @@
 <template>
       
   <h3 class="text-center">Cuentas de banco</h3>
-  <hr />
-  <div>
-    <div class="d-block p-2">
-      <CButton
-        color="info"
-        @click="
-          () => {
-            lgDemo = true
-          }
-        "
-        >Agregar</CButton
-      >
-    </div>
-  </div>
-  <div class="d-block p-2">
-    <CButton style="font-weight: bold" color="info" @click="generarCuentas"
-      >Generar Cuenta</CButton
-    >
-  </div>
-  <hr />
+  <AppPageHeader
+  :addButtonForm="addbuttonform"
+    :actions="acciones"
+    :anoFiscal="true"
+    :addButton="true"
+    :addDropdowm="true"
+    
+  
+  />  
   <CSmartTable
     clickableRows
     :tableProps="{
@@ -528,17 +517,51 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/ConciliacionServices'
 import { mapActions } from 'pinia'
+import AppPageHeader from '@/components/AppPageHeader.vue'
  
 import { useToastStore } from '@/store/toast'
+
 import { thisTypeAnnotation } from '@babel/types'
+
 export default {
   components: {
     CSmartTable,
     CModal,
+    AppPageHeader,
       
   },
-  data: () => {
+  data: function ()  {
     return {
+
+      addbuttonform: {
+        label: 'Agregar',
+        accion: () => {
+          this.lgDemo = true
+        },
+      },
+
+      acciones: [{
+        
+        label:'Generar Cuenta',
+        accion: () => {
+          this.generarCuentas = true
+        }
+
+
+      }],
+
+
+
+
+
+
+
+
+
+
+
+
+
       validatedCustom01: null,
       lgDemo: false,
       lgDemo3: false,

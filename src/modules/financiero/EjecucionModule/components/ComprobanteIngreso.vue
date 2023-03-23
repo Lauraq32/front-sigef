@@ -1,55 +1,13 @@
 <template>
-      
   <h3 class="text-center">Comprobantes de ingresos</h3>
-  <div>
-    <div class="table-headers">
-      <div class="p-2">
-        <CButton
-          style="font-weight: bold"
-          color="info"
-          @click="
-            () => {
-              lgDemo = true
-            }
-          "
-          >Agregar</CButton
-        >
-      </div>
-      <div class="p-2">
-        <CButton
-          color="info"
-          @click="
-            () => {
-              reportes = true
-            }
-          "
-          >Imprimir Ejecucion</CButton
-        >
-      </div>
-      <div class="p-2">
-        <CButton
-          color="info"
-          @click="
-            () => {
-              reportesExportarModal = true
-            }
-          "
-          >Exportar modificacion</CButton
-        >
-      </div>
-      <div class="p-2">
-        <CButton
-          color="info"
-          @click="
-            () => {
-              reportesExportarModalEjecucion = true
-            }
-          "
-          >Exportar Ejecucion</CButton
-        >
-      </div>
-    </div>
-  </div>
+
+  <AppPageHeader 
+  :addDropdowm="true"  
+  :addButtonForm="addbuttonform"
+    :actions="acciones"
+    :anoFiscal="true"
+    :addButton="true"
+    ></AppPageHeader>
 
   <CModal :backdrop="false" :keyboard="false" :visible="reportes">
     <CModalHeader>
@@ -140,7 +98,6 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
     header
     :items="ingresosList"
     :columns="columns"
@@ -542,22 +499,52 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import axios from 'axios'
 import Api from '../services/EjecucionServices'
 import { mapStores, mapActions, mapState } from 'pinia'
- 
+
 import { useToastStore } from '@/store/toast'
 import SimpleTypeahead from 'vue3-simple-typeahead'
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
 import router from '@/router'
+import AppPageHeader from '@/components/AppPageHeader.vue'
 
 export default {
   components: {
     CSmartTable,
     CModal,
     SimpleTypeahead,
-      
+    AppPageHeader,
   },
 
-  data: () => {
+  data: function () {
     return {
+      addbuttonform: {
+        label: 'Agregar',
+        accion: () => {
+          this.lgDemo = true
+        },
+      },
+
+      acciones: [{
+        
+        label:'Imprimir ejecucion',
+        accion: () => {
+          this.reportes = true
+        }
+
+
+      },{
+        label:'Exportar Modificacion',
+        accion: () => {
+          this.reportesExportarModal = true
+        }
+      },{
+        label:'Exportar  ejecucion',
+        accion: () => {
+          this.reportesExportarModalEjecucion = true
+        }
+      }],
+
+
+
       mesReporte: 1,
       parametroReporte: '',
       reportes: false,
@@ -792,14 +779,14 @@ export default {
       if (this.id != null) {
         Api.putIngresoCabecera(this.id, this.ingresoPost)
           .then((response) => {
-                 this.show({
+            this.show({
               content: 'Registro añadido correctamente',
               closable: true,
             })
             this.clearModal2()
             setTimeout(this.getIngresos, 500)
           })
-           .catch((error) => {
+          .catch((error) => {
             this.show({
               content: 'Error al enviar el formulario',
               closable: true,

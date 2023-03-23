@@ -1,13 +1,11 @@
 <template>
   <h3 class="text-center">Empleado</h3>
-  <hr />
-  <div>
-    <div class="d-inline p-2">
-      <CButton @click="nominaGnerallink" style="font-weight: bold" color="info"
-        >Consultar nomina</CButton
-      >
-    </div>
-  </div>
+ <AppPageHeaderVue
+ :addDropdowm="false"
+    :addButtonForm="addbuttonform"
+    :anoFiscal="true"
+    :addButton="true"
+ />
 
  
   <CSmartTable
@@ -2377,6 +2375,7 @@ import Api from '../services/NominaServices'
 import router from '@/router'
 import moment from 'moment'
 import { formatPrice } from '../../../../utils/format'
+import AppPageHeaderVue from '@/components/AppPageHeader.vue'
 
 
 export default {
@@ -2384,10 +2383,20 @@ export default {
     CSmartTable,
     CModal,
     moment,
+    AppPageHeaderVue,
   },
 
-  data: () => {
+  data: function()  {
     return {
+
+ 
+      addbuttonform: {
+        label: 'Imprimir Reportes',
+        accion: () => {
+          this.reportes = true
+        },
+      },
+      
       formatPrice,
       fecha12: new Date(2015, 0, 11),
       reporteDepto: 1,

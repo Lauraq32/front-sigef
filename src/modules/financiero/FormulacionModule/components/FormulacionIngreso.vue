@@ -1,43 +1,13 @@
 <template>
   <h3 class="text-center">Formulaci&oacute;n Ingreso</h3>
-  <div class="table-headers">
-    <div class="d-inline p-2">
-      <CButton
-        style="font-weight: bold"
-        color="info"
-        @click="
-          () => {
-            openModal()
-            clearModal()
-            edit = false
-          }
-        "
-        >Agregar</CButton
-      >
-    </div>
-
-    <div class="p-2">
-      <CButton color="info" @click="IngresoReport">Imprimir</CButton>
-    </div>
-    <div class="p-2">
-      <CButton color="info" @click="downloadFile">Descargar</CButton>
-    </div>
-    <div class="p-2">
-      <CButton color="info" @click="goToGasto"
-        >Ir a Formulaci&oacute;n Gasto</CButton
-      >
-    </div>
-    <div class="p-2">
-      <label class="file-select">
-        <div class="select-button">
-          <CIcon :icon="cilCloudUpload" size="m" />
-        </div>
-        <input type="file" id="formFile" @change="onFileChange" />
-      </label>
-      <label v-if="fileName"> {{ fileName }}</label>
-    </div>
-  </div>
-
+  <AppPageHeader
+    :addDropdowm="true"
+    :addButtonForm="addbuttonform"
+    :actions="acciones"
+    :anoFiscal="true"
+    :addButton="true"
+    :addFileButton="true"
+  />
   <CSmartTable
     clickableRows
     :tableProps="{
@@ -339,14 +309,40 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { CIcon } from '@coreui/icons-vue'
 import { cilCloudUpload } from '@coreui/icons-pro'
 import router from '@/router'
+import AppPageHeader from '@/components/AppPageHeader.vue'
 export default {
   components: {
     CSmartTable,
     CModal,
     CIcon,
+    AppPageHeader,
   },
-  data: () => {
+  data: function () {
     return {
+      addbuttonform: {
+        label: 'Agregar',
+        accion: () => {
+          this.lgDemo = true
+        },
+      },
+
+      acciones: [
+        {
+          label: 'Imprimir',
+          accion: this.IngresoReport.bind(this),
+        },
+        {
+          label: 'Descargar',
+          accion: this.downloadFile.bind(this),
+        },
+        {
+          label: 'Ir a Formulario Gasto',
+          accion: () => {
+            router.push({ name: 'Formulacion Gasto' })
+          },
+        },
+      ],
+
       cilCloudUpload,
       texto: null,
       fileName: '',

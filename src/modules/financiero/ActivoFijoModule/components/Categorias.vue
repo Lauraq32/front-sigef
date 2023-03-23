@@ -1,20 +1,13 @@
 <template>
       
   <h3 class="text-center">Categoria</h3>
-  <div class="table-headers">
-    <div class="p-2">
-      <CButton
-        style="font-weight: bold"
-        color="info"
-        @click="
-          () => {
-            lgDemo = true
-          }
-        "
-        >Agregar</CButton
-      >
-    </div>
-  </div>
+  <AppPageHeader
+  :addButtonForm="addbuttonform"
+ 
+    :anoFiscal="true"
+    :addButton="true"
+  
+  />
   <CSmartTable
     clickableRows
     :tableProps="{
@@ -166,16 +159,26 @@ import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
  
 import { useToastStore } from '@/store/toast'
+import AppPageHeader from '@/components/AppPageHeader.vue'
 
 import Api from '../services/ActivoFijoServices'
 export default {
   components: {
     CSmartTable,
     CModal,
+    AppPageHeader,
       
   },
-  data: () => {
+  data: function() {
     return {
+
+      addbuttonform: {
+        label: 'Agregar',
+        accion: () => {
+          this.lgDemo = true
+        },
+      },
+
       postCategorias: {
         id: 0,
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
