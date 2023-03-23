@@ -1562,7 +1562,6 @@ export default {
           this.footerItems[4].label = this.formatPrice(this.sumaInversion)
           this.footerItems[5].label = this.formatPrice(this.sumaEdiGenero)
           this.numeroFormateado = this.formatPrice(this.numero)
-          console.log(this.numeroFormateado)
         })
         this.totalItems = this.detallePresGastos.length
         this.footerItems[0].label = `Total Items ${this.totalItems}`
