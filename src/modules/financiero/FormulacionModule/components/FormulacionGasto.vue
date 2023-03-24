@@ -237,7 +237,7 @@
           :tableHeadProps="{}"
           :activePage="1"
           header
-          :items="detallePresGastos"
+          :items="post.detallePost"
           :columns="columns2"
           itemsPerPageSelect
           columnFilter
@@ -986,6 +986,7 @@ export default {
         fechaIniciada: '2022-10-31T14:18:15.972Z',
         // sumTotalPresupuesto: 0,
         // sumCostObra: 0,
+        detallePost: [],
       },
       formulado: {
         alafecha: 0,
@@ -1440,21 +1441,16 @@ export default {
         this.detallePost.presupuestoBco2 = this.detallePost.oriBco2
         this.detallePost.presupuestoBco3 = this.detallePost.oriBco3
         this.detallePost.presupuestoBco4 = this.detallePost.oriBco4
-        this.addDetalleGasto(this.detallePost)
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          text: 'Datos agregados con exito',
-          title: 'Agregado',
-          showConfirmButton: false,
-          timer: 1500,
-        })
+        // this.addDetalleGasto(this.detallePost)
+        console.log(this.detallePost)
+        this.post.detallePost = [{...this.detallePost}, ...this.post.detallePost];
+        console.log(this.post.detallePost)
       }
       event.preventDefault()
       event.stopPropagation()
-      Api.getListarGastosById(this.detallePost.presGastoId).then((response) => {
-        this.detallePresGastos = response.data.data.detallePresGastos
-      })
+      // Api.getListarGastosById(this.detallePost.presGastoId).then((response) => {
+      //   this.detallePresGastos = response.data.data.detallePresGastos
+      // })
       event.preventDefault()
       event.stopPropagation()
       setTimeout(this.getDetalleGasto, 500)
