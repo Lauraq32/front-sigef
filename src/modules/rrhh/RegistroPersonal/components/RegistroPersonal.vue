@@ -706,6 +706,7 @@
 </template>
 
 <script>
+import { useAuthStore } from '@/store/AuthStore'
 import { useRegistroStore } from '../store/RegistroPersonal/Empleados'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
@@ -744,7 +745,7 @@ export default {
       sector: [{}],
       departamentos: [],
       postEmpleado: {
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: null,
         codigo: null,
         nombres: null,
         apellidos: null,
@@ -1146,7 +1147,7 @@ export default {
 
           setTimeout(this.getRegistroPersonal, 500)
           this.postEmpleado = {
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: this.authInfo.ayuntamiento.id,
             codigo: null,
             nombres: null,
             apellidos: null,
@@ -1303,6 +1304,10 @@ export default {
           })
         })
     },
+  },
+  computed: {
+    ...mapStores(useAuthStore),
+    ...mapState(useAuthStore, ['authInfo']),
   },
 
   mounted() {

@@ -9,10 +9,7 @@
             </CCard>
             <CCard class="p-5">
               <CCardBody>
-                <CForm
-                  :validated="validatedCustom01"
-                  @submit="handleSubmitCustom01"
-                >
+                <CForm :validated="validatedCustom01" @submit="handleSubmitCustom01">
                   <h1>Iniciar Sesion</h1>
                   <p class="text-medium-emphasis"></p>
                   <CInputGroup class="mb-3">
@@ -20,13 +17,8 @@
                       <CIcon icon="cil-user" />
                     </CInputGroupText>
 
-                    <CFormInput
-                      id="validationCustom01"
-                      placeholder="Usuario"
-                      autocomplete="Correo"
-                      required
-                      v-model="userForm.usuario"
-                    />
+                    <CFormInput id="validationCustom01" placeholder="Usuario" autocomplete="Correo" required
+                      v-model="userForm.usuario" />
                     <CFormFeedback invalid>
                       Favor agregar el campo
                     </CFormFeedback>
@@ -35,26 +27,15 @@
                     <CInputGroupText>
                       <CIcon icon="cil-lock-locked" />
                     </CInputGroupText>
-                    <CFormInput
-                      id="validationCustom02"
-                      type="password"
-                      placeholder="Contraseña"
-                      autocomplete="current-password"
-                      required
-                      v-model="userForm.password"
-                    />
+                    <CFormInput id="validationCustom02" type="password" placeholder="Contraseña"
+                      autocomplete="current-password" required v-model="userForm.password" />
                     <CFormFeedback invalid>
                       Favor agregar el campo
                     </CFormFeedback>
                   </CInputGroup>
                   <CRow>
                     <CCol :xs="6" style="width: 100%" class="text-center">
-                      <input
-                        value="Ingreso"
-                        type="submit"
-                        color="primary"
-                        class="btn btn-primary btn-block mt-1"
-                      />
+                      <input value="Ingreso" type="submit" color="primary" class="btn btn-primary btn-block mt-1" />
                       <!-- <button
               class="btn btn-primary btn-block mt-1"
               @click="getClasificador"
@@ -76,10 +57,15 @@
       </CRow>
     </CContainer>
   </div>
+  {{ user }}
 </template>
 
 <script>
+import { useAuthStore } from '@/store/AuthStore'
 import { mapGetters } from 'vuex'
+import { mapStores } from 'pinia'
+import { mapState } from 'pinia'
+import { mapActions } from 'pinia'
 
 export default {
   name: 'Login',
@@ -93,6 +79,10 @@ export default {
       validationCustom02: null,
     }
   },
+  computed: {
+    ...mapStores(useAuthStore),
+    ...mapState(useAuthStore, ['user', 'canLogIn']),
+  },
   methods: {
     handleSubmitCustom01(event) {
       const form = event.currentTarget
@@ -103,15 +93,13 @@ export default {
       event.preventDefault()
       event.stopPropagation()
       this.validatedCustom01 = true
-      this.$store.commit('myCustomModule/SET_USER', this.userForm)
-      //this.gotToDashboard()
-      this.$store.dispatch('myCustomModule/Login')
-      //this.gotToDashboard()
-    },
 
-    gotToDashboard() {
-      this.$router.push({ name: 'home' })
+      this.AuthStore.signIn(this.userForm)
+        .then(this.gotToDashboard.bind(this))
     },
+    gotToDashboard() {
+      this.$router.push({ name: 'financiero' })
+    }
   },
 }
 </script>
