@@ -4,10 +4,10 @@
       v-for="toast in messages"
       :color="toast.color"
       :key="toast.id"
-      :delay="toast.time ?? 60000"
+      :delay="toast.time ?? 30000"
       @close="toastStore.removeMessage(toast.id)"
     >
-      <div class="d-flex flex-wrap">
+      <div class="d-flex flex-row justify-content-center">
         <CToastBody style="font-weight: 700">
           <span
             :class="toast.class"
@@ -19,7 +19,15 @@
               class="d-md-block"
               v-for="(msg, i) in toast.content"
               :key="i"
-              v-html="`- ${msg}`"
+              v-html="`- ${msg.message || msg}`"
+            ></span>
+          </div>
+          <div v-else-if="Array.isArray(toast.content.errors)">
+            <span
+              class="d-md-block"
+              v-for="(msg, i) in toast.content.errors"
+              :key="i"
+              v-html="`- ${msg.message || msg}`"
             ></span>
           </div>
         </CToastBody>
@@ -35,7 +43,8 @@ export default {
   name: 'ToastStack',
   setup() {
     const toastStore = useToastStore()
-    const messages = computed(() => toastStore.messages)
+    const messages = computed(() => toastStore.messages);
+    console.log(messages);
     return {
       toastStore,
       messages,

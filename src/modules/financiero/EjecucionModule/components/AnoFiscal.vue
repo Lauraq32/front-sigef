@@ -70,6 +70,7 @@
     </template>
   </CSmartTable>
   <CModal
+  backdrop="static"
     size="lg"
     :visible="lgDemo"
     @close="
@@ -236,7 +237,7 @@ export default {
 
     changeDate({ target: { name, value } }) {
       if (name == 'fechaInicio') {
-        const selectedDate = new Date(value)
+        const selectedDate = new Date(`${value}T00:00:00`)
         const selectedYear =
           selectedDate.getFullYear().toString().substring(2, 4) + '0000'
         this.postAnoFiscal.compGastos = selectedYear
@@ -263,7 +264,6 @@ export default {
     getAnioFiscalAll() {
       Api.getAnioFiscal().then((response) => {
         this.anioFiscal = response.data.data
-        console.log(response.data)
       })
     },
     toggleDetails(item) {
@@ -309,9 +309,9 @@ export default {
               closable: true,
             })
           })
-          .catch((error) => {
+          .catch(({response}) => {
             this.show({
-              content: 'Error al enviar el formulario',
+              content: response.data,
               closable: true,
               color: 'danger',
               class: 'text-white',
@@ -326,18 +326,19 @@ export default {
               content: 'Registro añadido correctamente',
               closable: true,
             })
+            this.clearModal1()
+            this.lgDemo = false
           })
-          .catch((error) => {
+          .catch(({response}) => {
             this.show({
-              content: 'Error al enviar el formulario',
+              content: response.data,
               closable: true,
               color: 'danger',
               class: 'text-white',
             })
           }),
           this.getAnioFiscalAll()
-        this.clearModal1()
-        this.lgDemo = false
+       
       }
     },
   },
