@@ -1,6 +1,6 @@
 <template>
   <h3 class="text-center">Categorias</h3>
-  <CSmartTable
+  <CSmartTable class="sticky-top"
     clickableRows
     :tableProps="{
      striped: true,

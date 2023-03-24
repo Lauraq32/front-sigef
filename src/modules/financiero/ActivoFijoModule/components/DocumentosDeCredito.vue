@@ -20,7 +20,7 @@
     </div>
   </div>
   <hr />
-  <CSmartTable
+  <CSmartTable class="sticky-top"
     clickableRows
     :tableProps="{
      striped: true,

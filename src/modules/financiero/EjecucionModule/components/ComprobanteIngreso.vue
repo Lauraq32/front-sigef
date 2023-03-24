@@ -90,7 +90,7 @@
       <CButton color="primary" @click="exportarReporte">Imprimir</CButton>
     </CModalFooter>
   </CModal>
-  <CSmartTable
+  <CSmartTable class="sticky-top"
     clickableRows
     :tableProps="{
       striped: true,
@@ -425,7 +425,7 @@
           </CCol>
           <div class="modal-footer"></div>
         </CForm>
-        <CSmartTable
+        <CSmartTable class="sticky-top"
           clickableRows
           :tableProps="{
             striped: true,

@@ -20,6 +20,24 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
+
+  <div class="table-headers">
+    <div class="p-2">
+      <CButton style="font-weight: bold" color="info" @click="IngresoReportClsIng">Imprimir Clasificadores de Ingresos
+      </CButton>
+    </div>
+    <div class="p-2">
+      <CButton style="font-weight: bold" color="info" @click="IngresoReportClsGas">Imprimir Clasificadores de Gastos
+      </CButton>
+    </div>
+  </div>
+  <CSmartTable class="sticky-top" clickableRows :tableProps="{
+    striped: true,
+    hover: true,
+  }" :tableHeadProps="{}" :activePage="1" header :items="items" :columns="columns" columnFilter itemsPerPageSelect
+    :itemsPerPage="5" :items-per-page-options="[5, 10, 20, 50, 100, 150]" columnSorter
+    :sorterValue="{ column: 'status', state: 'asc' }" pagination>
+
     <template #status="{ item }">
       <td>
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>

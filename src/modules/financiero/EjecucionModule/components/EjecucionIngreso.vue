@@ -3,7 +3,7 @@
   <div class="table-headers">
     <div class="d-inline p-2"></div>
   </div>
-  <CSmartTable
+  <CSmartTable class="sticky-top"
     clickableRows
     :tableProps="{
      striped: true,
