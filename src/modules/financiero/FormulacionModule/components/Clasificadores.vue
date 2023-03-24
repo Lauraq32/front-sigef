@@ -10,7 +10,7 @@
       </CButton>
     </div>
   </div>
-  <CSmartTable clickableRows :tableProps="{
+  <CSmartTable class="sticky-top" clickableRows :tableProps="{
     striped: true,
     hover: true,
   }" :tableHeadProps="{}" :activePage="1" header :items="items" :columns="columns" columnFilter itemsPerPageSelect
