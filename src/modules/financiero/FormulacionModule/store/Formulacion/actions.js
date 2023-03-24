@@ -33,7 +33,7 @@ export const getEstructurasProgramaticas = async ({ commit }) => {
 }
 
 export const getProyectos = async ({ commit }) => {
-  Api.getListarProyecto().then((response) => {
+  Api.getListarProyecto(JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId,JSON.parse(localStorage.getItem( 'usuario', )).user.ayuntamiento.id).then((response) => {
     console.log(response.data)
     commit('SET_PROYECTOS', response.data)
   })
