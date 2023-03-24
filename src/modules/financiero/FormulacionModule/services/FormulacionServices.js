@@ -1,7 +1,6 @@
 import http from '@/Api/http-common'
-import VueSweetalert2 from 'vue-sweetalert2'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-
+const user = JSON.parse(localStorage.getItem('usuario'))
 class FormulacionApi {
   downloadIngreso() {
     return http.get(
@@ -44,22 +43,6 @@ class FormulacionApi {
   postFormulacionIngreso(data) {
     return http.post('PresIngreso', data)
   }
-  //PostIngreso
-  // createIngreso(data) {
-  //   return http.post('PresIngreso', data).catch((error) => {
-  //     console.log(error.response.data.detail)
-  //     Swal.fire({
-  //       position: 'top-end',
-  //       icon: 'error',
-  //       text: error.response.data.detail,
-  //       title: 'Error',
-  //       showConfirmButton: false,
-  //       timer: 1500,
-  //     })
-
-  //     //alert(error.response.data.detail)
-  //   })
-  // }
 
   getAllFormulacionIngreso(anioFiscal, ayuntamientoId) {
     return http.get(
@@ -78,9 +61,9 @@ class FormulacionApi {
   getDetalle(id) {
     return http.get(
       `PresGasto/GetDetallePresGastobyIdAsync/${id}?anio=${
-        JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId
+        user?.currentFiscalYearId
       }&AyuntamientoId=${
-        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+        user?.user.ayuntamiento.id
       }`,
     )
   }
@@ -91,82 +74,49 @@ class FormulacionApi {
     )
   }
 
-  //Obtener clasificador especifico
-  // getClasificador(Clasificador) {
-  //   return http.get(`/ingresoslista/filtrarClasificadores/?obj=${Clasificador}`)
-  // }
-  //-----------------------------CLASIFICADORES---------------------------------------//
-
-  //-----------------------------ESTRUCTURA PROGRAMATICA---------------------------------------//
-
   getListarEstructuraProgramatica() {
     return http.get('/Financiero/ListarProgramatico')
   }
 
-  //-----------------------------ESTRUCTURA PROGRAMATICA---------------------------------------//
-
-  //-----------------------------FUENTE ESPECIFICA---------------------------------------//
   getFuenteEspecifica() {
     return http.get('/CtgFuente')
   }
-  //-----------------------------FUENTE ESPECIFICA---------------------------------------//
 
   getFuente() {
     return http.get('/CtgFuenteEspecifica')
   }
-  //-----------------------------FUENTE FINANCIAMIENTO---------------------------------------//
+
   getListarFuentesFinanciamiento() {
     return http.get('/Financiero/ListarFuentes')
   }
-  //-----------------------------FUENTE FINANCIAMIENTO---------------------------------------//
 
-  //-----------------------------ORGANISMOS---------------------------------------//
   getListarFinancieroCatalogoOrganismos() {
     return http.get('/Financiero/ListarFinancieroCatalogoOrganismos')
   }
-  //----------------------------ORGANISMOS---------------------------------------//
 
-  //-----------------------------PROYECTOS---------------------------------------//
   getListarProyecto(id_ayuntamiento, ano_fiscal) {
     return http.get(
       `/Financiero/ListarProyecto/?ano=${ano_fiscal}&id=${id_ayuntamiento}`,
     )
   }
-  //-----------------------------PROYECTOS---------------------------------------//
 
-  //-----------------------------INGRESOS---------------------------------------//
   getListarIngresos(id_ayuntamiento, ano_fiscal) {
     return http.get(
       `PresIngreso?anio=${ano_fiscal}&ayuntamientoId=${id_ayuntamiento}`,
     )
   }
-  // getTotalIngresos(id_ayuntamiento, ano_fiscal) {
-  //   return http.get(
-  //     `/ingresoslista/ListarIngresosTotalizado/?ano=${ano_fiscal}&id=${id_ayuntamiento}`,
-  //   )
-  // }
-  //-----------------------------INGRESOS---------------------------------------//
 
-  //-----------------------------GASTOS---------------------------------------//
-  // getListarGastos() {
-  //   return http.get('/Financiero/ListarGastos')
-  // }
-  //-----------------------------GASTOS---------------------------------------//
-
-  //-----------------------------CATALOGO---------------------------------------//
   getListarCatalogo() {
     return http.get('/Financiero/ListarCatalogoFunciones')
   }
-  //-----------------------------CATALOGO---------------------------------------//
 
-  //-----------------------------PrepGastos---------------------------------------//
 
   getListarGastos(id) {
     return http.get(
       `PresGasto?anio=${
-        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+        user?.user.ayuntamiento.id
       }&ayuntamientoId=${
-        JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId
+        user?.currentFiscalYearId
       }`,
     )
   }
@@ -174,9 +124,9 @@ class FormulacionApi {
   getListarGastosById(id) {
     return http.get(
       `PresGasto?anio=${
-        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+        user?.user.ayuntamiento.id
       }&ayuntamientoId=${
-        JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId
+        user?.currentFiscalYearId
       }`,
     )
   }
@@ -237,9 +187,9 @@ class FormulacionApi {
     return http
       .post(
         `PresGasto?anio=${
-          JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+          user?.user.ayuntamiento.id
         }&ayuntamientoId=${
-          JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId
+          user?.currentFiscalYearId
         }`,
       )
       .catch((error) => {
@@ -270,23 +220,6 @@ class FormulacionApi {
   getEstruturaProgramaticaById(value) {
     return http.get(`CtgMestProg/${value}`).catch((error) => {})
   }
-
-  // cargarEstructuras(){
-  //   return http.post(`PresGasto/InsertPresGasto?anio=${localStorage.getItem('ano')}&AyuntamientoId=${JSON.parse(localStorage.getItem( 'usuario', )).user.ayuntamiento.id}`).catch((error) => {
-  //     Swal.fire({
-  //       position: 'top-end',
-  //       icon: 'error',
-  //       text: error.response.data.detail,
-  //       title: 'Error',
-  //       showConfirmButton: false,
-  //       timer: 1500
-  //     })
-  //   })
-  // }
-
-  //   createProyecto(data) {
-  //     return http.post('/api/ingresos/guardarPresProyecto', data)
-  //   }
 }
 
 export default new FormulacionApi()

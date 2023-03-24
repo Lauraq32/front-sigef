@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import http from '@/Api/http-common'
-
+const user = JSON.parse(localStorage.getItem('usuario'))
 class RegistroPersonal {
   //get
   getAllTipoSangre() {
@@ -18,7 +18,7 @@ class RegistroPersonal {
   getAllEmpleado() {
     return http.get(
       `Empleado?ayuntamientoId=${
-        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+       user?.user.ayuntamiento.id
       }`,
     )
   }
@@ -26,7 +26,7 @@ class RegistroPersonal {
   getProgramaDivision() {
     return http.get(
       `ProgramaDivision?AyuntamientoId=${
-        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+       user?.user.ayuntamiento.id
       }`,
     )
   }
@@ -42,7 +42,7 @@ class RegistroPersonal {
   getSectores() {
     return http.get(
       `Sector?ayuntamiento=${
-        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+       user?.user.ayuntamiento.id
       }`,
     )
   }
@@ -97,7 +97,7 @@ class RegistroPersonal {
   deleteSector(id) {
     return http.delete(
       `Sector/${id}?ayuntamiento=${
-        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+       user?.user.ayuntamiento.id
       }`,
     )
   }

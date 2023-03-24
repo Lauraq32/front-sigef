@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import http from '@/Api/http-common'
-
+const user = JSON.parse(localStorage.getItem('usuario'))
 class Ejecucion {
   //-----------------------------CLASIFICADORES---------------------------------------//
   //get
@@ -27,7 +27,7 @@ class Ejecucion {
   getContribuyente() {
     return http.get(
       `Contribuyente/?ayuntamientoId=${
-        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+        user?.user.ayuntamiento.id
       }`,
     )
   }
@@ -47,9 +47,9 @@ class Ejecucion {
   getIngresoAll() {
     return http.get(
       `RegistroIngreso?anio=${
-        JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId
+       user?.currentFiscalYearId
       }&ayuntamientoId=${
-        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+       user?.user.ayuntamiento.id
       }`,
     )
   }
@@ -63,9 +63,9 @@ class Ejecucion {
   getIngresoByIdAndDetalle(id) {
     return http.get(
       `RegistroIngreso/Detalle/${id}?anio=${
-        JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId
+       user?.currentFiscalYearId
       }&AyuntamientoId=${
-        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+       user?.user.ayuntamiento.id
       }`,
     )
   }
@@ -73,9 +73,9 @@ class Ejecucion {
   getComprobanteIngresoTotal(id) {
     return http.get(
       `RegistroIngreso/Totales?id=${id}&anio=${
-        JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId
+       user?.currentFiscalYearId
       }&AyuntamientoId=${
-        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+       user?.user.ayuntamiento.id
       }`,
     )
   }
@@ -83,9 +83,9 @@ class Ejecucion {
   getIngresoClasificadorById(id) {
     return http.get(
       `/RegistroIngreso/Detalle/Clasificadores?anio=${
-        JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId
+       user?.currentFiscalYearId
       }&AyuntamientoId=${
-        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+       user?.user.ayuntamiento.id
       }&id=${id}`,
     )
   }
@@ -97,9 +97,9 @@ class Ejecucion {
   getRegistroIngresoDetalle(id) {
     return http.get(
       `RegistroIngreso/Detalle/RegistroIngreso?Transaccion=${id}&anio=${
-        JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId
+       user?.currentFiscalYearId
       }&AyuntamientoId=${
-        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+       user?.user.ayuntamiento.id
       }`,
     )
   }
@@ -107,9 +107,9 @@ class Ejecucion {
   getRegistroGastoDetalle(id) {
     return http.get(
       `RegistroGasto/Detalle?anio=${
-        JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId
+       user?.currentFiscalYearId
       }&AyuntamientoId=${
-        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+       user?.user.ayuntamiento.id
       }&id=${id}`,
     )
   }
@@ -118,9 +118,9 @@ class Ejecucion {
     console.log(value)
     return http.get(
       `ExportFile/IngresoModificacion?ayuntamientoId=${
-        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+       user?.user.ayuntamiento.id
       }&anioFiscalId=${
-        JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId
+       user?.currentFiscalYearId
       }&mes=${value}`,
     )
   }
@@ -128,9 +128,9 @@ class Ejecucion {
     console.log(value)
     return http.get(
       `ExportFile/IngresoEjecucion?ayuntamientoId=${
-        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+       user?.user.ayuntamiento.id
       }&anioFiscalId=${
-        JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId
+       user?.currentFiscalYearId
       }&mes=${value}`,
     )
   }
@@ -138,23 +138,23 @@ class Ejecucion {
   getTipoRetencion(id) {
     return http.get(
       `TipoRetencion?Ayuntamiento=${
-        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+       user?.user.ayuntamiento.id
       }&id=${id}`,
     )
   }
   getTipoRetencionById(id) {
     return http.get(
       `TipoRetencion/${id}?Ayuntamiento=${
-        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+       user?.user.ayuntamiento.id
       }`,
     )
   }
   getRegistroGastoDetalleMesprog(id) {
     return http.get(
       `RegistroGasto/Mesprog?anio=${
-        JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId
+       user?.currentFiscalYearId
       }&AyuntamientoId=${
-        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+       user?.user.ayuntamiento.id
       }&Mesprog=${id}`,
     )
   }
@@ -207,9 +207,9 @@ class Ejecucion {
   getRegistroGasto() {
     return http.get(
       `RegistroGasto?anio=${
-        JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId
+       user?.currentFiscalYearId
       }&AyuntamientoId=${
-        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+       user?.user.ayuntamiento.id
       }`,
     )
   }
@@ -233,7 +233,7 @@ class Ejecucion {
   getTipoGastoList() {
     return http.get(
       `TipoGasto?Ayuntamiento=${
-        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+       user?.user.ayuntamiento.id
       }`,
     )
   }
@@ -249,7 +249,7 @@ class Ejecucion {
   getTipoGastoById(id) {
     return http.get(
       `TipoGasto/${id}?Ayuntamiento=${
-        JSON.parse(localStorage.getItem('usuario')).user.ayuntamiento.id
+       user?.user.ayuntamiento.id
       }`,
     )
   }
