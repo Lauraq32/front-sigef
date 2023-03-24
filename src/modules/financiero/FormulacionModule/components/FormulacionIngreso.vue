@@ -734,17 +734,13 @@ export default {
         }
         }).catch((error) => {
           this.show({
-            content: error.message,
+            content: error.response.data.message,
               closable: true,
               color: 'danger',
           })
         })
-
-        // this.lgDemo = true
-
-        this.validatedCustom01 = false
+       this.validatedCustom01 = false
         setTimeout(this.getAllIngreso, 500)
-        // this.clearModal()
         this.getTotales()
       }
     },
@@ -770,12 +766,11 @@ export default {
               color: 'danger',
             })
           }
-          // return Promise.reject(new Error(response.data.Data))
         })
         .catch((error) => {
-          if (response.Errors == null) {
+          if (error) {
             return this.show({
-              content: error.message,
+              content: error.response.data.message,
               closable: true,
               color: 'danger',
             })
@@ -856,7 +851,6 @@ export default {
             })
           })
           setTimeout(this.getAllIngreso, 1000)
-          console.log(this.show)
         }
       })
     },
