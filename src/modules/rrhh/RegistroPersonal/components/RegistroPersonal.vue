@@ -86,27 +86,6 @@
           <CDropdownItem>Eventualidad</CDropdownItem>
         </CDropdownMenu>
       </CDropdown>
-
-      <!-- <td class="py-1">
-        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="toggleDetails(item)">
-          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
-        </CButton>
-      </td>
-      <td class="py-1">
-        <CButton class="mt-1" color="danger" variant="outline" square size="sm" @click="deleteEmp(item)">
-          {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
-        </CButton>
-      <td class="py-1">
-        <CButton class="mt-1" color="secondary" variant="outline" square size="sm">
-          {{ Boolean(item._toggled) ? 'Hide' : 'Evaluación' }}
-        </CButton>
-      </td>
-      <td class="py-1">
-        <CButton class="mt-1" color="secondary" variant="outline" square size="sm">
-          {{ Boolean(item._toggled) ? 'Hide' : 'Eventualidad' }}
-        </CButton>
-      </td>
-      </td> -->
     </template>
     <template #details="{ item }">
       <CCollapse :visible="this.details.includes(item._id)">
