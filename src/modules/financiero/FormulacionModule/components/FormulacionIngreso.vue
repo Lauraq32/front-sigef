@@ -233,6 +233,7 @@
               >Fuente Financiamiento</CFormLabel
             >
             <CFormInput
+              type="number"
               :disabled="ctgFuenteId"
               v-model="postIngreso.ctgFuenteId"
               id="validationCustom03"
@@ -240,8 +241,11 @@
             />
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom04">Fuente Espec&iacute;fica</CFormLabel>
+            <CFormLabel for="validationCustom04"
+              >Fuente Espec&iacute;fica</CFormLabel
+            >
             <CFormInput
+              type="number"
               :disabled="ctgFuenteEspecificaId"
               v-model="postIngreso.ctgFuenteEspecificaId"
               id="validationCustom04"
@@ -254,6 +258,7 @@
               >Organismo Financiador</CFormLabel
             >
             <CFormInput
+              type="number"
               :disabled="ctgOrganismoFinanciadorId"
               v-model="postIngreso.ctgOrganismoFinanciadorId"
               id="validationCustom05"
@@ -727,19 +732,20 @@ export default {
               ctgOrganismoFinanciadorId: null,
               alaFecha: 0,
 
-          presForm: 0,
-          variacion: 0,
-          ingresos: 0,
-          variacionResumen: 0,
-        }
-        }).catch((error) => {
-          this.show({
-            content: error.response.data.message,
+              presForm: 0,
+              variacion: 0,
+              ingresos: 0,
+              variacionResumen: 0,
+            }
+          })
+          .catch((error) => {
+            this.show({
+              content: error.response.data.message,
               closable: true,
               color: 'danger',
+            })
           })
-        })
-       this.validatedCustom01 = false
+        this.validatedCustom01 = false
         setTimeout(this.getAllIngreso, 500)
         this.getTotales()
       }
