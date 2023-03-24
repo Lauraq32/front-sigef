@@ -219,8 +219,11 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <div class="modal-footer">
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
-              Guardar Estructura
+            <button
+              class="btn btn-info btn-block mt-1"
+              @click="toggleDetails1()"
+            >
+              Adicionar Detalle
             </button>
           </div>
         </CForm>
@@ -290,8 +293,8 @@
       >
         Cancelar
       </button>
-      <button class="btn btn-info btn-block mt-1" @click="toggleDetails1()">
-        Adicionar Detalle
+      <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+        Guardar Estructura
       </button>
     </div>
   </CModal>
@@ -1411,7 +1414,7 @@ export default {
               timer: 1500,
             })
           })
-          this.clearForm()
+        this.clearForm()
       } else {
         this.detallePost.TIPO_GASTO1 =
           this.detallePost.TIPO_GASTO1.split('-')[0]
