@@ -31,14 +31,14 @@
       <label class="file-select btn" role="button">
         <CIcon :icon="cilCloudUpload" size="m" />
         <input type="file" id="formFile" @change="onFileChangeProyectos" />
-        <span  class="label">Importar Proyectos</span>
+        <span class="label">Importar Proyectos</span>
       </label>
     </div>
     <div class="p-2">
       <label class="file-select btn" role="button">
         <CIcon :icon="cilCloudUpload" size="m" />
         <input type="file" id="formFile" @change="onFileChange" />
-        <span  class="label">Importar Formulaci&oacute;n</span>
+        <span class="label">Importar Formulaci&oacute;n</span>
       </label>
     </div>
   </div>
@@ -99,25 +99,8 @@
       </CCollapse>
     </template>
   </CSmartTable>
-  <!-- <div
-    class="font-weight-normal"
-    style="font-weight: 100 !important; margin-top: -3%; float: left"
-  >
-    <span style="font-weight: bold"><u>TOTAL PRESUPUESTADO:</u></span> Año
-    anterior
-    <span style="font-weight: 500 !important">{{
-      formatPrice(formulado.anO_ANT)
-    }}</span>
-    A la fecha:
-    <span style="font-weight: 500 !important">{{
-      formatPrice(formulado.alafecha)
-    }}</span>
-    Presupuesto formulado:
-    <span style="font-weight: 500 !important">{{
-      formatPrice(formulado.preS_FORM)
-    }}</span>
-  </div> -->
   <CModal
+    backdrop="static"
     size="xl"
     :visible="lgDemo"
     @close="
@@ -151,14 +134,6 @@
               v-model="post.pnap"
               id="validationCustom01"
             />
-            <!-- <CFormInput
-              :disabled="id != null ? true : false"
-              v-on:change="sumOfProp"
-              v-model="post.pnap"
-              id="validationCustom01"
-            /> -->
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="2">
@@ -170,7 +145,6 @@
               id="validationCustom02"
               required
             />
-            <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="2">
@@ -185,7 +159,6 @@
                 aria-describedby="inputGroupPrepend"
                 required
               />
-              <CFormFeedback valid> Éxito! </CFormFeedback>
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </CInputGroup>
           </CCol>
@@ -198,7 +171,6 @@
               id="validationCustom03"
               required
             />
-            <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
@@ -211,7 +183,6 @@
               id="validationCustom04"
             >
             </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="3">
@@ -227,7 +198,6 @@
             <CFormLabel for="validationCustom04">Unidad responsable</CFormLabel>
             <CFormInput v-model="post.unidadResp" id="validationCustom04">
             </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
@@ -236,7 +206,6 @@
               <option>DETALLE</option>
               <option>CABECERA</option>
             </CFormSelect>
-            <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="4">
@@ -247,24 +216,9 @@
               v-model="post.costObra"
               id="validationCustom04"
             ></CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-              v-on:click="close"
-            >
-            Cancelar
-            </button>
-            <button
-              class="btn btn-info btn-block mt-1"
-              @click="toggleDetails1()"
-            >
-              Adicionar Detalle
-            </button>
             <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
               Guardar Estructura
             </button>
@@ -325,28 +279,24 @@
             </CCollapse>
           </template>
         </CSmartTable>
-        <!-- <div
-          class="font-weight-normal"
-          style="font-weight: 100 !important; margin-top: -3%; float: left"
-        >
-          <span style="font-weight: bold"><u>TOTAL PRESUPUESTADO:</u></span> Año
-          anterior
-          <span style="font-weight: 500 !important">{{
-            formatPrice(formulado.anO_ANT)
-          }}</span>
-          A la fecha:
-          <span style="font-weight: 500 !important">{{
-            formatPrice(formulado.alafecha)
-          }}</span>
-          Presupuesto formulado:
-          <span style="font-weight: 500 !important">{{
-            formatPrice(formulado.preS_FORM)
-          }}</span>
-        </div> -->
       </CCardBody>
     </CModalBody>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        data-bs-dismiss="modal"
+        v-on:click="this.lgDemo = false"
+      >
+        Cancelar
+      </button>
+      <button class="btn btn-info btn-block mt-1" @click="toggleDetails1()">
+        Adicionar Detalle
+      </button>
+    </div>
   </CModal>
   <CModal
+    backdrop="static"
     size="xl"
     :visible="lgDemo1"
     @close="
@@ -368,23 +318,29 @@
               :validated="validatedCustom01"
               @submit="handleSubmitCustom01"
             >
-              <CCol :md="2">
-                <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
-                <input
-                  ref="klk"
-                  type="text"
-                  class="form-control"
-                  v-model="detallePost.ctgClasificadorId"
-                  id="exampleInputEmail1"
-                />
-                <!-- <CFormInput
-                  v-model="detallePost.ctgClasificadorId"
-                  id="validationCustom01"
-                /> -->
-
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
+              <CCol :md="2"
+                ><CFormLabel for="validationCustom01">Clasificador</CFormLabel>
+                <div class="position-relative">
+                  <input
+                    ref="name"
+                    required
+                    on:keyup.native.enter="getClasificador"
+                    class="form-control padding-input"
+                    v-model="detallePost.ctgClasificadorId"
+                    type="number"
+                    id="clasifica"
+                  /><span class="position-absolute icon-input"
+                    ><CIcon
+                      icon="cisSearch"
+                      size="xl"
+                      v-on:click="getClasificador"
+                  /></span>
+                </div>
+                <CFormFeedback valid> Exito! </CFormFeedback
+                ><CFormFeedback invalid>
+                  Favor agregar el campo
+                </CFormFeedback></CCol
+              >
               <CCol :md="2">
                 <CFormLabel for="validationCustom02">Cta. Control</CFormLabel>
                 <CFormInput
@@ -407,16 +363,6 @@
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
-              <CCol :md="2">
-                <button
-                  class="btn btn-primary"
-                  style="margin-top: 32px; height: 37px"
-                  v-on:click="getClasificador"
-                >
-                  Buscar
-                </button>
-              </CCol>
-
               <hr />
               <div class="row">
                 <div class="col-12">
@@ -559,11 +505,6 @@
                   10/0100/105</CButton
                 >
               </CCol>
-              <CCol :md="2">
-                <CButton style="font-weight: bold" color="info"
-                  >Introducir Manualmente</CButton
-                >
-              </CCol>
 
               <CCol :md="3">
                 <CFormLabel for="validationCustom03"
@@ -571,7 +512,7 @@
                 >
                 <CFormInput
                   v-model="this.detallePost.ctgFuenteId"
-                  disabled
+                  :disabled="openField"
                   id="validationCustom03"
                   required
                 />
@@ -584,6 +525,7 @@
                 >
                 <CFormInput
                   v-model="this.detallePost.ctgFuenteEspecificaId"
+                  :disabled="openField"
                   disabled
                   id="validationCustom04"
                 >
@@ -597,11 +539,20 @@
                 >
                 <CFormInput
                   v-model="this.detallePost.ctgOrganismoFinanciadorId"
+                  :disabled="openField"
                   disabled
                   id="validationCustom05"
                   required
                 />
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+              <CCol :md="3" style="margin-top: 3rem">
+                <CButton
+                  style="font-weight: bold"
+                  @click="openFields"
+                  color="info"
+                  >Editar</CButton
+                >
               </CCol>
 
               <hr />
@@ -785,7 +736,7 @@
                   <h4>Balance disponible por origen del financiamiento:</h4>
                   <h3>
                     <span style="font-weight: 500 !important">{{
-                      formatPrice(formulado.preS_FORM)
+                      sumOfBalance
                     }}</span>
                   </h3>
                 </div>
@@ -796,9 +747,9 @@
                   type="button"
                   class="btn btn-secondary"
                   data-bs-dismiss="modal"
-                  v-on:click="close"
+                  v-on:click="this.lgDemo1 = false"
                 >
-                Cancelar
+                  Cancelar
                 </button>
                 <button
                   class="btn btn-info btn-block mt-1"
@@ -810,26 +761,89 @@
             </CForm>
           </CCardBody>
         </CModalBody>
-        <!-- <div
-          class="font-weight-normal"
-          style="font-weight: 100 !important; margin-top: -3%; float: left"
-        >
-          <span style="font-weight: bold"><u>TOTAL PRESUPUESTO:</u></span> Año
-          anterior
-          <span style="font-weight: 500 !important">{{
-            formatPrice(formulado.anO_ANT)
-          }}</span>
-          A la fecha:
-          <span style="font-weight: 500 !important">{{
-            formatPrice(formulado.alafecha)
-          }}</span>
-          Presupuesto formulado:
-          <span style="font-weight: 500 !important">{{
-            formatPrice(formulado.preS_FORM)
-          }}</span>
-        </div> -->
       </div>
     </div>
+  </CModal>
+  <CModal
+    backdrop="static"
+    size="lg"
+    :visible="findClasificadorModal"
+    @close="
+      () => {
+        findClasificadorModal = false
+      }
+    "
+  >
+    <CModalBody>
+      <CCardBody>
+        <CSmartTable
+          clickableRows
+          :tableProps="{
+            striped: true,
+            hover: true,
+          }"
+          :tableHeadProps="{}"
+          :activePage="1"
+          tableFilter
+          header
+          key="ingreso.id"
+          :items="clasificadorItems"
+          :columns="clasificadorColumns"
+          itemsPerPageSelect
+          :itemsPerPage="5"
+          :items-per-page-options="[5, 10, 20, 50, 100, 150]"
+          columnSorter
+          :sorterValue="{ column: 'status', state: 'asc' }"
+          pagination
+        >
+          <template #show_details="{ item }">
+            <td class="py-2">
+              <div class="d-flex justify-content-around">
+                <CButton
+                  class="mt-1"
+                  color="primary"
+                  variant="outline"
+                  square
+                  size="sm"
+                  @click="SelectClasificador(item)"
+                >
+                  {{ Boolean(item._toggled) ? 'Hide' : 'Seleccionar' }}
+                </CButton>
+              </div>
+            </td>
+          </template>
+          <template #details="{ item }">
+            <CCollapse :visible="this.details.includes(item._id)">
+              <CCardBody>
+                <h4>
+                  {{ item.username }}
+                </h4>
+                <p class="text-muted">User since: {{ item.registered }}</p>
+                <CButton size="sm" color="info" class="">
+                  User Settings
+                </CButton>
+                <CButton size="sm" color="danger" class="ml-1">
+                  Delete
+                </CButton>
+              </CCardBody>
+            </CCollapse>
+          </template>
+        </CSmartTable>
+        <div class="d-flex flex-row-reverse">
+          <button
+            @click="
+              () => {
+                findClasificadorModal = false
+              }
+            "
+            type="button"
+            class="btn btn-secondary"
+          >
+            Cerrar
+          </button>
+        </div>
+      </CCardBody>
+    </CModalBody>
   </CModal>
 </template>
 <script>
@@ -844,7 +858,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import XLSX from 'xlsx/xlsx.mjs'
 import router from '@/router'
 import { formatPrice } from '../../../../utils/format'
-import { cilCloudUpload } from '@coreui/icons-pro'
+import { cilCloudUpload, cisSearch } from '@coreui/icons-pro'
 import { useToastStore } from '@/store/toast'
 export default {
   components: {
@@ -854,6 +868,9 @@ export default {
   data: () => {
     return {
       cilCloudUpload,
+      findClasificadorModal: false,
+      clasificadorItems: [],
+      cisSearch,
       proyectosList: [],
       pregastoMasivo: [],
       id: null,
@@ -861,6 +878,7 @@ export default {
       detallePresGastos: [],
       sumOfFlieds: null,
       pnap: null,
+      openField: true,
       programa: null,
       detallePost: {
         id: 0,
@@ -923,6 +941,25 @@ export default {
         sumTotalPagado: 0,
         sumTotalVariacion: 0,
       },
+      clasificadorColumns: [
+        { key: 'clasifica', label: 'Clasificador' },
+        { key: 'cControl', label: 'Control' },
+        { key: 'nombre', label: 'Detalle', _style: { width: '25%' } },
+        {
+          key: 'tipo',
+          label: 'Tipo',
+          filter: false,
+          sorter: false,
+          _style: { width: '5%' },
+        },
+        {
+          key: 'show_details',
+          label: '',
+          _style: { width: '10%' },
+          filter: false,
+          sorter: false,
+        },
+      ],
       post: {
         clasifica: '',
         ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
@@ -1067,9 +1104,9 @@ export default {
   methods: {
     close() {
       if (this.lgDemo) {
-        return this.lgDemo = false
+        return (this.lgDemo = false)
       } else if (this.lgDemo1) {
-        return this.lgDemo1 = false
+        return (this.lgDemo1 = false)
       }
     },
     ...mapActions(useToastStore, ['show']),
@@ -1089,7 +1126,6 @@ export default {
     goToIngreso() {
       router.push({ name: 'Formulación Ingreso' })
     },
-
     onFileChangeProyectos(event) {
       this.file = event.target.files ? event.target.files[0] : null
       if (this.file) {
@@ -1174,7 +1210,6 @@ export default {
 
     openModal() {
       this.lgDemo = true
-      // <input ref="name" type="text" class="form-control" v-model="postMarcas.nombre" id="exampleInputEmail1"  >
       setTimeout(this.unaVez, 200)
     },
 
@@ -1295,6 +1330,9 @@ export default {
         reader.readAsBinaryString(this.file)
       }
     },
+    openFields() {
+      this.openField = !this.openField
+    },
     Guardar() {
       if (this.id != null) {
         Api.updateFormulacion(this.id, this.post)
@@ -1328,7 +1366,6 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
-        this.lgDemo1 = true
       }
       event.preventDefault()
       event.stopPropagation()
@@ -1374,6 +1411,7 @@ export default {
               timer: 1500,
             })
           })
+          this.clearForm()
       } else {
         this.detallePost.TIPO_GASTO1 =
           this.detallePost.TIPO_GASTO1.split('-')[0]
@@ -1416,33 +1454,38 @@ export default {
       })
       event.preventDefault()
       event.stopPropagation()
-      this.clearForm()
       setTimeout(this.getDetalleGasto, 500)
     },
 
     getClasificador() {
-      Api.getClasificador(this.detallePost.ctgClasificadorId).then(
-        (response) => {
-          if (response.data.data.origen == 'GASTO') {
-            this.detallePost.cControl = response.data.data.cControl
-            this.detallePost.nombre = response.data.data.nombre
-          } else {
-            Swal.fire({
-              position: 'top-end',
-              icon: 'warning',
+      this.findClasificadorModal = true
+      Api.getListarClasificadores().then((response) => {
+        this.clasificadorItems = response.data.data
+      })
+    },
+    SelectClasificador(clasificador) {
+      Api.getClasificador(clasificador.clasifica).then((response) => {
+        if (response.data.data.origen == 'GASTO') {
+          this.detallePost.ctgClasificadorId = clasificador.clasifica
+          this.detallePost.cControl = response.data.data.cControl
+          this.detallePost.nombre = response.data.data.nombre
+        } else {
+          Swal.fire({
+            position: 'top-end',
+            icon: 'warning',
 
-              title: 'Clasificador no permitido',
-              showConfirmButton: false,
-              timer: 1500,
-            })
-            this.detallePost.cControl = ''
-            this.detallePost.nombre = ''
-          }
+            title: 'Clasificador no permitido',
+            showConfirmButton: false,
+            timer: 1500,
+          })
+          this.detallePost.cControl = ''
+          this.detallePost.nombre = ''
+        }
 
-          // this.postIngreso.control = response.data.data.cControl
-          // this.postIngreso.detalle = response.data.data.nombre
-        },
-      )
+        // this.postIngreso.control = response.data.data.cControl
+        // this.postIngreso.detalle = response.data.data.nombre
+      })
+      this.findClasificadorModal = false
     },
     setValueButtonGasto(
       FuenteFinanciamiento,
@@ -1478,7 +1521,7 @@ export default {
         modContatro: 'n',
         asignadoA: 0,
         asignadoA: 0,
-        fechaIniciada: '2022-10-31T14:18:15.972Z',
+        fechaIniciada: new Date(Date.now()),
       }
     },
     handleSubmitCustom01(event) {},
@@ -1501,6 +1544,7 @@ export default {
         this.formulado.preS_FORM = response.data.preS_FORM
       })
     },
+
     IngresoReport() {
       window.open(
         `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Gastos_Formulacion_FP08&rs:Command=Render&ANO=${localStorage.getItem(
@@ -1557,12 +1601,6 @@ export default {
     },
     toggleDetails1(item) {
       setTimeout(this.unaVezs, 200)
-      // if (this.details.includes(item._id)) {
-      //   this.details = this.details.filter((_item) => _item !== item._id)
-      //   return
-      // }
-      // this.details.push(item._id)
-
       this.lgDemo1 = true
     },
     getEditDetalle(item) {
@@ -1576,13 +1614,20 @@ export default {
 
   computed: {
     ...mapStores(usePrepGastoStore),
-    //  ...mapGetters(usePrepGastoStore,['getAllGasto']),
     ...mapState(usePrepGastoStore, [
       'prepGastoList',
       'GastosListDos',
       'getGasto',
       'dataDummy',
     ]),
+    sumOfBalance() {
+      return (
+        Number(this.detallePost.oriBco1 || 0) +
+        Number(this.detallePost.oriBco2 || 0) +
+        Number(this.detallePost.oriBco3 || 0) +
+        Number(this.detallePost.oriBco4 || 0)
+      )
+    },
   },
 
   mounted() {
@@ -1599,9 +1644,19 @@ export default {
   background-color: #375b80;
   color: white;
 }
+.padding-input {
+  padding-right: 2.5rem;
+}
+.icon-input {
+  padding: 0.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  right: 2px;
+}
 
 .file-select > .label {
-  margin-left: .1rem;
+  margin-left: 0.1rem;
 }
 
 .file-select > input[type='file'] {

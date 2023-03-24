@@ -27,6 +27,7 @@ import {
   cibBitcoin,
   cidChartLine,
   cisCheckCircle,
+  cisSearch,
 } from '@coreui/icons-pro'
 import { cifUs, cifBr, cifIn, cifFr, cifEs, cifPl } from '@coreui/icons-pro'
 import {
@@ -263,5 +264,6 @@ export const iconsSet = Object.assign(
   },
   {
     cisCheckCircle,
+    cisSearch,
   },
 )
