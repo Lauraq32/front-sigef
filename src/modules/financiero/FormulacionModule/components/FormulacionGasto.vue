@@ -3,7 +3,7 @@
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
-      style="font-weight: bold"
+        style="font-weight: bold"
         color="info"
         @click="
           () => {
@@ -15,9 +15,7 @@
       >
     </div>
     <div class="p-2">
-      <CButton color="info" @click="IngresoReport"
-        >Imprimir</CButton
-      >
+      <CButton color="info" @click="IngresoReport">Imprimir</CButton>
     </div>
     <div class="p-2">
       <CButton color="info" @click="cargarEstructuras"
@@ -38,10 +36,11 @@
     <h5>Importar Formulacion</h5>
     <CFormInput type="file" id="formFile" @change="onFileChange" />
   </div>
-  <CSmartTable class="sticky-top"
+  <CSmartTable
+    class="sticky-top"
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -62,7 +61,6 @@
         {{ formatPrice(item.totalPresupuesto) }}
       </td>
     </template>
-    <!-- Borre el , index  dentro del template de abajo -->
     <template #show_details="{ item }">
       <td class="py-2">
         <CButton
@@ -89,24 +87,6 @@
       </CCollapse>
     </template>
   </CSmartTable>
-  <!-- <div
-    class="font-weight-normal"
-    style="font-weight: 100 !important; margin-top: -3%; float: left"
-  >
-    <span style="font-weight: bold"><u>TOTAL PRESUPUESTADO:</u></span> Año
-    anterior
-    <span style="font-weight: 500 !important">{{
-      formatPrice(formulado.anO_ANT)
-    }}</span>
-    A la fecha:
-    <span style="font-weight: 500 !important">{{
-      formatPrice(formulado.alafecha)
-    }}</span>
-    Presupuesto formulado:
-    <span style="font-weight: 500 !important">{{
-      formatPrice(formulado.preS_FORM)
-    }}</span>
-  </div> -->
   <CModal
     size="xl"
     :visible="lgDemo"
@@ -141,13 +121,6 @@
               v-model="post.pnap"
               id="validationCustom01"
             />
-            <!-- <CFormInput
-              :disabled="id != null ? true : false"
-              v-on:change="sumOfProp"
-              v-model="post.pnap"
-              id="validationCustom01"
-            /> -->
-
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -259,20 +232,21 @@
             </button>
           </div>
         </CForm>
-        <CSmartTable class="sticky-top"
+        <CSmartTable
+          class="sticky-top"
           clickableRows
           :tableProps="{
-           striped: true,
+            striped: true,
             hover: true,
           }"
           :tableHeadProps="{}"
           :activePage="1"
-          
           header
           :items="detallePresGastos"
           :columns="columns2"
           itemsPerPageSelect
           columnFilter
+          :footer="footerItems"
           :itemsPerPage="5"
           columnSorter
           :sorterValue="{ column: 'status', state: 'asc' }"
@@ -283,7 +257,37 @@
               <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
             </td>
           </template>
-          <!-- Borre el index de aquí -->
+
+          <template #totalOriginal="{ item }">
+            <td class="text-end">
+              {{ formatPrice(item.totalOriginal) }}
+            </td>
+          </template>
+
+          <template #oriBco1="{ item }">
+            <td class="text-end">
+              {{ formatPrice(item.oriBco1) }}
+            </td>
+          </template>
+
+          <template #oriBco2="{ item }">
+            <td class="text-end">
+              {{ formatPrice(item.oriBco2) }}
+            </td>
+          </template>
+
+          <template #oriBco3="{ item }">
+            <td class="text-end">
+              {{ formatPrice(item.oriBco3) }}
+            </td>
+          </template>
+
+          <template #oriBco4="{ item }">
+            <td class="text-end">
+              {{ formatPrice(item.oriBco4) }}
+            </td>
+          </template>
+
           <template #show_details="{ item }">
             <td class="py-2">
               <CButton
@@ -314,24 +318,6 @@
             </CCollapse>
           </template>
         </CSmartTable>
-        <!-- <div
-          class="font-weight-normal"
-          style="font-weight: 100 !important; margin-top: -3%; float: left"
-        >
-          <span style="font-weight: bold"><u>TOTAL PRESUPUESTADO:</u></span> Año
-          anterior
-          <span style="font-weight: 500 !important">{{
-            formatPrice(formulado.anO_ANT)
-          }}</span>
-          A la fecha:
-          <span style="font-weight: 500 !important">{{
-            formatPrice(formulado.alafecha)
-          }}</span>
-          Presupuesto formulado:
-          <span style="font-weight: 500 !important">{{
-            formatPrice(formulado.preS_FORM)
-          }}</span>
-        </div> -->
       </CCardBody>
     </CModalBody>
   </CModal>
@@ -366,11 +352,6 @@
                   v-model="detallePost.ctgClasificadorId"
                   id="exampleInputEmail1"
                 />
-                <!-- <CFormInput
-                  v-model="detallePost.ctgClasificadorId"
-                  id="validationCustom01"
-                /> -->
-
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
@@ -798,24 +779,6 @@
             </CForm>
           </CCardBody>
         </CModalBody>
-        <!-- <div
-          class="font-weight-normal"
-          style="font-weight: 100 !important; margin-top: -3%; float: left"
-        >
-          <span style="font-weight: bold"><u>TOTAL PRESUPUESTO:</u></span> Año
-          anterior
-          <span style="font-weight: 500 !important">{{
-            formatPrice(formulado.anO_ANT)
-          }}</span>
-          A la fecha:
-          <span style="font-weight: 500 !important">{{
-            formatPrice(formulado.alafecha)
-          }}</span>
-          Presupuesto formulado:
-          <span style="font-weight: 500 !important">{{
-            formatPrice(formulado.preS_FORM)
-          }}</span>
-        </div> -->
       </div>
     </div>
   </CModal>
@@ -841,6 +804,15 @@ export default {
   },
   data: () => {
     return {
+      numero: 1234567,
+      numeroFormateado: 0,
+      hasRun: false,
+      totalItems: 0,
+      sumaGPersonal: 0,
+      sumaServicio: 0,
+      sumaInversion: 0,
+      sumaEdiGenero: 0,
+      sumaPresupuesto: 0,
       proyectosList: [],
       pregastoMasivo: [],
       id: null,
@@ -931,8 +903,6 @@ export default {
         asignadoA: 0,
         asignadoA: 0,
         fechaIniciada: '2022-10-31T14:18:15.972Z',
-        // sumTotalPresupuesto: 0,
-        // sumCostObra: 0,
       },
       formulado: {
         alafecha: 0,
@@ -949,10 +919,10 @@ export default {
           _props: {
             color: '',
             colspan: 8,
-            style: 'font-weight:bold; text-align:right',
+            style: { width: '90px' },
           },
         },
-      ,
+        ,
         {
           label: formatPrice(0),
           _props: {
@@ -962,6 +932,57 @@ export default {
           },
         },
       ],
+      footerItems: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 2,
+            style: 'font-weight:bold; text-align:left',
+          },
+        },
+        {
+          label: 0,
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold; text-align:right ',
+          },
+        },
+        {
+          label: 0,
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold; text-align:right ',
+          },
+        },
+        {
+          label: 0,
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold; text-align:right ',
+          },
+        },
+        {
+          label: 0,
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold; text-align:right ',
+          },
+        },
+        {
+          label: 0,
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold; text-align:right ',
+          },
+        },
+      ],
+
       columns: [
         { key: 'pnap', label: 'Pnap', _style: { width: '10%' } },
         { key: 'programa', label: 'Programa', _style: { width: '10%' } },
@@ -969,11 +990,6 @@ export default {
         { key: 'actObra', label: 'Act/Obra', _style: { width: '10%' } },
         { key: 'estControl', label: 'Control', _style: { width: '10%' } },
         { key: 'nombre', label: 'Denominación', _style: { width: '20%' } },
-        // {
-        //   key: 'denominacion',
-        //   label: 'Denominacion',
-        //   _style: { width: '40%' },
-        // },
         { key: 'tipo', label: 'tipo', _style: { width: '20%' } },
         {
           key: 'unidadResp',
@@ -991,7 +1007,6 @@ export default {
           _style: { width: '1%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
       details: [],
@@ -1038,7 +1053,6 @@ export default {
           _style: { width: '1%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
       items2: [
@@ -1157,12 +1171,10 @@ export default {
 
     openModal() {
       this.lgDemo = true
-      // <input ref="name" type="text" class="form-control" v-model="postMarcas.nombre" id="exampleInputEmail1"  >
       setTimeout(this.unaVez, 200)
     },
 
     onFileChange(event) {
-      //this.cargarEstructuras()
       this.file = event.target.files ? event.target.files[0] : null
       if (this.file) {
         const reader = new FileReader()
@@ -1425,9 +1437,6 @@ export default {
             this.detallePost.cControl = ''
             this.detallePost.nombre = ''
           }
-
-          // this.postIngreso.control = response.data.data.cControl
-          // this.postIngreso.detalle = response.data.data.nombre
         },
       )
     },
@@ -1440,6 +1449,7 @@ export default {
       this.detallePost.ctgFuenteEspecificaId = FuenteEspecifica
       this.detallePost.ctgOrganismoFinanciadorId = OrganismoFinanciador
     },
+
     formatPrice(value) {
       let val = (value / 1).toFixed(2).replace('.', '.')
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -1526,10 +1536,6 @@ export default {
       }
     },
     toggleDetails(item) {
-      // if (this.details.includes(item._id)) {
-      //   this.details = this.details.filter((_item) => _item !== item._id)
-      //   return
-      // }
       this.id = item.id
       Api.getListarGastosById(item.id).then((response) => {
         this.post = response.data.data
@@ -1538,17 +1544,33 @@ export default {
 
         this.post.mestprogId = `${this.post.pnap}${this.post.programa}${this.post.proyecto}${this.post.actObra}`
         this.detallePresGastos = response.data.data.detallePresGastos
+        this.sumaPresupuesto = 0
+        this.sumaGPersonal = 0
+        this.sumaServicio = 0
+        this.sumaInversion = 0
+        this.sumaEdiGenero = 0
+
+        this.detallePresGastos.map((detalle) => {
+          this.sumaPresupuesto += parseInt(detalle.totalOriginal)
+          this.sumaGPersonal += parseInt(detalle.oriBco1)
+          this.sumaServicio += parseInt(detalle.oriBco2)
+          this.sumaInversion += parseInt(detalle.oriBco3)
+          this.sumaEdiGenero += parseInt(detalle.oriBco4)
+          this.footerItems[1].label = this.formatPrice(this.sumaPresupuesto)
+          this.footerItems[2].label = this.formatPrice(this.sumaGPersonal)
+          this.footerItems[3].label = this.formatPrice(this.sumaServicio)
+          this.footerItems[4].label = this.formatPrice(this.sumaInversion)
+          this.footerItems[5].label = this.formatPrice(this.sumaEdiGenero)
+          this.numeroFormateado = this.formatPrice(this.numero)
+        })
+        this.totalItems = this.detallePresGastos.length
+        this.footerItems[0].label = `Total Items ${this.totalItems}`
       })
 
       this.lgDemo = true
     },
     toggleDetails1(item) {
       setTimeout(this.unaVezs, 200)
-      // if (this.details.includes(item._id)) {
-      //   this.details = this.details.filter((_item) => _item !== item._id)
-      //   return
-      // }
-      // this.details.push(item._id)
 
       this.lgDemo1 = true
     },
@@ -1563,7 +1585,6 @@ export default {
 
   computed: {
     ...mapStores(usePrepGastoStore),
-    //  ...mapGetters(usePrepGastoStore,['getAllGasto']),
     ...mapState(usePrepGastoStore, [
       'prepGastoList',
       'GastosListDos',
@@ -1577,3 +1598,9 @@ export default {
   },
 }
 </script>
+
+<style>
+.footerStyle {
+  text-align: center;
+}
+</style>
