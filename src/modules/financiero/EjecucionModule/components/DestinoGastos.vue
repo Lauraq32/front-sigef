@@ -163,7 +163,7 @@ export default {
       ],
       footerItem: [
         {
-          label: 'Total presupuesto',
+          label: 'Total Items',
           _props: {
             color: '',
             colspan: 1,

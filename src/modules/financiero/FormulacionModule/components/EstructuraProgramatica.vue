@@ -9,7 +9,8 @@
     </div>
   </div>
   <hr />
-  <CSmartTable class="sticky-top"
+  <CSmartTable
+    class="sticky-top"
     clickableRows
     :tableProps="{
       striped: true,
@@ -53,7 +54,7 @@ export default {
       itemsCount: null,
       footerItem: [
         {
-          label: 'Total presupuesto',
+          label: 'Total Items',
           _props: {
             color: '',
             colspan: 1,
@@ -81,7 +82,7 @@ export default {
       ],
       footerItem: [
         {
-          label: 'Total presupuesto',
+          label: 'Total Items',
           _props: {
             color: '',
             colspan: 1,
@@ -131,11 +132,9 @@ export default {
     },
   },
   mounted() {
-    // this.getEstructura()
     Api.getEstProgramatica().then((response) => {
       this.estructuraProgramatica = response.data.data
       this.itemsCount = this.estructuraProgramatica.length
-      console.log(this.itemsCount)
       this.footerItem[0].label = `Total items: ${this.itemsCount}`
     })
   },

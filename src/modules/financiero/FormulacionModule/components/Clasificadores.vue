@@ -113,7 +113,7 @@ export default {
       itemsCount: null,
       footerItem: [
         {
-          label: 'Total presupuesto',
+          label: 'Total Items',
           _props: {
             color: '',
             colspan: 1,
@@ -196,10 +196,8 @@ export default {
     Api.getListarClasificadores().then((response) => {
       this.items = response.data.data
       this.itemsCount = this.items.length
-      console.log(this.itemsCount)
       this.footerItem[0].label = `Total items: ${this.itemsCount}`
     })
-    //this.$store.dispatch('Formulacion/getClasificadores');
   },
 }
 </script>

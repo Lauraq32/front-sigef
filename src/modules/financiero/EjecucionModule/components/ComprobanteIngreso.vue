@@ -952,11 +952,6 @@ export default {
           response.data.data.ctgOrganismoFinanciadorId
         this.detalleRegistroPost.institucionOrtongate =
           response.data.data.instOtorga
-
-        // this.detallePost.cControl = response.data.data.cControl
-        // this.detallePost.nombre = response.data.data.nombre
-        // this.postIngreso.control = response.data.data.cControl
-        // this.postIngreso.detalle = response.data.data.nombre
       })
     },
   },
@@ -967,7 +962,6 @@ export default {
     Api.getIngresoAll().then((response) => {
       this.ingresosList = response.data.data
       this.itemsCount = this.ingresosList.length
-      console.log(this.itemsCount)
       this.footerItem[0].label = `Total items: ${this.itemsCount}`
     })
   },
