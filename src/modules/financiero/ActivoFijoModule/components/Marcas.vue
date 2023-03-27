@@ -16,6 +16,7 @@
     :tableHeadProps="{}"
     :activePage="1"
     header
+    :footer="footerItem"
     :items="Marcas"
     :columns="columns"
     columnFilter
@@ -142,6 +143,17 @@ export default {
           filter: false,
           sorter: false,
         },
+      ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
       ],
 
       details: [],

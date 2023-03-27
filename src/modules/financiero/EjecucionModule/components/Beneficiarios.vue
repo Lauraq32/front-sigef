@@ -1,5 +1,4 @@
 <template>
-      
   <h3 class="text-center">Beneficiarios</h3>
   <div class="table-headers">
     <div class="p-2">
@@ -23,7 +22,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     :items="Beneficiarios"
     :columns="columns"
@@ -270,7 +269,7 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { mapActions, mapState } from 'pinia'
 import { mapStores } from 'pinia'
- 
+
 import { useToastStore } from '@/store/toast'
 import Api from '../services/EjecucionServices'
 
@@ -278,11 +277,11 @@ export default {
   components: {
     CSmartTable,
     CModal,
-      
   },
 
   data: () => {
     return {
+      Beneficiarios: [],
       postBeneficiario: {
         id: 0,
         nombre: null,
@@ -332,6 +331,16 @@ export default {
           filter: false,
           sorter: false,
           // _props: { color: 'primary', class: 'fw-semibold'}
+        },
+      ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
         },
       ],
 
@@ -418,7 +427,7 @@ export default {
         Api.putBeneficiarios(this.id, this.postBeneficiario).then(
           (response) => {
             this.lgDemo = false
-                 this.show({
+            this.show({
               content: 'Registro añadido correctamente',
               closable: true,
             })
@@ -449,12 +458,12 @@ export default {
         this.getBeneficiarios()
         Api.postBeneficiarios(this.postBeneficiario)
           .then((response) => {
-                 this.show({
+            this.show({
               content: 'Registro añadido correctamente',
               closable: true,
             })
           })
-           .catch((error) => {
+          .catch((error) => {
             this.show({
               content: 'Error al enviar el formulario',
               closable: true,
@@ -501,81 +510,11 @@ export default {
   },
 
   mounted() {
-    this.getBeneficiarios()
+    Api.getBeneficiarios().then((response) => {
+      this.Beneficiarios = response.data.data
+      this.itemsCount = this.Beneficiarios.length
+      this.footerItem[0].label = `Total items: ${this.itemsCount}`
+    })
   },
 }
 </script>
-
-<!-- <script>
-import { CSmartTable } from '@coreui/vue-pro'
-import { CModal } from '@coreui/vue'
-export default {
-  components: {
-    CSmartTable,
-    CModal,
-  },
-
-  data: () => {
-    return {
-      validatedCustom01: null,
-      lgDemo: false,
-      columns: [
-        { key: 'Código', label: 'Código', _style: { width: '40%' } },
-        {
-          key: 'Beneficiario',
-          label: 'Beneficiario',
-          _style: { width: '40%' },
-        },
-        { key: 'Cédula', label: 'Cédula', _style: { width: '40%' } },
-        { key: 'Tipo', label: 'Tipo', _style: { width: '40%' } },
-        { key: 'Contacto', label: 'Contacto', _style: { width: '40%' } },
-        { key: 'Teléfono 1', label: 'Teléfono 1', _style: { width: '40%' } },
-        { key: 'Teléfono 2', label: 'Teléfono 2', _style: { width: '40%' } },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
-        },
-      ]
-      details: [],
-    }
-  },
-  methods: {
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
-    },
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
-      }
-      this.details.push(item._id)
-    },
-  },
-  mounted() {
-    this.$store.dispatch('Formulacion/getProyectos')
-  },
-}
-</script> -->

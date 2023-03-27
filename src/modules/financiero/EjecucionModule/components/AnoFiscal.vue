@@ -24,6 +24,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
+    :footer="footerItem"
     header
     :items="anioFiscal"
     :columns="columns"
@@ -202,7 +203,16 @@ export default {
         fechaInicial: null,
         fechaFinal: null,
       },
-
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+      ],
       columns: [
         { key: 'anio', label: 'Año Fiscal', _style: { width: '40%' } },
         {
@@ -387,7 +397,8 @@ export default {
   },
 
   mounted() {
-    this.getAnioFiscalAll()
+    this.getAnioFiscal()
+    this.footerItem[0].label = `Total de items: ${this.anioFiscal.length}`
   },
 }
 </script>

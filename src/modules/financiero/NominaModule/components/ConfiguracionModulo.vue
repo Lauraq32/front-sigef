@@ -29,7 +29,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     :items="ingresos"
     :columns="columns"
     itemsPerPageSelect
@@ -319,6 +319,17 @@ export default {
           sorter: false,
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
+      ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
       ],
       details: [],
     }

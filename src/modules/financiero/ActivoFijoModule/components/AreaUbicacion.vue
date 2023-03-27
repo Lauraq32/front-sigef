@@ -28,6 +28,7 @@
     header
     :items="areaUbicacion"
     :columns="columns"
+    :footer="footerItem"
     itemsPerPageSelect
     columnFilter
     :itemsPerPage="5"
@@ -179,6 +180,17 @@ export default {
           filter: false,
           sorter: false,
         },
+      ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
       ],
       details: [],
     }
