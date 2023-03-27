@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import http from '@/Api/http-common'
-
+const user = JSON.parse(localStorage.getItem('usuario'))
 class NominaApi {
   //-----------------------------CLASIFICADORES---------------------------------------//
   //get
@@ -17,12 +17,12 @@ class NominaApi {
   }
 
   getEmpleado() {
-    return http.get(`Empleado?ayuntamientoId=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
+    return http.get(`Empleado?ayuntamientoId=${user?.user.ayuntamiento.id}`)
   }
 
   getProgramaDivision() {
 
-    return http.get(`ProgramaDivision?AyuntamientoId=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
+    return http.get(`ProgramaDivision?AyuntamientoId=${user?.user.ayuntamiento.id}`)
   }
 
   getEmpleadoById(value) {
@@ -35,7 +35,7 @@ class NominaApi {
   // `Sector?AyuntamientoId=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`
 
   getSectores() {
-    return http.get(`Sector?ayuntamiento=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
+    return http.get(`Sector?ayuntamiento=${user?.user.ayuntamiento.id}`)
   }
 
   getEmpleadosPorDepartamentos(id){
@@ -61,7 +61,7 @@ class NominaApi {
 
   getAllCuentaBanco() {
     return http.get(
-      `ConciliacionCuentaBanco/${localStorage.getItem('id_Ayuntamiento')}`,
+      `ConciliacionCuentaBanco/${user?.user.ayuntamiento.id}`,
     )
   }
 
@@ -210,7 +210,7 @@ class NominaApi {
   //delete
 
   deleteSector(id) {
-    return http.delete(`Sector/${id}?ayuntamiento=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
+    return http.delete(`Sector/${id}?ayuntamiento=${user?.user.ayuntamiento.id}`)
   }
 
 

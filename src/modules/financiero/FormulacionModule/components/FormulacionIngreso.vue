@@ -277,12 +277,13 @@ import { CSmartTable } from '@coreui/vue-pro'
 import VueNumberFormat from 'vue-number-format'
 import { CModal } from '@coreui/vue'
 import Api from '../services/FormulacionServices'
-import { mapActions } from 'pinia'
+import { mapActions, mapStores, mapState } from 'pinia'
 import XLSX from 'xlsx/xlsx.mjs'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { CIcon } from '@coreui/icons-vue'
 import { cilCloudUpload } from '@coreui/icons-pro'
 import { useToastStore } from '@/store/toast'
+import { useAuthStore } from '@/store/AuthStore'
 import router from '@/router'
 export default {
   components: {
@@ -313,15 +314,15 @@ export default {
       },
 
       postIngreso: {
-        anioFiscalId: parseInt(localStorage.getItem('ano')),
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        anioFiscalId: JSON.parse(localStorage.getItem( 'usuario', )).user.ayuntamiento.id,
+        ayuntamientoId: JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId,
         ctgClasificadorId: null,
         instOtorga: 0,
-        control: '',
-        detalle: null,
-        ctgFuenteId: null,
-        ctgFuenteEspecificaId: null,
-        ctgOrganismoFinanciadorId: null,
+        control: 0,
+        detalle: '',
+        ctgFuenteId: 0,
+        ctgFuenteEspecificaId: 0,
+        ctgOrganismoFinanciadorId: 0,
         anioAnt: 0,
         alaFecha: 0,
         presForm: 0,
@@ -575,7 +576,6 @@ export default {
               variacionResumen: 0,
             })
           })
-
           Api.postCargaMasiva(this.presIngrsoMasivo).then((response) => { })
           Swal.fire({
             position: 'top-end',
@@ -602,9 +602,10 @@ export default {
       })
     },
     getTotales() {
+      console.log(this.AuthStore.user)
       Api.getTotalIngresos(
-        localStorage.getItem('id_Ayuntamiento'),
-        localStorage.getItem('ano'),
+        this.authInfo.user.ayuntamiento.id,
+        this.authInfo.currentFiscalYearId,
       ).then((response) => {
         this.footerItem[1].label = this.formatPrice(response.data.data.anioAnt)
         this.footerItem[2].label = this.formatPrice(response.data.data.alaFecha)
@@ -650,16 +651,16 @@ export default {
     },
     clearModal() {
       this.postIngreso = {
-        anioFiscalId: parseInt(localStorage.getItem('ano')),
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        anioFiscalId: this.authInfo.user.ayuntamiento.id,
+        ayuntamientoId: this.authInfo.currentFiscalYearId,
         ctgClasificadorId: null,
         instOtorga: 0,
-        control: '',
-        detalle: null,
+        control: 0,
+        detalle: '',
         anioAnt: 0,
-        ctgFuenteId: null,
-        ctgFuenteEspecificaId: null,
-        ctgOrganismoFinanciadorId: null,
+        ctgFuenteId: 0,
+        ctgFuenteEspecificaId: 0,
+        ctgOrganismoFinanciadorId: 0,
         alaFecha: 0,
         presForm: 0,
         variacion: 0,
@@ -673,7 +674,6 @@ export default {
       inputClasificador.focus()
       if (this.id) {
         Api.editPresIngreso(this.id, this.postIngreso).then((response) => {
-          // this.lgDemo = false
           this.show({
             content: 'Registro actualizado correctamente',
             closable: true,
@@ -681,16 +681,16 @@ export default {
 
           this.getAllIngreso()
           this.postIngreso = {
-            anioFiscalId: parseInt(localStorage.getItem('ano')),
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            anioFiscalId:  this.authInfo.currentFiscalYearId,
+            ayuntamientoId: this.authInfo.user.ayuntamiento.id,
             ctgClasificadorId: null,
             instOtorga: 0,
-            control: '',
-            detalle: null,
+            control: 0,
+            detalle: '',
             anioAnt: 0,
-            ctgFuenteId: null,
-            ctgFuenteEspecificaId: null,
-            ctgOrganismoFinanciadorId: null,
+            ctgFuenteId: 0,
+            ctgFuenteEspecificaId: 0,
+            ctgOrganismoFinanciadorId: 0,
             alaFecha: 0,
 
             presForm: 0,
@@ -708,39 +708,47 @@ export default {
         this.postIngreso.anioAnt = parseFloat(this.postIngreso.anioAnt)
         this.postIngreso.alaFecha = parseFloat(this.postIngreso.alaFecha)
         this.postIngreso.presForm = parseFloat(this.postIngreso.presForm)
-        Api.postFormulacionIngreso(this.postIngreso).then((response) => {
-          this.show({
-            content: 'Registro añadido correctamente',
-            closable: true,
-          })
-          console.log(response)
-          this.postIngreso = {
-          anioFiscalId: parseInt(localStorage.getItem('ano')),
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-          ctgClasificadorId: null,
-          instOtorga: 0,
-          control: '',
-          detalle: null,
-          anioAnt: 0,
-          ctgFuenteId: null,
-          ctgFuenteEspecificaId: null,
-          ctgOrganismoFinanciadorId: null,
-          alaFecha: 0,
+        this.postIngreso.control = parseFloat(this.postIngreso.control)
+        this.postIngreso.ctgFuenteEspecificaId = parseFloat(this.postIngreso.ctgFuenteEspecificaId)
+        this.postIngreso.ctgFuenteId = parseFloat(this.postIngreso.ctgFuenteId)
+        this.postIngreso.ctgOrganismoFinanciadorId = parseFloat(this.postIngreso.ctgOrganismoFinanciadorId)
+        Api.postFormulacionIngreso(this.postIngreso)
+          .then((response) => {
+            this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
+            })
+            this.postIngreso = {
+              anioFiscalId:  this.authInfo.currentFiscalYearId,
+            ayuntamientoId: this.authInfo.user.ayuntamiento.id,
+              ctgClasificadorId: 0,
+              instOtorga: 0,
+              control: 0,
+              detalle: '',
+              anioAnt: 0,
+              ctgFuenteId: 0,
+              ctgFuenteEspecificaId: 0,
+              ctgOrganismoFinanciadorId: 0,
+              alaFecha: 0,
 
-          presForm: 0,
-          variacion: 0,
-          ingresos: 0,
-          variacionResumen: 0,
-        }
-        }).catch((error) => {
-          console.log(error)
-        })
+              presForm: 0,
+              variacion: 0,
+              ingresos: 0,
+              variacionResumen: 0,
+            }
+          })
+          .catch((error) => {
+            this.show({
+              content: (error.data.errors.length && error.data.errors) || error.data.message ,
+              closable: true,
+              color: 'danger',
+            })
+          })
 
         // this.lgDemo = true
 
         this.validatedCustom01 = false
         setTimeout(this.getAllIngreso, 500)
-        // this.clearModal()
         this.getTotales()
       }
     },
@@ -752,6 +760,37 @@ export default {
       })
 
      
+      // Api.getClasificador(this.postIngreso.ctgClasificadorId)
+      //   .then((response) => {
+      //     if (response.data.data) {
+      //       this.postIngreso.control = response.data.data.cControl
+      //       this.postIngreso.detalle = response.data.data.nombre
+      //       this.postIngreso.ctgFuenteId = response.data.data.ctgFuenteId
+      //       this.postIngreso.ctgFuenteEspecificaId =
+      //         response.data.data.ctgFuenteEspecificaId
+      //       this.postIngreso.ctgOrganismoFinanciadorId =
+      //         response.data.data.ctgOrganismoFinanciadorId
+      //       this.validateInputctgFuente()
+      //       this.validateInputctgFuenteEspecificaId()
+      //       this.validateInputctgOrganismoFinanciadorId()
+      //       return
+      //     } else if (response.data.Data) {
+      //       return this.show({
+      //         content: error.message,
+      //         closable: true,
+      //         color: 'danger',
+      //       })
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     if (error) {
+      //       return this.show({
+      //         content: error.response.data.message,
+      //         closable: true,
+      //         color: 'danger',
+      //       })
+      //     }
+      //   })
     },
     focusAno() {
       this.$refs.anoAnteriorRef.focus()
@@ -783,9 +822,7 @@ export default {
     IngresoReport() {
       window
         .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Formulacion&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem(
-            'id_Ayuntamiento',
-          )}&ANO=2022`,
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Formulacion&rs:Command=Render&CAPITULO_AYTO=${this.authInfo.currentFiscalYearId}&ANO=2022`,
           '_blank',
         )
         .focus()
@@ -805,25 +842,36 @@ export default {
       })
     },
     getAllIngreso() {
-      Api.getAllFormulacionIngreso().then((response) => {
-        console.log('233', response.data)
+      Api.getAllFormulacionIngreso(this.authInfo.currentFiscalYearId, this.authInfo.user.ayuntamiento.id).then((response) => {
         this.ingresos = response.data.data
       })
     },
     deleteItem(item) {
-      Api.deleteIngreso(item.id).then((response) => {
-        this.$swal({
-          position: 'top-end',
-          icon: 'success',
-          title: response.data.message,
-          showConfirmButton: false,
-          timer: 1500,
-        })
-        this.getAllIngreso(), this.getTotales()
+      this.$swal({
+        title: 'Estás seguro que quieres eliminar este registro?',
+        text: 'No podras revertirlo',
+        icon: 'Atencion',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar!',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Api.deleteIngreso(item.id).then((response) => {
+            this.show({
+              content: 'Eliminado correctamente',
+              closable: true,
+            })
+          })
+          setTimeout(this.getAllIngreso, 1000)
+        }
       })
     },
   },
-  computed: {},
+  computed: {
+    ...mapStores(useAuthStore),
+    ...mapState(useAuthStore, ['authInfo']),
+  },
 
   mounted() {
     this.getTotales()
