@@ -1,6 +1,14 @@
 <template>
   <h3 class="text-center">Mantenimientos Empleados</h3>
+<AppPageHeader
+:addDropdowm="true"
+    :addButtonForm="addbuttonform"
+    :actions="acciones"
+    :anoFiscal="true"
+    :addButton="true"
+    :addFileButton="false"
 
+/>
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
@@ -28,7 +36,11 @@
     </div>
   </div>
  
-  <CModal :backdrop="false" :keyboard="false" :visible="reportes">
+  <CModal :backdrop="false" :keyboard="false" :visible="reportes"  @close="
+      () => {
+        reportes = false
+      }
+    ">
     <CModalHeader>
       <CModalTitle>Imprimir Reporte</CModalTitle>
     </CModalHeader>
@@ -965,15 +977,41 @@ import Api from '../services/RegistroPersonalServices'
 import apiSectores from '../../../financiero/NominaModule/services/NominaServices'
 import moment from 'moment'
 import { useToastStore } from '@/store/toast'
+import AppPageHeader from '@/components/AppPageHeader.vue'
 
 export default {
   components: {
     CSmartTable,
     CModal,
     moment,
+    AppPageHeader,
   },
-  data: () => {
+  data: function (  ) {
     return {
+
+      addbuttonform: {
+        label: 'Agregar',
+        accion: this.openModal.bind(this)
+      },
+
+      acciones: [
+        {
+          label: 'Imprimir Reportes',
+          accion:  () => {
+
+            this.reportes = true 
+            
+            }
+        }
+      ],
+
+
+
+
+
+
+
+
       cambiar: false,
       horaActual: '',
       toasts: [],

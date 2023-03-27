@@ -65,7 +65,11 @@
       >
     </CModalFooter>
   </CModal>
-  <CModal :backdrop="false" :keyboard="false" :visible="reportesExportarModal">
+  <CModal :backdrop="false" :keyboard="false" :visible="reportesExportarModal"  @close="
+      () => {
+        reportesExportarModal = false
+      }
+    ">
     <CModalHeader>
       <CModalTitle>Exportar Modificacion</CModalTitle>
     </CModalHeader>
