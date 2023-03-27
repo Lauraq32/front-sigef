@@ -25,6 +25,7 @@ export const getOrganismos = async ({ commit }) => {
 export const getEstructurasProgramaticas = async ({ commit }) => {
   Api.getListarEstructuraProgramatica().then((response) => {
     commit('SET_ESTRUCTURAS_PROGRAMATICAS', response.data)
+    commit('SET_ESTRUCTURAPROGCOUNT', response.data.length)
   })
 }
 

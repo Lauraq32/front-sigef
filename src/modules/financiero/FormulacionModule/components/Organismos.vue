@@ -17,7 +17,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     :items="items"
     :columns="columns"
@@ -102,6 +102,17 @@ export default {
         },
       
       ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
+      ],
       details: [],
       items:[]
     }
@@ -140,6 +151,7 @@ export default {
   mounted() {
     Api.getListarOrganismo().then(response => {
       this.items = response.data.data
+      this.footerItem[0].label = `Total items: ${response.data.data.length}` 
     })
   },
 }

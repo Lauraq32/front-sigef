@@ -16,12 +16,12 @@
   <CSmartTable class="sticky-top"
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     :items="TipoRetenciones"
     :columns="columns"
@@ -213,6 +213,7 @@ export default {
   data: () => {
     return {
       beneficiario: [{}],
+
       postTipoRetenciones: {
         ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
         id: 0,
@@ -253,6 +254,16 @@ export default {
           filter: false,
           sorter: false,
           // _props: { color: 'primary', class: 'fw-semibold'}
+        },
+      ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
         },
       ],
       details: [],
@@ -374,6 +385,7 @@ export default {
     this.getTipoRetenciones()
     Api.getBeneficiarios().then((response) => {
       this.beneficiario = response.data.data
+      this.footerItem[0].label = response.data.data.length
     })
   },
 }

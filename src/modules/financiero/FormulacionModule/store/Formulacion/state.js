@@ -15365,6 +15365,8 @@ export default () => ({
   proyectos: [],
   organismos: [],
   ingresos: [],
+  ingresosCount:0,
+  estructuraProgCount:0,
   ingreso: {
     Ano: parseInt(JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId),
     id_ayuntamiento: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
