@@ -140,12 +140,11 @@
                   Aprobado
                 </label>
                 <input
-                  v-model="postAnoFiscal.esAproBado"
+                  v-model="postAnoFiscal.esAprobado"
                   :disabled="isDisabled"
                   class="form-check-input"
                   type="checkbox"
                   id="flexCheckDefault"
-                  v-on:click="updateModelValue"
                 />
               </div>
             </div>
@@ -191,6 +190,7 @@ export default {
     return {
       anioFiscal: [],
       isDisabled: true,
+      block: false,
       postAnoFiscal: {
         id: 0,
         esAproBado: false,
@@ -230,11 +230,6 @@ export default {
   methods: {
     ...mapActions(useToastStore, ['show']),
 
-    updateModelValue() {
-      this.postAnoFiscal.esAprovado = this.isChecked ? 0 : 1
-      console.log(this.postAnoFiscal.esAprovado)
-    },
-
     changeDate({ target: { name, value } }) {
       if (name == 'fechaInicio') {
         const selectedDate = new Date(`${value}T00:00:00`)
@@ -272,8 +267,11 @@ export default {
       this.lgDemo = true
       Api.getAnioFiscalbyid(item.id).then((response) => {
         this.postAnoFiscal = response.data.data
-        response.data.data.esAproBado
+        this.block = response.data.data.esAprobado
         this.id = item.id
+        if (this.block == true) {
+          this.disabledCheckbox()
+        }
       })
     },
     clearModal1() {
