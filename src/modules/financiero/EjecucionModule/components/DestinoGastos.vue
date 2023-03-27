@@ -138,7 +138,7 @@ export default {
       lgDemo: false,
       postTipoGasto: {
         id: 0,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
         descripcion: '',
       },
       columns: [
@@ -176,7 +176,7 @@ export default {
     clearModal1() {
       this.postTipoGasto = {
         id: 0,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
         descripcion: '',
       }
     },

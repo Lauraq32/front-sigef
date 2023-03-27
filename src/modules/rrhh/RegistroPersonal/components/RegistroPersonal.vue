@@ -1252,7 +1252,7 @@ export default {
     clearModal1() {
       this.id = null
       this.postEmpleado = {
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
         codigo: null,
         nombres: null,
         apellidos: null,
@@ -1524,7 +1524,7 @@ export default {
         setTimeout(this.getRegistroPersonal, 500)
         ;(this.postEmpleado = {
           id: 0,
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
           nombre: null,
         }),
           (this.validatedCustom01 = false)

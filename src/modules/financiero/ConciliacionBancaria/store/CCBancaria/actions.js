@@ -52,8 +52,8 @@ export const PostIngreso = async ({ commit }, data) => {
 }
 export const getListarIngresos = async ({ commit }) => {
   Api.getListarIngresos(
-    localStorage.getItem('id_Ayuntamiento'),
-    localStorage.getItem('ano'),
+    JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
+    JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId,
   ).then((response) => {
     console.log(response.data)
     commit('SET_INGRESOS', response.data)

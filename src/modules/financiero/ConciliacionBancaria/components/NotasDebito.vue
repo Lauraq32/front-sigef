@@ -342,7 +342,7 @@ export default {
       DepositoList: [],
       Bancos: [],
       postDepositos: {
-        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+        ayuntamientoId: JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
         bancoId: 1,
         ctgCuenta: null,
         secuencial: 1,
@@ -442,7 +442,7 @@ export default {
     },
     clearModal1() {
       this.postDepositos = {
-        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+        ayuntamientoId: JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
         bancoId: null,
         secuencial: 1,
         documento: '',

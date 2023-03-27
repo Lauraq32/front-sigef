@@ -574,8 +574,8 @@ export default {
       detalle: '',
       detalleRegistroIngresos: [],
       detalleRegistroPost: {
-        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
-        anioFiscalId: localStorage.getItem('ano'),
+        ayuntamientoId: JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
+        anioFiscalId: JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId,
         transaccionId: 0,
         ctgClasificadorId: '',
         ctgFuenteId: '',
@@ -589,8 +589,8 @@ export default {
       },
       ingresoPost: {
         transaccionId: 0,
-        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
-        anioFiscalId: localStorage.getItem('ano'),
+        ayuntamientoId: JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
+        anioFiscalId: JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId,
         numeroComprobante: 0,
         compIngresosId: '',
         etapa: 'INGRESOS',
@@ -879,8 +879,8 @@ export default {
     clearModal2() {
       this.ingresoPost = {
         transaccionId: 0,
-        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
-        anioFiscalId: localStorage.getItem('ano'),
+        ayuntamientoId: JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
+        anioFiscalId: JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId,
         numeroComprobante: 0,
         compIngresosId: '',
         etapa: 'INGRESOS',
@@ -899,8 +899,8 @@ export default {
       this.getDetalle(id)
       Api.getIngresoById(
         id,
-        localStorage.getItem('ano'),
-        localStorage.getItem('id_Ayuntamiento'),
+        JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId,
+        JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
       ).then((response) => {
         Api.getContribuyenteById(response.data.data.contribuyenteId).then(
           (response) => {
@@ -922,8 +922,8 @@ export default {
       this.detalleRegistroPost.etapa = item.etapa
       Api.getIngresoById(
         item.transaccionId,
-        localStorage.getItem('ano'),
-        localStorage.getItem('id_Ayuntamiento'),
+        JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId,
+        JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
       ).then((response) => {
         this.ingresoPost = response.data.data
         this.detalleRegistroPost.transaccionId =

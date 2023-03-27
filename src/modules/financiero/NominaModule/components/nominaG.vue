@@ -1971,7 +1971,7 @@ export default {
         DepartamentoId: 0,
       },
       nominaGneral: {
-        AyuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        AyuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
         Anio: 2023,
         Mes: 1,
         // DepartamentoId: 0,
@@ -1996,7 +1996,7 @@ export default {
       confNomina: [{}],
 
       postGenerarNomina: {
-        AyuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        AyuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
         fecha: new Date(Date.now()),
         DepartamentoId: 0,
         TipoContrato: 'Tipo de contrato 2',
@@ -2006,7 +2006,7 @@ export default {
 
       postConfiguracionNomina: {
         id: 0,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
         textoIng1: null,
         textoIng2: null,
         textoIng3: null,
@@ -2076,7 +2076,7 @@ export default {
       ingresos: [{ total: 0, cantidadIngreso: 0 }],
 
       postEmpleado: {
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
         codigo: null,
         nombres: null,
         apellidos: null,
@@ -2176,8 +2176,8 @@ export default {
         recomendadoPor: null,
       },
       postNomina: {
-        anioFiscalId: parseInt(localStorage.getItem('ano')),
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        anioFiscalId: parseInt(JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId),
+        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
         departamentoId: 0,
         afpMonto: 0,
         fecha: new Date(Date.now()),
@@ -2636,7 +2636,7 @@ export default {
 
     submiGeneraNomina() {
       Api.postnominaGeneral(
-        localStorage.getItem('id_Ayuntamiento'),
+        JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
         this.postGenerarNomina.fecha,
         this.postGenerarNomina.DepartamentoId,
         this.postGenerarNomina.ProgramaDivision,
@@ -2661,7 +2661,7 @@ export default {
             // setTimeout(this.getEmpleado, 500)
             this.postConfiguracionNomina = {
               id: 0,
-              ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+              ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
               textoIng1: null,
               textoIng2: null,
               textoIng3: null,
@@ -2750,7 +2750,7 @@ export default {
         this.lgDemo = true
           // setTimeout(this.getEmpleado, 500)
           ; (this.postConfiguracionNomina = {
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
             textoIng1: null,
             textoIng2: null,
             textoIng3: null,
@@ -2828,7 +2828,7 @@ export default {
           setTimeout(this.getEmpleado, 500)
           this.postEmpleado = {
             id: 0,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
             codigo: null,
             nombres: null,
             apellidos: null,
@@ -2962,7 +2962,7 @@ export default {
         this.lgDemo = true
         setTimeout(this.getEmpleado, 500)
           ; (this.postEmpleado = {
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
             codigo: null,
             nombres: null,
             apellidos: null,

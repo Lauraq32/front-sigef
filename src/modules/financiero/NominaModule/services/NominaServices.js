@@ -32,7 +32,7 @@ class NominaApi {
   // getSectores() {
   //   return http.get('Sector')
   // }
-  // `Sector?AyuntamientoId=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`
+  // `Sector?AyuntamientoId=${parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id)}`
 
   getSectores() {
     return http.get(`Sector?ayuntamiento=${user?.user.ayuntamiento.id}`)

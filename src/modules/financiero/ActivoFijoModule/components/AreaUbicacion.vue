@@ -161,7 +161,7 @@ export default {
     return {
       postAreaUbicacion: {
         id: 0,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
         descripcion: null,
         descripcion2: null,
       },
@@ -206,7 +206,7 @@ export default {
           this.postAreaUbicacion = {
             id: 0,
             variacion: 0,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
             descripcion: null,
             descripcion2: null,
           }
@@ -234,7 +234,7 @@ export default {
         setTimeout(this.getArea, 500)
         ;(this.postAreaUbicacion = {
           variacion: 0,
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
           descripcion: null,
           descripcion2: null,
         }),

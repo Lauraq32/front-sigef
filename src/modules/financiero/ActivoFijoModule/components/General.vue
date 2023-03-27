@@ -491,13 +491,13 @@ export default {
   data: () => {
     return {
       postDespreciacion: {
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
         fecha: null,
       },
 
       postActivo: {
         id: 0,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
         codigo: null,
         descripcion: null,
         detalle: null,
@@ -644,7 +644,7 @@ export default {
           setTimeout(this.getActivo, 500)
           this.postActivo = {
             id: 0,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
             codigo: null,
             descripcion: null,
             detalle: null,
@@ -692,7 +692,7 @@ export default {
         setTimeout(this.getActivo, 500)
         ;(this.postActivo = {
           id: 0,
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
           codigo: null,
           descripcion: null,
           detalle: null,

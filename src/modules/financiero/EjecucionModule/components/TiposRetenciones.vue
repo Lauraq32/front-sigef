@@ -214,7 +214,7 @@ export default {
     return {
       beneficiario: [{}],
       postTipoRetenciones: {
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
         id: 0,
         detalle: null,
         calculada: true,
@@ -352,7 +352,7 @@ export default {
         this.lgDemo = true
         this.getTipoRetenciones()
         ;(this.postTipoRetenciones = {
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
           id: 0,
           detalle: null,
           calculada: true,

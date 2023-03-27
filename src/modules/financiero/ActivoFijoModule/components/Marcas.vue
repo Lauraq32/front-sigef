@@ -129,7 +129,7 @@ export default {
       focus: false,
       postMarcas: {
         id: 0,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
         nombre: null,
       },
       columns: [
@@ -262,7 +262,7 @@ export default {
           setTimeout(this.getMarcas, 500)
           this.postMarcas = {
             id: 0,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
             nombre: null,
           }
         })
@@ -288,7 +288,7 @@ export default {
         setTimeout(this.getMarcas, 500)
         ;(this.postMarcas = {
           id: 0,
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
           nombre: null,
         }),
           (this.validatedCustom01 = false)

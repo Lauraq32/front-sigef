@@ -239,7 +239,7 @@ export default {
       postPosicionesCargo: {
         id: 0,
         nombre: null,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
       },
 
       columns: [
@@ -343,7 +343,7 @@ export default {
             id: 0,
             nombre: null,
             variacion: 0,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
           }
           event.preventDefault()
           event.stopPropagation()
@@ -371,7 +371,7 @@ export default {
         ;(this.postPosicionesCargo = {
           id: 0,
           nombre: null,
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
         }),
           (this.validatedCustom01 = false)
         event.preventDefault()

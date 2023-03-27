@@ -6,7 +6,7 @@ class FormulacionApi {
     return http.get(
       `ExportFile/IngresoFormulacion?ayuntamientoId=${localStorage.getItem(
         'id_Ayuntamiento',
-      )}&anioFiscalId=${localStorage.getItem('ano')}`,
+      )}&anioFiscalId=${JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId}`,
     )
   }
 

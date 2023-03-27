@@ -1188,8 +1188,8 @@ export default {
 
             this.pregastoMasivo.push({
               presGastoId: 0,
-              ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-              anioFiscalId: parseInt(localStorage.getItem('ano')),
+              ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
+              anioFiscalId: parseInt(JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId),
               mestProgId: `${this.pnap}${this.programa}${Object.values(item)[4]
                 .toString()
                 .padStart(2, 0)}${Object.values(item)[5]
@@ -1447,8 +1447,8 @@ export default {
     clearForm() {
       this.post = {
         clasifica: '',
-        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
-        anioFiscalId: localStorage.getItem('ano'),
+        ayuntamientoId: JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
+        anioFiscalId: JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId,
         mestprogId: '',
         costObra: '',
         pnap: '',
@@ -1480,8 +1480,8 @@ export default {
     getTotal() {
       axios
       Api.getTotalIngresos(
-        localStorage.getItem('id_Ayuntamiento'),
-        localStorage.getItem('ano'),
+        JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
+        JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId,
       ).then((response) => {
         this.formulado.alafecha = response.data.alafecha
         this.formulado.anO_ANT = response.data.anO_ANT
@@ -1492,7 +1492,7 @@ export default {
       window.open(
         `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Gastos_Formulacion_FP08&rs:Command=Render&ANO=${localStorage.getItem(
           'ano',
-        )}&CAPITULO_AYTO=${localStorage.getItem('id_Ayuntamiento')}&FONDO=P`,
+        )}&CAPITULO_AYTO=${JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id}&FONDO=P`,
         '_blank',
       )`http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Gastos_Formulacion_FP08&rs:Command=Render&ANO=1&CAPITULO_AYTO=${localStorage.getItem(
         'id_Ayuntamiento',

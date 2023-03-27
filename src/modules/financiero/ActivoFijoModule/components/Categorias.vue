@@ -178,7 +178,7 @@ export default {
     return {
       postCategorias: {
         id: 0,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
         descripcion: null,
         cuentaDebido: null,
         cuentaCredito: null,
@@ -257,7 +257,7 @@ export default {
           setTimeout(this.getCategoria, 500)
           this.postCategorias = {
             id: 0,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
             descripcion: null,
             cuentaDebido: null,
             cuentaCredito: null,
@@ -301,7 +301,7 @@ export default {
         setTimeout(this.getCategoria, 500)
         ;(this.postCategorias = {
           id: 0,
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
           descripcion: null,
           cuentaDebido: null,
           cuentaCredito: null,

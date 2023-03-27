@@ -327,7 +327,7 @@ export default {
         codigo: 0,
         variacion: 0,
         ciudad: null,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
         conctato: null,
         direccion: null,
         email: null,
@@ -425,7 +425,7 @@ export default {
             this.postContribuyente = {
               id: 0,
               variacion: 0,
-              ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+              ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
               nombre: null,
               direccion: null,
               estatus: null,
@@ -454,7 +454,7 @@ export default {
         ;(this.postContribuyente = {
           id: 0,
           variacion: 0,
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
           nombre: null,
           direccion: null,
           estatus: null,

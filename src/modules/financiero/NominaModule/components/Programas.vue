@@ -173,7 +173,7 @@ export default {
         id: 0,
         nombre: null,
         estructura: null,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
         variacion: 0,
       },
 
@@ -248,7 +248,7 @@ export default {
             id: 0,
             nombre: null,
             estructura: null,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
             variacion: 0,
           }
         })
@@ -277,7 +277,7 @@ export default {
           id: 0,
           nombre: null,
           estructura: null,
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
           variacion: 0,
         }),
           (this.validatedCustom01 = false)

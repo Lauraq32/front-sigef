@@ -147,7 +147,7 @@ export default {
       postAreaTrabajo: {
         id: 0,
         area: null,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
       },
 
       validatedCustom01: null,
@@ -211,7 +211,7 @@ export default {
           this.postAreaTrabajo = {
             id: 0,
             area: null,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
             variacion: 0,
           }
         })
@@ -238,7 +238,7 @@ export default {
         ;(this.postAreaTrabajo = {
           id: 0,
           area: null,
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
           variacion: 0,
         }),
           (this.validatedCustom01 = false)
