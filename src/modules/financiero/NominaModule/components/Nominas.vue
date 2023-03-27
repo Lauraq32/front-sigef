@@ -2346,7 +2346,10 @@
       </CCardBody>
     </CModalBody>
   </CModal>
-  <CModal :backdrop="false" :keyboard="false" :visible="reportes">
+  <CModal :backdrop="false" :keyboard="false" :visible="reportes" @close="
+      () => {
+        reportes = false
+      }">
     <CModalHeader>
       <CModalTitle>Imprimir Reporte</CModalTitle>
     </CModalHeader>

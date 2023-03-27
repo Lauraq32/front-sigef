@@ -9,7 +9,10 @@
     :addButton="true"
     ></AppPageHeader>
 
-  <CModal :backdrop="false" :keyboard="false" :visible="reportes">
+  <CModal :backdrop="false" :keyboard="false" :visible="reportes" @close="
+      () => {
+        reportes = false
+      } ">
     <CModalHeader>
       <CModalTitle>Exportar Variacion</CModalTitle>
     </CModalHeader>
@@ -38,6 +41,10 @@
     :backdrop="false"
     :keyboard="false"
     :visible="reportesExportarModalEjecucion"
+    @close="
+      () => {
+        reportesExportarModalEjecucion = false
+      }"
   >
     <CModalHeader>
       <CModalTitle>Exportar Ejecucion</CModalTitle>
