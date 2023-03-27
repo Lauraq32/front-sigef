@@ -909,36 +909,28 @@ export default {
       if (this.reporteDepto.split('-')[0] == 1) {
         window
           .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Nombre&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
-              'id_Ayuntamiento',
-            )}`,
+            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Nombre&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
             '_blank',
           )
           .focus()
       } else if (this.reporteDepto.split('-')[0] == 2) {
         window
           .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Apellidos&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
-              'id_Ayuntamiento',
-            )}`,
+            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Apellidos&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
             '_blank',
           )
           .focus()
       } else if (this.reporteDepto.split('-')[0] == 3) {
         window
           .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Cargo&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
-              'id_Ayuntamiento',
-            )}`,
+            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Cargo&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
             '_blank',
           )
           .focus()
       } else if (this.reporteDepto.split('-')[0] == 4) {
         window
           .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Departamentos&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
-              'id_Ayuntamiento',
-            )}`,
+            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Departamentos&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
             '_blank',
           )
           .focus()
@@ -1012,7 +1004,7 @@ export default {
     clearModal1() {
       this.id = null
       this.postEmpleado = {
-        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
+        ayuntamientoId: this.$ayuntamientoId,
         codigo: null,
         nombres: null,
         apellidos: null,
@@ -1284,7 +1276,7 @@ export default {
         setTimeout(this.getRegistroPersonal, 500)
         ;(this.postEmpleado = {
           id: 0,
-          ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
+          ayuntamientoId: this.$ayuntamientoId,
           nombre: null,
         }),
           (this.validatedCustom01 = false)

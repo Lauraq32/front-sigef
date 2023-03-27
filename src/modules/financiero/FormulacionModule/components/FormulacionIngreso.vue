@@ -241,7 +241,7 @@ export default {
       fileName: '',
       ingresos: [],
       presIngrsoMasivo: [],
-      anofiscal: JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId,
+      anofiscal: this.$fiscalYearId,
       ctgFuenteId: true,
       ctgFuenteEspecificaId: true,
       ctgOrganismoFinanciadorId: true,

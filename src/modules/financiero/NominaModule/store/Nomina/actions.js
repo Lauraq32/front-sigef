@@ -1,4 +1,5 @@
 // import axios from 'axios'
+import { getAyuntamientoId, getFiscalYearId } from '@/utils/logged-info'
 import Api from '../../services/NominaServices'
 
 export const getClasificadores = async ({ commit }) => {
@@ -52,8 +53,8 @@ export const PostIngreso = async ({ commit }, data) => {
 }
 export const getListarIngresos = async ({ commit }) => {
   Api.getListarIngresos(
-    JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
-    JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId,
+    getAyuntamientoId(),
+    getFiscalYearId(),
   ).then((response) => {
     console.log(response.data)
     commit('SET_INGRESOS', response.data)

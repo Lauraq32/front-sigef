@@ -373,7 +373,7 @@ export default {
       reportes: false,
       DepositoList: [],
       postDepositos: {
-        ayuntamientoId: JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
+        ayuntamientoId: this.$ayuntamientoId,
         bancoId: null,
         secuencial: 1,
         documento: '',
@@ -465,7 +465,7 @@ export default {
     },
     clearModal1() {
       this.postDepositos = {
-        ayuntamientoId: JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
+        ayuntamientoId: this.$ayuntamientoId,
         bancoId: null,
         secuencial: 1,
         documento: '',
@@ -546,9 +546,7 @@ export default {
     imprimirReporteFecha() {
       window
         .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fConciliacionBancaria%2fRep_Depositos&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem(
-            'id_Ayuntamiento',
-          )}&CUENTA_BANCO=${this.cuentaId}&FECHA_INICIAL=${
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fConciliacionBancaria%2fRep_Depositos&rs:Command=Render&CAPITULO_AYTO=${this.$ayuntamientoId}&CUENTA_BANCO=${this.cuentaId}&FECHA_INICIAL=${
             this.fechaInicio
           }&FECHA_FINAL=${this.fechaFinal}`,
           '_blank',

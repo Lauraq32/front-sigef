@@ -573,8 +573,8 @@ export default {
       detalle: '',
       detalleRegistroIngresos: [],
       detalleRegistroPost: {
-        ayuntamientoId: JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
-        anioFiscalId: JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId,
+        ayuntamientoId: this.$ayuntamientoId,
+        anioFiscalId: this.$fiscalYearId,
         transaccionId: 0,
         ctgClasificadorId: '',
         ctgFuenteId: '',
@@ -588,8 +588,8 @@ export default {
       },
       ingresoPost: {
         transaccionId: 0,
-        ayuntamientoId: JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
-        anioFiscalId: JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId,
+        ayuntamientoId: this.$ayuntamientoId,
+        anioFiscalId: this.$fiscalYearId,
         numeroComprobante: 0,
         compIngresosId: '',
         etapa: 'INGRESOS',
@@ -691,9 +691,7 @@ export default {
     imprimirReporte() {
       window
         .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Ejecucion&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem(
-            'id_Ayuntamiento',
-          )}&ANO=2022&PERIODO=${this.mesReporte.split('-')[0]}`,
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Ejecucion&rs:Command=Render&CAPITULO_AYTO=${this.$ayuntamientoId}&ANO=2022&PERIODO=${this.mesReporte.split('-')[0]}`,
           '_blank',
         )
         .focus()
@@ -747,9 +745,7 @@ export default {
     imprimirReporte1(item) {
       window
         .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Recibo_Ingresos_A1&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem(
-            'id_Ayuntamiento',
-          )}&ID_COMP_INGRESOS=${item.transaccionId}`,
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Recibo_Ingresos_A1&rs:Command=Render&CAPITULO_AYTO=${this.$ayuntamientoId}&ID_COMP_INGRESOS=${item.transaccionId}`,
           '_blank',
         )
         .focus()
@@ -888,8 +884,8 @@ export default {
     clearModal2() {
       this.ingresoPost = {
         transaccionId: 0,
-        ayuntamientoId: JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
-        anioFiscalId: JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId,
+        ayuntamientoId: this.$ayuntamientoId,
+        anioFiscalId: this.$fiscalYearId,
         numeroComprobante: 0,
         compIngresosId: '',
         etapa: 'INGRESOS',
@@ -908,8 +904,8 @@ export default {
       this.getDetalle(id)
       Api.getIngresoById(
         id,
-        JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId,
-        JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
+        this.$fiscalYearId,
+        this.$ayuntamientoId,
       ).then((response) => {
         Api.getContribuyenteById(response.data.data.contribuyenteId).then(
           (response) => {
@@ -931,8 +927,8 @@ export default {
       this.detalleRegistroPost.etapa = item.etapa
       Api.getIngresoById(
         item.transaccionId,
-        JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId,
-        JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
+        this.$fiscalYearId,
+        this.$ayuntamientoId,
       ).then((response) => {
         this.ingresoPost = response.data.data
         this.detalleRegistroPost.transaccionId =

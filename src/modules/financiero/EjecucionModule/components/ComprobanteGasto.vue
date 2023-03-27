@@ -944,8 +944,8 @@ export default {
       postGasto: {
         id: 0,
         tipoGastoId: 1,
-        anioFiscalId: parseInt(JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId),
-        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
+        anioFiscalId: this.$fiscalYearId,
+        ayuntamientoId: this.$ayuntamientoId,
         anioFiscal: null,
         secuencialId: '',
         numeroComprobante: 0,
@@ -974,8 +974,8 @@ export default {
       postGastoDetalle: {
         detalleRegistroGastoDto: {
           id: 0,
-          anioFiscalId: parseInt(JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId),
-          ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
+          anioFiscalId: this.$fiscalYearId,
+          ayuntamientoId: this.$ayuntamientoId,
           secuenciaComprobante: 0,
           fecha: 0,
           bancoId: 0,
@@ -991,8 +991,8 @@ export default {
         },
         detaRetencionDto: [
           {
-            anioFiscalId: parseInt(JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId),
-            ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
+            anioFiscalId: this.$fiscalYearId,
+            ayuntamientoId: this.$ayuntamientoId,
             id: 0,
             fecha: new Date(Date.now()),
             beneficiarioId: 0,
@@ -1150,8 +1150,8 @@ export default {
     },
     addRetencion() {
       var retencion = {
-        anioFiscalId: parseInt(JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId),
-        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
+        anioFiscalId: this.$fiscalYearId,
+        ayuntamientoId: this.$ayuntamientoId,
         id: 0,
         fecha: new Date(Date.now()),
         beneficiarioId: 0,
@@ -1204,8 +1204,8 @@ export default {
       this.postGasto = {
         id: 0,
         tipoGastoId: null,
-        anioFiscalId: parseInt(JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId),
-        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
+        anioFiscalId: this.$fiscalYearId,
+        ayuntamientoId: this.$ayuntamientoId,
         anioFiscal: null,
         secuencialId: '',
         numeroComprobante: 0,
@@ -1236,8 +1236,8 @@ export default {
       this.postGastoDetalle = {
         detalleRegistroGastoDto: {
           id: 0,
-          anioFiscalId: parseInt(JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId),
-          ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
+          anioFiscalId: this.$fiscalYearId,
+          ayuntamientoId: this.$ayuntamientoId,
           secuenciaComprobante: 0,
           fecha: 0,
           bancoId: 0,
@@ -1253,8 +1253,8 @@ export default {
         },
         detaRetencionDto: [
           {
-            anioFiscalId: parseInt(JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId),
-            ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
+            anioFiscalId: this.$fiscalYearId,
+            ayuntamientoId: this.$ayuntamientoId,
             id: 0,
             fecha: new Date(Date.now()),
             beneficiarioId: 0,

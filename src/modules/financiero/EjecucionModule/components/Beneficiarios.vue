@@ -212,8 +212,7 @@ export default {
         estatus: null,
         mensual: 0,
         recomienda: 0,
-        ayuntamientoId: parseInt(localStorage.user.ayuntamiento.id
-        ),
+        ayuntamientoId: this.$ayuntamientoId,
       },
 
       columns: [
@@ -363,7 +362,7 @@ export default {
               estatus: null,
               mensual: 0,
               recomienda: 0,
-              ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
+              ayuntamientoId: this.$ayuntamientoId,
               variacion: 0,
             }
           },
@@ -413,7 +412,7 @@ export default {
             estatus: null,
             mensual: 0,
             recomienda: 0,
-            ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
+            ayuntamientoId: this.$ayuntamientoId,
             variacion: 0,
           }),
             (this.validatedCustom01 = false)

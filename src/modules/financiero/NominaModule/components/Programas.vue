@@ -173,7 +173,7 @@ export default {
         id: 0,
         nombre: null,
         estructura: null,
-        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
+        ayuntamientoId: this.$ayuntamientoId,
         variacion: 0,
       },
 
@@ -259,7 +259,7 @@ export default {
             id: 0,
             nombre: null,
             estructura: null,
-            ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
+            ayuntamientoId: this.$ayuntamientoId,
             variacion: 0,
           }
         })
@@ -288,7 +288,7 @@ export default {
           id: 0,
           nombre: null,
           estructura: null,
-          ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
+          ayuntamientoId: this.$ayuntamientoId,
           variacion: 0,
         }),
           (this.validatedCustom01 = false)

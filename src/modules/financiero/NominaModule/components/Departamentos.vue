@@ -450,7 +450,7 @@ export default {
       CuentaB: [{}],
       postDepartamento: {
         programaDivisionId: 1,
-        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
+        ayuntamientoId: this.$ayuntamientoId,
         grupoNominaId: 4,
         nombre: null,
         saspId: 0,
@@ -562,7 +562,7 @@ export default {
           this.postDepartamento = {
             id: 0,
             programaDivisionId: 0,
-            ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
+            ayuntamientoId: this.$ayuntamientoId,
             grupoNominaId: 0,
             nombre: null,
             saspI: 0,
@@ -602,7 +602,7 @@ export default {
         ;(this.postDepartamento = {
           id: 0,
           programaDivisionId: 0,
-          ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
+          ayuntamientoId: this.$ayuntamientoId,
           grupoNominaId: 0,
           nombre: null,
           saspI: 0,

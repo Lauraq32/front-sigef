@@ -547,7 +547,7 @@ export default {
       idCuenta: null,
       fechaFiltro: null,
       CuentaBanco: {
-        ayuntamientoId: JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
+        ayuntamientoId: this.$ayuntamientoId,
         bancoId: 0,
         numeroCuenta: '',
         nombreCuenta: '',
@@ -560,7 +560,7 @@ export default {
         detalle: '',
       },
       Conciliacion: {
-        ayuntamientoId: JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
+        ayuntamientoId: this.$ayuntamientoId,
         bancoId: 1,
         fecha: new Date(Date.now()),
         balanceAnteriorLibro: 0,
@@ -650,7 +650,7 @@ export default {
             })
 
             // this.CuentaBanco = {
-            //   ayuntamientoId: JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
+            //   ayuntamientoId: this.$ayuntamientoId,
             //   bancoId: 0,
             //   numeroCuenta: '',
             //   nombreCuenta: '',
@@ -744,7 +744,7 @@ export default {
     },
     clearModal1() {
       this.CuentaBanco = {
-        ayuntamientoId: JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
+        ayuntamientoId: this.$ayuntamientoId,
         bancoId: 0,
         numeroCuenta: '',
         nombreCuenta: '',

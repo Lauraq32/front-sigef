@@ -134,7 +134,7 @@ export default {
       postSectores: {
         id: 0,
         nombre: null,
-        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
+        ayuntamientoId: this.$ayuntamientoId,
         ayuntamiento: {
           id: 0,
           secuencial: 0,

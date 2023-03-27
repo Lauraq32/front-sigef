@@ -238,8 +238,8 @@ export default {
   data: () => {
     return {
       postIngreso: {
-        Ano: parseInt(JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId),
-        id_ayuntamiento: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
+        Ano: this.$fiscalYearId,
+        id_ayuntamiento: this.$ayuntamientoId,
         CLASIFICA: null,
         INST_OTORGA: 0,
         CONTROL: '',
@@ -374,9 +374,7 @@ export default {
     IngresoReport() {
       window
         .open(
-          `http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fseguridad%2fReport1&rs:Command=Render&id=${localStorage.getItem(
-            'id_Ayuntamiento',
-          )}&ano=${JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId}`,
+          `http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fseguridad%2fReport1&rs:Command=Render&id=${this.$ayuntamientoId}&ano=${this.$fiscalYearId}`,
           '_blank',
         )
         .focus()

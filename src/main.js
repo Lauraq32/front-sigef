@@ -12,10 +12,13 @@ import 'sweetalert2/dist/sweetalert2.min.css'
 import SimpleTypeahead from 'vue3-simple-typeahead'
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
 import VueNumberFormat from 'vue-number-format'
-import { createPinia } from 'pinia'
+import { createPinia } from 'pinia';
+import loginInfoPlugin from "./utils/login-info-plugin";
 
 const pinia = createPinia()
 const app = createApp(App)
+
+app.use(loginInfoPlugin);
 app.use(store)
 app.use(router)
 app.use(CoreuiVue)

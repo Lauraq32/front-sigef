@@ -179,7 +179,7 @@ export default {
       postGrupoNominas: {
         nombre: null,
         variacion: 0,
-        ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
+        ayuntamientoId: this.$ayuntamientoId,
       },
 
       columns: [
@@ -238,7 +238,7 @@ export default {
           this.postGrupoNominas = {
             nombre: null,
             variacion: 0,
-            ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
+            ayuntamientoId: this.$ayuntamientoId,
           }
         })
         setTimeout(this.getGNomina, 500)
@@ -264,7 +264,7 @@ export default {
         ;(this.postGrupoNominas = {
           nombre: null,
           variacion: 0,
-          ayuntamientoId: parseInt(JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id),
+          ayuntamientoId: this.$ayuntamientoId,
         }),
           (this.validatedCustom01 = false)
         event.preventDefault()

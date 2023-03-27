@@ -351,7 +351,7 @@ export default {
       Bancos: [],
       ChequeList: [],
       postCheque: {
-        ayuntamientoId: JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
+        ayuntamientoId: this.$ayuntamientoId,
         bancoId: null,
         secuencial: 1,
         documento: '',
@@ -467,7 +467,7 @@ export default {
     },
     clearModal1() {
       this.postCheque = {
-        ayuntamientoId: JSON.parse(localStorage.getItem('usuario',)).user.ayuntamiento.id,
+        ayuntamientoId: this.$ayuntamientoId,
         bancoId: null,
         secuencial: 1,
         documento: '',
