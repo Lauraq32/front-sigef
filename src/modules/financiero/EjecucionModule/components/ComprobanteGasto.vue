@@ -912,7 +912,7 @@ import Api from '../services/EjecucionServices'
 import ApiFormulacion from '../../FormulacionModule/services/FormulacionServices'
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
 import SimpleTypeahead from 'vue3-simple-typeahead'
- import {mapActions} from 'pinia'
+import { mapActions } from 'pinia'
 import { useToastStore } from '@/store/toast'
 export default {
   components: {
