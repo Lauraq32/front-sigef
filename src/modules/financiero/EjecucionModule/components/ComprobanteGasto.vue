@@ -1,5 +1,4 @@
 <template>
-      
   <h3 class="text-center">Comprobante de gastos</h3>
   <div class="table-headers">
     <div class="p-2">
@@ -21,7 +20,8 @@
       >
     </div>
   </div>
-  <CSmartTable class="sticky-top"
+  <CSmartTable
+    class="sticky-top"
     clickableRows
     :tableProps="{
       striped: true,
@@ -29,7 +29,6 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
     header
     :items="cabeceraGasto"
     :columns="columns"
@@ -351,7 +350,8 @@
           </div>
         </CForm>
         <hr />
-        <CSmartTable class="sticky-top"
+        <CSmartTable
+          class="sticky-top"
           clickableRows
           :tableProps="{
             striped: true,
@@ -745,7 +745,8 @@
           </div>
         </CForm>
         <hr />
-        <CSmartTable class="sticky-top"
+        <CSmartTable
+          class="sticky-top"
           clickableRows
           :tableProps="{
             striped: true,
@@ -852,7 +853,8 @@
     <CModalBody>
       <CCardBody>
         <hr />
-        <CSmartTable class="sticky-top"
+        <CSmartTable
+          class="sticky-top"
           clickableRows
           :tableProps="{
             striped: true,
@@ -912,14 +914,13 @@ import Api from '../services/EjecucionServices'
 import ApiFormulacion from '../../FormulacionModule/services/FormulacionServices'
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
 import SimpleTypeahead from 'vue3-simple-typeahead'
- 
+
 import { useToastStore } from '@/store/toast'
 export default {
   components: {
     CSmartTable,
     CModal,
     SimpleTypeahead,
-      
   },
 
   data: () => {
@@ -1351,7 +1352,7 @@ export default {
       } else {
         Api.putRegistroGasto(this.postGasto, this.cabeceraId).then(
           (response) => {
-                 this.show({
+            this.show({
               content: 'Registro añadido correctamente',
               closable: true,
             })

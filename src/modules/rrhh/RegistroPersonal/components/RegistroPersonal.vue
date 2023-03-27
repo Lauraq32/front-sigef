@@ -1033,16 +1033,39 @@
             <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
           </td>
         </template>
-        <template #show_details="{ item, index }">
-          <td class="py-2">
+
+        <template #show_details="{ item }">
+          <td class="py-1">
             <CButton
+              class="mt-1"
               color="primary"
               variant="outline"
               square
               size="sm"
-              @click="toggleDetails(item, index)"
+              @click="toggleDetails(item)"
             >
-              {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
+              {{ Boolean(item._toggled) ? 'Hide' : 'Nuevo' }}
+            </CButton>
+
+            <CButton
+              class="mt-1"
+              color="primary"
+              variant="outline"
+              square
+              size="sm"
+              @click="toggleDetails(item)"
+            >
+              {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
+            </CButton>
+            <CButton
+              class="mt-1"
+              color="primary"
+              variant="outline"
+              square
+              size="sm"
+              @click="toggleDetails(item)"
+            >
+              {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
             </CButton>
           </td>
         </template>
@@ -1059,6 +1082,131 @@
           </CCollapse>
         </template>
       </CSmartTable>
+    </CModalBody>
+
+    <div class="modal-footer">
+      <!-- <button
+        type="button"
+        class="btn btn-info"
+        style="position: relative; left: -33pc"
+      >
+        Nuevo
+      </button> -->
+
+      <button
+        type="button"
+        class="btn btn-secondary"
+        data-bs-dismiss="modal"
+        @click="
+          () => {
+            lgDemo5 = true
+          }
+        "
+      >
+        Close
+      </button>
+
+      <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+        Guardar
+      </button>
+    </div>
+  </CModal>
+
+  <CModal
+    size="lg"
+    :visible="lgDemo5"
+    @close="
+      () => {
+        lgDemo5 = false
+      }
+    "
+  >
+    <CModalHeader>
+      <CModalTitle>Acción de Personal</CModalTitle>
+    </CModalHeader>
+    <CModalBody>
+      <CCardBody>
+        <div class="row">
+          <div class="col-7">
+            <div class="row mt-4 mx-3">
+              <div class="col-4 col-label">Nombres:</div>
+              <div class="col-8">
+                <h6>Alfredo</h6>
+              </div>
+            </div>
+            <div class="row mt-4 mx-3">
+              <div class="col-4 col-label">Apellido:</div>
+              <div class="col-8">
+                <h6>Valenzuela</h6>
+              </div>
+            </div>
+            <div class="row mt-4 mx-3">
+              <div class="col-4 col-label">Programa:</div>
+              <div class="col-8">
+                <h6>Programa 1</h6>
+              </div>
+            </div>
+            <div class="row mt-4 mx-3">
+              <div class="col-4 col-label">Departamento:</div>
+              <div class="col-8">
+                <h6>Dirección tic</h6>
+              </div>
+            </div>
+            <div class="row mt-4 mx-3">
+              <div class="col-4 col-label">Cargo:</div>
+              <div class="col-8">
+                <h6>Programador</h6>
+              </div>
+            </div>
+          </div>
+          <div class="col-5">
+            <div style="margin-top: 9px; width: 264px; height: 300px">
+              <div class="border" style="height: 200px"></div>
+              <h4>Guardar Imagen</h4>
+              <h4>Abrir Carpeta</h4>
+            </div>
+          </div>
+        </div>
+
+        <CCol :md="2">
+          <CFormLabel for="validationCustom01">Código</CFormLabel>
+          <CFormInput disabled id="validationCustom04"> </CFormInput>
+          <CFormFeedback valid> Exito! </CFormFeedback>
+          <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+        </CCol>
+        <CCol :md="2">
+          <CFormLabel for="validationCustomUsername"
+            >Posicion o cargo</CFormLabel
+          >
+          <CFormInput id="validationCustom04"> </CFormInput>
+          <CFormFeedback valid> Exito! </CFormFeedback>
+          <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+        </CCol>
+
+        <CCol :md="2">
+          <CFormLabel for="validationCustom01">Código</CFormLabel>
+          <CFormInput disabled id="validationCustom04"> </CFormInput>
+          <CFormFeedback valid> Exito! </CFormFeedback>
+          <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+        </CCol>
+        <CCol :md="2">
+          <CFormLabel for="validationCustomUsername"
+            >Posicion o cargo</CFormLabel
+          >
+          <CFormInput id="validationCustom04"> </CFormInput>
+          <CFormFeedback valid> Exito! </CFormFeedback>
+          <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+        </CCol>
+
+        <CCol :md="2">
+          <CFormLabel for="validationCustomUsername"
+            >Posicion o cargo</CFormLabel
+          >
+          <CFormInput id="validationCustom04"> </CFormInput>
+          <CFormFeedback valid> Exito! </CFormFeedback>
+          <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+        </CCol>
+      </CCardBody>
     </CModalBody>
 
     <div class="modal-footer">
@@ -1093,6 +1241,7 @@ export default {
   },
   data: () => {
     return {
+      lgDemo5: false,
       lgDemo4: false,
       cambiar: false,
       horaActual: '',
