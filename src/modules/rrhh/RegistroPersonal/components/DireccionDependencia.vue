@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Direccion o dependencias</h3>
+  <h3 class="text-center">Direccion dependencias</h3>
   <hr />
   <div class="table-headers">
     <div class="d-inline p-2">
@@ -53,7 +53,7 @@
           size="sm"
           @click="toggleDetails(item, index)"
         >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
+          {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
         </CButton>
       </td>
     </template>
@@ -80,7 +80,7 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Direccion o dependencias</CModalTitle>
+      <CModalTitle>Direccion dependencias</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -91,15 +91,7 @@
           @submit="handleSubmitCustom01"
         >
           <CCol :md="2">
-            <CFormLabel for="validationCustom01">Código</CFormLabel>
-            <CFormInput disabled id="validationCustom01" />
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
             <CFormLabel for="validationCustomUsername">Programa</CFormLabel>
-            <CInputGroup class="has-validation">
               <CFormInput
                 id="validationCustomUsername"
                 value=""
@@ -108,7 +100,6 @@
               />
               <CFormFeedback valid> Exito! </CFormFeedback>
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-            </CInputGroup>
           </CCol>
           <CCol :md="4">
             <CFormLabel for="validationCustom04">Fecha inicio</CFormLabel>
@@ -121,8 +112,9 @@
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
+              @click="lgDemo = false"
             >
-              Close
+              Cerrar
             </button>
             <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
               Guardar
@@ -146,7 +138,6 @@ export default {
       validatedCustom01: null,
       lgDemo: false,
       columns: [
-        { key: 'Código', label: 'Código', _style: { width: '40%' } },
         { key: 'Programa', label: 'Programa', _style: { width: '40%' } },
         { key: 'FechaInicio', label: 'Fecha inicio', _style: { width: '40%' } },
         {
