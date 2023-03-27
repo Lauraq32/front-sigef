@@ -18,7 +18,7 @@
       <CButton color="info" @click="volver">Comprobacion Ingreso</CButton>
     </div>
   </div>
-  <CSmartTable
+  <CSmartTable class="sticky-top"
     clickableRows
     :tableProps="{
      striped: true,

@@ -108,7 +108,7 @@
   </div>
 
   <hr />
-  <CSmartTable clickableRows :tableProps="{
+  <CSmartTable class="sticky-top" clickableRows :tableProps="{
    striped: true,
     hover: true,
      
@@ -1800,7 +1800,7 @@
     <CModalFooter>
 
     </CModalFooter>
-    <CSmartTable clickableRows :tableProps="{
+    <CSmartTable class="sticky-top" clickableRows :tableProps="{
      striped: true,
       hover: true,
       
@@ -1880,7 +1880,7 @@
      
     </CModalBody>
 
-    <CSmartTable clickableRows :tableProps="{
+    <CSmartTable class="sticky-top" clickableRows :tableProps="{
      striped: true,
       hover: true,
       

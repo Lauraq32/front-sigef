@@ -58,7 +58,7 @@
       <CButton color="primary" @click="imprimirReporte">Imprimir</CButton>
     </CModalFooter>
   </CModal>
-  <CSmartTable
+  <CSmartTable class="sticky-top"
     clickableRows
     :tableProps="{
       striped: true,

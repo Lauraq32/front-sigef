@@ -7,8 +7,8 @@
     :anoFiscal="true"
     :addButton="true"
   />
-
-  <CSmartTable
+ 
+  <CSmartTable class="sticky-top"
     clickableRows
     :tableProps="{
       striped: true,

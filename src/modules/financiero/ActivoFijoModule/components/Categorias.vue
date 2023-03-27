@@ -1,5 +1,4 @@
 <template>
-      
   <h3 class="text-center">Categoria</h3>
   <AppPageHeader
   :addButtonForm="addbuttonform"
@@ -8,7 +7,7 @@
     :addButton="true"
   
   />
-  <CSmartTable
+  <CSmartTable class="sticky-top"
     clickableRows
     :tableProps="{
       striped: true,
