@@ -107,8 +107,8 @@
   </div>
 
   <hr />
-  <CSmartTable clickableRows :tableProps="{
-    striped: true,
+  <CSmartTable class="sticky-top" clickableRows :tableProps="{
+   striped: true,
     hover: true,
 
   }" :tableHeadProps="{}" :activePage="1" header :items="nominag" :columns="columns" columnFilter itemsPerPageSelect
@@ -1783,8 +1783,8 @@
     <CModalFooter>
 
     </CModalFooter>
-    <CSmartTable clickableRows :tableProps="{
-      striped: true,
+    <CSmartTable class="sticky-top" clickableRows :tableProps="{
+     striped: true,
       hover: true,
 
     }" :tableHeadProps="{}" :activePage="1" header :items="getEmpleadosDep" :columns="columns2" itemsPerPageSelect
@@ -1863,8 +1863,8 @@
 
     </CModalBody>
 
-    <CSmartTable clickableRows :tableProps="{
-      striped: true,
+    <CSmartTable class="sticky-top" clickableRows :tableProps="{
+     striped: true,
       hover: true,
 
     }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header :items="getEmpleadosDep1" :columns="columns3"

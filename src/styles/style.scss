@@ -25,3 +25,9 @@ input::-webkit-inner-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
 }
+
+.sticky-top thead{
+  position: sticky;
+  top: 195px;
+  background-color: white;
+}

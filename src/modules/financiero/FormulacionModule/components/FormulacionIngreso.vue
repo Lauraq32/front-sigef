@@ -39,6 +39,7 @@
   </div>
 
   <CSmartTable
+    class="sticky-top"
     clickableRows
     :tableProps="{
       striped: true,
@@ -535,7 +536,6 @@ export default {
       this.file = event.target.files ? event.target.files[0] : null
       if (this.file) {
         const reader = new FileReader()
-
         reader.onload = (e) => {
           const bstr = e.target.result
           const wb = XLSX.read(bstr, {
@@ -578,7 +578,6 @@ export default {
               variacionResumen: 0,
             })
           })
-
           Api.postCargaMasiva(this.presIngrsoMasivo).then((response) => {})
           Swal.fire({
             position: 'top-end',
@@ -593,6 +592,7 @@ export default {
         reader.readAsBinaryString(this.file)
       }
       setTimeout(this.getListarIngresos, 1000)
+      setTimeout(this.getTotales, 1000)
     },
     goToGasto() {
       router.push({ name: 'Formulacion Gasto' })
