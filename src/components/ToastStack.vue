@@ -44,7 +44,7 @@ export default {
   setup() {
     const toastStore = useToastStore()
     const messages = computed(() => toastStore.messages)
-    console.log(messages)
+
     return {
       toastStore,
       messages,
