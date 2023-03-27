@@ -15,7 +15,8 @@
     </div>
   </div>
 
-  <CSmartTable class="sticky-top"
+  <CSmartTable
+    class="sticky-top"
     clickableRows
     :tableProps="{
       striped: true,
@@ -70,7 +71,7 @@
     </template>
   </CSmartTable>
   <CModal
-  backdrop="static"
+    backdrop="static"
     size="lg"
     :visible="lgDemo"
     @close="
@@ -139,7 +140,7 @@
                   Aprobado
                 </label>
                 <input
-                  v-model="isChecked"
+                  v-model="postAnoFiscal.esAproBado"
                   :disabled="isDisabled"
                   class="form-check-input"
                   type="checkbox"
@@ -188,12 +189,11 @@ export default {
 
   data: () => {
     return {
-      isChecked: false,
       anioFiscal: [],
       isDisabled: true,
       postAnoFiscal: {
         id: 0,
-        esAprovado: 0,
+        esAproBado: false,
         ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
         compGastos: null,
         compIngresos: null,
@@ -269,8 +269,11 @@ export default {
     toggleDetails(item) {
       this.enableCheckbox()
       this.id = item.id
-      this.postAnoFiscal = { ...item }
       this.lgDemo = true
+      Api.getAnioFiscalbyid(item.id).then((response) => {
+        this.postAnoFiscal = response.data.data
+        this.id = item.id
+      })
     },
     clearModal1() {
       this.postAnoFiscal = {
@@ -309,7 +312,7 @@ export default {
               closable: true,
             })
           })
-          .catch(({response}) => {
+          .catch(({ response }) => {
             this.show({
               content: response.data,
               closable: true,
@@ -329,7 +332,7 @@ export default {
             this.clearModal1()
             this.lgDemo = false
           })
-          .catch(({response}) => {
+          .catch(({ response }) => {
             this.show({
               content: response.data,
               closable: true,
@@ -338,7 +341,6 @@ export default {
             })
           }),
           this.getAnioFiscalAll()
-       
       }
     },
   },
