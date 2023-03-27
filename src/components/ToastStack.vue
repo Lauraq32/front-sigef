@@ -19,7 +19,7 @@
               class="d-md-block"
               v-for="(msg, i) in toast.content"
               :key="i"
-              v-html="`- ${msg}`"
+              v-html="`- ${msg.message}`"
             ></span>
           </div>
         </CToastBody>

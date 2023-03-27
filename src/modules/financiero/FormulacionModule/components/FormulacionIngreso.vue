@@ -388,13 +388,13 @@ export default {
       postIngreso: {
         anioFiscalId: parseInt(localStorage.getItem('ano')),
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-        ctgClasificadorId: null,
+        ctgClasificadorId: 0,
         instOtorga: 0,
-        control: '',
-        detalle: null,
-        ctgFuenteId: null,
-        ctgFuenteEspecificaId: null,
-        ctgOrganismoFinanciadorId: null,
+        control: 0,
+        detalle: '',
+        ctgFuenteId: 0,
+        ctgFuenteEspecificaId: 0,
+        ctgOrganismoFinanciadorId: 0,
         anioAnt: 0,
         alaFecha: 0,
         presForm: 0,
@@ -658,14 +658,14 @@ export default {
       this.postIngreso = {
         anioFiscalId: parseInt(localStorage.getItem('ano')),
         ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-        ctgClasificadorId: null,
+        ctgClasificadorId: 0,
         instOtorga: 0,
-        control: '',
-        detalle: null,
+        control: 0,
+        detalle: '',
         anioAnt: 0,
-        ctgFuenteId: null,
-        ctgFuenteEspecificaId: null,
-        ctgOrganismoFinanciadorId: null,
+        ctgFuenteId: 0,
+        ctgFuenteEspecificaId: 0,
+        ctgOrganismoFinanciadorId: 0,
         alaFecha: 0,
         presForm: 0,
         variacion: 0,
@@ -688,14 +688,14 @@ export default {
           this.postIngreso = {
             anioFiscalId: parseInt(localStorage.getItem('ano')),
             ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-            ctgClasificadorId: null,
+            ctgClasificadorId: 0,
             instOtorga: 0,
-            control: '',
-            detalle: null,
+            control: 0,
+            detalle: '',
             anioAnt: 0,
-            ctgFuenteId: null,
-            ctgFuenteEspecificaId: null,
-            ctgOrganismoFinanciadorId: null,
+            ctgFuenteId: 0,
+            ctgFuenteEspecificaId: 0,
+            ctgOrganismoFinanciadorId: 0,
             alaFecha: 0,
 
             presForm: 0,
@@ -713,6 +713,10 @@ export default {
         this.postIngreso.anioAnt = parseFloat(this.postIngreso.anioAnt)
         this.postIngreso.alaFecha = parseFloat(this.postIngreso.alaFecha)
         this.postIngreso.presForm = parseFloat(this.postIngreso.presForm)
+        this.postIngreso.control = parseFloat(this.postIngreso.control)
+        this.postIngreso.ctgFuenteEspecificaId = parseFloat(this.postIngreso.ctgFuenteEspecificaId)
+        this.postIngreso.ctgFuenteId = parseFloat(this.postIngreso.ctgFuenteId)
+        this.postIngreso.ctgOrganismoFinanciadorId = parseFloat(this.postIngreso.ctgOrganismoFinanciadorId)
         Api.postFormulacionIngreso(this.postIngreso)
           .then((response) => {
             this.show({
@@ -722,14 +726,14 @@ export default {
             this.postIngreso = {
               anioFiscalId: parseInt(localStorage.getItem('ano')),
               ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-              ctgClasificadorId: null,
+              ctgClasificadorId: 0,
               instOtorga: 0,
-              control: '',
-              detalle: null,
+              control: 0,
+              detalle: '',
               anioAnt: 0,
-              ctgFuenteId: null,
-              ctgFuenteEspecificaId: null,
-              ctgOrganismoFinanciadorId: null,
+              ctgFuenteId: 0,
+              ctgFuenteEspecificaId: 0,
+              ctgOrganismoFinanciadorId: 0,
               alaFecha: 0,
 
               presForm: 0,
@@ -740,7 +744,7 @@ export default {
           })
           .catch((error) => {
             this.show({
-              content: error.response.data.message,
+              content: (error.data.errors.length && error.data.errors) || error.data.message ,
               closable: true,
               color: 'danger',
             })
