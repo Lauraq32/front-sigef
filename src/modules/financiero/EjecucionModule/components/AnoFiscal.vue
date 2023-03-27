@@ -162,7 +162,7 @@
                 }
               "
             >
-              Cancelar
+              {{ Ocultar ? 'Cancelar' : 'Cerrar' }}
             </button>
             <button
               v-if="Ocultar"
