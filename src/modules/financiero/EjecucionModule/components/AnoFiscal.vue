@@ -397,8 +397,10 @@ export default {
   },
 
   mounted() {
-    this.getAnioFiscal()
-    this.footerItem[0].label = `Total de items: ${this.anioFiscal.length}`
+    Api.getAnioFiscal().then((response) => {
+      this.anioFiscal = response.data.data
+      this.footerItem[0].label = `Total de items: ${this.anioFiscal.length}`
+    })
   },
 }
 </script>
