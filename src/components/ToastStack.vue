@@ -11,8 +11,8 @@
         <CToastBody style="font-weight: 700">
           <span
             :class="toast.class"
-            v-if="typeof toast.content === 'string'"
-            v-html="toast.content"
+            v-if="typeof toast.content === 'string' || typeof toast.content.message === 'string'"
+            v-html="toast.content.message ?? toast.content"
           ></span>
           <div v-else-if="Array.isArray(toast.content)">
             <span
@@ -43,8 +43,8 @@ export default {
   name: 'ToastStack',
   setup() {
     const toastStore = useToastStore()
-    const messages = computed(() => toastStore.messages);
-    console.log(messages);
+    const messages = computed(() => toastStore.messages)
+    console.log(messages)
     return {
       toastStore,
       messages,

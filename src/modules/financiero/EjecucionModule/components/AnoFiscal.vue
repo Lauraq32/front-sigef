@@ -272,6 +272,7 @@ export default {
       this.lgDemo = true
       Api.getAnioFiscalbyid(item.id).then((response) => {
         this.postAnoFiscal = response.data.data
+        response.data.data.esAproBado
         this.id = item.id
       })
     },
