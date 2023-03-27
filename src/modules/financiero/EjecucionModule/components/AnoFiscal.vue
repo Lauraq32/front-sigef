@@ -164,7 +164,11 @@
             >
               Cancelar
             </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="submitForm">
+            <button
+              v-if="Ocultar"
+              class="btn btn-info btn-block mt-1"
+              v-on:click="submitForm"
+            >
               Guardar
             </button>
           </div>
@@ -189,6 +193,7 @@ export default {
 
   data: () => {
     return {
+      Ocultar: true,
       anioFiscal: [],
       isDisabled: true,
       block: false,
@@ -257,6 +262,7 @@ export default {
 
     disabledCheckbox() {
       this.isDisabled = true
+      this.Ocultar = true
     },
 
     formatDate(fecha) {
@@ -281,6 +287,9 @@ export default {
         this.id = item.id
         if (this.block == true) {
           this.disabledCheckbox()
+          this.Ocultar = false
+        } else {
+          this.Ocultar = true
         }
       })
     },
