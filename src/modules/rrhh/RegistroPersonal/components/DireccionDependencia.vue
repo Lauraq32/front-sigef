@@ -71,7 +71,7 @@
     </template>
   </CSmartTable>
   <CModal
-    size="lg"
+    size="md"
     :visible="lgDemo"
     @close="
       () => {
@@ -90,7 +90,7 @@
           :validated="validatedCustom01"
           @submit="handleSubmitCustom01"
         >
-          <CCol :md="2">
+          <CCol :md="12">
             <CFormLabel for="validationCustomUsername">Programa</CFormLabel>
               <CFormInput
                 id="validationCustomUsername"
@@ -101,7 +101,7 @@
               <CFormFeedback valid> Exito! </CFormFeedback>
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <CCol :md="4">
+          <CCol :md="12">
             <CFormLabel for="validationCustom04">Fecha inicio</CFormLabel>
             <CFormInput type="date" id="validationCustom04"> </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
