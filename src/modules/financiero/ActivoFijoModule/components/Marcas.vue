@@ -7,7 +7,7 @@
       >
     </div>
   </div>
-  <CSmartTable
+  <CSmartTable class="sticky-top"
     clickableRows
     :tableProps="{
       striped: true,
@@ -15,7 +15,6 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
     header
     :items="Marcas"
     :columns="columns"

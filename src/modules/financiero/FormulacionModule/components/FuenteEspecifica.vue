@@ -9,7 +9,7 @@
     </div>
   </div>
   <hr />
-  <CSmartTable
+  <CSmartTable class="sticky-top"
     clickableRows
     :tableProps="{
      striped: true,
@@ -19,7 +19,7 @@
     :activePage="1"
     
     header
-    :items="this.$store.state.Formulacion.fuenteEspecificas"
+    :items="fuenteLista"
     :columns="columns"
     itemsPerPageSelect
     :itemsPerPage="5"
@@ -28,70 +28,41 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
-    <template #status="{ item }">
+  <template #descripcion="{ item }">
       <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+        {{ item.ctgFuente.descripcion }}
       </td>
-    </template>
-    <template #show_details="{ item, index }">
-      <td class="py-2">
-        <CButton
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item, index)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
-        </CButton>
-      </td>
-    </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
     </template>
   </CSmartTable>
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
-import { mount } from '@vue/test-utils'
-import { onMounted } from 'vue'
+import Api from '../services/FormulacionServices'
+
 export default {
   components: {
     CSmartTable,
   },
   data: () => {
     return {
+      fuenteLista: [],
       columns: [
-        { key: 'id', label: 'ID', _style: { width: '40%' } },
-        { key: 'fuente', label: 'Fuente', _style: { width: '40%' } },
+        { key: 'id', label: 'Fuente Específica', _style: { width: '10%' } },
         {
-          key: 'codigo',
-          label: 'Código',
-          filter: false,
+          key: 'ctgFuenteId',
+          label: 'Fuente',
           sorter: false,
+          _style: { width: '10%' },
+        },
+        {
+          key: 'descripcion',
+          label: 'Descripción',
           _style: { width: '20%' },
         },
         {
-          key: 'denominacion',
-          label: 'Denominación',
+          key: 'detalle',
+          label: 'Detalle',
           _style: { width: '20%' },
-        },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
       details: [],
@@ -127,9 +98,14 @@ export default {
       }
       this.details.push(item._id)
     },
+    getFuente(){
+      Api.getFuente().then((response) => {
+        this.fuenteLista = response.data.data
+      })
+    },
   },
   mounted() {
-    this.$store.dispatch('Formulacion/getFuenteEspecifica')
+    this.getFuente()
   },
 }
 </script>

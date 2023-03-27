@@ -2,7 +2,7 @@
   <h3 class="text-center">Estado Flujo de efectivo</h3>
 
 
-  <CSmartTable
+  <CSmartTable class="sticky-top"
     clickableRows
     :tableProps="{
      striped: true,
