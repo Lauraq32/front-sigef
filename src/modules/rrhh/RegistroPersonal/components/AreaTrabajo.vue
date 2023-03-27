@@ -71,7 +71,7 @@
     </template>
   </CSmartTable>
   <CModal
-    size="lg"
+    size="sm"
     :visible="lgDemo"
     @close="
       () => {
@@ -90,13 +90,7 @@
           :validated="validatedCustom01"
           @submit="handleSubmitCustom01"
         >
-          <CCol :md="2">
-            <CFormLabel for="validationCustom01">Código</CFormLabel>
-            <CFormInput disabled id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
+          <CCol :md="12">
             <CFormLabel for="validationCustomUsername"
               >Área de trabajo</CFormLabel
             >
@@ -133,56 +127,42 @@ export default {
     CSmartTable,
     CModal,
   },
-
-  setup() {
-    onMounted(() => {
-      AreaTrabajo()
-    }),
-      function toggleDetails(item) {
-        if (this.details.includes(item._id)) {
-          this.details = this.details.filter((_item) => _item !== item._id)
-          return
-        }
-        this.details.push(item._id)
-      }
-    const columns = [
-      { key: 'Código', label: 'Código', _style: { width: '40%' } },
-      {
-        key: 'Área de trabajo',
-        label: 'Área de trabajo',
-        _style: { width: '40%' },
-      },
-      {
-        key: 'show_details',
-        label: '',
-        _style: { width: '1%' },
-        filter: false,
-        sorter: false,
-        // _props: { color: 'primary', class: 'fw-semibold'}
-      },
-    ]
-    footerItem: [
+  data: () => {
+    return {
+      validatedCustom01: null,
+      lgDemo: false,
+      columns: [
+        { key: 'Programa', label: 'Programa', _style: { width: '40%' } },
+        { key: 'FechaInicio', label: 'Fecha inicio', _style: { width: '40%' } },
         {
-          label: 'Total Items',
-          _props: {
-            color: '',
-            colspan: 1,
-            style: 'font-weight:bold;',
-          },
+          key: 'show_details',
+          label: '',
+          _style: { width: '1%' },
+          filter: false,
+          sorter: false,
+          // _props: { color: 'primary', class: 'fw-semibold'}
         },
-
       ],
-
-    function handleSubmitCustom01(event) {
+      details: [],
+    }
+  },
+  methods: {
+    formatDate(FechaInicio) {
+      return new Date(FechaInicio).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      })
+    },
+    handleSubmitCustom01(event) {
       const form = event.currentTarget
       if (form.checkValidity() === false) {
         event.preventDefault()
         event.stopPropagation()
       }
       this.validatedCustom01 = true
-    }
-
-    function getBadge(status) {
+    },
+    getBadge(status) {
       switch (status) {
         case 'Active':
           return 'success'
@@ -195,27 +175,17 @@ export default {
         default:
           'primary'
       }
-    }
-
-    const validatedCustom01 = null
-    const lgDemo = false
-
-    const store = useRegistroStore()
-
-    const { AreaDeTrabajo, AreaTrabajo } = store
-
-    return {
-      store,
-      AreaDeTrabajo,
-      AreaTrabajo,
-      validatedCustom01,
-      handleSubmitCustom01,
-      lgDemo,
-      getBadge,
-      columns,
-      footerItem,
-      areasTrabajo: computed(() => store.AreaDeTrabajo),
-    }
+    },
+    toggleDetails(item) {
+      if (this.details.includes(item._id)) {
+        this.details = this.details.filter((_item) => _item !== item._id)
+        return
+      }
+      this.details.push(item._id)
+    },
+  },
+  mounted() {
+    this.$store.dispatch('AdministrativoModule/getUsuarios')
   },
 }
 </script>
