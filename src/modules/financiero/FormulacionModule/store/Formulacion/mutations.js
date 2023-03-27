@@ -21,17 +21,3 @@ export const SET_ORGANISMO = (state, organismos) => {
 export const SET_CLASIFICADOR = (state, clasificador) => {
   state.clasificador = clasificador
 }
-// export const SET_INGRESO = (state, ingreso) => {
-//   state.ingreso = ingreso
-//   Swal.fire({
-//     position: 'top-end',
-//     icon: 'success',
-//     text: 'Datos agregados con exito',
-//     title: 'Agregado',
-//     showConfirmButton: false,
-//     timer: 1500,
-//   })
-// }
-// export const SET_INGRESOS = (state, ingresos) => {
-//   state.ingresos = ingresos
-// }

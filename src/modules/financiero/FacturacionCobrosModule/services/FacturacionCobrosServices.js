@@ -1,11 +1,11 @@
 /* eslint-disable prettier/prettier */
 import http from '@/Api/http-common'
-
+const user = JSON.parse(localStorage.getItem('usuario'))
 class FacturacionCobros {
     //-----------------------------CLASIFICADORES---------------------------------------//
     //get
     getContribuyente() {
-        return http.get(`Contribuyente/?ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
+        return http.get(`Contribuyente/?ayuntamientoId=${user?.user.ayuntamiento.id}`)
     }
 
     getContribuyenteById(id) {

@@ -8,31 +8,24 @@ import Api from '../../services/NominaServices'
 // and `Store` (e.g. `useUserStore`, `useCartStore`, `useProductStore`)
 // the first argument is a unique id of the store across your application
 export const useRegistroStore = defineStore('Sectores', () => {
-    const sectores = ref([
+  const sectores = ref([])
 
-    ])
+  //const name = ref('Eduardo')
+  const getSectores = computed(() => sectores)
 
+  function getSectore() {
+    Api.getSectores().then((response) => {
+      sectores.value = response.data
+    })
+  }
 
-    //const name = ref('Eduardo')
-    const getSectores = computed(() => sectores)
+  function addSectores(data) {
+    Api.postSectores(data).then((response) => {})
+  }
 
-    function getSectore() {
-        Api.getSectores().then((response) => {
-            sectores.value = response.data
-        })
-    }
+  function putSectores(data) {
+    Api.putSectores(data).then((response) => {})
+  }
 
-    function addSectores(data) {
-        Api.postSectores(data).then((response) => {
-            console.log(response)
-        })
-    }
-
-    function putSectores(data) {
-        Api.putSectores(data).then((response) => {
-            console.log(response)
-        })
-    }
-
-    return { sectores, getSectore, getSectores, addSectores, putSectores }
+  return { sectores, getSectore, getSectores, addSectores, putSectores }
 })
