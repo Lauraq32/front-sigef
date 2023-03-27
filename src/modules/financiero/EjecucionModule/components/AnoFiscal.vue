@@ -294,6 +294,7 @@ export default {
       })
     },
     clearModal1() {
+      this.id = null
       this.postAnoFiscal = {
         id: 0,
         ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
@@ -322,7 +323,7 @@ export default {
     submitForm(event) {
       event.preventDefault()
       event.stopPropagation()
-      if (this.id) {
+      if (this.id != null) {
         Api.putAnioFiscal(this.id, this.postAnoFiscal)
           .then(() => {
             this.show({
