@@ -241,7 +241,7 @@ export default {
       fileName: '',
       ingresos: [],
       presIngrsoMasivo: [],
-      anofiscal: parseInt(localStorage.getItem('ano')),
+      anofiscal: JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId,
       ctgFuenteId: true,
       ctgFuenteEspecificaId: true,
       ctgOrganismoFinanciadorId: true,
@@ -422,8 +422,8 @@ export default {
           this.texto = wb
           data.map((item) => {
             this.presIngrsoMasivo.push({
-              ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-              anioFiscalId: parseInt(localStorage.getItem('ano')),
+              anioFiscalId:  this.authInfo.currentFiscalYearId,
+              ayuntamientoId: this.authInfo.user.ayuntamiento.id,
               ctgClasificadorId: `${Object.values(item)[2]}${Object.values(item)[3]
                 }${Object.values(item)[4]}${Object.values(item)[5]
                 }${Object.values(item)[6].toString().padStart(2, 0)}`,
@@ -587,8 +587,8 @@ export default {
               closable: true,
             })
             this.postIngreso = {
-              anioFiscalId: parseInt(localStorage.getItem('ano')),
-              ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+              anioFiscalId:  this.authInfo.currentFiscalYearId,
+              ayuntamientoId: this.authInfo.user.ayuntamiento.id,
               ctgClasificadorId: null,
               instOtorga: 0,
               control: '',
