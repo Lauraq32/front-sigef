@@ -873,6 +873,17 @@ export default {
           sorter: false,
         },
       ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
+      ],
 
       details: [],
 

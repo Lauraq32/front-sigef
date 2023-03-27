@@ -1063,6 +1063,17 @@ export default {
           status: 'Pending',
         },
       ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
+      ],
     }
   },
   methods: {
@@ -1587,6 +1598,7 @@ export default {
     ...mapStores(usePrepGastoStore),
     ...mapState(usePrepGastoStore, [
       'prepGastoList',
+      'gastoListCount',
       'GastosListDos',
       'getGasto',
       'dataDummy',
@@ -1595,6 +1607,7 @@ export default {
 
   mounted() {
     this.getListarGastos()
+    this.footerItem[0].label = `Total items: ${this.gastoListCount}` 
   },
 }
 </script>

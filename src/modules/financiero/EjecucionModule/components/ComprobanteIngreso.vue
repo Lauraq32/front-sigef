@@ -1,5 +1,4 @@
 <template>
-      
   <h3 class="text-center">Comprobantes de ingresos</h3>
   <div>
     <div class="table-headers">
@@ -140,10 +139,10 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
     header
     :items="ingresosList"
     :columns="columns"
+    :footer="footerItem"
     itemsPerPageSelect
     columnFilter
     :itemsPerPage="5"
@@ -542,7 +541,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import axios from 'axios'
 import Api from '../services/EjecucionServices'
 import { mapStores, mapActions, mapState } from 'pinia'
- 
+
 import { useToastStore } from '@/store/toast'
 import SimpleTypeahead from 'vue3-simple-typeahead'
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
@@ -553,17 +552,17 @@ export default {
     CSmartTable,
     CModal,
     SimpleTypeahead,
-      
   },
 
   data: () => {
     return {
+      itemsCount: null,
       mesReporte: 1,
       parametroReporte: '',
       reportes: false,
       reportesExportarModal: false,
       reportesExportarModalEjecucion: false,
-
+      ingresosList: [],
       contribuyentesList: [],
       contribuyentesName: [],
       totales: null,
@@ -624,6 +623,16 @@ export default {
           filter: false,
           sorter: false,
           // _props: { color: 'primary', class: 'fw-semibold'}
+        },
+      ],
+      footerItem: [
+        {
+          label: 'Total items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
         },
       ],
       details: [],
@@ -792,14 +801,14 @@ export default {
       if (this.id != null) {
         Api.putIngresoCabecera(this.id, this.ingresoPost)
           .then((response) => {
-                 this.show({
+            this.show({
               content: 'Registro añadido correctamente',
               closable: true,
             })
             this.clearModal2()
             setTimeout(this.getIngresos, 500)
           })
-           .catch((error) => {
+          .catch((error) => {
             this.show({
               content: 'Error al enviar el formulario',
               closable: true,
@@ -943,11 +952,6 @@ export default {
           response.data.data.ctgOrganismoFinanciadorId
         this.detalleRegistroPost.institucionOrtongate =
           response.data.data.instOtorga
-
-        // this.detallePost.cControl = response.data.data.cControl
-        // this.detallePost.nombre = response.data.data.nombre
-        // this.postIngreso.control = response.data.data.cControl
-        // this.postIngreso.detalle = response.data.data.nombre
       })
     },
   },
@@ -955,7 +959,11 @@ export default {
   mounted() {
     this.getIngresos()
     this.getContribuyentes()
+    Api.getIngresoAll().then((response) => {
+      this.ingresosList = response.data.data
+      this.itemsCount = this.ingresosList.length
+      this.footerItem[0].label = `Total items: ${this.itemsCount}`
+    })
   },
 }
 </script>
--->

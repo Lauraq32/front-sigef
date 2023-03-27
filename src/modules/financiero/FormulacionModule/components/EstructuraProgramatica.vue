@@ -9,7 +9,8 @@
     </div>
   </div>
   <hr />
-  <CSmartTable class="sticky-top"
+  <CSmartTable
+    class="sticky-top"
     clickableRows
     :tableProps="{
       striped: true,
@@ -17,6 +18,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
+    :footer="footerItem"
     header
     :items="estructuraProgramatica"
     :columns="columns"
@@ -40,12 +42,26 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
+import Api from '../services/FormulacionServices'
+
 export default {
   components: {
     CSmartTable,
   },
   data: () => {
     return {
+      estructuraProgramatica: [],
+      itemsCount: null,
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+      ],
       columns: [
         {
           key: 'pnap',
@@ -64,13 +80,23 @@ export default {
           _style: { width: '5%' },
         },
       ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+      ],
       details: [],
     }
   },
 
   computed: {
     ...mapStores(useRegistroStore),
-    ...mapState(useRegistroStore, ['estructuraProgramatica']),
+    ...mapState(useRegistroStore, ['estructuraProgramatica', '']),
   },
   methods: {
     ...mapActions(useRegistroStore, ['getEstructura']),
@@ -106,7 +132,11 @@ export default {
     },
   },
   mounted() {
-    this.getEstructura()
+    Api.getEstProgramatica().then((response) => {
+      this.estructuraProgramatica = response.data.data
+      this.itemsCount = this.estructuraProgramatica.length
+      this.footerItem[0].label = `Total items: ${this.itemsCount}`
+    })
   },
 }
 </script>
