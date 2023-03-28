@@ -75,7 +75,6 @@ const authStore = useAuthStore()
     }
 
     const url = localStorage.getItem('image');
-    console.log({url})
     return {
       logo,
       ayuntamiento,
