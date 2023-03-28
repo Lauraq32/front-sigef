@@ -378,9 +378,7 @@ export default {
     IngresoReport() {
       window
         .open(
-          `http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fseguridad%2fReport1&rs:Command=Render&id=${localStorage.getItem(
-            'id_ayuntamiento',
-          )}&ano=${localStorage.getItem('ano')}`,
+          `http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fseguridad%2fReport1&rs:Command=Render&id=${this.$ayuntamientoId}&ano=${this.$fiscalYearId}`,
           '_blank',
         )
         .focus()

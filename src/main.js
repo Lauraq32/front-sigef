@@ -12,20 +12,23 @@ import 'sweetalert2/dist/sweetalert2.min.css'
 import SimpleTypeahead from 'vue3-simple-typeahead'
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
 import VueNumberFormat from 'vue-number-format'
-import { createPinia } from 'pinia'
+import { createPinia } from 'pinia';
+import { loggedInfo } from "./utils/login-info-plugin";
 
 const pinia = createPinia()
 const app = createApp(App)
+
 app.use(store)
 app.use(router)
 app.use(CoreuiVue)
 app.use(pinia)
+app.use(loggedInfo);
 app.provide('icons', icons)
 app.component('CIcon', CIcon)
 app.component('DocsCallout', DocsCallout)
 app.component('DocsExample', DocsExample)
 app.use(VueSweetalert2)
 app.use(SimpleTypeahead)
-app.use(VueNumberFormat, { prefix: '', decimal: '.', thousand: ',' })
+app.use(VueNumberFormat)
 
 app.mount('#app')

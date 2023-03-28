@@ -1,5 +1,4 @@
 <template>
-       
   <h3 class="text-center">Nomina general</h3>
   <hr />
 
@@ -21,8 +20,8 @@
               </CCol>
             </div>
             <div class="col-6" style="    position: relative;
-    left: -42px;
-">
+      left: -42px;
+  ">
               <CCol :md="9">
                 <CFormLabel for="validationCustom01">Mes</CFormLabel>
                 <CFormSelect v-model="nominaGneral.Mes" id="validationCustom05">
@@ -45,8 +44,8 @@
         </div>
 
         <div class="col-3" style="    position: relative;
-    left: -84px;
-">
+      left: -84px;
+  ">
           <CCol :md="9">
             <CFormLabel for="validationCustom01">Tipo de contracto</CFormLabel>
             <CFormSelect v-model="nominaGneral.TipoContrato" id="validationCustom05">
@@ -56,7 +55,7 @@
           </CCol>
         </div>
         <div class="col-3" style="position: relative;
-    left: -175px;">
+      left: -175px;">
           <CCol :md="9">
             <CFormLabel for="validationCustom01">Forma de pago</CFormLabel>
             <CFormSelect v-model="nominaGneral.FormaPago" id="validationCustom05">
@@ -68,16 +67,16 @@
 
         <div class="col-3">
           <CButton style="
-              font-weight: bold;
-              position: relative;
-              top: 31px;
-              left: -265px;
-            " color="info" @click="
-              () => {
-            
-                getNominaGeneral()
-              }
-            ">Filtrar</CButton>
+                font-weight: bold;
+                position: relative;
+                top: 31px;
+                left: -265px;
+              " color="info" @click="
+                () => {
+
+                  getNominaGeneral()
+                }
+              ">Filtrar</CButton>
         </div>
       </div>
     </div>
@@ -104,28 +103,27 @@
       </div>
     </div>
 
-   
+
   </div>
 
   <hr />
   <CSmartTable class="sticky-top" clickableRows :tableProps="{
    striped: true,
     hover: true,
-     
-  }" :tableHeadProps="{}" :activePage="1"  header :items="nominag" :columns="columns" columnFilter
-     itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination>
+
+  }" :tableHeadProps="{}" :activePage="1" header :items="nominag" :columns="columns" columnFilter itemsPerPageSelect
+    :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }" pagination>
     <template #posicion="{ item }">
       <td>
         {{ item.posicion.nombre }}
       </td>
     </template>
-    
+
     <template #departamento="{ item }">
-        <td>
-          {{ item.departamento.nombre }}
-        </td>
-      </template>
+      <td>
+        {{ item.departamento.nombre }}
+      </td>
+    </template>
     <template #programaDivision="{ item }">
       <td>
         {{ item.departamento.programaDivision.nombre }}
@@ -151,7 +149,7 @@
       <td class="py-1">
       <td class="py-1">
         <CButton @click="toggleDetail2()" class="mt-1" color="primary" variant="outline" square size="sm">
-          {{ Boolean(item._toggled) ?'Hide': 'Imprimir' }}
+          {{ Boolean(item._toggled) ? 'Hide' : 'Imprimir' }}
         </CButton>
       </td>
       <td class="py-1">
@@ -162,7 +160,7 @@
             toggleDetail2(item)
           }
         ">
-          {{ Boolean(item._toggled) ?'Hide': 'Cons/Nomina' }}
+          {{ Boolean(item._toggled) ? 'Hide' : 'Cons/Nomina' }}
         </CButton>
       </td>
       </td>
@@ -211,7 +209,7 @@
               Otros ingresos
             </CNavLink>
           </CNavItem>
-      
+
           <CNavItem>
             <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 5" @click="
               () => {
@@ -1171,7 +1169,7 @@
                   </CFormFeedback>
                 </CCol>
               </div>
-            
+
               <div>
                 <CCol :md="5">
                   <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
@@ -1304,8 +1302,8 @@
                     <CCol :md="6">
                       <div>
                         <CFormLabel for="validationCustom01">Retenciones:</CFormLabel>
-                        <CFormInput disabled v-model="postConfiguracionNomina.textoEgr1" id="validationCustom01"
-                          required value="Imp/Renta" />
+                        <CFormInput disabled v-model="postConfiguracionNomina.textoEgr1" id="validationCustom01" required
+                          value="Imp/Renta" />
 
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid>
@@ -1701,99 +1699,84 @@
       <CModalTitle>Consultar Nomina</CModalTitle>
     </CModalHeader>
     <CModalBody>
-     
-   
-      
-        <div class="row">
-          <div class="col-6">
-            <CCol :md="7">
-              <CFormLabel for="validationCustom01">Fecha</CFormLabel>
-              <CFormInput disabled v-model="getFiltro.fecha" id="validationCustom01" required />
 
-              <CFormFeedback valid> Exito! </CFormFeedback>
-              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-            </CCol>
-          </div>
 
-          <div class="col-6" style="position: relative;
-    left: -218px;">
- 
-            <CCol :md="7">
-                  <CFormLabel for="validationCustom05">ProgramaDivicion</CFormLabel>
-                  <CFormSelect
-                    disabled
-                    v-model="getFiltro.programaDivisionId"
-                    id="validationCustom05"
-                  >
-                    <option
-                      v-for="programa in this.programaDivision"
-                      :key="programa.id"
-                      :value="programa.id"
-                    >
-                      {{ programa.nombre }}
-                    </option>
-                  </CFormSelect>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-          </div>
+
+      <div class="row">
+        <div class="col-6">
+          <CCol :md="7">
+            <CFormLabel for="validationCustom01">Fecha</CFormLabel>
+            <CFormInput disabled v-model="getFiltro.fecha" id="validationCustom01" required />
+
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
         </div>
 
-        <div class="row">
-          <div class="col-6">
-            <CCol :md="7">
-              <CFormLabel for="validationCustom01">Tipo de contrato</CFormLabel>
-              <CFormInput disabled v-model="getFiltro.tipoContrato" id="validationCustom01" required />
+        <div class="col-6" style="position: relative;
+      left: -218px;">
 
-              <CFormFeedback valid> Exito! </CFormFeedback>
-              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-            </CCol>
-          </div>
-
-          <div class="col-6" style="position: relative;left: -218px;">
-   
-            <CCol :md="7">
-                  <CFormLabel for="validationCustom01">Departamento</CFormLabel>
-                  <CFormSelect
-                    disabled
-                    v-model="getFiltro.departamentoId"
-                    id="validationCustom05"
-                  >
-                    <option
-                      v-for="departamento in departamentos"
-                      :key="departamento.id"
-                      :value="departamento.id"
-                    >
-                      {{ departamento.nombre }}
-                    </option>
-                  </CFormSelect>
-
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-            
-          </div>
-          
+          <CCol :md="7">
+            <CFormLabel for="validationCustom05">ProgramaDivicion</CFormLabel>
+            <CFormSelect disabled v-model="getFiltro.programaDivisionId" id="validationCustom05">
+              <option v-for="programa in this.programaDivision" :key="programa.id" :value="programa.id">
+                {{ programa.nombre }}
+              </option>
+            </CFormSelect>
+            <CFormFeedback invalid>
+              Favor agregar el campo
+            </CFormFeedback>
+          </CCol>
         </div>
-        
-         <div class="row">
-          <div class="col-6">
-             <CCol :md="7">
-              <CFormLabel for="validationCustom01">Forma de pago</CFormLabel>
-              
-              <CFormInput  disabled  v-model="getFiltro.formaPago"  id="validationCustom01"  required  />
-              
-               <CFormFeedback valid> Exito! </CFormFeedback>
-               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              
-            </CCol>
-             </div>
-             </div>
-             
-          <CButton class="mt-3" style="background-color: #375b80;" color="primary" @click="imprimriPorDep">Imprimir Nomina</CButton>
+      </div>
+
+      <div class="row">
+        <div class="col-6">
+          <CCol :md="7">
+            <CFormLabel for="validationCustom01">Tipo de contrato</CFormLabel>
+            <CFormInput disabled v-model="getFiltro.tipoContrato" id="validationCustom01" required />
+
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+        </div>
+
+        <div class="col-6" style="position: relative;left: -218px;">
+
+          <CCol :md="7">
+            <CFormLabel for="validationCustom01">Departamento</CFormLabel>
+            <CFormSelect disabled v-model="getFiltro.departamentoId" id="validationCustom05">
+              <option v-for="departamento in departamentos" :key="departamento.id" :value="departamento.id">
+                {{ departamento.nombre }}
+              </option>
+            </CFormSelect>
+
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid>
+              Favor agregar el campo
+            </CFormFeedback>
+          </CCol>
+
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-6">
+          <CCol :md="7">
+            <CFormLabel for="validationCustom01">Forma de pago</CFormLabel>
+
+            <CFormInput disabled v-model="getFiltro.formaPago" id="validationCustom01" required />
+
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+
+          </CCol>
+        </div>
+      </div>
+
+      <CButton class="mt-3" style="background-color: #375b80;" color="primary" @click="imprimriPorDep">Imprimir Nomina
+      </CButton>
 
 
     </CModalBody>
@@ -1803,19 +1786,19 @@
     <CSmartTable class="sticky-top" clickableRows :tableProps="{
      striped: true,
       hover: true,
-      
-    }" :tableHeadProps="{}" :activePage="1"  header :items="getEmpleadosDep" :columns="columns2"
-       itemsPerPageSelect :itemsPerPage="5" columnSorter columnFilter
-      :sorterValue="{ column: 'status', state: 'asc' }" pagination :backdrop="false">
 
-      
+    }" :tableHeadProps="{}" :activePage="1" header :items="getEmpleadosDep" :columns="columns2" itemsPerPageSelect
+      :itemsPerPage="5" columnSorter columnFilter :sorterValue="{ column: 'status', state: 'asc' }" pagination
+      :backdrop="false">
+
+
       <template #pocision="{ item }">
         <td>
           {{ item.posicion.nombre }}
         </td>
       </template>
 
-   
+
       <template #fecha="{ item }">
         <td>
           {{ formatDate(item.fechaIngreso) }}
@@ -1823,31 +1806,31 @@
       </template>
 
       <template #show_details="{ item, index }">
-     
+
 
         <td class="py-1">
-      <td class="py-1">
+        <td class="py-1">
         <td class="py-1">
         <td class="py-1">
           <CButton color="primary" variant="outline" square size="sm" @click="
-          () => {
-            toggleDetail3(item, index)
-            reportes = false
-            consulEmple = true          
-          }
-        ">
-            {{ Boolean(item._toggled) ?'Hide': 'Cons/Nom Empleado' }}
+            () => {
+              toggleDetail3(item, index)
+              reportes = false
+              consulEmple = true
+            }
+          ">
+            {{ Boolean(item._toggled) ? 'Hide' : 'Cons/Nom Empleado' }}
           </CButton>
         </td>
-      </td>
-      <td class="py-1">
+        </td>
+        <td class="py-1">
           <CButton color="primary" variant="outline" square size="sm">
-            {{ Boolean(item._toggled) ?'Hide': 'Imprimir volante' }}
+            {{ Boolean(item._toggled) ? 'Hide' : 'Imprimir volante' }}
           </CButton>
         </td>
-      </td>
-    </td>
-        
+        </td>
+        </td>
+
       </template>
       <template #details="{ item }">
         <CCollapse :visible="this.details.includes(item._id)">
@@ -1869,7 +1852,7 @@
 
   <CModal @close="
     () => {
-      
+
       consulEmple = false
     }
   " size="xl" :backdrop="false" :keyboard="false" :visible="consulEmple">
@@ -1877,31 +1860,31 @@
       <CModalTitle>Consultas de Nominas del empleado</CModalTitle>
     </CModalHeader>
     <CModalBody>
-     
+
     </CModalBody>
 
     <CSmartTable class="sticky-top" clickableRows :tableProps="{
      striped: true,
       hover: true,
-      
-    }" :tableHeadProps="{}" :activePage="1"  header :items="getEmpleadosDep1" :columns="columns3"
-       itemsPerPageSelect :itemsPerPage="5" columnSorter  columnFilter
-      :sorterValue="{ column: 'status', state: 'asc' }" pagination :backdrop="false">
 
-  
+    }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header :items="getEmpleadosDep1" :columns="columns3"
+      itemsPerPageSelect :itemsPerPage="5" columnSorter columnFilter :sorterValue="{ column: 'status', state: 'asc' }"
+      pagination :backdrop="false">
 
-   
+
+
+
       <template #fecha="{ item }">
         <td>
           {{ formatDate(item.fecha) }}
         </td>
       </template>
-    
+
       <template #show_details="{ item, index }">
         <td class="py-1">
-     
-      </td>
-        
+
+        </td>
+
 
       </template>
       <template #details="{ item }">
@@ -1918,7 +1901,7 @@
       </template>
     </CSmartTable>
     <CModalFooter class="mt-3">
-      <CButton color="secondary" @click="cerrar" >Close</CButton>
+      <CButton color="secondary" @click="cerrar">Close</CButton>
     </CModalFooter>
   </CModal>
 </template>
@@ -1930,7 +1913,7 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
- 
+
 import { useToastStore } from '@/store/toast'
 import Api from '../services/NominaServices'
 import router from '@/router'
@@ -1939,10 +1922,10 @@ export default {
   components: {
     CSmartTable,
     CModal,
-      
+
   },
 
-  data: () => {
+  data: function () {
     return {
       consulEmple: false,
       nominag: [],
@@ -1971,7 +1954,7 @@ export default {
         DepartamentoId: 0,
       },
       nominaGneral: {
-        AyuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        AyuntamientoId: this.$ayuntamientoId,
         Anio: 2023,
         Mes: 1,
         // DepartamentoId: 0,
@@ -1982,7 +1965,7 @@ export default {
 
       clasificador: null,
       programid1: null,
-      
+
       departamentos: [],
       departamentosId: null,
       programaId: null,
@@ -1996,7 +1979,7 @@ export default {
       confNomina: [{}],
 
       postGenerarNomina: {
-        AyuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        AyuntamientoId: this.$ayuntamientoId,
         fecha: new Date(Date.now()),
         DepartamentoId: 0,
         TipoContrato: 'Tipo de contrato 2',
@@ -2006,7 +1989,7 @@ export default {
 
       postConfiguracionNomina: {
         id: 0,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
         textoIng1: null,
         textoIng2: null,
         textoIng3: null,
@@ -2076,7 +2059,7 @@ export default {
       ingresos: [{ total: 0, cantidadIngreso: 0 }],
 
       postEmpleado: {
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
         codigo: null,
         nombres: null,
         apellidos: null,
@@ -2176,8 +2159,8 @@ export default {
         recomendadoPor: null,
       },
       postNomina: {
-        anioFiscalId: parseInt(localStorage.getItem('ano')),
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        anioFiscalId: this.$fiscalYearId,
+        ayuntamientoId: this.$ayuntamientoId,
         departamentoId: 0,
         afpMonto: 0,
         fecha: new Date(Date.now()),
@@ -2288,7 +2271,7 @@ export default {
 
       columns2: [
 
-      {
+        {
           key: 'id',
           label: 'codigo',
           _style: { width: '4%' },
@@ -2332,7 +2315,7 @@ export default {
           label: '#CK',
           _style: { width: '5%' },
         },
-       
+
         {
           key: 'show_details',
           label: '',
@@ -2345,7 +2328,7 @@ export default {
 
       columns3: [
 
-      {
+        {
           key: 'fecha',
           label: 'Fecha Nomina',
           _style: { width: '4%' },
@@ -2384,13 +2367,24 @@ export default {
           _style: { width: '2%' },
         },
 
-        
+
         {
           key: 'show_details',
           label: '',
           _style: { width: '1%' },
           sorter: false,
         },
+      ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
       ],
 
       details: [],
@@ -2453,7 +2447,7 @@ export default {
 
           },
         )
- 
+
       })
     },
 
@@ -2479,24 +2473,20 @@ export default {
       })
     },
 
-    imprimriPorTPago(){
+    imprimriPorTPago() {
       window
         .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_Tipo_Pago&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
-            'id_Ayuntamiento'
-          )}&ANO=2022&FORMA_PAGO=${this.nominaGneral.FormaPago}`,
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_Tipo_Pago&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}&ANO=2022&FORMA_PAGO=${this.nominaGneral.FormaPago}`,
           '_blank',
         )
         .focus()
       // http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_Tipo_Pago&rs:Command=Render&ID_AYUNTAMIENTO=1&ANO=2022&FORMA_PAGO=CHEQUE
     },
 
-    imprimriPorDep(){
+    imprimriPorDep() {
       window
         .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_Departamento&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
-            'id_Ayuntamiento'
-          )}&ANO=2022&ID_DEPARTAMENTO=${this.idDep}`,
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_Departamento&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}&ANO=2022&ID_DEPARTAMENTO=${this.idDep}`,
           '_blank',
         )
         .focus()
@@ -2505,9 +2495,7 @@ export default {
     IngresoReport() {
       window
         .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_General&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
-            'id_Ayuntamiento',
-          )}&ANO=2022`,
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_General&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}&ANO=2022`,
           '_blank',
         )
         .focus()
@@ -2531,7 +2519,7 @@ export default {
     changeDepartamento(e) {
 
       this.departamentosId = e.target.value
- 
+
       Api.getDepartamentoById(e.target.value).then((response) => {
         this.clasificador = response.data.data.ctgClasificadorId
         this.programid1 = response.data.data.programaDivisionId
@@ -2558,7 +2546,7 @@ export default {
       })
     },
 
-    cerrar(){
+    cerrar() {
       this.consulEmple = false
       this.AbrirToggle()
     },
@@ -2575,7 +2563,7 @@ export default {
     focusInput() {
 
       this.$refs.name.$el.focus()
- 
+
     },
 
     focusInput1() {
@@ -2630,13 +2618,13 @@ export default {
     submiNomina() {
       Api.postNomina(this.postNomina).then((response) => {
         this.postNomina.afpMonto = this.postEmpleado.afpFijo
-  
+
       })
     },
 
     submiGeneraNomina() {
       Api.postnominaGeneral(
-        localStorage.getItem('id_Ayuntamiento'),
+        this.$ayuntamientoId,
         this.postGenerarNomina.fecha,
         this.postGenerarNomina.DepartamentoId,
         this.postGenerarNomina.ProgramaDivision,
@@ -2651,9 +2639,9 @@ export default {
       if (this.id) {
         Api.putConfiguracionNomina(this.id, this.postConfiguracionNomina).then(
           (response) => {
-  
+
             this.lgDemo = false
-                 this.show({
+            this.show({
               content: 'Registro añadido correctamente',
               closable: true,
             })
@@ -2661,7 +2649,7 @@ export default {
             // setTimeout(this.getEmpleado, 500)
             this.postConfiguracionNomina = {
               id: 0,
-              ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+              ayuntamientoId: this.$ayuntamientoId,
               textoIng1: null,
               textoIng2: null,
               textoIng3: null,
@@ -2725,12 +2713,12 @@ export default {
         // setTimeout(this.getEmpleado, 500)
       } else {
         Api.postConfiguracionNomina(this.postConfiguracionNomina).then((response) => {
-                 this.show({
-              content: 'Registro añadido correctamente',
-              closable: true,
-            })
+          this.show({
+            content: 'Registro añadido correctamente',
+            closable: true,
           })
-           .catch((error) => {
+        })
+          .catch((error) => {
             this.show({
               content: 'Error al enviar el formulario',
               closable: true,
@@ -2750,7 +2738,7 @@ export default {
         this.lgDemo = true
           // setTimeout(this.getEmpleado, 500)
           ; (this.postConfiguracionNomina = {
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: this.$ayuntamientoId,
             textoIng1: null,
             textoIng2: null,
             textoIng3: null,
@@ -2820,15 +2808,15 @@ export default {
     submitForm() {
       if (this.id) {
         Api.putEmpleado(this.id, this.postEmpleado).then((response) => {
-               this.show({
-              content: 'Registro añadido correctamente',
-              closable: true,
-            })
-            this.lgDemo = false
+          this.show({
+            content: 'Registro añadido correctamente',
+            closable: true,
+          })
+          this.lgDemo = false
           setTimeout(this.getEmpleado, 500)
           this.postEmpleado = {
             id: 0,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: this.$ayuntamientoId,
             codigo: null,
             nombres: null,
             apellidos: null,
@@ -2931,12 +2919,12 @@ export default {
         setTimeout(this.getEmpleado, 500)
       } else {
         Api.postEmpleado(this.postEmpleado).then((response) => {
-                 this.show({
-              content: 'Registro añadido correctamente',
-              closable: true,
-            })
+          this.show({
+            content: 'Registro añadido correctamente',
+            closable: true,
           })
-           .catch((error) => {
+        })
+          .catch((error) => {
             this.show({
               content: 'Error al enviar el formulario',
               closable: true,
@@ -2945,12 +2933,12 @@ export default {
             })
           })
         Api.postConfiguracionNomina(this.postConfiguracionNomina).then((response) => {
-                 this.show({
-              content: 'Registro añadido correctamente',
-              closable: true,
-            })
+          this.show({
+            content: 'Registro añadido correctamente',
+            closable: true,
           })
-           .catch((error) => {
+        })
+          .catch((error) => {
             this.show({
               content: 'Error al enviar el formulario',
               closable: true,
@@ -2958,11 +2946,11 @@ export default {
               class: 'text-white',
             })
           })
-        
+
         this.lgDemo = true
         setTimeout(this.getEmpleado, 500)
           ; (this.postEmpleado = {
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: this.$ayuntamientoId,
             codigo: null,
             nombres: null,
             apellidos: null,
@@ -3092,7 +3080,7 @@ export default {
       }
     },
 
-  
+
 
     toggleDetails(item) {
 
@@ -3104,26 +3092,26 @@ export default {
       }
       this.edit = true
       this.lgDemo = true
-  
+
       Api.getConfiguracionNominabyid(item.id).then((response) => {
         this.postConfiguracionNomina = response.data.data
-     
+
         this.id = item.id
-    
+
       })
     },
 
-    AbrirToggle(){
-     if(this.consulEmple == false){
-      this.reportes = true
-     }
+    AbrirToggle() {
+      if (this.consulEmple == false) {
+        this.reportes = true
+      }
     },
 
     toggleDetail2(item) {
 
-   
+
       Api.getNominaGeneralById(item.id).then((response) => {
-  
+
         this.idDep = item.departamentoId
         this.getFiltro = response.data.data
 
@@ -3131,7 +3119,7 @@ export default {
 
         Api.getNominaByDepartamento(item.id).then((response) => {
           this.getEmpleadosDep = response.data.data
-  
+
         })
       })
 
@@ -3140,24 +3128,24 @@ export default {
     toggleDetail3(item) {
 
 
-Api.getNominaGeneralById(item.id).then((response) => {
+      Api.getNominaGeneralById(item.id).then((response) => {
 
-  this.idDep = item.departamentoId
-  this.getFiltro = response.data.data
+        this.idDep = item.departamentoId
+        this.getFiltro = response.data.data
 
 
 
-  Api.getNominaPorEmpleado(item.id).then((response) => {
-    this.getEmpleadosDep1 = response.data.data
+        Api.getNominaPorEmpleado(item.id).then((response) => {
+          this.getEmpleadosDep1 = response.data.data
 
-  })
-})
+        })
+      })
 
-},
+    },
   },
 
   mounted() {
-   
+
     Api.getPocision().then((response) => {
       pocision = response.data.data
     })
@@ -3206,10 +3194,10 @@ Api.getNominaGeneralById(item.id).then((response) => {
         (response) => {
           this.departamentos = response.data.data
           this.postGenerarNomina.DepartamentoId = this.departamentos[0].id
-  
+
         },
       )
-   
+
     })
   },
 }

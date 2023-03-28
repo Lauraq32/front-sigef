@@ -19,7 +19,6 @@
     </div>
   </div>
   <CSmartTable
-    class="sticky-top"
     clickableRows
     :tableProps="{
       striped: true,
@@ -32,6 +31,7 @@
     :columns="columns"
     columnFilter
     itemsPerPageSelect
+    :footer="footerItem"
     :itemsPerPage="5"
     :items-per-page-options="[5, 10, 20, 50, 100, 150]"
     columnSorter
@@ -110,6 +110,17 @@ export default {
   },
   data: () => {
     return {
+      itemsCount: null,
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+      ],
       columns: [
         { key: 'clasifica', label: 'Clasificador' },
         { key: 'cControl', label: 'Control' },
@@ -184,9 +195,9 @@ export default {
   mounted() {
     Api.getListarClasificadores().then((response) => {
       this.items = response.data.data
-      console.log(this.items)
+      this.itemsCount = this.items.length
+      this.footerItem[0].label = `Total items: ${this.itemsCount}`
     })
-    //this.$store.dispatch('Formulacion/getClasificadores');
   },
 }
 </script>

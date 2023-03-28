@@ -24,7 +24,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     :items="departamento"
     :columns="columns"
@@ -442,7 +442,7 @@ export default {
     CModal,
       
   },
-  data: () => {
+  data: function () {
     return {
       programaDivision: [{}],
       empleado: [],
@@ -450,7 +450,7 @@ export default {
       CuentaB: [{}],
       postDepartamento: {
         programaDivisionId: 1,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
         grupoNominaId: 4,
         nombre: null,
         saspId: 0,
@@ -508,6 +508,17 @@ export default {
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
+      ],
       details: [],
     }
   },
@@ -551,7 +562,7 @@ export default {
           this.postDepartamento = {
             id: 0,
             programaDivisionId: 0,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: this.$ayuntamientoId,
             grupoNominaId: 0,
             nombre: null,
             saspI: 0,
@@ -591,7 +602,7 @@ export default {
         ;(this.postDepartamento = {
           id: 0,
           programaDivisionId: 0,
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: this.$ayuntamientoId,
           grupoNominaId: 0,
           nombre: null,
           saspI: 0,
