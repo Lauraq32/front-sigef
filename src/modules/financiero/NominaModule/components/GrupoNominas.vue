@@ -174,12 +174,12 @@ export default {
       
   },
 
-  data: () => {
+  data: function () {
     return {
       postGrupoNominas: {
         nombre: null,
         variacion: 0,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
       },
 
       columns: [
@@ -238,7 +238,7 @@ export default {
           this.postGrupoNominas = {
             nombre: null,
             variacion: 0,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: this.$ayuntamientoId,
           }
         })
         setTimeout(this.getGNomina, 500)
@@ -264,7 +264,7 @@ export default {
         ;(this.postGrupoNominas = {
           nombre: null,
           variacion: 0,
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: this.$ayuntamientoId,
         }),
           (this.validatedCustom01 = false)
         event.preventDefault()

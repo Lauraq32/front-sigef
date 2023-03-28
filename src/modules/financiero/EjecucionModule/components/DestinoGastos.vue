@@ -130,7 +130,7 @@ export default {
     CSmartTable,
     CModal,
   },
-  data: () => {
+  data: function () {
     return {
       id: null,
       tiposGastos: [],
@@ -138,7 +138,7 @@ export default {
       lgDemo: false,
       postTipoGasto: {
         id: 0,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
         descripcion: '',
       },
       columns: [
@@ -187,7 +187,7 @@ export default {
     clearModal1() {
       this.postTipoGasto = {
         id: 0,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
         descripcion: '',
       }
     },

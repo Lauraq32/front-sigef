@@ -142,12 +142,12 @@ export default {
     CModal,
       
   },
-  data: () => {
+  data: function () {
     return {
       postAreaTrabajo: {
         id: 0,
         area: null,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
       },
 
       validatedCustom01: null,
@@ -222,7 +222,7 @@ export default {
           this.postAreaTrabajo = {
             id: 0,
             area: null,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: this.$ayuntamientoId,
             variacion: 0,
           }
         })
@@ -249,7 +249,7 @@ export default {
         ;(this.postAreaTrabajo = {
           id: 0,
           area: null,
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: this.$ayuntamientoId,
           variacion: 0,
         }),
           (this.validatedCustom01 = false)
