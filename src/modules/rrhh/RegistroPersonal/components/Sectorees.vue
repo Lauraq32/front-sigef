@@ -67,7 +67,7 @@
     </template>
   </CSmartTable>
   <CModal
-    size="lg"
+    size="md"
     :visible="lgDemo"
     @close="
       () => {
@@ -86,7 +86,7 @@
           :validated="validatedCustom01"
           @submit="handleSubmitCustom01"
         >
-          <CCol :md="4">
+          <CCol :md="12">
             <CFormLabel for="validationCustom02">Sectores</CFormLabel>
             <CFormInput
               v-model="postSectores.nombre"
@@ -103,7 +103,7 @@
               data-bs-dismiss="modal"
               v-on:click="close"
             >
-              Close
+              Cerrar
             </button>
             <button class="btn btn-info btn-block mt-1" v-on:click="submitForm">
               Guardar
@@ -143,8 +143,7 @@ export default {
         },
       },
       columns: [
-        { key: 'id', label: 'id', _style: { width: '40%' } },
-        { key: 'nombre', label: 'Sectores', _style: { width: '40%' } },
+        { key: 'nombre', label: 'Sectores', _style: { width: '90%' } },
         {
           key: 'show_details',
           label: '',
@@ -153,17 +152,6 @@ export default {
           sorter: false,
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
-      ],
-      footerItem: [
-        {
-          label: 'Total Items',
-          _props: {
-            color: '',
-            colspan: 1,
-            style: 'font-weight:bold;',
-          },
-        },
-
       ],
       details: [],
       validatedCustom01: null,
