@@ -21,7 +21,6 @@ class NominaApi {
   }
 
   getProgramaDivision() {
-
     return http.get(`ProgramaDivision?AyuntamientoId=${getAyuntamientoId()}`)
   }
 
@@ -30,10 +29,10 @@ class NominaApi {
   }
 
   getSectores() {
-    return http.get(`Sector?ayuntamiento=${getAyuntamientoId()}`)
+    return http.get(`sectores?ayuntamiento=${getAyuntamientoId()}`)
   }
 
-  getEmpleadosPorDepartamentos(id){
+  getEmpleadosPorDepartamentos(id) {
     return http.get(`Empleado/Departamento/${id}`)
   }
 
@@ -45,7 +44,6 @@ class NominaApi {
     return http.get('GrupoNomina')
   }
 
-
   getAreaTrabajo() {
     return http.get('AreaTrabajo')
   }
@@ -55,9 +53,7 @@ class NominaApi {
   }
 
   getAllCuentaBanco() {
-    return http.get(
-      `ConciliacionCuentaBanco/${getAyuntamientoId()}`,
-    )
+    return http.get(`ConciliacionCuentaBanco/${getAyuntamientoId()}`)
   }
 
   getSectorbyid(id) {
@@ -99,8 +95,6 @@ class NominaApi {
     return http.get(`Nomina/NominaGeneral/${id}`)
   }
 
-  
-
   getNominaByDepartamento(id) {
     return http.get(`Nomina/NominagEmpDep/${id}`)
   }
@@ -110,17 +104,35 @@ class NominaApi {
   }
 
   getTotalIngresos(id_ayuntamiento, ano_fiscal) {
-    return http.get(`/ingresoslista/ListarIngresosTotalizado/?ano=${ano_fiscal}&id=${id_ayuntamiento}`)
+    return http.get(
+      `/ingresoslista/ListarIngresosTotalizado/?ano=${ano_fiscal}&id=${id_ayuntamiento}`,
+    )
   }
   //post
 
-  postnominaGeneral(ayuntamiento, fecha, departamento, programa, tipoPago, TipoContrato) {
-    return http.post(`Nomina/GenerarNomina?AyuntamientoId=${ayuntamiento}&Fecha=${fecha}&TipoContrato=${TipoContrato}&ProgramaDivision=${programa}&DepartamentoId=${departamento}&FormaPago=${tipoPago}`)
+  postnominaGeneral(
+    ayuntamiento,
+    fecha,
+    departamento,
+    programa,
+    tipoPago,
+    TipoContrato,
+  ) {
+    return http.post(
+      `Nomina/GenerarNomina?AyuntamientoId=${ayuntamiento}&Fecha=${fecha}&TipoContrato=${TipoContrato}&ProgramaDivision=${programa}&DepartamentoId=${departamento}&FormaPago=${tipoPago}`,
+    )
   }
 
   getnominaGeneral(Nomina) {
-
-    return http.get(`Nomina/NominaGeneral?AyuntamientoId=${Nomina.AyuntamientoId ? Nomina.AyuntamientoId : null}&TipoContrato=${Nomina.TipoContrato ? Nomina.TipoContrato : null}&FormaPago=${Nomina.FormaPago ? Nomina.FormaPago : null}&Mes=${Nomina.Mes}&Anio=${Nomina.Anio}`)
+    return http.get(
+      `Nomina/NominaGeneral?AyuntamientoId=${
+        Nomina.AyuntamientoId ? Nomina.AyuntamientoId : null
+      }&TipoContrato=${
+        Nomina.TipoContrato ? Nomina.TipoContrato : null
+      }&FormaPago=${Nomina.FormaPago ? Nomina.FormaPago : null}&Mes=${
+        Nomina.Mes
+      }&Anio=${Nomina.Anio}`,
+    )
   }
 
   getNominaPorEmpleado(id) {
@@ -163,8 +175,7 @@ class NominaApi {
     return http.post('ProgramaDivision', data)
   }
 
-  //put 
-
+  //put
 
   putNomina(id, data) {
     return http.put(`Nomina/${id}`, data)
@@ -207,8 +218,6 @@ class NominaApi {
   deleteSector(id) {
     return http.delete(`Sector/${id}?ayuntamiento=${getAyuntamientoId()}`)
   }
-
-
 }
 
 export default new NominaApi()
