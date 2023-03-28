@@ -17,7 +17,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     :items="fuenteList"
     :columns="columns"
@@ -57,6 +57,17 @@ export default {
         },
         { key: 'detalle', label: 'Detalle', _style: { width: '20%' } },
       ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
+      ],
       details: [],
     }
   },
@@ -93,6 +104,7 @@ export default {
     getAllFuente() {
       Api.getFuenteEspecifica().then((response) => {
         this.fuenteList = response.data.data
+        this.footerItem[0].label = `Total items:${response.data.data.length}` 
       })
     }
   },

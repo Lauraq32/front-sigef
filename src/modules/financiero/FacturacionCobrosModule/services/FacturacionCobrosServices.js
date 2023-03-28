@@ -1,11 +1,11 @@
 /* eslint-disable prettier/prettier */
-import http from '@/Api/http-common'
-
+import http from '@/Api/http-common';
+import { getAyuntamientoId } from "../../../../utils/logged-info";
 class FacturacionCobros {
     //-----------------------------CLASIFICADORES---------------------------------------//
     //get
     getContribuyente() {
-        return http.get(`Contribuyente/?ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
+        return http.get(`Contribuyente/?ayuntamientoId=${getAyuntamientoId()}`)
     }
 
     getContribuyenteById(id) {

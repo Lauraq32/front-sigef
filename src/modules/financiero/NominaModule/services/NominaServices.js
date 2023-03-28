@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import http from '@/Api/http-common'
-
+import { getAyuntamientoId } from '@/utils/logged-info'
 class NominaApi {
   //-----------------------------CLASIFICADORES---------------------------------------//
   //get
@@ -17,25 +17,20 @@ class NominaApi {
   }
 
   getEmpleado() {
-    return http.get(`Empleado?ayuntamientoId=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
+    return http.get(`Empleado?ayuntamientoId=${getAyuntamientoId()}`)
   }
 
   getProgramaDivision() {
 
-    return http.get(`ProgramaDivision?AyuntamientoId=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
+    return http.get(`ProgramaDivision?AyuntamientoId=${getAyuntamientoId()}`)
   }
 
   getEmpleadoById(value) {
     return http.get(`Empleado/${value}`)
   }
 
-  // getSectores() {
-  //   return http.get('Sector')
-  // }
-  // `Sector?AyuntamientoId=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`
-
   getSectores() {
-    return http.get(`Sector?ayuntamiento=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
+    return http.get(`Sector?ayuntamiento=${getAyuntamientoId()}`)
   }
 
   getEmpleadosPorDepartamentos(id){
@@ -61,7 +56,7 @@ class NominaApi {
 
   getAllCuentaBanco() {
     return http.get(
-      `ConciliacionCuentaBanco/${localStorage.getItem('id_Ayuntamiento')}`,
+      `ConciliacionCuentaBanco/${getAyuntamientoId()}`,
     )
   }
 
@@ -210,7 +205,7 @@ class NominaApi {
   //delete
 
   deleteSector(id) {
-    return http.delete(`Sector/${id}?ayuntamiento=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
+    return http.delete(`Sector/${id}?ayuntamiento=${getAyuntamientoId()}`)
   }
 
 
