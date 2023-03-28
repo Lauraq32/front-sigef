@@ -359,6 +359,21 @@
                     </CCol>
                   </div>
                 </div>
+                <div class="row mt-3">
+                  <div class="col-3">
+                    <CFormLabel for="validationCustom02">Recomendado Por</CFormLabel>
+                  </div>
+                  <div class="col-9">
+                    <CCol :md="10">
+                      <CFormInput style="position: relative; right: -52px" 
+                        type="text" id="validationCustom02" required />
+                      <CFormFeedback valid> Exito! </CFormFeedback>
+                      <CFormFeedback invalid>
+                        Favor agregar el campo
+                      </CFormFeedback>
+                    </CCol>
+                  </div>
+                </div>
               </div>
               <div class="col-4 border p-3">
                 <h3>Datos laborales</h3>
