@@ -314,8 +314,8 @@ export default {
       },
 
       postIngreso: {
-        anioFiscalId: JSON.parse(localStorage.getItem( 'usuario', )).user.ayuntamiento.id,
-        ayuntamientoId: JSON.parse(localStorage.getItem('usuario')).currentFiscalYearId,
+        anioFiscalId: this.$fiscalYearId,
+        ayuntamientoId: this.$ayuntamientoId,
         ctgClasificadorId: null,
         instOtorga: 0,
         control: 0,
@@ -487,14 +487,12 @@ export default {
             this.validateInputctgOrganismoFinanciadorId()
             return
           } else if (response.data.Data) {
-            console.log()
             return this.show({
               content: error.message,
               closable: true,
               color: 'danger',
             })
           }
-          // return Promise.reject(new Error(response.data.Data))
         })
         .catch((error) => {
           if (response.Errors == null) {
@@ -505,15 +503,6 @@ export default {
             })
           }
         })
-
-      
-      // this.postIngreso.control = clasificador.cControl
-      // this.postIngreso.detalle = clasificador.nombre
-      // this.postIngreso.ctgFuenteId = clasificador.ctgFuenteId
-      // this.postIngreso.ctgFuenteEspecificaId =
-      //   clasificador.ctgFuenteEspecificaId
-      // this.postIngreso.ctgOrganismoFinanciadorId =
-      //   clasificador.ctgOrganismoFinanciadorId
       this.findClasificadorModal = false
     },
 
@@ -757,39 +746,6 @@ export default {
         this.clasificadorItems = response.data.data
         console.log(response)
       })
-
-     
-      // Api.getClasificador(this.postIngreso.ctgClasificadorId)
-      //   .then((response) => {
-      //     if (response.data.data) {
-      //       this.postIngreso.control = response.data.data.cControl
-      //       this.postIngreso.detalle = response.data.data.nombre
-      //       this.postIngreso.ctgFuenteId = response.data.data.ctgFuenteId
-      //       this.postIngreso.ctgFuenteEspecificaId =
-      //         response.data.data.ctgFuenteEspecificaId
-      //       this.postIngreso.ctgOrganismoFinanciadorId =
-      //         response.data.data.ctgOrganismoFinanciadorId
-      //       this.validateInputctgFuente()
-      //       this.validateInputctgFuenteEspecificaId()
-      //       this.validateInputctgOrganismoFinanciadorId()
-      //       return
-      //     } else if (response.data.Data) {
-      //       return this.show({
-      //         content: error.message,
-      //         closable: true,
-      //         color: 'danger',
-      //       })
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     if (error) {
-      //       return this.show({
-      //         content: error.response.data.message,
-      //         closable: true,
-      //         color: 'danger',
-      //       })
-      //     }
-      //   })
     },
     focusAno() {
       this.$refs.anoAnteriorRef.focus()
