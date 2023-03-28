@@ -53,7 +53,7 @@
           size="sm"
           @click="toggleDetails(item, index)"
         >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
+          {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
         </CButton>
       </td>
     </template>
@@ -71,7 +71,7 @@
     </template>
   </CSmartTable>
   <CModal
-    size="lg"
+    size="md"
     :visible="lgDemo"
     @close="
       () => {
@@ -90,13 +90,7 @@
           :validated="validatedCustom01"
           @submit="handleSubmitCustom01"
         >
-          <CCol :md="2">
-            <CFormLabel for="validationCustom01">Código</CFormLabel>
-            <CFormInput disabled id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
+          <CCol :md="12">
             <CFormLabel for="validationCustomUsername">Profesión</CFormLabel>
             <CFormInput id="validationCustom04"> </CFormInput>
             <CFormFeedback valid> Exito! </CFormFeedback>
@@ -107,8 +101,9 @@
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
+              v-on:click="close"
             >
-              Close
+              Cerrar
             </button>
             <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
               Guardar
@@ -132,7 +127,6 @@ export default {
       validatedCustom01: null,
       lgDemo: false,
       columns: [
-        { key: 'Código', label: 'Código', _style: { width: '40%' } },
         { key: 'Profesión', label: 'Profesión', _style: { width: '40%' } },
         {
           key: 'show_details',
@@ -158,6 +152,9 @@ export default {
     }
   },
   methods: {
+    close() {
+      this.lgDemo = false
+    },
     handleSubmitCustom01(event) {
       const form = event.currentTarget
       if (form.checkValidity() === false) {
