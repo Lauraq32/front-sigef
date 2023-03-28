@@ -89,7 +89,7 @@
         <CForm class="row g-3 needs-validation" novalidate>
           <CCol :md="12">
             <CFormLabel>Año Fiscal</CFormLabel>
-            <CFormInput disabled v-model="postAnoFiscal.anio" />
+            <CFormInput type="number" disabled v-model="postAnoFiscal.anio" />
           </CCol>
 
           <CCol :md="6">
@@ -117,6 +117,7 @@
             <CCol :md="12">
               <CFormLabel>Comprobante Gasto</CFormLabel>
               <VueNumberFormat
+                type="number"
                 v-model:value="postAnoFiscal.compGastos"
                 class="form-control"
                 :format="'0'"
@@ -132,6 +133,7 @@
             <CCol :md="12">
               <CFormLabel>Comprobante Ingreso</CFormLabel>
               <VueNumberFormat
+                type="number"
                 v-model:value="postAnoFiscal.compIngresos"
                 class="form-control"
                 :format="'0'"
@@ -223,9 +225,9 @@ export default {
         id: 0,
         esAproBado: false,
         ayuntamientoId: this.$ayuntamientoId,
-        compGastos: null,
-        compIngresos: null,
-        estatus: null,
+        compGastos: 0,
+        compIngresos: 0,
+        estatus: 'ACTIVO',
         anio: 0,
         fechaInicial: null,
         fechaFinal: null,
@@ -320,9 +322,9 @@ export default {
       this.postAnoFiscal = {
         id: 0,
         ayuntamientoId: this.$ayuntamientoId,
-        compGastos: null,
-        compIngresos: null,
-        estatus: null,
+        compGastos: 0,
+        compIngresos: 0,
+        estatus: 'ACTIVO',
         anio: 0,
         fechaInicial: null,
         fechaFinal: null,
