@@ -1085,14 +1085,6 @@
     </CModalBody>
 
     <div class="modal-footer">
-      <!-- <button
-        type="button"
-        class="btn btn-info"
-        style="position: relative; left: -33pc"
-      >
-        Nuevo
-      </button> -->
-
       <button
         type="button"
         class="btn btn-secondary"
@@ -1168,44 +1160,9 @@
           </div>
         </div>
 
-        <CCol :md="2">
-          <CFormLabel for="validationCustom01">Código</CFormLabel>
-          <CFormInput disabled id="validationCustom04"> </CFormInput>
-          <CFormFeedback valid> Exito! </CFormFeedback>
-          <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-        </CCol>
-        <CCol :md="2">
-          <CFormLabel for="validationCustomUsername"
-            >Posicion o cargo</CFormLabel
-          >
-          <CFormInput id="validationCustom04"> </CFormInput>
-          <CFormFeedback valid> Exito! </CFormFeedback>
-          <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-        </CCol>
-
-        <CCol :md="2">
-          <CFormLabel for="validationCustom01">Código</CFormLabel>
-          <CFormInput disabled id="validationCustom04"> </CFormInput>
-          <CFormFeedback valid> Exito! </CFormFeedback>
-          <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-        </CCol>
-        <CCol :md="2">
-          <CFormLabel for="validationCustomUsername"
-            >Posicion o cargo</CFormLabel
-          >
-          <CFormInput id="validationCustom04"> </CFormInput>
-          <CFormFeedback valid> Exito! </CFormFeedback>
-          <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-        </CCol>
-
-        <CCol :md="2">
-          <CFormLabel for="validationCustomUsername"
-            >Posicion o cargo</CFormLabel
-          >
-          <CFormInput id="validationCustom04"> </CFormInput>
-          <CFormFeedback valid> Exito! </CFormFeedback>
-          <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-        </CCol>
+        <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+          Nuevo
+        </button>
       </CCardBody>
     </CModalBody>
 
