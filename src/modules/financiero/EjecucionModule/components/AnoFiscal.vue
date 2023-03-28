@@ -213,7 +213,7 @@ export default {
     CModal,
   },
 
-  data: () => {
+  data: function () {
     return {
       Ocultar: true,
       anioFiscal: [],
@@ -222,7 +222,7 @@ export default {
       postAnoFiscal: {
         id: 0,
         esAproBado: false,
-        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+        ayuntamientoId: this.$ayuntamientoId,
         compGastos: null,
         compIngresos: null,
         estatus: null,
@@ -319,7 +319,7 @@ export default {
       this.id = null
       this.postAnoFiscal = {
         id: 0,
-        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+        ayuntamientoId: this.$ayuntamientoId,
         compGastos: null,
         compIngresos: null,
         estatus: null,
