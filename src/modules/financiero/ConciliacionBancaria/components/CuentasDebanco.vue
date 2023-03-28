@@ -530,7 +530,7 @@ export default {
     AppPageHeader,
       
   },
-  data: function ()  {
+  data: function () {
     return {
 
       addbuttonform: {
@@ -570,7 +570,7 @@ export default {
       idCuenta: null,
       fechaFiltro: null,
       CuentaBanco: {
-        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+        ayuntamientoId: this.$ayuntamientoId,
         bancoId: 0,
         numeroCuenta: '',
         nombreCuenta: '',
@@ -583,7 +583,7 @@ export default {
         detalle: '',
       },
       Conciliacion: {
-        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+        ayuntamientoId: this.$ayuntamientoId,
         bancoId: 1,
         fecha: new Date(Date.now()),
         balanceAnteriorLibro: 0,
@@ -673,7 +673,7 @@ export default {
             })
 
             // this.CuentaBanco = {
-            //   ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+            //   ayuntamientoId: this.$ayuntamientoId,
             //   bancoId: 0,
             //   numeroCuenta: '',
             //   nombreCuenta: '',
@@ -767,7 +767,7 @@ export default {
     },
     clearModal1() {
       this.CuentaBanco = {
-        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+        ayuntamientoId: this.$ayuntamientoId,
         bancoId: 0,
         numeroCuenta: '',
         nombreCuenta: '',

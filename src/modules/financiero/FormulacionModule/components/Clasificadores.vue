@@ -23,11 +23,19 @@
 </CSmartTable>
   <div class="table-headers">
     <div class="p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReportClsIng">Imprimir Clasificadores de Ingresos
+      <CButton
+        style="font-weight: bold"
+        color="info"
+        @click="IngresoReportClsIng"
+        >Imprimir Clasificadores de Ingresos
       </CButton>
     </div>
     <div class="p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReportClsGas">Imprimir Clasificadores de Gastos
+      <CButton
+        style="font-weight: bold"
+        color="info"
+        @click="IngresoReportClsGas"
+        >Imprimir Clasificadores de Gastos
       </CButton>
     </div>
   </div>
@@ -37,7 +45,28 @@
   }" :tableHeadProps="{}" :activePage="1" header :items="items" :columns="columns" columnFilter itemsPerPageSelect
     :itemsPerPage="5" :items-per-page-options="[5, 10, 20, 50, 100, 150]" columnSorter
     :sorterValue="{ column: 'status', state: 'asc' }" pagination>
-
+  </CSmartTable>
+  <CSmartTable
+    clickableRows
+    :tableProps="{
+      striped: true,
+      hover: true,
+    }"
+    :tableHeadProps="{}"
+    :activePage="1"
+    header
+    :items="items"
+    :columns="columns"
+    columnFilter
+    itemsPerPageSelect
+    :footer="footerItem"
+    :itemsPerPage="5"
+    :items-per-page-options="[5, 10, 20, 50, 100, 150]"
+    columnSorter
+    :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination
+  >
+>>>>>>> main
     <template #status="{ item }">
       <td>
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
@@ -123,6 +152,17 @@ export default {
         },
       ],
 
+      itemsCount: null,
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+      ],
       columns: [
         { key: 'clasifica', label: 'Clasificador' },
         { key: 'cControl', label: 'Control' },
@@ -197,9 +237,9 @@ export default {
   mounted() {
     Api.getListarClasificadores().then((response) => {
       this.items = response.data.data
-      console.log(this.items)
+      this.itemsCount = this.items.length
+      this.footerItem[0].label = `Total items: ${this.itemsCount}`
     })
-    //this.$store.dispatch('Formulacion/getClasificadores');
   },
 }
 </script>

@@ -24,7 +24,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     :items="grupoNomina"
     :columns="columns"
@@ -174,12 +174,12 @@ export default {
       
   },
 
-  data: () => {
+  data: function () {
     return {
       postGrupoNominas: {
         nombre: null,
         variacion: 0,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
       },
 
       columns: [
@@ -196,6 +196,17 @@ export default {
           filter: false,
           sorter: false,
         },
+      ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
       ],
 
       details: [],
@@ -227,7 +238,7 @@ export default {
           this.postGrupoNominas = {
             nombre: null,
             variacion: 0,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: this.$ayuntamientoId,
           }
         })
         setTimeout(this.getGNomina, 500)
@@ -253,7 +264,7 @@ export default {
         ;(this.postGrupoNominas = {
           nombre: null,
           variacion: 0,
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: this.$ayuntamientoId,
         }),
           (this.validatedCustom01 = false)
         event.preventDefault()

@@ -1,179 +1,258 @@
 /* eslint-disable prettier/prettier */
-import http from '@/Api/http-common'
-
+import http from '@/Api/http-common';
+import { getAyuntamientoId, getFiscalYearId } from '@/utils/logged-info';
 class Ejecucion {
-    //-----------------------------CLASIFICADORES---------------------------------------//
-    //get
-    getBeneficiarios() {
-        return http.get('Beneficiarios')
-    }
+  //-----------------------------CLASIFICADORES---------------------------------------//
+  //get
+  getBeneficiarios() {
+    return http.get('Beneficiarios')
+  }
 
-    getBeneficiariosById(id) {
-        return http.get(`Beneficiarios/${id}`)
-    }
+  getBeneficiariosById(id) {
+    return http.get(`Beneficiarios/${id}`)
+  }
 
-    
-    getAnioFiscal() {
-        return http.get('AnioFiscal')
-    }
+  getAnioFiscal() {
+    return http.get('AnioFiscal')
+  }
 
-    getAnioFiscalbyid(id) {
-        return http.get(`AnioFiscal/${id}`)
-    }
+  getAnioFiscalbyid(id) {
+    return http.get(`AnioFiscal/${id}`)
+  }
 
-    getSector() {
-        return http.get('Sector')
-    }
+  getSector() {
+    return http.get('Sector')
+  }
 
-    getContribuyente() {
-        return http.get(`Contribuyente/?ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
-    }
+  getContribuyente() {
+    return http.get(
+      `Contribuyente/?ayuntamientoId=${
+       getAyuntamientoId()
+      }`,
+    )
+  }
 
-    getContribuyenteById(id) {
-        return http.get(`Contribuyente/${id}`)
-    }
+  getContribuyenteById(id) {
+    return http.get(`Contribuyente/${id}`)
+  }
 
-    getSectorbyid(id) {
-        return http.get(`Sector/${id}`)
-    }
+  getSectorbyid(id) {
+    return http.get(`Sector/${id}`)
+  }
 
-    getRegistroGastobyid(id) {
-        return http.get(`RegistroGasto/${id}`)
-    }
-    
-    getIngresoAll() {
-        return http.get(`RegistroIngreso?anio=${localStorage.getItem('ano')}&ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
-    }
+  getRegistroGastobyid(id) {
+    return http.get(`RegistroGasto/${id}`)
+  }
 
-    getIngresoById(id,anioFiscalId,ayuntamientoId) {
-        return http.get(`/RegistroIngreso/${id}?anio=${anioFiscalId}&ayuntamientoId=${ayuntamientoId}`)
-    }
+  getIngresoAll() {
+    return http.get(
+      `RegistroIngreso?anio=${
+      getFiscalYearId()
+      }&ayuntamientoId=${
+      getAyuntamientoId()
+      }`,
+    )
+  }
 
-    getIngresoByIdAndDetalle(id) {
-        return http.get(`RegistroIngreso/Detalle/${id}?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
-    }
+  getIngresoById(id, anioFiscalId, ayuntamientoId) {
+    return http.get(
+      `/RegistroIngreso/${id}?anio=${anioFiscalId}&ayuntamientoId=${ayuntamientoId}`,
+    )
+  }
 
-    getComprobanteIngresoTotal(id) {
-        return http.get(`RegistroIngreso/Totales?id=${id}&anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
-    }
+  getIngresoByIdAndDetalle(id) {
+    return http.get(
+      `RegistroIngreso/Detalle/${id}?anio=${
+      getFiscalYearId()
+      }&AyuntamientoId=${
+      getAyuntamientoId()
+      }`,
+    )
+  }
 
-    getIngresoClasificadorById(id) {
-        return http.get(`/RegistroIngreso/Detalle/Clasificadores?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}&id=${id}`)
-    }
+  getComprobanteIngresoTotal(id) {
+    return http.get(
+      `RegistroIngreso/Totales?id=${id}&anio=${
+      getFiscalYearId()
+      }&AyuntamientoId=${
+      getAyuntamientoId()
+      }`,
+    )
+  }
 
-    getRegistroIngreso() {
-        return http.get('RegistroIngreso/Detalle/Clasificador/')
-    }
+  getIngresoClasificadorById(id) {
+    return http.get(
+      `/RegistroIngreso/Detalle/Clasificadores?anio=${
+      getFiscalYearId()
+      }&AyuntamientoId=${
+      getAyuntamientoId()
+      }&id=${id}`,
+    )
+  }
 
-    getRegistroIngresoDetalle(id) {
-        return http.get(`RegistroIngreso/Detalle/RegistroIngreso?Transaccion=${id}&anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
-    }
+  getRegistroIngreso() {
+    return http.get('RegistroIngreso/Detalle/Clasificador/')
+  }
 
-    getRegistroGastoDetalle(id) {
-        return http.get(`RegistroGasto/Detalle?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}&id=${id}`)
-    }
+  getRegistroIngresoDetalle(id) {
+    return http.get(
+      `RegistroIngreso/Detalle/RegistroIngreso?Transaccion=${id}&anio=${
+      getFiscalYearId()
+      }&AyuntamientoId=${
+      getAyuntamientoId()
+      }`,
+    )
+  }
 
-    downloadGastoModificacion(value){
-        console.log(value)
-        return http.get(`ExportFile/IngresoModificacion?ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}&anioFiscalId=${localStorage.getItem('ano')}&mes=${value}`)
-      }
-      downloadGastoEjecucion(value){
-        console.log(value)
-        return http.get(`ExportFile/IngresoEjecucion?ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}&anioFiscalId=${localStorage.getItem('ano')}&mes=${value}`)
-      }
-    //Get tipo retenciones
-    getTipoRetencion(id){
-        return http.get(`TipoRetencion?Ayuntamiento=${localStorage.getItem('id_Ayuntamiento')}&id=${id}`)
-    }
-    getTipoRetencionById(id){
-        return http.get(`TipoRetencion/${id}?Ayuntamiento=${localStorage.getItem('id_Ayuntamiento')}`)
-    }
-    getRegistroGastoDetalleMesprog(id) {
-        return http.get(`RegistroGasto/Mesprog?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}&Mesprog=${id}`)
-    }
+  getRegistroGastoDetalle(id) {
+    return http.get(
+      `RegistroGasto/Detalle?anio=${
+      getFiscalYearId()
+      }&AyuntamientoId=${
+      getAyuntamientoId()
+      }&id=${id}`,
+    )
+  }
 
-    //post
+  downloadGastoModificacion(value) {
+    console.log(value)
+    return http.get(
+      `ExportFile/IngresoModificacion?ayuntamientoId=${
+      getAyuntamientoId()
+      }&anioFiscalId=${
+      getFiscalYearId()
+      }&mes=${value}`,
+    )
+  }
+  downloadGastoEjecucion(value) {
+    console.log(value)
+    return http.get(
+      `ExportFile/IngresoEjecucion?ayuntamientoId=${
+      getAyuntamientoId()
+      }&anioFiscalId=${
+      getFiscalYearId()
+      }&mes=${value}`,
+    )
+  }
+  //Get tipo retenciones
+  getTipoRetencion(id) {
+    return http.get(
+      `TipoRetencion?Ayuntamiento=${
+      getAyuntamientoId()
+      }&id=${id}`,
+    )
+  }
+  getTipoRetencionById(id) {
+    return http.get(
+      `TipoRetencion/${id}?Ayuntamiento=${
+      getAyuntamientoId()
+      }`,
+    )
+  }
+  getRegistroGastoDetalleMesprog(id) {
+    return http.get(
+      `RegistroGasto/Mesprog?anio=${
+      getFiscalYearId()
+      }&AyuntamientoId=${
+      getAyuntamientoId()
+      }&Mesprog=${id}`,
+    )
+  }
 
-    postAnioFiscal(data) {
-        return http.post('AnioFiscal', data)
-    }
+  //post
 
-    postBeneficiarios(data) {
-        return http.post('Beneficiarios', data)
-    }
+  postAnioFiscal(data) {
+    return http.post('AnioFiscal', data)
+  }
 
-    postIngresos(data) {
-        return http.post('RegistroIngreso', data)
-    }
+  postBeneficiarios(data) {
+    return http.post('Beneficiarios', data)
+  }
 
-    postIngresoDetalle(data) {
-        return http.post('RegistroIngreso/Detalle', data)
-    }
+  postIngresos(data) {
+    return http.post('RegistroIngreso', data)
+  }
 
-    postGastoDetalle(data) {
-        return http.post('RegistroGasto/Detalle', data)
-    }
+  postIngresoDetalle(data) {
+    return http.post('RegistroIngreso/Detalle', data)
+  }
 
-    //Post TipoRetencion
-    postTipoRetencion(data){
-        return http.post('TipoRetencion',data)
-    }
+  postGastoDetalle(data) {
+    return http.post('RegistroGasto/Detalle', data)
+  }
 
-    postTipoRetencionDetalle(data){
-        return http.post('DetalleRetencion',data)
-    }
+  //Post TipoRetencion
+  postTipoRetencion(data) {
+    return http.post('TipoRetencion', data)
+  }
 
-    //put
+  postTipoRetencionDetalle(data) {
+    return http.post('DetalleRetencion', data)
+  }
 
-    putBeneficiarios(id, data) {
-        return http.put(`Beneficiarios/${id}`, data)
-    }
+  //put
 
-    putAnioFiscal(id) {
-        return http.put(`AnioFiscal/${id}`)
-    }
+  putBeneficiarios(id, data) {
+    return http.put(`Beneficiarios/${id}`, data)
+  }
 
-    putRegistroGasto(data, id) {
-        return http.put(`RegistroGasto/${id}`, data)
-    }
+  putAnioFiscal(id) {
+    return http.put(`AnioFiscal/${id}`)
+  }
 
-    getRegistroGasto(){
-        return http.get(`RegistroGasto?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`)
-    }
-    postRegistroGasto(post){
-        return http.post(`RegistroGasto`,post)
-    }
-    getClasificador(Clasificador) {
-        return http.get(`PresIngreso/GetClasificadorById/${Clasificador}`)
-      }
+  putRegistroGasto(data, id) {
+    return http.put(`RegistroGasto/${id}`, data)
+  }
 
-    putIngresoCabecera(id,data) {
-        return http.put(`RegistroIngreso?id=${id}`, data)
-    }
+  getRegistroGasto() {
+    return http.get(
+      `RegistroGasto?anio=${
+      getFiscalYearId()
+      }&AyuntamientoId=${
+      getAyuntamientoId()
+      }`,
+    )
+  }
+  postRegistroGasto(post) {
+    return http.post(`RegistroGasto`, post)
+  }
+  getClasificador(Clasificador) {
+    return http.get(`PresIngreso/GetClasificadorById/${Clasificador}`)
+  }
 
-    //put TipoRetenciones
-    putTipoRetenciones(id,data){
-        return http.put(`TipoRetencion/${id}`,data)
-    }
+  putIngresoCabecera(id, data) {
+    return http.put(`RegistroIngreso?id=${id}`, data)
+  }
 
-    //peticiones tipo gasto
-    getTipoGastoList(){
-        return http.get(`TipoGasto?Ayuntamiento=${localStorage.getItem('id_Ayuntamiento')}`)
-    }
+  //put TipoRetenciones
+  putTipoRetenciones(id, data) {
+    return http.put(`TipoRetencion/${id}`, data)
+  }
 
-    PostTipoGasto(data){
-        return http.post('TipoGasto', data)
-    }
+  //peticiones tipo gasto
+  getTipoGastoList() {
+    return http.get(
+      `TipoGasto?Ayuntamiento=${
+      getAyuntamientoId()
+      }`,
+    )
+  }
 
-    PutTipoGasto(id, data){
-        return http.put(`TipoGasto/${id}`, data)
-    }
+  PostTipoGasto(data) {
+    return http.post('TipoGasto', data)
+  }
 
-    getTipoGastoById(id){
-        return http.get(`TipoGasto/${id}?Ayuntamiento=${localStorage.getItem('id_Ayuntamiento')}`)
-    }
+  PutTipoGasto(id, data) {
+    return http.put(`TipoGasto/${id}`, data)
+  }
 
-
+  getTipoGastoById(id) {
+    return http.get(
+      `TipoGasto/${id}?Ayuntamiento=${
+      getAyuntamientoId()
+      }`,
+    )
+  }
 }
 
 export default new Ejecucion()

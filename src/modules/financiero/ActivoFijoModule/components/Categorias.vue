@@ -15,7 +15,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     :items="categorias"
     :columns="columns"
@@ -169,6 +169,7 @@ export default {
       
   },
   data: function() {
+
     return {
 
       addbuttonform: {
@@ -180,7 +181,7 @@ export default {
 
       postCategorias: {
         id: 0,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
         descripcion: null,
         cuentaDebido: null,
         cuentaCredito: null,
@@ -235,6 +236,17 @@ export default {
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
+      ],
       details: [],
     }
   },
@@ -259,7 +271,7 @@ export default {
           setTimeout(this.getCategoria, 500)
           this.postCategorias = {
             id: 0,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: this.$ayuntamientoId,
             descripcion: null,
             cuentaDebido: null,
             cuentaCredito: null,
@@ -303,7 +315,7 @@ export default {
         setTimeout(this.getCategoria, 500)
         ;(this.postCategorias = {
           id: 0,
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: this.$ayuntamientoId,
           descripcion: null,
           cuentaDebido: null,
           cuentaCredito: null,

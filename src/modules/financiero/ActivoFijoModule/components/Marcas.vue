@@ -16,6 +16,7 @@
     :tableHeadProps="{}"
     :activePage="1"
     header
+    :footer="footerItem"
     :items="Marcas"
     :columns="columns"
     columnFilter
@@ -116,7 +117,7 @@ export default {
     CModal,
   },
 
-  data: () => {
+  data: function () {
     return {
       Error: '',
       status: 0,
@@ -129,7 +130,7 @@ export default {
       focus: false,
       postMarcas: {
         id: 0,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
         nombre: null,
       },
       columns: [
@@ -142,6 +143,17 @@ export default {
           filter: false,
           sorter: false,
         },
+      ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
       ],
 
       details: [],
@@ -262,7 +274,7 @@ export default {
           setTimeout(this.getMarcas, 500)
           this.postMarcas = {
             id: 0,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: this.$ayuntamientoId,
             nombre: null,
           }
         })
@@ -288,7 +300,7 @@ export default {
         setTimeout(this.getMarcas, 500)
         ;(this.postMarcas = {
           id: 0,
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: this.$ayuntamientoId,
           nombre: null,
         }),
           (this.validatedCustom01 = false)

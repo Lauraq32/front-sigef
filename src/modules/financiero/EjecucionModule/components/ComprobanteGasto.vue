@@ -29,7 +29,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     :items="cabeceraGasto"
     :columns="columns"
@@ -913,7 +913,7 @@ import ApiFormulacion from '../../FormulacionModule/services/FormulacionServices
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
 import SimpleTypeahead from 'vue3-simple-typeahead'
 import AppPageHeader from '@/components/AppPageHeader.vue'
- 
+import { mapActions } from 'pinia'
 import { useToastStore } from '@/store/toast'
 export default {
   components: {
@@ -924,7 +924,7 @@ export default {
       
   },
 
-  data: () => {
+  data: function () {
     return {
       isVariacion: false,
       isDevengado: false,
@@ -946,8 +946,8 @@ export default {
       postGasto: {
         id: 0,
         tipoGastoId: 1,
-        anioFiscalId: parseInt(localStorage.getItem('ano')),
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        anioFiscalId: this.$fiscalYearId,
+        ayuntamientoId: this.$ayuntamientoId,
         anioFiscal: null,
         secuencialId: '',
         numeroComprobante: 0,
@@ -976,8 +976,8 @@ export default {
       postGastoDetalle: {
         detalleRegistroGastoDto: {
           id: 0,
-          anioFiscalId: parseInt(localStorage.getItem('ano')),
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          anioFiscalId: this.$fiscalYearId,
+          ayuntamientoId: this.$ayuntamientoId,
           secuenciaComprobante: 0,
           fecha: 0,
           bancoId: 0,
@@ -993,8 +993,8 @@ export default {
         },
         detaRetencionDto: [
           {
-            anioFiscalId: parseInt(localStorage.getItem('ano')),
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            anioFiscalId: this.$fiscalYearId,
+            ayuntamientoId: this.$ayuntamientoId,
             id: 0,
             fecha: new Date(Date.now()),
             beneficiarioId: 0,
@@ -1130,6 +1130,17 @@ export default {
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
+      ],
     }
   },
   methods: {
@@ -1141,8 +1152,8 @@ export default {
     },
     addRetencion() {
       var retencion = {
-        anioFiscalId: parseInt(localStorage.getItem('ano')),
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        anioFiscalId: this.$fiscalYearId,
+        ayuntamientoId: this.$ayuntamientoId,
         id: 0,
         fecha: new Date(Date.now()),
         beneficiarioId: 0,
@@ -1195,8 +1206,8 @@ export default {
       this.postGasto = {
         id: 0,
         tipoGastoId: null,
-        anioFiscalId: parseInt(localStorage.getItem('ano')),
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        anioFiscalId: this.$fiscalYearId,
+        ayuntamientoId: this.$ayuntamientoId,
         anioFiscal: null,
         secuencialId: '',
         numeroComprobante: 0,
@@ -1227,8 +1238,8 @@ export default {
       this.postGastoDetalle = {
         detalleRegistroGastoDto: {
           id: 0,
-          anioFiscalId: parseInt(localStorage.getItem('ano')),
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          anioFiscalId: this.$fiscalYearId,
+          ayuntamientoId: this.$ayuntamientoId,
           secuenciaComprobante: 0,
           fecha: 0,
           bancoId: 0,
@@ -1244,8 +1255,8 @@ export default {
         },
         detaRetencionDto: [
           {
-            anioFiscalId: parseInt(localStorage.getItem('ano')),
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            anioFiscalId: this.$fiscalYearId,
+            ayuntamientoId: this.$ayuntamientoId,
             id: 0,
             fecha: new Date(Date.now()),
             beneficiarioId: 0,

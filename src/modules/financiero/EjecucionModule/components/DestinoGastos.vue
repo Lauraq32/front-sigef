@@ -21,7 +21,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     :items="tiposGastos"
     :columns="columns"
@@ -130,7 +130,7 @@ export default {
     CSmartTable,
     CModal,
   },
-  data: () => {
+  data: function () {
     return {
       id: null,
       tiposGastos: [],
@@ -138,7 +138,7 @@ export default {
       lgDemo: false,
       postTipoGasto: {
         id: 0,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
         descripcion: '',
       },
       columns: [
@@ -161,6 +161,17 @@ export default {
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
+      ],
       details: [],
     }
   },
@@ -176,7 +187,7 @@ export default {
     clearModal1() {
       this.postTipoGasto = {
         id: 0,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
         descripcion: '',
       }
     },
@@ -197,6 +208,7 @@ export default {
     getAllTipoGasto() {
       Api.getTipoGastoList().then((response) => {
         this.tiposGastos = response.data.data
+        this.footerItem[0].label = response.data.data.length
       })
     },
     Guardar() {

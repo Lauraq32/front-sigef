@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 
-import http from '@/Api/http-common'
-
+import http from '@/Api/http-common';
+import { getAyuntamientoId } from "../../../../utils/logged-info";
 class Conciliacion {
   //-----------------------------CLASIFICADORES---------------------------------------//
   //get
@@ -14,40 +14,38 @@ class Conciliacion {
   }
 
   getAllNotaDebitoById(BancoId) {
-    return http.get(`ConciliacionDebito/${localStorage.getItem('id_Ayuntamiento')}/${BancoId}`)
+    return http.get(`ConciliacionDebito/${getAyuntamientoId()}/${BancoId}`)
   }
 
   getAllNotaCreditoById(BancoId) {
-    return http.get(`ConciliacionCredito/${localStorage.getItem('id_Ayuntamiento')}/${BancoId}`)
+    return http.get(`ConciliacionCredito/${getAyuntamientoId()}/${BancoId}`)
   }
 
   getAllChequeById(BancoId) {
-    return http.get(`ConciliacionCheque/${localStorage.getItem('id_Ayuntamiento')}/${BancoId}`)
+    return http.get(`ConciliacionCheque/${getAyuntamientoId()}/${BancoId}`)
   }
 
   getCuentaById(BancoId) {
-    return http.get(`ConciliacionCuentaBanco/GetCuentaById/${localStorage.getItem('id_Ayuntamiento')}/${BancoId}`)
+    return http.get(`ConciliacionCuentaBanco/GetCuentaById/${getAyuntamientoId()}/${BancoId}`)
   }
 
   getAllHistorico(BancoId, Fecha) {
-    return http.get(`ConciliacionHistorico/${localStorage.getItem('id_Ayuntamiento')}/${BancoId}/${Fecha}`)
+    return http.get(`ConciliacionHistorico/${getAyuntamientoId()}/${BancoId}/${Fecha}`)
   }
 
   getAllHistoricos(BancoId, Fecha) {
-    return http.get(`ConciliacionHistorico/GetHistorico/${localStorage.getItem('id_Ayuntamiento')}/${BancoId}/${Fecha}`)
+    return http.get(`ConciliacionHistorico/GetHistorico/${getAyuntamientoId()}/${BancoId}/${Fecha}`)
   }
   
   getAllCuentaBanco() {
     return http.get(
-      `ConciliacionCuentaBanco/${localStorage.getItem('id_Ayuntamiento')}`,
+      `ConciliacionCuentaBanco/${getAyuntamientoId()}`,
     )
   }
 
   getDepositoById(BancoId) {
     return http.get(
-      `ConciliacionDeposito/${localStorage.getItem(
-        'id_Ayuntamiento',
-      )}/${BancoId}`,
+      `ConciliacionDeposito/${getAyuntamientoId()}/${BancoId}`,
     )
   }
 
@@ -58,7 +56,7 @@ class Conciliacion {
 
   generarCuentas() {
     return http.post(
-      `ConciliacionCuentaBanco/${localStorage.getItem('id_Ayuntamiento')}`,
+      `ConciliacionCuentaBanco/${getAyuntamientoId()}`,
     )
   }
 
@@ -103,7 +101,7 @@ class Conciliacion {
   }
 
   putConciliacioncuentaBanco(BancoId,data) {
-    return http.put(`ConciliacionCuentaBanco/${localStorage.getItem('id_Ayuntamiento')}/${BancoId}`,data)
+    return http.put(`ConciliacionCuentaBanco/${getAyuntamientoId()}/${BancoId}`,data)
   }
 
   //delete

@@ -28,7 +28,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    footer="footerItem"
     header
     :items="tipoSangres"
     :columns="columns"
@@ -161,6 +161,17 @@ export default {
         // _props: { color: 'primary', class: 'fw-semibold'}
       },
     ]
+    footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
+      ],
 
     function handleSubmitCustom01(event) {
       const form = event.currentTarget
@@ -198,7 +209,6 @@ export default {
       getTipoSangres,
       tipoSangre,
       validatedCustom01,
-      handleSubmitCustom01,
       lgDemo,
       getBadge,
       columns,

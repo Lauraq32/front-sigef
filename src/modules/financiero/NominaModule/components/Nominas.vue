@@ -16,7 +16,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     :items="Empleado"
     :columns="columns"
@@ -2389,7 +2389,8 @@ export default {
     AppPageHeaderVue,
   },
 
-  data: function()  {
+
+  data: function () {
     return {
 
  
@@ -2423,7 +2424,7 @@ export default {
       confNomina: [{}],
 
       postGenerarNomina: {
-        AyuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        AyuntamientoId: this.$ayuntamientoId,
         fecha: new Date(Date.now()),
         DepartamentoId: 0,
         TipoContrato: 'Tipo de contrato 2',
@@ -2433,7 +2434,7 @@ export default {
 
       postConfiguracionNomina: {
         id: 0,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
         textoIng1: null,
         textoIng2: null,
         textoIng3: null,
@@ -2503,7 +2504,7 @@ export default {
       ingresos: [{ total: 0, cantidadIngreso: 0 }],
 
       postEmpleado: {
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
         codigo: null,
         nombres: null,
         apellidos: null,
@@ -2603,8 +2604,8 @@ export default {
         recomendadoPor: null,
       },
       postNomina: {
-        anioFiscalId: parseInt(localStorage.getItem('ano')),
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        anioFiscalId: this.$fiscalYearId,
+        ayuntamientoId: this.$ayuntamientoId,
         departamentoId: 0,
         afpMonto: 0,
         fecha: new Date(Date.now()),
@@ -2690,6 +2691,17 @@ export default {
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
+      ],
 
       details: [],
 
@@ -2742,18 +2754,14 @@ export default {
       if (this.reporteDepto.split('-')[0] == 1) {
         window
           .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_General&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
-              'id_Ayuntamiento',
-            )}&ANO=2022`,
+            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_General&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}&ANO=2022`,
             '_blank',
           )
           .focus()
       } else if (this.reporteDepto.split('-')[0] == 2) {
         window
           .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Apellidos&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
-              'id_Ayuntamiento',
-            )}`,
+            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Apellidos&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
             '_blank',
           )
           .focus()
@@ -2853,7 +2861,7 @@ export default {
 
     submiGeneraNomina() {
       Api.postnominaGeneral(
-        localStorage.getItem('id_Ayuntamiento'),
+        this.$ayuntamientoId,
         this.postGenerarNomina.fecha,
         this.postGenerarNomina.DepartamentoId,
         this.postGenerarNomina.ProgramaDivision,
@@ -2875,7 +2883,7 @@ export default {
 
             this.postConfiguracionNomina = {
               id: 0,
-              ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+              ayuntamientoId: this.$ayuntamientoId,
               textoIng1: null,
               textoIng2: null,
               textoIng3: null,
@@ -2955,7 +2963,7 @@ export default {
 
         this.lgDemo = true
         ;(this.postConfiguracionNomina = {
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: this.$ayuntamientoId,
           textoIng1: null,
           textoIng2: null,
           textoIng3: null,
@@ -3032,7 +3040,7 @@ export default {
           setTimeout(this.getEmpleado, 500)
           this.postEmpleado = {
             id: 0,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: this.$ayuntamientoId,
             codigo: null,
             nombres: null,
             apellidos: null,
@@ -3164,7 +3172,7 @@ export default {
         this.lgDemo = true
         setTimeout(this.getEmpleado, 500)
         ;(this.postEmpleado = {
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: this.$ayuntamientoId,
           codigo: null,
           nombres: null,
           apellidos: null,

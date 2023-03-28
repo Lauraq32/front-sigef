@@ -28,6 +28,7 @@
     header
     :items="areaUbicacion"
     :columns="columns"
+    :footer="footerItem"
     itemsPerPageSelect
     columnFilter
     :itemsPerPage="5"
@@ -157,11 +158,11 @@ export default {
     CModal,
       
   },
-  data: () => {
+  data: function () {
     return {
       postAreaUbicacion: {
         id: 0,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
         descripcion: null,
         descripcion2: null,
       },
@@ -179,6 +180,17 @@ export default {
           filter: false,
           sorter: false,
         },
+      ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
       ],
       details: [],
     }
@@ -206,7 +218,7 @@ export default {
           this.postAreaUbicacion = {
             id: 0,
             variacion: 0,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: this.$ayuntamientoId,
             descripcion: null,
             descripcion2: null,
           }
@@ -234,7 +246,7 @@ export default {
         setTimeout(this.getArea, 500)
         ;(this.postAreaUbicacion = {
           variacion: 0,
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: this.$ayuntamientoId,
           descripcion: null,
           descripcion2: null,
         }),
