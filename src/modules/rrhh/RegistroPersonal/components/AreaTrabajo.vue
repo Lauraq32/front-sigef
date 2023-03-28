@@ -209,11 +209,10 @@ export default {
       AreaDeTrabajo,
       AreaTrabajo,
       validatedCustom01,
-      handleSubmitCustom01,
       lgDemo,
       getBadge,
       columns,
-      footerItem,
+
       areasTrabajo: computed(() => store.AreaDeTrabajo),
     }
   },

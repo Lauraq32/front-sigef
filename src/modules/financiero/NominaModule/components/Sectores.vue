@@ -134,12 +134,12 @@ export default {
     CModal,
       
   },
-  data: () => {
+  data: function () {
     return {
       postSectores: {
         id: 0,
         nombre: null,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
         ayuntamiento: {
           id: 0,
           secuencial: 0,
