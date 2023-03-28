@@ -1,6 +1,6 @@
 <template>
   <h3 class="text-center">Mantenimientos Empleados</h3>
-
+  <ContenedorArchivosRRHH/>
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton color="info" @click="
@@ -9,6 +9,7 @@
           clearModal1()
         }
       ">Agregar</CButton>
+
 
       <div class="d-inline p-2">
         <CButton color="info" @click="
@@ -718,12 +719,14 @@ import Api from '../services/RegistroPersonalServices'
 import apiSectores from '../../../financiero/NominaModule/services/NominaServices'
 import moment from 'moment'
 import { useToastStore } from '@/store/toast'
+import ContenedorArchivosRRHH from './ContenedorArchivosRRHH.vue'
 
 export default {
   components: {
     CSmartTable,
     CModal,
     moment,
+    ContenedorArchivosRRHH,
   },
   data: () => {
     return {
