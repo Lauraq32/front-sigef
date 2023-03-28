@@ -20,7 +20,7 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
-
+</CSmartTable>
   <div class="table-headers">
     <div class="p-2">
       <CButton style="font-weight: bold" color="info" @click="IngresoReportClsIng">Imprimir Clasificadores de Ingresos
