@@ -1006,6 +1006,10 @@
             </div>
           </div>
         </div>
+
+        <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+          Nuevo
+        </button>
       </CCardBody>
 
       <CSmartTable
@@ -1159,10 +1163,6 @@
             </div>
           </div>
         </div>
-
-        <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
-          Nuevo
-        </button>
       </CCardBody>
     </CModalBody>
 
@@ -1202,6 +1202,7 @@ export default {
       lgDemo5: false,
       lgDemo4: false,
       cambiar: false,
+      registroPersonal: [],
       horaActual: '',
       toasts: [],
       code: null,
@@ -1813,7 +1814,10 @@ export default {
       this.horaActual = moment().format('HH:mm')
     }, 1000)
 
-    this.getRegistroPersonal()
+    Api.getAllEmpleado().then((response) => {
+      this.registroPersonal = response.data.data
+    })
+
     Api.getPosicion().then((response) => {
       this.posicionCargo = response.data.data
       this.postEmpleado.posicionId = this.posicionCargo[0].id
