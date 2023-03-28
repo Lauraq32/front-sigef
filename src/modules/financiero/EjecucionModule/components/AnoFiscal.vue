@@ -116,11 +116,33 @@
           <CCol :md="6">
             <CCol :md="12">
               <CFormLabel>Comprobante Gasto</CFormLabel>
-              <CFormInput v-model="postAnoFiscal.compGastos"> </CFormInput>
+              <VueNumberFormat
+                v-model:value="postAnoFiscal.compGastos"
+                class="form-control"
+                :format="'0'"
+                :options="{
+                  precision: 0,
+                  prefix: '',
+                  decimal: '',
+                  thousand: '',
+                }"
+              >
+              </VueNumberFormat>
             </CCol>
             <CCol :md="12">
               <CFormLabel>Comprobante Ingreso</CFormLabel>
-              <CFormInput v-model="postAnoFiscal.compIngresos"> </CFormInput>
+              <VueNumberFormat
+                v-model:value="postAnoFiscal.compIngresos"
+                class="form-control"
+                :format="'0'"
+                :options="{
+                  precision: 0,
+                  prefix: '',
+                  decimal: '',
+                  thousand: '',
+                }"
+              >
+              </VueNumberFormat>
             </CCol>
           </CCol>
 
