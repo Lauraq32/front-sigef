@@ -53,7 +53,7 @@
           size="sm"
           @click="toggleDetails(item, index)"
         >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
+          {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
         </CButton>
       </td>
     </template>
@@ -93,7 +93,6 @@
           <CCol :md="2">
             <CFormLabel for="validationCustom01">Clasificación</CFormLabel>
             <CFormSelect id="validationCustom04">
-              <option>Ingreso</option>
               <option>Gastos</option>
             </CFormSelect>
             <CFormFeedback valid> Exito! </CFormFeedback>
@@ -101,7 +100,14 @@
           </CCol>
           <CCol :md="2">
             <CFormLabel for="validationCustomUsername">Clasificador</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
+            <CFormSelect id="validationCustom04">
+              <option>211101 - Sueldos Fijos</option>
+              <option>211201 - Sueldos Personal contratado y/o igualado</option>
+              <option>211202 - Sueldos de personal nomina</option>
+              <option>211204 - Sueldos de personal por servicios especiales</option>
+              <option>211206 - Jornales</option>
+              <option>241201 - Ayuda y donaciones a personas</option>
+            </CFormSelect>
             <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -164,32 +170,31 @@ export default {
       validatedCustom01: null,
       lgDemo: false,
       columns: [
-        { key: 'Código', label: 'Código', _style: { width: '40%' } },
         {
           key: 'Departamento',
           label: 'Departamento',
-          _style: { width: '40%' },
+          _style: { width: '20%' },
         },
-        { key: 'Programa', label: 'Programa', _style: { width: '40%' } },
+        { key: 'Programa', label: 'Programa', _style: { width: '20%' } },
         {
           key: 'Grupo de nomina',
           label: 'Grupo de nomina',
-          _style: { width: '40%' },
+          _style: { width: '20%' },
         },
         {
           key: 'Estructura Prog.',
           label: 'Estructura Prog.',
-          _style: { width: '40%' },
+          _style: { width: '20%' },
         },
         {
           key: 'Clasificador',
           label: 'Clasificador',
-          _style: { width: '40%' },
+          _style: { width: '8%' },
         },
         {
           key: 'Limitado rep.',
           label: 'Limitado rep.',
-          _style: { width: '40%' },
+          _style: { width: '20%' },
         },
         {
           key: 'show_details',
