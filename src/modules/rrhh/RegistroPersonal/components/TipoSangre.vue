@@ -3,17 +3,6 @@
   
   <div class="table-headers">
     <div class="d-inline p-2">
-      <CButton
-        color="info"
-        @click="
-          () => {
-            lgDemo = true
-          }
-        "
-        >Agregar</CButton
-      >
-    </div>
-    <div class="d-inline p-2">
       <CButton style="font-weight: bold" color="info" @click="IngresoReport"
         >Imprimir</CButton
       >
@@ -70,56 +59,6 @@
       </CCollapse>
     </template>
   </CSmartTable>
-  <CModal
-    size="lg"
-    :visible="lgDemo"
-    @close="
-      () => {
-        lgDemo = false
-      }
-    "
-  >
-    <CModalHeader>
-      <CModalTitle>Tipo de sangre</CModalTitle>
-    </CModalHeader>
-    <CModalBody>
-      <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
-          <CCol :md="2">
-            <CFormLabel for="validationCustom01">Código</CFormLabel>
-            <CFormInput disabled id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustomUsername"
-              >Tipo de sangre</CFormLabel
-            >
-            <CFormInput id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
-              Guardar
-            </button>
-          </div>
-        </CForm>
-      </CCardBody>
-    </CModalBody>
-  </CModal>
 </template>
 
 <script>
@@ -133,56 +72,34 @@ export default {
     CSmartTable,
     CModal,
   },
-
-  setup() {
-    onMounted(() => {
-      getTipoSangres()
-    }),
-      function toggleDetails(item) {
-        if (this.details.includes(item._id)) {
-          this.details = this.details.filter((_item) => _item !== item._id)
-          return
-        }
-        this.details.push(item._id)
-      }
-    const columns = [
-      { key: 'Código', label: 'Código', _style: { width: '40%' } },
-      {
-        key: 'Tipo de sangre',
-        label: 'Tipo de sangre',
-        _style: { width: '40%' },
-      },
-      {
-        key: 'show_details',
-        label: '',
-        _style: { width: '1%' },
-        filter: false,
-        sorter: false,
-        // _props: { color: 'primary', class: 'fw-semibold'}
-      },
-    ]
-    footerItem: [
+  data: () => {
+    return {
+      validatedCustom01: null,
+      lgDemo: false,
+      columns: [
+        { key: 'tipoDeSangre', label: 'Tipo de Sangre', _style: { width: '40%' } },
         {
-          label: 'Total Items',
-          _props: {
-            color: '',
-            colspan: 1,
-            style: 'font-weight:bold;',
-          },
+          key: 'show_details',
+          label: '',
+          _style: { width: '1%' },
+          filter: false,
+          sorter: false,
+          // _props: { color: 'primary', class: 'fw-semibold'}
         },
-
       ],
-
-    function handleSubmitCustom01(event) {
+      details: [],
+    }
+  },
+  methods: {
+    handleSubmitCustom01(event) {
       const form = event.currentTarget
       if (form.checkValidity() === false) {
         event.preventDefault()
         event.stopPropagation()
       }
       this.validatedCustom01 = true
-    }
-
-    function getBadge(status) {
+    },
+    getBadge(status) {
       switch (status) {
         case 'Active':
           return 'success'
@@ -195,26 +112,17 @@ export default {
         default:
           'primary'
       }
-    }
-
-    const validatedCustom01 = null
-    const lgDemo = false
-
-    const store = useRegistroStore()
-
-    const { getTipoSangres, tipoSangre } = store
-
-    return {
-      store,
-      getTipoSangres,
-      tipoSangre,
-      validatedCustom01,
-      handleSubmitCustom01,
-      lgDemo,
-      getBadge,
-      columns,
-      tipoSangres: computed(() => store.tipoSangre),
-    }
+    },
+    toggleDetails(item) {
+      if (this.details.includes(item._id)) {
+        this.details = this.details.filter((_item) => _item !== item._id)
+        return
+      }
+      this.details.push(item._id)
+    },
+  },
+  mounted() {
+    this.$store.dispatch('AdministrativoModule/getUsuarios')
   },
 }
 </script>
