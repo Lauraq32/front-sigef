@@ -291,7 +291,7 @@ export default {
     CModal,
     CIcon,
   },
-  data: () => {
+  data: function () {
     return {
       clasificadorItems: [],
       findClasificadorModal: false,
@@ -300,7 +300,7 @@ export default {
       fileName: '',
       ingresos: [],
       presIngrsoMasivo: [],
-      anofiscal: parseInt(localStorage.getItem('ano')),
+      anofiscal: this.$fiscalYearId,
       ctgFuenteId: true,
       ctgFuenteEspecificaId: true,
       ctgOrganismoFinanciadorId: true,
@@ -338,7 +338,7 @@ export default {
           _props: {
             color: '',
             colspan: 6,
-            style: 'font-weight:bold; text-align:right',
+            style: 'font-weight:bold',
           },
         },
         {
@@ -550,8 +550,8 @@ export default {
           this.texto = wb
           data.map((item) => {
             this.presIngrsoMasivo.push({
-              ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-              anioFiscalId: parseInt(localStorage.getItem('ano')),
+              anioFiscalId:  this.authInfo.currentFiscalYearId,
+              ayuntamientoId: this.authInfo.user.ayuntamiento.id,
               ctgClasificadorId: `${Object.values(item)[2]}${Object.values(item)[3]
                 }${Object.values(item)[4]}${Object.values(item)[5]
                 }${Object.values(item)[6].toString().padStart(2, 0)}`,
@@ -604,12 +604,11 @@ export default {
     getTotales() {
       console.log(this.AuthStore.user)
       Api.getTotalIngresos(
-        this.authInfo.user.ayuntamiento.id,
         this.authInfo.currentFiscalYearId,
+        this.authInfo.user.ayuntamiento.id,
       ).then((response) => {
         this.footerItem[1].label = this.formatPrice(response.data.data.anioAnt)
         this.footerItem[2].label = this.formatPrice(response.data.data.alaFecha)
-        this.footerItem[3].label = this.formatPrice(response.data.data.presForm)
         this.footerItem[3].label = this.formatPrice(response.data.data.presForm)
       })
     },
@@ -720,8 +719,8 @@ export default {
             })
             this.postIngreso = {
               anioFiscalId:  this.authInfo.currentFiscalYearId,
-            ayuntamientoId: this.authInfo.user.ayuntamiento.id,
-              ctgClasificadorId: 0,
+              ayuntamientoId: this.authInfo.user.ayuntamiento.id,
+              ctgClasificadorId: null,
               instOtorga: 0,
               control: 0,
               detalle: '',

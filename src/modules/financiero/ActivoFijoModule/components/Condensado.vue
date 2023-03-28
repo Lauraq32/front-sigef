@@ -182,7 +182,7 @@ export default {
       postConduce: {
         id: 0,
         activoId: 2,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
         fecha: new Date(Date.now()),
         motivo: null,
         enviadoA: null,
@@ -274,7 +274,7 @@ export default {
           setTimeout(this.getConduce, 500)
           this.postConduce = {
             id: 0,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: this.$ayuntamientoId,
             fecha: new Date(Date.now()),
             motivo: null,
             enviadoA: null,
@@ -304,7 +304,7 @@ export default {
         setTimeout(this.getConduce, 500)
         ;(this.postConduce = {
           id: 0,
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: this.$ayuntamientoId,
           fecha: new Date(Date.now()),
           motivo: null,
           enviadoA: null,

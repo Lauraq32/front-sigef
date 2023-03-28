@@ -725,7 +725,7 @@ export default {
     CModal,
     moment,
   },
-  data: () => {
+  data: function () {
     return {
       cambiar: false,
       horaActual: '',
@@ -873,6 +873,17 @@ export default {
           sorter: false,
         },
       ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
+      ],
 
       details: [],
 
@@ -898,36 +909,28 @@ export default {
       if (this.reporteDepto.split('-')[0] == 1) {
         window
           .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Nombre&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
-              'id_Ayuntamiento',
-            )}`,
+            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Nombre&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
             '_blank',
           )
           .focus()
       } else if (this.reporteDepto.split('-')[0] == 2) {
         window
           .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Apellidos&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
-              'id_Ayuntamiento',
-            )}`,
+            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Apellidos&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
             '_blank',
           )
           .focus()
       } else if (this.reporteDepto.split('-')[0] == 3) {
         window
           .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Cargo&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
-              'id_Ayuntamiento',
-            )}`,
+            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Cargo&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
             '_blank',
           )
           .focus()
       } else if (this.reporteDepto.split('-')[0] == 4) {
         window
           .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Departamentos&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
-              'id_Ayuntamiento',
-            )}`,
+            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Departamentos&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
             '_blank',
           )
           .focus()
@@ -1001,7 +1004,7 @@ export default {
     clearModal1() {
       this.id = null
       this.postEmpleado = {
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
         codigo: null,
         nombres: null,
         apellidos: null,
@@ -1271,12 +1274,12 @@ export default {
 
         this.lgDemo = true
         setTimeout(this.getRegistroPersonal, 500)
-          ; (this.postEmpleado = {
-            id: 0,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-            nombre: null,
-          }),
-            (this.validatedCustom01 = false)
+        ;(this.postEmpleado = {
+          id: 0,
+          ayuntamientoId: this.$ayuntamientoId,
+          nombre: null,
+        }),
+          (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
         setTimeout(this.getRegistroPersonal, 500)

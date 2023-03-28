@@ -1,5 +1,4 @@
 <template>
-      
   <h3 class="text-center">Comprobantes de ingresos</h3>
   <div>
     <div class="table-headers">
@@ -140,10 +139,10 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
     header
     :items="ingresosList"
     :columns="columns"
+    :footer="footerItem"
     itemsPerPageSelect
     columnFilter
     :itemsPerPage="5"
@@ -542,7 +541,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import axios from 'axios'
 import Api from '../services/EjecucionServices'
 import { mapStores, mapActions, mapState } from 'pinia'
- 
+
 import { useToastStore } from '@/store/toast'
 import SimpleTypeahead from 'vue3-simple-typeahead'
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
@@ -553,17 +552,17 @@ export default {
     CSmartTable,
     CModal,
     SimpleTypeahead,
-      
   },
 
-  data: () => {
+  data: function () {
     return {
+      itemsCount: null,
       mesReporte: 1,
       parametroReporte: '',
       reportes: false,
       reportesExportarModal: false,
       reportesExportarModalEjecucion: false,
-
+      ingresosList: [],
       contribuyentesList: [],
       contribuyentesName: [],
       totales: null,
@@ -574,8 +573,8 @@ export default {
       detalle: '',
       detalleRegistroIngresos: [],
       detalleRegistroPost: {
-        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
-        anioFiscalId: localStorage.getItem('ano'),
+        ayuntamientoId: this.$ayuntamientoId,
+        anioFiscalId: this.$fiscalYearId,
         transaccionId: 0,
         ctgClasificadorId: '',
         ctgFuenteId: '',
@@ -589,8 +588,8 @@ export default {
       },
       ingresoPost: {
         transaccionId: 0,
-        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
-        anioFiscalId: localStorage.getItem('ano'),
+        ayuntamientoId: this.$ayuntamientoId,
+        anioFiscalId: this.$fiscalYearId,
         numeroComprobante: 0,
         compIngresosId: '',
         etapa: 'INGRESOS',
@@ -624,6 +623,16 @@ export default {
           filter: false,
           sorter: false,
           // _props: { color: 'primary', class: 'fw-semibold'}
+        },
+      ],
+      footerItem: [
+        {
+          label: 'Total items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
         },
       ],
       details: [],
@@ -682,9 +691,7 @@ export default {
     imprimirReporte() {
       window
         .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Ejecucion&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem(
-            'id_Ayuntamiento',
-          )}&ANO=2022&PERIODO=${this.mesReporte.split('-')[0]}`,
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Ejecucion&rs:Command=Render&CAPITULO_AYTO=${this.$ayuntamientoId}&ANO=2022&PERIODO=${this.mesReporte.split('-')[0]}`,
           '_blank',
         )
         .focus()
@@ -738,9 +745,7 @@ export default {
     imprimirReporte1(item) {
       window
         .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Recibo_Ingresos_A1&rs:Command=Render&CAPITULO_AYTO=${localStorage.getItem(
-            'id_Ayuntamiento',
-          )}&ID_COMP_INGRESOS=${item.transaccionId}`,
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Recibo_Ingresos_A1&rs:Command=Render&CAPITULO_AYTO=${this.$ayuntamientoId}&ID_COMP_INGRESOS=${item.transaccionId}`,
           '_blank',
         )
         .focus()
@@ -792,14 +797,14 @@ export default {
       if (this.id != null) {
         Api.putIngresoCabecera(this.id, this.ingresoPost)
           .then((response) => {
-                 this.show({
+            this.show({
               content: 'Registro añadido correctamente',
               closable: true,
             })
             this.clearModal2()
             setTimeout(this.getIngresos, 500)
           })
-           .catch((error) => {
+          .catch((error) => {
             this.show({
               content: 'Error al enviar el formulario',
               closable: true,
@@ -879,8 +884,8 @@ export default {
     clearModal2() {
       this.ingresoPost = {
         transaccionId: 0,
-        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
-        anioFiscalId: localStorage.getItem('ano'),
+        ayuntamientoId: this.$ayuntamientoId,
+        anioFiscalId: this.$fiscalYearId,
         numeroComprobante: 0,
         compIngresosId: '',
         etapa: 'INGRESOS',
@@ -899,8 +904,8 @@ export default {
       this.getDetalle(id)
       Api.getIngresoById(
         id,
-        localStorage.getItem('ano'),
-        localStorage.getItem('id_Ayuntamiento'),
+        this.$fiscalYearId,
+        this.$ayuntamientoId,
       ).then((response) => {
         Api.getContribuyenteById(response.data.data.contribuyenteId).then(
           (response) => {
@@ -922,8 +927,8 @@ export default {
       this.detalleRegistroPost.etapa = item.etapa
       Api.getIngresoById(
         item.transaccionId,
-        localStorage.getItem('ano'),
-        localStorage.getItem('id_Ayuntamiento'),
+        this.$fiscalYearId,
+        this.$ayuntamientoId,
       ).then((response) => {
         this.ingresoPost = response.data.data
         this.detalleRegistroPost.transaccionId =
@@ -943,11 +948,6 @@ export default {
           response.data.data.ctgOrganismoFinanciadorId
         this.detalleRegistroPost.institucionOrtongate =
           response.data.data.instOtorga
-
-        // this.detallePost.cControl = response.data.data.cControl
-        // this.detallePost.nombre = response.data.data.nombre
-        // this.postIngreso.control = response.data.data.cControl
-        // this.postIngreso.detalle = response.data.data.nombre
       })
     },
   },
@@ -955,7 +955,11 @@ export default {
   mounted() {
     this.getIngresos()
     this.getContribuyentes()
+    Api.getIngresoAll().then((response) => {
+      this.ingresosList = response.data.data
+      this.itemsCount = this.ingresosList.length
+      this.footerItem[0].label = `Total items: ${this.itemsCount}`
+    })
   },
 }
 </script>
--->

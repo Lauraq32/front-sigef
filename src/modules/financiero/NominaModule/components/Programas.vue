@@ -24,7 +24,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     :items="programas"
     :columns="columns"
@@ -167,13 +167,13 @@ export default {
     CModal,
       
   },
-  data: () => {
+  data: function () {
     return {
       postPrograma: {
         id: 0,
         nombre: null,
         estructura: null,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
         variacion: 0,
       },
 
@@ -199,6 +199,17 @@ export default {
           sorter: false,
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
+      ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
       ],
       details: [],
     }
@@ -248,7 +259,7 @@ export default {
             id: 0,
             nombre: null,
             estructura: null,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: this.$ayuntamientoId,
             variacion: 0,
           }
         })
@@ -277,7 +288,7 @@ export default {
           id: 0,
           nombre: null,
           estructura: null,
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: this.$ayuntamientoId,
           variacion: 0,
         }),
           (this.validatedCustom01 = false)

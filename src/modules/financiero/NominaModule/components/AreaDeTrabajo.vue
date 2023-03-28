@@ -23,7 +23,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     :items="AreaDeTrabajo"
     :columns="columns"
@@ -142,12 +142,12 @@ export default {
     CModal,
       
   },
-  data: () => {
+  data: function () {
     return {
       postAreaTrabajo: {
         id: 0,
         area: null,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
       },
 
       validatedCustom01: null,
@@ -167,6 +167,17 @@ export default {
           sorter: false,
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
+      ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
       ],
       details: [],
     }
@@ -211,7 +222,7 @@ export default {
           this.postAreaTrabajo = {
             id: 0,
             area: null,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: this.$ayuntamientoId,
             variacion: 0,
           }
         })
@@ -238,7 +249,7 @@ export default {
         ;(this.postAreaTrabajo = {
           id: 0,
           area: null,
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: this.$ayuntamientoId,
           variacion: 0,
         }),
           (this.validatedCustom01 = false)
