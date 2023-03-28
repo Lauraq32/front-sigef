@@ -158,7 +158,7 @@ export default {
     CModal,
       
   },
-  data: () => {
+  data: function () {
     return {
       postAreaUbicacion: {
         id: 0,

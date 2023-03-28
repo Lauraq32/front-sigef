@@ -233,7 +233,7 @@ export default {
     CSmartTable,
     CModal,
   },
-  data: () => {
+  data: function () {
     return {
       postIngreso: {
         Ano: this.$fiscalYearId,

@@ -129,7 +129,7 @@ export default {
     CSmartTable,
     CModal,
   },
-  data: () => {
+  data: function () {
     return {
       postSectores: {
         id: 0,

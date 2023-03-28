@@ -167,7 +167,7 @@ export default {
     CModal,
       
   },
-  data: () => {
+  data: function () {
     return {
       postPrograma: {
         id: 0,

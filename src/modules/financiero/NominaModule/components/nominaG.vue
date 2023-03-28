@@ -1925,7 +1925,7 @@ export default {
 
   },
 
-  data: () => {
+  data: function () {
     return {
       consulEmple: false,
       nominag: [],

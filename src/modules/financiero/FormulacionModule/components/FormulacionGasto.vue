@@ -802,7 +802,7 @@ export default {
     CSmartTable,
     CModal,
   },
-  data: () => {
+  data: function () {
     return {
       numero: 1234567,
       numeroFormateado: 0,
@@ -1212,7 +1212,7 @@ export default {
             this.pregastoMasivo.push({
               presGastoId: 0,
               ayuntamientoId: this.$ayuntamientoId,
-              anioFiscalId: parseInt(this.$fiscalYearId),
+              anioFiscalId: this.$fiscalYearId,
               mestProgId: `${this.pnap}${this.programa}${Object.values(item)[4]
                 .toString()
                 .padStart(2, 0)}${Object.values(item)[5]

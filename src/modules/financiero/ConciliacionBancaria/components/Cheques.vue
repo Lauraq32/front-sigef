@@ -343,7 +343,7 @@ export default {
     CModal,
       
   },
-  data: () => {
+  data: function () {
     return {
       lgDemo3: false,
       nombreCuenta: '',

@@ -2386,7 +2386,7 @@ export default {
     moment,
   },
 
-  data: () => {
+  data: function () {
     return {
       formatPrice,
       fecha12: new Date(2015, 0, 11),

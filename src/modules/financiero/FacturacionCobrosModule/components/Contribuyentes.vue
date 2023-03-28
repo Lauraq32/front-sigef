@@ -320,7 +320,7 @@ export default {
     CSmartTable,
     CModal,
   },
-  data: () => {
+  data: function () {
     return {
       postContribuyente: {
         id: 0,

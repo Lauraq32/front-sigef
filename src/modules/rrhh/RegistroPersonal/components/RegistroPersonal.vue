@@ -725,7 +725,7 @@ export default {
     CModal,
     moment,
   },
-  data: () => {
+  data: function () {
     return {
       cambiar: false,
       horaActual: '',

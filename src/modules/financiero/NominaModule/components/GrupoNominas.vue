@@ -174,7 +174,7 @@ export default {
       
   },
 
-  data: () => {
+  data: function () {
     return {
       postGrupoNominas: {
         nombre: null,

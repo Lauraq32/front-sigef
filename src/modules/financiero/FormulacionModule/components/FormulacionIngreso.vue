@@ -234,7 +234,7 @@ export default {
     CModal,
     CIcon,
   },
-  data: () => {
+  data: function () {
     return {
       cilCloudUpload,
       texto: null,
@@ -476,8 +476,8 @@ export default {
     getTotales() {
       console.log(this.AuthStore.user)
       Api.getTotalIngresos(
-        this.authInfo.user.ayuntamiento.id,
         this.authInfo.currentFiscalYearId,
+        this.authInfo.user.ayuntamiento.id,
       ).then((response) => {
         this.footerItem[1].label = this.formatPrice(response.data.data.anioAnt)
         this.footerItem[2].label = this.formatPrice(response.data.data.alaFecha)

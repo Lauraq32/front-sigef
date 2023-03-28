@@ -117,7 +117,7 @@ export default {
     CModal,
   },
 
-  data: () => {
+  data: function () {
     return {
       Error: '',
       status: 0,

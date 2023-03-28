@@ -174,7 +174,7 @@ export default {
     CModal,
       
   },
-  data: () => {
+  data: function () {
     return {
       postCategorias: {
         id: 0,

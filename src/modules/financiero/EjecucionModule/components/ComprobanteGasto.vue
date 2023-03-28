@@ -922,7 +922,7 @@ export default {
       
   },
 
-  data: () => {
+  data: function () {
     return {
       isVariacion: false,
       isDevengado: false,

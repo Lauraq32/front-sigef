@@ -193,7 +193,7 @@ export default {
     CModal,
   },
 
-  data: () => {
+  data: function () {
     return {
       Beneficiarios: [],
       postBeneficiario: {

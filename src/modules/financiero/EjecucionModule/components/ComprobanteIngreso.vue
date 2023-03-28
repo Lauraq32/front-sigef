@@ -554,7 +554,7 @@ export default {
     SimpleTypeahead,
   },
 
-  data: () => {
+  data: function () {
     return {
       itemsCount: null,
       mesReporte: 1,

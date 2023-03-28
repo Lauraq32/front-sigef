@@ -130,7 +130,7 @@ export default {
     CSmartTable,
     CModal,
   },
-  data: () => {
+  data: function () {
     return {
       id: null,
       tiposGastos: [],

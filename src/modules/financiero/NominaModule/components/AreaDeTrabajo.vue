@@ -142,7 +142,7 @@ export default {
     CModal,
       
   },
-  data: () => {
+  data: function () {
     return {
       postAreaTrabajo: {
         id: 0,

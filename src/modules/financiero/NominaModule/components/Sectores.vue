@@ -134,7 +134,7 @@ export default {
     CModal,
       
   },
-  data: () => {
+  data: function () {
     return {
       postSectores: {
         id: 0,

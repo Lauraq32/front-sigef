@@ -442,7 +442,7 @@ export default {
     CModal,
       
   },
-  data: () => {
+  data: function () {
     return {
       programaDivision: [{}],
       empleado: [],

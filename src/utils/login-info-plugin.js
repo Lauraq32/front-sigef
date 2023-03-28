@@ -8,8 +8,6 @@ export function loggedInfo(app) {
         loggedInfo: getLoggedInfo()
     });
 
-    console.log(info);
-
     app.config.globalProperties.$fiscalYearId = info.fiscalYearId;
     app.config.globalProperties.$ayuntamientoId = info.ayuntamientoId;
     app.config.globalProperties.$loggedInfo = info.loggedInfo;
