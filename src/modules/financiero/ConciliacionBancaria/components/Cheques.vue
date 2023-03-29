@@ -343,7 +343,7 @@ export default {
     CModal,
       
   },
-  data: () => {
+  data: function () {
     return {
       lgDemo3: false,
       nombreCuenta: '',
@@ -351,7 +351,7 @@ export default {
       Bancos: [],
       ChequeList: [],
       postCheque: {
-        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+        ayuntamientoId: this.$ayuntamientoId,
         bancoId: null,
         secuencial: 1,
         documento: '',
@@ -467,7 +467,7 @@ export default {
     },
     clearModal1() {
       this.postCheque = {
-        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+        ayuntamientoId: this.$ayuntamientoId,
         bancoId: null,
         secuencial: 1,
         documento: '',

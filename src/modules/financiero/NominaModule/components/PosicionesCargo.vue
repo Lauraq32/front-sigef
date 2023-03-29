@@ -24,7 +24,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     :items="pocision"
     :columns="columns"
@@ -232,14 +232,14 @@ export default {
     CModal,
       
   },
-  data: () => {
+  data: function () {
     return {
       ayun: [],
 
       postPosicionesCargo: {
         id: 0,
         nombre: null,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
       },
 
       columns: [
@@ -256,6 +256,17 @@ export default {
           filter: false,
           sorter: false,
         },
+      ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
       ],
       details: [],
 
@@ -343,7 +354,7 @@ export default {
             id: 0,
             nombre: null,
             variacion: 0,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: this.$ayuntamientoId,
           }
           event.preventDefault()
           event.stopPropagation()
@@ -371,7 +382,7 @@ export default {
         ;(this.postPosicionesCargo = {
           id: 0,
           nombre: null,
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: this.$ayuntamientoId,
         }),
           (this.validatedCustom01 = false)
         event.preventDefault()

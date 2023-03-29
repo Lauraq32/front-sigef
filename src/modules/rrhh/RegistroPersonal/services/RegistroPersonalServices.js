@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import http from '@/Api/http-common'
-
+import { getAyuntamientoId } from '@/utils/logged-info';
 class RegistroPersonal {
   //get
   getAllTipoSangre() {
@@ -16,16 +16,21 @@ class RegistroPersonal {
   }
 
   getAllEmpleado() {
-    return http.get(`Empleado?ayuntamientoId=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
+    return http.get(
+      `Empleado?ayuntamientoId=${
+       getAyuntamientoId()
+      }`,
+    )
   }
 
   getProgramaDivision() {
-    return http.get(`ProgramaDivision?AyuntamientoId=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
+    return http.get(
+      `ProgramaDivision?AyuntamientoId=${getAyuntamientoId()}`,
+    )
   }
 
   getEmpleadoByID(id) {
     return http.get(`Empleado/${id}`)
-
   }
 
   getDepartamentoByProgramaId(id) {
@@ -33,7 +38,11 @@ class RegistroPersonal {
   }
 
   getSectores() {
-    return http.get(`Sector?ayuntamiento=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
+    return http.get(
+      `Sector?ayuntamiento=${
+       getAyuntamientoId()
+      }`,
+    )
   }
 
   getAreaTrabajo() {
@@ -62,7 +71,6 @@ class RegistroPersonal {
     return http.post('AreaTrabajo', data)
   }
 
-
   //put
   putEmpleado(id, data) {
     return http.put(`Empleado/${id}`, data)
@@ -85,9 +93,12 @@ class RegistroPersonal {
   }
 
   deleteSector(id) {
-    return http.delete(`Sector/${id}?ayuntamiento=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`)
+    return http.delete(
+      `Sector/${id}?ayuntamiento=${
+       getAyuntamientoId()
+      }`,
+    )
   }
-
 }
 
 export default new RegistroPersonal()

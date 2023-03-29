@@ -26,7 +26,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     columnFilter
     :items="Contribuyente"
@@ -320,14 +320,14 @@ export default {
     CSmartTable,
     CModal,
   },
-  data: () => {
+  data: function () {
     return {
       postContribuyente: {
         id: 0,
         codigo: 0,
         variacion: 0,
         ciudad: null,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
         conctato: null,
         direccion: null,
         email: null,
@@ -425,7 +425,7 @@ export default {
             this.postContribuyente = {
               id: 0,
               variacion: 0,
-              ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+              ayuntamientoId: this.$ayuntamientoId,
               nombre: null,
               direccion: null,
               estatus: null,
@@ -454,7 +454,7 @@ export default {
         ;(this.postContribuyente = {
           id: 0,
           variacion: 0,
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: this.$ayuntamientoId,
           nombre: null,
           direccion: null,
           estatus: null,

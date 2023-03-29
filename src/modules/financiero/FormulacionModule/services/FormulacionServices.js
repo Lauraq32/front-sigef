@@ -1,13 +1,10 @@
 import http from '@/Api/http-common'
-import VueSweetalert2 from 'vue-sweetalert2'
+import { getAyuntamientoId, getFiscalYearId } from '@/utils/logged-info'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-
 class FormulacionApi {
   downloadIngreso() {
     return http.get(
-      `ExportFile/IngresoFormulacion?ayuntamientoId=${localStorage.getItem(
-        'id_Ayuntamiento',
-      )}&anioFiscalId=${localStorage.getItem('ano')}`,
+      `ExportFile/IngresoFormulacion?ayuntamientoId=${getAyuntamientoId()}&anioFiscalId=${getFiscalYearId()}`,
     )
   }
 
@@ -41,21 +38,14 @@ class FormulacionApi {
     return http.put(`/PresIngreso/${id}`, data)
   }
 
-  //PostIngreso
-  createIngreso(data) {
-    return http.post('PresIngreso', data).catch((error) => {
-      console.log(error.response.data.detail)
-      Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        text: error.response.data.detail,
-        title: 'Error',
-        showConfirmButton: false,
-        timer: 1500,
-      })
+  postFormulacionIngreso(data) {
+    return http.post('PresIngreso', data)
+  }
 
-      //alert(error.response.data.detail)
-    })
+  getAllFormulacionIngreso(anioFiscal, ayuntamientoId) {
+    return http.get(
+      `PresIngreso?anio=${anioFiscal}&AyuntamientoId=${ayuntamientoId}`,
+    )
   }
 
   updateFormulacion(id, data) {
@@ -68,101 +58,74 @@ class FormulacionApi {
 
   getDetalle(id) {
     return http.get(
-      `PresGasto/GetDetallePresGastobyIdAsync/${id}?anio=${localStorage.getItem(
-        'ano',
-      )}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`,
+      `PresGasto/GetDetallePresGastobyIdAsync/${id}?anio=${
+        getFiscalYearId()
+      }&ayuntamientoId=${
+        getAyuntamientoId()
+      }`,
     )
   }
 
-  getTotalIngresos(id_ayuntamiento, ano_fiscal) {
+  getTotalIngresos(ano_fiscal, id_ayuntamiento) {
     return http.get(
       `/PresIngreso/GetTotal?anio=${ano_fiscal}&ayuntamientoId=${id_ayuntamiento}`,
     )
   }
 
-  //Obtener clasificador especifico
-  // getClasificador(Clasificador) {
-  //   return http.get(`/ingresoslista/filtrarClasificadores/?obj=${Clasificador}`)
-  // }
-  //-----------------------------CLASIFICADORES---------------------------------------//
-
-  //-----------------------------ESTRUCTURA PROGRAMATICA---------------------------------------//
-
   getListarEstructuraProgramatica() {
     return http.get('/Financiero/ListarProgramatico')
   }
 
-  //-----------------------------ESTRUCTURA PROGRAMATICA---------------------------------------//
-
-  //-----------------------------FUENTE ESPECIFICA---------------------------------------//
   getFuenteEspecifica() {
     return http.get('/CtgFuente')
   }
-  //-----------------------------FUENTE ESPECIFICA---------------------------------------//
 
   getFuente() {
     return http.get('/CtgFuenteEspecifica')
   }
-  //-----------------------------FUENTE FINANCIAMIENTO---------------------------------------//
+
   getListarFuentesFinanciamiento() {
     return http.get('/Financiero/ListarFuentes')
   }
-  //-----------------------------FUENTE FINANCIAMIENTO---------------------------------------//
 
-  //-----------------------------ORGANISMOS---------------------------------------//
   getListarFinancieroCatalogoOrganismos() {
     return http.get('/Financiero/ListarFinancieroCatalogoOrganismos')
   }
-  //----------------------------ORGANISMOS---------------------------------------//
 
-  //-----------------------------PROYECTOS---------------------------------------//
   getListarProyecto(id_ayuntamiento, ano_fiscal) {
     return http.get(
       `/Financiero/ListarProyecto/?ano=${ano_fiscal}&id=${id_ayuntamiento}`,
     )
   }
-  //-----------------------------PROYECTOS---------------------------------------//
 
-  //-----------------------------INGRESOS---------------------------------------//
   getListarIngresos(id_ayuntamiento, ano_fiscal) {
     return http.get(
       `PresIngreso?anio=${ano_fiscal}&ayuntamientoId=${id_ayuntamiento}`,
     )
   }
-  // getTotalIngresos(id_ayuntamiento, ano_fiscal) {
-  //   return http.get(
-  //     `/ingresoslista/ListarIngresosTotalizado/?ano=${ano_fiscal}&id=${id_ayuntamiento}`,
-  //   )
-  // }
-  //-----------------------------INGRESOS---------------------------------------//
 
-  //-----------------------------GASTOS---------------------------------------//
-  // getListarGastos() {
-  //   return http.get('/Financiero/ListarGastos')
-  // }
-  //-----------------------------GASTOS---------------------------------------//
-
-  //-----------------------------CATALOGO---------------------------------------//
   getListarCatalogo() {
     return http.get('/Financiero/ListarCatalogoFunciones')
   }
-  //-----------------------------CATALOGO---------------------------------------//
 
-  //-----------------------------PrepGastos---------------------------------------//
 
   getListarGastos() {
     return http.get(
-      `PresGasto?anio=${localStorage.getItem(
-        'ano',
-      )}&ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`,
+      `PresGasto?anio=${
+        getFiscalYearId()
+      }&ayuntamientoId=${
+        getAyuntamientoId()
+      }`,
     )
   }
 
   getListarGastosById(id) {
     return http.get(
-      `PresGasto/${id}?anio=${localStorage.getItem(
-        'ano',
-      )}&ayuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`,
+      `PresGasto?anio=${
+        getFiscalYearId()
+      }&ayuntamientoId=${
+        getAyuntamientoId()
+      }`,
     )
   }
 
@@ -221,9 +184,11 @@ class FormulacionApi {
   cargarEstructuras() {
     return http
       .post(
-        `PresGasto/InsertPresGasto?anio=${localStorage.getItem(
-          'ano',
-        )}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`,
+        `PresGasto?anio=${
+          getFiscalYearId()
+        }&ayuntamientoId=${
+          getAyuntamientoId()
+        }`,
       )
       .catch((error) => {
         Swal.fire({
@@ -253,23 +218,6 @@ class FormulacionApi {
   getEstruturaProgramaticaById(value) {
     return http.get(`CtgMestProg/${value}`).catch((error) => {})
   }
-
-  // cargarEstructuras(){
-  //   return http.post(`PresGasto/InsertPresGasto?anio=${localStorage.getItem('ano')}&AyuntamientoId=${localStorage.getItem('id_Ayuntamiento')}`).catch((error) => {
-  //     Swal.fire({
-  //       position: 'top-end',
-  //       icon: 'error',
-  //       text: error.response.data.detail,
-  //       title: 'Error',
-  //       showConfirmButton: false,
-  //       timer: 1500
-  //     })
-  //   })
-  // }
-
-  //   createProyecto(data) {
-  //     return http.post('/api/ingresos/guardarPresProyecto', data)
-  //   }
 }
 
 export default new FormulacionApi()
