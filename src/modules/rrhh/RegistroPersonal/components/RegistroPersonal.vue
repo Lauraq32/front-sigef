@@ -1006,14 +1006,25 @@
             </div>
           </div>
         </div>
-
-        <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
-          Nuevo
-        </button>
+        <div class="row">
+          <div class="d-flex flex-row-reverse">
+            <button
+              class="btn btn-info btn-block mt-1"
+              @click="
+                () => {
+                  lgDemo5 = true
+                  lgDemo4 = false
+                }
+              "
+            >
+              Nuevo
+            </button>
+          </div>
+        </div>
       </CCardBody>
 
       <CSmartTable
-        style="margin-top: 30px"
+        style="margin-top: 10px"
         class="sticky-top"
         clickableRows
         :tableProps="{
@@ -1090,14 +1101,14 @@
 
     <div class="modal-footer">
       <button
+        @click="
+          () => {
+            lgDemo4 = false
+          }
+        "
         type="button"
         class="btn btn-secondary"
         data-bs-dismiss="modal"
-        @click="
-          () => {
-            lgDemo5 = true
-          }
-        "
       >
         Close
       </button>
@@ -1114,6 +1125,7 @@
     @close="
       () => {
         lgDemo5 = false
+        lgDemo4 = true
       }
     "
   >
@@ -1167,7 +1179,17 @@
     </CModalBody>
 
     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+      <button
+        @click="
+          () => {
+            lgDemo5 = false
+            lgDemo4 = true
+          }
+        "
+        type="button"
+        class="btn btn-secondary"
+        data-bs-dismiss="modal"
+      >
         Close
       </button>
 
