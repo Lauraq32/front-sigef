@@ -7,7 +7,10 @@
         color="info"
         @click="
           () => {
-            ;(lgDemo = true), clearModal1(), disabledCheckbox()
+            ;(Ocultar2 = false),
+              (lgDemo = true),
+              clearModal1(),
+              disabledCheckbox()
           }
         "
         >Agregar</CButton
@@ -159,10 +162,14 @@
                 </CFormSelect>
               </CCol>
             </div>
-            <div class="col-6" style="position: relative; left: 11px">
+            <div
+              v-if="Ocultar2"
+              class="col-6"
+              style="position: relative; left: 11px"
+            >
               <div class="form-check" style="margin-top: 39px">
-                <label class="form-check-label" for="flexCheckDefault">
-                  Aprobado
+                <label class="form-check-label" for="flexCheckDefault"
+                  >Aprobado
                 </label>
                 <input
                   v-model="postAnoFiscal.esAprobado"
@@ -218,6 +225,7 @@ export default {
   data: function () {
     return {
       Ocultar: true,
+      Ocultar2: true,
       anioFiscal: [],
       isDisabled: true,
       block: false,
@@ -302,6 +310,7 @@ export default {
       })
     },
     toggleDetails(item) {
+      this.Ocultar2 = true
       this.enableCheckbox()
       this.id = item.id
       this.lgDemo = true
