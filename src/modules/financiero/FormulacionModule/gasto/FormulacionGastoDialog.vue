@@ -85,7 +85,7 @@
                     :ableHeadProps="{}"
                     :activePage="1" 
                     header 
-                    :items="formulacionGasto.detallePresGastos" 
+                    :items="detallesPresGasto" 
                     :columns="columns"
                     itemsPerPageSelect 
                     columnFilter 
@@ -159,13 +159,14 @@ import { CSmartTable, CCol } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 
 import { formatPrice } from '@/utils/format'
-import { defineProps, ref, defineEmits, watchEffect } from 'vue'
+import { defineProps, ref, defineEmits, watchEffect, nextTick } from 'vue'
 import Api from '../services/FormulacionServices'
 import GastoDetalleDialog from './GastoDetalleDialog'
 
 const emit = defineEmits(['close']);
 const showDetailDialog = ref(false);
 const detalle = ref({});
+const detallesPresGasto = ref([]);
 const formulacionForm = ref();
 const props = defineProps({
     formulacionGasto: {
@@ -266,7 +267,6 @@ const footerItems = [
 ];
 
 watchEffect(() => {
-    console.log(props.formulacionGasto);
     props.formulacionGasto.estructuraProgramatica = `${props.formulacionGasto.pnap}${props.formulacionGasto.programa}${props.formulacionGasto.proyecto}${props.formulacionGasto.actObra}`;
     if (props.isVisible) {
         Api.getDetalle(props.formulacionGasto.id).then((response) => {
@@ -308,7 +308,7 @@ const onDetailDialogClose = (data) => {
     if (data) {
         const {editing, ...rest} = data;
         if (editing) {
-            const index = detallesPresGasto.findIndex(x => (
+            const index = detallesPresGasto.value.findIndex(x => (
                 x.ctgClasificadorId === rest.ctgClasificadorId
                 && x.cControl === rest.cControl
                 && x.ctgFuenteId === rest.ctgFuenteId
@@ -316,9 +316,11 @@ const onDetailDialogClose = (data) => {
                 && x.ctgOrganismoFinanciadorId === rest.ctgOrganismoFinanciadorId
             ));
             
-            return (detallesPresGasto[index] = rest);
+            return (detallesPresGasto.value[index] = rest);
         }
-        detallesPresGasto.push(rest);
+        detallesPresGasto.value.push(rest);
+        props.formulacionGasto.detallePresGastos = detallesPresGasto;
+        nextTick().catch(console.error);
     }
 }
 const onEditDetalle = (item) => {
@@ -330,6 +332,7 @@ const closeDialog = (data) => {
     emit('close', data);
 }
 
-const guardarFormulacionGasto = () => { }
+const guardarFormulacionGasto = () => {
+}
 
 </script>

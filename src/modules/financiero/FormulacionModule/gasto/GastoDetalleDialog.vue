@@ -25,7 +25,7 @@
                     required
                     on:keyup.native.enter="getClasificador"
                     class="form-control padding-input"
-                    v-model="detalle.ctgClasificadorId"
+                    v-model.number="detalle.ctgClasificadorId"
                     type="number"
                   /><span class="position-absolute icon-input"
                     ><CIcon
@@ -243,7 +243,7 @@
                   @click="toggleFields"
                   color="info"
                 >
-                  {{ isFieldEditable.value ? 'Editar' : 'Deshabilitar' }}
+                  {{ isFieldEditable ? 'Editar' : 'Deshabilitar' }}
                 </CButton>
               </CCol>
 
@@ -259,7 +259,7 @@
                         >
                         <CFormInput
                           type="number"
-                          v-model="this.detalle.oriBco1"
+                          v-model.number="this.detalle.oriBco1"
                           id="oriBco1"
                         >
                         </CFormInput>
@@ -335,7 +335,7 @@
                         >
                         <CFormInput
                           type="number"
-                          v-model="this.detalle.oriBco3"
+                          v-model.number="this.detalle.oriBco3"
                           id="oriBco3"
                         >
                         </CFormInput>
@@ -382,7 +382,7 @@
                         >
                         <CFormInput
                           type="number"
-                          v-model="this.detalle.oriBco4"
+                          v-model.number="this.detalle.oriBco4"
                           id="oriBco4"
                         >
                         </CFormInput>
@@ -490,8 +490,7 @@ export default {
       props.detalle.ctgOrganismoFinanciadorId = organismoFinanciador;
     }
     const guardarDetalleGasto = () => {
-        console.log(detailForm.value);
-        if (detailForm.value?.checkValidity()) {
+        if (detailForm.value?.$el.checkValidity()) {
             closeDialog({ ...props.detalle });
         }
     }
