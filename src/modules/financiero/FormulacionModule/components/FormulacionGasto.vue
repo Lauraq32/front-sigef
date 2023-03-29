@@ -29,14 +29,14 @@
     </div>
     <div class="p-2">
       <label class="file-select btn" role="button">
-        <CIcon :icon="cilCloudUpload" size="m" />
+        <CIcon :icon="cilCloudUpload" size="sm" />
         <input type="file" id="formFile" @change="onFileChangeProyectos" />
         <span class="label">Importar Proyectos</span>
       </label>
     </div>
     <div class="p-2">
       <label class="file-select btn" role="button">
-        <CIcon :icon="cilCloudUpload" size="m" />
+        <CIcon :icon="cilCloudUpload" size="sm" />
         <input type="file" id="formFile" @change="onFileChange" />
         <span class="label">Importar Formulaci&oacute;n</span>
       </label>
@@ -898,41 +898,41 @@ export default {
     },
     toggleDetails(item) {
       this.id = item.id;
-      
-      this.formulacionGasto = {...item},
-      this.showFormulacionDialog = true,
-      Api.getListarGastosById(item.id).then((response) => {
-        console.log(response);
-        this.post = response.data.data
-        this.detallePost.presGastoId = item.id
-        this.detallePost.mestProgId = item.mestProgId
+      console.log(item, 'toggleDetails');
+      this.formulacionGasto = {...item};
+      this.showFormulacionDialog = true;
+      // Api.getListarGastosById(item.id).then((response) => {
+      //   console.log(response);
+      //   this.post = response.data.data
+      //   this.detallePost.presGastoId = item.id
+      //   this.detallePost.mestProgId = item.mestProgId
 
-        this.post.mestprogId = `${this.post.pnap}${this.post.programa}${this.post.proyecto}${this.post.actObra}`
-        this.detallePresGastos = response.data.data.detallePresGastos
-        this.sumaPresupuesto = 0
-        this.sumaGPersonal = 0
-        this.sumaServicio = 0
-        this.sumaInversion = 0
-        this.sumaEdiGenero = 0
+      //   this.post.mestprogId = `${this.post.pnap}${this.post.programa}${this.post.proyecto}${this.post.actObra}`
+      //   this.detallePresGastos = response.data.data.detallePresGastos
+      //   this.sumaPresupuesto = 0
+      //   this.sumaGPersonal = 0
+      //   this.sumaServicio = 0
+      //   this.sumaInversion = 0
+      //   this.sumaEdiGenero = 0
 
-        this.detallePresGastos.map((detalle) => {
-          this.sumaPresupuesto += parseInt(detalle.totalOriginal)
-          this.sumaGPersonal += parseInt(detalle.oriBco1)
-          this.sumaServicio += parseInt(detalle.oriBco2)
-          this.sumaInversion += parseInt(detalle.oriBco3)
-          this.sumaEdiGenero += parseInt(detalle.oriBco4)
-          this.footerItems[1].label = this.formatPrice(this.sumaPresupuesto)
-          this.footerItems[2].label = this.formatPrice(this.sumaGPersonal)
-          this.footerItems[3].label = this.formatPrice(this.sumaServicio)
-          this.footerItems[4].label = this.formatPrice(this.sumaInversion)
-          this.footerItems[5].label = this.formatPrice(this.sumaEdiGenero)
-          this.numeroFormateado = this.formatPrice(this.numero)
-        })
-        this.totalItems = this.detallePresGastos.length
-        this.footerItems[0].label = `Total Items ${this.totalItems}`
-      })
+      //   this.detallePresGastos.map((detalle) => {
+      //     this.sumaPresupuesto += parseInt(detalle.totalOriginal)
+      //     this.sumaGPersonal += parseInt(detalle.oriBco1)
+      //     this.sumaServicio += parseInt(detalle.oriBco2)
+      //     this.sumaInversion += parseInt(detalle.oriBco3)
+      //     this.sumaEdiGenero += parseInt(detalle.oriBco4)
+      //     this.footerItems[1].label = this.formatPrice(this.sumaPresupuesto)
+      //     this.footerItems[2].label = this.formatPrice(this.sumaGPersonal)
+      //     this.footerItems[3].label = this.formatPrice(this.sumaServicio)
+      //     this.footerItems[4].label = this.formatPrice(this.sumaInversion)
+      //     this.footerItems[5].label = this.formatPrice(this.sumaEdiGenero)
+      //     this.numeroFormateado = this.formatPrice(this.numero)
+      //   })
+      //   this.totalItems = this.detallePresGastos.length
+      //   this.footerItems[0].label = `Total Items ${this.totalItems}`
+      // })
 
-      this.lgDemo = true
+      // this.lgDemo = true
     },
     toggleDetails1(item) {
       setTimeout(this.unaVezs, 200)
@@ -952,7 +952,7 @@ export default {
 
       this.formulacionGasto = {};
       this.showFormulacionDialog = false;
-      console.log(data);
+      console.log(data, 'onFormulacionGastoDialogClose');
     }
   },
 
@@ -989,16 +989,6 @@ export default {
   align-items: center;
   background-color: #375b80;
   color: white;
-}
-.padding-input {
-  padding-right: 2.5rem;
-}
-.icon-input {
-  padding: 0.2rem;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  right: 2px;
 }
 
 .file-select > .label {

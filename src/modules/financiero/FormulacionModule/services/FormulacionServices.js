@@ -58,11 +58,7 @@ class FormulacionApi {
 
   getDetalle(id) {
     return http.get(
-      `PresGasto/GetDetallePresGastobyIdAsync/${id}?anio=${
-        getFiscalYearId()
-      }&ayuntamientoId=${
-        getAyuntamientoId()
-      }`,
+      `PresGasto/Detalle/${id}?anio=${ getFiscalYearId() }&ayuntamientoId=${ getAyuntamientoId() }`,
     )
   }
 
@@ -120,12 +116,7 @@ class FormulacionApi {
   }
 
   getListarGastosById(id) {
-    return http.get(
-      `PresGasto?anio=${
-        getFiscalYearId()
-      }&ayuntamientoId=${
-        getAyuntamientoId()
-      }`,
+    return http.get(`PresGasto/${id}?anio=${ getFiscalYearId() }&ayuntamientoId=${ getAyuntamientoId() }`,
     )
   }
 
