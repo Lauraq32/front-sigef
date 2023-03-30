@@ -156,7 +156,7 @@
               <CCol :md="5">
                 <CFormLabel>Estatus</CFormLabel>
                 <CFormSelect v-model="postAnoFiscal.estatus">
-                  <option>ACTIVO</option>
+                  <option>ACTUAL</option>
                   <option>ABIERTO</option>
                   <option>CERRADO</option>
                 </CFormSelect>
@@ -235,7 +235,7 @@ export default {
         ayuntamientoId: this.$ayuntamientoId,
         compGastos: 0,
         compIngresos: 0,
-        estatus: 'ACTIVO',
+        estatus: 'ACTUAL',
         anio: 0,
         fechaInicial: null,
         fechaFinal: null,
@@ -333,7 +333,7 @@ export default {
         ayuntamientoId: this.$ayuntamientoId,
         compGastos: 0,
         compIngresos: 0,
-        estatus: 'ACTIVO',
+        estatus: 'ACTUAL',
         anio: 0,
         fechaInicial: null,
         fechaFinal: null,
