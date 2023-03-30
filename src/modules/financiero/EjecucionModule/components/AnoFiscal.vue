@@ -15,10 +15,11 @@
     </div>
   </div>
 
-  <CSmartTable class="sticky-top"
+  <CSmartTable
+    class="sticky-top"
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -163,7 +164,6 @@ export default {
             style: 'font-weight:bold;',
           },
         },
-
       ],
       columns: [
         { key: 'Año Fiscal', label: 'Año Fiscal', _style: { width: '40%' } },

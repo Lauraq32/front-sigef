@@ -162,7 +162,7 @@ class Ejecucion {
   //post
 
   postAnioFiscal(data) {
-    return http.post('AnioFiscal', data)
+    return http.post('anios-fiscales', data)
   }
 
   postBeneficiarios(data) {
@@ -197,7 +197,7 @@ class Ejecucion {
   }
 
   putAnioFiscal(id) {
-    return http.put(`AnioFiscal/${id}`)
+    return http.put(`anios-fiscales/${id}`)
   }
 
   putRegistroGasto(data, id) {
