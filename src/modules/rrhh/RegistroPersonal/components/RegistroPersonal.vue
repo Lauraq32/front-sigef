@@ -114,6 +114,7 @@
             >Evaluación</CDropdownItem
           >
           <CDropdownItem>Eventualidad</CDropdownItem>
+          <CDropdownItem>Educaci&oacute;n</CDropdownItem>
         </CDropdownMenu>
       </CDropdown>
     </template>
