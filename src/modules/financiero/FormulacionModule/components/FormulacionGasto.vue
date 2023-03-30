@@ -1,18 +1,14 @@
 <template>
-  <h3 class="text-center">Formulación Gastos</h3>
+  <h3 class="text-center">Formulaci&oacute;n Gastos</h3>
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
         style="font-weight: bold"
         color="info"
-        @click="
-          () => {
-            openModal()
-            clearForm
-          }
-        "
-        >Agregar</CButton
+        @click="setNuevoFormulacionGasto"
       >
+        Agregar
+      </CButton>
     </div>
     <div class="p-2">
       <CButton color="info" @click="IngresoReport">Imprimir</CButton>
@@ -29,15 +25,15 @@
     </div>
     <div class="p-2">
       <label class="file-select btn" role="button">
-        <CIcon :icon="cilCloudUpload" size="sm" />
-        <input type="file" id="formFile" @change="onFileChangeProyectos" />
+        <CIcon icon="cilCloudUpload" size="sm" />
+        <input type="file" id="formFileProyecto" @change="onFileChangeProyectos" />
         <span class="label">Importar Proyectos</span>
       </label>
     </div>
     <div class="p-2">
       <label class="file-select btn" role="button">
-        <CIcon :icon="cilCloudUpload" size="sm" />
-        <input type="file" id="formFile" @change="onFileChange" />
+        <CIcon icon="cilCloudUpload" size="sm" />
+        <input type="file" id="formFileFormulaciion" @change="onFileChange" />
         <span class="label">Importar Formulaci&oacute;n</span>
       </label>
     </div>
@@ -98,17 +94,15 @@
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/FormulacionServices'
-import axios from 'axios'
 import { mapActions, mapState } from 'pinia'
 import { usePrepGastoStore } from '../store/Formulacion/prepGasto'
 import { mapStores } from 'pinia'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
 import XLSX from 'xlsx/xlsx.mjs'
 import router from '@/router'
 import { formatPrice } from '../../../../utils/format'
-import { cilCloudUpload, cisSearch } from '@coreui/icons-pro'
 import { useToastStore } from '@/store/toast'
 import FormulacionGastoDialog from "../gasto/FormulacionGastoDialog";
+import { nextTick } from 'vue'
 export default {
   components: {
     CSmartTable,
@@ -119,117 +113,8 @@ export default {
     return {
       formulacionGasto: {},
       showFormulacionDialog: false,
-      cilCloudUpload,
-      findClasificadorModal: false,
-      clasificadorItems: [],
-      cisSearch,
-      numero: 1234567,
-      numeroFormateado: 0,
-      hasRun: false,
-      totalItems: 0,
-      sumaGPersonal: 0,
-      sumaServicio: 0,
-      sumaInversion: 0,
-      sumaEdiGenero: 0,
-      sumaPresupuesto: 0,
-      proyectosList: [],
-      pregastoMasivo: [],
-      id: null,
-      idDetalle: null,
-      detallePresGastos: [],
-      sumOfFlieds: null,
-      pnap: null,
-      openField: true,
-      programa: null,
-      detallePost: {
-        id: 0,
-        presGastoId: 0,
-        ayuntamientoId: this.$ayuntamientoId,
-        anioFiscalId: this.$fiscalYearId,
-        mestProgId: '',
-        ctgClasificadorId: '',
-        cControl: '',
-        auxiliar: '',
-        ctgFuenteId: '',
-        ctgFuenteEspecificaId: '',
-        ctgOrganismoFinanciadorId: '',
-        oriFondos: 0,
-        ctgFuncionId: '1',
-        nombre: '',
-        tipo: '',
-        TIPO_GASTO1: '11-GASTOS DE PERSONAL 25%',
-        TIPO_GASTO2: '12-SERVICIOS MUNICIPALES 31% (1.S)',
-        TIPO_GASTO3:
-          '21-BIENES MUEBLES, INMUEBLES NO CLASIFICADO EN CATEGORIA PROYECTO (I.1)',
-        TIPO_GASTO4: '13-PROGRAMAS DE EDUCACION, GENERO Y SALUD 4% (1.E)',
-        tipoGasto: '',
-        oriBco1: 0,
-        estimadoBco1: 0,
-        presupuestoBco1: 0,
-        variacionBco1: 0,
-        totalDevengadoBco1: 0,
-        disponiblePagadoBco1: 0,
-        totalPagadoBco1: 0,
-        oriBco2: 0,
-        estimadoBco2: 0,
-        presupuestoBco2: 0,
-        variacionBco2: 0,
-        totalDevengadoBco2: 0,
-        disponiblePagadoBco2: 0,
-        totalPagadoBco2: 0,
-        oriBco3: 0,
-        estimadoBco3: 0,
-        presupuestoBco3: 0,
-        variacionBco3: 0,
-        totalDevengadoBco3: 0,
-        disponiblePagadoBco3: 0,
-        totalPagadoBco3: 0,
-        oriBco4: 0,
-        estimadoBco4: 0,
-        presupuestoBco4: 0,
-        variacionBco4: 0,
-        totalDevengadoBco4: 0,
-        disponiblePagadoBco4: 0,
-        totalPagadoBco4: 0,
-        totalOriginal: 0,
-        totalCompromiso: 0,
-        totalDevengado: 0,
-        totalPagado: 0,
-        totalVariacion: 0,
-        sumTotalOriginal: 0,
-        sumTotalCompromiso: 0,
-        sumTotalDevengado: 0,
-        sumTotalPagado: 0,
-        sumTotalVariacion: 0,
-      },
-      post: {
-        clasifica: '',
-        ayuntamientoId: this.$ayuntamientoId,
-        anioFiscalId: this.$fiscalYearId,
-        mestprogId: '',
-        costObra: '',
-        pnap: '',
-        nombre: '',
-        programa: '',
-        proyecto: '',
-        actObra: '',
-        estControl: '',
-        unidadResp: '',
-        tipo: '',
-        totalPresupuesto: 0,
-        actControl: '',
-        pppm: 'n',
-        modContatro: 'n',
-        asignadoA: 0,
-        asignadoA: 0,
-        fechaIniciada: '2022-10-31T14:18:15.972Z',
-        detallePost: [],
-      },
-      formulado: {
-        alafecha: 0,
-        anO_ANT: 0,
-        preS_FORM: 0,
-      },
+      formatPrice,
+
       columns: [
         { key: 'pnap', label: 'Pnap', _style: { width: '10%' } },
         { key: 'programa', label: 'Programa', _style: { width: '10%' } },
@@ -256,7 +141,6 @@ export default {
           sorter: false,
         },
       ],
-      details: [],
       footerItem: [
         {
           label: 'Total Items',
@@ -273,12 +157,8 @@ export default {
     ...mapActions(useToastStore, ['show']),
     ...mapActions(usePrepGastoStore, [
       'getListarGastos',
-      'getListarGastosById',
       'addGasto',
-      'addDetalleGasto',
-      'updatePresGastoDetalle',
       'updatePresGasto',
-      'getDetalleGasto',
     ]),
     goToIngreso() {
       router.push({ name: 'Formulación Ingreso' })
@@ -297,17 +177,20 @@ export default {
           })
           const wsname = wb.SheetNames[0]
           const ws = wb.Sheets[wsname]
-          const data = XLSX.utils.sheet_to_json(ws)
+          const data = XLSX.utils.sheet_to_json(ws);
+          const proyectosList = [];
+          let pnap = '00';
+          let programa = '00';
           data.map((item) => {
             if (Object.values(item)[2] < 90) {
-              this.pnap = '00'
-              this.programa = Object.values(item)[2].toString().padStart(2, 0)
+              pnap = '00'
+              programa = Object.values(item)[2].toString().padStart(2, 0)
             } else if (Object.values(item)[2] > 90) {
-              this.pnap = Object.values(item)[2]
-              this.programa = '00'
+              pnap = Object.values(item)[2]
+              programa = '00'
             }
 
-            this.proyectosList.push({
+            proyectosList.push({
               AyuntamientoId: this.$ayuntamientoId,
               AnioFiscalId: this.$fiscalYearId,
               MestProgId: `0011${Object.values(item)[4]
@@ -316,8 +199,8 @@ export default {
                 .toString()
                 .padStart(4, 0)}`,
 
-              PNAP: this.pnap,
-              Programa: this.programa,
+              PNAP: pnap,
+              Programa: programa,
               Proyecto: `${Object.values(item)[4].toString().padStart(2, 0)}`,
               ActObra: `${Object.values(item)[5].toString().padStart(4, 0)}`,
               EstControl: `${Object.values(item)[2].toString()}${Object.values(
@@ -336,21 +219,28 @@ export default {
             })
           })
 
-          Api.postCargaMasivaCabecera(this.proyectosList).then((response) => {
-            this.show({
-              content: 'Registro añadido correctamente',
-              closable: true,
+          if (proyectosList.length) {
+            Api.postCargaMasivaCabecera(proyectosList).then((response) => {
+              this.show({
+                content: 'Registro añadido correctamente',
+                closable: true,
+                time: 15_000
+              });
+              this.loadData();
             })
-          })
-          setTimeout(this.getListarGastos, 500)
+          } else {
+            this.show({
+                content: 'No se encontraron registros',
+                closable: true,
+                color: 'danger',
+                class: 'text-white',
+                time: 15_000
+            });
+          }
         }
 
         reader.readAsBinaryString(this.file)
       }
-    },
-
-    openModal() {
-      this.lgDemo = true
     },
 
     onFileChange(event) {
@@ -367,7 +257,8 @@ export default {
           })
           const wsname = wb.SheetNames[0]
           const ws = wb.Sheets[wsname]
-          const data = XLSX.utils.sheet_to_json(ws)
+          const data = XLSX.utils.sheet_to_json(ws);
+          const pregastoMasivo = [];
           data.map((item) => {
             if (Object.values(item)[2] < 90) {
               this.pnap = '00'
@@ -377,7 +268,7 @@ export default {
               this.programa = '00'
             }
 
-            this.pregastoMasivo.push({
+            pregastoMasivo.push({
               presGastoId: 0,
               ayuntamientoId: this.$ayuntamientoId,
               anioFiscalId: this.$fiscalYearId,
@@ -449,7 +340,7 @@ export default {
               sumTotalVariacion: 0,
             })
           })
-          this.pregastoMasivo.map((item) => {
+          pregastoMasivo.map((item) => {
             Api.getEstruturaProgramaticaById(item.mestProgId).then(
               (response) => {
                 item.nombre = response.data.data.nombre
@@ -457,121 +348,101 @@ export default {
             )
           })
 
-          Api.postCargaMasivaDetalle(this.pregastoMasivo).then((response) => {
-            this.show({
-              content: 'Registro añadido correctamente',
-              closable: true,
+          if (pregastoMasivo.length) {
+            Api.postCargaMasivaDetalle(pregastoMasivo).then(() => {
+              this.show({
+                content: 'Registro añadido correctamente',
+                closable: true,
+              })
             })
-          })
-          setTimeout(this.getListarGastos, 500)
+            this.loadData();
+          } else {
+            this.show({
+                content: 'No se encontraron registros',
+                closable: true,
+                color: 'danger',
+                class: 'text-white',
+                time: 15_000
+            });
+          }
         }
 
         reader.readAsBinaryString(this.file)
       }
     },
-    Guardar() {
-      if (this.id != null) {
-        Api.updateFormulacion(this.id, this.post)
-          .then((response) => {
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              text: 'Datos Actualizado con exito',
-              title: 'Actualizado',
-              showConfirmButton: false,
-              timer: 1500,
-            })
-          })
-          .catch((error) => {
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              text: `${error.data.message}`,
-              title: 'Actualizado',
-              showConfirmButton: false,
-              timer: 1500,
-            })
-          })
-      } else {
-        this.addGasto(this.post)
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          text: 'Datos agregados con exito',
-          title: 'Agregado',
-          showConfirmButton: false,
-          timer: 1500,
-        })
+    guardarFormulacionGasto(data) {
+      if (data.presGastoDto.id) {
+        return Api.updateFormulacion(data.presGastoDto.id, data)
       }
-      event.preventDefault()
-      event.stopPropagation()
-      this.clearForm()
-      setTimeout(this.getListarGastos, 500)
+      return this.addGasto(data);
     },
-    guardarDetalleGasto() {
-      if (this.idDetalle != null) {
-        if (this.detallePost.oriBco1 === '') {
-          this.detallePost.oriBco1 = 0
-        }
-        if (this.detallePost.oriBco2 === '') {
-          this.detallePost.oriBco2 = 0
-        }
-        if (this.detallePost.oriBco3 === '') {
-          this.detallePost.oriBco3 = 0
-        }
-        if (this.detallePost.oriBco4 === '') {
-          this.detallePost.oriBco4 = 0
-        }
-        this.detallePost.presupuestoBco1 = this.detallePost.oriBco1
-        this.detallePost.presupuestoBco2 = this.detallePost.oriBco2
-        this.detallePost.presupuestoBco3 = this.detallePost.oriBco3
-        this.detallePost.presupuestoBco4 = this.detallePost.oriBco4
-       
-        this.clearForm()
-      } else {
-        this.detallePost.TIPO_GASTO1 =
-          this.detallePost.TIPO_GASTO1.split('-')[0]
-        this.detallePost.TIPO_GASTO2 =
-          this.detallePost.TIPO_GASTO2.split('-')[0]
-        this.detallePost.TIPO_GASTO3 =
-          this.detallePost.TIPO_GASTO3.split('-')[0]
-        this.detallePost.TIPO_GASTO4 =
-          this.detallePost.TIPO_GASTO4.split('-')[0]
-        if (this.detallePost.oriBco1 === '') {
-          this.detallePost.oriBco1 = 0
-        }
-        if (this.detallePost.oriBco2 === '') {
-          this.detallePost.oriBco2 = 0
-        }
-        if (this.detallePost.oriBco3 === '') {
-          this.detallePost.oriBco3 = 0
-        }
-        if (this.detallePost.oriBco4 === '') {
-          this.detallePost.oriBco4 = 0
-        }
-        this.detallePost.presupuestoBco1 = this.detallePost.oriBco1
-        this.detallePost.presupuestoBco2 = this.detallePost.oriBco2
-        this.detallePost.presupuestoBco3 = this.detallePost.oriBco3
-        this.detallePost.presupuestoBco4 = this.detallePost.oriBco4
+    IngresoReport() {
+      window.open(
+        `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Gastos_Formulacion_FP08&rs:Command=Render&ANO=${this.$fiscalYearId}&CAPITULO_AYTO=${this.$ayuntamientoId}&FONDO=P`,
+        '_blank',
+      );
+    },
 
-        console.log(this.detallePost, this.post.detallePresGastos)
-        this.post.detallePresGastos = [{...this.detallePost}, ...this.post.detallePresGastos];
-        console.log(this.post.detallePresGastos)
+    cargarEstructuras() {
+      Api.cargarEstructuras()
+      .then(() => {
+        this.loadData();
+        this.show({
+            content: "Cargar realizada correctamente",
+            time: 15_000
+        });
+      })
+      .catch(response => {
+        this.show({
+            content: response.data,
+            closable: true,
+            color: 'danger',
+            class: 'text-white',
+        });
+      });
+    },
+
+    toggleDetails(item) {
+      this.formulacionGasto = {...item};
+      this.showFormulacionDialog = true;
+    },
+    onFormulacionGastoDialogClose(data) {
+      if (data) {
+        const { detallePresGastos, ...rest } = data;
+        this.guardarFormulacionGasto({
+          detallePresGastoDtos: detallePresGastos,
+          presGastoDto: rest 
+        })
+        .then((response) => {
+            this.show({
+                content: response.data.message,
+                closable: true,
+            });
+            this.formulacionGasto = {};
+            this.showFormulacionDialog = false;
+            
+            this.loadData();
+          })
+          .catch((response) => {
+            this.show({
+                content: response.data,
+                closable: true,
+                color: 'danger',
+                class: 'text-white',
+            });
+          })
+      } else {
+        this.formulacionGasto = {};
+        this.showFormulacionDialog = false;
       }
-      
-      setTimeout(this.getDetalleGasto, 500)
     },
-    formatPrice(value) {
-      let val = (value / 1).toFixed(2).replace('.', '.')
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-    },
-    clearForm() {
-      this.post = {
+    setNuevoFormulacionGasto() {
+      this.formulacionGasto = {
         clasifica: '',
         ayuntamientoId: this.$ayuntamientoId,
         anioFiscalId: this.$fiscalYearId,
         mestprogId: '',
-        costObra: '',
+        costObra: 0,
         pnap: '',
         nombre: '',
         programa: '',
@@ -579,68 +450,25 @@ export default {
         actObra: '',
         estControl: '',
         unidadResp: '',
-        tipo: '',
+        tipo: 'DETALLE',
         totalPresupuesto: 0,
         actControl: '',
         pppm: 'n',
         modContatro: 'n',
         asignadoA: 0,
         asignadoA: 0,
-        fechaIniciada: new Date(Date.now()),
-        detallePresGastos: []
-      }
-    },
-    getEstructura() {
-      Api.getEstruturaProgramaticaById(this.post.mestprogId).then(
-        (response) => {
-          this.post.nombre = response.data.data.nombre
-          this.post.unidadResp = response.data.data.unidadRespon
-        },
-      )
-    },
-    getTotal() {
-      axios
-      Api.getTotalIngresos(
-        this.$ayuntamientoId,
-        this.$fiscalYearId,
-      ).then((response) => {
-        this.formulado.alafecha = response.data.alafecha
-        this.formulado.anO_ANT = response.data.anO_ANT
-        this.formulado.preS_FORM = response.data.preS_FORM
-      })
-    },
-
-    IngresoReport() {
-      window.open(
-        `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Gastos_Formulacion_FP08&rs:Command=Render&ANO=${this.$fiscalYearId}&CAPITULO_AYTO=${this.$ayuntamientoId}&FONDO=P`,
-        '_blank',
-      )`http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Gastos_Formulacion_FP08&rs:Command=Render&ANO=1&CAPITULO_AYTO=${this.$ayuntamientoId}&FONDO=P`.focus()
-    },
-    cargarEstructuras() {
-      setTimeout(this.getListarGastos, 500)
-      Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        text: 'Estructuras Cargadas',
-        title: 'success',
-        showConfirmButton: false,
-        timer: 1500,
-      })
-      Api.cargarEstructuras()
-    },
-
-    toggleDetails(item) {
-      this.id = item.id;
-      this.formulacionGasto = {...item};
+        fecha: (new Date()).toISOString(),
+        detallePresGastos: [],
+      };
       this.showFormulacionDialog = true;
     },
-    onFormulacionGastoDialogClose(data) {
-      if (data) {
-        console.log(data);
-      }
-
-      this.formulacionGasto = {};
-      this.showFormulacionDialog = false;
+    loadData() {
+      this.getListarGastos()
+      setTimeout(() => {
+        nextTick().then(() => {
+          this.footerItem[0].label = `Total items: ${this.gastoListCount}`;
+        });
+      }, 200);
     }
   },
 
@@ -649,23 +477,11 @@ export default {
     ...mapState(usePrepGastoStore, [
       'prepGastoList',
       'gastoListCount',
-      'GastosListDos',
-      'getGasto',
-      'dataDummy',
     ]),
-    sumOfBalance() {
-      return (
-        Number(this.detallePost.oriBco1 || 0) +
-        Number(this.detallePost.oriBco2 || 0) +
-        Number(this.detallePost.oriBco3 || 0) +
-        Number(this.detallePost.oriBco4 || 0)
-      )
-    },
   },
 
   mounted() {
-    this.getListarGastos()
-    this.footerItem[0].label = `Total items: ${this.gastoListCount}` 
+    this.loadData();
   },
 }
 </script>
@@ -688,8 +504,5 @@ export default {
   position: absolute;
   width: 100%;
   height: 100%;
-}
-.footerStyle {
-  text-align: center;
 }
 </style>

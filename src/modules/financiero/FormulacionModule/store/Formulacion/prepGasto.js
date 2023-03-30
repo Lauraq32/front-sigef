@@ -41,33 +41,23 @@ export const usePrepGastoStore = defineStore('prepGasto', () => {
   }
 
   function addGasto(post) {
-    Api.postGastos(post).then((response) => {
-      console.log(response)
-    })
+    return Api.postGastos(post);
   }
 
   function updatePresGasto(id, data) {
-    Api.updateFormulacion(id, data).then((response) => {
-      console.log(response)
-    })
+    return Api.updateFormulacion(id, data);
   }
 
   function updatePresGastoDetalle(id, data) {
-    Api.updateFormulacionDetalle(id, data).then((response) => {
-      console.log(response)
-    })
+    return Api.updateFormulacionDetalle(id, data);
   }
 
   function addDetalleGasto(post) {
-    Api.postDetalleGasto(post).then((response) => {
-      console.log(response)
-    })
+    return Api.postDetalleGasto(post);
   }
 
   function getDetalleGasto(id) {
-    Api.getDetalle(id).then((response) => {
-      console.log(response)
-    })
+    return Api.getDetalle(id);
   }
 
   return {

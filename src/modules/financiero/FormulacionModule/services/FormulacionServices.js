@@ -175,22 +175,12 @@ class FormulacionApi {
   cargarEstructuras() {
     return http
       .post(
-        `PresGasto?anio=${
+        `PresGasto/InsertPresGasto?anio=${
           getFiscalYearId()
         }&ayuntamientoId=${
           getAyuntamientoId()
         }`,
       )
-      .catch((error) => {
-        Swal.fire({
-          position: 'top-end',
-          icon: 'error',
-          text: error.response.data.detail,
-          title: 'Error',
-          showConfirmButton: false,
-          timer: 1500,
-        })
-      })
   }
 
   postDetalleGasto(post) {

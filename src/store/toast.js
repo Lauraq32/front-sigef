@@ -9,9 +9,7 @@ export const useToastStore = defineStore('ToastStore', () => {
         state.value.push(message);
     };
     const removeMessage = (id) => {
-        console.log("borrame", id, state.value);
         state.value = state.value.filter(message => message.id !== id);
-        console.log("borrame", id, state.value);
     }
 
     return ({

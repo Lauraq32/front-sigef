@@ -13,36 +13,36 @@
         </CModalHeader>
         <CModalBody>
             <CCardBody>
-                <CForm ref="formulacionForm" class="row g-3 needs-validation" novalidate>
+                <CForm ref="formulacionForm" class="row g-3 needs-validation"  novalidate :validated="isFormValidated">
                     <CCol :md="2">
                         <CFormLabel for="formulacionGasto.pnap">PNAP</CFormLabel>
-                        <input ref="name" class="form-control" :disabled="formulacionGasto.id != null ? true : false"
-                            v-model="formulacionGasto.pnap" id="formulacionGasto.pnap" />
+                        <input ref="name" class="form-control" :disabled="formulacionGasto.id ? true : false"
+                            v-model="formulacionGasto.pnap" id="formulacionGasto.pnap" type="number" />
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <CCol :md="2">
                         <CFormLabel for="formulacionGasto.programa">Programa</CFormLabel>
-                        <CFormInput :disabled="formulacionGasto.id != null ? true : false" v-model="formulacionGasto.programa"
-                            id="formulacionGasto.programa" required />
+                        <CFormInput :disabled="formulacionGasto.id ? true : false" v-model="formulacionGasto.programa"
+                            id="formulacionGasto.programa" required  type="number"/>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <CCol :md="2">
                         <CFormLabel for="formulacionGasto.proyecto">Proyecto</CFormLabel>
                         <CInputGroup class="has-validation">
-                            <CFormInput :disabled="formulacionGasto.id != null ? true : false" v-model="formulacionGasto.proyecto"
-                                id="formulacionGasto.proyecto" value="" aria-describedby="inputGroupPrepend" required />
+                            <CFormInput :disabled="formulacionGasto.id ? true : false" v-model="formulacionGasto.proyecto"
+                                id="formulacionGasto.proyecto" value="" aria-describedby="inputGroupPrepend" required  type="number"/>
                             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                         </CInputGroup>
                     </CCol>
                     <CCol :md="4">
                         <CFormLabel for="formulacionGasto.actObra">Actividad/Obra</CFormLabel>
-                        <CFormInput :disabled="formulacionGasto.id != null ? true : false" v-model="formulacionGasto.actObra"
-                            id="formulacionGasto.actObra" required />
+                        <CFormInput :disabled="formulacionGasto.id ? true : false" v-model="formulacionGasto.actObra"
+                            id="formulacionGasto.actObra" required  type="number"/>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <CCol :md="3">
-                        <CFormLabel for="formulacionGasto.estructuraProgramatica">Est. Programática control</CFormLabel>
-                        <CFormInput disabled v-model="formulacionGasto.estructuraProgramatica" id="formulacionGasto.estructuraProgramatica">
+                        <CFormLabel for="formulacionGasto.mestprogId">Est. Programática control</CFormLabel>
+                        <CFormInput disabled v-model="formulacionGasto.mestprogId" id="formulacionGasto.mestprogId">
                         </CFormInput>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
@@ -60,14 +60,14 @@
                     <CCol :md="4">
                         <CFormLabel for="formulacionGasto.tipo">Tipo</CFormLabel>
                         <CFormSelect v-model="formulacionGasto.tipo" id="formulacionGasto.tipo">
-                            <option>DETALLE</option>
-                            <option>CABECERA</option>
+                            <option value="DETALLE">DETALLE</option>
+                            <option value="CABECERA">CABECERA</option>
                         </CFormSelect>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <CCol :md="4">
                         <CFormLabel for="formulacionGasto.costObra">No. fondo transferido</CFormLabel>
-                        <CFormInput v-model="formulacionGasto.costObra" id="formulacionGasto.costObra"></CFormInput>
+                        <CFormInput v-model.number="formulacionGasto.costObra" id="formulacionGasto.costObra"></CFormInput>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <div class="modal-footer">
@@ -154,10 +154,72 @@ import { formatPrice } from '@/utils/format'
 import { ref, watchEffect, nextTick } from 'vue'
 import Api from '../services/FormulacionServices'
 import GastoDetalleDialog from './GastoDetalleDialog'
+import { getAyuntamientoId, getFiscalYearId } from '@/utils/logged-info'
 
 const emit = defineEmits(['close']);
+const newDetailData = {
+    id: 0,
+    presGastoId: 0,
+    ayuntamientoId: getAyuntamientoId(),
+    anioFiscalId: getFiscalYearId(),
+    mestprogId: '',
+    ctgClasificadorId: '',
+    cControl: '',
+    auxiliar: '',
+    ctgFuenteId: '',
+    ctgFuenteEspecificaId: '',
+    ctgOrganismoFinanciadorId: '',
+    oriFondos: 0,
+    ctgFuncionId: '1',
+    nombre: '',
+    tipo: '',
+    TIPO_GASTO1: '11',
+    TIPO_GASTO2: '12',
+    TIPO_GASTO3: '21',
+    TIPO_GASTO4: '13',
+    tipoGasto: '',
+    oriBco1: 0,
+    estimadoBco1: 0,
+    presupuestoBco1: 0,
+    variacionBco1: 0,
+    totalDevengadoBco1: 0,
+    disponiblePagadoBco1: 0,
+    totalPagadoBco1: 0,
+    oriBco2: 0,
+    estimadoBco2: 0,
+    presupuestoBco2: 0,
+    variacionBco2: 0,
+    totalDevengadoBco2: 0,
+    disponiblePagadoBco2: 0,
+    totalPagadoBco2: 0,
+    oriBco3: 0,
+    estimadoBco3: 0,
+    presupuestoBco3: 0,
+    variacionBco3: 0,
+    totalDevengadoBco3: 0,
+    disponiblePagadoBco3: 0,
+    totalPagadoBco3: 0,
+    oriBco4: 0,
+    estimadoBco4: 0,
+    presupuestoBco4: 0,
+    variacionBco4: 0,
+    totalDevengadoBco4: 0,
+    disponiblePagadoBco4: 0,
+    totalPagadoBco4: 0,
+    totalOriginal: 0,
+    totalCompromiso: 0,
+    totalDevengado: 0,
+    totalPagado: 0,
+    totalVariacion: 0,
+    sumTotalOriginal: 0,
+    sumTotalCompromiso: 0,
+    sumTotalDevengado: 0,
+    sumTotalPagado: 0,
+    sumTotalVariacion: 0,
+};
 const showDetailDialog = ref(false);
-const detalle = ref({});
+const isFormValidated = ref();
+const detalle = ref({ ...newDetailData });
 const formulacionForm = ref();
 const props = defineProps({
     formulacionGasto: {
@@ -208,7 +270,7 @@ const columns = [
 
 const footerItems = ref([
     {
-        label: 'Total Items',
+        label: 'Total Items 0',
         _props: {
             colspan: 2,
             style: 'font-weight:bold; text-align:left',
@@ -252,11 +314,21 @@ const footerItems = ref([
 ]);
 
 watchEffect(() => {
-    props.formulacionGasto.estructuraProgramatica = `${props.formulacionGasto.pnap}${props.formulacionGasto.programa}${props.formulacionGasto.proyecto}${props.formulacionGasto.actObra}`;
-    if (props.isVisible) {
+    props.formulacionGasto.mestprogId = `${props.formulacionGasto.pnap ?? ''}${props.formulacionGasto.programa ?? ''}${
+        props.formulacionGasto.proyecto ?? ''}${props.formulacionGasto.actObra ?? ''}`;
+
+    if (props.isVisible && props.formulacionGasto.id) {
         Api.getDetalle(props.formulacionGasto.id).then((response) => {
             props.formulacionGasto.detallePresGastos = response.data.data ?? [];
             calculateTotals(props.formulacionGasto.detallePresGastos);
+        });
+    }
+    // Load Estructura programatica de control
+    if (props.isVisible && props.formulacionGasto.mestprogId && props.formulacionGasto.mestprogId.length >= 10) {
+        Api.getEstruturaProgramaticaById(props.formulacionGasto.mestprogId)
+        .then((response) => {
+            props.formulacionGasto.nombre = response.data?.data?.nombre ?? '';
+            props.formulacionGasto.unidadResp = response.data?.data?.unidadRespon ?? '';
         });
     }
 });
@@ -277,13 +349,19 @@ const onDetailDialogClose = (data) => {
         } else {
             props.formulacionGasto.detallePresGastos.push(rest);
         }
-        nextTick(() => {
-            calculateTotals(props.formulacionGasto.detallePresGastos);
-            detalle.value = {};
-        }).catch(console.error);
+        props.formulacionGasto.detallePresGastos = [...props.formulacionGasto.detallePresGastos];
     }
-    showDetailDialog.value = false;
+    setTimeout(() => {
+        nextTick().then(() => {
+            calculateTotals(props.formulacionGasto.detallePresGastos);
+            detalle.value = { ...newDetailData };
+            showDetailDialog.value = false;
+            console.log("why is not updating", props.formulacionGasto.detallePresGastos);
+        })
+        .catch(console.error);
+    }, 200);;
 }
+
 const onEditDetalle = (item) => {
     detalle.value = {...item, editing: true};
     showDetailDialog.value = true;
@@ -294,7 +372,12 @@ const closeDialog = (data) => {
 }
 
 const guardarFormulacionGasto = () => {
-    closeDialog(props.formulacionGasto);
+    isFormValidated.value = false;
+    if (formulacionForm.value?.$el.checkValidity()) {
+        closeDialog(props.formulacionGasto);
+    } else {
+        isFormValidated.value = true;
+    }
 }
 
 function calculateTotals(detalles) {
