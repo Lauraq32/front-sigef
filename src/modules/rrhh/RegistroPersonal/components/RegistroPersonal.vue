@@ -1,6 +1,6 @@
 <template>
   <h3 class="text-center">Mantenimientos Empleados</h3>
-  <AccionPersonalDialog :showModal="lgDemo4" />
+  <AccionPersonalDialog :showModal="lgDemo4" @custom-event="closeModal" />
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
@@ -964,7 +964,7 @@ import Api from '../services/RegistroPersonalServices'
 import apiSectores from '../../../financiero/NominaModule/services/NominaServices'
 import moment from 'moment'
 import { useToastStore } from '@/store/toast'
-import  AccionPersonalDialog  from '../../RegistroPersonal/components/Dialogos/AccionPersonal.vue'
+import AccionPersonalDialog from '../../RegistroPersonal/components/Dialogos/AccionPersonal.vue'
 
 export default {
   components: {
@@ -1134,28 +1134,6 @@ export default {
         },
       ],
 
-      columns2: [
-        { key: 'fecha', label: 'Fecha', _style: { width: '20%' } },
-        {
-          key: 'tipoDeAccion',
-          label: 'Tipo de acción',
-          _style: { width: '20%' },
-        },
-        {
-          key: 'detalle',
-          label: 'Detalles',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
-        },
-      ],
-
       details: [],
 
       validatedCustom01: null,
@@ -1219,6 +1197,9 @@ export default {
     openModal() {
       this.lgDemo = true
       setTimeout(this.unaVez, 200)
+    },
+    closeModal(payload) {
+      this.lgDemo4 = payload
     },
 
     changePrograma(e) {
@@ -1616,7 +1597,6 @@ export default {
     apiSectores.getSectores().then((response) => {
       this.sector = response.data.data
       this.postEmpleado.sectorId = this.sector[0].id
-      console.log(this.sector)
     })
 
     Api.getAllTipoSangre().then((response) => {

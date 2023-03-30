@@ -1,5 +1,5 @@
 <template>
-  <CModal size="lg">
+  <CModal @close="onClick" size="lg" :visible="showModal">
     <CModalHeader>
       <CModalTitle>Acción de Personal</CModalTitle>
     </CModalHeader>
@@ -52,7 +52,7 @@
               class="btn btn-info btn-block mt-1"
               @click="
                 () => {
-                  lgDemo4 = false
+                  lgDemo5 = true
                 }
               "
             >
@@ -158,15 +158,7 @@
     </div>
   </CModal>
 
-  <CModal
-    size="lg"
-    :visible="showModal"
-    @close="
-      () => {
-        lgDemo4 = true
-      }
-    "
-  >
+  <CModal size="lg" :visible="lgDemo5">
     <CModalHeader>
       <CModalTitle>Acción de Personal</CModalTitle>
     </CModalHeader>
@@ -289,6 +281,41 @@ export default {
   components: {
     CSmartTable,
     CModal,
+  },
+
+  data: function () {
+    return {
+      lgDemo5: false,
+
+      columns2: [
+        { key: 'fecha', label: 'Fecha', _style: { width: '20%' } },
+        {
+          key: 'tipoDeAccion',
+          label: 'Tipo de acción',
+          _style: { width: '20%' },
+        },
+        {
+          key: 'detalle',
+          label: 'Detalles',
+          _style: { width: '40%' },
+        },
+        {
+          key: 'show_details',
+          label: '',
+          _style: { width: '1%' },
+          filter: false,
+          sorter: false,
+        },
+      ],
+
+      details: [],
+    }
+  },
+
+  methods: {
+    onClick() {
+      this.$emit('custom-event', false)
+    },
   },
 
   props: {
