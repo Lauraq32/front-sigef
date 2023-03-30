@@ -479,6 +479,7 @@ export default {
       })
     },
     getTotales() {
+      
       console.log(this.AuthStore.user)
       Api.getTotalIngresos(
         this.authInfo.currentFiscalYearId,
