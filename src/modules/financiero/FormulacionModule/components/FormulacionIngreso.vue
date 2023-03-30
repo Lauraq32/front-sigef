@@ -30,7 +30,7 @@
     </div>
   </div>
 
-  <CSmartTable class="sticky-top" clickableRows :tableProps="{
+  <CSmartTable clickableRows :tableProps="{
     striped: true,
     hover: true,
   }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header key="ingreso.id" :items="ingresos"
@@ -128,16 +128,21 @@
     <CModalBody>
       <CCardBody>
         <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01" @submit="handleSubmitCustom01">
-          <CCol :md="2">
+          <CCol :md="3">
             <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
-            <input ref="name" required on:keyup.native.enter="getClasificador" class="form-control"
-              v-model="postIngreso.ctgClasificadorId" type="number" id="clasifica" />
+            <div class="position-relative">
+              <input ref="name" required on:keyup.native.enter="getClasificador" class="form-control padding-input"
+                v-model="postIngreso.ctgClasificadorId" type="number" id="clasifica" />
+              <span class="position-absolute icon-input">
+                <CIcon icon="cisSearch" size="xl" v-on:click="getClasificador" />
+              </span>
+            </div>
+            <CFormFeedback valid> Exito! </CFormFeedback>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <CCol :md="1">
-            <button class="btn btn-primary btn-sm" style="margin-top: 32px; height: 37px" v-on:click="getClasificador">
-              Buscar
-            </button>
-          </CCol>
+
+
+
           <CCol :md="2">
             <CFormLabel for="validationCustom02">Cta. Control</CFormLabel>
             <CFormInput disabled v-model="postIngreso.control" id="validationCustom02" required />
@@ -154,7 +159,7 @@
             <CFormInput :disabled="ctgFuenteId" v-model="postIngreso.ctgFuenteId" id="validationCustom03" required />
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom04">Fuente Espec&iacute;fica</CFormLabel>
+            <CFormLabel for="validationCustom04">Fuente Específica</CFormLabel>
             <CFormInput :disabled="ctgFuenteEspecificaId" v-model="postIngreso.ctgFuenteEspecificaId"
               id="validationCustom04" required>
             </CFormInput>
@@ -165,7 +170,7 @@
               id="validationCustom05" required />
           </CCol>
           <CCol :md="3">
-            <CFormLabel>Instituci&oacute;n Otorgante</CFormLabel>
+            <CFormLabel>Institución Otorgante</CFormLabel>
             <CFormInput v-model="postIngreso.instOtorga" type="number" step="any">
             </CFormInput>
           </CCol>
@@ -214,6 +219,58 @@
       </CCardBody>
     </CModalBody>
   </CModal>
+  <CModal size="lg" :visible="findClasificadorModal" @close="
+    () => {
+      findClasificadorModal = false
+    }
+  ">
+
+
+    <CModalBody>
+      <CCardBody>
+        <CSmartTable clickableRows :tableProps="{
+          striped: true,
+          hover: true,
+        }" :tableHeadProps="{}" :activePage="1" tableFilter header key="ingreso.id" :items="clasificadorItems"
+          :columns="clasificadorColumns" itemsPerPageSelect :itemsPerPage="5"
+          :items-per-page-options="[5, 10, 20, 50, 100, 150]" columnSorter
+          :sorterValue="{ column: 'status', state: 'asc' }" pagination>
+
+          <template #show_details="{ item }">
+            <td class="py-2">
+              <div class="d-flex justify-content-around">
+                <CButton class="mt-1" color="primary" variant="outline" square size="sm"
+                  @click="SelectClasificador(item)">
+                  {{ Boolean(item._toggled) ? 'Hide' : 'Seleccionar' }}
+                </CButton>
+              </div>
+            </td>
+          </template>
+          <template #details="{ item }">
+            <CCollapse :visible="this.details.includes(item._id)">
+              <CCardBody>
+                <h4>
+                  {{ item.username }}
+                </h4>
+                <p class="text-muted">User since: {{ item.registered }}</p>
+                <CButton size="sm" color="info" class=""> User Settings </CButton>
+                <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
+              </CCardBody>
+            </CCollapse>
+
+          </template>
+        </CSmartTable>
+        <div class="d-flex flex-row-reverse">
+          <button @click="() => { findClasificadorModal = false }" type="button" class="btn btn-secondary">
+            Cerrar
+          </button>
+        </div>
+
+      </CCardBody>
+
+    </CModalBody>
+
+  </CModal>
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
@@ -236,6 +293,8 @@ export default {
   },
   data: function () {
     return {
+      clasificadorItems: [],
+      findClasificadorModal: false,
       cilCloudUpload,
       texto: null,
       fileName: '',
@@ -255,15 +314,15 @@ export default {
       },
 
       postIngreso: {
-        anioFiscalId: null,
-        ayuntamientoId: null,
+        anioFiscalId: this.$fiscalYearId,
+        ayuntamientoId: this.$ayuntamientoId,
         ctgClasificadorId: null,
         instOtorga: 0,
-        control: '',
-        detalle: null,
-        ctgFuenteId: null,
-        ctgFuenteEspecificaId: null,
-        ctgOrganismoFinanciadorId: null,
+        control: 0,
+        detalle: '',
+        ctgFuenteId: 0,
+        ctgFuenteEspecificaId: 0,
+        ctgOrganismoFinanciadorId: 0,
         anioAnt: 0,
         alaFecha: 0,
         presForm: 0,
@@ -368,6 +427,26 @@ export default {
         },
       ],
       details: [],
+      clasificadorColumns: [
+        { key: 'clasifica', label: 'Clasificador' },
+        { key: 'cControl', label: 'Control' },
+        { key: 'nombre', label: 'Detalle', _style: { width: '25%' } },
+        {
+          key: 'tipo',
+          label: 'Tipo',
+          filter: false,
+          sorter: false,
+          _style: { width: '5%' },
+        },
+        {
+          key: 'show_details',
+          label: '',
+          _style: { width: '10%' },
+          filter: false,
+          sorter: false,
+        }
+      ],
+
     }
   },
   methods: {
@@ -389,6 +468,44 @@ export default {
         fURL.click()
       })
     },
+
+
+    SelectClasificador(clasificador) {
+      Api.getClasificador(clasificador.clasifica)
+        .then((response) => {
+          if (response.data.data) {
+            this.postIngreso.ctgClasificadorId = clasificador.clasifica
+            this.postIngreso.control = response.data.data.cControl
+            this.postIngreso.detalle = response.data.data.nombre
+            this.postIngreso.ctgFuenteId = response.data.data.ctgFuenteId
+            this.postIngreso.ctgFuenteEspecificaId =
+              response.data.data.ctgFuenteEspecificaId
+            this.postIngreso.ctgOrganismoFinanciadorId =
+              response.data.data.ctgOrganismoFinanciadorId
+            this.validateInputctgFuente()
+            this.validateInputctgFuenteEspecificaId()
+            this.validateInputctgOrganismoFinanciadorId()
+            return
+          } else if (response.data.Data) {
+            return this.show({
+              content: error.message,
+              closable: true,
+              color: 'danger',
+            })
+          }
+        })
+        .catch((error) => {
+          if (response.Errors == null) {
+            return this.show({
+              content: error.message,
+              closable: true,
+              color: 'danger',
+            })
+          }
+        })
+      this.findClasificadorModal = false
+    },
+
 
     focusInput() {
       this.$refs.name.focus()
@@ -526,12 +643,12 @@ export default {
         ayuntamientoId: this.authInfo.currentFiscalYearId,
         ctgClasificadorId: null,
         instOtorga: 0,
-        control: '',
-        detalle: null,
+        control: 0,
+        detalle: '',
         anioAnt: 0,
-        ctgFuenteId: null,
-        ctgFuenteEspecificaId: null,
-        ctgOrganismoFinanciadorId: null,
+        ctgFuenteId: 0,
+        ctgFuenteEspecificaId: 0,
+        ctgOrganismoFinanciadorId: 0,
         alaFecha: 0,
         presForm: 0,
         variacion: 0,
@@ -552,16 +669,16 @@ export default {
 
           this.getAllIngreso()
           this.postIngreso = {
-            anioFiscalId: this.authInfo.user.ayuntamiento.id,
-            ayuntamientoId: this.authInfo.currentFiscalYearId,
+            anioFiscalId:  this.authInfo.currentFiscalYearId,
+            ayuntamientoId: this.authInfo.user.ayuntamiento.id,
             ctgClasificadorId: null,
             instOtorga: 0,
-            control: '',
-            detalle: null,
+            control: 0,
+            detalle: '',
             anioAnt: 0,
-            ctgFuenteId: null,
-            ctgFuenteEspecificaId: null,
-            ctgOrganismoFinanciadorId: null,
+            ctgFuenteId: 0,
+            ctgFuenteEspecificaId: 0,
+            ctgOrganismoFinanciadorId: 0,
             alaFecha: 0,
 
             presForm: 0,
@@ -579,6 +696,10 @@ export default {
         this.postIngreso.anioAnt = parseFloat(this.postIngreso.anioAnt)
         this.postIngreso.alaFecha = parseFloat(this.postIngreso.alaFecha)
         this.postIngreso.presForm = parseFloat(this.postIngreso.presForm)
+        this.postIngreso.control = parseFloat(this.postIngreso.control)
+        this.postIngreso.ctgFuenteEspecificaId = parseFloat(this.postIngreso.ctgFuenteEspecificaId)
+        this.postIngreso.ctgFuenteId = parseFloat(this.postIngreso.ctgFuenteId)
+        this.postIngreso.ctgOrganismoFinanciadorId = parseFloat(this.postIngreso.ctgOrganismoFinanciadorId)
         Api.postFormulacionIngreso(this.postIngreso)
           .then((response) => {
             this.show({
@@ -590,12 +711,12 @@ export default {
               ayuntamientoId: this.authInfo.user.ayuntamiento.id,
               ctgClasificadorId: null,
               instOtorga: 0,
-              control: '',
-              detalle: null,
+              control: 0,
+              detalle: '',
               anioAnt: 0,
-              ctgFuenteId: null,
-              ctgFuenteEspecificaId: null,
-              ctgOrganismoFinanciadorId: null,
+              ctgFuenteId: 0,
+              ctgFuenteEspecificaId: 0,
+              ctgOrganismoFinanciadorId: 0,
               alaFecha: 0,
 
               presForm: 0,
@@ -603,9 +724,10 @@ export default {
               ingresos: 0,
               variacionResumen: 0,
             }
-          }).catch((error) => {
+          })
+          .catch((error) => {
             this.show({
-              content: error.message,
+              content: (error.data.errors.length && error.data.errors) || error.data.message ,
               closable: true,
               color: 'danger',
             })
@@ -615,37 +737,15 @@ export default {
 
         this.validatedCustom01 = false
         setTimeout(this.getAllIngreso, 500)
-        // this.clearModal()
         this.getTotales()
       }
     },
     getClasificador() {
-      Api.getClasificador(this.postIngreso.ctgClasificadorId)
-        .then(({ response }) => {
-          // if(!data) {
-          //   return Promise.reject(response)
-          // }
-          // this.postIngreso.control = response.data.data.cControl
-          // this.postIngreso.detalle = response.data.data.nombre
-          // this.postIngreso.ctgFuenteId = response.data.data.ctgFuenteId
-          // this.postIngreso.ctgFuenteEspecificaId =
-          //   response.data.data.ctgFuenteEspecificaId
-          // this.postIngreso.ctgOrganismoFinanciadorId =
-          //   response.data.data.ctgOrganismoFinanciadorId
-          console.log('344', response)
-          this.validateInputctgFuente()
-          this.validateInputctgFuenteEspecificaId()
-          this.validateInputctgOrganismoFinanciadorId()
-        })
-        .catch((error) => {
-          if (response.Errors == null) {
-            return this.show({
-              content: error.message,
-              closable: true,
-              color: 'danger',
-            })
-          }
-        })
+      this.findClasificadorModal = true
+      Api.getListarClasificadores().then(response => {
+        this.clasificadorItems = response.data.data
+        console.log(response)
+      })
     },
     focusAno() {
       this.$refs.anoAnteriorRef.focus()
@@ -719,7 +819,6 @@ export default {
             })
           })
           setTimeout(this.getAllIngreso, 1000)
-          console.log(this.show)
         }
       })
     },
@@ -736,6 +835,18 @@ export default {
 }
 </script>
 <style scoped>
+.padding-input {
+  padding-right: 2.5rem;
+}
+
+.icon-input {
+  padding: 0.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  right: 2px;
+}
+
 .file-select>.select-button {
   padding: 0.5rem;
   line-height: 1.5;
@@ -751,3 +862,4 @@ export default {
   display: none;
 }
 </style>
+
