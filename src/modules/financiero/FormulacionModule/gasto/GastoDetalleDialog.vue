@@ -14,16 +14,16 @@
           <CCardBody>
             <CForm
               class="row g-3 needs-validation"
-              novalidate
               ref="detailForm"
+              :validated="false"
             >
               <CCol :md="2"
-                ><CFormLabel for="validationCustom01">Clasificador</CFormLabel>
+                ><CFormLabel for="clasificator">Clasificador</CFormLabel>
                 <div class="position-relative">
                   <input
-                    ref="name"
+                    id="clasificator"
                     required
-                    on:keyup.native.enter="getClasificador"
+                    @keyup.enter="getClasificador"
                     class="form-control padding-input"
                     v-model.number="detalle.ctgClasificadorId"
                     type="number"
@@ -257,12 +257,19 @@
                         <CFormLabel for="oriBco1"
                           >Personal</CFormLabel
                         >
-                        <CFormInput
-                          type="number"
-                          v-model.number="this.detalle.oriBco1"
+                        <VueNumberFormat
+                          v-model:value="detalle.oriBco1"
+                          type="text" 
+                          class="form-control" 
+                          :options="{
+                            precision: 3,
+                            prefix: '',
+                            decimal: '.',
+                            thousand: ',',
+                          }"
                           id="oriBco1"
-                        >
-                        </CFormInput>
+                          required
+                        />
                         <CFormFeedback invalid>
                           Favor agregar el campo
                         </CFormFeedback>
@@ -295,12 +302,19 @@
                         <CFormLabel for="validationCustom04"
                           >Servicios</CFormLabel
                         >
-                        <CFormInput
-                          type="number"
-                          v-model="this.detalle.oriBco2"
-                          id="validationCustom04"
-                        >
-                        </CFormInput>
+                        <VueNumberFormat
+                          v-model:value="detalle.oriBco2"
+                          type="text" 
+                          class="form-control" 
+                          :options="{
+                            precision: 3,
+                            prefix: '',
+                            decimal: '.',
+                            thousand: ',',
+                          }"
+                          id="oriBco2"
+                          required
+                        />
                         <CFormFeedback invalid>
                           Favor agregar el campo
                         </CFormFeedback>
@@ -333,12 +347,18 @@
                         <CFormLabel for="oriBco3"
                           >Inversión</CFormLabel
                         >
-                        <CFormInput
-                          type="number"
-                          v-model.number="this.detalle.oriBco3"
+                        <VueNumberFormat
+                          v-model:value="detalle.oriBco3"
+                          type="text" 
+                          class="form-control" 
+                          :options="{
+                            precision: 3,
+                            prefix: '',
+                            decimal: '.',
+                            thousand: ',',
+                          }"
                           id="oriBco3"
-                        >
-                        </CFormInput>
+                          required/>
                         <CFormFeedback invalid>
                           Favor agregar el campo
                         </CFormFeedback>
@@ -380,12 +400,19 @@
                         <CFormLabel for="oriBco4"
                           >E/G Salud</CFormLabel
                         >
-                        <CFormInput
-                          type="number"
-                          v-model.number="this.detalle.oriBco4"
+                        <VueNumberFormat
+                          v-model:value="detalle.oriBco4"
+                          type="text" 
+                          class="form-control" 
+                          :options="{
+                            precision: 3,
+                            prefix: '',
+                            decimal: '.',
+                            thousand: ',',
+                          }"
                           id="oriBco4"
-                        >
-                        </CFormInput>
+                          required
+                        />
                         <CFormFeedback invalid>
                           Favor agregar el campo
                         </CFormFeedback>
@@ -442,13 +469,14 @@
     :filtered="
       (clasificator) =>
         (clasificator.tipo ===
-          'DETALLE' && clasificator.origen === 'GASTO' && clasificator?.clasifica?.toString().startsWith('2'))
+          'DETALLE' && clasificator.origen === 'GASTO' && clasificator?.clasifica?.toString().match(/^(2|4)/g))
     "
+    :term="detalle.ctgClasificadorId"
     @close="onClasificatorDialogClose"
   />
 </template>
 <script>
-import ClasificadorSelectorDialog from './ClasificadorSelectorDialog.vue'
+import ClasificadorSelectorDialog from '../components/ClasificadorSelectorDialog.vue'
 import { CCol } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { computed, ref } from 'vue'
@@ -465,6 +493,7 @@ export default {
       default: false,
     },
   },
+  emits: ['close'],
   setup(props, {emit}) {
     const showClasificatorDialog = ref(false);
     const isFieldEditable = ref(true);
@@ -495,7 +524,7 @@ export default {
         }
     }
     const getClasificador = () => {
-      showClasificatorDialog.value = true
+      showClasificatorDialog.value = true;
     }
     const onClasificatorDialogClose = (clasificador) => {
       if (clasificador) {

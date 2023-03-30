@@ -95,7 +95,7 @@
 
 </template>
 <script>
-import { CSmartTable, CCol } from '@coreui/vue-pro'
+import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/FormulacionServices'
 import axios from 'axios'
@@ -202,25 +202,6 @@ export default {
         sumTotalPagado: 0,
         sumTotalVariacion: 0,
       },
-      clasificadorColumns: [
-        { key: 'clasifica', label: 'Clasificador' },
-        { key: 'cControl', label: 'Control' },
-        { key: 'nombre', label: 'Detalle', _style: { width: '25%' } },
-        {
-          key: 'tipo',
-          label: 'Tipo',
-          filter: false,
-          sorter: false,
-          _style: { width: '5%' },
-        },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '10%' },
-          filter: false,
-          sorter: false,
-        },
-      ],
       post: {
         clasifica: '',
         ayuntamientoId: this.$ayuntamientoId,
@@ -242,8 +223,6 @@ export default {
         asignadoA: 0,
         asignadoA: 0,
         fechaIniciada: '2022-10-31T14:18:15.972Z',
-        // sumTotalPresupuesto: 0,
-        // sumCostObra: 0,
         detallePost: [],
       },
       formulado: {
@@ -251,80 +230,6 @@ export default {
         anO_ANT: 0,
         preS_FORM: 0,
       },
-      validatedCustom01: null,
-      lgDemo: false,
-      lgDemo1: false,
-      lgDemo2: false,
-      footerItem: [
-        {
-          label: formatPrice(0),
-          _props: {
-            color: '',
-            colspan: 8,
-            style: { width: '90px' },
-          },
-        },
-        ,
-        {
-          label: formatPrice(0),
-          _props: {
-            color: '',
-            colspan: 1,
-            style: 'font-weight:bold; text-align:right',
-          },
-        },
-      ],
-      footerItems: [
-        {
-          label: 'Total Items',
-          _props: {
-            color: '',
-            colspan: 2,
-            style: 'font-weight:bold; text-align:left',
-          },
-        },
-        {
-          label: 0,
-          _props: {
-            color: '',
-            colspan: 1,
-            style: 'font-weight:bold; text-align:right ',
-          },
-        },
-        {
-          label: 0,
-          _props: {
-            color: '',
-            colspan: 1,
-            style: 'font-weight:bold; text-align:right ',
-          },
-        },
-        {
-          label: 0,
-          _props: {
-            color: '',
-            colspan: 1,
-            style: 'font-weight:bold; text-align:right ',
-          },
-        },
-        {
-          label: 0,
-          _props: {
-            color: '',
-            colspan: 1,
-            style: 'font-weight:bold; text-align:right ',
-          },
-        },
-        {
-          label: 0,
-          _props: {
-            color: '',
-            colspan: 1,
-            style: 'font-weight:bold; text-align:right ',
-          },
-        },
-      ],
-
       columns: [
         { key: 'pnap', label: 'Pnap', _style: { width: '10%' } },
         { key: 'programa', label: 'Programa', _style: { width: '10%' } },
@@ -332,11 +237,6 @@ export default {
         { key: 'actObra', label: 'Act/Obra', _style: { width: '10%' } },
         { key: 'estControl', label: 'Control', _style: { width: '10%' } },
         { key: 'nombre', label: 'Denominación', _style: { width: '20%' } },
-        // {
-        //   key: 'denominacion',
-        //   label: 'Denominacion',
-        //   _style: { width: '40%' },
-        // },
         { key: 'tipo', label: 'Tipo', _style: { width: '20%' } },
         {
           key: 'unidadResp',
@@ -357,65 +257,11 @@ export default {
         },
       ],
       details: [],
-      items: [
-        {
-          name: 'John Doe',
-          registered: '2018/01/01',
-          role: 'Guest',
-          status: 'Pending',
-        },
-      ],
-      columns2: [
-        {
-          key: 'ctgClasificadorId',
-          label: 'Clasificador',
-          _style: { width: '20%' },
-        },
-        {
-          key: 'nombre',
-          label: 'Denominacion',
-          _style: { width: '60%' },
-        },
-        {
-          Object: 'detallePresGastos',
-          key: 'totalOriginal',
-          label: 'Presupuesto',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'oriBco1',
-          label: 'Gastos Personal',
-          _style: { width: '40%' },
-        },
-        { key: 'oriBco2', label: 'Servicios', _style: { width: '40%' } },
-        { key: 'oriBco3', label: 'Inversion', _style: { width: '40%' } },
-        {
-          key: 'oriBco4',
-          label: 'Educ/Genero/Salud',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-        },
-      ],
-      items2: [
-        {
-          name: 'John Doe',
-          registered: '2018/01/01',
-          role: 'Guest',
-          status: 'Pending',
-        },
-      ],
       footerItem: [
         {
           label: 'Total Items',
           _props: {
-            color: '',
-            colspan: 1,
+            colspan: 10,
             style: 'font-weight:bold;',
           },
         },
@@ -424,13 +270,6 @@ export default {
     }
   },
   methods: {
-    close() {
-      if (this.lgDemo) {
-        return (this.lgDemo = false)
-      } else if (this.lgDemo1) {
-        return (this.lgDemo1 = false)
-      }
-    },
     ...mapActions(useToastStore, ['show']),
     ...mapActions(usePrepGastoStore, [
       'getListarGastos',
@@ -441,10 +280,6 @@ export default {
       'updatePresGasto',
       'getDetalleGasto',
     ]),
-    sumOfProp() {
-      this.post.mestprogId = `${this.post.pnap}${this.post.programa}${this.post.proyecto}${this.post.actObra}`
-      this.getEstructura()
-    },
     goToIngreso() {
       router.push({ name: 'Formulación Ingreso' })
     },
@@ -514,25 +349,8 @@ export default {
       }
     },
 
-    focusInput() {
-      this.$refs.name.focus()
-    },
-
-    focusInputs() {
-      this.$refs.klk.focus()
-    },
-
-    unaVez() {
-      this.focusInput()
-    },
-
-    unaVezs() {
-      this.focusInputs()
-    },
-
     openModal() {
       this.lgDemo = true
-      setTimeout(this.unaVez, 200)
     },
 
     onFileChange(event) {
@@ -651,9 +469,6 @@ export default {
         reader.readAsBinaryString(this.file)
       }
     },
-    openFields() {
-      this.openField = !this.openField
-    },
     Guardar() {
       if (this.id != null) {
         Api.updateFormulacion(this.id, this.post)
@@ -711,27 +526,7 @@ export default {
         this.detallePost.presupuestoBco2 = this.detallePost.oriBco2
         this.detallePost.presupuestoBco3 = this.detallePost.oriBco3
         this.detallePost.presupuestoBco4 = this.detallePost.oriBco4
-        // Api.updateFormulacionDetalle(this.idDetalle, this.detallePost)
-        //   .then((response) => {
-        //     Swal.fire({
-        //       position: 'top-end',
-        //       icon: 'success',
-        //       text: 'Datos Actualizado con exito',
-        //       title: 'Actualizado',
-        //       showConfirmButton: false,
-        //       timer: 1500,
-        //     })
-        //   })
-        //   .catch((error) => {
-        //     Swal.fire({
-        //       position: 'top-end',
-        //       icon: 'success',
-        //       text: `${error.data.message}`,
-        //       title: 'Actualizado',
-        //       showConfirmButton: false,
-        //       timer: 1500,
-        //     })
-        //   })
+       
         this.clearForm()
       } else {
         this.detallePost.TIPO_GASTO1 =
@@ -758,61 +553,14 @@ export default {
         this.detallePost.presupuestoBco2 = this.detallePost.oriBco2
         this.detallePost.presupuestoBco3 = this.detallePost.oriBco3
         this.detallePost.presupuestoBco4 = this.detallePost.oriBco4
-        // this.addDetalleGasto(this.detallePost)
+
         console.log(this.detallePost, this.post.detallePresGastos)
         this.post.detallePresGastos = [{...this.detallePost}, ...this.post.detallePresGastos];
         console.log(this.post.detallePresGastos)
       }
-      event.preventDefault()
-      event.stopPropagation()
-      // Api.getListarGastosById(this.detallePost.presGastoId).then((response) => {
-      //   this.detallePresGastos = response.data.data.detallePresGastos
-      // })
-      event.preventDefault()
-      event.stopPropagation()
+      
       setTimeout(this.getDetalleGasto, 500)
     },
-
-    getClasificador() {
-      this.findClasificadorModal = true
-      Api.getListarClasificadores().then((response) => {
-        this.clasificadorItems = response.data.data
-      })
-    },
-    SelectClasificador(clasificador) {
-      Api.getClasificador(clasificador.clasifica).then((response) => {
-        if (response.data.data.origen == 'GASTO') {
-          this.detallePost.ctgClasificadorId = clasificador.clasifica
-          this.detallePost.cControl = response.data.data.cControl
-          this.detallePost.nombre = response.data.data.nombre
-        } else {
-          Swal.fire({
-            position: 'top-end',
-            icon: 'warning',
-
-            title: 'Clasificador no permitido',
-            showConfirmButton: false,
-            timer: 1500,
-          })
-          this.detallePost.cControl = ''
-          this.detallePost.nombre = ''
-        }
-
-        // this.postIngreso.control = response.data.data.cControl
-        // this.postIngreso.detalle = response.data.data.nombre
-      })
-      this.findClasificadorModal = false
-    },
-    setValueButtonGasto(
-      FuenteFinanciamiento,
-      FuenteEspecifica,
-      OrganismoFinanciador,
-    ) {
-      this.detallePost.ctgFuenteId = FuenteFinanciamiento
-      this.detallePost.ctgFuenteEspecificaId = FuenteEspecifica
-      this.detallePost.ctgOrganismoFinanciadorId = OrganismoFinanciador
-    },
-
     formatPrice(value) {
       let val = (value / 1).toFixed(2).replace('.', '.')
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -842,7 +590,6 @@ export default {
         detallePresGastos: []
       }
     },
-    handleSubmitCustom01(event) {},
     getEstructura() {
       Api.getEstruturaProgramaticaById(this.post.mestprogId).then(
         (response) => {
@@ -882,68 +629,10 @@ export default {
       Api.cargarEstructuras()
     },
 
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
     toggleDetails(item) {
       this.id = item.id;
-      console.log(item, 'toggleDetails');
       this.formulacionGasto = {...item};
       this.showFormulacionDialog = true;
-      // Api.getListarGastosById(item.id).then((response) => {
-      //   console.log(response);
-      //   this.post = response.data.data
-      //   this.detallePost.presGastoId = item.id
-      //   this.detallePost.mestProgId = item.mestProgId
-
-      //   this.post.mestprogId = `${this.post.pnap}${this.post.programa}${this.post.proyecto}${this.post.actObra}`
-      //   this.detallePresGastos = response.data.data.detallePresGastos
-      //   this.sumaPresupuesto = 0
-      //   this.sumaGPersonal = 0
-      //   this.sumaServicio = 0
-      //   this.sumaInversion = 0
-      //   this.sumaEdiGenero = 0
-
-      //   this.detallePresGastos.map((detalle) => {
-      //     this.sumaPresupuesto += parseInt(detalle.totalOriginal)
-      //     this.sumaGPersonal += parseInt(detalle.oriBco1)
-      //     this.sumaServicio += parseInt(detalle.oriBco2)
-      //     this.sumaInversion += parseInt(detalle.oriBco3)
-      //     this.sumaEdiGenero += parseInt(detalle.oriBco4)
-      //     this.footerItems[1].label = this.formatPrice(this.sumaPresupuesto)
-      //     this.footerItems[2].label = this.formatPrice(this.sumaGPersonal)
-      //     this.footerItems[3].label = this.formatPrice(this.sumaServicio)
-      //     this.footerItems[4].label = this.formatPrice(this.sumaInversion)
-      //     this.footerItems[5].label = this.formatPrice(this.sumaEdiGenero)
-      //     this.numeroFormateado = this.formatPrice(this.numero)
-      //   })
-      //   this.totalItems = this.detallePresGastos.length
-      //   this.footerItems[0].label = `Total Items ${this.totalItems}`
-      // })
-
-      // this.lgDemo = true
-    },
-    toggleDetails1(item) {
-      setTimeout(this.unaVezs, 200)
-      this.lgDemo1 = true
-    },
-    getEditDetalle(item) {
-      this.idDetalle = item.id
-      Api.getDetalle(item.id).then((response) => {
-        this.lgDemo1 = true
-        this.detallePost = response.data.data
-      })
     },
     onFormulacionGastoDialogClose(data) {
       if (data) {
@@ -952,7 +641,6 @@ export default {
 
       this.formulacionGasto = {};
       this.showFormulacionDialog = false;
-      console.log(data, 'onFormulacionGastoDialogClose');
     }
   },
 

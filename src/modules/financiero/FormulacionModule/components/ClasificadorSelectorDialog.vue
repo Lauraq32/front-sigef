@@ -10,7 +10,11 @@
             <CModalTitle>Clasificadores</CModalTitle>
         </CModalHeader>
       <CCardBody>
+        <div v-if="isLoading" class="d-flex p-4 align-items-center justify-content-center w-100">
+          <h3>Espere ....</h3>
+        </div>
         <CSmartTable
+          v-else
           clickableRows
           :tableProps="{
             striped: true,
@@ -49,7 +53,7 @@
   </CModal>
 </template>
 <script setup>
-    import { ref, defineEmits, onMounted, watchEffect } from 'vue'
+    import { ref, watchEffect } from 'vue'
     import Api from '../services/FormulacionServices';
     
     import { CSmartTable } from '@coreui/vue-pro';
@@ -60,9 +64,13 @@
         isVisible: Boolean,
         filtered: {
             default: () => true
+        },
+        term: {
+          default: ''
         }
     });
 
+    const isLoading = ref(true);
     const clasificadores = ref([]);
     const columns = [
     { key: 'clasifica', label: 'Clasificador' },
@@ -93,10 +101,18 @@
             Api.getListarClasificadores()
             .then((response) => {
                 const data = response.data.data;
-                console.log(data[data.length -1]);
                 clasificadores.value = data.filter(props.filtered);
+                isLoading.value = false;
+
+                const found = clasificadores.value.find((clasificador) => clasificador.clasifica == props.term);
+                if (found) {
+                  closeDialog(found);
+                }
             })
-            .catch(console.error);
+            .catch((error) => {
+              console.error(error);
+              isLoading.value = false;
+            });
         }
     });
 </script>
