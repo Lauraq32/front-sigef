@@ -1,6 +1,7 @@
 <template>
   <h3 class="text-center">Mantenimientos Empleados</h3>
-  <AccionPersonalDialog :showModal="lgDemo4" @custom-event="closeModal" />
+  <AccionPersonalDialog :showModal="lgDemo4" @closeModal="closeModal" />
+  <TipoNovedadDialog :showModals="lgDemo5" @closeModals="closeModals" />
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
@@ -113,7 +114,14 @@
             "
             >Evaluación</CDropdownItem
           >
-          <CDropdownItem>Eventualidad</CDropdownItem>
+          <CDropdownItem
+            @click="
+              () => {
+                lgDemo5 = true
+              }
+            "
+            >Eventualidad</CDropdownItem
+          >
         </CDropdownMenu>
       </CDropdown>
     </template>
@@ -965,6 +973,7 @@ import apiSectores from '../../../financiero/NominaModule/services/NominaService
 import moment from 'moment'
 import { useToastStore } from '@/store/toast'
 import AccionPersonalDialog from '../../RegistroPersonal/components/Dialogos/AccionPersonal.vue'
+import TipoNovedadDialog from '../../RegistroPersonal/components/Dialogos/TipoNovedades.vue'
 
 export default {
   components: {
@@ -972,10 +981,12 @@ export default {
     CModal,
     moment,
     AccionPersonalDialog,
+    TipoNovedadDialog,
   },
   data: function () {
     return {
       lgDemo4: false,
+      lgDemo5: false,
       cambiar: false,
       registroPersonal: [],
       horaActual: '',
@@ -1198,8 +1209,12 @@ export default {
       this.lgDemo = true
       setTimeout(this.unaVez, 200)
     },
-    closeModal(payload) {
-      this.lgDemo4 = payload
+    closeModal(close) {
+      this.lgDemo4 = close
+    },
+
+    closeModals(close) {
+      this.lgDemo5 = close
     },
 
     changePrograma(e) {

@@ -1,5 +1,5 @@
 <template>
-  <CModal @close="onClick" size="lg" :visible="showModal">
+  <CModal @close="CloseModal" size="lg" :visible="showModal">
     <CModalHeader>
       <CModalTitle>Acción de Personal</CModalTitle>
     </CModalHeader>
@@ -158,7 +158,15 @@
     </div>
   </CModal>
 
-  <CModal size="lg" :visible="lgDemo5">
+  <CModal
+    @close="
+      () => {
+        lgDemo5 = false
+      }
+    "
+    size="lg"
+    :visible="lgDemo5"
+  >
     <CModalHeader>
       <CModalTitle>Acción de Personal</CModalTitle>
     </CModalHeader>
@@ -313,8 +321,8 @@ export default {
   },
 
   methods: {
-    onClick() {
-      this.$emit('custom-event', false)
+    CloseModal() {
+      this.$emit('closeModal', false)
     },
   },
 
