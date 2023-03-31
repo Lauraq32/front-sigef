@@ -4,7 +4,7 @@
       v-for="toast in messages"
       :color="toast.color"
       :key="toast.id"
-      :delay="toast.time ?? 30000"
+      :delay="toast.time ?? 15_000"
       @close="toastStore.removeMessage(toast.id)"
     >
       <div class="d-flex flex-row justify-content-center">

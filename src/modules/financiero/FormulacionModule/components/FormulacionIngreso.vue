@@ -23,20 +23,36 @@
     <div class="p-2">
       <label class="file-select">
         <div class="select-button">
-          <CIcon :icon="cilCloudUpload" size="sm" />
+          <CIcon icon="cilCloudUpload" size="sm" />
+          <span class="label ms-1">Importar Ingresos</span>
         </div>
         <input type="file" id="formFile" @change="onFileChange" />
       </label>
     </div>
   </div>
 
-  <CSmartTable clickableRows :tableProps="{
-    striped: true,
-    hover: true,
-  }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header key="ingreso.id" :items="ingresos"
-    :columns="columns" itemsPerPageSelect columnFilter :itemsPerPage="5"
-    :items-per-page-options="[5, 10, 20, 50, 100, 150]" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination>
+  <CSmartTable
+    class="sticky-top"
+    clickableRows
+    :tableProps="{
+      striped: true,
+      hover: true,
+    }"
+    :tableHeadProps="{}" 
+    :activePage="1" 
+    :footer="footerItem" 
+    header 
+    key="ingreso.id" 
+    :items="ingresos"
+    :columns="columns" 
+    itemsPerPageSelect 
+    columnFilter 
+    :itemsPerPage="10"
+    :items-per-page-options="[10, 20, 50, 100, 150]" 
+    columnSorter 
+    :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination
+  >
     <template #ctgFuenteEspecificaId="{ item }">
       <td class="text-center">
         {{ item.ctgFuenteEspecificaId }}
@@ -81,30 +97,19 @@
       <td class="py-2">
         <div class="d-flex justify-content-around">
           <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="toggleDetails(item)">
-            {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
+            Editar
           </CButton>
           <CButton class="mt-1" color="danger" variant="outline" square size="sm" @click="deleteItem(item)">
-            {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
+            Eliminar
           </CButton>
         </div>
       </td>
     </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
-    </template>
   </CSmartTable>
-  <CModal backdrop="static" size="lg" :visible="lgDemo" @close="
+
+  <CModal backdrop="static" size="lg" :visible="showPartidaPresupuestodeIngresoDialog" @close="
     () => {
-      this.lgDemo = false
+      this.showPartidaPresupuestodeIngresoDialog = false
     }
   ">
     <div class="row">
@@ -206,7 +211,7 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="
               () => {
-                lgDemo = false
+                showPartidaPresupuestodeIngresoDialog = false
               }
             ">
               Cerrar
@@ -219,58 +224,7 @@
       </CCardBody>
     </CModalBody>
   </CModal>
-  <!-- <CModal size="lg" :visible="findClasificadorModal" @close="
-    () => {
-      findClasificadorModal = false
-    }
-  ">
-
-
-    <CModalBody>
-      <CCardBody>
-        <CSmartTable clickableRows :tableProps="{
-          striped: true,
-          hover: true,
-        }" :tableHeadProps="{}" :activePage="1" tableFilter header key="ingreso.id" :items="clasificadorItems"
-          :columns="clasificadorColumns" itemsPerPageSelect :itemsPerPage="5"
-          :items-per-page-options="[5, 10, 20, 50, 100, 150]" columnSorter
-          :sorterValue="{ column: 'status', state: 'asc' }" pagination>
-
-          <template #show_details="{ item }">
-            <td class="py-2">
-              <div class="d-flex justify-content-around">
-                <CButton class="mt-1" color="primary" variant="outline" square size="sm"
-                  @click="selectClasificador(item)">
-                  {{ Boolean(item._toggled) ? 'Hide' : 'Seleccionar' }}
-                </CButton>
-              </div>
-            </td>
-          </template>
-          <template #details="{ item }">
-            <CCollapse :visible="this.details.includes(item._id)">
-              <CCardBody>
-                <h4>
-                  {{ item.username }}
-                </h4>
-                <p class="text-muted">User since: {{ item.registered }}</p>
-                <CButton size="sm" color="info" class=""> User Settings </CButton>
-                <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-              </CCardBody>
-            </CCollapse>
-
-          </template>
-        </CSmartTable>
-        <div class="d-flex flex-row-reverse">
-          <button @click="() => { findClasificadorModal = false }" type="button" class="btn btn-secondary">
-            Cerrar
-          </button>
-        </div>
-
-      </CCardBody>
-
-    </CModalBody>
-
-  </CModal> -->
+  
   <ClasificadorSelectorDialog :isVisible="findClasificadorModal" :filtered="
     (clasificator) =>
     (clasificator.tipo ===
@@ -286,11 +240,11 @@ import { mapActions, mapStores, mapState } from 'pinia'
 import XLSX from 'xlsx/xlsx.mjs'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { CIcon } from '@coreui/icons-vue'
-import { cilCloudUpload } from '@coreui/icons-pro'
 import { useToastStore } from '@/store/toast'
 import { useAuthStore } from '@/store/AuthStore'
 import router from '@/router'
-import ClasificadorSelectorDialog from './ClasificadorSelectorDialog.vue'
+import ClasificadorSelectorDialog from './ClasificadorSelectorDialog.vue';
+import { formatPrice } from '../../../../utils/format'
 export default {
   components: {
     CSmartTable,
@@ -302,7 +256,6 @@ export default {
     return {
       clasificadorItems: [],
       findClasificadorModal: false,
-      cilCloudUpload,
       texto: null,
       fileName: '',
       ingresos: [],
@@ -338,7 +291,7 @@ export default {
         variacionResumen: 0,
       },
       validatedCustom01: null,
-      lgDemo: false,
+      showPartidaPresupuestodeIngresoDialog: false,
       footerItem: [
         {
           label: 'Total presupuesto',
@@ -349,7 +302,7 @@ export default {
           },
         },
         {
-          label: 'prueba',
+          label: '0.00',
           _props: {
             
             colspan: 1,
@@ -357,7 +310,7 @@ export default {
           },
         },
         {
-          label: 'prueba',
+          label: '0.00',
           _props: {
             
             colspan: 1,
@@ -365,7 +318,7 @@ export default {
           },
         },
         {
-          label: 'preS_FORM',
+          label: '0.00',
           _props: {
             
             colspan: 1,
@@ -408,7 +361,7 @@ export default {
         },
         {
           key: 'anioAnt',
-          label: 'Año anterior',
+          label: 'Año Anterior',
           filter: false,
           _style: { width: '8%' },
         },
@@ -433,7 +386,6 @@ export default {
           sorter: false,
         },
       ],
-      details: [],
       clasificadorColumns: [
         { key: 'clasifica', label: 'Clasificador' },
         { key: 'cControl', label: 'Control' },
@@ -453,7 +405,7 @@ export default {
           sorter: false,
         }
       ],
-
+      formatPrice
     }
   },
   methods: {
@@ -502,7 +454,7 @@ export default {
     },
 
     openModal() {
-      this.lgDemo = true
+      this.showPartidaPresupuestodeIngresoDialog = true
 
       setTimeout(this.unaVez, 200)
     },
@@ -570,12 +522,6 @@ export default {
     goToGasto() {
       router.push({ name: 'Formulacion Gasto' })
     },
-    formatCurrency(anioAnt) {
-      return anioAnt.toLocaleString('es-MX', {
-        style: 'currency',
-        currency: 'DOP',
-      })
-    },
     getTotales() {
       Api.getTotalIngresos(
         this.authInfo.currentFiscalYearId,
@@ -617,18 +563,13 @@ export default {
         this.ctgOrganismoFinanciadorId = true
       }
     },
-
-    formatPrice(value) {
-      let val = (value / 1).toFixed(2).replace('.', '.')
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-    },
     clearModal() {
       this.postIngreso = {
         anioFiscalId: this.authInfo.user.ayuntamiento.id,
         ayuntamientoId: this.authInfo.currentFiscalYearId,
         ctgClasificadorId: null,
         instOtorga: 0,
-        control: 0,
+        ctaControl: 0,
         detalle: '',
         anioAnt: 0,
         ctgFuenteId: 0,
@@ -646,19 +587,19 @@ export default {
       const inputClasificador = document.getElementById('clasifica')
       inputClasificador.focus()
       if (this.id) {
+        this.postIngreso.ctaControl = this.postIngreso.control;
         Api.editPresIngreso(this.id, this.postIngreso).then((response) => {
           this.show({
             content: 'Registro actualizado correctamente',
             closable: true,
           })
 
-          this.getAllIngreso()
           this.postIngreso = {
             anioFiscalId:  this.authInfo.currentFiscalYearId,
             ayuntamientoId: this.authInfo.user.ayuntamiento.id,
             ctgClasificadorId: null,
             instOtorga: 0,
-            control: 0,
+            ctaControl: 0,
             detalle: '',
             anioAnt: 0,
             ctgFuenteId: 0,
@@ -672,22 +613,31 @@ export default {
             variacionResumen: 0,
           }
 
-          setTimeout(this.getAllIngreso, 3000)
+          setTimeout(() => {
+            this.getAllIngreso()
+            .then(() => this.getTotales());
+          }, 3000);
 
-          this.getTotales()
           this.id = null
         })
+        .catch((error) => {
+            this.show({
+              content: error.response.data,
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+            })
+          });
       } else {
-        this.postIngreso.anioAnt = parseFloat(this.postIngreso.anioAnt)
-        this.postIngreso.alaFecha = parseFloat(this.postIngreso.alaFecha)
-        this.postIngreso.presForm = parseFloat(this.postIngreso.presForm)
-        this.postIngreso.estActual = parseFloat(this.postIngreso.presForm)
-        this.postIngreso.ctaControl = parseFloat(this.postIngreso.ctaControl)
-        this.postIngreso.ctgFuenteEspecificaId = parseFloat(this.postIngreso.ctgFuenteEspecificaId)
-        this.postIngreso.ctgFuenteId = parseFloat(this.postIngreso.ctgFuenteId)
-        this.postIngreso.ctgOrganismoFinanciadorId = parseFloat(this.postIngreso.ctgOrganismoFinanciadorId)
+        this.postIngreso.anioAnt = parseFloat(this.postIngreso.anioAnt);
+        this.postIngreso.alaFecha = parseFloat(this.postIngreso.alaFecha);
+        this.postIngreso.presForm = parseFloat(this.postIngreso.presForm);
+        this.postIngreso.ctaControl = parseFloat(this.postIngreso.ctaControl);
+        this.postIngreso.ctgFuenteEspecificaId = parseFloat(this.postIngreso.ctgFuenteEspecificaId);
+        this.postIngreso.ctgFuenteId = parseFloat(this.postIngreso.ctgFuenteId);
+        this.postIngreso.ctgOrganismoFinanciadorId = parseFloat(this.postIngreso.ctgOrganismoFinanciadorId);
         Api.postFormulacionIngreso(this.postIngreso)
-          .then((response) => {
+          .then(() => {
             this.show({
               content: 'Registro añadido correctamente',
               closable: true,
@@ -709,10 +659,16 @@ export default {
               variacion: 0,
               ingresos: 0,
               variacionResumen: 0,
-            }
+            };
+            
+            this.validatedCustom01 = false;
+            setTimeout(() => {
+              this.getAllIngreso()
+              .then(() => this.getTotales());
+            }, 3000);
+
           })
           .catch((error) => {
-            console.log(error, error.data);
             this.show({
               content: error.response.data,
               closable: true,
@@ -720,12 +676,6 @@ export default {
               class: 'text-white',
             })
           })
-
-        // this.lgDemo = true
-
-        this.validatedCustom01 = false
-        setTimeout(this.getAllIngreso, 500)
-        this.getTotales()
       }
     },
     focusAno() {
@@ -740,20 +690,6 @@ export default {
       event.preventDefault()
       event.stopPropagation()
       this.validatedCustom01 = true
-    },
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
     },
     IngresoReport() {
       window
@@ -770,36 +706,41 @@ export default {
         this.formuladoValue = false
       }
       this.edit = true
-      this.lgDemo = true
+      this.showPartidaPresupuestodeIngresoDialog = true
 
       Api.getPresIngresoById(item).then((response) => {
         this.id = item.id
-        this.postIngreso = response.data.data
+        this.postIngreso = response.data.data;
+        this.postIngreso.ctaControl = this.postIngreso.control;
       })
     },
     getAllIngreso() {
-      Api.getAllFormulacionIngreso(this.authInfo.currentFiscalYearId, this.authInfo.user.ayuntamiento.id).then((response) => {
+      return Api.getAllFormulacionIngreso(this.authInfo.currentFiscalYearId, this.authInfo.user.ayuntamiento.id).then((response) => {
         this.ingresos = response.data.data
       })
     },
     deleteItem(item) {
       this.$swal({
         title: 'Estás seguro que quieres eliminar este registro?',
-        text: 'No podras revertirlo',
-        icon: 'Atencion',
+        text: 'No podrás revertirlo',
+        icon: 'Confirmación',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Si, Eliminar!',
       }).then((result) => {
         if (result.isConfirmed) {
-          Api.deleteIngreso(item.id).then((response) => {
+          Api.deleteIngreso(item.id).then(() => {
             this.show({
               content: 'Eliminado correctamente',
               closable: true,
             })
+            
+            setTimeout(() => {
+              this.getAllIngreso()
+              .then(() => this.getTotales());
+            }, 3000);
           })
-          setTimeout(this.getAllIngreso, 1000)
         }
       })
     },
