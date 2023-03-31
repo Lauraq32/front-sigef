@@ -1,5 +1,5 @@
 <template>
-  <CModal  size="lg" :visible="showModal">
+  <CModal size="lg" :visible="showModal">
     <CNav class="p-2" variant="tabs" role="tablist">
       <CNavItem>
         <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 1" @click="() => { tabPaneActiveKey = 1 }">
@@ -24,21 +24,21 @@
               @submit="handleSubmitCustom01">
               <CCol :md="6">
                 <CFormLabel for="validationCustom01">Solicitud número</CFormLabel>
-                <CFormInput disabled id="validationCustom01" />
+                <CFormInput v-model="solicitudEmpleoObject" disabled id="validationCustom01" />
 
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="6">
                 <CFormLabel for="validationCustom02">Fecha Solicitud</CFormLabel>
-                <CFormInput type="date" id="validationCustom02" required />
+                <CFormInput v-model="solicitudEmpleoObject" type="date" id="validationCustom02" required />
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="6">
                 <CFormLabel for="validationCustomUsername">Nombre solicitante</CFormLabel>
                 <CInputGroup class="has-validation">
-                  <CFormInput id="validationCustomUsername" value="" aria-describedby="inputGroupPrepend" required />
+                  <CFormInput v-model="solicitudEmpleoObject.nombre"  id="validationCustomUsername" value="" aria-describedby="inputGroupPrepend" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                 </CInputGroup>
@@ -51,36 +51,35 @@
               </CCol>
               <CCol :md="6">
                 <CFormLabel for="validationCustom03">Telefono</CFormLabel>
-                <CFormInput id="validationCustom03" required />
+                <CFormInput v-model="solicitudEmpleoObject.telefono" id="validationCustom03" required />
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="6">
                 <CFormLabel for="validationCustom04">Edad</CFormLabel>
-                <CFormInput id="validationCustom04"> </CFormInput>
+                <CFormInput v-model="solicitudEmpleoObject.edad" id="validationCustom04"> </CFormInput>
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="6">
                 <CFormLabel for="validationCustom05">Profesión</CFormLabel>
                 <div class="position-relative">
-              <input ref="name" required class="form-control padding-input"
-                 type="number" id="clasifica" />
-              <span class="position-absolute icon-input">
-                <CIcon icon="cisSearch" size="xl" v-on:click="openProfesionModal" />
-              </span>
-            </div>
+                  <input v-model="solicitudEmpleoObject.profesionId" ref="name" required class="form-control padding-input" type="number" id="clasifica" />
+                  <span class="position-absolute icon-input">
+                    <CIcon icon="cisSearch" size="xl" v-on:click="openProfesionModal" />
+                  </span>
+                </div>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="6">
                 <CFormLabel for="validationCustom04">Posición solicitada</CFormLabel>
-                <CFormInput id="validationCustom04"> </CFormInput>
+                <CFormInput v-model="solicitudEmpleoObject.posicionId" id="validationCustom04"> </CFormInput>
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="6">
                 <CFormLabel for="validationCustom04">Entrevistado</CFormLabel>
-                <CFormSelect id="validationCustom04">
+                <CFormSelect v-model="solicitudEmpleoObject.entrevistado" id="validationCustom04">
                   <option>Si</option>
                   <option>No</option>
                 </CFormSelect>
@@ -89,7 +88,7 @@
               </CCol>
               <CCol :md="6">
                 <CFormLabel for="validationCustom04">Evaluado</CFormLabel>
-                <CFormSelect id="validationCustom04">
+                <CFormSelect v-model="solicitudEmpleoObject.evaluado" id="validationCustom04">
                   <option>Si</option>
                   <option>No</option>
                 </CFormSelect>
@@ -98,7 +97,7 @@
               </CCol>
               <CCol :md="6">
                 <CFormLabel for="validationCustom04">Descalificado</CFormLabel>
-                <CFormSelect id="validationCustom04">
+                <CFormSelect v-model="solicitudEmpleoObject.descalificado" id="validationCustom04">
                   <option>Si</option>
                   <option>No</option>
                 </CFormSelect>
@@ -107,7 +106,7 @@
               </CCol>
               <CCol :md="6">
                 <CFormLabel for="validationCustom04">Remitido a</CFormLabel>
-                <CFormInput id="validationCustom04"> </CFormInput>
+                <CFormInput v-model="solicitudEmpleoObject.remitidoA" id="validationCustom04"> </CFormInput>
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
@@ -126,21 +125,21 @@
               @submit="handleSubmitCustom01">
               <CCol :md="6">
                 <CFormLabel for="validationCustom01">Solicitud número</CFormLabel>
-                <CFormInput id="validationCustom01" />
+                <CFormInput v-model="solicitudEmpleoObject" id="validationCustom01" />
 
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="6">
                 <CFormLabel for="validationCustom01">Fecha Solicitud</CFormLabel>
-                <CFormInput type id="validationCustom01" />
+                <CFormInput v-model="solicitudEmpleoObject.fecha" type id="validationCustom01" />
 
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="12">
                 <CFormLabel for="validationCustom01">Nombre Solicitante</CFormLabel>
-                <CFormInput id="validationCustom01" />
+                <CFormInput v-model="solicitudEmpleoObject" id="validationCustom01" />
 
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -154,7 +153,7 @@
               </CCol>
               <CCol :md="6">
                 <CFormLabel for="validationCustom01">Observaci&oacute;n</CFormLabel>
-                <CFormTextarea id="validationCustom01"></CFormTextarea>
+                <CFormTextarea v-model="solicitudEmpleoObject.observacion" id="validationCustom01"></CFormTextarea>
 
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -176,7 +175,7 @@
       </button>
     </div>
   </CModal>
-  <ProfessionDialog :show-modal="professionModal"/>
+  <ProfessionDialog :show-modal="professionModal" />
 </template>
 
 <script>
@@ -196,10 +195,28 @@ export default {
 
   data: function () {
     return {
+      solicitudEmpleoObject: {
+        cedula: "string",
+        fecha: "2023-03-31T15:53:01.450Z",
+        nombre: "string",
+        direccion1: "12343",
+        direccion2: "string",
+        telefono: "string",
+        celular: "string",
+        edad: 0,
+        profesionId: 0,
+        posicionId: 0,
+        remitidoA: "string",
+        entrevistado: true,
+        evaluado: true,
+        descalificado: true,
+        resultado: "string",
+        observacion: "string"
+      }, 
       lgDemo5: false,
-      professionModal:false,
+      professionModal: false,
       tabPaneActiveKey: 1,
-      reclutamientoObject:{},
+      reclutamientoObject: {},
       columns2: [
         { key: 'fecha', label: 'Fecha', _style: { width: '20%' } },
         {
@@ -229,10 +246,10 @@ export default {
     onClick() {
       this.$emit('custom-event', false)
     },
-    saveReclutamiento(){
+    saveReclutamiento() {
       this.$emit('post-reclutamiento', this.reclutamientoObject)
     },
-    openProfesionModal(){
+    openProfesionModal() {
       this.professionModal = true
     }
   },

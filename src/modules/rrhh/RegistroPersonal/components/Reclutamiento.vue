@@ -17,7 +17,7 @@
     striped: true,
     hover: true,
   }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header
-    :items="this.$store.state.RRHHModule.reclutamientoSolicitud" :columns="columns" columnFilter itemsPerPageSelect
+    :items="solicitudItem" :columns="columns" columnFilter itemsPerPageSelect
     :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }" pagination>
     <template #status="{ item }">
       <td>
@@ -29,6 +29,16 @@
         <CButton color="primary" variant="outline" square size="sm" @click="toggleDetails(item, index)">
           Eliminar
         </CButton>
+      </td>
+    </template>
+    <template #entrevistado="{ item, index }">
+      <td class="py-2">
+        {{item.entrevistado == 'true' ? 'No' : 'Si' }}
+      </td>
+    </template>
+    <template #evaluado="{ item, index }">
+      <td class="py-2">
+        {{item.evaluado == 'true' ? 'No' : 'Si' }}
       </td>
     </template>
     <template #details="{ item }">
@@ -50,7 +60,7 @@
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import ReclutamientoDialog from '../components/Dialogos/ReclutamientoDialogs.vue'
-
+import Api from '../services/SolicitudEmpleo'
 export default {
   components: {
     CSmartTable,
@@ -64,24 +74,24 @@ export default {
       lgDemo: false,
       columns: [
         {
-          key: 'Solicitud No.',
+          key: 'id',
           label: 'Solicitud No.',
           _style: { width: '20%' },
         },
         {
-          key: 'Nombre solicitante',
+          key: 'nombre',
           label: 'Nombre solicitante',
           _style: { width: '30%' },
         },
-        { key: 'Teléfono', label: 'Teléfono', _style: { width: '10%' } },
-        { key: 'Edad', label: 'Edad', _style: { width: '10%' } },
+        { key: 'telefono', label: 'Teléfono', _style: { width: '10%' } },
+        { key: 'edad', label: 'Edad', _style: { width: '10%' } },
         {
-          key: 'Entrevistado',
+          key: 'entrevistado',
           label: 'Entrevistado',
           _style: { width: '10%' },
         },
-        { key: 'Evaluado', label: 'Evaluado', _style: { width: '10%' } },
-        { key: 'Califica', label: 'Califica', _style: { width: '10%' } },
+        { key: 'evaluado', label: 'Evaluado', _style: { width: '10%' } },
+       
         {
           key: 'show_details',
           label: '',
@@ -91,6 +101,7 @@ export default {
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
+      solicitudItem:[],
       footerItem: [
         {
           label: 'Total Items',
@@ -135,9 +146,12 @@ export default {
       }
       this.details.push(item._id)
     },
+ 
   },
   mounted() {
-    this.$store.dispatch('AdministrativoModule/getUsuarios')
+    Api.getSolicitudEmpleo().then(response => (
+      this.solicitudItem = response.data.data
+    ))
   },
 }
 </script>
