@@ -33,31 +33,6 @@
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
       </td>
     </template>
-    <template #show_details="{ item, index }">
-      <td class="py-2">
-        <CButton
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item, index)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
-        </CButton>
-      </td>
-    </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
-    </template>
   </CSmartTable>
 </template>
 
@@ -74,8 +49,6 @@ export default {
   },
   data: () => {
     return {
-      validatedCustom01: null,
-      lgDemo: false,
       columns: [
         { key: 'tipoDeSangre', label: 'Tipo de Sangre', _style: { width: '40%' } },
         {
@@ -91,29 +64,7 @@ export default {
     }
   },
   methods: {
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
-    },
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
-    toggleDetails(item) {
+    getTipoDeSangreById(item) {
       if (this.details.includes(item._id)) {
         this.details = this.details.filter((_item) => _item !== item._id)
         return
