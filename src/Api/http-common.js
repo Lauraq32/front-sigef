@@ -8,6 +8,9 @@ export default axios.create({
     'Content-type': 'application/json',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-    'X-Fiscal-Year-Id': getFiscalYearId()
+    'X-Fiscal-Year-Id': getFiscalYearId(),
+    'X-Fiscal-Year-Id': getFiscalYearId(),
+    'Accept-Language': 'es-ES',
+    'Content-Language': 'es-ES',
   },
 })
