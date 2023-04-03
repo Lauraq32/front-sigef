@@ -4,14 +4,14 @@
       v-for="toast in messages"
       :color="toast.color"
       :key="toast.id"
-      :delay="toast.time ?? 30000"
+      :delay="toast.time ?? 15_000"
       @close="toastStore.removeMessage(toast.id)"
     >
       <div class="d-flex flex-row justify-content-center">
         <CToastBody style="font-weight: 700">
           <span
             :class="toast.class"
-            v-if="typeof toast.content === 'string' || typeof toast.content.message === 'string'"
+            v-if="(typeof toast.content === 'string' || typeof toast.content.message === 'string') && (toast.content?.errors ?? []).length === 0"
             v-html="toast.content.message ?? toast.content"
           ></span>
           <div v-else-if="Array.isArray(toast.content)">
