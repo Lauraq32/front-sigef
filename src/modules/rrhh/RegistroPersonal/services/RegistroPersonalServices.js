@@ -4,7 +4,7 @@ const user = JSON.parse(localStorage.getItem('usuario'))
 class RegistroPersonal {
   //get
   getAllTipoSangre() {
-    return http.get('TipoSangre')
+    return http.get('tipos-sangre')
   }
 
   getTipoSangreByID(id) {
