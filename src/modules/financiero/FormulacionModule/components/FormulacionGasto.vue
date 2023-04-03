@@ -392,9 +392,9 @@ export default {
             time: 15_000
         });
       })
-      .catch(response => {
+      .catch(error => {
         this.show({
-            content: response.data,
+            content: error.response.data,
             closable: true,
             color: 'danger',
             class: 'text-white',
@@ -423,9 +423,9 @@ export default {
             
             this.loadData();
           })
-          .catch((response) => {
+          .catch((error) => {
             this.show({
-                content: response.data,
+                content: error.response.data,
                 closable: true,
                 color: 'danger',
                 class: 'text-white',

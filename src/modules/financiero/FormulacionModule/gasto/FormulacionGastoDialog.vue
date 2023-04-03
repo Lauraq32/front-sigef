@@ -356,7 +356,6 @@ const onDetailDialogClose = (data) => {
             calculateTotals(props.formulacionGasto.detallePresGastos);
             detalle.value = { ...newDetailData };
             showDetailDialog.value = false;
-            console.log("why is not updating", props.formulacionGasto.detallePresGastos);
         })
         .catch(console.error);
     }, 200);;
