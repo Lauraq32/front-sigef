@@ -20,10 +20,11 @@
     </div>
   </div>
   <hr />
-  <CSmartTable class="sticky-top"
+  <CSmartTable
+    class="sticky-top"
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
@@ -71,7 +72,7 @@
     </template>
   </CSmartTable>
   <CModal
-    size="lg"
+    size="m"
     :visible="lgDemo"
     @close="
       () => {
@@ -84,60 +85,66 @@
     </CModalHeader>
     <CModalBody>
       <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
-          <CCol :md="2">
-            <CFormLabel for="validationCustom01">Código</CFormLabel>
-            <CFormInput disabled id="validationCustom01" />
+        <div class="row">
+          <div class="col-12">
+            <CCol :md="2">
+              <CFormLabel for="validationCustom01">Código</CFormLabel>
+              <CFormInput disabled id="validationCustom01" />
 
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustomUsername">Descripción</CFormLabel>
-            <CInputGroup class="has-validation">
-              <CFormInput
-                id="validationCustomUsername"
-                value=""
-                aria-describedby="inputGroupPrepend"
-                required
-              />
               <CFormFeedback valid> Exito! </CFormFeedback>
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-            </CInputGroup>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom04">Tipo</CFormLabel>
-            <CFormSelect id="validationCustom04">
-              <option>TIPO 1</option>
-              <option>TIPO 2</option>
-            </CFormSelect>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom04">Cantidad</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
-              Guardar
-            </button>
+            </CCol>
           </div>
-        </CForm>
+          <div class="col-12">
+            <CCol :md="2">
+              <CFormLabel for="validationCustomUsername"
+                >Descripción</CFormLabel
+              >
+              <CInputGroup class="has-validation">
+                <CFormInput
+                  id="validationCustomUsername"
+                  value=""
+                  aria-describedby="inputGroupPrepend"
+                  required
+                />
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CInputGroup>
+            </CCol>
+          </div>
+          <div class="col-12">
+            <CCol :md="4">
+              <CFormLabel for="validationCustom04">Tipo</CFormLabel>
+              <CFormSelect id="validationCustom04">
+                <option>Deducible</option>
+                <option>No-retornable</option>
+                <option>Retornable</option>
+              </CFormSelect>
+              <CFormFeedback valid> Exito! </CFormFeedback>
+              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+            </CCol>
+          </div>
+          <div class="col-12">
+            <CCol :md="4">
+              <CFormLabel for="validationCustom04">Cantidad</CFormLabel>
+              <CFormInput id="validationCustom04"> </CFormInput>
+              <CFormFeedback valid> Exito! </CFormFeedback>
+              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+            </CCol>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+            Guardar
+          </button>
+        </div>
       </CCardBody>
     </CModalBody>
   </CModal>
@@ -155,17 +162,15 @@ export default {
       validatedCustom01: null,
       lgDemo: false,
       columns: [
-        { key: 'Código', label: 'Código', _style: { width: '40%' } },
-        { key: 'Descripción', label: 'Descripción', _style: { width: '40%' } },
-        { key: 'Tipo', label: 'Tipo', _style: { width: '40%' } },
-        { key: 'Existencia', label: 'Existencia', _style: { width: '40%' } },
+        { key: 'Descripción', label: 'Descripción', _style: { width: '20%' } },
+        { key: 'Tipo', label: 'Tipo', _style: { width: '10%' } },
+        { key: 'Existencia', label: 'Existencia', _style: { width: '10%' } },
         {
           key: 'show_details',
           label: '',
           _style: { width: '1%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
       footerItem: [
@@ -177,12 +182,13 @@ export default {
             style: 'font-weight:bold;',
           },
         },
-
       ],
       details: [],
     }
   },
   methods: {
+    popUp() {},
+
     handleSubmitCustom01(event) {
       const form = event.currentTarget
       if (form.checkValidity() === false) {
