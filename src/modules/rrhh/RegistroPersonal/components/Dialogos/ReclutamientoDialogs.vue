@@ -1,5 +1,5 @@
 <template>
-  <CModal size="lg" :visible="showModal">
+  <CModal size="lg" :visible="showModal" backdrop="static">
     <CNav class="p-2" variant="tabs" role="tablist">
       <CNavItem>
         <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 1" @click="() => { tabPaneActiveKey = 1 }">
@@ -24,14 +24,14 @@
               @submit="handleSubmitCustom01">
               <CCol :md="6">
                 <CFormLabel for="validationCustom01">Solicitud número</CFormLabel>
-                <CFormInput v-model="solicitudEmpleoObject" disabled id="validationCustom01" />
+                <CFormInput disabled id="validationCustom01" />
 
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="6">
                 <CFormLabel for="validationCustom02">Fecha Solicitud</CFormLabel>
-                <CFormInput v-model="solicitudEmpleoObject" type="date" id="validationCustom02" required />
+                <CFormInput v-model="solicitudEmpleoObject.fecha" type="date" id="validationCustom02" required />
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
@@ -45,7 +45,7 @@
               </CCol>
               <CCol :md="6">
                 <CFormLabel for="validationCustom03">Direcci&oacute;n</CFormLabel>
-                <CFormInput id="validationCustom03" required />
+                <CFormInput v-model="solicitudEmpleoObject.direccion1" id="validationCustom03" required />
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
@@ -183,6 +183,7 @@ import { CModal } from '@coreui/vue'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CIcon } from '@coreui/icons-vue'
 import ProfessionDialog from '../Dialogos/ProfessionDialog.vue'
+import Api from '../../services/SolicitudEmpleo'
 
 export default {
   name: 'ReclutamientoDialog',
@@ -196,24 +197,23 @@ export default {
   data: function () {
     return {
       solicitudEmpleoObject: {
-        cedula: "string",
+        cedula: "",
         fecha: "2023-03-31T15:53:01.450Z",
-        nombre: "string",
-        direccion1: "12343",
-        direccion2: "string",
-        telefono: "string",
-        celular: "string",
+        nombre: "",
+        direccion1: "",
+        direccion2: "",
+        telefono: "",
+        celular: "",
         edad: 0,
         profesionId: 0,
         posicionId: 0,
-        remitidoA: "string",
+        remitidoA: "",
         entrevistado: true,
         evaluado: true,
         descalificado: true,
-        resultado: "string",
-        observacion: "string"
+        resultado: "",
+        observacion: ""
       }, 
-      lgDemo5: false,
       professionModal: false,
       tabPaneActiveKey: 1,
       reclutamientoObject: {},
@@ -251,11 +251,26 @@ export default {
     },
     openProfesionModal() {
       this.professionModal = true
-    }
+    },
+    getSolicitudEmpleoById(id){
+    Api.getByIdSolicitudEmpleo(id).then((response) => {
+      this.solicitudEmpleoObject = response.data.data
+      console.log(response.data.data)
+    })
   },
+  },
+  watch:{
+    solicitudEmpleoId(newId){
+      if(newId){
+        this.getSolicitudEmpleoById(newId)
+      }
+    },
+  },
+
 
   props: {
     showModal: Boolean,
+    solicitudEmpleoId: null
   },
 }
 </script>

@@ -12,7 +12,7 @@ class SolicitudEmpleo {
   }
 
   postSolicitudEmpleo(data){
-    return http.post(`solicitud-empleos}`,data)
+    return http.post(`solicitud-empleos`,data)
   }
 
   putSolicitudEmpleo(id,data){

@@ -16,9 +16,9 @@
   <CSmartTable class="sticky-top" clickableRows :tableProps="{
     striped: true,
     hover: true,
-  }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header
-    :items="solicitudItem" :columns="columns" columnFilter itemsPerPageSelect
-    :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }" pagination>
+  }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header :items="solicitudItem" :columns="columns"
+    columnFilter itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination>
     <template #status="{ item }">
       <td>
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
@@ -26,41 +26,34 @@
     </template>
     <template #show_details="{ item, index }">
       <td class="py-2">
-        <CButton color="primary" variant="outline" square size="sm" @click="toggleDetails(item, index)">
-          Eliminar
-        </CButton>
+        <CDropdown>
+          <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
+          <CDropdownMenu>
+            <CDropdownItem @click="getReclutamientoById(item)">Editar</CDropdownItem>
+          </CDropdownMenu>
+        </CDropdown>
       </td>
     </template>
     <template #entrevistado="{ item, index }">
       <td class="py-2">
-        {{item.entrevistado == 'true' ? 'No' : 'Si' }}
+        {{ item.entrevistado == 'true' ? 'No' : 'Si' }}
       </td>
     </template>
     <template #evaluado="{ item, index }">
       <td class="py-2">
-        {{item.evaluado == 'true' ? 'No' : 'Si' }}
+        {{ item.evaluado == 'true' ? 'No' : 'Si' }}
       </td>
     </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
-    </template>
+
   </CSmartTable>
-  <ReclutamientoDialog :showModal="lgDemo" @custom-event="closeModal" @post-reclutamiento="handleSubmitCustom01" />
+  <ReclutamientoDialog :showModal="lgDemo" @custom-event="closeModal" @post-reclutamiento="handleSubmitCustom01" solicitudEmpleoObject="solicitudItem" :solicitudEmpleoId="reclutamientoId"  />
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import ReclutamientoDialog from '../components/Dialogos/ReclutamientoDialogs.vue'
 import Api from '../services/SolicitudEmpleo'
+
 export default {
   components: {
     CSmartTable,
@@ -72,6 +65,7 @@ export default {
 
       validatedCustom01: null,
       lgDemo: false,
+      solicitudEmpleoId:null,
       columns: [
         {
           key: 'id',
@@ -91,7 +85,7 @@ export default {
           _style: { width: '10%' },
         },
         { key: 'evaluado', label: 'Evaluado', _style: { width: '10%' } },
-       
+
         {
           key: 'show_details',
           label: '',
@@ -101,7 +95,7 @@ export default {
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
-      solicitudItem:[],
+      solicitudItem: [],
       footerItem: [
         {
           label: 'Total Items',
@@ -119,7 +113,15 @@ export default {
 
   methods: {
     handleSubmitCustom01(payload) {
-      console.log(payload)
+      
+    
+      if(this.solicitudEmpleoId != 0){
+        console.log('se esta editando')
+      }else{
+        Api.postSolicitudEmpleo(payload).then(response => (
+        console.log(response)
+      ))
+      }
 
     },
     closeModal(payload) {
@@ -139,14 +141,11 @@ export default {
           'primary'
       }
     },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
-      }
-      this.details.push(item._id)
+    getReclutamientoById(item) {
+      this.reclutamientoId = item.id
+      this.lgDemo = true
     },
- 
+
   },
   mounted() {
     Api.getSolicitudEmpleo().then(response => (
