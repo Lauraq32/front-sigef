@@ -86,54 +86,37 @@
     <CModalBody>
       <CCardBody>
         <div class="row">
-          <div class="col-12">
-            <CCol :md="2">
-              <CFormLabel for="validationCustom01">Código</CFormLabel>
-              <CFormInput disabled id="validationCustom01" />
+          <div class="row mt-4 mx-3">
+            <div class="col-4 col-label">Descripción</div>
+            <div class="col-8">
+              <CFormInput
+                id="validationCustomUsername"
+                value=""
+                aria-describedby="inputGroupPrepend"
+                required
+              />
+            </div>
+          </div>
 
-              <CFormFeedback valid> Exito! </CFormFeedback>
-              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-            </CCol>
-          </div>
-          <div class="col-12">
-            <CCol :md="2">
-              <CFormLabel for="validationCustomUsername"
-                >Descripción</CFormLabel
-              >
-              <CInputGroup class="has-validation">
-                <CFormInput
-                  id="validationCustomUsername"
-                  value=""
-                  aria-describedby="inputGroupPrepend"
-                  required
-                />
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CInputGroup>
-            </CCol>
-          </div>
-          <div class="col-12">
-            <CCol :md="4">
-              <CFormLabel for="validationCustom04">Tipo</CFormLabel>
+          <div class="row mt-4 mx-3">
+            <div class="col-4 col-label">Tipo</div>
+            <div class="col-8">
               <CFormSelect id="validationCustom04">
                 <option>Deducible</option>
                 <option>No-retornable</option>
                 <option>Retornable</option>
               </CFormSelect>
-              <CFormFeedback valid> Exito! </CFormFeedback>
-              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-            </CCol>
+            </div>
           </div>
-          <div class="col-12">
-            <CCol :md="4">
-              <CFormLabel for="validationCustom04">Cantidad</CFormLabel>
+
+          <div class="row mt-4 mx-3">
+            <div class="col-4 col-label">Cantidad</div>
+            <div class="col-8">
               <CFormInput id="validationCustom04"> </CFormInput>
-              <CFormFeedback valid> Exito! </CFormFeedback>
-              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-            </CCol>
+            </div>
           </div>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer mt-4">
           <button
             type="button"
             class="btn btn-secondary"
