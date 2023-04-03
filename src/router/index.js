@@ -17,6 +17,7 @@ import FacturacionCobrosModule from '../modules/financiero/FacturacionCobrosModu
 import CuentasPorPagarModule from '../modules/financiero/CuentasPorPagarModule/router'
 import ProcesoCompras from '../modules/Compras/ProcesoCompras/router'
 import PlanAnual from '../modules/Compras/PlanAnual/router'
+import { isAuthenticated } from '@/utils/logged-info'
 
 const routes = [
   {
@@ -415,6 +416,14 @@ const router = createRouter({
     // always scroll to top
     return { top: 0 }
   },
-})
+});
+
+router.beforeEach((to, _, next) => {
+  if (to.name !== 'Login' && !isAuthenticated()) {
+    return next({ name: 'Login' });
+  }
+ 
+  next();
+});
 
 export default router
