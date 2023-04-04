@@ -1,6 +1,6 @@
 export default {
   name: 'RRHHModule',
-  redirect: '/RRHHModule/registroEmpleados',
+  redirect: '/rrhh',
   meta: { label: 'RRHHModule' },
   component: () =>
     import('@/modules/rrhh/RegistroPersonal/layout/TemplateLayout.vue'),
