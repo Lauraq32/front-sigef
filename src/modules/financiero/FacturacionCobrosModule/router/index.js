@@ -1,6 +1,7 @@
 export default {
   name: 'FacturacionCobros',
   redirect: '/FacturacionCobrosModule/Sectores',
+  meta: { label: 'Facturación Cobros' },
   component: () =>
     import(
       '@/modules/financiero/FacturacionCobrosModule/layout/TemplateLayout.vue'
@@ -9,6 +10,7 @@ export default {
     {
       path: 'sectores',
       name: 'Sectores',
+      meta: { label: 'Sectores' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FacturacionCobrosModule/components/Sectores.vue'
@@ -18,6 +20,7 @@ export default {
     {
       path: 'usoSuelo',
       name: 'UsoSuelo',
+      meta: { label: 'Uso Suelo' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FacturacionCobrosModule/components/usoSuelo.vue'
@@ -27,6 +30,7 @@ export default {
     {
       path: 'arbitrios-Impuestos-Tazas',
       name: 'Arbitrios-Impuestos-Tazas',
+      meta: { label: 'Arbitrios-Impuestos-Tazas' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FacturacionCobrosModule/components/Arbitrios-Impuestos-Tazas.vue'
@@ -36,6 +40,7 @@ export default {
     {
       path: 'contribuyentes',
       name: 'Contribuyentes',
+      meta: { label: 'Contribuyentes' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FacturacionCobrosModule/components/Contribuyentes.vue'
@@ -45,6 +50,7 @@ export default {
     {
       path: 'facturacionManual',
       name: 'FacturacionManual',
+      meta: { label: 'Facturación Manual' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FacturacionCobrosModule/components/FacturacionManual.vue'
@@ -54,6 +60,7 @@ export default {
     {
       path: 'facturacionPorLotes',
       name: 'FacturacionPorLotes',
+      meta: { label: 'Facturación Por Lotes' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FacturacionCobrosModule/components/FacturacionPorLotes.vue'
@@ -63,6 +70,7 @@ export default {
     {
       path: 'notasDeDebito',
       name: 'NotasDeDebito',
+      meta: { label: 'Notas De Débito' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FacturacionCobrosModule/components/NotasDeDebito.vue'
@@ -72,6 +80,7 @@ export default {
     {
       path: 'facturasPorLote',
       name: 'FacturasPorLote',
+      meta: { label: 'Facturas Por Lote' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FacturacionCobrosModule/components/FacturasPorLote.vue'
@@ -81,6 +90,7 @@ export default {
     {
       path: 'notasDeCredito',
       name: 'NotasDeCreditos',
+      meta: { label: 'Notas De Crédito' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FacturacionCobrosModule/components/NotasDeCredito.vue'
@@ -90,6 +100,7 @@ export default {
     {
       path: 'recibosDeIngresos',
       name: 'RecibosDeIngresos',
+      meta: { label: 'Recibos De Ingresos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FacturacionCobrosModule/components/RecibosDeIngresos.vue'

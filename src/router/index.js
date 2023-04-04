@@ -23,6 +23,7 @@ const routes = [
   {
     path: '/Home',
     name: 'home',
+    meta: { label: 'SIGEF' },
     component: DefaultLayout,
     children: [
       {

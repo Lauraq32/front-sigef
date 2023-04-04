@@ -1,12 +1,14 @@
 export default {
   name: 'RRHHModule',
   redirect: '/RRHHModule/registroEmpleados',
+  meta: { label: 'RRHHModule' },
   component: () =>
     import('@/modules/rrhh/RegistroPersonal/layout/TemplateLayout.vue'),
   children: [
     {
       path: 'registroEmpleados',
       name: 'RegistroEmpleados',
+      meta: { label: 'Registro de Empleados' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/rrhh/RegistroPersonal/components/RegistroPersonal.vue'
@@ -15,6 +17,7 @@ export default {
     {
       path: 'dependencia',
       name: 'Dependencia',
+      meta: { label: 'Dependencia' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/rrhh/RegistroPersonal/components/DireccionDependencia.vue'
@@ -23,6 +26,7 @@ export default {
     {
       path: 'departamentos',
       name: 'Departamentos',
+      meta: { label: 'Departamentos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/rrhh/RegistroPersonal/components/Departamentos.vue'
@@ -31,6 +35,7 @@ export default {
     {
       path: 'areaTrabajo',
       name: 'AreaTrabajo',
+      meta: { label: 'Area De Trabajo' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/rrhh/RegistroPersonal/components/AreaTrabajo.vue'
@@ -39,6 +44,7 @@ export default {
     {
       path: 'cargos',
       name: 'Cargos',
+      meta: { label: 'Cargos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/rrhh/RegistroPersonal/components/Cargos.vue'
@@ -47,6 +53,7 @@ export default {
     {
       path: 'profesiones',
       name: 'Profesiones',
+      meta: { label: 'Profesiones' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/rrhh/RegistroPersonal/components/Profesiones.vue'
@@ -56,6 +63,7 @@ export default {
     {
       path: 'sectorees',
       name: 'Sectorees',
+      meta: { label: 'Sectores' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/rrhh/RegistroPersonal/components/Sectorees.vue'
@@ -64,6 +72,7 @@ export default {
     {
       path: 'tipoSangre',
       name: 'TipoSangre',
+      meta: { label: 'Tipo De Sangre' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/rrhh/RegistroPersonal/components/TipoSangre.vue'
@@ -72,6 +81,7 @@ export default {
     {
       path: 'reclutamiento',
       name: 'Reclutamiento',
+      meta: { label: 'Reclutamiento' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/rrhh/RegistroPersonal/components/Reclutamiento.vue'
@@ -80,6 +90,7 @@ export default {
     {
       path: 'inventario',
       name: 'Inventario',
+      meta: { label: 'Inventario' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/rrhh/RegistroPersonal/components/Inventario.vue'
