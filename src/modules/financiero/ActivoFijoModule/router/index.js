@@ -17,7 +17,7 @@ export default {
     {
       path: 'areaUbicacion',
       name: 'areaUbicacion',
-      meta: { label: 'Area Ubicación' },
+      meta: { label: 'Área Ubicación' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ActivoFijoModule/components/AreaUbicacion.vue'
@@ -35,7 +35,7 @@ export default {
     {
       path: 'documentosPorPagar',
       name: 'documentosPorPagar',
-      meta: { label: 'Documentos Por Pagar' },
+      meta: { label: 'Documentos por Pagar' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ActivoFijoModule/components/DocumentosPorPagar.vue'
@@ -44,7 +44,7 @@ export default {
     {
       path: 'documentosDeCredito',
       name: 'documentosDeCredito',
-      meta: { label: 'Documentos De Crédito' },
+      meta: { label: 'Documentos de Crédito' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ActivoFijoModule/components/DocumentosDeCredito.vue'

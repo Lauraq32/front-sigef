@@ -31,7 +31,7 @@ export default {
     {
       path: 'cuentasDebanco',
       name: 'CuentasDebanco',
-      meta: { label: 'Cuentas De banco' },
+      meta: { label: 'Cuentas de banco' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ConciliacionBancaria/components/CuentasDebanco.vue'

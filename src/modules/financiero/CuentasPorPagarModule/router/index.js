@@ -1,7 +1,7 @@
 export default {
   name: 'CuentasPorPagar',
   redirect: '/CuentasPorPagarModule/Suplidores',
-  meta: { label: 'Cuentas Por Pagar' },
+  meta: { label: 'Cuentas por Pagar' },
   component: () =>
     import(
       '@/modules/financiero/CuentasPorPagarModule/layout/TemplateLayout.vue'
@@ -19,7 +19,7 @@ export default {
     {
       path: 'areasEventos',
       name: 'areasEventos',
-      meta: { label: 'Areas Eventos' },
+      meta: { label: 'Áreas Eventos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/CuentasPorPagarModule/components/AreasEventos.vue'
@@ -28,7 +28,7 @@ export default {
     {
       path: 'documentosPorPagar',
       name: 'documentosPorPagar',
-      meta: { label: 'Documentos Por Pagar' },
+      meta: { label: 'Documentos por Pagar' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/CuentasPorPagarModule/components/DocumentosPorPagar.vue'
@@ -37,7 +37,7 @@ export default {
     {
       path: 'documentosDeCredito',
       name: 'documentosDeCredito',
-      meta: { label: 'Documentos De Credito' },
+      meta: { label: 'Documentos de Credito' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/CuentasPorPagarModule/components/DocumentosDeCredito.vue'

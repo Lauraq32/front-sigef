@@ -8,7 +8,7 @@ export default {
     {
       path: 'procesoCompras',
       name: 'ProcesoCompras',
-      meta: { label: 'Compras' },
+      meta: { label: 'Proceso de Compras' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/Compras/ProcesoCompras/components/ProcesoAnual.vue'

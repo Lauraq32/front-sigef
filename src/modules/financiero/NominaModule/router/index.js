@@ -54,7 +54,7 @@ export default {
     {
       path: 'areaDeTrabajo',
       name: 'areaDeTrabajo',
-      meta: { label: 'Area De Trabajo' },
+      meta: { label: 'Área de Trabajo' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/AreaDeTrabajo.vue'
@@ -63,7 +63,7 @@ export default {
     {
       path: 'posicionesCargo',
       name: 'posicionesCargo',
-      meta: { label: 'Posiciones De Cargo' },
+      meta: { label: 'Posiciones de Cargo' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/PosicionesCargo.vue'

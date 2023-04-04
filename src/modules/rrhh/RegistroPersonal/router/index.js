@@ -1,7 +1,7 @@
 export default {
   name: 'RRHHModule',
   redirect: '/rrhh',
-  meta: { label: 'RRHHModule' },
+  meta: { label: 'RRHH' },
   component: () =>
     import('@/modules/rrhh/RegistroPersonal/layout/TemplateLayout.vue'),
   children: [
@@ -35,7 +35,7 @@ export default {
     {
       path: 'areaTrabajo',
       name: 'AreaTrabajo',
-      meta: { label: 'Area De Trabajo' },
+      meta: { label: 'Área de Trabajo' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/rrhh/RegistroPersonal/components/AreaTrabajo.vue'
@@ -72,7 +72,7 @@ export default {
     {
       path: 'tipoSangre',
       name: 'TipoSangre',
-      meta: { label: 'Tipo De Sangre' },
+      meta: { label: 'Tipo de Sangre' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/rrhh/RegistroPersonal/components/TipoSangre.vue'
