@@ -295,10 +295,18 @@ export default {
     return {
       lgDemo5: false,
 
+      postAccionPersonal: {
+        fechaDesde: '2023-04-04T18:19:06.403Z',
+        tipoAccionId: 0,
+        cantidad: 0,
+        fechaHasta: '2023-04-04T18:19:06.403Z',
+        detalle: 'string',
+      },
+
       columns2: [
-        { key: 'fecha', label: 'Fecha', _style: { width: '20%' } },
+        { key: 'fechaDesde', label: 'Fecha', _style: { width: '20%' } },
         {
-          key: 'tipoDeAccion',
+          key: 'tipoAccionId',
           label: 'Tipo de acción',
           _style: { width: '20%' },
         },

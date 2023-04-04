@@ -7,6 +7,10 @@ class RegistroPersonal {
     return http.get('tipos-sangre')
   }
 
+  getAllAccionPersonal() {
+    return http.get('acciones-personal')
+  }
+
   getTipoSangreByID(id) {
     return http.get(`tipos-sangre/${id}`)
   }
@@ -16,7 +20,7 @@ class RegistroPersonal {
   }
 
   getAllEmpleado() {
-    return http.get(`Empleado?ayuntamientoId=${getAyuntamientoId()}`)
+    return http.get(`Empleados?ayuntamientoId=${getAyuntamientoId()}`)
   }
 
   getProgramaDivision() {

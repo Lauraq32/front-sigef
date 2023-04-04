@@ -985,6 +985,7 @@ export default {
   },
   data: function () {
     return {
+      accionPersonal: [],
       lgDemo4: false,
       lgDemo5: false,
       cambiar: false,
@@ -1157,6 +1158,12 @@ export default {
     ...mapState(useRegistroStore, ['registroPersonal', 'posicionCargo']),
   },
 
+  watch: {
+    lgDemo() {
+      this.getAccionPersonal()
+    },
+  },
+
   methods: {
     ...mapActions(useRegistroStore, [
       'getRegistroPersonal',
@@ -1164,6 +1171,12 @@ export default {
       'getPosicion',
     ]),
     ...mapActions(useToastStore, ['show']),
+
+    getAccionPersonal() {
+      Api.getAllAccionPersonal().then((response) => {
+        this.accionPersonal = response.data.data
+      })
+    },
 
     imprimirReporte() {
       if (this.reporteDepto.split('-')[0] == 1) {
@@ -1581,6 +1594,7 @@ export default {
   },
 
   mounted() {
+    this.getAccionPersonal()
     setInterval(() => {
       this.horaActual = moment().format('HH:mm')
     }, 1000)
