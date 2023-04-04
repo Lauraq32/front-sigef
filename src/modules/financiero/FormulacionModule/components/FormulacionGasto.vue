@@ -125,7 +125,7 @@ export default {
         { key: 'tipo', label: 'Tipo', _style: { width: '20%' } },
         {
           key: 'unidadResp',
-          label: 'Unidad responsable',
+          label: 'Unidad Responsable',
           _style: { width: '40%' },
         },
         {
