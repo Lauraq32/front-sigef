@@ -7,7 +7,7 @@
         color="info"
         @click="
           () => {
-            lgDemo = true
+            profesion = true
           }
         "
         >Agregar</CButton
@@ -20,22 +20,22 @@
     </div>
   </div>
   <hr />
-  <CSmartTable class="sticky-top"
+  <CSmartTable
+    class="sticky-top"
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
     :activePage="1"
     :footer="footerItem"
     header
-    :items="this.$store.state.RRHHModule.profesion"
+    :items="profesiones"
     :columns="columns"
     columnFilter
     itemsPerPageSelect
     :itemsPerPage="5"
-    columnSorter
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
@@ -46,15 +46,12 @@
     </template>
     <template #show_details="{ item, index }">
       <td class="py-2">
-        <CButton
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item, index)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
-        </CButton>
+        <CDropdown>
+          <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
+          <CDropdownMenu>
+            <CDropdownItem @click="getProfesionesById(item)">Editar</CDropdownItem>
+          </CDropdownMenu>
+        </CDropdown>
       </td>
     </template>
     <template #details="{ item }">
@@ -70,71 +67,41 @@
       </CCollapse>
     </template>
   </CSmartTable>
-  <CModal
-    size="md"
-    :visible="lgDemo"
-    @close="
-      () => {
-        lgDemo = false
-      }
-    "
-  >
-    <CModalHeader>
-      <CModalTitle>Profesiones</CModalTitle>
-    </CModalHeader>
-    <CModalBody>
-      <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
-          <CCol :md="12">
-            <CFormLabel for="validationCustomUsername">Profesión</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-              v-on:click="close"
-            >
-              Cerrar
-            </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
-              Guardar
-            </button>
-          </div>
-        </CForm>
-      </CCardBody>
-    </CModalBody>
-  </CModal>
+  <ProfesionesDialogs
+    :showModal="profesion"
+    @close-modal="closeModal"
+    @post-profesiones="saveProfesion"
+    :profesionesId="profesionesId"
+  />
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import { mapActions } from 'pinia'
+import Api from '../services/RegistroPersonalServices'
+import ProfesionesDialogs from '../Dialogos/ProfesionesDialogs.vue'
+import { useToastStore } from '@/store/toast'
 export default {
   components: {
     CSmartTable,
     CModal,
+    ProfesionesDialogs,
   },
   data: () => {
     return {
+      totalItems: 0,
+      profesionesId: null,
       validatedCustom01: null,
-      lgDemo: false,
+      profesiones: [],
+      profesion: false,
       columns: [
-        { key: 'Profesión', label: 'Profesión', _style: { width: '40%' } },
+        { key: 'name', label: 'Profesión', _style: { width: '40%' } },
         {
           key: 'show_details',
           label: '',
           _style: { width: '1%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
       footerItem: [
@@ -146,47 +113,63 @@ export default {
             style: 'font-weight:bold;',
           },
         },
-
+        {
+          label: 'total profesiones',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
       ],
       details: [],
     }
   },
+  watch:{
+    profesion(){
+      this.getAllProfesiones()
+    },
+  },
   methods: {
-    close() {
-      this.lgDemo = false
+    ...mapActions(useToastStore, ['show']),
+    closeModal(payload) {
+      this.profesion = payload
     },
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
+    getProfesionesById(item) {
+      this.profesionesId = item.id
+      this.profesion = true
     },
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
+    saveProfesion(payload) {
+      if(this.profesionesId != null) {
+        Api.updateProfesion(this.profesionesId, payload).then((response) => {
+          this.show({
+            content: 'Registro actualizado correctamente',
+            closable: true,
+            life: 15000,
+          })
+          setTimeout(() => this.getAllProfesiones(), 200)
+        })
+      } else {
+        Api.addProfesion(payload).then((response) => {
+          this.show({
+            content: 'Registro añadido correctamente',
+            closable: true,
+            life: 15000,
+          })
+          setTimeout(() => this.getAllProfesiones(), 200)
+        })
       }
     },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
-      }
-      this.details.push(item._id)
+    getAllProfesiones() {
+      Api.getProfesion().then((response) => {
+        this.profesiones = response.data.data
+        this.totalItems = response.data.data.length
+        this.footerItem[1] = this.totalItems
+      })
     },
   },
   mounted() {
-    this.$store.dispatch('AdministrativoModule/getUsuarios')
+    this.getAllProfesiones()
   },
 }
 </script>
