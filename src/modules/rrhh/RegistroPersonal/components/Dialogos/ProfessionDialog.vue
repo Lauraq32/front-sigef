@@ -1,21 +1,25 @@
 <template>
-  <CModal size="sm" :visible="showModal">
-    <CModalHeader>
-      <CModalTitle>Mantenimiento Profesiones</CModalTitle>
-    </CModalHeader>
+  <CModal size="md" :visible="showModal">
     <CModalBody>
       <CCardBody>
-        <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01" @submit="handleSubmitCustom01">
-          <CCol :md="6">
-            <CFormLabel for="validationCustom01">Solicitud número</CFormLabel>
-            <CFormInput disabled id="validationCustom01" />
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-        </CForm>
+        <CSmartTable clickableRows :tableProps="{
+          striped: true,
+          hover: true,
+        }" :tableHeadProps="{}" :activePage="1" header :items="profesionesList" :columns="columns" columnFilter
+          itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }" pagination>
+          <template #show_details="{ item, index }">
+            <td class="py-2">           
+              <CButton color="primary" variant="outline" @click="getProfesion(item)">Seleccionar</CButton>
+            </td>
+          </template>
+        </CSmartTable>
       </CCardBody>
     </CModalBody>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="closeModal">
+        Cerrar
+      </button>
+    </div>
   </CModal>
 </template>
 
@@ -23,6 +27,7 @@
 import { CModal } from '@coreui/vue'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CIcon } from '@coreui/icons-vue'
+import Api from '../../services/Profesiones'
 
 export default {
   name: 'ProfessionDialog',
@@ -35,24 +40,16 @@ export default {
   data: function () {
     return {
       lgDemo5: false,
+      profesionesList: [],
       tabPaneActiveKey: 1,
       reclutamientoObject: {},
-      columns2: [
-        { key: 'fecha', label: 'Fecha', _style: { width: '20%' } },
-        {
-          key: 'tipoDeAccion',
-          label: 'Tipo de acción',
-          _style: { width: '20%' },
-        },
-        {
-          key: 'detalle',
-          label: 'Detalles',
-          _style: { width: '40%' },
-        },
+      columns: [
+        { key: 'name', label: 'Nombre', _style: { width: '10%' } },
+
         {
           key: 'show_details',
           label: '',
-          _style: { width: '1%' },
+          _style: { width: '5%' },
           filter: false,
           sorter: false,
         },
@@ -63,9 +60,23 @@ export default {
   },
 
   methods: {
-    onClick() {
-      this.$emit('custom-event', false)
+  
+    getProfesion(item) {
+      this.$emit('select-profesion', item)
+      
     },
+    getListarProfesiones() {
+      Api.getProfesiones().then(response => (
+        this.profesionesList = response.data.data,
+        console.log(response.data.data)
+      ))
+    },
+    closeModal() {
+      this.$emit('closeModal', false)
+  
+      this.showModal = false
+    },
+
     // saveReclutamiento(){
     //   this.$emit('post-reclutamiento', this.reclutamientoObject)
     // },
@@ -77,6 +88,9 @@ export default {
   props: {
     showModal: Boolean,
   },
+  mounted() {
+    this.getListarProfesiones()
+  }
 }
 </script>
 <style>

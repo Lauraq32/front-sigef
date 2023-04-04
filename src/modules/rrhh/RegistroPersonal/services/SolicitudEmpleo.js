@@ -16,7 +16,7 @@ class SolicitudEmpleo {
   }
 
   putSolicitudEmpleo(id,data){
-    return http.get(`solicitud-empleos/${id}`,data)
+    return http.put(`solicitud-empleos/${id}`,data)
   }
 
 

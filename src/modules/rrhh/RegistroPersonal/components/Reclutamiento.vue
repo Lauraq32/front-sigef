@@ -46,13 +46,14 @@
     </template>
 
   </CSmartTable>
-  <ReclutamientoDialog :showModal="lgDemo" @custom-event="closeModal" @post-reclutamiento="handleSubmitCustom01" solicitudEmpleoObject="solicitudItem" :solicitudEmpleoId="reclutamientoId"  />
+  <ReclutamientoDialog :showModal="lgDemo" @closeModal="closeModal" @post-reclutamiento="handleSubmitCustom01" solicitudEmpleoObject="solicitudItem" :solicitudEmpleoId="reclutamientoId"  />
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import ReclutamientoDialog from '../components/Dialogos/ReclutamientoDialogs.vue'
 import Api from '../services/SolicitudEmpleo'
+
 
 export default {
   components: {
@@ -110,13 +111,24 @@ export default {
       details: [],
     }
   },
-
+  watch:{
+    lgDemo(){
+      this.getAll()
+    }
+  },
   methods: {
+    getAll(){
+      Api.getSolicitudEmpleo().then(response => (
+      this.solicitudItem = response.data.data
+    ))
+    },
     handleSubmitCustom01(payload) {
-      
+      console.log(payload)
     
-      if(this.solicitudEmpleoId != 0){
-        console.log('se esta editando')
+      if(this.solicitudEmpleoId != null){
+        Api.putSolicitudEmpleo(this.solicitudEmpleoId,payload).then(
+          console.log(response)
+        )
       }else{
         Api.postSolicitudEmpleo(payload).then(response => (
         console.log(response)
@@ -142,15 +154,14 @@ export default {
       }
     },
     getReclutamientoById(item) {
+      this.solicitudEmpleoId = item.id
       this.reclutamientoId = item.id
       this.lgDemo = true
     },
 
   },
   mounted() {
-    Api.getSolicitudEmpleo().then(response => (
-      this.solicitudItem = response.data.data
-    ))
+   this.getAll()
   },
 }
 </script>

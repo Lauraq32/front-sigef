@@ -1,5 +1,5 @@
 <template>
-  <CModal size="lg" :visible="showModal" backdrop="static">
+  <CModal @close="closeModal" size="lg" :visible="showModal" backdrop="static">
     <CNav class="p-2" variant="tabs" role="tablist">
       <CNavItem>
         <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 1" @click="() => { tabPaneActiveKey = 1 }">
@@ -30,6 +30,13 @@
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="6">
+                <CFormLabel for="validationCustom01">Solicitud número</CFormLabel>
+                <CFormInput v-model="solicitudEmpleoObject.cedula" id="validationCustom01" />
+
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+              <CCol :md="6">
                 <CFormLabel for="validationCustom02">Fecha Solicitud</CFormLabel>
                 <CFormInput v-model="solicitudEmpleoObject.fecha" type="date" id="validationCustom02" required />
                 <CFormFeedback valid> Exito! </CFormFeedback>
@@ -38,7 +45,8 @@
               <CCol :md="6">
                 <CFormLabel for="validationCustomUsername">Nombre solicitante</CFormLabel>
                 <CInputGroup class="has-validation">
-                  <CFormInput v-model="solicitudEmpleoObject.nombre"  id="validationCustomUsername" value="" aria-describedby="inputGroupPrepend" required />
+                  <CFormInput v-model="solicitudEmpleoObject.nombre" id="validationCustomUsername" value=""
+                    aria-describedby="inputGroupPrepend" required />
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                 </CInputGroup>
@@ -50,8 +58,20 @@
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="6">
+                <CFormLabel for="validationCustom03">Direcci&oacute;n</CFormLabel>
+                <CFormInput v-model="solicitudEmpleoObject.direccion2" id="validationCustom03" required />
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+              <CCol :md="6">
                 <CFormLabel for="validationCustom03">Telefono</CFormLabel>
                 <CFormInput v-model="solicitudEmpleoObject.telefono" id="validationCustom03" required />
+                <CFormFeedback valid> Exito! </CFormFeedback>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </CCol>
+              <CCol :md="6">
+                <CFormLabel for="validationCustom03">Celular</CFormLabel>
+                <CFormInput v-model="solicitudEmpleoObject.celular" id="validationCustom03" required />
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
@@ -64,7 +84,8 @@
               <CCol :md="6">
                 <CFormLabel for="validationCustom05">Profesión</CFormLabel>
                 <div class="position-relative">
-                  <input v-model="solicitudEmpleoObject.profesionId" ref="name" required class="form-control padding-input" type="number" id="clasifica" />
+                  <input v-model="displayNameProfesion" ref="name" required
+                    class="form-control padding-input" type="text" id="clasifica" />
                   <span class="position-absolute icon-input">
                     <CIcon icon="cisSearch" size="xl" v-on:click="openProfesionModal" />
                   </span>
@@ -139,14 +160,14 @@
               </CCol>
               <CCol :md="12">
                 <CFormLabel for="validationCustom01">Nombre Solicitante</CFormLabel>
-                <CFormInput v-model="solicitudEmpleoObject" id="validationCustom01" />
+                <CFormInput v-model="solicitudEmpleoObject.nombre" id="validationCustom01" />
 
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="6">
                 <CFormLabel for="validationCustom01">La Entrevista</CFormLabel>
-                <CFormTextarea id="validationCustom01"></CFormTextarea>
+                <CFormTextarea v-model="solicitudEmpleoObject.resultado" id="validationCustom01"></CFormTextarea>
 
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -167,7 +188,7 @@
 
     </CTabContent>
     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="onClick">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="closeModal">
         Cerrar
       </button>
       <button class="btn btn-info btn-block mt-1" v-on:click="saveReclutamiento">
@@ -175,7 +196,7 @@
       </button>
     </div>
   </CModal>
-  <ProfessionDialog :show-modal="professionModal" />
+  <ProfessionDialog :show-modal="professionModal" @selectProfesion="setProfesion" @closeModal="closeProfesionModal" />
 </template>
 
 <script>
@@ -196,6 +217,7 @@ export default {
 
   data: function () {
     return {
+      displayNameProfesion:'',
       solicitudEmpleoObject: {
         cedula: "",
         fecha: "2023-03-31T15:53:01.450Z",
@@ -208,12 +230,12 @@ export default {
         profesionId: 0,
         posicionId: 0,
         remitidoA: "",
-        entrevistado: true,
-        evaluado: true,
-        descalificado: true,
+        entrevistado: 'Si',
+        evaluado: 'Si',
+        descalificado: 'Si',
         resultado: "",
         observacion: ""
-      }, 
+      },
       professionModal: false,
       tabPaneActiveKey: 1,
       reclutamientoObject: {},
@@ -243,25 +265,62 @@ export default {
   },
 
   methods: {
-    onClick() {
-      this.$emit('custom-event', false)
+    closeProfesionModal(payload){
+      this.professionModal = payload
+    },
+    setProfesion(payload){
+      console.log(payload.name)
+      this.solicitudEmpleoObject.profesionId = payload.id
+      this.displayNameProfesion = payload.name
+    },
+    closeModal() {
+      this.$emit('closeModal', false)
+      this.clearForm()
+      this.showModal = false
     },
     saveReclutamiento() {
-      this.$emit('post-reclutamiento', this.reclutamientoObject)
+      this.solicitudEmpleoObject.entrevistado == 'Si' ? this.solicitudEmpleoObject.entrevistado = true : this.solicitudEmpleoObject.entrevistado = false
+      this.solicitudEmpleoObject.evaluado == 'Si' ? this.solicitudEmpleoObject.evaluado = true : this.solicitudEmpleoObject.evaluado = false
+      this.solicitudEmpleoObject.descalificado == 'Si' ? this.solicitudEmpleoObject.descalificado = true : this.solicitudEmpleoObject.descalificado = false
+      this.$emit('post-reclutamiento', this.solicitudEmpleoObject)
+      this.clearForm()
+    },
+    clearForm() {
+      this.solicitudEmpleoObject = {
+        cedula: "",
+        fecha: "2023-03-31T15:53:01.450Z",
+        nombre: "",
+        direccion1: "",
+        direccion2: "",
+        telefono: "",
+        celular: "",
+        edad: 0,
+        profesionId: 0,
+        posicionId: 0,
+        remitidoA: "",
+        entrevistado: true,
+        evaluado: true,
+        descalificado: true,
+        resultado: "",
+        observacion: ""
+      }
     },
     openProfesionModal() {
       this.professionModal = true
     },
-    getSolicitudEmpleoById(id){
-    Api.getByIdSolicitudEmpleo(id).then((response) => {
-      this.solicitudEmpleoObject = response.data.data
-      console.log(response.data.data)
-    })
+    getSolicitudEmpleoById(id) {
+      Api.getByIdSolicitudEmpleo(id).then((response) => {
+        this.solicitudEmpleoObject = response.data.data
+        this.solicitudEmpleoObject.entrevistado == true ? this.solicitudEmpleoObject.entrevistado = 'Si' : this.solicitudEmpleoObject.entrevistado = 'No'
+        this.solicitudEmpleoObject.evaluado == true ? this.solicitudEmpleoObject.evaluado = 'Si' : this.solicitudEmpleoObject.evaluado = 'No'
+        this.solicitudEmpleoObject.descalificado == true ? this.solicitudEmpleoObject.descalificado = 'Si' : this.solicitudEmpleoObject.descalificado = 'No'
+        console.log(response.data.data)
+      })
+    },
   },
-  },
-  watch:{
-    solicitudEmpleoId(newId){
-      if(newId){
+  watch: {
+    solicitudEmpleoId(newId) {
+      if (newId) {
         this.getSolicitudEmpleoById(newId)
       }
     },
