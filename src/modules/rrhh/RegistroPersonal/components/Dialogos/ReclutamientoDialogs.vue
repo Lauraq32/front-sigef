@@ -197,28 +197,6 @@ export default {
       professionModal: false,
       tabPaneActiveKey: 1,
       reclutamientoObject: {},
-      columns2: [
-        { key: 'fecha', label: 'Fecha', _style: { width: '20%' } },
-        {
-          key: 'tipoDeAccion',
-          label: 'Tipo de acción',
-          _style: { width: '20%' },
-        },
-        {
-          key: 'detalle',
-          label: 'Detalles',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-        },
-      ],
-
-      details: [],
     }
   },
 
@@ -236,9 +214,9 @@ export default {
       this.showModal = false
     },
     saveReclutamiento() {
-      this.solicitudEmpleo.entrevistado == 'Si' ? this.solicitudEmpleo.entrevistado = true : this.solicitudEmpleo.entrevistado = false
-      this.solicitudEmpleo.evaluado == 'Si' ? this.solicitudEmpleo.evaluado = true : this.solicitudEmpleo.evaluado = false
-      this.solicitudEmpleo.descalificado == 'Si' ? this.solicitudEmpleo.descalificado = true : this.solicitudEmpleo.descalificado = false
+      this.solicitudEmpleo.entrevistado ==='Si' ? this.solicitudEmpleo.entrevistado = true : this.solicitudEmpleo.entrevistado = false
+      this.solicitudEmpleo.evaluado === 'Si' ? this.solicitudEmpleo.evaluado = true : this.solicitudEmpleo.evaluado = false
+      this.solicitudEmpleo.descalificado === 'Si' ? this.solicitudEmpleo.descalificado = true : this.solicitudEmpleo.descalificado = false
       this.$emit('post-reclutamiento', this.solicitudEmpleo)
       this.clearForm()
       this.closeModal()

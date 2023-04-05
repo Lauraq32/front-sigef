@@ -18,11 +18,6 @@
         </CSmartTable>
       </CCardBody>
     </CModalBody>
-    <!-- <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="closeModal">
-        Cerrar
-      </button>
-    </div> -->
   </CModal>
 </template>
 
@@ -42,7 +37,6 @@ export default {
 
   data: function () {
     return {
-      lgDemo5: false,
       profesionesList: [],
       tabPaneActiveKey: 1,
       reclutamientoObject: {},
