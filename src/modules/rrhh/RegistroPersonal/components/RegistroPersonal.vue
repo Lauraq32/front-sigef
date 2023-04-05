@@ -1,6 +1,6 @@
 <template>
   <h3 class="text-center">Mantenimientos Empleados</h3>
-  <ContenedorArchivosRRHH/>
+  <ContenedorArchivosRRHH :showModal="lgDemo5" @closeModal="closeModal" />
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton color="info" @click="
@@ -17,6 +17,13 @@
             reportes = true
           }
         ">Imprimir Reporte</CButton>
+      </div>
+      <div class="d-inline p-2">
+        <CButton color="info" @click="() => {
+          lgDemo5 = true
+        }
+
+        ">Adjuntar Documentos</CButton>
       </div>
 
     </div>
@@ -727,9 +734,11 @@ export default {
     CModal,
     moment,
     ContenedorArchivosRRHH,
+
   },
   data: () => {
     return {
+      lgDemo5: false,
       cambiar: false,
       horaActual: '',
       toasts: [],
@@ -959,6 +968,9 @@ export default {
     openModal() {
       this.lgDemo = true
       setTimeout(this.unaVez, 200)
+    },
+    closeModal(close) {
+      this.lgDemo5 = close
     },
 
     changePrograma(e) {
