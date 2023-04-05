@@ -369,6 +369,12 @@ export default {
         props.detalle.presupuestoBco2 = props.detalle.oriBco2;
         props.detalle.presupuestoBco3 = props.detalle.oriBco3;
         props.detalle.presupuestoBco4 = props.detalle.oriBco4;
+        props.detalle.totalOriginal = (
+          Number(props.detalle.oriBco1 || 0) +
+          Number(props.detalle.oriBco2 || 0) +
+          Number(props.detalle.oriBco3 || 0) +
+          Number(props.detalle.oriBco4 || 0)
+        );
 
         closeDialog({ ...props.detalle });
       } else {
