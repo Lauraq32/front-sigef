@@ -70,8 +70,7 @@ export default {
     },
     getListarProfesiones() {
       Api.getProfesiones().then(response => (
-        this.profesionesList = response.data.data,
-        console.log(response.data.data)
+        this.profesionesList = response.data.data
       ))
     },
     closeModal() {
@@ -79,13 +78,6 @@ export default {
 
       this.showModal = false
     },
-
-    // saveReclutamiento(){
-    //   this.$emit('post-reclutamiento', this.reclutamientoObject)
-    // },
-    // openProfesionModal(){
-    //   console.log('abrir modal')
-    // }
   },
 
   props: {

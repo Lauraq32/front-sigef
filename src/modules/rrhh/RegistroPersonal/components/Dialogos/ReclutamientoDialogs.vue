@@ -253,7 +253,6 @@ export default {
       this.professionModal = payload
     },
     setProfesion(payload) {
-      console.log(payload.name)
       this.solicitudEmpleoObject.profesionId = payload.id
       this.displayNameProfesion = payload.name
     },
@@ -301,7 +300,6 @@ export default {
         this.solicitudEmpleoObject.entrevistado == true ? this.solicitudEmpleoObject.entrevistado = 'Si' : this.solicitudEmpleoObject.entrevistado = 'No'
         this.solicitudEmpleoObject.evaluado == true ? this.solicitudEmpleoObject.evaluado = 'Si' : this.solicitudEmpleoObject.evaluado = 'No'
         this.solicitudEmpleoObject.descalificado == true ? this.solicitudEmpleoObject.descalificado = 'Si' : this.solicitudEmpleoObject.descalificado = 'No'
-        console.log(response.data.data)
       })
     },
   },
