@@ -3,7 +3,8 @@
   <AccionPersonalDialog
     :showModal="lgDemo4"
     @closeModal="closeModal"
-    :accionPersonalId="accionPersonal"
+    :accionPersonal="accionPersonal"
+    :FiltroEmpleadoAccionPersonal="registroPersonal"
   />
   <TipoNovedadDialog :showModals="lgDemo5" @closeModals="closeModals" />
   <div class="table-headers">
@@ -990,6 +991,7 @@ export default {
   },
   data: function () {
     return {
+      FiltroEmpleadoAccionPersonal: { nombres: null },
       accionPersonal: [],
       lgDemo4: false,
       lgDemo5: false,
@@ -1163,11 +1165,11 @@ export default {
     ...mapState(useRegistroStore, ['registroPersonal', 'posicionCargo']),
   },
 
-  watch: {
-    lgDemo() {
-      this.getAccionPersonal()
-    },
-  },
+  // watch: {
+  //   lgDemo() {
+  //     this.getAccionPersonal()
+  //   },
+  // },
 
   methods: {
     ...mapActions(useRegistroStore, [
@@ -1606,7 +1608,6 @@ export default {
   },
 
   mounted() {
-    this.getAccionPersonal()
     setInterval(() => {
       this.horaActual = moment().format('HH:mm')
     }, 1000)

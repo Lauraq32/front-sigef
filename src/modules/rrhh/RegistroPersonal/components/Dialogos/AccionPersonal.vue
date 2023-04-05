@@ -10,7 +10,7 @@
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Nombres:</div>
               <div class="col-8">
-                <h6>Alfredo</h6>
+                <h6>{{ this.FiltroEmpleadoAccionPersonal.nombres }}</h6>
               </div>
             </div>
             <div class="row mt-4 mx-3">
@@ -73,7 +73,7 @@
         :tableHeadProps="{}"
         :activePage="1"
         header
-        :items="accionPersonalId"
+        :items="accionPersonal"
         :columns="columns2"
         columnFilter
         itemsPerPageSelect
@@ -88,38 +88,16 @@
           </td>
         </template>
 
-        <template #show_details="{ item }">
-          <td class="py-1">
+        <template #show_details="{ item, index }">
+          <td class="py-2">
             <CButton
-              class="mt-1"
               color="primary"
               variant="outline"
               square
               size="sm"
-              @click="toggleDetails(item)"
-            >
-              {{ Boolean(item._toggled) ? 'Hide' : 'Nuevo' }}
-            </CButton>
-
-            <CButton
-              class="mt-1"
-              color="primary"
-              variant="outline"
-              square
-              size="sm"
-              @click="toggleDetails(item)"
+              @click="toggleDetails(item, index)"
             >
               {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
-            </CButton>
-            <CButton
-              class="mt-1"
-              color="primary"
-              variant="outline"
-              square
-              size="sm"
-              @click="toggleDetails(item)"
-            >
-              {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
             </CButton>
           </td>
         </template>
@@ -177,13 +155,13 @@
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Nombres:</div>
               <div class="col-8">
-                <h6>Alfredo</h6>
+                <h6>{{ this.FiltroEmpleadoAccionPersonal.nombres }}</h6>
               </div>
             </div>
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Apellido:</div>
               <div class="col-8">
-                <h6>Valenzuela</h6>
+                <h6></h6>
               </div>
             </div>
             <div class="row mt-4 mx-3">
@@ -295,16 +273,9 @@ export default {
   data: function () {
     return {
       lgDemo5: false,
-      accionPersonalId: [],
+      accionPersonal: [],
       IdEmpleado: null,
-      postAccionPersonal: {
-        fechaDesde: '2023-04-04T18:19:06.403Z',
-        tipoAccionId: 0,
-        cantidad: 0,
-        fechaHasta: '2023-04-04T18:19:06.403Z',
-        detalle: 'string',
-      },
-
+      FiltroEmpleadoAccionPersonal: { nombres: null },
       columns2: [
         { key: 'fechaDesde', label: 'Fecha', _style: { width: '20%' } },
         {
@@ -334,17 +305,12 @@ export default {
     CloseModal() {
       this.$emit('closeModal', false)
     },
-
-    // getAccionPersonalById(IdEmpleado) {
-    //   Api.getAccionPersonalByID(IdEmpleado).then((response) => {
-    //     this.accionPersonalId = response.data.data
-    //   })
-    // },
   },
 
   props: {
     showModal: Boolean,
-    accionPersonalId: [],
+    accionPersonal: [],
+    FiltroEmpleadoAccionPersonal: { nombres: null },
   },
 }
 </script>

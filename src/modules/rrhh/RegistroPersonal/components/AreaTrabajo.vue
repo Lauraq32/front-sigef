@@ -20,7 +20,8 @@
     </div>
   </div>
   <hr />
-  <CSmartTable class="sticky-top"
+  <CSmartTable
+    class="sticky-top"
     clickableRows
     :tableProps="{
       striped: true,
@@ -162,25 +163,23 @@ export default {
       },
     ]
     footerItem: [
-        {
-          label: 'Total Items',
-          _props: {
-            color: '',
-            colspan: 1,
-            style: 'font-weight:bold;',
-          },
+      {
+        label: 'Total Items',
+        _props: {
+          color: '',
+          colspan: 1,
+          style: 'font-weight:bold;',
         },
-
-      ],
-
-    function handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
+      },
+    ],
+      function handleSubmitCustom01(event) {
+        const form = event.currentTarget
+        if (form.checkValidity() === false) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        this.validatedCustom01 = true
       }
-      this.validatedCustom01 = true
-    }
 
     function getBadge(status) {
       switch (status) {

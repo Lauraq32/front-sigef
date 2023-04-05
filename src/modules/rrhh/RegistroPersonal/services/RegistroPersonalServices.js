@@ -32,7 +32,7 @@ class RegistroPersonal {
   }
 
   getAccionPersonalByID(id) {
-    return http.get(`acciones-personal/${id}`)
+    return http.get(`acciones-personal/empleado/${id}`)
   }
 
   getDepartamentoByProgramaId(id) {
