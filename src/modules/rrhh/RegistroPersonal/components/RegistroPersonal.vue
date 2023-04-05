@@ -1,6 +1,10 @@
 <template>
   <h3 class="text-center">Mantenimientos Empleados</h3>
-  <AccionPersonalDialog :showModal="lgDemo4" @closeModal="closeModal" />
+  <AccionPersonalDialog
+    :showModal="lgDemo4"
+    @closeModal="closeModal"
+    :accionPersonalId="accionPersonal"
+  />
   <TipoNovedadDialog :showModals="lgDemo5" @closeModals="closeModals" />
   <div class="table-headers">
     <div class="d-inline p-2">
@@ -110,6 +114,7 @@
             @click="
               () => {
                 lgDemo4 = true
+                this.getAccionPersonalById(item.id)
               }
             "
             >Evaluación</CDropdownItem
@@ -1267,6 +1272,12 @@ export default {
       }
     },
 
+    getAccionPersonalById(IdEmpleado) {
+      Api.getAccionPersonalByID(IdEmpleado).then((response) => {
+        this.accionPersonal = response.data.data
+      })
+    },
+
     toggleDetails(item) {
       if (item.empleados !== 0 || item.variacion !== 0) {
         this.empleadoValue = true
@@ -1278,6 +1289,7 @@ export default {
       Api.getEmpleadoByID(item.id).then((response) => {
         this.id = item.id
         this.postEmpleado = response.data.data
+        this.IdEmpleado = item.id
       })
     },
 

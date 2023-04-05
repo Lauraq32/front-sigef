@@ -73,7 +73,7 @@
         :tableHeadProps="{}"
         :activePage="1"
         header
-        :items="areasTrabajo"
+        :items="accionPersonalId"
         :columns="columns2"
         columnFilter
         itemsPerPageSelect
@@ -281,6 +281,7 @@
 </template>
 
 <script>
+import Api from '@/modules/rrhh/RegistroPersonal/services/RegistroPersonalServices'
 import { CModal } from '@coreui/vue'
 import { CSmartTable } from '@coreui/vue-pro'
 
@@ -294,7 +295,8 @@ export default {
   data: function () {
     return {
       lgDemo5: false,
-
+      accionPersonalId: [],
+      IdEmpleado: null,
       postAccionPersonal: {
         fechaDesde: '2023-04-04T18:19:06.403Z',
         tipoAccionId: 0,
@@ -332,10 +334,17 @@ export default {
     CloseModal() {
       this.$emit('closeModal', false)
     },
+
+    // getAccionPersonalById(IdEmpleado) {
+    //   Api.getAccionPersonalByID(IdEmpleado).then((response) => {
+    //     this.accionPersonalId = response.data.data
+    //   })
+    // },
   },
 
   props: {
     showModal: Boolean,
+    accionPersonalId: [],
   },
 }
 </script>

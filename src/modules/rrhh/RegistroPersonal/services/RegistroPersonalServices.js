@@ -28,7 +28,11 @@ class RegistroPersonal {
   }
 
   getEmpleadoByID(id) {
-    return http.get(`Empleado/${id}`)
+    return http.get(`Empleados/${id}`)
+  }
+
+  getAccionPersonalByID(id) {
+    return http.get(`acciones-personal/${id}`)
   }
 
   getDepartamentoByProgramaId(id) {
