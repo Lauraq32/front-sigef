@@ -14,7 +14,6 @@
           <CCol :md="12">
             <CFormLabel for="validationCustomUsername">Profesión</CFormLabel>
             <CFormInput v-model="profesionObject.name" id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <div class="modal-footer">

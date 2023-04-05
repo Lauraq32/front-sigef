@@ -7,7 +7,7 @@
         color="info"
         @click="
           () => {
-            profesion = true
+            profesionModal = true
           }
         "
         >Agregar</CButton
@@ -47,9 +47,13 @@
     <template #show_details="{ item, index }">
       <td class="py-2">
         <CDropdown>
-          <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
+          <CDropdownToggle color="primary" variant="outline"
+            >Acciones</CDropdownToggle
+          >
           <CDropdownMenu>
-            <CDropdownItem @click="getProfesionesById(item)">Editar</CDropdownItem>
+            <CDropdownItem @click="getProfesionesById(item)"
+              >Editar</CDropdownItem
+            >
           </CDropdownMenu>
         </CDropdown>
       </td>
@@ -68,7 +72,7 @@
     </template>
   </CSmartTable>
   <ProfesionesDialogs
-    :showModal="profesion"
+    :showModal="profesionModal"
     @close-modal="closeModal"
     @post-profesiones="saveProfesion"
     :profesionesId="profesionesId"
@@ -89,11 +93,10 @@ export default {
   },
   data: () => {
     return {
-      totalItems: 0,
       profesionesId: null,
       validatedCustom01: null,
       profesiones: [],
-      profesion: false,
+      profesionModal: false,
       columns: [
         { key: 'name', label: 'Profesión', _style: { width: '40%' } },
         {
@@ -125,46 +128,65 @@ export default {
       details: [],
     }
   },
-  watch:{
-    profesion(){
+  watch: {
+    profesion() {
       this.getAllProfesiones()
     },
   },
   methods: {
     ...mapActions(useToastStore, ['show']),
     closeModal(payload) {
-      this.profesion = payload
+      this.profesionModal = payload
     },
     getProfesionesById(item) {
       this.profesionesId = item.id
-      this.profesion = true
+      this.profesionModal = true
     },
     saveProfesion(payload) {
-      if(this.profesionesId != null) {
-        Api.updateProfesion(this.profesionesId, payload).then((response) => {
-          this.show({
-            content: 'Registro actualizado correctamente',
-            closable: true,
-            life: 15000,
+      if (this.profesionesId != null) {
+        Api.updateProfesion(this.profesionesId, payload)
+          .then((response) => {
+            this.show({
+              content: 'Registro actualizado correctamente',
+              closable: true,
+              life: 15000,
+            })
+            setTimeout(() => this.getAllProfesiones(), 200)
           })
-          setTimeout(() => this.getAllProfesiones(), 200)
-        })
+          .catch((errors) => {
+            errors.response.data.errors.map((error) => {
+              return this.show({
+                content: error.message,
+                closable: true,
+                color: 'danger',
+              })
+            })
+          })
       } else {
-        Api.addProfesion(payload).then((response) => {
-          this.show({
-            content: 'Registro añadido correctamente',
-            closable: true,
-            life: 15000,
+        Api.addProfesion(payload)
+          .then((response) => {
+            this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
+              life: 15000,
+            })
+            setTimeout(() => this.getAllProfesiones(), 200)
           })
-          setTimeout(() => this.getAllProfesiones(), 200)
-        })
+          .catch((errors) => {
+            errors.response.data.errors.map((error) => {
+              return this.show({
+                content: error.message,
+                closable: true,
+                color: 'danger',
+              })
+            })
+          })
       }
     },
     getAllProfesiones() {
       Api.getProfesion().then((response) => {
         this.profesiones = response.data.data
-        this.totalItems = response.data.data.length
-        this.footerItem[1] = this.totalItems
+        this.footerItem[1] = response.data.data.length
       })
     },
   },
