@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getFiscalYearId, getLoggedInfo } from '@/utils/logged-info';
+import router from '../router'
 
 
 const axiosInstance = axios.create({
@@ -19,5 +20,15 @@ axiosInstance.interceptors.request.use((config) => {
   config.timeout = 15_000;
   return config;
 });
+
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  ({response}) => {
+    if (response.status === 401) {
+      router.push({ name: "Login", replace: true})
+      .catch(console.error);
+    }
+  }
+);
 
 export default axiosInstance;

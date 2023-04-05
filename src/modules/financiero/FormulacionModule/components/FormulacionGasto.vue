@@ -102,7 +102,6 @@ import router from '@/router'
 import { formatPrice } from '../../../../utils/format'
 import { useToastStore } from '@/store/toast'
 import FormulacionGastoDialog from "../gasto/FormulacionGastoDialog";
-import { nextTick } from 'vue'
 export default {
   components: {
     CSmartTable,
@@ -116,22 +115,22 @@ export default {
       formatPrice,
 
       columns: [
-        { key: 'pnap', label: 'Pnap', _style: { width: '10%' } },
-        { key: 'programa', label: 'Programa', _style: { width: '10%' } },
+        { key: 'pnap', label: 'Pnap', _style: { width: '7%' } },
+        { key: 'programa', label: 'Programa', _style: { width: '7%' } },
         { key: 'proyecto', label: 'Proyecto', _style: { width: '10%' } },
-        { key: 'actObra', label: 'Act/Obra', _style: { width: '10%' } },
-        { key: 'estControl', label: 'Control', _style: { width: '10%' } },
-        { key: 'nombre', label: 'Denominación', _style: { width: '20%' } },
-        { key: 'tipo', label: 'Tipo', _style: { width: '20%' } },
+        { key: 'actObra', label: 'Act/Obra', _style: { width: '7%' } },
+        { key: 'estControl', label: 'Control', _style: { width: '8%' } },
+        { key: 'nombre', label: 'Denominación', _style: { width: '25%' } },
+        { key: 'tipo', label: 'Tipo', _style: { width: '8%' } },
         {
           key: 'unidadResp',
-          label: 'Unidad responsable',
-          _style: { width: '40%' },
+          label: 'Unidad Responsable',
+          _style: { width: '15%' },
         },
         {
           key: 'totalPresupuesto',
           label: 'Presupuesto',
-          _style: { width: '40%' },
+          _style: { width: '10%' },
         },
         {
           key: 'show_details',
@@ -378,7 +377,7 @@ export default {
     },
     IngresoReport() {
       window.open(
-        `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Gastos_Formulacion_FP08&rs:Command=Render&ANO=${this.$fiscalYearId}&CAPITULO_AYTO=${this.$ayuntamientoId}&FONDO=P`,
+        `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Gastos_Formulacion_FP08&rs:Command=Render&ANO=${this.$fiscalYearId}&CAPITULO_AYTO=${this.$loggedInfo.user.ayuntamiento.codigo}&FONDO=P`,
         '_blank',
       );
     },
@@ -409,6 +408,7 @@ export default {
     onFormulacionGastoDialogClose(data) {
       if (data) {
         const { detallePresGastos, ...rest } = data;
+        rest.totalPresupuesto = detallePresGastos.reduce((acc, detalle) => acc + detalle.totalOriginal, 0);
         this.guardarFormulacionGasto({
           detallePresGastoDtos: detallePresGastos,
           presGastoDto: rest 
@@ -463,11 +463,8 @@ export default {
       this.showFormulacionDialog = true;
     },
     loadData() {
-      this.getListarGastos()
       setTimeout(() => {
-        nextTick().then(() => {
-          this.footerItem[0].label = `Total items: ${this.gastoListCount}`;
-        });
+        this.getListarGastos();
       }, 200);
     }
   },
@@ -483,6 +480,13 @@ export default {
   mounted() {
     this.loadData();
   },
+  watch: {
+    prepGastoList() {
+      setTimeout(() => {
+        this.footerItem[0].label = `Total items: ${this.gastoListCount}`;
+      }, 200);
+    }
+  }
 }
 </script>
 <style scoped>

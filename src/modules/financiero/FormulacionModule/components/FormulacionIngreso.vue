@@ -48,6 +48,7 @@
     itemsPerPageSelect 
     columnFilter 
     :itemsPerPage="10"
+    :items-per-page-label="'Item por página:'"
     :items-per-page-options="[10, 20, 50, 100, 150]" 
     columnSorter 
     :sorterValue="{ column: 'status', state: 'asc' }"
@@ -142,7 +143,6 @@
                 <CIcon icon="cisSearch" size="xl" v-on:click="() => findClasificadorModal = true" />
               </span>
             </div>
-            <CFormFeedback valid> Exito! </CFormFeedback>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
 
@@ -164,7 +164,7 @@
             <CFormInput :disabled="ctgFuenteId" v-model="postIngreso.ctgFuenteId" id="validationCustom03" required />
           </CCol>
           <CCol :md="3">
-            <CFormLabel for="validationCustom04">Fuente Específica</CFormLabel>
+            <CFormLabel for="validationCustom04">Fuente Espec&iacute;fica</CFormLabel>
             <CFormInput :disabled="ctgFuenteEspecificaId" v-model="postIngreso.ctgFuenteEspecificaId"
               id="validationCustom04" required>
             </CFormInput>
@@ -175,7 +175,7 @@
               id="validationCustom05" required />
           </CCol>
           <CCol :md="3">
-            <CFormLabel>Institución Otorgante</CFormLabel>
+            <CFormLabel>Instituci&oacute;n Otorgante</CFormLabel>
             <CFormInput v-model="postIngreso.instOtorga" type="number" step="any">
             </CFormInput>
           </CCol>
@@ -330,58 +330,58 @@ export default {
         {
           key: 'ctgClasificadorId',
           label: 'Clasificador',
-          _style: { width: '8%' },
+          _style: { width: '10%' },
         },
         {
           key: 'detalle',
           label: 'Descripción',
           sorter: false,
-          _style: { width: '13%' },
+          _style: { width: '35%' },
         },
         {
           key: 'ctgFuenteId',
-          label: 'F/Financiamiento',
-          _style: { width: '14%' },
+          label: 'F/Finan',
+          _style: { width: '5%' },
         },
         {
           key: 'ctgFuenteEspecificaId',
-          label: 'F/Específica',
-          _style: { width: '8%' },
+          label: 'F/Espec',
+          _style: { width: '5%' },
         },
         {
           key: 'ctgOrganismoFinanciadorId',
-          label: 'Org/Financiamiento',
-          _style: { width: '14%' },
+          label: 'Org/Finan',
+          _style: { width: '5%' },
         },
         {
           key: 'instOtorga',
           label: 'Inst/Otorgante',
           filter: false,
-          _style: { width: '8%' },
+          _style: { width: '5%' },
         },
         {
           key: 'anioAnt',
           label: 'Año Anterior',
           filter: false,
-          _style: { width: '8%' },
+          _style: { width: '10%' },
         },
         {
           key: 'alaFecha',
           label: 'A la Fecha',
           filter: false,
-          _style: { width: '8%' },
+          _style: { width: '10%' },
         },
         {
           key: 'presForm',
           label: 'Pre/Formulado',
 
           filter: false,
-          _style: { width: '8%' },
+          _style: { width: '10%' },
         },
         {
           key: 'show_details',
           label: '',
-          _style: { width: '10%' },
+          _style: { width: '5%' },
           filter: false,
           sorter: false,
         },
@@ -474,7 +474,8 @@ export default {
           const wsname = wb.SheetNames[0]
           const ws = wb.Sheets[wsname]
           const data = XLSX.utils.sheet_to_json(ws)
-          this.texto = wb
+          this.texto = wb;
+          console.log(data);
           data.map((item) => {
             this.presIngrsoMasivo.push({
               anioFiscalId:  this.authInfo.currentFiscalYearId,
@@ -694,7 +695,7 @@ export default {
     IngresoReport() {
       window
         .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Formulacion&rs:Command=Render&CAPITULO_AYTO=${this.authInfo.currentFiscalYearId}&ANO=2022`,
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Formulacion&rs:Command=Render&CAPITULO_AYTO=${this.authInfo.user.ayuntamiento.codigo}&ANO=2022`,
           '_blank',
         )
         .focus()
