@@ -5,7 +5,7 @@
     <div class="d-inline p-2">
       <CButton color="info" @click="
         () => {
-          reclutamientoModal = true
+          showReclutamientoModal= true
         }
       ">Agregar</CButton>
     </div>
@@ -25,28 +25,24 @@
       </td>
     </template>
     <template #show_details="{ item, index }">
-      <td class="py-2">
-        <CDropdown>
-          <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
-          <CDropdownMenu>
-            <CDropdownItem @click="getReclutamientoById(item)">Editar</CDropdownItem>
-          </CDropdownMenu>
-        </CDropdown>
+      <td>
+        <CButton  @click="getReclutamientoById(item)" color="primary" variant="outline">Editar</CButton>
       </td>
+           
     </template>
     <template #entrevistado="{ item, index }">
       <td class="py-2">
-        {{ item.entrevistado == 'true' ? 'No' : 'Si' }}
+        {{ item.entrevistado == true ? 'No' : 'Si' }}
       </td>
     </template>
     <template #evaluado="{ item, index }">
       <td class="py-2">
-        {{ item.evaluado == 'true' ? 'No' : 'Si' }}
+        {{ item.evaluado == true ? 'No' : 'Si' }}
       </td>
     </template>
 
   </CSmartTable>
-  <ReclutamientoDialog :showModal="reclutamientoModal" @closeModal="closeModal" @post-reclutamiento="saveSolicitudEmpleo"
+  <ReclutamientoDialog :showModal="showReclutamientoModal" @closeModal="closeModal" @post-reclutamiento="saveSolicitudEmpleo"
     solicitudEmpleoObject="solicitudItem" :solicitudEmpleoId="reclutamientoId" />
 </template>
 <script>
@@ -67,7 +63,7 @@ export default {
     return {
 
       validatedCustom01: null,
-      reclutamientoModal: false,
+      showReclutamientoModal: false,
       solicitudEmpleoId: null,
       columns: [
         {
@@ -114,7 +110,7 @@ export default {
     }
   },
   watch: {
-    reclutamientoModal() {
+    showReclutamientoModal() {
       this.getAll()
     }
   },
@@ -136,7 +132,7 @@ export default {
         }
         ).catch(error => {
           this.show({
-            content: 'Error',
+            content: error.response.data,
             closable: true,
             color:'danger'
           })
@@ -149,17 +145,17 @@ export default {
           })
         }).catch((error) => {
           this.show({
-            content: 'Error',
+            content: error.response.data,
             closable: true,
             color:'danger'
           })
         })
       }
-      this.reclutamientoModal = false
+      this.showReclutamientoModal= false
 
     },
     closeModal(payload) {
-      this.reclutamientoModal = payload
+      this.showReclutamientoModal= payload
     },
     getBadge(status) {
       switch (status) {
@@ -178,7 +174,7 @@ export default {
     getReclutamientoById(item) {
       this.solicitudEmpleoId = item.id
       this.reclutamientoId = item.id
-      this.reclutamientoModal = true
+      this.showReclutamientoModal= true
     },
 
   },
