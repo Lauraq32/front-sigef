@@ -187,7 +187,7 @@
 import { CModal } from '@coreui/vue'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CIcon } from '@coreui/icons-vue'
-import ProfessionDialog from '../Dialogos/ProfessionDialog.vue'
+import ProfessionDialog from './SelectProfesionDialog.vue'
 import Api from '../../services/SolicitudEmpleo'
 
 export default {
