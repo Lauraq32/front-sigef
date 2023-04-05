@@ -1,25 +1,28 @@
 <template>
-  <CModal size="md" :visible="showModal">
+  <CModal size="md" :visible="showModal" @close="closeModal">
+    <CModalHeader>
+      <CModalTitle>Profesiones</CModalTitle>
+    </CModalHeader>
     <CModalBody>
       <CCardBody>
         <CSmartTable clickableRows :tableProps="{
           striped: true,
           hover: true,
-        }" :tableHeadProps="{}" :activePage="1" header :items="profesionesList" :columns="columns" columnFilter
-          itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }" pagination>
+        }" :tableHeadProps="{}" :activePage="1" header :items="profesionesList" :columns="columns" itemsPerPageSelect
+          :itemsPerPage="5" :sorterValue="{ column: 'status', state: 'asc' }" pagination>
           <template #show_details="{ item, index }">
-            <td class="py-2">           
+            <td class="py-2">
               <CButton color="primary" variant="outline" @click="getProfesion(item)">Seleccionar</CButton>
             </td>
           </template>
         </CSmartTable>
       </CCardBody>
     </CModalBody>
-    <div class="modal-footer">
+    <!-- <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="closeModal">
         Cerrar
       </button>
-    </div>
+    </div> -->
   </CModal>
 </template>
 
@@ -44,7 +47,7 @@ export default {
       tabPaneActiveKey: 1,
       reclutamientoObject: {},
       columns: [
-        { key: 'name', label: 'Nombre', _style: { width: '10%' } },
+        { key: 'name', label: 'Nombre', _style: { width: '50%' } },
 
         {
           key: 'show_details',
@@ -60,10 +63,10 @@ export default {
   },
 
   methods: {
-  
+
     getProfesion(item) {
       this.$emit('select-profesion', item)
-      
+
     },
     getListarProfesiones() {
       Api.getProfesiones().then(response => (
@@ -73,7 +76,7 @@ export default {
     },
     closeModal() {
       this.$emit('closeModal', false)
-  
+
       this.showModal = false
     },
 

@@ -5,7 +5,7 @@
     <div class="d-inline p-2">
       <CButton color="info" @click="
         () => {
-          lgDemo = true
+          reclutamientoModal = true
         }
       ">Agregar</CButton>
     </div>
@@ -46,14 +46,16 @@
     </template>
 
   </CSmartTable>
-  <ReclutamientoDialog :showModal="lgDemo" @closeModal="closeModal" @post-reclutamiento="handleSubmitCustom01" solicitudEmpleoObject="solicitudItem" :solicitudEmpleoId="reclutamientoId"  />
+  <ReclutamientoDialog :showModal="reclutamientoModal" @closeModal="closeModal" @post-reclutamiento="saveSolicitudEmpleo"
+    solicitudEmpleoObject="solicitudItem" :solicitudEmpleoId="reclutamientoId" />
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import ReclutamientoDialog from '../components/Dialogos/ReclutamientoDialogs.vue'
 import Api from '../services/SolicitudEmpleo'
-
+import { mapActions} from 'pinia'
+import { useToastStore } from '@/store/toast'
 
 export default {
   components: {
@@ -65,8 +67,8 @@ export default {
     return {
 
       validatedCustom01: null,
-      lgDemo: false,
-      solicitudEmpleoId:null,
+      reclutamientoModal: false,
+      solicitudEmpleoId: null,
       columns: [
         {
           key: 'id',
@@ -111,33 +113,53 @@ export default {
       details: [],
     }
   },
-  watch:{
-    lgDemo(){
+  watch: {
+    reclutamientoModal() {
       this.getAll()
     }
   },
   methods: {
-    getAll(){
+    ...mapActions(useToastStore, ['show']),
+    getAll() {
       Api.getSolicitudEmpleo().then(response => (
-      this.solicitudItem = response.data.data
-    ))
-    },
-    handleSubmitCustom01(payload) {
-      console.log(payload)
-    
-      if(this.solicitudEmpleoId != null){
-        Api.putSolicitudEmpleo(this.solicitudEmpleoId,payload).then(
-          console.log(response)
-        )
-      }else{
-        Api.postSolicitudEmpleo(payload).then(response => (
-        console.log(response)
+        this.solicitudItem = response.data.data
       ))
+    },
+    saveSolicitudEmpleo(payload) {
+
+      if (this.solicitudEmpleoId != null) {
+        Api.putSolicitudEmpleo(this.solicitudEmpleoId, payload).then((response) => {
+          this.show({
+            content: 'Registro actualizado correctamente',
+            closable: true,
+          })
+        }
+        ).catch(error => {
+          this.show({
+            content: 'Error',
+            closable: true,
+            color:'danger'
+          })
+        })
+      } else {
+        Api.postSolicitudEmpleo(payload).then(response => {
+          this.show({
+            content: 'Registro actualizado correctamente',
+            closable: true,
+          })
+        }).catch((error) => {
+          this.show({
+            content: 'Error',
+            closable: true,
+            color:'danger'
+          })
+        })
       }
+      this.reclutamientoModal = false
 
     },
     closeModal(payload) {
-      this.lgDemo = payload
+      this.reclutamientoModal = payload
     },
     getBadge(status) {
       switch (status) {
@@ -156,12 +178,12 @@ export default {
     getReclutamientoById(item) {
       this.solicitudEmpleoId = item.id
       this.reclutamientoId = item.id
-      this.lgDemo = true
+      this.reclutamientoModal = true
     },
 
   },
   mounted() {
-   this.getAll()
+    this.getAll()
   },
 }
 </script>

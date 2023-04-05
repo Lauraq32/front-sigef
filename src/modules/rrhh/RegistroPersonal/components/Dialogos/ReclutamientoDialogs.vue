@@ -1,5 +1,9 @@
 <template>
   <CModal @close="closeModal" size="lg" :visible="showModal" backdrop="static">
+
+    <CModalHeader>
+      <CModalTitle>Formulario de solicitudes</CModalTitle>
+    </CModalHeader>
     <CNav class="p-2" variant="tabs" role="tablist">
       <CNavItem>
         <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 1" @click="() => { tabPaneActiveKey = 1 }">
@@ -11,13 +15,10 @@
           Notas
         </CNavLink>
       </CNavItem>
-
+      
     </CNav>
     <CTabContent>
       <CTabPane role="tabpanel" aria-labelledby="home-tab" :visible="tabPaneActiveKey === 1">
-        <CModalHeader>
-          <CModalTitle>Formulario de solicitudes</CModalTitle>
-        </CModalHeader>
         <CModalBody>
           <CCardBody>
             <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01"
@@ -84,8 +85,8 @@
               <CCol :md="6">
                 <CFormLabel for="validationCustom05">Profesión</CFormLabel>
                 <div class="position-relative">
-                  <input v-model="displayNameProfesion" ref="name" required
-                    class="form-control padding-input" type="text" id="clasifica" />
+                  <input v-model="displayNameProfesion" ref="name" required class="form-control padding-input" type="text"
+                    id="clasifica" />
                   <span class="position-absolute icon-input">
                     <CIcon icon="cisSearch" size="xl" v-on:click="openProfesionModal" />
                   </span>
@@ -137,27 +138,10 @@
         </CModalBody>
       </CTabPane>
       <CTabPane role="tabpanel" aria-labelledby="profile-tab" :visible="tabPaneActiveKey === 2">
-        <CModalHeader>
-          <CModalTitle>Formulario de solicitudes</CModalTitle>
-        </CModalHeader>
         <CModalBody>
           <CCardBody>
             <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01"
               @submit="handleSubmitCustom01">
-              <CCol :md="6">
-                <CFormLabel for="validationCustom01">Solicitud número</CFormLabel>
-                <CFormInput v-model="solicitudEmpleoObject" id="validationCustom01" />
-
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-              <CCol :md="6">
-                <CFormLabel for="validationCustom01">Fecha Solicitud</CFormLabel>
-                <CFormInput v-model="solicitudEmpleoObject.fecha" type id="validationCustom01" />
-
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
               <CCol :md="12">
                 <CFormLabel for="validationCustom01">Nombre Solicitante</CFormLabel>
                 <CFormInput v-model="solicitudEmpleoObject.nombre" id="validationCustom01" />
@@ -217,7 +201,7 @@ export default {
 
   data: function () {
     return {
-      displayNameProfesion:'',
+      displayNameProfesion: '',
       solicitudEmpleoObject: {
         cedula: "",
         fecha: "2023-03-31T15:53:01.450Z",
@@ -264,11 +248,11 @@ export default {
     }
   },
 
-  methods: {
-    closeProfesionModal(payload){
+  methods: {  
+    closeProfesionModal(payload) {
       this.professionModal = payload
     },
-    setProfesion(payload){
+    setProfesion(payload) {
       console.log(payload.name)
       this.solicitudEmpleoObject.profesionId = payload.id
       this.displayNameProfesion = payload.name
@@ -284,8 +268,11 @@ export default {
       this.solicitudEmpleoObject.descalificado == 'Si' ? this.solicitudEmpleoObject.descalificado = true : this.solicitudEmpleoObject.descalificado = false
       this.$emit('post-reclutamiento', this.solicitudEmpleoObject)
       this.clearForm()
+      this.closeModal()
+      solicitudEmpleoId = null
     },
     clearForm() {
+   
       this.solicitudEmpleoObject = {
         cedula: "",
         fecha: "2023-03-31T15:53:01.450Z",
@@ -298,9 +285,9 @@ export default {
         profesionId: 0,
         posicionId: 0,
         remitidoA: "",
-        entrevistado: true,
-        evaluado: true,
-        descalificado: true,
+        entrevistado: 'Si',
+        evaluado: 'Si',
+        descalificado: 'Si',
         resultado: "",
         observacion: ""
       }
