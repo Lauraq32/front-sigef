@@ -45,7 +45,7 @@
         </CCol>
         <CCol :md="2" class="mt-4" style="font-weight: bolder">
           <CWidgetStatsD
-            @click="gotToPrueba"
+            @click="gotToPrueba3"
             class="mb-4 shadow"
             style="--cui-card-cap-bg: #002e5d; height: 240px"
             :values="[{ title: 'Compras', value: '' }]"
@@ -85,7 +85,7 @@
         </CCol>
         <CCol :md="2" class="mt-4" style="font-weight: bolder">
           <CWidgetStatsD
-            @click="gotToPrueba"
+            @click="gotToPrueba1"
             class="mb-4 shadow"
             style="--cui-card-cap-bg: #002e5d; height: 240px"
             :values="[{ title: 'RRHH', value: '' }]"
@@ -125,7 +125,7 @@
         </CCol>
         <CCol :md="2" class="mt-4" style="font-weight: bolder">
           <CWidgetStatsD
-            @click="gotToPrueba"
+            @click="gotToPrueba2"
             class="mb-4 shadow"
             style="--cui-card-cap-bg: #002e5d; height: 240px"
             :values="[{ title: 'Administrativo', value: '' }]"
@@ -208,29 +208,29 @@ export default {
   name: 'Fianciero',
   methods: {
     gotToPrueba() {
-      this.$router.push({ name: 'Formulación Ingreso' })
+      this.$router.push({ name: 'financiero' })
     },
     gotToPrueba1() {
-      this.$router.push({ name: 'categorias' })
+      this.$router.push({ name: 'RRHH' })
     },
     gotToPrueba2() {
-      this.$router.push({ name: 'ejecucionIngreso' })
+      this.$router.push({ name: 'Administrativo' })
     },
     gotToPrueba3() {
-      this.$router.push({ name: 'nominas' })
+      this.$router.push({ name: 'compras' })
     },
-    gotToPrueba4() {
-      this.$router.push({ name: 'cuentasContables' })
-    },
-    gotToPrueba5() {
-      this.$router.push({ name: 'CuentasDebanco' })
-    },
-    gotToPrueba6() {
-      this.$router.push({ name: 'documentosPorPagar' })
-    },
-    gotToPrueba7() {
-      this.$router.push({ name: 'Sectores' })
-    },
+    // gotToPrueba4() {
+    //   this.$router.push({ name: 'cuentasContables' })
+    // },
+    // gotToPrueba5() {
+    //   this.$router.push({ name: 'CuentasDebanco' })
+    // },
+    // gotToPrueba6() {
+    //   this.$router.push({ name: 'documentosPorPagar' })
+    // },
+    // gotToPrueba7() {
+    //   this.$router.push({ name: 'Sectores' })
+    // },
   },
 }
 </script>
