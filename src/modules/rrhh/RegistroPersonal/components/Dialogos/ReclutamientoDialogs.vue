@@ -209,9 +209,9 @@ export default {
       this.displayNameProfesion = payload.name
     },
     closeModal() {
-      this.$emit('closeModal', false)
+      this.$emit('closeModal')
       this.clearForm()
-      this.showModal = false
+      //this.showModal = false
     },
     saveReclutamiento() {
       this.solicitudEmpleo.entrevistado ==='Si' ? this.solicitudEmpleo.entrevistado = true : this.solicitudEmpleo.entrevistado = false

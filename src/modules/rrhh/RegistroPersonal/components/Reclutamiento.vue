@@ -73,7 +73,7 @@ export default {
         },
         {
           key: 'nombre',
-          label: 'Nombre solicitante',
+          label: 'Nombre Solicitante',
           _style: { width: '30%' },
         },
         { key: 'telefono', label: 'Teléfono', _style: { width: '10%' } },
@@ -154,8 +154,8 @@ export default {
       this.showReclutamientoModal= false
 
     },
-    closeModal(payload) {
-      this.showReclutamientoModal= payload
+    closeModal() {
+      this.showReclutamientoModal= false;
     },
     getBadge(status) {
       switch (status) {
