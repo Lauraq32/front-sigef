@@ -1,5 +1,5 @@
 <template>
-  <CModal size="md" :visible="showModal" backdrop="static">
+  <CModal size="md" :visible="profesionesModal" backdrop="static">
     <CModalHeader>
       <CModalTitle>Profesiones</CModalTitle>
     </CModalHeader>
@@ -21,7 +21,7 @@
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
-              @click="onClick"
+              @click="closeModal"
             >
               Cerrar
             </button>
@@ -55,15 +55,14 @@ export default {
   },
 
   methods: {
-    onClick() {
+    closeModal() {
       this.$emit('close-modal', false)
-      this.clearForm()
-      this.showModal = false
+      this.profesionesModal = false
     },
     saveProfesiones() {
       this.$emit('post-profesiones', this.profesionObject)
       this.clearForm()
-      this.onClick()
+      this.closeModal()
     },
     getProfesionByIds(id) {
       Api.getProfesionById(id).then((response) => {
@@ -87,7 +86,7 @@ export default {
   },
 
   props: {
-    showModal: Boolean,
+    profesionesModal: Boolean,
     profesionesId: null
   },
 }

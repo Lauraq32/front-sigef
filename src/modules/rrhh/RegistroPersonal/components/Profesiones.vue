@@ -46,16 +46,9 @@
     </template>
     <template #show_details="{ item, index }">
       <td class="py-2">
-        <CDropdown>
-          <CDropdownToggle color="primary" variant="outline"
-            >Acciones</CDropdownToggle
-          >
-          <CDropdownMenu>
-            <CDropdownItem @click="getProfesionesById(item)"
-              >Editar</CDropdownItem
-            >
-          </CDropdownMenu>
-        </CDropdown>
+        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="getProfesionesById(item)">
+            {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
+          </CButton>
       </td>
     </template>
     <template #details="{ item }">
@@ -72,7 +65,7 @@
     </template>
   </CSmartTable>
   <ProfesionesDialogs
-    :showModal="profesionModal"
+    :profesionesModal="profesionModal"
     @close-modal="closeModal"
     @post-profesiones="saveProfesion"
     :profesionesId="profesionesId"
