@@ -1,7 +1,7 @@
 <template>
     <CModal
     size="md"
-    :visible="cargoModal"
+    :visible="showCargoModal"
     backdrop="static"
   >
     <CModalHeader>
@@ -31,7 +31,7 @@
             >
               Cerrar
             </button>
-            <button class="btn btn-info btn-block mt-1" @click="saveProfesiones">
+            <button class="btn btn-info btn-block mt-1" @click="saveCargo">
               Guardar
             </button>
           </div>
@@ -61,7 +61,7 @@ export default {
   },
 
   methods: {
-    saveProfesiones() {
+    saveCargo() {
       this.$emit('post-cargo', this.cargosObject)
       this.clearForm()
       this.onClick()
@@ -76,7 +76,7 @@ export default {
     onClick() {
       this.$emit('close-modal', false)
       this.clearForm()
-      this.cargoModal = false
+      this.showCargoModal = false
     },
 
     getCargosByIds(id) {
@@ -95,7 +95,7 @@ export default {
   },
 
   props: {
-    cargoModal: Boolean,
+    showCargoModal: Boolean,
     cargosId: null
   },
 }

@@ -70,9 +70,9 @@
     </template>
   </CSmartTable>
   <CargosModal
-    :cargoModal="cargoModal"
+    :showCargoModal="cargoModal"
     @close-modal="closeModal"
-    @post-cargo="saveCargos"
+    @post-cargo="saveCargo"
     :cargosId="cargosId"
   />
 </template>
@@ -128,7 +128,7 @@ export default {
       this.cargosId = item.id
       this.cargoModal = true
     },
-    saveCargos(payload) {
+    saveCargo(payload) {
       if (this.cargosId != null) {
         Api.updateCargo(this.cargosId, payload)
           .then((response) => {
