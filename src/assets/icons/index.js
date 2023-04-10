@@ -264,6 +264,6 @@ export const iconsSet = Object.assign(
   },
   {
     cisCheckCircle,
-    cisSearch,
+    cisSearch
   },
 )

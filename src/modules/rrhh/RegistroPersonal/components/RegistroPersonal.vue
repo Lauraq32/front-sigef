@@ -1,6 +1,6 @@
 <template>
   <h3 class="text-center">Mantenimientos Empleados</h3>
-
+  <AccionPersonalDialog :showModal="lgDemo4" @custom-event="closeModal" />
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton color="info" @click="
@@ -81,7 +81,14 @@
         <CDropdownMenu>
           <CDropdownItem @click="toggleDetails(item)">Editar</CDropdownItem>
           <CDropdownItem @click="deleteEmp(item)">Eliminar</CDropdownItem>
-          <CDropdownItem>Evaluación</CDropdownItem>
+          <CDropdownItem
+            @click="
+              () => {
+                lgDemo4 = true
+              }
+            "
+            >Evaluación</CDropdownItem
+          >
           <CDropdownItem>Eventualidad</CDropdownItem>
         </CDropdownMenu>
       </CDropdown>
@@ -832,23 +839,26 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
 import Api from '../services/RegistroPersonalServices'
 import apiSectores from '../../../financiero/NominaModule/services/NominaServices'
 import moment from 'moment'
 import { useToastStore } from '@/store/toast'
 import configuraciones from '@/utils/configuraciones'
 
+import AccionPersonalDialog from '../../RegistroPersonal/components/Dialogos/AccionPersonal.vue'
 
 export default {
   components: {
     CSmartTable,
     CModal,
     moment,
+    AccionPersonalDialog,
   },
   data: function () {
     return {
+      lgDemo4: false,
       cambiar: false,
+      registroPersonal: [],
       horaActual: '',
       toasts: [],
       code: null,
@@ -1096,6 +1106,9 @@ export default {
     openModal() {
       this.lgDemo = true
       setTimeout(this.unaVez, 200)
+    },
+    closeModal(payload) {
+      this.lgDemo4 = payload
     },
 
     changePrograma(e) {
@@ -1483,6 +1496,10 @@ export default {
     this.getGroups()
 
     this.getRegistroPersonal()
+    Api.getAllEmpleado().then((response) => {
+      this.registroPersonal = response.data.data
+    })
+
     Api.getPosicion().then((response) => {
       this.posicionCargo = response.data.data
       this.postEmpleado.posicionId = this.posicionCargo[0].id
