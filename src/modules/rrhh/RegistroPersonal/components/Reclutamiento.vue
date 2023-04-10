@@ -140,9 +140,10 @@ export default {
       } else {
         Api.postSolicitudEmpleo(payload).then(response => {
           this.show({
-            content: 'Registro actualizado correctamente',
+            content: 'Registro Agregado correctamente',
             closable: true,
           })
+          this.showReclutamientoModal= false
         }).catch((error) => {
           this.show({
             content: error.response.data,
@@ -151,7 +152,7 @@ export default {
           })
         })
       }
-      this.showReclutamientoModal= false
+     
 
     },
     closeModal() {

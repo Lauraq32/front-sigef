@@ -24,17 +24,17 @@
             <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01"
               @submit="handleSubmitCustom01">
               <CCol :md="6">
-                <CFormLabel for="validationCustom01">Solicitud número</CFormLabel>
+                <CFormLabel for="cedula">Solicitud número</CFormLabel>
                 <CFormInput v-model="solicitudEmpleo.cedula" id="cedula" />
 
               </CCol>
               <CCol :md="6">
-                <CFormLabel for="validationCustom02">Fecha Solicitud</CFormLabel>
+                <CFormLabel for="fecha">Fecha Solicitud</CFormLabel>
                 <CFormInput v-model="solicitudEmpleo.fecha" type="date" id="fecha" required />
 
               </CCol>
               <CCol :md="6">
-                <CFormLabel for="validationCustomUsername">Nombre solicitante</CFormLabel>
+                <CFormLabel for="nombre">Nombre solicitante</CFormLabel>
                 <CInputGroup class="has-validation">
                   <CFormInput v-model="solicitudEmpleo.nombre" id="nombre" value="" aria-describedby="inputGroupPrepend"
                     required />
@@ -42,32 +42,32 @@
                 </CInputGroup>
               </CCol>
               <CCol :md="6">
-                <CFormLabel for="validationCustom03">Direcci&oacute;n</CFormLabel>
+                <CFormLabel for="direccion1">Direcci&oacute;n</CFormLabel>
                 <CFormInput v-model="solicitudEmpleo.direccion1" id="direccion1" required />
 
               </CCol>
               <CCol :md="6">
-                <CFormLabel for="validationCustom03">Direcci&oacute;n</CFormLabel>
+                <CFormLabel for="direccion2">Direcci&oacute;n</CFormLabel>
                 <CFormInput v-model="solicitudEmpleo.direccion2" id="direccion2" required />
 
               </CCol>
               <CCol :md="6">
-                <CFormLabel for="validationCustom03">Telefono</CFormLabel>
+                <CFormLabel for="telefono">Telefono</CFormLabel>
                 <CFormInput v-model="solicitudEmpleo.telefono" id="telefono" required />
 
               </CCol>
               <CCol :md="6">
-                <CFormLabel for="validationCustom03">Celular</CFormLabel>
+                <CFormLabel for="celular">Celular</CFormLabel>
                 <CFormInput v-model="solicitudEmpleo.celular" id="celular" required />
 
               </CCol>
               <CCol :md="6">
-                <CFormLabel for="validationCustom04">Edad</CFormLabel>
+                <CFormLabel for="edad">Edad</CFormLabel>
                 <CFormInput v-model="solicitudEmpleo.edad" id="edad"> </CFormInput>
 
               </CCol>
               <CCol :md="6">
-                <CFormLabel for="validationCustom05">Profesión</CFormLabel>
+                <CFormLabel for="displayNameProfesion">Profesión</CFormLabel>
                 <div class="position-relative">
                   <input v-model="displayNameProfesion" ref="name" required class="form-control padding-input" type="text"
                     id="displayNameProfesion" />
@@ -78,35 +78,35 @@
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="6">
-                <CFormLabel for="validationCustom04">Posición solicitada</CFormLabel>
+                <CFormLabel for="posicionId">Posición solicitada</CFormLabel>
                 <CFormInput v-model="solicitudEmpleo.posicionId" id="posicionId"> </CFormInput>
 
               </CCol>
               <CCol :md="6">
-                <CFormLabel for="validationCustom04">Entrevistado</CFormLabel>
+                <CFormLabel for="entrevistado">Entrevistado</CFormLabel>
                 <CFormSelect v-model="solicitudEmpleo.entrevistado" id="entrevistado">
-                  <option>Si</option>
-                  <option>No</option>
+                  <option value='Si'>Si</option>
+                  <option value='No'>No</option>
                 </CFormSelect>
 
               </CCol>
               <CCol :md="6">
-                <CFormLabel for="validationCustom04">Evaluado</CFormLabel>
+                <CFormLabel for="evaluado">Evaluado</CFormLabel>
                 <CFormSelect v-model="solicitudEmpleo.evaluado" id="evaluado">
-                  <option>Si</option>
-                  <option>No</option>
+                  <option value='Si'>Si</option>
+                  <option value='No'>No</option>
                 </CFormSelect>
 
               </CCol>
               <CCol :md="6">
-                <CFormLabel for="validationCustom04">Descalificado</CFormLabel>
+                <CFormLabel for="descalificado">Descalificado</CFormLabel>
                 <CFormSelect v-model="solicitudEmpleo.descalificado" id="descalificado">
-                  <option>Si</option>
-                  <option>No</option>
+                  <option value='Si'>Si</option>
+                  <option value='No'>No</option>
                 </CFormSelect>
               </CCol>
               <CCol :md="6">
-                <CFormLabel for="validationCustom04">Remitido a</CFormLabel>
+                <CFormLabel for="remitidoA">Remitido a</CFormLabel>
                 <CFormInput v-model="solicitudEmpleo.remitidoA" id="remitidoA"> </CFormInput>
 
               </CCol>
@@ -121,18 +121,18 @@
             <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01"
               @submit="handleSubmitCustom01">
               <CCol :md="12">
-                <CFormLabel for="validationCustom01">Nombre Solicitante</CFormLabel>
+                <CFormLabel for="nombre">Nombre Solicitante</CFormLabel>
                 <CFormInput v-model="solicitudEmpleo.nombre" id="nombre" />
 
 
               </CCol>
               <CCol :md="6">
-                <CFormLabel for="validationCustom01">La Entrevista</CFormLabel>
+                <CFormLabel for="resultado">La Entrevista</CFormLabel>
                 <CFormTextarea v-model="solicitudEmpleo.resultado" id="resultado"></CFormTextarea>
 
               </CCol>
               <CCol :md="6">
-                <CFormLabel for="validationCustom01">Observaci&oacute;n</CFormLabel>
+                <CFormLabel for="observacion">Observaci&oacute;n</CFormLabel>
                 <CFormTextarea v-model="solicitudEmpleo.observacion" id="observacion"></CFormTextarea>
 
 
@@ -154,7 +154,7 @@
       </button>
     </div>
   </CModal>
-  <ProfessionDialog :show-modal="professionModal" @selectProfesion="setProfesion" @closeModal="closeProfesionModal" />
+  <ProfessionDialog :showModal="showProfessionModal" @selectProfesion="setProfesion" @closeModal="closeProfesionModal" />
 </template>
 
 <script>
@@ -176,9 +176,10 @@ export default {
   data: function () {
     return {
       displayNameProfesion: '',
+      showProfessionModal: false,
       solicitudEmpleo: {
         cedula: "",
-        fecha: "2023-03-31T15:53:01.450Z",
+        fecha: (new Date().toISOString()),
         nombre: "",
         direccion1: "",
         direccion2: "",
@@ -202,6 +203,7 @@ export default {
 
   methods: {
     closeProfesionModal(payload) {
+      console.log('hola')
       this.showProfessionModal = payload
     },
     setProfesion(payload) {
@@ -214,19 +216,20 @@ export default {
       //this.showModal = false
     },
     saveReclutamiento() {
-      this.solicitudEmpleo.entrevistado ==='Si' ? this.solicitudEmpleo.entrevistado = true : this.solicitudEmpleo.entrevistado = false
-      this.solicitudEmpleo.evaluado === 'Si' ? this.solicitudEmpleo.evaluado = true : this.solicitudEmpleo.evaluado = false
-      this.solicitudEmpleo.descalificado === 'Si' ? this.solicitudEmpleo.descalificado = true : this.solicitudEmpleo.descalificado = false
-      this.$emit('post-reclutamiento', this.solicitudEmpleo)
+      this.$emit('post-reclutamiento', { 
+        ...this.solicitudEmpleo,
+        evaluado: this.solicitudEmpleo.evaluado === 'Si',
+        entrevistado: this.solicitudEmpleo.entrevistado === 'Si',
+        descalificado: this.solicitudEmpleo.descalificado === 'Si'
+      })
       this.clearForm()
-      this.closeModal()
       solicitudEmpleoId = null
     },
     clearForm() {
 
       this.solicitudEmpleo = {
         cedula: "",
-        fecha: "2023-03-31T15:53:01.450Z",
+        fecha: (new Date().toISOString()),
         nombre: "",
         direccion1: "",
         direccion2: "",
@@ -249,9 +252,7 @@ export default {
     getSolicitudEmpleoById(id) {
       Api.getByIdSolicitudEmpleo(id).then((response) => {
         this.solicitudEmpleo = response.data.data
-        this.solicitudEmpleo.entrevistado == true ? this.solicitudEmpleo.entrevistado = 'Si' : this.solicitudEmpleo.entrevistado = 'No'
-        this.solicitudEmpleo.evaluado == true ? this.solicitudEmpleo.evaluado = 'Si' : this.solicitudEmpleo.evaluado = 'No'
-        this.solicitudEmpleo.descalificado == true ? this.solicitudEmpleo.descalificado = 'Si' : this.solicitudEmpleo.descalificado = 'No'
+
       })
     },
   },

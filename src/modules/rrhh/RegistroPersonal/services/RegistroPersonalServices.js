@@ -16,7 +16,7 @@ class RegistroPersonal {
   }
 
   getAllEmpleado() {
-    return http.get(`Empleado?ayuntamientoId=${getAyuntamientoId()}`)
+    return http.get(`empleados`)
   }
 
   getProgramaDivision() {
