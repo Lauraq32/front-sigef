@@ -1,12 +1,14 @@
 export default {
   name: 'Financiero',
-  redirect: '/FinancieroModule/clasificadores',
+  redirect: '/financiero',
+  meta: { label: 'Financiero' },
   component: () =>
     import('@/modules/financiero/FormulacionModule/layout/TemplateLayout.vue'),
   children: [
     {
       path: 'clasificadores',
       name: 'clasificadores',
+      meta: { label: 'Clasificadores' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FormulacionModule/components/Clasificadores.vue'
@@ -15,6 +17,7 @@ export default {
     {
       path: 'estructuraProgramatica',
       name: 'Estructuras Programaticas',
+      meta: { label: 'Estructuras Programática' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FormulacionModule/components/EstructuraProgramatica.vue'
@@ -23,6 +26,7 @@ export default {
     {
       path: 'fuenteEspecifica',
       name: 'Fuente Especifica',
+      meta: { label: 'Fuente Específica' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FormulacionModule/components/FuenteEspecifica.vue'
@@ -31,6 +35,7 @@ export default {
     {
       path: 'fuenteFinanciamiento',
       name: 'Fuente Financiamiento',
+      meta: { label: 'Fuente Financiamiento' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FormulacionModule/components/FuenteFinanciamiento.vue'
@@ -39,6 +44,7 @@ export default {
     {
       path: 'organismos',
       name: 'Organismos',
+      meta: { label: 'Organismos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FormulacionModule/components/Organismos.vue'
@@ -47,6 +53,7 @@ export default {
     {
       path: 'proyectos',
       name: 'Proyectos',
+      meta: { label: 'Proyectos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FormulacionModule/components/Proyectos.vue'
@@ -55,6 +62,7 @@ export default {
     {
       path: 'formulacionIngreso',
       name: 'Formulación Ingreso',
+      meta: { label: 'Formulación Ingreso' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FormulacionModule/components/FormulacionIngreso.vue'
@@ -63,6 +71,7 @@ export default {
     {
       path: 'formulacionGasto',
       name: 'Formulacion Gasto',
+      meta: { label: 'Formulación Gasto' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FormulacionModule/components/FormulacionGasto.vue'
