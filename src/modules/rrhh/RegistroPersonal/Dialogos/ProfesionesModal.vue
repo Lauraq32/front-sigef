@@ -12,7 +12,7 @@
           @submit=""
         >
           <CCol :md="12">
-            <CFormLabel for="validationCustomUsername">Profesión</CFormLabel>
+            <CFormLabel for="validationCustom04">Profesión</CFormLabel>
             <CFormInput v-model="profesionObject.name" id="validationCustom04"> </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -69,7 +69,6 @@ export default {
       })
     },
     clearForm() {
-      console.log('holas')
       this.profesionObject = {
         name: '',
       }

@@ -46,7 +46,7 @@
     </template>
     <template #show_details="{ item, index }">
       <td class="py-2">
-        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="getProfesionesById(item)">
+        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="getProfesionById(item)">
             {{  'Editar' }}
           </CButton>
       </td>
@@ -131,7 +131,7 @@ export default {
     closeModal(payload) {
       this.newProfesionesModal = payload
     },
-    getProfesionesById(item) {
+    getProfesionById(item) {
       this.profesionId = item.id
       this.newProfesionesModal = true
     },
