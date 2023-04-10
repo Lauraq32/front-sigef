@@ -139,7 +139,7 @@ export default {
           label: 'Fuente',
           _style: { textAling: 'center' },
         },
-        { key: 'ctgFuenteEspecificaId', label: 'Fuente Especifica' },
+        { key: 'ctgFuenteEspecificaId', label: 'Fuente Específica' },
         { key: 'ctgOrganismoFinanciadorId', label: 'Organismo Financiero' },
       ],
       details: [],
