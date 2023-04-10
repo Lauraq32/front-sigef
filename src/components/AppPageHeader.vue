@@ -21,7 +21,7 @@
             <CDropdownMenu>
               <CDropdownItem v-for="(action, index) in actions" @click="action.accion">{{ action.label }}</CDropdownItem>
               <CDropdownDivider />
-              <AppUploadButton :addFileButton="false" :nombres="nombres" />
+              <AppUploadButton :addFileButton="false" :title="nombres" />
             </CDropdownMenu>
           </CDropdown>
         </CButtonGroup>
@@ -56,7 +56,7 @@ export default {
   data: function () {
     return {
       selectedAnio: 0,
-      nombres: 'Cargar Archivosssss',
+      nombres: 'Cargar Archivos',
       cilCloudUpload,
       texto: null,
       fileName: '',
@@ -95,16 +95,7 @@ export default {
 }
 </script>
 <style scoped>
-.file-select>.select-button {
-  padding: 0.5rem;
-  line-height: 1.5;
-  color: white;
-  background-color: #375b80;
 
-  border-radius: 0.3rem;
-  cursor: pointer;
-  text-align: center;
-}
 
 .sticky-top {
   position: sticky;

@@ -9,6 +9,7 @@
     :addButton="true"
     :addFileButton="true"
   />
+  <AppUploadButton :addFileButton="true" :title="title"  />
   
   
   <CSmartTable class="sticky-top" clickableRows :tableProps="{
@@ -223,6 +224,8 @@ export default {
   },
   data: function () {
     return {
+
+      title: 'Buscar Documento',
       addbuttonform: {
         label: 'Agregar',
         accion: () => {

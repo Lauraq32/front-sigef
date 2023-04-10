@@ -1,24 +1,16 @@
 <template>
   <div :id="'file-uploader-' + id" v-if="addFileButton" class="p-2">
     <label class="file-select">
-      <!-- <div class="select-button">
-        
-        <CIcon :icon="cilLightbulb" style="color: #f5f5f5" size="m" />
-      </div> -->
       <div class="row">
         <div class="col-3">
           <div class="select-button">
-            <CIcon icon="cilCloudUpload" size="lg" />
+            <CIcon icon="cilCloudUpload" size="lg"  />
           </div>
         </div>
-        <div class="col-9">
-          <h5 style="font-size: 16px; margin-top: 8px;">{{ cambiar ? fileName : nombres }}</h5>
-        </div>
       </div>
-
       <input type="file" id="formFile" @change="onFileChange" />
+      <span class="ms-2">{{ title }}</span>
     </label>
-    <label v-if="fileName"> {{ fileName }}</label>
   </div>
 </template>
 <script>
@@ -31,7 +23,10 @@ export default {
   icon,
   cilCloudUpload,
   props: {
-    nombres: null,
+    title: {
+      type: String,
+      default:null
+    },
     id: {
       type: String,
       required: true
@@ -54,15 +49,18 @@ export default {
 
 </script>
 <style scoped>
-.file-select>.select-button {
-  padding: 0.5rem;
-  line-height: 1.5;
+.file-select {
+  display: flex;
+}
+.file-select > .select-button {
+  padding: 1.75rem;
+  line-height: 3.75;
   color: white;
   background-color: #375b80;
 
   border-radius: 0.3rem;
   cursor: pointer;
-  text-align: left;
+  text-align: center;
 }
 
 .sticky-top {
