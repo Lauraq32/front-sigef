@@ -41,7 +41,7 @@ export default {
     {
       path: 'depositos',
       name: 'Depositos',
-      meta: { label: 'Depositos' },
+      meta: { label: 'Depósitos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ConciliacionBancaria/components/Depositos.vue'
