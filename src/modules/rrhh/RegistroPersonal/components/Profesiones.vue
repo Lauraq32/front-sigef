@@ -7,7 +7,7 @@
         color="info"
         @click="
           () => {
-            profesionModal = true
+            newProfesionesModal = true
           }
         "
         >Agregar</CButton
@@ -47,7 +47,7 @@
     <template #show_details="{ item, index }">
       <td class="py-2">
         <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="getProfesionesById(item)">
-            {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
+            {{  'Editar' }}
           </CButton>
       </td>
     </template>
@@ -65,10 +65,10 @@
     </template>
   </CSmartTable>
   <ProfesionesDialogs
-    :profesionesModal="profesionModal"
+    :newProfesionesModal="newProfesionesModal"
     @close-modal="closeModal"
     @post-profesiones="saveProfesion"
-    :profesionesId="profesionesId"
+    :profesionId="profesionId"
   />
 </template>
 <script>
@@ -86,10 +86,10 @@ export default {
   },
   data: () => {
     return {
-      profesionesId: null,
+      profesionId: null,
       validatedCustom01: null,
       profesiones: [],
-      profesionModal: false,
+      newProfesionesModal: false,
       columns: [
         { key: 'name', label: 'Profesión', _style: { width: '40%' } },
         {
@@ -129,15 +129,15 @@ export default {
   methods: {
     ...mapActions(useToastStore, ['show']),
     closeModal(payload) {
-      this.profesionModal = payload
+      this.newProfesionesModal = payload
     },
     getProfesionesById(item) {
-      this.profesionesId = item.id
-      this.profesionModal = true
+      this.profesionId = item.id
+      this.newProfesionesModal = true
     },
     saveProfesion(payload) {
-      if (this.profesionesId != null) {
-        Api.updateProfesion(this.profesionesId, payload)
+      if (this.profesionId != null) {
+        Api.updateProfesion(this.profesionId, payload)
           .then((response) => {
             this.show({
               content: 'Registro actualizado correctamente',

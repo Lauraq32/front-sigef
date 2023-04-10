@@ -1,5 +1,5 @@
 <template>
-  <CModal size="md" :visible="profesionesModal" backdrop="static">
+  <CModal size="md" :visible="newProfesionesModal" backdrop="static">
     <CModalHeader>
       <CModalTitle>Profesiones</CModalTitle>
     </CModalHeader>
@@ -25,7 +25,7 @@
             >
               Cerrar
             </button>
-            <button class="btn btn-info btn-block mt-1" @click="saveProfesiones">
+            <button class="btn btn-info btn-block mt-1" @click="saveProfesion">
               Guardar
             </button>
           </div>
@@ -57,12 +57,11 @@ export default {
   methods: {
     closeModal() {
       this.$emit('close-modal', false)
-      this.profesionesModal = false
+      this.newProfesionesModal = false
     },
-    saveProfesiones() {
+    saveProfesion() {
       this.$emit('post-profesiones', this.profesionObject)
       this.clearForm()
-      this.closeModal()
     },
     getProfesionByIds(id) {
       Api.getProfesionById(id).then((response) => {
@@ -78,7 +77,7 @@ export default {
   },
 
   watch: {
-    profesionesId(newId) {
+    profesionId(newId) {
       if (newId) {
         this.getProfesionByIds(newId)
       }
@@ -86,8 +85,8 @@ export default {
   },
 
   props: {
-    profesionesModal: Boolean,
-    profesionesId: null
+    newProfesionesModal: Boolean,
+    profesionId: null
   },
 }
 </script>
