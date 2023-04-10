@@ -1,12 +1,14 @@
 export default {
   name: 'Plan Anual',
   redirect: '/PlanAnual/planAnual',
+  meta: { label: 'Plan Anual' },
   component: () =>
     import('@/modules/Compras/PlanAnual/layout/TemplateLayout.vue'),
   children: [
     {
       path: 'planAnual',
       name: 'Plan Anual',
+      meta: { label: 'Plan Anual' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/Compras/PlanAnual/components/PlanAnual.vue'

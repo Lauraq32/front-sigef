@@ -1,12 +1,14 @@
 export default {
   name: 'Ejecucion',
   redirect: '/Ejecucion/AnoFiscal',
+  meta: { label: 'Ejecución' },
   component: () =>
     import('@/modules/financiero/EjecucionModule/layout/TemplateLayout.vue'),
   children: [
     {
       path: 'AnoFiscal',
       name: 'AnoFiscal',
+      meta: { label: 'Año Fiscal' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/AnoFiscal.vue'
@@ -15,6 +17,7 @@ export default {
     {
       path: 'configuracionIngreso',
       name: 'configuracionIngreso',
+      meta: { label: 'Configuración Ingreso' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/ConfigEntradaIngreso.vue'
@@ -23,6 +26,7 @@ export default {
     {
       path: 'tiposRetenciones',
       name: 'tiposRetenciones',
+      meta: { label: 'Tipos Retenciones' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/TiposRetenciones.vue'
@@ -31,6 +35,7 @@ export default {
     {
       path: 'destinoGastos',
       name: 'destinoGastos',
+      meta: { label: 'Destino Gastos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/DestinoGastos.vue'
@@ -39,6 +44,7 @@ export default {
     {
       path: 'grupoPago',
       name: 'grupoPago',
+      meta: { label: 'Grupo Pago' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/GrupoPago.vue'
@@ -47,6 +53,7 @@ export default {
     {
       path: 'beneficiarios',
       name: 'beneficiarios',
+      meta: { label: 'Beneficiarios' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/Beneficiarios.vue'
@@ -55,6 +62,7 @@ export default {
     {
       path: 'beneficiarioGrupo',
       name: 'beneficiarioGrupo',
+      meta: { label: 'Beneficiario Grupo' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/BeneficiarioGrupo.vue'
@@ -63,6 +71,7 @@ export default {
     {
       path: 'comprobanteIngreso',
       name: 'comprobanteIngreso',
+      meta: { label: 'Comprobante Ingreso' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/ComprobanteIngreso.vue'
@@ -71,6 +80,7 @@ export default {
     {
       path: 'comprobanteGasto',
       name: 'comprobanteGasto',
+      meta: { label: 'Comprobante Gasto' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/ComprobanteGasto.vue'
@@ -79,6 +89,7 @@ export default {
     {
       path: 'transferenciaDatos',
       name: 'transferenciaDatos',
+      meta: { label: 'Transferencia Datos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/TransferenciaDatos.vue'
@@ -87,6 +98,7 @@ export default {
     {
       path: 'ejecucionIngreso',
       name: 'ejecucionIngreso',
+      meta: { label: 'Ejecución Ingreso' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/EjecucionIngreso.vue'
@@ -95,6 +107,7 @@ export default {
     {
       path: 'ejecucionGastos',
       name: 'ejecucionGastos',
+      meta: { label: 'Ejecución Gastos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/EjecucionGastos.vue'
@@ -103,6 +116,7 @@ export default {
     {
       path: 'retenciones',
       name: 'retenciones',
+      meta: { label: 'Retenciones' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/Retenciones.vue'

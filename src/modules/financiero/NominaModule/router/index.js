@@ -1,12 +1,14 @@
 export default {
   name: 'Nomina',
   redirect: '/NominaModule/ClasificadoresNomina',
+  meta: { label: 'Nómina' },
   component: () =>
     import('@/modules/financiero/NominaModule/layout/TemplateLayout.vue'),
   children: [
     {
       path: 'clasificadoresNomina',
       name: 'clasificadoresNomina',
+      meta: { label: 'Clasificadores Nómina' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/ClasificadoresNomina.vue'
@@ -15,6 +17,7 @@ export default {
     {
       path: 'grupoNominass',
       name: 'grupoNominass',
+      meta: { label: 'Grupo Nóminas' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/GrupoNominas.vue'
@@ -24,6 +27,7 @@ export default {
     {
       path: 'nominaGeneral',
       name: 'grupoNominas',
+      meta: { label: 'Nómina General' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/nominaG.vue'
@@ -32,6 +36,7 @@ export default {
     {
       path: 'programas',
       name: 'programas',
+      meta: { label: 'Programas' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/Programas.vue'
@@ -40,6 +45,7 @@ export default {
     {
       path: 'departamentos',
       name: 'departamentos',
+      meta: { label: 'Departamentos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/Departamentos.vue'
@@ -48,6 +54,7 @@ export default {
     {
       path: 'areaDeTrabajo',
       name: 'areaDeTrabajo',
+      meta: { label: 'Área de Trabajo' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/AreaDeTrabajo.vue'
@@ -56,6 +63,7 @@ export default {
     {
       path: 'posicionesCargo',
       name: 'posicionesCargo',
+      meta: { label: 'Posiciones de Cargo' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/PosicionesCargo.vue'
@@ -64,6 +72,7 @@ export default {
     {
       path: 'sectores',
       name: 'sectores',
+      meta: { label: 'Sectores' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/Sectores.vue'
@@ -72,6 +81,7 @@ export default {
     {
       path: 'nominas',
       name: 'nominas',
+      meta: { label: 'Nóminas' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/Nominas.vue'
@@ -80,6 +90,7 @@ export default {
     {
       path: 'configuracionGeneral',
       name: 'configuracionGeneral',
+      meta: { label: 'Configuración General' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/ConfiguracionGeneral.vue'
@@ -88,6 +99,7 @@ export default {
     {
       path: 'configuracionModulo',
       name: 'configuracionModulo',
+      meta: { label: 'Configuración Modulo' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/ConfiguracionModulo.vue'
