@@ -1,15 +1,9 @@
 <template>
-  <div
-    class="d-flex flex-row justify-content-between w-100 card shadow-sm py-2 my-4"
-  >
+  <div class="d-flex flex-row justify-content-between w-100 card shadow-sm py-2 my-4">
     <div class="d-flex" v-if="anoFiscal">
       <label class="form-label col-auto col-form-label mx-2">Anio Fiscal</label>
-      <CFormSelect
-        v-model="selectedAnio"
-        v-on:change="setFiscalYear($event)"
-        aria-label="Select anio(arreglame) fiscal"
-        :options="fiscalYear"
-      >
+      <CFormSelect v-model="selectedAnio" v-on:change="setFiscalYear($event)" aria-label="Select aniofiscal"
+        :options="fiscalYear">
         <option></option>
       </CFormSelect>
     </div>
@@ -21,31 +15,13 @@
       </div>
 
       <div class="d-inline p-2">
-        <CButtonGroup
-          role="group"
-          aria-label="Button group with nested dropdown"
-        >
+        <CButtonGroup role="group" aria-label="Button group with nested dropdown">
           <CDropdown variant="btn-group">
-            <CDropdownToggle v-if="addDropdowm" color="ligth"
-              >Acciones</CDropdownToggle
-            >
+            <CDropdownToggle v-if="addDropdowm" color="ligth">Acciones</CDropdownToggle>
             <CDropdownMenu>
-              <CDropdownItem
-                v-for="(action, index) in actions"
-                @click="action.accion"
-                >{{ action.label }}</CDropdownItem
-              >
+              <CDropdownItem v-for="(action, index) in actions" @click="action.accion">{{ action.label }}</CDropdownItem>
               <CDropdownDivider />
-
-              <div v-if="addFileButton" class="p-2">
-                <label class="file-select">
-                  <div class="select-button">
-                    <CIcon :icon="cilCloudUpload" size="m" />
-                  </div>
-                  <input type="file" id="formFile" @change="onFileChange" />
-                </label>
-                <label v-if="fileName"> {{ fileName }}</label>
-              </div>
+              <AppUploadButton :addFileButton="false" :nombres="nombres" />
             </CDropdownMenu>
           </CDropdown>
         </CButtonGroup>
@@ -57,9 +33,15 @@
 import { cilCloudUpload } from '@coreui/icons-pro'
 import { mapActions, mapStores, mapState } from 'pinia'
 import { useAuthStore } from '@/store/AuthStore'
+import AppUploadButton from '@/components/AppUploadButton.vue'
 
 export default {
   name: 'AppPageHeader',
+  components: {
+    AppUploadButton
+  },
+
+
   props: {
     addButtonForm: {},
     actions: [],
@@ -74,7 +56,7 @@ export default {
   data: function () {
     return {
       selectedAnio: 0,
-
+      nombres: 'Cargar Archivosssss',
       cilCloudUpload,
       texto: null,
       fileName: '',
@@ -113,7 +95,7 @@ export default {
 }
 </script>
 <style scoped>
-.file-select > .select-button {
+.file-select>.select-button {
   padding: 0.5rem;
   line-height: 1.5;
   color: white;
@@ -123,13 +105,14 @@ export default {
   cursor: pointer;
   text-align: center;
 }
+
 .sticky-top {
   position: sticky;
   top: 0;
   z-index: 1021;
 }
 
-.file-select > input[type='file'] {
+.file-select>input[type='file'] {
   display: none;
 }
 </style>

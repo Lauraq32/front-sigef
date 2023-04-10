@@ -9,26 +9,7 @@
     :addFileButton="false"
 
 />
-  <div class="table-headers">
-    <div class="d-inline p-2">
-      <CButton color="info" @click="
-        () => {
-          openModal()
-          clearModal1()
-        }
-      ">Agregar</CButton>
-
-      <div class="d-inline p-2">
-        <CButton color="info" @click="
-          () => {
-            reportes = true
-          }
-        ">Imprimir Reporte</CButton>
-      </div>
-
-    </div>
-    </div>
-
+ 
  
   <CModal :backdrop="false" :keyboard="false" :visible="reportes"  @close="
       () => {

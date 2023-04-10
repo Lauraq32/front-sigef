@@ -1,13 +1,27 @@
 <template>
   <h3 class="text-center">Formulaci&oacute;n Ingreso</h3>
   <AppPageHeader
+
     :addDropdowm="true"
     :addButtonForm="addbuttonform"
     :actions="acciones"
     :anoFiscal="true"
     :addButton="true"
     :addFileButton="true"
+
+
+    
   />
+  
+  <AppUploadButton
+  
+  :addFileButton = true
+  
+  />
+  <AppUploadButton
+              :addFileButton = false
+              
+              />
   
   <CSmartTable class="sticky-top" clickableRows :tableProps="{
     striped: true,
@@ -208,11 +222,13 @@ import { useToastStore } from '@/store/toast'
 import { useAuthStore } from '@/store/AuthStore'
 import router from '@/router'
 import AppPageHeader from '@/components/AppPageHeader.vue'
+import AppUploadButton from '@/components/AppUploadButton.vue'
 export default {
   components: {
     CSmartTable,
     CModal,
     CIcon,
+    AppUploadButton,
     AppPageHeader,
   },
   data: function () {
