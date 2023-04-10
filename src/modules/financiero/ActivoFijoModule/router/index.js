@@ -63,7 +63,7 @@ export default {
     {
       path: 'condensadoAcivoFijos',
       name: 'condensadoAcivoFijos',
-      meta: { label: 'Condensado Acivo Fijos' },
+      meta: { label: 'Condensado Activo Fijos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ActivoFijoModule/components/Condensado.vue'

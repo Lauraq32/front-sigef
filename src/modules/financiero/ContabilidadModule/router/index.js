@@ -54,7 +54,7 @@ export default {
     {
       path: 'estadoSituacionFinanciera',
       name: 'estadoSituacionFinanciera',
-      meta: { label: 'Estado Situacion Financiera' },
+      meta: { label: 'Estado Situación Financiera' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ContabilidadModule/components/EstadoSituacionFinanciera.vue'
