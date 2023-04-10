@@ -7,7 +7,10 @@
         color="info"
         @click="
           () => {
-            lgDemo = true
+            ;(Ocultar2 = false),
+              (lgDemo = true),
+              clearModal1(),
+              disabledCheckbox()
           }
         "
         >Agregar</CButton
@@ -35,9 +38,14 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
-    <template #status="{ item }">
+    <template #fechaInicial="{ item }">
       <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+        {{ formatDate(item.fechaInicial) }}
+      </td>
+    </template>
+    <template #fechaFinal="{ item }">
+      <td>
+        {{ formatDate(item.fechaFinal) }}
       </td>
     </template>
     <template #show_details="{ item, index }">
@@ -47,9 +55,9 @@
           variant="outline"
           square
           size="sm"
-          @click="toggleDetails(item, index)"
+          @click="toggleDetails(item)"
         >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
+          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
       </td>
     </template>
@@ -67,6 +75,7 @@
     </template>
   </CSmartTable>
   <CModal
+    backdrop="static"
     size="lg"
     :visible="lgDemo"
     @close="
@@ -80,48 +89,117 @@
     </CModalHeader>
     <CModalBody>
       <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
-          <CCol :md="4">
-            <CFormLabel for="validationCustom01">Año Fiscal NO.</CFormLabel>
-            <CFormInput id="validationCustom01" required />
+        <CForm class="row g-3 needs-validation" novalidate>
+          <CCol :md="12">
+            <CFormLabel>Año Fiscal</CFormLabel>
+            <CFormInput type="number" disabled v-model="postAnoFiscal.anio" />
+          </CCol>
 
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          <CCol :md="6">
+            <CCol :md="12">
+              <CFormLabel>Fecha Inicio</CFormLabel>
+              <CFormInput
+                name="fechaInicio"
+                @change="changeDate($event)"
+                type="date"
+                v-model="initialDate"
+              />
+            </CCol>
+            <CCol :md="12">
+              <CFormLabel>Fecha Final</CFormLabel>
+              <CFormInput
+                name="fechaFinal"
+                @change="changeDate($event)"
+                type="date"
+                v-model="finalDate"
+              >
+              </CFormInput>
+            </CCol>
           </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom02">Desde</CFormLabel>
-            <CFormInput id="validationCustom02" required />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          <CCol :md="6">
+            <CCol :md="12">
+              <CFormLabel>Comprobante Gasto</CFormLabel>
+              <VueNumberFormat
+                type="number"
+                v-model:value="postAnoFiscal.compGastos"
+                class="form-control"
+                :format="'0'"
+                :options="{
+                  precision: 0,
+                  prefix: '',
+                  decimal: '',
+                  thousand: '',
+                }"
+              >
+              </VueNumberFormat>
+            </CCol>
+            <CCol :md="12">
+              <CFormLabel>Comprobante Ingreso</CFormLabel>
+              <VueNumberFormat
+                type="number"
+                v-model:value="postAnoFiscal.compIngresos"
+                class="form-control"
+                :format="'0'"
+                :options="{
+                  precision: 0,
+                  prefix: '',
+                  decimal: '',
+                  thousand: '',
+                }"
+              >
+              </VueNumberFormat>
+            </CCol>
           </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom04">Hasta</CFormLabel>
-            <CFormInput type="date" id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom05">Estatus</CFormLabel>
-            <CFormSelect id="validationCustom05">
-              <option>Activo</option>
-              <option>Inactivo</option>
-            </CFormSelect>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
+
+          <div class="row">
+            <div class="col-6">
+              <CCol :md="5">
+                <CFormLabel>Estatus</CFormLabel>
+                <CFormSelect v-model="postAnoFiscal.estatus">
+                  <option>ACTUAL</option>
+                  <option>ABIERTO</option>
+                  <option>CERRADO</option>
+                </CFormSelect>
+              </CCol>
+            </div>
+            <div
+              v-if="Ocultar2"
+              class="col-6"
+              style="position: relative; left: 11px"
+            >
+              <div class="form-check" style="margin-top: 39px">
+                <label class="form-check-label" for="flexCheckDefault"
+                  >Aprobado
+                </label>
+                <input
+                  v-model="postAnoFiscal.esAprobado"
+                  :disabled="isDisabled"
+                  class="form-check-input"
+                  type="checkbox"
+                  id="flexCheckDefault"
+                />
+              </div>
+            </div>
+          </div>
+
           <div class="modal-footer">
             <button
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
+              @click="
+                () => {
+                  lgDemo = false
+                }
+              "
             >
-              Close
+              {{ Ocultar ? 'Cancelar' : 'Cerrar' }}
             </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+            <button
+              v-if="Ocultar"
+              class="btn btn-info btn-block mt-1"
+              v-on:click="submitForm"
+            >
               Guardar
             </button>
           </div>
@@ -132,13 +210,11 @@
 </template>
 
 <script>
-import { useRegistroStore } from '../store/Ejecucion/anioFiscal'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
-import { mapStores } from 'pinia'
-import { mapState } from 'pinia'
-import { mapActions } from 'pinia'
 import Api from '../services/EjecucionServices'
+import { useToastStore } from '@/store/toast'
+import { mapActions } from 'pinia'
 
 export default {
   components: {
@@ -146,14 +222,23 @@ export default {
     CModal,
   },
 
-  data: () => {
+  data: function () {
     return {
+      Ocultar: true,
+      Ocultar2: true,
+      anioFiscal: [],
+      isDisabled: true,
+      block: false,
       postAnoFiscal: {
         id: 0,
-        ayuntamientoId: 0,
+        esAproBado: false,
+        ayuntamientoId: this.$ayuntamientoId,
         compGastos: 0,
         compIngresos: 0,
-        estatus: null,
+        estatus: 'ACTUAL',
+        anio: 0,
+        fechaInicial: null,
+        fechaFinal: null,
       },
       footerItem: [
         {
@@ -166,17 +251,20 @@ export default {
         },
       ],
       columns: [
-        { key: 'Año Fiscal', label: 'Año Fiscal', _style: { width: '40%' } },
-        { key: 'Desde', label: 'Desde', _style: { width: '40%' } },
-        { key: 'Hasta', label: 'Hasta', _style: { width: '40%' } },
-        { key: 'Estatus', label: 'Estatus', _style: { width: '40%' } },
+        { key: 'anio', label: 'Año Fiscal', _style: { width: '40%' } },
+        {
+          key: 'fechaInicial',
+          label: 'Fecha Inicio',
+          _style: { width: '40%' },
+        },
+        { key: 'fechaFinal', label: 'Fecha Final', _style: { width: '40%' } },
+        { key: 'estatus', label: 'Estatus', _style: { width: '40%' } },
         {
           key: 'show_details',
           label: '',
           _style: { width: '1%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
       details: [],
@@ -184,166 +272,178 @@ export default {
       validatedCustom01: null,
       lgDemo: false,
     }
+  },
+
+  methods: {
+    ...mapActions(useToastStore, ['show']),
+
+    changeDate({ target: { name, value } }) {
+      if (name == 'fechaInicio') {
+        const selectedDate = new Date(`${value}T00:00:00`)
+        const selectedYear =
+          selectedDate.getFullYear().toString().substring(2, 4) + '0000'
+        this.postAnoFiscal.compGastos = selectedYear
+        this.postAnoFiscal.compIngresos = selectedYear
+        this.postAnoFiscal.anio = selectedDate.getFullYear().toString()
+      }
+    },
+
+    enableCheckbox() {
+      this.isDisabled = false
+    },
+
+    disabledCheckbox() {
+      this.isDisabled = true
+      this.Ocultar = true
+    },
+
+    formatDate(fecha) {
+      return new Date(fecha).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      })
+    },
+    getAnioFiscalAll() {
+      Api.getAnioFiscal().then((response) => {
+        this.anioFiscal = response.data.data
+      })
+    },
+    toggleDetails(item) {
+      this.Ocultar2 = true
+      this.enableCheckbox()
+      this.id = item.id
+      this.lgDemo = true
+      Api.getAnioFiscalbyid(item.id).then((response) => {
+        this.postAnoFiscal = response.data.data
+        this.block = response.data.data.esAprobado
+        this.id = item.id
+        if (this.block == true) {
+          this.disabledCheckbox()
+          this.Ocultar = false
+        } else {
+          this.Ocultar = true
+        }
+      })
+    },
+    clearModal1() {
+      this.id = null
+      this.postAnoFiscal = {
+        id: 0,
+        ayuntamientoId: this.$ayuntamientoId,
+        compGastos: 0,
+        compIngresos: 0,
+        estatus: 'ACTUAL',
+        anio: 0,
+        fechaInicial: null,
+        fechaFinal: null,
+      }
+    },
+    getBadge(status) {
+      switch (status) {
+        case 'Active':
+          return 'success'
+        case 'Inactive':
+          return 'secondary'
+        case 'Pending':
+          return 'warning'
+        case 'Banned':
+          return 'danger'
+        default:
+          'primary'
+      }
+    },
+    submitForm(event) {
+      event.preventDefault()
+      event.stopPropagation()
+      if (this.id != null) {
+        Api.putAnioFiscal(this.id, this.postAnoFiscal)
+          .then(() => {
+            this.show({
+              content: 'Registro actualizado correctamente',
+              closable: true,
+            })
+          })
+          .catch(({ response }) => {
+            this.show({
+              content: response.data,
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+            })
+          })
+        this.clearModal1()
+        this.lgDemo = false
+      } else {
+        Api.postAnioFiscal(this.postAnoFiscal)
+          .then((response) => {
+            this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
+            })
+            this.clearModal1()
+            this.lgDemo = false
+          })
+          .catch(({ response }) => {
+            this.show({
+              content: response.data,
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+            })
+          }),
+          this.getAnioFiscalAll()
+      }
+    },
   },
 
   computed: {
-    ...mapStores(useRegistroStore),
-    ...mapState(useRegistroStore, ['anioFiscal']),
-  },
-
-  methods: {
-    ...mapActions(useRegistroStore, ['getAnioFiscal', 'addAnioFiscal']),
-
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
-      }
-      this.details.push(item._id)
-    },
-
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
-
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
-    },
-    submitForm() {
-      if (this.id) {
-        Api.putAnioFiscal(this.id, this.postAnoFiscal).then((response) => {
-          this.lgDemo = false
-          this.$swal({
-            position: 'top-end',
-            icon: 'success',
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
-          })
-          this.getAnioFiscal()
-          this.postAnoFiscal = {
-            id: 0,
-            nombre: null,
-            variacion: 0,
-            ayuntamientoId: 0,
-            ayuntamiento: {
-              id: 0,
-              secuencial: 0,
-              codigo: null,
-              descripcion: null,
-            },
+    initialDate: {
+      get() {
+        if (
+          this.postAnoFiscal.fechaInicial !== null &&
+          this.postAnoFiscal.fechaInicial?.toString() !== 'Invalid Date'
+        ) {
+          let date = this.postAnoFiscal.fechaInicial
+          if (typeof this.postAnoFiscal.fechaInicial === 'string') {
+            date = new Date(this.postAnoFiscal.fechaInicial)
+            return date.toISOString().split('T')[0]
           }
-        })
-        this.getAnioFiscal()
-      } else {
-        this.addAnioFiscal(this.postAnoFiscal)
-        //const form = event.currentTarget
-        this.lgDemo = true
-        this.getAnioFiscal()
-        ;(this.postAnoFiscal = {
-          id: 0,
-          nombre: null,
-          ayuntamientoId: 0,
-          ayuntamiento: {
-            id: 0,
-            secuencial: 0,
-            codigo: null,
-            descripcion: null,
-          },
-        }),
-          (this.validatedCustom01 = false)
-        event.preventDefault()
-        event.stopPropagation()
-        this.getAnioFiscal()
-      }
+        } else {
+          return
+        }
+      },
+      set(value) {
+        return (this.postAnoFiscal.fechaInicial = new Date(`${value}T00:00:00`))
+      },
+    },
+    finalDate: {
+      get() {
+        if (
+          this.postAnoFiscal.fechaFinal !== null &&
+          this.postAnoFiscal.fechaFinal?.toString() !== 'Invalid Date'
+        ) {
+          let date = this.postAnoFiscal.fechaFinal
+          if (typeof this.postAnoFiscal.fechaFinal === 'string') {
+            date = new Date(this.postAnoFiscal.fechaFinal)
+          }
+
+          return date.toISOString().split('T')[0]
+        } else {
+          return
+        }
+      },
+      set(value) {
+        return (this.postAnoFiscal.fechaFinal = new Date(`${value}T00:00:00`))
+      },
     },
   },
 
   mounted() {
-    this.getAnioFiscal()
-    this.footerItem[0].label = `Total de items: ${this.anioFiscal.length}`
+    Api.getAnioFiscal().then((response) => {
+      this.anioFiscal = response.data.data
+      this.footerItem[0].label = `Total de items: ${this.anioFiscal.length}`
+    })
   },
 }
 </script>
-
-<!-- <script>
-import { CSmartTable } from '@coreui/vue-pro'
-import { CModal } from '@coreui/vue'
-export default {
-  components: {
-    CSmartTable,
-    CModal,
-  },
-  data: () => {
-    return {
-      validatedCustom01: null,
-      lgDemo: false,
-      columns: [
-        { key: 'Año Fiscal', label: 'Año Fiscal', _style: { width: '40%' } },
-        { key: 'Desde', label: 'Desde', _style: { width: '40%' } },
-        { key: 'Hasta', label: 'Hasta', _style: { width: '40%' } },
-        { key: 'Estatus', label: 'Estatus', _style: { width: '40%' } },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
-        },
-      ],
-      details: [],
-    }
-  },
-  methods: {
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
-    },
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
-      }
-      this.details.push(item._id)
-    },
-  },
-  mounted() {
-    this.$store.dispatch('Formulacion/getProyectos')
-  },
-}
-</script> -->

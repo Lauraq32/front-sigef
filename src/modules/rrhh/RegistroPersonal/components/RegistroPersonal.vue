@@ -1382,28 +1382,6 @@ export default {
         },
       ],
 
-      columns2: [
-        { key: 'fecha', label: 'Fecha', _style: { width: '20%' } },
-        {
-          key: 'tipoDeAccion',
-          label: 'Tipo de acción',
-          _style: { width: '20%' },
-        },
-        {
-          key: 'detalle',
-          label: 'Detalles',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
-        },
-      ],
-
       details: [],
 
       validatedCustom01: null,
