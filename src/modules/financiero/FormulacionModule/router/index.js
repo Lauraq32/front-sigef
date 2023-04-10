@@ -26,7 +26,7 @@ export default {
     {
       path: 'fuenteEspecifica',
       name: 'Fuente Especifica',
-      meta: { label: 'Fuente Especifica' },
+      meta: { label: 'Fuente Específica' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FormulacionModule/components/FuenteEspecifica.vue'

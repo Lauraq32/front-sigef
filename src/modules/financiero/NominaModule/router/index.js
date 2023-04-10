@@ -1,14 +1,14 @@
 export default {
   name: 'Nomina',
   redirect: '/NominaModule/ClasificadoresNomina',
-  meta: { label: 'Nomina' },
+  meta: { label: 'Nómina' },
   component: () =>
     import('@/modules/financiero/NominaModule/layout/TemplateLayout.vue'),
   children: [
     {
       path: 'clasificadoresNomina',
       name: 'clasificadoresNomina',
-      meta: { label: 'Clasificadores Nomina' },
+      meta: { label: 'Clasificadores Nómina' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/ClasificadoresNomina.vue'
@@ -17,7 +17,7 @@ export default {
     {
       path: 'grupoNominass',
       name: 'grupoNominass',
-      meta: { label: 'Grupo Nominas' },
+      meta: { label: 'Grupo Nóminas' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/GrupoNominas.vue'
@@ -27,7 +27,7 @@ export default {
     {
       path: 'nominaGeneral',
       name: 'grupoNominas',
-      meta: { label: 'Nomina General' },
+      meta: { label: 'Nómina General' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/nominaG.vue'
@@ -81,7 +81,7 @@ export default {
     {
       path: 'nominas',
       name: 'nominas',
-      meta: { label: 'Nominas' },
+      meta: { label: 'Nóminas' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/Nominas.vue'

@@ -61,7 +61,7 @@ export default {
     {
       path: 'notasCredito',
       name: 'NotasCredito',
-      meta: { label: 'Notas Credito' },
+      meta: { label: 'Notas de crédito' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ConciliacionBancaria/components/NotasCredito.vue'
@@ -71,7 +71,7 @@ export default {
     {
       path: 'notasDebito',
       name: 'NotasDebito',
-      meta: { label: 'Notas Débito' },
+      meta: { label: 'Notas de Débito' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ConciliacionBancaria/components/NotasDebito.vue'
