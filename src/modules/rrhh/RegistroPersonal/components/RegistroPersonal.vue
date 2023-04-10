@@ -3,8 +3,7 @@
   <AccionPersonalDialog
     :showModal="lgDemo4"
     @closeModal="closeModal"
-    :accionPersonal="accionPersonal"
-    :FiltroEmpleadoAccionPersonal="registroPersonal"
+    :empleado="FiltroEmpleadoAccionPersonal"
   />
   <TipoNovedadDialog :showModals="lgDemo5" @closeModals="closeModals" />
   <div class="table-headers">
@@ -115,7 +114,7 @@
             @click="
               () => {
                 lgDemo4 = true
-                this.getAccionPersonalById(item.id)
+                FiltroEmpleadoAccionPersonal = item
               }
             "
             >Evaluación</CDropdownItem
@@ -991,7 +990,7 @@ export default {
   },
   data: function () {
     return {
-      FiltroEmpleadoAccionPersonal: { nombres: null },
+      FiltroEmpleadoAccionPersonal: {},
       accionPersonal: [],
       lgDemo4: false,
       lgDemo5: false,
@@ -1165,12 +1164,6 @@ export default {
     ...mapState(useRegistroStore, ['registroPersonal', 'posicionCargo']),
   },
 
-  // watch: {
-  //   lgDemo() {
-  //     this.getAccionPersonal()
-  //   },
-  // },
-
   methods: {
     ...mapActions(useRegistroStore, [
       'getRegistroPersonal',
@@ -1272,12 +1265,6 @@ export default {
         default:
           'primary'
       }
-    },
-
-    getAccionPersonalById(IdEmpleado) {
-      Api.getAccionPersonalByID(IdEmpleado).then((response) => {
-        this.accionPersonal = response.data.data
-      })
     },
 
     toggleDetails(item) {

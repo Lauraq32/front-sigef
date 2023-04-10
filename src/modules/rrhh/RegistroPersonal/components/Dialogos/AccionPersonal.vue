@@ -10,31 +10,31 @@
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Nombres:</div>
               <div class="col-8">
-                <h6>{{ this.FiltroEmpleadoAccionPersonal.nombres }}</h6>
+                <h6>{{ empleado.nombres }}</h6>
               </div>
             </div>
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Apellido:</div>
               <div class="col-8">
-                <h6>Valenzuela</h6>
+                <h6>{{ empleado.apellidos }}</h6>
               </div>
             </div>
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Programa:</div>
               <div class="col-8">
-                <h6>Programa 1</h6>
+                <h6>{{ empleado.programaDivision.nombre }}</h6>
               </div>
             </div>
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Departamento:</div>
               <div class="col-8">
-                <h6>Dirección tic</h6>
+                <h6>{{ empleado.departamento.nombre }}</h6>
               </div>
             </div>
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Cargo:</div>
               <div class="col-8">
-                <h6>Programador</h6>
+                <h6>{{ empleado.posicion.nombre }}</h6>
               </div>
             </div>
           </div>
@@ -74,7 +74,7 @@
         :activePage="1"
         header
         :items="accionPersonal"
-        :columns="columns2"
+        :columns="columns"
         columnFilter
         itemsPerPageSelect
         :itemsPerPage="5"
@@ -95,7 +95,7 @@
               variant="outline"
               square
               size="sm"
-              @click="toggleDetails(item, index)"
+              @click="getAccionesPersonalById(item.id)"
             >
               {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
             </CButton>
@@ -130,9 +130,7 @@
         Close
       </button>
 
-      <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
-        Guardar
-      </button>
+      <button class="btn btn-info btn-block mt-1">Guardar</button>
     </div>
   </CModal>
 
@@ -155,31 +153,31 @@
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Nombres:</div>
               <div class="col-8">
-                <h6>{{ this.FiltroEmpleadoAccionPersonal.nombres }}</h6>
+                <h6>{{ empleado.nombres }}</h6>
               </div>
             </div>
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Apellido:</div>
               <div class="col-8">
-                <h6></h6>
+                <h6>{{ empleado.apellidos }}</h6>
               </div>
             </div>
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Programa:</div>
               <div class="col-8">
-                <h6>Programa 1</h6>
+                <h6>{{ empleado.programaDivision.nombre }}</h6>
               </div>
             </div>
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Departamento:</div>
               <div class="col-8">
-                <h6>Dirección tic</h6>
+                <h6>{{ empleado.departamento.nombre }}</h6>
               </div>
             </div>
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Cargo:</div>
               <div class="col-8">
-                <h6>Programador</h6>
+                <h6>{{ empleado.posicion.nombre }}</h6>
               </div>
             </div>
           </div>
@@ -197,7 +195,10 @@
             <CFormLabel for="validationCustom01">Fechas</CFormLabel>
           </div>
           <div class="col-9 col-md-4">
-            <CFormInput />
+            <CFormInput
+              v-model="postAccionesPersonals.fechaDesde"
+              type="date"
+            />
           </div>
         </div>
 
@@ -206,7 +207,7 @@
             <CFormLabel>Tipo</CFormLabel>
           </div>
           <div class="col-9 col-md-4">
-            <CFormInput />
+            <CFormInput v-model="postAccionesPersonals.tipoAccionId" />
           </div>
         </div>
 
@@ -215,7 +216,7 @@
             <CFormLabel>Cantidad</CFormLabel>
           </div>
           <div class="col-9 col-md-2">
-            <CFormInput />
+            <CFormInput v-model="postAccionesPersonals.cantidad" />
           </div>
         </div>
 
@@ -224,7 +225,10 @@
             <CFormLabel>Hasta</CFormLabel>
           </div>
           <div class="col-9 col-md-2">
-            <CFormInput />
+            <CFormInput
+              type="date"
+              v-model="postAccionesPersonals.fechaHasta"
+            />
           </div>
         </div>
 
@@ -233,7 +237,11 @@
             <CFormLabel>Detalle</CFormLabel>
           </div>
           <div class="col-9">
-            <textarea class="col-md-7" rows="3"></textarea>
+            <textarea
+              v-model="postAccionesPersonals.detalle"
+              class="col-md-7"
+              rows="3"
+            ></textarea>
           </div>
         </div>
       </CCardBody>
@@ -253,7 +261,12 @@
         Close
       </button>
 
-      <button class="btn btn-info btn-block mt-1">Guardar</button>
+      <button
+        class="btn btn-info btn-block mt-1"
+        v-on:click="postAccionesPersonal"
+      >
+        Guardar
+      </button>
     </div>
   </CModal>
 </template>
@@ -275,8 +288,15 @@ export default {
       lgDemo5: false,
       accionPersonal: [],
       IdEmpleado: null,
-      FiltroEmpleadoAccionPersonal: { nombres: null },
-      columns2: [
+      postAccionesPersonals: {
+        fechaDesde: new Date(),
+        tipoAccionId: 1,
+        empleadoId: 1,
+        cantidad: 100,
+        fechaHasta: new Date(),
+        detalle: null,
+      },
+      columns: [
         { key: 'fechaDesde', label: 'Fecha', _style: { width: '20%' } },
         {
           key: 'tipoAccionId',
@@ -305,12 +325,47 @@ export default {
     CloseModal() {
       this.$emit('closeModal', false)
     },
+
+    SubmitForm() {
+      if (this.id) {
+        Api.putAccionesPersonales(this.id, this.postAccionesPersonals).then(
+          (response) => {},
+        )
+      } else {
+        this.postAccionesPersonal()
+      }
+    },
+
+    getAccionesPersonalById(items) {
+      this.lgDemo5 = true
+      Api.getAccionesPersonalByIds(items.id).then((response) => {
+        this.postAccionesPersonals = response.data.data
+      })
+    },
+
+    postAccionesPersonal() {
+      Api.postAccionesPersonal(this.postAccionesPersonals).then(
+        (response) => {},
+      )
+    },
+
+    getAccionPersonalById(IdEmpleado) {
+      Api.getAccionPersonalByID(IdEmpleado).then((response) => {
+        this.accionPersonal.push(...response.data.data)
+      })
+    },
+  },
+  watch: {
+    empleado() {
+      if (this.showModal) {
+        this.getAccionPersonalById(this.empleado.id)
+      }
+    },
   },
 
   props: {
     showModal: Boolean,
-    accionPersonal: [],
-    FiltroEmpleadoAccionPersonal: { nombres: null },
+    empleado: Object,
   },
 }
 </script>
