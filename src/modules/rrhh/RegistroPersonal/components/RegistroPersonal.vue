@@ -1,11 +1,15 @@
 <template>
   <h3 class="text-center">Mantenimientos Empleados</h3>
   <AccionPersonalDialog
-    :showModal="lgDemo4"
-    @closeModal="closeModal"
-    :empleado="FiltroEmpleadoAccionPersonal"
+    :showModal="showAccionPersonal"
+    @closeModal="closeAccionPersonal"
+    :empleado="EmpleadoAcciones"
+
   />
-  <TipoNovedadDialog :showModals="lgDemo5" @closeModals="closeModals" />
+  <TipoNovedadDialog
+    :showModals="showTipoNovedad"
+    @closeModals="closeTipoNovedad"
+  />
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
@@ -113,8 +117,8 @@
           <CDropdownItem
             @click="
               () => {
-                lgDemo4 = true
-                FiltroEmpleadoAccionPersonal = item
+                showAccionPersonal = true
+                EmpleadoAcciones = item
               }
             "
             >Evaluación</CDropdownItem
@@ -122,25 +126,13 @@
           <CDropdownItem
             @click="
               () => {
-                lgDemo5 = true
+                showTipoNovedad = true
               }
             "
             >Eventualidad</CDropdownItem
           >
         </CDropdownMenu>
       </CDropdown>
-    </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
     </template>
   </CSmartTable>
   <CModal
@@ -990,11 +982,10 @@ export default {
   },
   data: function () {
     return {
-      FiltroEmpleadoAccionPersonal: {},
+      EmpleadoAcciones: {},
       accionPersonal: [],
-      lgDemo4: false,
-      lgDemo5: false,
-      cambiar: false,
+      showAccionPersonal: false,
+      showTipoNovedad: false,
       registroPersonal: [],
       horaActual: '',
       toasts: [],
@@ -1152,8 +1143,6 @@ export default {
         },
       ],
 
-      details: [],
-
       validatedCustom01: null,
       lgDemo: false,
     }
@@ -1222,12 +1211,12 @@ export default {
       this.lgDemo = true
       setTimeout(this.unaVez, 200)
     },
-    closeModal(close) {
-      this.lgDemo4 = close
+    closeAccionPersonal(close) {
+      this.showAccionPersonal = close
     },
 
-    closeModals(close) {
-      this.lgDemo5 = close
+    closeTipoNovedad(close) {
+      this.showTipoNovedad = close
     },
 
     changePrograma(e) {
@@ -1278,7 +1267,6 @@ export default {
       Api.getEmpleadoByID(item.id).then((response) => {
         this.id = item.id
         this.postEmpleado = response.data.data
-        this.IdEmpleado = item.id
       })
     },
 

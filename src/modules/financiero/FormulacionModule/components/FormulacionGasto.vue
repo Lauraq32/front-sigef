@@ -1072,7 +1072,6 @@ export default {
             style: 'font-weight:bold;',
           },
         },
-
       ],
     }
   },
@@ -1500,14 +1499,13 @@ export default {
     },
     getTotal() {
       axios
-      Api.getTotalIngresos(
-        this.$ayuntamientoId,
-        this.$fiscalYearId,
-      ).then((response) => {
-        this.formulado.alafecha = response.data.alafecha
-        this.formulado.anO_ANT = response.data.anO_ANT
-        this.formulado.preS_FORM = response.data.preS_FORM
-      })
+      Api.getTotalIngresos(this.$ayuntamientoId, this.$fiscalYearId).then(
+        (response) => {
+          this.formulado.alafecha = response.data.alafecha
+          this.formulado.anO_ANT = response.data.anO_ANT
+          this.formulado.preS_FORM = response.data.preS_FORM
+        },
+      )
     },
     IngresoReport() {
       window.open(
@@ -1603,7 +1601,7 @@ export default {
 
   mounted() {
     this.getListarGastos()
-    this.footerItem[0].label = `Total items: ${this.gastoListCount}` 
+    this.footerItem[0].label = `Total items: ${this.gastoListCount}`
   },
 }
 </script>

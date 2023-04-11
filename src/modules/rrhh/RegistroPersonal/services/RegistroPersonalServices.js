@@ -7,6 +7,10 @@ class RegistroPersonal {
     return http.get('tipos-sangre')
   }
 
+  getAllTipoAcciones() {
+    return http.get('tipo-acciones')
+  }
+
   getAllAccionPersonal() {
     return http.get('acciones-personal')
   }
