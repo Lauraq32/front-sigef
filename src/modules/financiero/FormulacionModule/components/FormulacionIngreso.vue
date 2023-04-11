@@ -1,14 +1,8 @@
 <template>
-  <h3 class="text-center">Formulaci&oacute;n Ingreso</h3>
+  <h3 class="text-center mb-4">Formulaci&oacute;n Ingreso</h3>
   <div class="table-headers">
     <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="
-        () => {
-          openModal()
-
-          edit = false
-        }
-      ">Agregar</CButton>
+      <CButton style="font-weight: bold" color="info" @click="openModal">Agregar</CButton>
     </div>
 
     <div class="p-2">
@@ -48,7 +42,7 @@
     itemsPerPageSelect 
     columnFilter 
     :itemsPerPage="10"
-    :items-per-page-label="'Item por página:'"
+    :items-per-page-label="'Artículos por página:'"
     :items-per-page-options="[10, 20, 50, 100, 150]" 
     columnSorter 
     :sorterValue="{ column: 'status', state: 'asc' }"
@@ -97,7 +91,7 @@
     <template #show_details="{ item }">
       <td class="py-2">
         <div class="d-flex justify-content-around">
-          <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="toggleDetails(item)">
+          <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="editFormulacion(item)">
             Editar
           </CButton>
           <CButton class="mt-1" color="danger" variant="outline" square size="sm" @click="deleteItem(item)">
@@ -108,133 +102,15 @@
     </template>
   </CSmartTable>
 
-  <CModal backdrop="static" size="lg" :visible="showPartidaPresupuestodeIngresoDialog" @close="
-    () => {
-      this.showPartidaPresupuestodeIngresoDialog = false
-    }
-  ">
-    <div class="row">
-      <div class="col-8 mt-3">
-        <CModalTitle style="margin-top: 13px; margin-left: 4px">
-          Partida del presupuesto de ingresos
-        </CModalTitle>
-      </div>
-      <div class="col-4">
-        <div class="row mt-4">
-          <div class="col-4 bold">
-            <label for="dni" style="font-weight: bold; margin-left: 12px; margin-top: 7px">A&ntilde;o</label>
-          </div>
-          <div class="col-6">
-            <input type="number" name="dni" id="dni" v-model="anofiscal" class="form-control" disabled />
-          </div>
-        </div>
-      </div>
-    </div>
-    <hr />
-    <CModalBody>
-      <CCardBody>
-        <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01" @submit="handleSubmitCustom01">
-          <CCol :md="3">
-            <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
-            <div class="position-relative">
-              <input ref="name" required v-on:keyup.enter="() => findClasificadorModal = true" class="form-control padding-input"
-                v-model="postIngreso.ctgClasificadorId" type="number" id="clasifica" />
-              <span class="position-absolute icon-input">
-                <CIcon icon="cisSearch" size="xl" v-on:click="() => findClasificadorModal = true" />
-              </span>
-            </div>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
+  <FormulacionIngresoDialog
+    :isVisible="showPartidaPresupuestodeIngresoDialog"
+    :formulacionIngreso="postIngreso"
+    @close="onCloseFormulacionDialog"
+  />
 
-
-
-          <CCol :md="2">
-            <CFormLabel for="validationCustom02">Cta. Control</CFormLabel>
-            <CFormInput disabled v-model="postIngreso.ctaControl" id="validationCustom02" required />
-          </CCol>
-          <CCol :md="7">
-            <CFormLabel for="validationCustomUsername">Detalle</CFormLabel>
-            <CInputGroup class="has-validation">
-              <CFormInput disabled v-model="postIngreso.detalle" id="validationCustomUsername" value=""
-                aria-describedby="inputGroupPrepend" required />
-            </CInputGroup>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom03">Fuente Financiamiento</CFormLabel>
-            <CFormInput :disabled="ctgFuenteId" v-model="postIngreso.ctgFuenteId" id="validationCustom03" required />
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom04">Fuente Espec&iacute;fica</CFormLabel>
-            <CFormInput :disabled="ctgFuenteEspecificaId" v-model="postIngreso.ctgFuenteEspecificaId"
-              id="validationCustom04" required>
-            </CFormInput>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom05">Organismo Financiador</CFormLabel>
-            <CFormInput :disabled="ctgOrganismoFinanciadorId" v-model="postIngreso.ctgOrganismoFinanciadorId"
-              id="validationCustom05" required />
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel>Instituci&oacute;n Otorgante</CFormLabel>
-            <CFormInput v-model="postIngreso.instOtorga" type="number" step="any">
-            </CFormInput>
-          </CCol>
-          <hr />
-          <CCol :md="4">
-            <CFormLabel>Año Anterior</CFormLabel>
-            <VueNumberFormat v-model:value="postIngreso.anioAnt" type="text" class="form-control" :options="{
-              precision: 2,
-              prefix: '',
-              decimal: '.',
-              thousand: ',',
-            }" ref="anoAnteriorRef">
-            </VueNumberFormat>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel>A la Fecha</CFormLabel>
-            <VueNumberFormat v-model:value="postIngreso.alaFecha" type="text" class="form-control" :options="{
-              precision: 2,
-              prefix: '',
-              decimal: '.',
-              thousand: ',',
-            }"></VueNumberFormat>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel>Presupuesto Formulado</CFormLabel>
-            <VueNumberFormat v-model:value="postIngreso.presForm" type="text" step="any" class="form-control" :options="{
-              precision: 2,
-              prefix: '',
-              decimal: '.',
-              thousand: ',',
-            }"></VueNumberFormat>
-          </CCol>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="
-              () => {
-                showPartidaPresupuestodeIngresoDialog = false
-              }
-            ">
-              Cerrar
-            </button>
-            <button :disabled="formuladoValue" v-on:click="submitForm" type="button" class="btn btn-primary">
-              Guardar
-            </button>
-          </div>
-        </CForm>
-      </CCardBody>
-    </CModalBody>
-  </CModal>
-  
-  <ClasificadorSelectorDialog :isVisible="findClasificadorModal" :filtered="
-    (clasificator) =>
-    (clasificator.tipo ===
-      'DETALLE' && clasificator.origen === 'INGRESO' && clasificator?.clasifica?.toString().match(/^(1|3)/g))
-  " :term="postIngreso.ctgClasificadorId" @close="selectClasificador" />
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
-import VueNumberFormat from 'vue-number-format'
-import { CModal } from '@coreui/vue'
 import Api from '../services/FormulacionServices'
 import { mapActions, mapStores, mapState } from 'pinia'
 import XLSX from 'xlsx/xlsx.mjs'
@@ -243,40 +119,21 @@ import { CIcon } from '@coreui/icons-vue'
 import { useToastStore } from '@/store/toast'
 import { useAuthStore } from '@/store/AuthStore'
 import router from '@/router'
-import ClasificadorSelectorDialog from './ClasificadorSelectorDialog.vue';
-import { formatPrice } from '../../../../utils/format'
+import { formatPrice } from '../../../../utils/format';
+import FormulacionIngresoDialog from "../gasto/FormulacionIngresoDialog.vue";
 export default {
   components: {
     CSmartTable,
-    CModal,
     CIcon,
-    ClasificadorSelectorDialog
+    FormulacionIngresoDialog
 },
   data: function () {
     return {
-      clasificadorItems: [],
-      findClasificadorModal: false,
-      texto: null,
-      fileName: '',
       ingresos: [],
-      presIngrsoMasivo: [],
-      anofiscal: this.$fiscalYearId,
-      ctgFuenteId: true,
-      ctgFuenteEspecificaId: true,
-      ctgOrganismoFinanciadorId: true,
-      formuladoValue: false,
-      edit: false,
-      id: null,
-      formulado: {
-        alafecha: 0,
-        anO_ANT: 0,
-        preS_FORM: 0,
-      },
-
       postIngreso: {
         anioFiscalId: this.$fiscalYearId,
         ayuntamientoId: this.$ayuntamientoId,
-        ctgClasificadorId: null,
+        ctgClasificadorId: '',
         instOtorga: 0,
         ctaControl: 0,
         detalle: '',
@@ -290,7 +147,6 @@ export default {
         ingresos: 0,
         variacionResumen: 0,
       },
-      validatedCustom01: null,
       showPartidaPresupuestodeIngresoDialog: false,
       footerItem: [
         {
@@ -386,25 +242,6 @@ export default {
           sorter: false,
         },
       ],
-      clasificadorColumns: [
-        { key: 'clasifica', label: 'Clasificador' },
-        { key: 'cControl', label: 'Control' },
-        { key: 'nombre', label: 'Detalle', _style: { width: '25%' } },
-        {
-          key: 'tipo',
-          label: 'Tipo',
-          filter: false,
-          sorter: false,
-          _style: { width: '5%' },
-        },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '10%' },
-          filter: false,
-          sorter: false,
-        }
-      ],
       formatPrice
     }
   },
@@ -428,39 +265,10 @@ export default {
       })
     },
 
-
-    selectClasificador(clasificador) {
-      if (clasificador) {
-        this.postIngreso.ctgClasificadorId = clasificador.clasifica;
-        this.postIngreso.ctaControl = clasificador.cControl;
-        this.postIngreso.detalle = clasificador.nombre;
-        this.postIngreso.ctgFuenteId = clasificador.ctgFuenteId;
-        this.postIngreso.ctgFuenteEspecificaId = clasificador.ctgFuenteEspecificaId;
-        this.postIngreso.ctgOrganismoFinanciadorId = clasificador.ctgOrganismoFinanciadorId;
-        this.validateInputctgFuente();
-        this.validateInputctgFuenteEspecificaId();
-        this.validateInputctgOrganismoFinanciadorId();
-      }
-      this.findClasificadorModal = false;
-    },
-
-
-    focusInput() {
-      this.$refs.name.focus()
-    },
-
-    unaVez() {
-      this.focusInput()
-    },
-
     openModal() {
-      this.showPartidaPresupuestodeIngresoDialog = true
-
-      setTimeout(this.unaVez, 200)
+      this.showPartidaPresupuestodeIngresoDialog = true;
     },
-
     onFileChange(event) {
-      this.fileName = event.target.files[0].name
       this.file = event.target.files ? event.target.files[0] : null
       if (this.file) {
         const reader = new FileReader()
@@ -473,11 +281,10 @@ export default {
           })
           const wsname = wb.SheetNames[0]
           const ws = wb.Sheets[wsname]
-          const data = XLSX.utils.sheet_to_json(ws)
-          this.texto = wb;
-          console.log(data);
+          const data = XLSX.utils.sheet_to_json(ws);
+          const presIngrsoMasivo = [];
           data.map((item) => {
-            this.presIngrsoMasivo.push({
+            presIngrsoMasivo.push({
               anioFiscalId:  this.authInfo.currentFiscalYearId,
               ayuntamientoId: this.authInfo.user.ayuntamiento.id,
               ctgClasificadorId: `${Object.values(item)[2]}${Object.values(item)[3]
@@ -534,37 +341,7 @@ export default {
       })
     },
 
-    validateInputctgFuente() {
-      if (this.postIngreso.ctgFuenteId == '') {
-        this.ctgFuenteId = false
-      } else if (
-        this.postIngreso.ctgFuenteId !== '' ||
-        this.postIngreso.ctgFuenteId.length > 30
-      ) {
-        this.ctgFuenteId = true
-      }
-    },
-    validateInputctgFuenteEspecificaId() {
-      if (this.postIngreso.ctgFuenteEspecificaId == '') {
-        this.ctgFuenteEspecificaId = false
-      } else if (
-        this.postIngreso.ctgFuenteEspecificaId !== '' ||
-        this.postIngreso.ctgFuenteEspecificaId.length > 30
-      ) {
-        this.ctgFuenteEspecificaId = true
-      }
-    },
-    validateInputctgOrganismoFinanciadorId() {
-      if (this.postIngreso.ctgOrganismoFinanciadorId == '') {
-        this.ctgOrganismoFinanciadorId = false
-      } else if (
-        this.postIngreso.ctgOrganismoFinanciadorId !== '' ||
-        this.postIngreso.ctgOrganismoFinanciadorId.length > 30
-      ) {
-        this.ctgOrganismoFinanciadorId = true
-      }
-    },
-    clearModal() {
+    cleanModalData() {
       this.postIngreso = {
         anioFiscalId: this.authInfo.user.ayuntamiento.id,
         ayuntamientoId: this.authInfo.currentFiscalYearId,
@@ -581,132 +358,50 @@ export default {
         variacion: 0,
         ingresos: 0,
         variacionResumen: 0,
-      }
+      };
     },
 
-    submitForm() {
-      const inputClasificador = document.getElementById('clasifica')
-      inputClasificador.focus()
-      if (this.id) {
-        this.postIngreso.ctaControl = this.postIngreso.control;
-        Api.editPresIngreso(this.id, this.postIngreso).then((response) => {
+    onCloseFormulacionDialog(data) {
+      if (data) {
+        return this.submitForm(data);
+      }
+
+      this.cleanModalData();
+      this.showPartidaPresupuestodeIngresoDialog = false;
+    },
+
+    submitForm(inputData) {
+      let accion = null;
+      if (inputData.id) {
+        accion = Api.editPresIngreso(inputData.id, inputData).then((response) => {
           this.show({
             content: 'Registro actualizado correctamente',
             closable: true,
-          })
-
-          this.postIngreso = {
-            anioFiscalId:  this.authInfo.currentFiscalYearId,
-            ayuntamientoId: this.authInfo.user.ayuntamiento.id,
-            ctgClasificadorId: null,
-            instOtorga: 0,
-            ctaControl: 0,
-            detalle: '',
-            anioAnt: 0,
-            ctgFuenteId: 0,
-            ctgFuenteEspecificaId: 0,
-            ctgOrganismoFinanciadorId: 0,
-            alaFecha: 0,
-
-            presForm: 0,
-            variacion: 0,
-            ingresos: 0,
-            variacionResumen: 0,
-          }
-
-          setTimeout(() => {
-            this.getAllIngreso()
-            .then(() => this.getTotales());
-          }, 3000);
-
-          this.id = null
-        })
-        .catch((error) => {
-            this.show({
-              content: error.response.data,
-              closable: true,
-              color: 'danger',
-              class: 'text-white',
-            })
           });
+          this.loadData();
+          this.cleanModalData();
+          this.showPartidaPresupuestodeIngresoDialog = false;
+
+          return response;
+        });
       } else {
-        this.postIngreso.anioAnt = parseFloat(this.postIngreso.anioAnt);
-        this.postIngreso.alaFecha = parseFloat(this.postIngreso.alaFecha);
-        this.postIngreso.presForm = parseFloat(this.postIngreso.presForm);
-        this.postIngreso.ctaControl = parseFloat(this.postIngreso.ctaControl);
-        this.postIngreso.ctgFuenteEspecificaId = parseFloat(this.postIngreso.ctgFuenteEspecificaId);
-        this.postIngreso.ctgFuenteId = parseFloat(this.postIngreso.ctgFuenteId);
-        this.postIngreso.ctgOrganismoFinanciadorId = parseFloat(this.postIngreso.ctgOrganismoFinanciadorId);
-        Api.postFormulacionIngreso(this.postIngreso)
-          .then(() => {
+        accion = Api.postFormulacionIngreso(inputData)
+          .then((response) => {
             this.show({
               content: 'Registro añadido correctamente',
               closable: true,
-            })
-            this.postIngreso = {
-              anioFiscalId:  this.authInfo.currentFiscalYearId,
-              ayuntamientoId: this.authInfo.user.ayuntamiento.id,
-              ctgClasificadorId: null,
-              instOtorga: 0,
-              ctaControl: 0,
-              detalle: '',
-              anioAnt: 0,
-              ctgFuenteId: 0,
-              ctgFuenteEspecificaId: 0,
-              ctgOrganismoFinanciadorId: 0,
-              alaFecha: 0,
-
-              presForm: 0,
-              variacion: 0,
-              ingresos: 0,
-              variacionResumen: 0,
-            };
+            });
             
-            this.validatedCustom01 = false;
-            setTimeout(() => {
-              this.getAllIngreso()
-              .then(() => this.getTotales());
-            }, 3000);
+            this.loadData();
+            setTimeout(() => this.cleanModalData(), 500);
 
-          })
-          .catch((error) => {
-            this.show({
-              content: error.response.data,
-              closable: true,
-              color: 'danger',
-              class: 'text-white',
-            })
-          })
+            return response;
+          });
       }
+      accion.catch(this.handlerHttpError.bind(this));
     },
-    focusAno() {
-      this.$refs.anoAnteriorRef.focus()
-    },
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      event.preventDefault()
-      event.stopPropagation()
-      this.validatedCustom01 = true
-    },
-    IngresoReport() {
-      window
-        .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Formulacion&rs:Command=Render&CAPITULO_AYTO=${this.authInfo.user.ayuntamiento.codigo}&ANO=2022`,
-          '_blank',
-        )
-        .focus()
-    },
-    toggleDetails(item) {
-      if (item.ingresos !== 0 || item.variacion !== 0) {
-        this.formuladoValue = true
-      } else {
-        this.formuladoValue = false
-      }
-      this.edit = true
+
+    editFormulacion(item) {
       this.showPartidaPresupuestodeIngresoDialog = true
 
       Api.getPresIngresoById(item).then((response) => {
@@ -715,10 +410,14 @@ export default {
         this.postIngreso.ctaControl = this.postIngreso.control;
       })
     },
-    getAllIngreso() {
-      return Api.getAllFormulacionIngreso(this.authInfo.currentFiscalYearId, this.authInfo.user.ayuntamiento.id).then((response) => {
-        this.ingresos = response.data.data
-      })
+
+    IngresoReport() {
+      window
+        .open(
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Formulacion&rs:Command=Render&CAPITULO_AYTO=${this.$ayuntamientoId}&ANO=2022`,
+          '_blank',
+        )
+        .focus()
     },
     deleteItem(item) {
       this.$swal({
@@ -731,20 +430,36 @@ export default {
         confirmButtonText: 'Si, Eliminar!',
       }).then((result) => {
         if (result.isConfirmed) {
-          Api.deleteIngreso(item.id).then(() => {
+          Api.deleteIngreso(item.id)
+          .then(() => {
             this.show({
               content: 'Eliminado correctamente',
               closable: true,
             })
             
-            setTimeout(() => {
-              this.getAllIngreso()
-              .then(() => this.getTotales());
-            }, 3000);
+            this.loadData();
           })
+          .catch(this.handlerHttpError.bind(this));
         }
       })
     },
+    loadData(time = 500) {
+      setTimeout(() => {
+        Api.getAllFormulacionIngreso(this.authInfo.currentFiscalYearId, this.authInfo.user.ayuntamiento.id)
+        .then((response) => {
+          this.ingresos = response.data.data;
+          return this.getTotales()
+        });
+      }, time);
+    },
+    handlerHttpError(error) {
+      this.show({
+        content: error.response.data,
+        closable: true,
+        color: 'danger',
+        class: 'text-white',
+      });
+    }
   },
   computed: {
     ...mapStores(useAuthStore),
@@ -752,23 +467,11 @@ export default {
   },
 
   mounted() {
-    this.getTotales()
-    this.getAllIngreso()
+    this.loadData(0)
   },
 }
 </script>
 <style scoped>
-.padding-input {
-  padding-right: 2.5rem;
-}
-
-.icon-input {
-  padding: 0.2rem;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  right: 2px;
-}
 
 .file-select>.select-button {
   padding: 0.5rem;

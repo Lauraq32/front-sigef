@@ -139,7 +139,7 @@
                       <div class="col-4">
                         <CFormLabel for="oriBco1">Personal</CFormLabel>
                         <VueNumberFormat v-model:value="detalle.oriBco1" type="text" class="form-control" :options="{
-                          precision: 3,
+                          precision: 2,
                           prefix: '',
                           decimal: '.',
                           thousand: ',',
@@ -205,7 +205,7 @@
                       <div class="col-4">
                         <CFormLabel for="oriBco3">Inversión</CFormLabel>
                         <VueNumberFormat v-model:value="detalle.oriBco3" type="text" class="form-control" :options="{
-                          precision: 3,
+                          precision: 2,
                           prefix: '',
                           decimal: '.',
                           thousand: ',',
@@ -247,7 +247,7 @@
                       <div class="col-4">
                         <CFormLabel for="oriBco4">E/G Salud</CFormLabel>
                         <VueNumberFormat v-model:value="detalle.oriBco4" type="text" class="form-control" :options="{
-                          precision: 3,
+                          precision: 2,
                           prefix: '',
                           decimal: '.',
                           thousand: ',',
