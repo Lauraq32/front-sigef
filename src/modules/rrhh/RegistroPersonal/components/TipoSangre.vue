@@ -209,7 +209,6 @@ export default {
       getTipoSangres,
       tipoSangre,
       validatedCustom01,
-      handleSubmitCustom01,
       lgDemo,
       getBadge,
       columns,

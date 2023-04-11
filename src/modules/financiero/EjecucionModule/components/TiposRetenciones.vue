@@ -210,12 +210,12 @@ export default {
     CModal,
   },
 
-  data: () => {
+  data: function () {
     return {
       beneficiario: [{}],
 
       postTipoRetenciones: {
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
         id: 0,
         detalle: null,
         calculada: true,
@@ -363,7 +363,7 @@ export default {
         this.lgDemo = true
         this.getTipoRetenciones()
         ;(this.postTipoRetenciones = {
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          ayuntamientoId: this.$ayuntamientoId,
           id: 0,
           detalle: null,
           calculada: true,

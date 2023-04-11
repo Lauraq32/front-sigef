@@ -1,5 +1,6 @@
 import axios from 'axios'
-import Api from '../../services/FacturacionCobrosServices'
+import Api from '../../services/FacturacionCobrosServices';
+import { getFiscalYearId, getAyuntamientoId } from "../../../../../utils/logged-info";
 
 export const getClasificadores = async ({ commit }) => {
   Api.getListarClasificadores().then((response) => {
@@ -52,8 +53,8 @@ export const PostIngreso = async ({ commit }, data) => {
 }
 export const getListarIngresos = async ({ commit }) => {
   Api.getListarIngresos(
-    localStorage.getItem('id_Ayuntamiento'),
-    localStorage.getItem('ano'),
+    getAyuntamientoId(),
+    getFiscalYearId(),
   ).then((response) => {
     console.log(response.data)
     commit('SET_INGRESOS', response.data)
