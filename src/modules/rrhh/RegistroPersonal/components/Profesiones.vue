@@ -39,7 +39,15 @@
   >
     <template #show_details="{ item }">
       <td class="py-2">
-        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="editProfesion(item)">Editar</CButton>
+        <CButton
+          class="mt-1"
+          color="primary"
+          variant="outline"
+          square
+          size="sm"
+          @click="editProfesion(item)"
+          >Editar</CButton
+        >
       </td>
     </template>
   </CSmartTable>
@@ -115,13 +123,12 @@ export default {
             })
             setTimeout(() => this.getAllProfesiones(), 200)
           })
-          .catch((errors) => {
-            errors.response.data.errors.map((error) => {
-              return this.show({
-                content: error.message,
-                closable: true,
-                color: 'danger',
-              })
+          .catch((error) => {
+            console.log(error);
+            return this.show({
+              content: error.response.data,
+              closable: true,
+              color: 'danger',
             })
           })
       } else {
@@ -135,20 +142,19 @@ export default {
             setTimeout(() => this.getAllProfesiones(), 200)
           })
           .catch((errors) => {
-            errors.response.data.errors.map((error) => {
-              return this.show({
-                content: error.message,
-                closable: true,
-                color: 'danger',
-              })
+            console.log(errors);
+            return this.show({
+              content: errors.message,
+              closable: true,
+              color: 'danger',
             })
           })
       }
     },
     getAllProfesiones() {
       Api.getProfesion().then((response) => {
-        this.profesiones = response.data.data;
-        this.footerItem[0] = `Total Items ${response.data.data.length}`;
+        this.profesiones = response.data.data
+        this.footerItem[0] = `Total Items ${response.data.data.length}`
       })
     },
   },
