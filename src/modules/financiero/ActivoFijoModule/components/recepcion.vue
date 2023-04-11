@@ -197,7 +197,7 @@ export default {
       postRecepcion: {
         secuencial: 0,
         activoId: 2,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
         fecha: new Date(Date.now()),
         motivo: null,
         enviadoA: null,

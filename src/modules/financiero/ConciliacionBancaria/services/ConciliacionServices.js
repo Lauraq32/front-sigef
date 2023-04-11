@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 
-import http from '@/Api/http-common'
-const user = JSON.parse(localStorage.getItem('usuario'))
+import http from '@/Api/http-common';
+import { getAyuntamientoId } from "../../../../utils/logged-info";
 class Conciliacion {
   //-----------------------------CLASIFICADORES---------------------------------------//
   //get
@@ -14,40 +14,38 @@ class Conciliacion {
   }
 
   getAllNotaDebitoById(BancoId) {
-    return http.get(`ConciliacionDebito/${user?.user.ayuntamiento.id}/${BancoId}`)
+    return http.get(`ConciliacionDebito/${getAyuntamientoId()}/${BancoId}`)
   }
 
   getAllNotaCreditoById(BancoId) {
-    return http.get(`ConciliacionCredito/${user?.user.ayuntamiento.id}/${BancoId}`)
+    return http.get(`ConciliacionCredito/${getAyuntamientoId()}/${BancoId}`)
   }
 
   getAllChequeById(BancoId) {
-    return http.get(`ConciliacionCheque/${user?.user.ayuntamiento.id}/${BancoId}`)
+    return http.get(`ConciliacionCheque/${getAyuntamientoId()}/${BancoId}`)
   }
 
   getCuentaById(BancoId) {
-    return http.get(`ConciliacionCuentaBanco/GetCuentaById/${user?.user.ayuntamiento.id}/${BancoId}`)
+    return http.get(`ConciliacionCuentaBanco/GetCuentaById/${getAyuntamientoId()}/${BancoId}`)
   }
 
   getAllHistorico(BancoId, Fecha) {
-    return http.get(`ConciliacionHistorico/${user?.user.ayuntamiento.id}/${BancoId}/${Fecha}`)
+    return http.get(`ConciliacionHistorico/${getAyuntamientoId()}/${BancoId}/${Fecha}`)
   }
 
   getAllHistoricos(BancoId, Fecha) {
-    return http.get(`ConciliacionHistorico/GetHistorico/${user?.user.ayuntamiento.id}/${BancoId}/${Fecha}`)
+    return http.get(`ConciliacionHistorico/GetHistorico/${getAyuntamientoId()}/${BancoId}/${Fecha}`)
   }
   
   getAllCuentaBanco() {
     return http.get(
-      `ConciliacionCuentaBanco/${user?.user.ayuntamiento.id}`,
+      `ConciliacionCuentaBanco/${getAyuntamientoId()}`,
     )
   }
 
   getDepositoById(BancoId) {
     return http.get(
-      `ConciliacionDeposito/${localStorage.getItem(
-        'id_Ayuntamiento',
-      )}/${BancoId}`,
+      `ConciliacionDeposito/${getAyuntamientoId()}/${BancoId}`,
     )
   }
 
@@ -58,7 +56,7 @@ class Conciliacion {
 
   generarCuentas() {
     return http.post(
-      `ConciliacionCuentaBanco/${user?.user.ayuntamiento.id}`,
+      `ConciliacionCuentaBanco/${getAyuntamientoId()}`,
     )
   }
 
@@ -103,7 +101,7 @@ class Conciliacion {
   }
 
   putConciliacioncuentaBanco(BancoId,data) {
-    return http.put(`ConciliacionCuentaBanco/${user?.user.ayuntamiento.id}/${BancoId}`,data)
+    return http.put(`ConciliacionCuentaBanco/${getAyuntamientoId()}/${BancoId}`,data)
   }
 
   //delete
