@@ -1,5 +1,5 @@
 <template>
- <CModal size="xl" :visible="showModal" >
+  <CModal size="xl" :visible="showModal">
     <CModalHeader>
       <CModalTitle>Formulario de empleados</CModalTitle>
     </CModalHeader>
@@ -713,13 +713,12 @@
       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
         Close
       </button>
-      <button type="button" class="btn btn-primary" v-on:click="submitForm">
+      <button type="button" class="btn btn-primary" v-on:click="saveRegistroPersonal">
         Guardar
       </button>
     </div>
- 
- </CModal>
 
+  </CModal>
 </template>
 
 <script>
@@ -727,7 +726,7 @@
 import { CModal } from '@coreui/vue'
 import moment from 'moment'
 export default {
-  name:'RegistroPersonalDialog',
+  name: 'RegistroPersonalDialog',
   components: {
     CModal,
     moment,
@@ -835,16 +834,17 @@ export default {
         correoElectronico2: null,
         recomendadoPor: null,
       },
-    }     
+    }
   },
 
   computed: {
   },
 
   methods: {
-    saveRegistroPersonal(payload) {
-      this.solicitudEmpleo.profesionId = payload.id
-      this.displayNameProfesion = payload.name
+    saveRegistroPersonal() {
+      this.$emit('post-personal', {
+        ...this.solicitudEmpleo
+      })
     },
   },
   computed: {
@@ -853,7 +853,7 @@ export default {
   mounted() {
   },
 
-  props:{
+  props: {
     showModal: Boolean,
   }
 }

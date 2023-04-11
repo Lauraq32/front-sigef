@@ -50,7 +50,7 @@ class RegistroPersonal {
   //post
 
   postEmpleado(data) {
-    return http.post('Empleado', data)
+    return http.post('empleados', data)
   }
 
   postSectores(data) {

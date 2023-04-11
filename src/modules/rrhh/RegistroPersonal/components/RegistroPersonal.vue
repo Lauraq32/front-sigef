@@ -106,7 +106,7 @@
     </template>
   </CSmartTable>
 
-  <RegistroPersonalDialog :showModal="showRegistroPersonalModal"/>
+  <RegistroPersonalDialog :showModal="showRegistroPersonalModal" @post-personal="submitForm"/>
 </template>
 
 <script>
@@ -320,6 +320,10 @@ export default {
       this.validatedCustom01 = true
     },
 
+    savePersonal(payload){
+      console.log(payload)
+    },
+
     getBadge(status) {
       switch (status) {
         case 'Active':
@@ -488,9 +492,9 @@ export default {
       })
     },
 
-    submitForm() {
+    submitForm(payload) {
       if (this.id != null) {
-        Api.putEmpleado(this.id, this.postEmpleado).then((response) => {
+        Api.putEmpleado(this.id, payload).then((response) => {
           this.lgDemo = false
           this.show({
             content: 'Registro actualizado correctamente',
@@ -603,7 +607,7 @@ export default {
       } else {
         setTimeout(this.getRegistroPersonal, 500)
 
-        Api.postEmpleado(this.postEmpleado)
+        Api.postEmpleado(payload)
           .then((response) => {
             this.show({
               content: 'Registro añadido correctamente',
