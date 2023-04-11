@@ -311,15 +311,14 @@ export default {
               variacionResumen: 0,
             })
           })
-          Api.postCargaMasiva(this.presIngrsoMasivo).then((response) => { })
-          Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            text: 'Datos agregados con exito',
-            title: 'Agregado',
-            showConfirmButton: false,
-            timer: 1500,
+          Api.postCargaMasiva(presIngrsoMasivo).then(() => {
+            this.show({
+              content: 'Datos agregados con exito',
+              closable: true,
+            });
+            this.loadData();
           })
+          .catch(this.handlerHttpError.bind(this));
         }
 
         reader.readAsBinaryString(this.file)
