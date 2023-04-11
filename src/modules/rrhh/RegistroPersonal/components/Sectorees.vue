@@ -62,7 +62,7 @@ export default {
     CModal,
     SectoresModal,
   },
-  data: () => {
+  data: function () {
     return {
       sectorId: null,
       newSectorModal: false,

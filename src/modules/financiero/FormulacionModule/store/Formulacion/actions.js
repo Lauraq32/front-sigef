@@ -1,6 +1,5 @@
-import axios from 'axios'
+import { getAyuntamientoId, getFiscalYearId } from '@/utils/logged-info'
 import Api from '../../services/FormulacionServices'
-const user = JSON.parse(localStorage.getItem('usuario'))
 
 export const getClasificadores = async ({ commit }) => {
   Api.getListarClasificadores().then((response) => {
@@ -31,8 +30,8 @@ export const getEstructurasProgramaticas = async ({ commit }) => {
 
 export const getProyectos = async ({ commit }) => {
   Api.getListarProyecto(
-    user?.currentFiscalYearId,
-    user?.user.ayuntamiento.id,
+    getFiscalYearId(),
+    getAyuntamientoId(),
   ).then((response) => {
     commit('SET_PROYECTOS', response.data)
   })

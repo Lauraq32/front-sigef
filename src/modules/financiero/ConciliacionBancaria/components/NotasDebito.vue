@@ -335,14 +335,14 @@ export default {
     CModal,
       
   },
-  data: () => {
+  data: function () {
     return {
       lgDemo3: false,
       nombreCuenta: '',
       DepositoList: [],
       Bancos: [],
       postDepositos: {
-        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+        ayuntamientoId: this.$ayuntamientoId,
         bancoId: 1,
         ctgCuenta: null,
         secuencial: 1,
@@ -442,7 +442,7 @@ export default {
     },
     clearModal1() {
       this.postDepositos = {
-        ayuntamientoId: localStorage.getItem('id_Ayuntamiento'),
+        ayuntamientoId: this.$ayuntamientoId,
         bancoId: null,
         secuencial: 1,
         documento: '',

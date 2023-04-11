@@ -1,12 +1,10 @@
 import http from '@/Api/http-common'
+import { getAyuntamientoId, getFiscalYearId } from '@/utils/logged-info'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-const user = JSON.parse(localStorage.getItem('usuario'))
 class FormulacionApi {
   downloadIngreso() {
     return http.get(
-      `ExportFile/IngresoFormulacion?ayuntamientoId=${localStorage.getItem(
-        'id_Ayuntamiento',
-      )}&anioFiscalId=${localStorage.getItem('ano')}`,
+      `ExportFile/IngresoFormulacion?ayuntamientoId=${getAyuntamientoId()}&anioFiscalId=${getFiscalYearId()}`,
     )
   }
 
@@ -60,11 +58,7 @@ class FormulacionApi {
 
   getDetalle(id) {
     return http.get(
-      `PresGasto/GetDetallePresGastobyIdAsync/${id}?anio=${
-        user?.currentFiscalYearId
-      }&AyuntamientoId=${
-        user?.user.ayuntamiento.id
-      }`,
+      `PresGasto/Detalle/${id}?anio=${ getFiscalYearId() }&ayuntamientoId=${ getAyuntamientoId() }`,
     )
   }
 
@@ -111,97 +105,46 @@ class FormulacionApi {
   }
 
 
-  getListarGastos(id) {
+  getListarGastos() {
     return http.get(
       `PresGasto?anio=${
-        user?.user.ayuntamiento.id
+        getFiscalYearId()
       }&ayuntamientoId=${
-        user?.currentFiscalYearId
+        getAyuntamientoId()
       }`,
     )
   }
 
   getListarGastosById(id) {
-    return http.get(
-      `PresGasto?anio=${
-        user?.user.ayuntamiento.id
-      }&ayuntamientoId=${
-        user?.currentFiscalYearId
-      }`,
+    return http.get(`PresGasto/${id}?anio=${ getFiscalYearId() }&ayuntamientoId=${ getAyuntamientoId() }`,
     )
   }
 
   postGastos(post) {
-    return http.post(`PresGasto`, post).catch((error) => {
-      Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        text: error.response.data.detail,
-        title: 'Error',
-        showConfirmButton: false,
-        timer: 1500,
-      })
-    })
+    return http.post(`PresGasto`, post)
   }
 
   postCargaMasiva(post) {
-    return http.post(`UploadFile/PresIngreso`, post).catch((error) => {
-      Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        text: error.response.data.detail,
-        title: 'Error',
-        showConfirmButton: false,
-        timer: 1500,
-      })
-    })
+    return http.post(`UploadFile/PresIngreso`, post)
   }
 
   postCargaMasivaCabecera(post) {
-    return http.post(`UploadFile/PresGasto`, post).catch((error) => {
-      Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        text: error.response.data.detail,
-        title: 'Error',
-        showConfirmButton: false,
-        timer: 1500,
-      })
-    })
+    return http.post(`UploadFile/PresGasto`, post)
   }
 
   postCargaMasivaDetalle(post) {
-    return http.post(`UploadFile/PresGasto/Detalle`, post).catch((error) => {
-      Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        text: error.response.data.detail,
-        title: 'Error',
-        showConfirmButton: false,
-        timer: 1500,
-      })
-    })
+    return http.post(`UploadFile/PresGasto/Detalle`, post)
   }
 
   cargarEstructuras() {
     return http
       .post(
-        `PresGasto?anio=${
-          user?.user.ayuntamiento.id
+        `PresGasto/InsertPresGasto?anio=${
+          getFiscalYearId()
         }&ayuntamientoId=${
-          user?.currentFiscalYearId
+          getAyuntamientoId()
         }`,
       )
-      .catch((error) => {
-        Swal.fire({
-          position: 'top-end',
-          icon: 'error',
-          text: error.response.data.detail,
-          title: 'Error',
-          showConfirmButton: false,
-          timer: 1500,
-        })
-      })
   }
 
   postDetalleGasto(post) {

@@ -17,16 +17,19 @@ import FacturacionCobrosModule from '../modules/financiero/FacturacionCobrosModu
 import CuentasPorPagarModule from '../modules/financiero/CuentasPorPagarModule/router'
 import ProcesoCompras from '../modules/Compras/ProcesoCompras/router'
 import PlanAnual from '../modules/Compras/PlanAnual/router'
+import { isAuthenticated } from '@/utils/logged-info'
 
 const routes = [
   {
     path: '/Home',
     name: 'home',
+    meta: { label: 'SIGEF' },
     component: DefaultLayout,
     children: [
       {
         path: '/dashboard',
         name: 'Dashboard',
+        meta: { label: 'Dashboard' },
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -36,6 +39,7 @@ const routes = [
       {
         path: '/home',
         name: 'home',
+        meta: { label: 'Home' },
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -45,6 +49,7 @@ const routes = [
       {
         path: '/financiero',
         name: 'financiero',
+        meta: { label: 'Financiero' },
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -54,6 +59,7 @@ const routes = [
       {
         path: '/compras',
         name: 'compras',
+        meta: { label: 'Compras' },
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -63,6 +69,7 @@ const routes = [
       {
         path: '/rrhh',
         name: 'RRHH',
+        meta: { label: 'RRHH' },
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -72,6 +79,7 @@ const routes = [
       {
         path: '/administrativo',
         name: 'Administrativo',
+        meta: { label: 'Administrativo' },
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -122,15 +130,15 @@ const routes = [
       },
       {
         path: '/CuentasPorPagarModule',
-        ...CuentasPorPagarModule
+        ...CuentasPorPagarModule,
       },
       {
         path: '/ProcesoCompras',
-        ...ProcesoCompras
+        ...ProcesoCompras,
       },
       {
         path: '/PlanAnual',
-        ...PlanAnual
+        ...PlanAnual,
       },
       {
         path: '/theme',
@@ -415,6 +423,14 @@ const router = createRouter({
     // always scroll to top
     return { top: 0 }
   },
+})
+
+router.beforeEach((to, _, next) => {
+  if (to.name !== 'Login' && !isAuthenticated()) {
+    return next({ name: 'Login' })
+  }
+
+  next()
 })
 
 export default router
