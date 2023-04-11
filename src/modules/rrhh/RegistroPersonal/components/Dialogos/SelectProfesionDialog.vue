@@ -51,8 +51,6 @@ export default {
           sorter: false,
         },
       ],
-
-      details: [],
     }
   },
 

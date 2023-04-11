@@ -75,7 +75,6 @@
                     <CIcon icon="cisSearch" size="xl" v-on:click="openProfesionModal" />
                   </span>
                 </div>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="6">
                 <CFormLabel for="posicionId">Posición solicitada</CFormLabel>
@@ -175,6 +174,7 @@ export default {
 
   data: function () {
     return {
+      validatedCustom01: null,
       displayNameProfesion: '',
       showProfessionModal: false,
       solicitudEmpleo: {
@@ -202,6 +202,7 @@ export default {
   },
 
   methods: {
+
     closeProfesionModal(payload) {
       console.log('hola')
       this.showProfessionModal = payload
@@ -213,17 +214,23 @@ export default {
     closeModal() {
       this.$emit('closeModal')
       this.clearForm()
-      //this.showModal = false
     },
-    saveReclutamiento() {
-      this.$emit('post-reclutamiento', { 
-        ...this.solicitudEmpleo,
-        evaluado: this.solicitudEmpleo.evaluado === 'Si',
-        entrevistado: this.solicitudEmpleo.entrevistado === 'Si',
-        descalificado: this.solicitudEmpleo.descalificado === 'Si'
-      })
-      this.clearForm()
-      solicitudEmpleoId = null
+    saveReclutamiento(event) {
+      const form = event.currentTarget
+      if (form.checkValidity() === false) {
+        this.$emit('post-reclutamiento', {
+          ...this.solicitudEmpleo,
+          evaluado: this.solicitudEmpleo.evaluado === 'Si',
+          entrevistado: this.solicitudEmpleo.entrevistado === 'Si',
+          descalificado: this.solicitudEmpleo.descalificado === 'Si'
+        })
+        this.clearForm()
+        solicitudEmpleoId = null
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      this.validatedCustom01 = true
+
     },
     clearForm() {
 

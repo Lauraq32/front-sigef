@@ -32,12 +32,12 @@
     </template>
     <template #entrevistado="{ item, index }">
       <td class="py-2">
-        {{ item.entrevistado == true ? 'No' : 'Si' }}
+        {{ item.entrevistado === true ? 'No' : 'Si' }}
       </td>
     </template>
     <template #evaluado="{ item, index }">
       <td class="py-2">
-        {{ item.evaluado == true ? 'No' : 'Si' }}
+        {{ item.evaluado === true ? 'No' : 'Si' }}
       </td>
     </template>
 
