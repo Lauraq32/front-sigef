@@ -23,7 +23,7 @@
     :columns="columns"
     columnFilter
     columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
+    :sorterValue="{ column: 'nombre', state: 'asc' }"
   >
   </CSmartTable>
 </template>
@@ -44,7 +44,6 @@ export default {
       columns: [
         { key: 'nombre', label: 'Tipo de Sangre', _style: { width: '40%' } },
       ],
-      details: [],
     }
   },
   methods: {
