@@ -45,8 +45,21 @@ class RegistroPersonal {
     )
   }
 
-  getAreaTrabajo() {
-    return http.get('AreaTrabajo')
+  //AREA TRABAJO
+  getAreaTrabajos() {
+    return http.get('areas-trabajo')
+  }
+
+  getAreaTrabajoById(id) {
+    return http.get(`areas-trabajo/${id}`)
+  }
+
+  addAreaTrabajo(data) {
+    return http.post('areas-trabajo', data)
+  }
+
+  updateAreaTrabajo(id, data) {
+    return http.put(`areas-trabajo/${id}`, data)
   }
 
   //Combobox cargo
@@ -54,9 +67,6 @@ class RegistroPersonal {
     return http.get('Posicion')
   }
 
-  getAreaTrabajobyid(id) {
-    return http.get(`AreaTrabajo/${id}`)
-  }
   //post
 
   postEmpleado(data) {
