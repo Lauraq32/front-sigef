@@ -133,7 +133,7 @@ export default {
       postIngreso: {
         anioFiscalId: this.$fiscalYearId,
         ayuntamientoId: this.$ayuntamientoId,
-        ctgClasificadorId: null,
+        ctgClasificadorId: '',
         instOtorga: 0,
         ctaControl: 0,
         detalle: '',
@@ -359,7 +359,6 @@ export default {
         ingresos: 0,
         variacionResumen: 0,
       };
-      console.log("cambio")
     },
 
     onCloseFormulacionDialog(data) {
@@ -394,7 +393,7 @@ export default {
             });
             
             this.loadData();
-            this.cleanModalData();
+            setTimeout(() => this.cleanModalData(), 500);
 
             return response;
           });

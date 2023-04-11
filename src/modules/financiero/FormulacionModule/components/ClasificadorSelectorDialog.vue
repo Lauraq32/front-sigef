@@ -56,7 +56,7 @@
   </CModal>
 </template>
 <script setup>
-import { ref, watchEffect } from 'vue'
+import { ref, watchEffect, watch } from 'vue'
 import Api from '../services/FormulacionServices'
 
 import { CSmartTable } from '@coreui/vue-pro'
@@ -113,14 +113,15 @@ watchEffect(() => {
         isLoading.value = false
       })
   }
-  
-  console.log({ term: props.term, isVisible: props.isVisible });
-  // autoSelectClasificator(props.term);
 });
+
+watchEffect(() => {
+  autoSelectClasificator(props.term);
+}, {flush: 'async'});
 
 // if the typed clasificator is found is auto filled and the dialog is closed
 function autoSelectClasificator(term) {
-  if (allClasificator.value.length) {
+  if (allClasificator.value.length && term) {
       const found = clasificadores.value.find(
         (clasificador) => clasificador.clasifica == term,
       )

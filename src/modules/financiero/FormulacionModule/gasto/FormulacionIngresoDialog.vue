@@ -14,7 +14,7 @@
                 <CCol :md="3">
                     <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
                     <div class="position-relative">
-                        <input ref="clasificatorField" required v-on:keyup.enter="findClasificador"
+                        <input ref="clasificatorField" required @keyup.enter.prevent="findClasificador"
                             class="form-control padding-input" v-model="formulacionIngreso.ctgClasificadorId" type="number"
                             id="clasifica" />
                         <span class="position-absolute icon-input">
@@ -158,7 +158,9 @@ const submitForm = () => {
 
 const selectClasificator = (clasificador) => {
     if (clasificador) {
-        props.formulacionIngreso.ctgClasificadorId = clasificador.clasifica;
+        if (!props.formulacionIngreso.ctgClasificadorId) {
+            props.formulacionIngreso.ctgClasificadorId = clasificador.clasifica
+        }
         props.formulacionIngreso.ctaControl = clasificador.cControl;
         props.formulacionIngreso.detalle = clasificador.nombre;
         props.formulacionIngreso.ctgFuenteId = clasificador.ctgFuenteId;
@@ -173,7 +175,7 @@ const selectClasificator = (clasificador) => {
 }
 
 const findClasificador = () => {
-    if (clasificatorField.value.length !== 6) {
+    if (clasificatorField.value.value.length !== 6) {
         showFindClasificadorModal.value = true;
     }
 }
