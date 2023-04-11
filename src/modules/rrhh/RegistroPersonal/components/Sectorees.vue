@@ -7,7 +7,7 @@
         color="info"
         @click="
           () => {
-            lgDemo = true
+            newSectorModal = true
           }
         "
         >Agregar</CButton
@@ -15,7 +15,8 @@
     </div>
   </div>
   <hr />
-  <CSmartTable class="sticky-top"
+  <CSmartTable
+    class="sticky-top"
     clickableRows
     :tableProps="{
       striped: true,
@@ -25,123 +26,47 @@
     :activePage="1"
     :footer="footerItem"
     header
-    :items="sectores"
+    :items="Sectores"
     :columns="columns"
     columnFilter
     itemsPerPageSelect
     :itemsPerPage="5"
     columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
+    :sorterValue="{ column: 'nombre', state: 'asc' }"
     pagination
   >
-    <template #status="{ item }">
-      <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
-      </td>
-    </template>
-    <template #show_details="{ item }">
-      <td class="py-1">
-        <CButton
-          class="mt-1"
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
-        </CButton>
-      </td>
-      <td class="py-1">
-        <CButton
-          class="mt-1"
-          color="danger"
-          variant="outline"
-          square
-          size="sm"
-          @click="deleteSec(item)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
-        </CButton>
+  <template #show_details="{ item }">
+      <td class="py-2">
+        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="editSector(item)">Editar</CButton>
       </td>
     </template>
   </CSmartTable>
-  <CModal
-    size="md"
-    :visible="lgDemo"
-    @close="
-      () => {
-        lgDemo = false
-      }
-    "
-  >
-    <CModalHeader>
-      <CModalTitle>Sectores</CModalTitle>
-    </CModalHeader>
-    <CModalBody>
-      <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
-          <CCol :md="12">
-            <CFormLabel for="validationCustom02">Sectores</CFormLabel>
-            <CFormInput
-              v-model="postSectores.nombre"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-              v-on:click="close"
-            >
-              Cerrar
-            </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="submitForm">
-              Guardar
-            </button>
-          </div>
-        </CForm>
-      </CCardBody>
-    </CModalBody>
-  </CModal>
+  <SectoresModal
+    :newSectorModal="newSectorModal"
+    @close-modal="closeModal"
+    @post-sector="saveSector"
+    :sectorId="sectorId"
+  />
 </template>
 
 <script>
-import { useRegistroStore } from '../store/RegistroPersonal/sectores'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
-import { mapStores } from 'pinia'
-import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
+import { useToastStore } from '@/store/toast'
+import SectoresModal from '../Dialogos/SectoresModal.vue'
 import Api from '../services/RegistroPersonalServices'
 export default {
   components: {
     CSmartTable,
     CModal,
+    SectoresModal,
   },
   data: () => {
     return {
-      postSectores: {
-        id: 0,
-        nombre: null,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
-        ayuntamiento: {
-          id: 0,
-          secuencial: 0,
-          codigo: null,
-          descripcion: null,
-        },
-      },
+      sectorId: null,
+      newSectorModal: false,
+      Sectores: [],
       columns: [
         { key: 'nombre', label: 'Sectores', _style: { width: '90%' } },
         {
@@ -150,142 +75,83 @@ export default {
           _style: { width: '1%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
-      details: [],
-      validatedCustom01: null,
-      lgDemo: false,
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+      ],
     }
   },
-  computed: {
-    ...mapStores(useRegistroStore),
-    ...mapState(useRegistroStore, ['sectores']),
+  watch: {
+    // sector() {
+    //   this.getAllSectores()
+    // },
+    newSectorModal(){
+      this.getAllSectores()
+    }
   },
   methods: {
-    ...mapActions(useRegistroStore, ['getSectore', 'addSectores']),
-    close() {
-      this.lgDemo = false
+    ...mapActions(useToastStore, ['show']),
+    closeModal() {
+      this.newSectorModal = false
     },
-    toggleDetails(item) {
-      if (item.sectores !== 0 || item.variacion !== 0) {
-        this.formuladoValue = true
-      } else {
-        this.formuladoValue = false
-      }
-      this.edit = true
-      this.lgDemo = true
-
-      Api.getSectorbyid(item.id).then((response) => {
-        this.postSectores = response.data.data
-        this.id = item.id
-      })
+    editSector(item) {
+      this.sectorId = item.id
+      this.newSectorModal = true
     },
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
-    },
-    submitForm() {
-      if (this.id) {
-        Api.putSector(this.id, this.postSectores).then((response) => {
-          this.lgDemo = false
-          this.show({
-            content: response.data.message,
-            closable: true,
-            color: 'success',
-          })
-          setTimeout(this.getSectore, 500)
-          this.postSectores = {
-            id: 0,
-            nombre: null,
-            variacion: 0,
-            ayuntamientoId: 0,
-            ayuntamiento: {
-              id: 0,
-              secuencial: 0,
-              codigo: null,
-              descripcion: null,
-            },
-          }
-        })
-        setTimeout(this.getSectore, 500)
-      } else {
-        Api.postSectores(this.postSectores)
-          .then((response) => {
-                 this.show({
-              content: 'Registro añadido correctamente',
-              closable: true,
-            })
-          })
-           .catch((error) => {
+    saveSector(payload) {
+      if (this.sectorId != null) {
+        Api.updateSectores(this.sectorId, payload)
+          .then(() => {
             this.show({
-              content: 'Error al enviar el formulario',
+              content: 'Registro actualizado correctamente',
+              closable: true,
+              life: 7_500,
+            })
+            setTimeout(() => this.getAllSectores(), 200)
+          })
+          .catch((error) => {
+            return this.show({
+              content: error.response.data,
               closable: true,
               color: 'danger',
-              class: 'text-white',
             })
           })
-        this.lgDemo = true
-        setTimeout(this.getSectore, 500)
-        ;(this.postSectores = {
-          id: 0,
-          nombre: null,
-          ayuntamientoId: 0,
-          ayuntamiento: {
-            id: 0,
-            secuencial: 0,
-            codigo: null,
-            descripcion: null,
-          },
-        }),
-          (this.validatedCustom01 = false)
-        event.preventDefault()
-        event.stopPropagation()
-        setTimeout(this.getSectore, 500)
+      } else {
+        Api.addSectores(payload)
+          .then(() => {
+            this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
+              life: 7_500,
+            })
+            setTimeout(() => this.getAllSectores(), 200)
+           
+          })
+          .catch((error) => {
+            return this.show({
+              content: error.response.data,
+              closable: true,
+              color: 'danger',
+            })
+          })
       }
     },
-    deleteSec(item) {
-      Api.deleteSector(item.id)
-        .then((response) => {
-          this.$swal({
-            position: 'top-end',
-            icon: 'success',
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
-          })
-        })
-        .catch((error) => {
-          this.$swal({
-            position: 'top-end',
-            icon: 'error',
-            title: error.message,
-            showConfirmButton: false,
-            timer: 1500,
-          })
-        })
+    getAllSectores() {
+      Api.getAllSectores().then((response) => {
+        this.Sectores = response.data.data
+        this.footerItem[0] = `Total Items ${response.data.data.length}`
+      })
     },
   },
   mounted() {
-    this.getSectore()
+    this.getAllSectores()
   },
 }
 </script>
