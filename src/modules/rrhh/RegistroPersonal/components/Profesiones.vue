@@ -14,9 +14,7 @@
       >
     </div>
     <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-        >Imprimir</CButton
-      >
+      <CButton color="info">Imprimir</CButton>
     </div>
   </div>
   <hr />
@@ -36,32 +34,13 @@
     columnFilter
     itemsPerPageSelect
     :itemsPerPage="5"
-    :sorterValue="{ column: 'status', state: 'asc' }"
+    :sorterValue="{ column: 'name', state: 'asc' }"
     pagination
   >
-    <template #status="{ item }">
-      <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
-      </td>
-    </template>
-    <template #show_details="{ item, index }">
+    <template #show_details="{ item }">
       <td class="py-2">
-        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="getProfesionById(item)">
-            {{  'Editar' }}
-          </CButton>
+        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="editProfesion(item)">Editar</CButton>
       </td>
-    </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
     </template>
   </CSmartTable>
   <ProfesionesDialogs
@@ -104,21 +83,11 @@ export default {
         {
           label: 'Total Items',
           _props: {
-            color: '',
-            colspan: 1,
-            style: 'font-weight:bold;',
-          },
-        },
-        {
-          label: 'total profesiones',
-          _props: {
-            color: '',
             colspan: 1,
             style: 'font-weight:bold;',
           },
         },
       ],
-      details: [],
     }
   },
   watch: {
@@ -128,21 +97,21 @@ export default {
   },
   methods: {
     ...mapActions(useToastStore, ['show']),
-    closeModal(payload) {
-      this.newProfesionesModal = payload
+    closeModal() {
+      this.newProfesionesModal = false
     },
-    getProfesionById(item) {
+    editProfesion(item) {
       this.profesionId = item.id
       this.newProfesionesModal = true
     },
     saveProfesion(payload) {
       if (this.profesionId != null) {
         Api.updateProfesion(this.profesionId, payload)
-          .then((response) => {
+          .then(() => {
             this.show({
               content: 'Registro actualizado correctamente',
               closable: true,
-              life: 15000,
+              life: 7_500,
             })
             setTimeout(() => this.getAllProfesiones(), 200)
           })
@@ -157,11 +126,11 @@ export default {
           })
       } else {
         Api.addProfesion(payload)
-          .then((response) => {
+          .then(() => {
             this.show({
               content: 'Registro añadido correctamente',
               closable: true,
-              life: 15000,
+              life: 7_500,
             })
             setTimeout(() => this.getAllProfesiones(), 200)
           })
@@ -178,8 +147,8 @@ export default {
     },
     getAllProfesiones() {
       Api.getProfesion().then((response) => {
-        this.profesiones = response.data.data
-        this.footerItem[1] = response.data.data.length
+        this.profesiones = response.data.data;
+        this.footerItem[0] = `Total Items ${response.data.data.length}`;
       })
     },
   },

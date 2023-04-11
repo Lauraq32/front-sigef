@@ -1,5 +1,5 @@
 <template>
-  <CModal size="md" :visible="newProfesionesModal" backdrop="static">
+  <CModal :visible="newProfesionesModal" backdrop="static" style="width: 25%">
     <CModalHeader>
       <CModalTitle>Profesiones</CModalTitle>
     </CModalHeader>
@@ -8,34 +8,34 @@
         <CForm
           class="row g-3 needs-validation"
           novalidate
-          :validated="validatedCustom01"
-          @submit=""
+          :validated="profesionFormValidated"
+          ref="formRef"
         >
           <CCol :md="12">
             <CFormLabel for="validationCustom04">Profesión</CFormLabel>
-            <CFormInput v-model="profesionObject.name" id="validationCustom04"> </CFormInput>
+            <CFormInput required v-model="profesionObject.name" id="validationCustom04"> </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-              @click="closeModal"
-            >
-              Cerrar
-            </button>
-            <button class="btn btn-info btn-block mt-1" @click="saveProfesion">
-              Guardar
-            </button>
-          </div>
         </CForm>
       </CCardBody>
     </CModalBody>
+    <CModalFooter>
+      <CButton
+        color="secondary"
+        data-bs-dismiss="modal"
+        @click="closeModal"
+      >
+        Cerrar
+      </CButton>
+      <CButton 
+        color="primary" @click="saveProfesion">
+        Guardar
+      </CButton>
+    </CModalFooter>
   </CModal>
 </template>
 <script>
-import { CSmartTable } from '@coreui/vue-pro'
+import { CModalFooter, CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/RegistroPersonalServices'
 
@@ -44,10 +44,12 @@ export default {
   components: {
     CSmartTable,
     CModal,
-  },
+    CModalFooter
+},
 
   data: function () {
     return {
+      profesionFormValidated: false,
       profesionObject: {
         name: '',
       },
@@ -56,17 +58,16 @@ export default {
 
   methods: {
     closeModal() {
-      this.$emit('close-modal', false)
-      this.newProfesionesModal = false
+      this.$emit('close-modal');
     },
     saveProfesion() {
-      this.$emit('post-profesiones', this.profesionObject)
-      this.clearForm()
-    },
-    getProfesionByIds(id) {
-      Api.getProfesionById(id).then((response) => {
-        this.profesionObject = response.data.data
-      })
+      this.profesionFormValidated = false;
+      if (this.$refs.formRef.$el.checkValidity()) {
+        this.$emit('post-profesiones', { ...this.profesionObject })
+        this.clearForm()
+        return;
+      }
+      this.profesionFormValidated = true;
     },
     clearForm() {
       this.profesionObject = {
@@ -78,14 +79,17 @@ export default {
   watch: {
     profesionId(newId) {
       if (newId) {
-        this.getProfesionByIds(newId)
+        Api.getProfesionById(newId)
+        .then((response) => {
+          this.profesionObject = response.data.data
+        });
       }
     },
   },
 
   props: {
     newProfesionesModal: Boolean,
-    profesionId: null
+    profesionId: Number
   },
 }
 </script>
