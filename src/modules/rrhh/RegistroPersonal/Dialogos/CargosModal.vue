@@ -1,7 +1,7 @@
 <template>
     <CModal
     size="md"
-    :visible="showCargoModal"
+    :visible="cargoModal"
     backdrop="static"
   >
     <CModalHeader>
@@ -17,9 +17,9 @@
         >
           <CCol :md="12">
             <CFormLabel for="validationCustomUsername"
-              >Posicion o cargo</CFormLabel
+              >Posici&oacute;n o cargo</CFormLabel
             >
-            <CFormInput v-model="cargosObject.posicion" id="validationCustom04"> </CFormInput>
+            <CFormInput v-model="cargo.posicion" id="validationCustom04"> </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <div class="modal-footer">
@@ -54,7 +54,7 @@ export default {
 
   data: function () {
     return {
-        cargosObject: {
+        cargo: {
             posicion: '',
         },
     }
@@ -62,13 +62,13 @@ export default {
 
   methods: {
     saveCargo() {
-      this.$emit('post-cargo', this.cargosObject)
+      this.$emit('post-cargo', this.cargo)
       this.clearForm()
       this.onClick()
     },
 
     clearForm() {
-      this.cargosObject = {
+      this.cargo = {
         posicion: '',
       }
     },
@@ -76,18 +76,18 @@ export default {
     onClick() {
       this.$emit('close-modal', false)
       this.clearForm()
-      this.showCargoModal = false
+      this.cargoModal = false
     },
 
     getCargosByIds(id) {
       Api.getCargobyid(id).then((response) => {
-        this.cargosObject = response.data.data
+        this.cargo = response.data.data
       })
     },
   },
 
   watch: {
-    cargosId(newId) {
+    cargoId(newId) {
       if (newId) {
         this.getCargosByIds(newId)
       }
@@ -95,8 +95,8 @@ export default {
   },
 
   props: {
-    showCargoModal: Boolean,
-    cargosId: null
+    cargoModal: Boolean,
+    cargoId: null
   },
 }
 </script>

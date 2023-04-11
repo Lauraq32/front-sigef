@@ -14,7 +14,7 @@
       >
     </div>
     <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
+      <CButton style="font-weight: bold" color="info"
         >Imprimir</CButton
       >
     </div>
@@ -32,48 +32,25 @@
     header
     :items="cargos"
     :columns="columns"
+    :footer="footerItem"
     columnFilter
     itemsPerPageSelect
     :itemsPerPage="5"
     columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
+    :sorterValue="{ column: 'posicion', state: 'asc' }"
     pagination
   >
-    <template #status="{ item }">
-      <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
-      </td>
-    </template>
-    <template #show_details="{ item, index }">
+  <template #show_details="{ item }">
       <td class="py-2">
-        <CDropdown>
-          <CDropdownToggle color="primary" variant="outline"
-            >Acciones</CDropdownToggle
-          >
-          <CDropdownMenu>
-            <CDropdownItem @click="getCargosById(item)">Editar</CDropdownItem>
-          </CDropdownMenu>
-        </CDropdown>
+        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="getCargosById(item)">Editar</CButton>
       </td>
-    </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
     </template>
   </CSmartTable>
   <CargosModal
-    :showCargoModal="cargoModal"
+    :cargoModal="cargoModal"
     @close-modal="closeModal"
     @post-cargo="saveCargo"
-    :cargosId="cargosId"
+    :cargoId="cargoId"
   />
 </template>
 <script>
@@ -91,15 +68,13 @@ export default {
   },
   data: () => {
     return {
-      cargosId: null,
+      cargoId: null,
       cargos: [],
       cargoModal: false,
-      validatedCustom01: null,
-      lgDemo: false,
       columns: [
         {
           key: 'posicion',
-          label: 'Posicion o cargo',
+          label: 'Posición o cargo',
           _style: { width: '40%' },
         },
         {
@@ -108,10 +83,17 @@ export default {
           _style: { width: '1%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
-      details: [],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+      ],
     }
   },
   watch: {
@@ -125,13 +107,13 @@ export default {
       this.cargoModal = payload
     },
     getCargosById(item) {
-      this.cargosId = item.id
+      this.cargoId = item.id
       this.cargoModal = true
     },
     saveCargo(payload) {
-      if (this.cargosId != null) {
-        Api.updateCargo(this.cargosId, payload)
-          .then((response) => {
+      if (this.cargoId != null) {
+        Api.updateCargo(this.cargoId, payload)
+          .then(() => {
             this.show({
               content: 'Registro actualizado correctamente',
               closable: true,
@@ -139,18 +121,16 @@ export default {
             })
             setTimeout(() => this.getAllCargo(), 200)
           })
-          .catch((errors) => {
-            errors.response.data.errors.map((error) => {
-              return this.show({
-                content: error.message,
-                closable: true,
-                color: 'danger',
-              })
+          .catch((error) => {
+            return this.show({
+              content: error.response.data,
+              closable: true,
+              color: 'danger',
             })
           })
       } else {
         Api.addCargos(payload)
-          .then((response) => {
+          .then(() => {
             this.show({
               content: 'Registro añadido correctamente',
               closable: true,
@@ -158,13 +138,11 @@ export default {
             })
             setTimeout(() => this.getAllCargo(), 200)
           })
-          .catch((errors) => {
-            errors.response.data.errors.map((error) => {
-              return this.show({
-                content: error.message,
-                closable: true,
-                color: 'danger',
-              })
+          .catch((error) => {
+            return this.show({
+              content: error.response.data,
+              closable: true,
+              color: 'danger',
             })
           })
       }
@@ -172,6 +150,7 @@ export default {
     getAllCargo() {
       Api.getAllCargos().then((response) => {
         this.cargos = response.data.data
+        this.footerItem[0] = `Total Items ${response.data.data.length}`
       })
     },
   },
