@@ -140,6 +140,7 @@
             <CButton color="primary" @click="guardarFormulacionGasto">Guardar</CButton>
         </CModalFooter>
     </CModal>
+
     <GastoDetalleDialog 
         :isVisible="showDetailDialog"
         @close="onDetailDialogClose"
