@@ -9,7 +9,6 @@
       <CModalHeader>
         <CModalTitle>Clasificadores</CModalTitle>
       </CModalHeader>
-      <CCardBody>
         <div
           v-if="isLoading"
           class="d-flex p-4 align-items-center justify-content-center w-100"
@@ -30,8 +29,8 @@
           :items="clasificadores"
           :columns="columns"
           itemsPerPageSelect
-          :itemsPerPage="10"
-          :items-per-page-options="[10, 20, 50, 100, 150]"
+          :itemsPerPage="5"
+          :items-per-page-options="[5, 10, 20]"
           columnSorter
           :sorterValue="{ column: 'status', state: 'asc' }"
           pagination
@@ -53,7 +52,6 @@
             </td>
           </template>
         </CSmartTable>
-      </CCardBody>
     </CModalBody>
   </CModal>
 </template>
@@ -103,33 +101,32 @@ const closeDialog = (data) => {
 }
 
 watchEffect(() => {
-  if (props.isVisible && allClasificator.value.length === 0) {
+  if (allClasificator.value.length === 0) {
     Api.getListarClasificadores()
       .then((response) => {
         allClasificator.value = response.data.data
         clasificadores.value = allClasificator.value.filter(props.filtered)
-
-        const found = clasificadores.value.find(
-          (clasificador) => clasificador.clasifica == props.term,
-        )
-        if (found) {
-          closeDialog(found)
-        }
-        isLoading.value = false
+        isLoading.value = false;
+        autoSelectClasificator(props.term);
       })
       .catch(() => {
         isLoading.value = false
       })
   }
+  
+  console.log({ term: props.term, isVisible: props.isVisible });
+  // autoSelectClasificator(props.term);
+});
 
-  if (props.isVisible && allClasificator.value.length > 0) {
-    clasificadores.value = allClasificator.value.filter(props.filtered)
-    const found = clasificadores.value.find(
-      (clasificador) => clasificador.clasifica == props.term,
-    )
-    if (found) {
-      closeDialog(found)
+// if the typed clasificator is found is auto filled and the dialog is closed
+function autoSelectClasificator(term) {
+  if (allClasificator.value.length) {
+      const found = clasificadores.value.find(
+        (clasificador) => clasificador.clasifica == term,
+      )
+      if (found) {
+        closeDialog(found);
+      }
     }
-  }
-})
+}
 </script>
