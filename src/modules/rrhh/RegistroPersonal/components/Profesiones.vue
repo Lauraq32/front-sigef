@@ -124,7 +124,6 @@ export default {
             setTimeout(() => this.getAllProfesiones(), 200)
           })
           .catch((error) => {
-            console.log(error);
             return this.show({
               content: error.response.data,
               closable: true,
@@ -141,10 +140,9 @@ export default {
             })
             setTimeout(() => this.getAllProfesiones(), 200)
           })
-          .catch((errors) => {
-            console.log(errors);
+          .catch((error) => {
             return this.show({
-              content: errors.message,
+              content: error.response.data,
               closable: true,
               color: 'danger',
             })
