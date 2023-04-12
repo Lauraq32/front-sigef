@@ -23,11 +23,12 @@ axiosInstance.interceptors.request.use((config) => {
 
 axiosInstance.interceptors.response.use(
   (response) => response,
-  ({response}) => {
-    if (response.status === 401) {
+  (error) => {
+    if (error?.response?.status === 401) {
       router.push({ name: "Login", replace: true})
       .catch(console.error);
     }
+    return Promise.reject(error);
   }
 );
 

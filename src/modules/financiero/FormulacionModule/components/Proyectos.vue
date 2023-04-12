@@ -164,7 +164,7 @@ export default {
         { key: 'descripcion', label: 'Descripción', _style: { width: '40%' } },
         {
           key: 'fechaIninio',
-          label: 'Fecha de inicio',
+          label: 'Fecha de Inicio',
           _style: { width: '40%' },
         },
         { key: 'fechaFin', label: 'Fecha fin', _style: { width: '40%' } },

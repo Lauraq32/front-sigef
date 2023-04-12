@@ -2,9 +2,9 @@ import http from '@/Api/http-common'
 import { getAyuntamientoId, getFiscalYearId } from '@/utils/logged-info'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 class FormulacionApi {
-  downloadIngreso() {
+  downloadIngreso(ayuntamientoId, anioFiscalId) {
     return http.get(
-      `ExportFile/IngresoFormulacion?ayuntamientoId=${getAyuntamientoId()}&anioFiscalId=${getFiscalYearId()}`,
+      `ExportFile/IngresoFormulacion?ayuntamientoId=${ayuntamientoId}&anioFiscalId=${anioFiscalId}`,
     )
   }
 

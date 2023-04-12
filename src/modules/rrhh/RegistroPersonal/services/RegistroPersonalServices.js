@@ -4,7 +4,7 @@ import { getAyuntamientoId } from '@/utils/logged-info';
 class RegistroPersonal {
   //get
   getAllTipoSangre() {
-    return http.get('TipoSangre')
+    return http.get('tipos-sangre')
   }
 
   getTipoSangreByID(id) {
@@ -13,6 +13,21 @@ class RegistroPersonal {
 
   getSectorbyid(id) {
     return http.get(`Sector / ${id}`)
+  }
+
+  getProfesion() {
+    return http.get('profesiones')
+  }
+
+  addProfesion(data) {
+    return http.post('profesiones',data)
+  }
+  updateProfesion(id, data) {
+    return http.put(`profesiones/${id}`, data)
+  }
+
+  getProfesionById(id) {
+    return http.get(`profesiones/${id}`)
   }
 
   getAllEmpleado() {

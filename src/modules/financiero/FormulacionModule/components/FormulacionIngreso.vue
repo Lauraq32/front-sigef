@@ -349,7 +349,7 @@ export default {
       addbuttonform: {
         label: 'Agregar',
         accion: () => {
-          this.showPartidaPresupuestodeIngresoDialog = true
+          this.lgDemo = true
         },
       },
 

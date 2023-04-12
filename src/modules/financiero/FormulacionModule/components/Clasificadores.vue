@@ -173,14 +173,14 @@ export default {
           sorter: false,
           _style: { width: '5%' },
         },
-        { key: 'cuentaContag', label: 'Cuenta contable' },
+        { key: 'cuentaContag', label: 'Cuenta Contable' },
 
         {
           key: 'ctgFuenteId',
           label: 'Fuente',
           _style: { textAling: 'center' },
         },
-        { key: 'ctgFuenteEspecificaId', label: 'Fuente especifica' },
+        { key: 'ctgFuenteEspecificaId', label: 'Fuente Específica' },
         { key: 'ctgOrganismoFinanciadorId', label: 'Organismo Financiero' },
       ],
       details: [],
