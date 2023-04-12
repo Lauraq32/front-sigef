@@ -1,5 +1,5 @@
 <template>
-  <CModal size="xl" :visible="showModal" @close="closeModal">
+  <CModal size="xl" :visible="showModal" @close="closeModal" backdrop="static">
     <CModalHeader>
       <CModalTitle>Formulario de empleados</CModalTitle>
     </CModalHeader>

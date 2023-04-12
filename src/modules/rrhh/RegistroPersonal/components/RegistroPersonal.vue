@@ -317,11 +317,8 @@ export default {
             this.id = null
           })
           .catch((error) => {
-            console.log(error.response.data.errors)
             this.show({
-              content: error.response.data.errors.map(data => (
-                data.message
-              )),
+              content: error.response.data,
               closable: true,
               color: 'danger',
               class: 'text-white',
