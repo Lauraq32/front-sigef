@@ -3,38 +3,38 @@
 </template>
 
 <script>
-  import Swal from 'sweetalert2/dist/sweetalert2.js'
-  import {useAuthStore} from "@/store/AuthStore"
-  import { mapActions } from 'pinia'
-  import router from '@/router/index'
-  export default {
-    name:"SessionManager",
-    methods: {
-      ...mapActions(useAuthStore, ["signOut"]),
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import { useAuthStore } from "@/store/AuthStore"
+import { mapActions } from 'pinia'
+import router from '@/router/index'
+export default {
+  name: "SessionManager",
+  methods: {
+    ...mapActions(useAuthStore, ["signOut"]),
 
-      handleIdle(){
+    handleIdle() {
 
-        this.signOut().then(() => {
+      this.signOut().then(() => {
 
         Swal.fire({
           position: 'center',
           icon: 'info',
           title: 'Su sesión ha expirado',
           showConfirmButton: true,
-          allowEscapeKey:false,
-          allowOutsideClick:false
+          allowEscapeKey: false,
+          allowOutsideClick: false
         }).then(() => {
-
-          router.push({name:"Login", replace:true})
-        })})
-      }
+          router.push({ name: "Login", replace: true })
+        })
+      })
     }
   }
+}
 
 </script>
 
 <style>
-  .v-idle{
-    visibility: hidden;
-  }
+.v-idle {
+  display: none;
+}
 </style>
