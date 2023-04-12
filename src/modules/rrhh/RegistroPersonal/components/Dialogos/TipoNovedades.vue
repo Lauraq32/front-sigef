@@ -222,12 +222,13 @@ export default {
         })
         .catch(({ response }) => {
           this.show({
-            content: response.data.message,
+            content: response.data,
             closable: true,
             color: 'danger',
             class: 'text-white',
           })
         })
+      setTimeout(this.getTipoAcciones, 500)
     },
 
     clearTipoAccion() {
@@ -236,7 +237,7 @@ export default {
           id: null,
           descripcion: null,
           cambiaStatus: null,
-          estatus: null,
+          estatus: 'Activo',
           comprobado: null,
         })
     },
