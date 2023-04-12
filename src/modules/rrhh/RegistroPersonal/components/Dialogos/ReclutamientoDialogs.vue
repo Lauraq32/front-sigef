@@ -52,7 +52,7 @@
 
               </CCol>
               <CCol :md="6">
-                <CFormLabel for="telefono">Telefono</CFormLabel>
+                <CFormLabel for="telefono">Tel&eacute;fono</CFormLabel>
                 <CFormInput v-model="solicitudEmpleo.telefono" id="telefono" required />
 
               </CCol>
@@ -203,9 +203,8 @@ export default {
 
   methods: {
 
-    closeProfesionModal(payload) {
-      console.log('hola')
-      this.showProfessionModal = payload
+    closeProfesionModal() {
+      this.showProfessionModal = false
     },
     setProfesion(payload) {
       this.solicitudEmpleo.profesionId = payload.id

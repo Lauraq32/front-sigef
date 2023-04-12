@@ -9,9 +9,6 @@
         }
       ">Agregar</CButton>
     </div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReport">Imprimir</CButton>
-    </div>
   </div>
   <CSmartTable class="sticky-top" clickableRows :tableProps="{
     striped: true,
@@ -19,11 +16,6 @@
   }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header :items="solicitudItem" :columns="columns"
     columnFilter itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
     pagination>
-    <template #status="{ item }">
-      <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
-      </td>
-    </template>
     <template #show_details="{ item, index }">
       <td>
         <CButton  @click="getReclutamientoById(item)" color="primary" variant="outline">Editar</CButton>
