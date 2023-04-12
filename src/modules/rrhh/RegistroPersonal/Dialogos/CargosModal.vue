@@ -1,9 +1,5 @@
 <template>
-    <CModal
-    size="md"
-    :visible="cargoModal"
-    backdrop="static"
-  >
+  <CModal size="md" :visible="cargoModal" backdrop="static">
     <CModalHeader>
       <CModalTitle>Cargos</CModalTitle>
     </CModalHeader>
@@ -12,14 +8,15 @@
         <CForm
           class="row g-3 needs-validation"
           novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
+          :validated="cargosFormValidated"
+          ref="formRef"
         >
           <CCol :md="12">
             <CFormLabel for="validationCustomUsername"
               >Posici&oacute;n o cargo</CFormLabel
             >
-            <CFormInput v-model="cargo.posicion" id="validationCustom04"> </CFormInput>
+            <CFormInput required v-model="cargo.posicion" id="validationCustom04">
+            </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <div class="modal-footer">
@@ -27,7 +24,7 @@
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
-              @click="onClick"
+              @click="closeModalCargo"
             >
               Cerrar
             </button>
@@ -46,25 +43,30 @@ import { CModal } from '@coreui/vue'
 import Api from '../services/RegistroPersonalServices'
 
 export default {
-    name: 'CargosModal',
-    components: {
+  name: 'CargosModal',
+  components: {
     CSmartTable,
     CModal,
   },
 
   data: function () {
     return {
-        cargo: {
-            posicion: '',
-        },
+      cargosFormValidated: false,
+      cargo: {
+        posicion: '',
+      },
     }
   },
 
   methods: {
     saveCargo() {
-      this.$emit('post-cargo', this.cargo)
-      this.clearForm()
-      this.onClick()
+      this.cargosFormValidated = false
+      if (this.$refs.formRef.$el.checkValidity()) {
+        this.$emit('post-cargo', { ...this.cargo })
+        this.clearForm()
+        return
+      }
+      this.cargosFormValidated = true
     },
 
     clearForm() {
@@ -73,10 +75,9 @@ export default {
       }
     },
 
-    onClick() {
+    closeModalCargo() {
       this.$emit('close-modal', false)
       this.clearForm()
-      this.cargoModal = false
     },
 
     getCargosByIds(id) {
@@ -96,7 +97,7 @@ export default {
 
   props: {
     cargoModal: Boolean,
-    cargoId: null
+    cargoId: null,
   },
 }
 </script>
