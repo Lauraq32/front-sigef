@@ -7,6 +7,7 @@
     :anoFiscal="true"
     :addButton="true"
     :addFileButton="true"
+    :uploadButtons="buttonUpload"
   />
 
   <CSmartTable
@@ -352,6 +353,12 @@ export default {
           this.lgDemo = true
         },
       },
+
+      buttonUpload: [
+        {
+          label: 'Cargar Datos',
+        },
+      ],
 
       acciones: [
         {

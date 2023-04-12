@@ -1,43 +1,16 @@
 <template>
   <h3 class="text-center">Formulaci&oacute;n Gastos</h3>
-  <div class="table-headers">
-    <div class="d-inline p-2">
-      <CButton
-        style="font-weight: bold"
-        color="info"
-        @click="setNuevoFormulacionGasto"
-      >
-        Agregar
-      </CButton>
-    </div>
-    <div class="p-2">
-      <CButton color="info" @click="IngresoReport">Imprimir</CButton>
-    </div>
-    <div class="p-2">
-      <CButton color="info" @click="cargarEstructuras"
-        >Cargar Estructuras</CButton
-      >
-    </div>
-    <div class="p-2">
-      <CButton color="info" @click="goToIngreso"
-        >Ir a Formulaci&oacute;n Ingreso</CButton
-      >
-    </div>
-    <div class="p-2">
-      <label class="file-select btn" role="button">
-        <CIcon icon="cilCloudUpload" size="sm" />
-        <input type="file" id="formFileProyecto" @change="onFileChangeProyectos" />
-        <span class="label">Importar Proyectos</span>
-      </label>
-    </div>
-    <div class="p-2">
-      <label class="file-select btn" role="button">
-        <CIcon icon="cilCloudUpload" size="sm" />
-        <input type="file" id="formFileFormulaciion" @change="onFileChange" />
-        <span class="label">Importar Formulaci&oacute;n</span>
-      </label>
-    </div>
-  </div>
+  <AppPageHeader
+    :addDropdowm="true"
+    :addButtonForm="addbuttonform"
+    :actions="acciones"
+    :anoFiscal="true"
+    :addButton="true"
+    :addFileButton="true"
+    :uploadButtons="buttonUpload"
+  />
+
+
   <CSmartTable
     class="sticky-top"
     clickableRows
@@ -103,14 +76,57 @@ import router from '@/router'
 import { formatPrice } from '../../../../utils/format'
 import { useToastStore } from '@/store/toast'
 import FormulacionGastoDialog from "../gasto/FormulacionGastoDialog";
+import AppPageHeader from '@/components/AppPageHeader.vue'
+import AppUploadButton from '@/components/AppUploadButton.vue'
 export default {
   components: {
     CSmartTable,
     CModal,
-    FormulacionGastoDialog
+    FormulacionGastoDialog,
+    AppUploadButton,
+    AppPageHeader
   },
   data: function () {
     return {
+
+      addbuttonform: {
+        label: 'Agregar',
+        accion: this.setNuevoFormulacionGasto.bind(),
+      },
+      
+      buttonUpload: [
+        {
+          label: 'Importar Proyectos',
+        },
+        {
+          label: 'Importar Formulación',
+        },
+      ],
+
+
+      acciones: [
+        {
+          label: 'Imprimir',
+          accion: this.IngresoReport.bind() ,
+        },
+        {
+          label: 'Cargar Estructuras',
+          accion: this.cargarEstructuras.bind() ,
+        },
+        {
+          label: 'Ir a Formulación Ingreso',
+          accion: this.goToIngreso.bind() ,
+        },
+      ], 
+
+
+
+
+
+
+
+
+
       formulacionGasto: {},
       showFormulacionDialog: false,
       formatPrice,
