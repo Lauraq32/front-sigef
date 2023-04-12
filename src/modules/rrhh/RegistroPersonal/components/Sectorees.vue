@@ -89,9 +89,6 @@ export default {
     }
   },
   watch: {
-    // sector() {
-    //   this.getAllSectores()
-    // },
     newSectorModal(){
       this.getAllSectores()
     }
