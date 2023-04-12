@@ -1,5 +1,5 @@
 <template>
-  <CModal backdrop="static" @close="CloseModal" size="lg" :visible="showModal">
+  <CModal backdrop="static" @close="closeModal" size="lg" :visible="showModal">
     <CModalHeader>
       <CModalTitle>Acción de Personal</CModalTitle>
     </CModalHeader>
@@ -53,8 +53,8 @@
               @click="
                 () => {
                   showAgregarAcciones = true
-                  clearModal()
                   getTipoAcciones()
+                  clearAccionPersonal()
                 }
               "
             >
@@ -103,7 +103,7 @@
               variant="outline"
               square
               size="sm"
-              v-on:click="setTimeout(this.getAccionesPersonalById(item), 10000)"
+              v-on:click="this.getAccionesPersonalById(item)"
             >
               {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
             </CButton>
@@ -150,13 +150,13 @@
             <CFormLabel>Tipo de Acciones</CFormLabel>
           </div>
           <div class="col-9 col-md-6">
-            <CFormSelect v-model="postAccionesPersonals.tipoAccionId">
+            <CFormSelect v-model="postAccionPersonal.tipoAccionId">
               <option
                 v-for="acciones in this.tipoAcciones"
                 :key="acciones.id"
                 :value="acciones.id"
               >
-                {{ acciones.id }}
+                {{ acciones.descripcion }}
               </option>
             </CFormSelect>
           </div>
@@ -167,7 +167,19 @@
             <CFormLabel>Cantidad</CFormLabel>
           </div>
           <div class="col-9 col-md-6">
-            <CFormInput v-model="postAccionesPersonals.cantidad" />
+            <VueNumberFormat
+              type="number"
+              v-model:value="postAccionPersonal.cantidad"
+              class="form-control"
+              :format="'0'"
+              :options="{
+                precision: 0,
+                prefix: '',
+                decimal: '',
+                thousand: '',
+              }"
+            >
+            </VueNumberFormat>
           </div>
         </div>
 
@@ -186,7 +198,7 @@
           </div>
           <div class="col-9">
             <textarea
-              v-model="postAccionesPersonals.detalle"
+              v-model="postAccionPersonal.detalle"
               class="col-md-10"
               rows="3"
             ></textarea>
@@ -200,7 +212,10 @@
         Close
       </button>
 
-      <button class="btn btn-info btn-block mt-1" v-on:click="SubmitForm">
+      <button
+        class="btn btn-info btn-block mt-1"
+        v-on:click="SubmitAccionPersonal"
+      >
         Guardar
       </button>
     </div>
@@ -213,6 +228,7 @@ import { CModal } from '@coreui/vue'
 import { CSmartTable } from '@coreui/vue-pro'
 import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
+import { formatDate } from '@/utils/format'
 
 export default {
   name: 'AccionPersonalDialog',
@@ -223,14 +239,16 @@ export default {
 
   data: function () {
     return {
+      formatDate,
       showAgregarAcciones: false,
       accionPersonal: [],
-      tipoAcciones: [{}],
-      postAccionesPersonals: {
+      tipoAcciones: [],
+      toasts: [],
+      postAccionPersonal: {
         fechaDesde: new Date(),
         tipoAccionId: 4,
-        empleadoId: 1,
-        cantidad: 100,
+        empleadoId: this.empleado.id,
+        cantidad: null,
         fechaHasta: new Date(),
         detalle: null,
       },
@@ -261,12 +279,12 @@ export default {
     fechaDesde: {
       get() {
         if (
-          this.postAccionesPersonals.fechaDesde !== null &&
-          this.postAccionesPersonals.fechaDesde?.toString() !== 'Invalid Date'
+          this.postAccionPersonal.fechaDesde !== null &&
+          this.postAccionPersonal.fechaDesde?.toString() !== 'Invalid Date'
         ) {
-          let date = this.postAccionesPersonals.fechaDesde
-          if (typeof this.postAccionesPersonals.fechaDesde === 'string') {
-            date = new Date(this.postAccionesPersonals.fechaDesde)
+          let date = this.postAccionPersonal.fechaDesde
+          if (typeof this.postAccionPersonal.fechaDesde === 'string') {
+            date = new Date(this.postAccionPersonal.fechaDesde)
             return date.toISOString().split('T')[0]
           }
         } else {
@@ -274,19 +292,21 @@ export default {
         }
       },
       set(value) {
-        return (this.postAnoFiscal.fechaInicial = new Date(`${value}T00:00:00`))
+        return (this.postAccionPersonal.fechaDesde = new Date(
+          `${value}T00:00:00`,
+        ))
       },
     },
 
     fechaHasta: {
       get() {
         if (
-          this.postAccionesPersonals.fechaHasta !== null &&
-          this.postAccionesPersonals.fechaHasta?.toString() !== 'Invalid Date'
+          this.postAccionPersonal.fechaHasta !== null &&
+          this.postAccionPersonal.fechaHasta?.toString() !== 'Invalid Date'
         ) {
-          let date = this.postAccionesPersonals.fechaHasta
-          if (typeof this.postAccionesPersonals.fechaHasta === 'string') {
-            date = new Date(this.postAccionesPersonals.fechaHasta)
+          let date = this.postAccionPersonal.fechaHasta
+          if (typeof this.postAccionPersonal.fechaHasta === 'string') {
+            date = new Date(this.postAccionPersonal.fechaHasta)
             return date.toISOString().split('T')[0]
           }
         } else {
@@ -294,20 +314,22 @@ export default {
         }
       },
       set(value) {
-        return (this.postAnoFiscal.fechaInicial = new Date(`${value}T00:00:00`))
+        return (this.postAccionPersonal.fechaHasta = new Date(
+          `${value}T00:00:00`,
+        ))
       },
     },
   },
 
   methods: {
     ...mapActions(useToastStore, ['show']),
-    CloseModal() {
+    closeModal() {
       this.$emit('closeModal', false)
     },
 
-    SubmitForm() {
+    SubmitAccionPersonal() {
       if (this.id) {
-        Api.putAccionesPersonales(this.id, this.postAccionesPersonals)
+        Api.putAccionesPersonales(this.id, this.postAccionPersonal)
           .then((response) => {
             this.show({
               content: 'Registro actualizado correctamente',
@@ -316,12 +338,13 @@ export default {
           })
           .catch(({ response }) => {
             this.show({
-              content: response.data.message,
+              content: response.data,
               closable: true,
               color: 'danger',
               class: 'text-white',
             })
           })
+        setTimeout(this.getAccionPersonalById, 500)
       } else {
         this.postAccionesPersonal()
       }
@@ -333,37 +356,30 @@ export default {
       })
     },
 
-    clearModal() {
-      this.postAccionesPersonals = {
-        id: null,
-        fechaDesde: null,
-        tipoAccionId: null,
-        empleadoId: null,
-        cantidad: null,
-        fechaHasta: null,
-        detalle: null,
-      }
-    },
-
-    formatDate(fecha) {
-      return new Date(fecha).toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-      })
+    clearAccionPersonal() {
+      ;(this.id = null),
+        (this.postAccionPersonal = {
+          fechaDesde: null,
+          tipoAccionId: null,
+          empleadoId: null,
+          cantidad: null,
+          fechaHasta: null,
+          detalle: null,
+        })
     },
 
     getAccionesPersonalById(item) {
       this.getTipoAcciones()
       this.showAgregarAcciones = true
-      Api.getAccionesPersonalByIds(item.id).then((response) => {
-        this.postAccionesPersonals = response.data.data
+      Api.getAccionesPersonalById(item.id).then((response) => {
+        this.postAccionPersonal = response.data.data
         this.id = item.id
       })
     },
 
     postAccionesPersonal() {
-      Api.postAccionesPersonal(this.postAccionesPersonals)
+      this.postAccionPersonal.empleadoId = this.empleado.id
+      Api.postAccionesPersonal(this.postAccionPersonal)
         .then((response) => {
           this.show({
             content: 'Registro guardado correctamente',
@@ -372,12 +388,13 @@ export default {
         })
         .catch(({ response }) => {
           this.show({
-            content: response.data.message,
+            content: response.data,
             closable: true,
             color: 'danger',
             class: 'text-white',
           })
         })
+      setTimeout(this.getAccionPersonalById, 500)
     },
 
     getAccionPersonalById(empleadoId) {

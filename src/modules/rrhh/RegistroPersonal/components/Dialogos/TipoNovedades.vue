@@ -261,7 +261,6 @@ export default {
         setTimeout(this.getTipoAcciones, 500)
       } else {
         this.postTipoAcciones()
-        console.log('klk')
       }
     },
   },
