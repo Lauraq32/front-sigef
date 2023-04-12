@@ -272,7 +272,8 @@
                     <CCol :md="10">
                       <CFormSelect style="position: relative; right: -52px" v-model="postEmpleado.discapacidad"
                         id="validationCustom05">
-                        <option v-for="discapacidad in this.discapacidadList" :key="discapacidad.id" :value="discapacidad.id">
+                        <option v-for="discapacidad in this.discapacidadList" :key="discapacidad.id"
+                          :value="discapacidad.id">
                           {{ discapacidad.configValue }}
                         </option>
                       </CFormSelect>
@@ -738,12 +739,12 @@ export default {
   data: function () {
     return {
       discapacidadList: [],
-      departamentoList:[],
+      departamentoList: [],
       nivelEscolarList: [],
       areaTematicaList: [],
       posicionCargo: [],
       tipoSangre: [],
-      registroEmpleadoId:null,
+      registroEmpleadoId: null,
       areaTrabajo: [],
       programaDivision: [],
       sector: [],
@@ -854,22 +855,65 @@ export default {
   },
 
   methods: {
+    cargarListas() {
+      Api.getProgramaDivision().then((response) => {
+        this.programaDivision = response.data.data
+        this.postEmpleado.programaDivisionId = this.programaDivision[0].id
+      })
+
+      Api.getPosicion().then((response) => {
+        this.posicionCargo = response.data.data
+        this.postEmpleado.posicionId = this.posicionCargo[0].id
+      })
+
+      Api.getAreaTrabajo().then((response) => {
+        this.areaTrabajo = response.data.data
+        this.postEmpleado.areaTrabajoId = this.areaTrabajo[0].id
+      })
+
+      apiSectores.getSectores().then((response) => {
+        this.sector = response.data.data
+        this.postEmpleado.sectorId = this.sector[0].id
+      })
+
+      Api.getAllTipoSangre().then((response) => {
+        this.tipoSangre = response.data.data
+        this.postEmpleado.tipoSangreId = this.tipoSangre[0].id
+      })
+
+      Api.getProgramaDivision().then((response) => {
+        this.programaDivision = response.data.data
+        this.postEmpleado.programaDivisionId = this.programaDivision[0].id
+      })
+      configuraciones.getGroupConfiguration(configuraciones.grupos.Discapacidad).then(response => {
+        this.discapacidadList = response.data.data
+      })
+      configuraciones.getGroupConfiguration(configuraciones.grupos.nivelEscolar).then(response => {
+        this.nivelEscolarList = response.data.data
+      })
+      configuraciones.getGroupConfiguration(configuraciones.grupos.areaTematica).then(response => {
+        this.areaTematicaList = response.data.data
+      })
+      Api.listDepartamento().then(response => {
+        this.departamentoList = response.data.data
+      })
+    },
     saveRegistroPersonal() {
       this.$emit('post-personal', {
         ...this.postEmpleado
       })
     },
-    getRegistroPersonal(id){
+    getRegistroPersonal(id) {
       Api.getEmpleadoByID(id).then((response) => {
-        console.log(response.data.data)
-        this.postEmpleado = {...response.data.data}
+        this.postEmpleado = { ...response.data.data }
       })
     },
+   
     closeModal() {
       this.$emit('close-modal')
       this.clearModal()
     },
-    clearModal(){
+    clearModal() {
       EmpleadoId = null
       this.postEmpleado = {
         ayuntamientoId: this.$ayuntamientoId,
@@ -976,68 +1020,23 @@ export default {
   },
   computed: {
   },
-  
+
 
   mounted() {
-    Api.getProgramaDivision().then((response) => {
-      this.programaDivision = response.data.data
-      this.postEmpleado.programaDivisionId = this.programaDivision[0].id
-    })
-
-    Api.getPosicion().then((response) => {
-      this.posicionCargo = response.data.data
-      this.postEmpleado.posicionId = this.posicionCargo[0].id
-    })
-
-    Api.getAreaTrabajo().then((response) => {
-      this.areaTrabajo = response.data.data
-      this.postEmpleado.areaTrabajoId = this.areaTrabajo[0].id
-    })
-
-    apiSectores.getSectores().then((response) => {
-      console.log(response.data.data)
-      this.sector = response.data.data
-      this.postEmpleado.sectorId = this.sector[0].id
-    })
-
-    Api.getAllTipoSangre().then((response) => {
-      this.tipoSangre = response.data.data
-      this.postEmpleado.tipoSangreId = this.tipoSangre[0].id
-    })
-
-    Api.getProgramaDivision().then((response) => {
-      this.programaDivision = response.data.data
-      this.postEmpleado.programaDivisionId = this.programaDivision[0].id
-    })
-    configuraciones.getGroupConfiguration(configuraciones.grupos.Discapacidad).then(response => {
-      this.discapacidadList = response.data.data
-    })
-    configuraciones.getGroupConfiguration(configuraciones.grupos.nivelEscolar).then(response => {
-      this.nivelEscolarList = response.data.data
-    })
-    configuraciones.getGroupConfiguration(configuraciones.grupos.areaTematica).then(response => {
-      this.areaTematicaList = response.data.data
-    })
-    Api.listDepartamento().then(response => {
-      this.departamentoList = response.data.data
-      console.log(response)
-    })
+    this.cargarListas()
   },
 
   watch: {
     EmpleadoId(newId) {
-      console.log(newId)
       if (newId) {
         this.getRegistroPersonal(newId)
-  
       }
     },
-    
   },
 
   props: {
     showModal: Boolean,
-    EmpleadoId:null
+    EmpleadoId: null
   }
 }
 </script>

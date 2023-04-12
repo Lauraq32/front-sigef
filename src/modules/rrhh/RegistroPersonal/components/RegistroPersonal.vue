@@ -19,24 +19,7 @@
     </div>
   </div>
 
-  <CModal backdrop="static" :keyboard="false" :visible="reportes">
-    <CModalHeader>
-      <CModalTitle>Imprimir Reporte</CModalTitle>
-    </CModalHeader>
 
-    <CModalBody>
-      <CFormSelect v-model="reporteDepto" id="validationCustom05">
-        <option>1-Reporte empleados por nombre</option>
-        <option>2-Reporte empleados por apellido</option>
-        <option>3-Reporte empleados por cargo</option>
-        <option>4-Reporte empleados por departamento</option>
-      </CFormSelect>
-    </CModalBody>
-    <CModalFooter>
-      <CButton color="secondary">Close</CButton>
-      <CButton color="primary" @click="imprimirReporte">Imprimir</CButton>
-    </CModalFooter>
-  </CModal>
   <CSmartTable class="sticky-top" clickableRows :tableProps="{
     striped: true,
     hover: true,
@@ -75,35 +58,31 @@
       </td>
     </template>
     <template #show_details="{ item }">
-      <CDropdown>
-        <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
-        <CDropdownMenu>
-          <CDropdownItem @click="toggleDetails(item)">Editar</CDropdownItem>
-          <CDropdownItem @click="deleteEmp(item)">Eliminar</CDropdownItem>
-          <CDropdownItem @click="
-            () => {
-              lgDemo4 = true
-            }
-          ">Evaluación</CDropdownItem>
-          <CDropdownItem>Eventualidad</CDropdownItem>
-        </CDropdownMenu>
-      </CDropdown>
-    </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
+      <template v-if="item.estatus !== false">
+
+        <CDropdown>
+          <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
+          <CDropdownMenu>
+            <CDropdownItem @click="toggleDetails(item)">Editar</CDropdownItem>
+            <CDropdownItem @click="deleteEmp(item)">Eliminar</CDropdownItem>
+            <CDropdownItem @click="
+              () => {
+                lgDemo4 = true
+              }
+            ">Evaluación</CDropdownItem>
+            <CDropdownItem>Eventualidad</CDropdownItem>
+          </CDropdownMenu>
+        </CDropdown>
+      </template>
+      <template v-if="item.estatus == false">
+        <td>
+          <CBadge color="danger" shape="rounded-pill">{{ item.estatus ? 'Activo' : 'Inactivo' }}</CBadge>
+        </td>
+      </template>
     </template>
   </CSmartTable>
 
-  <RegistroPersonalDialog :showModal="showRegistroPersonalModal" @post-personal="submitForm" :EmpleadoId="id"
+  <RegistroPersonalDialog :showModal="showRegistroPersonalModal" @post-personal="submitForm"
     @close-modal="closeRegistroPersonalModal" />
 </template>
 
@@ -116,7 +95,6 @@ import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
 import Api from '../services/RegistroPersonalServices'
-import apiSectores from '../../../financiero/NominaModule/services/NominaServices'
 import moment from 'moment'
 import { useToastStore } from '@/store/toast'
 import RegistroPersonalDialog from '../components/Dialogos/RegistroPersonalDialog.vue'
@@ -130,9 +108,7 @@ export default {
   },
   data: function () {
     return {
-      //nuevas variables
       showRegistroPersonalModal: false,
-      //nuevas variables
       id: null,
       lgDemo4: false,
       cambiar: false,
@@ -148,15 +124,13 @@ export default {
       reportes: false,
       posicionCargo: [{}],
       tipoSangre: [{}],
-
       areaTrabajo: [{}],
       programaDivision: [{}],
       sector: [{}],
       departamentos: [],
-
-
       tabPaneActiveKey: 1,
       columns: [
+        { key: 'codigo', label: 'Código', _style: { width: '15%' } },
         { key: 'apellidos', label: 'Apellido', _style: { width: '15%' } },
         { key: 'nombres', label: 'Nombre', _style: { width: '15%' } },
         { key: 'cedula', label: 'Cédula', _style: { width: '10%' } },
@@ -193,9 +167,6 @@ export default {
           },
         },
       ],
-
-      details: [],
-
       validatedCustom01: null,
       lgDemo: false,
     }
@@ -205,7 +176,6 @@ export default {
     ...mapStores(useRegistroStore, useToastStore),
     ...mapState(useRegistroStore, ['registroPersonal', 'posicionCargo']),
   },
-
 
   methods: {
     ...mapActions(useRegistroStore, [
@@ -222,7 +192,6 @@ export default {
     showModal() {
       this.showRegistroPersonalModal = true
     },
-
 
     imprimirReporte() {
       if (this.reporteDepto.split('-')[0] == 1) {
@@ -288,13 +257,8 @@ export default {
       }
       return edad;
     },
-
-    unaVez() {
-      this.focusInput()
-    },
     openModal() {
       this.lgDemo = true
-      setTimeout(this.unaVez, 200)
     },
     closeModal(payload) {
       this.lgDemo4 = payload
@@ -313,30 +277,6 @@ export default {
       })
     },
 
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
-    },
-
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
-
     toggleDetails(item) {
       console.log(item.id)
       this.showRegistroPersonalModal = true
@@ -352,12 +292,6 @@ export default {
         this.id = item.id
         this.postEmpleado = response.data.data
       })
-    },
-
-    clearModal1() {
-     
-
-   
     },
 
     submitForm(payload) {
@@ -380,13 +314,14 @@ export default {
               content: 'Registro añadido correctamente',
               closable: true,
             })
+            this.id = null
           })
           .catch((error) => {
             console.log(error.response.data.errors)
             this.show({
-              content:error.response.data.errors.map(data => (
-              data.message
-            )),
+              content: error.response.data.errors.map(data => (
+                data.message
+              )),
               closable: true,
               color: 'danger',
               class: 'text-white',
@@ -432,8 +367,6 @@ export default {
     },
   },
 
-
-
   computed: {
     ...mapStores(useAuthStore),
     ...mapState(useAuthStore, ['authInfo']),
@@ -447,36 +380,6 @@ export default {
     this.getRegistroPersonal()
     Api.getAllEmpleado().then((response) => {
       this.registroPersonal = response.data.data
-    })
-
-    Api.getPosicion().then((response) => {
-      this.posicionCargo = response.data.data
-      this.postEmpleado.posicionId = this.posicionCargo[0].id
-    }),
-      Api.getAreaTrabajo().then((response) => {
-        this.areaTrabajo = response.data.data
-        this.postEmpleado.areaTrabajoId = this.areaTrabajo[0].id
-      })
-
-    Api.getProgramaDivision().then((response) => {
-      this.programaDivision = response.data.data
-      this.postEmpleado.programaDivisionId = this.programaDivision[0].id
-      Api.getDepartamentoByProgramaId(this.programaDivision[0].id).then(
-        (response) => {
-          this.departamentos = response.data.data
-          this.postEmpleado.departamentoId = this.departamentos[0].id
-        },
-      )
-    })
-
-    apiSectores.getSectores().then((response) => {
-      this.sector = response.data.data
-      this.postEmpleado.sectorId = this.sector[0].id
-    })
-
-    Api.getAllTipoSangre().then((response) => {
-      this.tipoSangre = response.data.data
-      this.postEmpleado.tipoSangreId = this.tipoSangre[0].id
     })
   },
   watch: {

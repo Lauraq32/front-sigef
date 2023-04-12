@@ -79,7 +79,7 @@ class RegistroPersonal {
   }
 
   deleteEmpleado(id) {
-    return http.delete(`Empleado/${id}`)
+    return http.delete(`empleados/${id}`)
   }
 
   deleteSector(id) {
