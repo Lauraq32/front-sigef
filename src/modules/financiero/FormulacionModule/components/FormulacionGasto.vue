@@ -57,6 +57,7 @@
     columnSorter
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
+    :items-per-page-label="'Artículos por página:'"
   >
     <template #totalPresupuesto="{ item }">
       <td class="text-end">
@@ -144,11 +145,24 @@ export default {
         {
           label: 'Total Items',
           _props: {
-            colspan: 10,
+            colspan: 8,
             style: 'font-weight:bold;',
           },
         },
-
+        {
+          label: '',
+          _props: {
+            colspan: 1,
+            style: 'font-weight:bold;text-align:right',
+          },
+        },
+        {
+          label: '',
+          _props: {
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
       ],
     }
   },
@@ -377,7 +391,7 @@ export default {
     },
     IngresoReport() {
       window.open(
-        `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Gastos_Formulacion_FP08&rs:Command=Render&ANO=${this.$fiscalYearId}&CAPITULO_AYTO=${this.$loggedInfo.user.ayuntamiento.codigo}&FONDO=P`,
+        `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Gastos_Formulacion_FP08&rs:Command=Render&ANO=${this.$fiscalYearId}&CAPITULO_AYTO=${this.$ayuntamientoId}&FONDO=P`,
         '_blank',
       );
     },
@@ -474,6 +488,7 @@ export default {
     ...mapState(usePrepGastoStore, [
       'prepGastoList',
       'gastoListCount',
+      'totalBugetAmount',
     ]),
   },
 
@@ -484,6 +499,7 @@ export default {
     prepGastoList() {
       setTimeout(() => {
         this.footerItem[0].label = `Total items: ${this.gastoListCount}`;
+        this.footerItem[1].label = this.formatPrice(this.totalBugetAmount);
       }, 200);
     }
   }

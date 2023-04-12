@@ -51,8 +51,6 @@ export default {
           sorter: false,
         },
       ],
-
-      details: [],
     }
   },
 
@@ -62,15 +60,13 @@ export default {
       this.$emit('select-profesion', item)
 
     },
-    getListarProfesiones() {
+    listarProfesiones() {
       Api.getProfesiones().then(response => (
         this.profesionesList = response.data.data
       ))
     },
     closeModal() {
-      this.$emit('closeModal', false)
-
-      this.showModal = false
+      this.$emit('closeModal')
     },
   },
 
@@ -78,7 +74,7 @@ export default {
     showModal: Boolean,
   },
   mounted() {
-    this.getListarProfesiones()
+    this.listarProfesiones()
   }
 }
 </script>

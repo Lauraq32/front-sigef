@@ -229,19 +229,19 @@ export default {
       columns: [
         { key: 'id', label: 'Código', _style: { width: '40%' } },
         { key: 'detalle', label: 'Detalle', _style: { width: '40%' } },
-        { key: 'tipo', label: 'Tipo retención', _style: { width: '40%' } },
+        { key: 'tipo', label: 'Tipo Retención', _style: { width: '40%' } },
         { key: 'operacion', label: 'Operación', _style: { width: '40%' } },
         {
           key: 'porciento',
-          label: 'Valor o % a retener',
+          label: 'Valor o % a Retener',
           _style: { width: '40%' },
         },
         {
           key: 'calculada',
-          label: 'Valor calculado',
+          label: 'Valor Calculado',
           _style: { width: '40%' },
         },
-        { key: 'mAfecta', label: 'Modo afecta', _style: { width: '40%' } },
+        { key: 'mAfecta', label: 'Modo Afecta', _style: { width: '40%' } },
         {
           key: 'beneficiarioId',
           label: 'Beneficiario',

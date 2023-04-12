@@ -42,17 +42,17 @@
                 </CInputGroup>
               </CCol>
               <CCol :md="6">
-                <CFormLabel for="direccion1">Direcci&oacute;n</CFormLabel>
+                <CFormLabel for="direccion1">Direcci&oacute;n 1</CFormLabel>
                 <CFormInput v-model="solicitudEmpleo.direccion1" id="direccion1" required />
 
               </CCol>
               <CCol :md="6">
-                <CFormLabel for="direccion2">Direcci&oacute;n</CFormLabel>
+                <CFormLabel for="direccion2">Direcci&oacute;n 2</CFormLabel>
                 <CFormInput v-model="solicitudEmpleo.direccion2" id="direccion2" required />
 
               </CCol>
               <CCol :md="6">
-                <CFormLabel for="telefono">Telefono</CFormLabel>
+                <CFormLabel for="telefono">Tel&eacute;fono</CFormLabel>
                 <CFormInput v-model="solicitudEmpleo.telefono" id="telefono" required />
 
               </CCol>
@@ -75,7 +75,6 @@
                     <CIcon icon="cisSearch" size="xl" v-on:click="openProfesionModal" />
                   </span>
                 </div>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="6">
                 <CFormLabel for="posicionId">Posición solicitada</CFormLabel>
@@ -175,6 +174,7 @@ export default {
 
   data: function () {
     return {
+      validatedCustom01: null,
       displayNameProfesion: '',
       showProfessionModal: false,
       solicitudEmpleo: {
@@ -202,9 +202,9 @@ export default {
   },
 
   methods: {
-    closeProfesionModal(payload) {
-      console.log('hola')
-      this.showProfessionModal = payload
+
+    closeProfesionModal() {
+      this.showProfessionModal = false
     },
     setProfesion(payload) {
       this.solicitudEmpleo.profesionId = payload.id
@@ -213,17 +213,23 @@ export default {
     closeModal() {
       this.$emit('closeModal')
       this.clearForm()
-      //this.showModal = false
     },
-    saveReclutamiento() {
-      this.$emit('post-reclutamiento', { 
-        ...this.solicitudEmpleo,
-        evaluado: this.solicitudEmpleo.evaluado === 'Si',
-        entrevistado: this.solicitudEmpleo.entrevistado === 'Si',
-        descalificado: this.solicitudEmpleo.descalificado === 'Si'
-      })
-      this.clearForm()
-      solicitudEmpleoId = null
+    saveReclutamiento(event) {
+      const form = event.currentTarget
+      if (form.checkValidity() === false) {
+        this.$emit('post-reclutamiento', {
+          ...this.solicitudEmpleo,
+          evaluado: this.solicitudEmpleo.evaluado === 'Si',
+          entrevistado: this.solicitudEmpleo.entrevistado === 'Si',
+          descalificado: this.solicitudEmpleo.descalificado === 'Si'
+        })
+        this.clearForm()
+        solicitudEmpleoId = null
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      this.validatedCustom01 = true
+
     },
     clearForm() {
 

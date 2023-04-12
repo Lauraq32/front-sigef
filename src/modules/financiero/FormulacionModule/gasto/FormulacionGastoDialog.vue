@@ -17,27 +17,27 @@
                     <CCol :md="2">
                         <CFormLabel for="formulacionGasto.pnap">PNAP</CFormLabel>
                         <input ref="name" class="form-control" :disabled="formulacionGasto.id ? true : false"
-                            v-model="formulacionGasto.pnap" id="formulacionGasto.pnap" type="number" />
+                            v-model="formulacionGasto.pnap" id="formulacionGasto.pnap" type="number" maxlength="2"/>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <CCol :md="2">
                         <CFormLabel for="formulacionGasto.programa">Programa</CFormLabel>
                         <CFormInput :disabled="formulacionGasto.id ? true : false" v-model="formulacionGasto.programa"
-                            id="formulacionGasto.programa" required  type="number"/>
+                            id="formulacionGasto.programa" required  type="number" maxlength="2"/>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <CCol :md="2">
                         <CFormLabel for="formulacionGasto.proyecto">Proyecto</CFormLabel>
                         <CInputGroup class="has-validation">
                             <CFormInput :disabled="formulacionGasto.id ? true : false" v-model="formulacionGasto.proyecto"
-                                id="formulacionGasto.proyecto" value="" aria-describedby="inputGroupPrepend" required  type="number"/>
+                                id="formulacionGasto.proyecto" value="" aria-describedby="inputGroupPrepend" required  type="number" maxlength="2"/>
                             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                         </CInputGroup>
                     </CCol>
                     <CCol :md="4">
                         <CFormLabel for="formulacionGasto.actObra">Actividad/Obra</CFormLabel>
                         <CFormInput :disabled="formulacionGasto.id ? true : false" v-model="formulacionGasto.actObra"
-                            id="formulacionGasto.actObra" required  type="number"/>
+                            id="formulacionGasto.actObra" required  type="number" maxlength="4"/>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <CCol :md="3">
@@ -67,7 +67,13 @@
                     </CCol>
                     <CCol :md="4">
                         <CFormLabel for="formulacionGasto.costObra">No. fondo transferido</CFormLabel>
-                        <CFormInput v-model.number="formulacionGasto.costObra" id="formulacionGasto.costObra"></CFormInput>
+                        <VueNumberFormat v-model:value="formulacionGasto.costObra" type="text" class="form-control" id="formulacionGasto.costObra"
+                        :options="{
+                            precision: 0,
+                            prefix: '',
+                            decimal: '',
+                            thousand: '',
+                        }"/>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <div class="modal-footer">
