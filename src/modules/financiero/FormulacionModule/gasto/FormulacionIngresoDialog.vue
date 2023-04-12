@@ -146,7 +146,11 @@ const enabledFields = reactive({
 
 
 const closeDialog = (data) => {
-    emit('close', data)
+    emit('close', data);
+    enabledFields.ctgFuenteId = false;
+    enabledFields.ctgFuenteEspecificaId = false;
+    enabledFields.ctgOrganismoFinanciadorId = false;
+    formIsValidated.value = false;
 }
 
 const submitForm = () => {
@@ -175,13 +179,13 @@ const selectClasificator = (clasificador) => {
         props.formulacionIngreso.ctgClasificadorId = clasificador.clasifica
         props.formulacionIngreso.ctaControl = clasificador.cControl;
         props.formulacionIngreso.detalle = clasificador.nombre;
-        props.formulacionIngreso.ctgFuenteId = clasificador.ctgFuenteId;
-        props.formulacionIngreso.ctgFuenteEspecificaId = clasificador.ctgFuenteEspecificaId;
-        props.formulacionIngreso.ctgOrganismoFinanciadorId = clasificador.ctgOrganismoFinanciadorId;
+        props.formulacionIngreso.ctgFuenteId = clasificador.ctgFuenteId || props.formulacionIngreso.ctgFuenteId;
+        props.formulacionIngreso.ctgFuenteEspecificaId = clasificador.ctgFuenteEspecificaId || props.formulacionIngreso.ctgFuenteEspecificaId;
+        props.formulacionIngreso.ctgOrganismoFinanciadorId = clasificador.ctgOrganismoFinanciadorId || props.formulacionIngreso.ctgOrganismoFinanciadorId;
 
-        validateInputctgFuente();
-        validateInputctgFuenteEspecificaId();
-        validateInputctgOrganismoFinanciadorId();
+        validateInputctgFuente(clasificador);
+        validateInputctgFuenteEspecificaId(clasificador);
+        validateInputctgOrganismoFinanciadorId(clasificador);
     }
     showFindClasificadorModal.value = false;
 }
@@ -192,37 +196,40 @@ const findClasificador = () => {
     }
 }
 
-const validateInputctgFuente = () => {
+const validateInputctgFuente = (clasificatorSelected) => {
     if (props.formulacionIngreso.ctgFuenteId == '') {
-        enabledFields.ctgFuenteId = false
+        enabledFields.ctgFuenteId = false;
     }
     if (
-        props.formulacionIngreso.ctgFuenteId !== '' ||
-        props.formulacionIngreso.ctgFuenteId.length > 30
+        (props.formulacionIngreso.ctgFuenteId !== '' ||
+        props.formulacionIngreso.ctgFuenteId.length > 30) &&
+        clasificatorSelected.ctgFuenteId !== ''
     ) {
         enabledFields.ctgFuenteId = true
     }
 }
 
-const validateInputctgFuenteEspecificaId = () => {
+const validateInputctgFuenteEspecificaId = (clasificatorSelected) => {
     if (props.formulacionIngreso.ctgFuenteEspecificaId == '') {
         enabledFields.ctgFuenteEspecificaId = false
     }
     if (
-        props.formulacionIngreso.ctgFuenteEspecificaId !== '' ||
-        props.formulacionIngreso.ctgFuenteEspecificaId.length > 30
+        (props.formulacionIngreso.ctgFuenteEspecificaId !== '' ||
+        props.formulacionIngreso.ctgFuenteEspecificaId.length > 30) &&
+        clasificatorSelected.ctgFuenteEspecificaId !== ''
     ) {
         enabledFields.ctgFuenteEspecificaId = true
     }
 }
 
-const validateInputctgOrganismoFinanciadorId = () => {
+const validateInputctgOrganismoFinanciadorId = (clasificatorSelected) => {
     if (props.formulacionIngreso.ctgOrganismoFinanciadorId == '') {
         enabledFields.ctgOrganismoFinanciadorId = false
     }
     if (
-        props.formulacionIngreso.ctgOrganismoFinanciadorId !== '' ||
-        props.formulacionIngreso.ctgOrganismoFinanciadorId.length > 30
+        (props.formulacionIngreso.ctgOrganismoFinanciadorId !== '' ||
+        props.formulacionIngreso.ctgOrganismoFinanciadorId.length > 30) &&
+        clasificatorSelected.ctgOrganismoFinanciadorId !== ''
     ) {
         enabledFields.ctgOrganismoFinanciadorId = true
     }
