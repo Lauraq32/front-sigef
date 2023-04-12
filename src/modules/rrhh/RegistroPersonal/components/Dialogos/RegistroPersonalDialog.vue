@@ -1,5 +1,5 @@
 <template>
-  <CModal size="xl" :visible="showModal">
+  <CModal size="xl" :visible="showModal" @close="closeModal">
     <CModalHeader>
       <CModalTitle>Formulario de empleados</CModalTitle>
     </CModalHeader>
@@ -270,7 +270,7 @@
                   </div>
                   <div class="col-9">
                     <CCol :md="10">
-                      <CFormSelect style="position: relative; right: -52px" v-model="postEmpleado.sectorId"
+                      <CFormSelect style="position: relative; right: -52px" v-model="postEmpleado.discapacidad"
                         id="validationCustom05">
                         <option v-for="discapacidad in this.discapacidadList" :key="discapacidad.id" :value="discapacidad.id">
                           {{ discapacidad.configValue }}
@@ -321,8 +321,8 @@
                 <CCol>
                   <CFormLabel for="validationCustom01">Departamento</CFormLabel>
                   <CFormSelect v-model="postEmpleado.departamentoId" id="validationCustom05">
-                    <option v-for="departamento in departamentos" :key="departamento.id" :value="departamento.id">
-                      {{ departamento.descripcion }}
+                    <option v-for="departamento in departamentoList" :key="departamento.id" :value="departamento.id">
+                      {{ departamento.nombre }}
                     </option>
                   </CFormSelect>
 
@@ -711,7 +711,7 @@
       </div>
     </CModalBody>
     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="closeModal">
         Close
       </button>
       <button type="button" class="btn btn-primary" v-on:click="saveRegistroPersonal">
@@ -738,18 +738,17 @@ export default {
   data: function () {
     return {
       discapacidadList: [],
+      departamentoList:[],
       nivelEscolarList: [],
       areaTematicaList: [],
       posicionCargo: [],
       tipoSangre: [],
-
+      registroEmpleadoId:null,
       areaTrabajo: [],
       programaDivision: [],
       sector: [],
-      departamentos: [],
       tabPaneActiveKey: 1,
       postEmpleado: {
-        ayuntamientoId: null,
         codigo: null,
         nombres: null,
         apellidos: null,
@@ -860,7 +859,18 @@ export default {
         ...this.postEmpleado
       })
     },
+    getRegistroPersonal(id){
+      Api.getEmpleadoByID(id).then((response) => {
+        console.log(response.data.data)
+        this.postEmpleado = {...response.data.data}
+      })
+    },
+    closeModal() {
+      this.$emit('close-modal')
+      this.clearModal()
+    },
     clearModal(){
+      EmpleadoId = null
       this.postEmpleado = {
         ayuntamientoId: this.$ayuntamientoId,
         codigo: null,
@@ -962,6 +972,7 @@ export default {
         recomendadoPor: null,
       }
     }
+
   },
   computed: {
   },
@@ -984,6 +995,7 @@ export default {
     })
 
     apiSectores.getSectores().then((response) => {
+      console.log(response.data.data)
       this.sector = response.data.data
       this.postEmpleado.sectorId = this.sector[0].id
     })
@@ -996,12 +1008,6 @@ export default {
     Api.getProgramaDivision().then((response) => {
       this.programaDivision = response.data.data
       this.postEmpleado.programaDivisionId = this.programaDivision[0].id
-      Api.getDepartamentoByProgramaId(this.programaDivision[0].id).then(
-        (response) => {
-          this.departamentos = response.data.data
-          this.postEmpleado.departamentoId = this.departamentos[0].id
-        },
-      )
     })
     configuraciones.getGroupConfiguration(configuraciones.grupos.Discapacidad).then(response => {
       this.discapacidadList = response.data.data
@@ -1012,17 +1018,21 @@ export default {
     configuraciones.getGroupConfiguration(configuraciones.grupos.areaTematica).then(response => {
       this.areaTematicaList = response.data.data
     })
+    Api.listDepartamento().then(response => {
+      this.departamentoList = response.data.data
+      console.log(response)
+    })
   },
 
   watch: {
     EmpleadoId(newId) {
+      console.log(newId)
       if (newId) {
-        Api.getEmpleadoByID(newId).then((response) => {
-          console.log(response)
-        this.postEmpleado = {...response.data.data}
-      })
+        this.getRegistroPersonal(newId)
+  
       }
     },
+    
   },
 
   props: {

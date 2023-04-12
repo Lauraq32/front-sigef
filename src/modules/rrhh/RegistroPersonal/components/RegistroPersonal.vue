@@ -80,14 +80,11 @@
         <CDropdownMenu>
           <CDropdownItem @click="toggleDetails(item)">Editar</CDropdownItem>
           <CDropdownItem @click="deleteEmp(item)">Eliminar</CDropdownItem>
-          <CDropdownItem
-            @click="
-              () => {
-                lgDemo4 = true
-              }
-            "
-            >Evaluación</CDropdownItem
-          >
+          <CDropdownItem @click="
+            () => {
+              lgDemo4 = true
+            }
+          ">Evaluación</CDropdownItem>
           <CDropdownItem>Eventualidad</CDropdownItem>
         </CDropdownMenu>
       </CDropdown>
@@ -106,7 +103,8 @@
     </template>
   </CSmartTable>
 
-  <RegistroPersonalDialog :showModal="showRegistroPersonalModal" @post-personal="submitForm" :empleadoId="id"/>
+  <RegistroPersonalDialog :showModal="showRegistroPersonalModal" @post-personal="submitForm" :EmpleadoId="id"
+    @close-modal="closeRegistroPersonalModal" />
 </template>
 
 <script>
@@ -133,9 +131,9 @@ export default {
   data: function () {
     return {
       //nuevas variables
-      showRegistroPersonalModal:false,
+      showRegistroPersonalModal: false,
       //nuevas variables
-      id:null,
+      id: null,
       lgDemo4: false,
       cambiar: false,
       registroPersonal: [],
@@ -155,7 +153,7 @@ export default {
       programaDivision: [{}],
       sector: [{}],
       departamentos: [],
-      
+
 
       tabPaneActiveKey: 1,
       columns: [
@@ -217,9 +215,13 @@ export default {
     ]),
     ...mapActions(useToastStore, ['show']),
 
-    showModal(){
-    this.showRegistroPersonalModal = true
-  },
+    closeRegistroPersonalModal() {
+      this.showRegistroPersonalModal = false
+    }
+    ,
+    showModal() {
+      this.showRegistroPersonalModal = true
+    },
 
 
     imprimirReporte() {
@@ -320,10 +322,6 @@ export default {
       this.validatedCustom01 = true
     },
 
-    savePersonal(payload){
-      console.log(payload)
-    },
-
     getBadge(status) {
       switch (status) {
         case 'Active':
@@ -341,6 +339,8 @@ export default {
 
     toggleDetails(item) {
       console.log(item.id)
+      this.showRegistroPersonalModal = true
+      this.id = item.id
       if (item.empleados !== 0 || item.variacion !== 0) {
         this.empleadoValue = true
       } else {
@@ -355,47 +355,12 @@ export default {
     },
 
     clearModal1() {
-      this.id = null
+     
 
-      Api.getProgramaDivision().then((response) => {
-        this.programaDivision = response.data.data
-        this.postEmpleado.programaDivisionId = this.programaDivision[0].id
-      })
-
-      Api.getPosicion().then((response) => {
-        this.posicionCargo = response.data.data
-        this.postEmpleado.posicionId = this.posicionCargo[0].id
-      })
-
-      Api.getAreaTrabajo().then((response) => {
-        this.areaTrabajo = response.data.data
-        this.postEmpleado.areaTrabajoId = this.areaTrabajo[0].id
-      })
-
-      apiSectores.getSectores().then((response) => {
-        this.sector = response.data.data
-        this.postEmpleado.sectorId = this.sector[0].id
-      })
-
-      Api.getAllTipoSangre().then((response) => {
-        this.tipoSangre = response.data.data
-        this.postEmpleado.tipoSangreId = this.tipoSangre[0].id
-      })
-
-      Api.getProgramaDivision().then((response) => {
-        this.programaDivision = response.data.data
-        this.postEmpleado.programaDivisionId = this.programaDivision[0].id
-        Api.getDepartamentoByProgramaId(this.programaDivision[0].id).then(
-          (response) => {
-            this.departamentos = response.data.data
-            this.postEmpleado.departamentoId = this.departamentos[0].id
-          },
-        )
-      })
+   
     },
 
     submitForm(payload) {
-      console.log(payload)
       if (this.id != null) {
         Api.putEmpleado(this.id, payload).then((response) => {
           this.lgDemo = false
@@ -403,110 +368,9 @@ export default {
             content: 'Registro actualizado correctamente',
             closable: true,
           })
-
+          this.id = null
           setTimeout(this.getRegistroPersonal, 500)
-          this.postEmpleado = {
-            ayuntamientoId: this.authInfo.ayuntamiento.id,
-            codigo: null,
-            nombres: null,
-            apellidos: null,
-            tipoDocumento: null,
-            cedula: null,
-            direccion: null,
-            sectorId: 0,
-            telefono: null,
-            celular: null,
-            fechaNacimiento: new Date(Date.now()),
-            lugarNacimiento: null,
-            estadoCivil: 'M',
-            sexo: null,
-            dependientes: 0,
-            fechaIngreso: new Date(Date.now()),
-            fechaSalida: new Date(Date.now()),
-            razonSalida: null,
-            reemplear: true,
-            fechaReingreso: new Date(Date.now()),
-            programaDivisionId: 0,
-            departamentoId: 0,
-            areaTrabajoId: 0,
-            posicionId: 0,
-            grupoOcupacional: null,
-            tipoContrato: null,
-            fechaInicioContrato: new Date(Date.now()),
-            fechaFinContrato: new Date(Date.now()),
-            turno: null,
-            periodoPago: null,
-            formaPago: null,
-            numeroCuenta: null,
-            fechaExpitaTarjeta: new Date(Date.now()),
-            estatus: true,
-            sueldo: 0.0,
-            sueldoAnterior: 0.0,
-            fechaSueldoAnterior: new Date(Date.now()),
-            fechaUltimaNomina: new Date(Date.now()),
-            inicioVacaciones: new Date(Date.now()),
-            finVacaciones: new Date(Date.now()),
-            activoNomina: true,
-            ingreso2: 0.0,
-            ingreso3: 0.0,
-            ingreso4: 0.0,
-            ingreso5: 0.0,
-            ingreso6: 0.0,
-            ingreso7: 0.0,
-            ingreso8: 0.0,
-            ingreso9: 0.0,
-            ingreso10: 0.0,
-            impuestoSobreRenta: 0.0,
-            arsCalculado: true,
-            arsFijo: 0.0,
-            afpCalculado: true,
-            afpFijo: 0.0,
-            egresos4: 0.0,
-            egresos5: 0.0,
-            egresos6: 0.0,
-            egresos7: 0.0,
-            egresos8: 0.0,
-            egresos9: 0.0,
-            egresos10: 0.0,
-            eneroIngreso: 0.0,
-            febreroIngreso: 0.0,
-            marzoIngreso: 0.0,
-            abrilIngreso: 0.0,
-            mayoIngreso: 0.0,
-            junioIngreso: 0.0,
-            julioIngreso: 0.0,
-            agostoIngreso: 0.0,
-            septiembreIngreso: 0.0,
-            octubreIngreso: 0.0,
-            noviembreIngreso: 0.0,
-            diciembreIngreso: 0.0,
-            observacion: null,
-            discapacidad: null,
-            emergenciaNombre: null,
-            emergenciaTelefono: null,
-            emergenciaTelefono2: null,
-            emergenciaDireccion: null,
-            emergenciaParentezco: null,
-            tipoSangreId: 0,
-            emergenciaAlergico: null,
-            emergenciaDiabetico: 'sT',
-            emergenciaInsodepend: 'st',
-            emergenciaPresionAlta: null,
-            emergenciaPresionBaja: null,
-            emergenciaEnTratamiento: 'st',
-            emergenciaDiagnostico: null,
-            licenciaConducir: null,
-            fechaExpiracionLicencia: new Date(Date.now()),
-            aplicaSasp: true,
-            nivelEscolar: null,
-            areaTematica: null,
-            tituloObtenido: null,
-            correoElectronico: null,
-            correoElectronico2: null,
-            recomendadoPor: null,
-          }
         })
-        setTimeout(this.getRegistroPersonal, 500)
       } else {
         setTimeout(this.getRegistroPersonal, 500)
 
@@ -518,8 +382,11 @@ export default {
             })
           })
           .catch((error) => {
+            console.log(error.response.data.errors)
             this.show({
-              content: 'Error al enviar el formulario',
+              content:error.response.data.errors.map(data => (
+              data.message
+            )),
               closable: true,
               color: 'danger',
               class: 'text-white',
@@ -557,7 +424,7 @@ export default {
           this.$swal({
             position: 'top-end',
             icon: 'error',
-            title: error.message,
+            title: error.errors,
             showConfirmButton: false,
             timer: 1500,
           })
@@ -611,6 +478,11 @@ export default {
       this.tipoSangre = response.data.data
       this.postEmpleado.tipoSangreId = this.tipoSangre[0].id
     })
+  },
+  watch: {
+    showRegistroPersonalModal() {
+      this.getRegistroPersonal()
+    },
   },
 }
 </script>

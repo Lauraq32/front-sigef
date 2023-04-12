@@ -63,7 +63,7 @@ class RegistroPersonal {
 
   //put
   putEmpleado(id, data) {
-    return http.put(`Empleado/${id}`, data)
+    return http.put(`empleados/${id}`, data)
   }
 
   putArea(id) {
@@ -84,6 +84,9 @@ class RegistroPersonal {
 
   deleteSector(id) {
     return http.delete(`sectores/${id}?ayuntamiento=${getAyuntamientoId()}`)
+  }
+  listDepartamento(){
+    return http.get('departamentos/lista')
   }
 }
 
