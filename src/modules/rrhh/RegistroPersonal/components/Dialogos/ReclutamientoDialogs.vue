@@ -42,12 +42,12 @@
                 </CInputGroup>
               </CCol>
               <CCol :md="6">
-                <CFormLabel for="direccion1">Direcci&oacute;n</CFormLabel>
+                <CFormLabel for="direccion1">Direcci&oacute;n 1</CFormLabel>
                 <CFormInput v-model="solicitudEmpleo.direccion1" id="direccion1" required />
 
               </CCol>
               <CCol :md="6">
-                <CFormLabel for="direccion2">Direcci&oacute;n</CFormLabel>
+                <CFormLabel for="direccion2">Direcci&oacute;n 2</CFormLabel>
                 <CFormInput v-model="solicitudEmpleo.direccion2" id="direccion2" required />
 
               </CCol>
