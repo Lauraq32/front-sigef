@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Direccion dependencias</h3>
+  <h3 class="text-center">Direcci&oacuten dependencias</h3>
   <hr />
   <div class="table-headers">
     <div class="d-inline p-2">
@@ -7,191 +7,157 @@
         color="info"
         @click="
           () => {
-            lgDemo = true
+            newDireccionDependeciaModal = true
           }
         "
         >Agregar</CButton
       >
     </div>
     <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-        >Imprimir</CButton
-      >
+      <CButton style="font-weight: bold" color="info">Imprimir</CButton>
     </div>
   </div>
   <hr />
-  <CSmartTable class="sticky-top"
+  <CSmartTable
+    class="sticky-top"
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
     header
-    :items="this.$store.state.RRHHModule.direccionDependencia"
+    :footer="footerItem"
+    :items="direccionDependecia"
     :columns="columns"
     columnFilter
-    itemsPerPageSelect
     :itemsPerPage="5"
     columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
+    :sorterValue="{ column: 'nombre', state: 'asc' }"
     pagination
   >
-    <template #FechaInicio="{ item }">
-      <td>
-        {{ formatDate(item.FechaInicio) }}
-      </td>
-    </template>
-    <template #show_details="{ item, index }">
+    <template #show_details="{ item }">
       <td class="py-2">
         <CButton
+          class="mt-1"
           color="primary"
           variant="outline"
           square
           size="sm"
-          @click="toggleDetails(item, index)"
+          @click="editDireccionDependecia(item)"
+          >Editar</CButton
         >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
-        </CButton>
       </td>
     </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
-    </template>
   </CSmartTable>
-  <CModal
-    size="md"
-    :visible="lgDemo"
-    @close="
-      () => {
-        lgDemo = false
-      }
-    "
-  >
-    <CModalHeader>
-      <CModalTitle>Direccion dependencias</CModalTitle>
-    </CModalHeader>
-    <CModalBody>
-      <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
-          <CCol :md="12">
-            <CFormLabel for="validationCustomUsername">Programa</CFormLabel>
-              <CFormInput
-                id="validationCustomUsername"
-                value=""
-                aria-describedby="inputGroupPrepend"
-                required
-              />
-              <CFormFeedback valid> Exito! </CFormFeedback>
-              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="12">
-            <CFormLabel for="validationCustom04">Fecha inicio</CFormLabel>
-            <CFormInput type="date" id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-              @click="lgDemo = false"
-            >
-              Cerrar
-            </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
-              Guardar
-            </button>
-          </div>
-        </CForm>
-      </CCardBody>
-    </CModalBody>
-  </CModal>
+  <DireccionDependeciaDialogs
+    :newDireccionDependeciaModal="newDireccionDependeciaModal"
+    @close-modal="closeModal"
+    @post-direccionDependecia="saveDireccionDependecia"
+    :direccionDependeciaId="direccionDependeciaId"
+  />
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import { mapActions } from 'pinia'
+import { useToastStore } from '@/store/toast'
+import DireccionDependeciaDialogs from '../Dialogos/DireccionDependenciaModal.vue'
+import Api from '../services/RegistroPersonalServices'
 export default {
   components: {
     CSmartTable,
     CModal,
+    DireccionDependeciaDialogs,
   },
   data: () => {
     return {
-      validatedCustom01: null,
-      lgDemo: false,
+      direccionDependecia: [],
+      direccionDependeciaId: null,
+      newDireccionDependeciaModal: false,
       columns: [
-        { key: 'Programa', label: 'Programa', _style: { width: '40%' } },
-        { key: 'FechaInicio', label: 'Fecha inicio', _style: { width: '40%' } },
+        { key: 'nombre', label: 'Nombre', _style: { width: '40%' } },
+        { key: 'estructura', label: 'Estructura', _style: { width: '40%' } },
         {
           key: 'show_details',
           label: '',
           _style: { width: '1%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
-      details: [],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+      ],
     }
   },
+  watch: {
+    newDireccionDependeciaModal() {
+      this.getAllDireccionDependecia()
+    },
+  },
   methods: {
-    formatDate(FechaInicio) {
-      return new Date(FechaInicio).toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
+    ...mapActions(useToastStore, ['show']),
+    closeModal() {
+      this.newDireccionDependeciaModal = false
+    },
+    editDireccionDependecia(item) {
+      this.direccionDependeciaId = item.id
+      this.newDireccionDependeciaModal = true
+    },
+    saveDireccionDependecia(payload) {
+      if (this.direccionDependeciaId != null) {
+        Api.putDireccionDependecia(this.direccionDependeciaId, payload)
+          .then(() => {
+            this.show({
+              content: 'Registro actualizado correctamente',
+              closable: true,
+              life: 7_500,
+            })
+            setTimeout(() => this.getAllDireccionDependecia(), 200)
+          })
+          .catch((error) => {
+            return this.show({
+              content: error.response.data,
+              closable: true,
+              color: 'danger',
+            })
+          })
+      } else {
+        Api.postDireccionDependecia(payload)
+          .then(() => {
+            this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
+              life: 7_500,
+            })
+            setTimeout(() => this.getAllDireccionDependecia(), 200)
+          })
+          .catch((error) => {
+            return this.show({
+              content: error.response.data,
+              closable: true,
+              color: 'danger',
+            })
+          })
+      }
+    },
+    getAllDireccionDependecia() {
+      Api.getDireccionDependecia().then((response) => {
+        this.direccionDependecia = response.data.data
+        this.footerItem[0] = `Total Items ${response.data.data.length}`
       })
-    },
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
-    },
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
-      }
-      this.details.push(item._id)
     },
   },
   mounted() {
-    this.$store.dispatch('AdministrativoModule/getUsuarios')
+    this.getAllDireccionDependecia()
   },
 }
 </script>

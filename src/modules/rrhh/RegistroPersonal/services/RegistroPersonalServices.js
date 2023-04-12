@@ -73,6 +73,23 @@ class RegistroPersonal {
     return http.post('AreaTrabajo', data)
   }
 
+  //direccion o dependecia
+  getDireccionDependeciaById(id) {
+    return http.get(`programas-division/${id}`)
+  }
+
+  getDireccionDependecia() {
+    return http.get('programas-division')
+  }
+
+  postDireccionDependecia(data) {
+    return http.post('programas-division', data)
+  }
+
+  putDireccionDependecia(id, data) {
+    return http.put(`programas-division/${id}`, data)
+  }
+
   //put
   putEmpleado(id, data) {
     return http.put(`Empleado/${id}`, data)
