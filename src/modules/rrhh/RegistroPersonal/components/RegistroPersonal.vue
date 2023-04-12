@@ -106,7 +106,7 @@
     </template>
   </CSmartTable>
 
-  <RegistroPersonalDialog :showModal="showRegistroPersonalModal" @post-personal="submitForm"/>
+  <RegistroPersonalDialog :showModal="showRegistroPersonalModal" @post-personal="submitForm" :empleadoId="id"/>
 </template>
 
 <script>
@@ -135,7 +135,7 @@ export default {
       //nuevas variables
       showRegistroPersonalModal:false,
       //nuevas variables
-      
+      id:null,
       lgDemo4: false,
       cambiar: false,
       registroPersonal: [],
@@ -340,6 +340,7 @@ export default {
     },
 
     toggleDetails(item) {
+      console.log(item.id)
       if (item.empleados !== 0 || item.variacion !== 0) {
         this.empleadoValue = true
       } else {
@@ -355,106 +356,7 @@ export default {
 
     clearModal1() {
       this.id = null
-      this.postEmpleado = {
-        ayuntamientoId: this.$ayuntamientoId,
-        codigo: null,
-        nombres: null,
-        apellidos: null,
-        tipoDocumento: null,
-        cedula: null,
-        direccion: null,
-        sectorId: 0,
-        telefono: null,
-        celular: null,
-        fechaNacimiento: new Date(Date.now()),
-        lugarNacimiento: null,
-        estadoCivil: 'M',
-        sexo: 'M',
-        dependientes: 0,
-        fechaIngreso: new Date(Date.now()),
-        fechaSalida: new Date(Date.now()),
-        razonSalida: null,
-        reemplear: true,
-        fechaReingreso: new Date(Date.now()),
-        programaDivisionId: 0,
-        departamentoId: 0,
-        areaTrabajoId: 0,
-        posicionId: 0,
-        grupoOcupacional: null,
-        tipoContrato: null,
-        fechaInicioContrato: new Date(Date.now()),
-        fechaFinContrato: new Date(Date.now()),
-        turno: null,
-        periodoPago: null,
-        formaPago: null,
-        numeroCuenta: null,
-        fechaExpitaTarjeta: new Date(Date.now()),
-        estatus: true,
-        sueldo: 0.0,
-        sueldoAnterior: 0.0,
-        fechaSueldoAnterior: new Date(Date.now()),
-        fechaUltimaNomina: new Date(Date.now()),
-        inicioVacaciones: new Date(Date.now()),
-        finVacaciones: new Date(Date.now()),
-        activoNomina: true,
-        ingreso2: 0.0,
-        ingreso3: 0.0,
-        ingreso4: 0.0,
-        ingreso5: 0.0,
-        ingreso6: 0.0,
-        ingreso7: 0.0,
-        ingreso8: 0.0,
-        ingreso9: 0.0,
-        ingreso10: 0.0,
-        impuestoSobreRenta: 0.0,
-        arsCalculado: true,
-        arsFijo: 0.0,
-        afpCalculado: true,
-        afpFijo: 0.0,
-        egresos4: 0.0,
-        egresos5: 0.0,
-        egresos6: 0.0,
-        egresos7: 0.0,
-        egresos8: 0.0,
-        egresos9: 0.0,
-        egresos10: 0.0,
-        eneroIngreso: 0.0,
-        febreroIngreso: 0.0,
-        marzoIngreso: 0.0,
-        abrilIngreso: 0.0,
-        mayoIngreso: 0.0,
-        junioIngreso: 0.0,
-        julioIngreso: 0.0,
-        agostoIngreso: 0.0,
-        septiembreIngreso: 0.0,
-        octubreIngreso: 0.0,
-        noviembreIngreso: 0.0,
-        diciembreIngreso: 0.0,
-        observacion: null,
-        discapacidad: null,
-        emergenciaNombre: null,
-        emergenciaTelefono: null,
-        emergenciaTelefono2: null,
-        emergenciaDireccion: null,
-        emergenciaParentezco: null,
-        tipoSangreId: 0,
-        emergenciaAlergico: null,
-        emergenciaDiabetico: 'sT',
-        emergenciaInsodepend: 'st',
-        emergenciaPresionAlta: null,
-        emergenciaPresionBaja: null,
-        emergenciaEnTratamiento: 'st',
-        emergenciaDiagnostico: null,
-        licenciaConducir: null,
-        fechaExpiracionLicencia: new Date(Date.now()),
-        aplicaSasp: true,
-        nivelEscolar: null,
-        areaTematica: null,
-        tituloObtenido: null,
-        correoElectronico: null,
-        correoElectronico2: null,
-        recomendadoPor: null,
-      }
+
       Api.getProgramaDivision().then((response) => {
         this.programaDivision = response.data.data
         this.postEmpleado.programaDivisionId = this.programaDivision[0].id
@@ -493,6 +395,7 @@ export default {
     },
 
     submitForm(payload) {
+      console.log(payload)
       if (this.id != null) {
         Api.putEmpleado(this.id, payload).then((response) => {
           this.lgDemo = false

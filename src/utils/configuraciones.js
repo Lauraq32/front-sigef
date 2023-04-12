@@ -9,6 +9,7 @@ class configuraciones {
     Discapacidad:5,
     Urls: 8
   }
+  
 
   getGroupConfiguration(grupoId) {
     return http.get(`grupos/${grupoId}/configuraciones`)

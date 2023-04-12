@@ -20,11 +20,11 @@ class RegistroPersonal {
   }
 
   getProgramaDivision() {
-    return http.get(`ProgramaDivision?AyuntamientoId=${getAyuntamientoId()}`)
+    return http.get(`programas-division`)
   }
 
   getEmpleadoByID(id) {
-    return http.get(`Empleado/${id}`)
+    return http.get(`empleados/${id}`)
   }
 
   getDepartamentoByProgramaId(id) {

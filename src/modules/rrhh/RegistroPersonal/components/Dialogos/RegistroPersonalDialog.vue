@@ -239,8 +239,8 @@
                     <CCol :md="10">
                       <CFormSelect style="position: relative; right: -52px" v-model="postEmpleado.sexo"
                         id="validationCustom05">
-                        <option>Masculino</option>
-                        <option>Femenino</option>
+                        <option value="M">Masculino</option>
+                        <option value="F">Femenino</option>
                       </CFormSelect>
                       <CFormFeedback invalid>
                         Favor agregar el campo
@@ -258,6 +258,24 @@
                       <CFormInput style="position: relative; right: -52px" v-model="postEmpleado.dependientes"
                         type="number" id="validationCustom02" required />
                       <CFormFeedback valid> Exito! </CFormFeedback>
+                      <CFormFeedback invalid>
+                        Favor agregar el campo
+                      </CFormFeedback>
+                    </CCol>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-3">
+                    <CFormLabel for="validationCustom05">Discapacidades</CFormLabel>
+                  </div>
+                  <div class="col-9">
+                    <CCol :md="10">
+                      <CFormSelect style="position: relative; right: -52px" v-model="postEmpleado.sectorId"
+                        id="validationCustom05">
+                        <option v-for="discapacidad in this.discapacidadList" :key="discapacidad.id" :value="discapacidad.id">
+                          {{ discapacidad.configValue }}
+                        </option>
+                      </CFormSelect>
                       <CFormFeedback invalid>
                         Favor agregar el campo
                       </CFormFeedback>
@@ -304,7 +322,7 @@
                   <CFormLabel for="validationCustom01">Departamento</CFormLabel>
                   <CFormSelect v-model="postEmpleado.departamentoId" id="validationCustom05">
                     <option v-for="departamento in departamentos" :key="departamento.id" :value="departamento.id">
-                      {{ departamento.nombre }}
+                      {{ departamento.descripcion }}
                     </option>
                   </CFormSelect>
 
@@ -318,7 +336,7 @@
                   <CFormLabel for="validationCustom05">Área de trabajo</CFormLabel>
                   <CFormSelect v-model="postEmpleado.areaTrabajoId" id="validationCustom05">
                     <option v-for="area in this.areaTrabajo" :key="area.id" :value="area.id">
-                      {{ area.area }}
+                      {{ area.descripcion }}
                     </option>
                   </CFormSelect>
                   <CFormFeedback invalid>
@@ -610,21 +628,10 @@
 
                 <CCol :md="6">
                   <CFormLabel for="validationCustom02">Nivel Escolar</CFormLabel>
-                  <CFormSelect id="validationCustom05">
-                    <option>01 - Sin Datos.</option>
-                    <option>01 - No Alfabetizado</option>
-                    <option>01 - Alfabetizado</option>
-                    <option>01 - Inicial</option>
-                    <option>01 - Basica</option>
-                    <option>01 - Diplomado</option>
-                    <option>01 - Media</option>
-                    <option>01 - Tecnico Superior</option>
-                    <option>01 - Grado</option>
-                    <option>01 - Postgrado Esp.</option>
-                    <option>01 - Postgrado Maest.</option>
-                    <option>01 - Postgrado Foct</option>
-
-
+                  <CFormSelect v-model="postEmpleado.nivelEscolar" id="validationCustom05">
+                    <option v-for="nivelEscolar in this.nivelEscolarList" :key="nivelEscolar.id" :value="nivelEscolar.id">
+                      {{ nivelEscolar.configValue }}
+                    </option>
                   </CFormSelect>
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -634,15 +641,9 @@
                 <CCol :md="6">
                   <CFormLabel for="validationCustom02">Area Tematica</CFormLabel>
                   <CFormSelect id="validationCustom05">
-                    <option>01 - Ciencia Juridical y Pol.</option>
-                    <option>02 - Tecnologia de la inf.</option>
-                    <option>03 - Ingenieria y Arquit.</option>
-                    <option>04 - Ciencias de la Salud.</option>
-                    <option>05 - Ciencia Econ. y Soc.</option>
-                    <option>06 - No Clasificado.</option>
-                    <option>07 - Ciencias Basicas</option>
-                    <option>08 - Agronomia y Vet</option>
-                    <option>09 - Artes y Humanidades</option>
+                    <option v-for="areaTematica in this.areaTematicaList" :key="areaTematica.id" :value="areaTematica.id">
+                      {{ areaTematica.configValue }}
+                    </option>
                   </CFormSelect>
                   <CFormFeedback valid> Exito! </CFormFeedback>
                   <CFormFeedback invalid>
@@ -725,6 +726,9 @@
 
 import { CModal } from '@coreui/vue'
 import moment from 'moment'
+import Api from '../../services/RegistroPersonalServices'
+import apiSectores from '../../../../financiero/NominaModule/services/NominaServices'
+import configuraciones from '@/utils/configuraciones'
 export default {
   name: 'RegistroPersonalDialog',
   components: {
@@ -733,6 +737,16 @@ export default {
   },
   data: function () {
     return {
+      discapacidadList: [],
+      nivelEscolarList: [],
+      areaTematicaList: [],
+      posicionCargo: [],
+      tipoSangre: [],
+
+      areaTrabajo: [],
+      programaDivision: [],
+      sector: [],
+      departamentos: [],
       tabPaneActiveKey: 1,
       postEmpleado: {
         ayuntamientoId: null,
@@ -843,18 +857,177 @@ export default {
   methods: {
     saveRegistroPersonal() {
       this.$emit('post-personal', {
-        ...this.solicitudEmpleo
+        ...this.postEmpleado
       })
     },
+    clearModal(){
+      this.postEmpleado = {
+        ayuntamientoId: this.$ayuntamientoId,
+        codigo: null,
+        nombres: null,
+        apellidos: null,
+        tipoDocumento: null,
+        cedula: null,
+        direccion: null,
+        sectorId: 0,
+        telefono: null,
+        celular: null,
+        fechaNacimiento: new Date(Date.now()),
+        lugarNacimiento: null,
+        estadoCivil: 'M',
+        sexo: 'M',
+        dependientes: 0,
+        fechaIngreso: new Date(Date.now()),
+        fechaSalida: new Date(Date.now()),
+        razonSalida: null,
+        reemplear: true,
+        fechaReingreso: new Date(Date.now()),
+        programaDivisionId: 0,
+        departamentoId: 0,
+        areaTrabajoId: 0,
+        posicionId: 0,
+        grupoOcupacional: null,
+        tipoContrato: null,
+        fechaInicioContrato: new Date(Date.now()),
+        fechaFinContrato: new Date(Date.now()),
+        turno: null,
+        periodoPago: null,
+        formaPago: null,
+        numeroCuenta: null,
+        fechaExpitaTarjeta: new Date(Date.now()),
+        estatus: true,
+        sueldo: 0.0,
+        sueldoAnterior: 0.0,
+        fechaSueldoAnterior: new Date(Date.now()),
+        fechaUltimaNomina: new Date(Date.now()),
+        inicioVacaciones: new Date(Date.now()),
+        finVacaciones: new Date(Date.now()),
+        activoNomina: true,
+        ingreso2: 0.0,
+        ingreso3: 0.0,
+        ingreso4: 0.0,
+        ingreso5: 0.0,
+        ingreso6: 0.0,
+        ingreso7: 0.0,
+        ingreso8: 0.0,
+        ingreso9: 0.0,
+        ingreso10: 0.0,
+        impuestoSobreRenta: 0.0,
+        arsCalculado: true,
+        arsFijo: 0.0,
+        afpCalculado: true,
+        afpFijo: 0.0,
+        egresos4: 0.0,
+        egresos5: 0.0,
+        egresos6: 0.0,
+        egresos7: 0.0,
+        egresos8: 0.0,
+        egresos9: 0.0,
+        egresos10: 0.0,
+        eneroIngreso: 0.0,
+        febreroIngreso: 0.0,
+        marzoIngreso: 0.0,
+        abrilIngreso: 0.0,
+        mayoIngreso: 0.0,
+        junioIngreso: 0.0,
+        julioIngreso: 0.0,
+        agostoIngreso: 0.0,
+        septiembreIngreso: 0.0,
+        octubreIngreso: 0.0,
+        noviembreIngreso: 0.0,
+        diciembreIngreso: 0.0,
+        observacion: null,
+        discapacidad: null,
+        emergenciaNombre: null,
+        emergenciaTelefono: null,
+        emergenciaTelefono2: null,
+        emergenciaDireccion: null,
+        emergenciaParentezco: null,
+        tipoSangreId: 0,
+        emergenciaAlergico: null,
+        emergenciaDiabetico: 'sT',
+        emergenciaInsodepend: 'st',
+        emergenciaPresionAlta: null,
+        emergenciaPresionBaja: null,
+        emergenciaEnTratamiento: 'st',
+        emergenciaDiagnostico: null,
+        licenciaConducir: null,
+        fechaExpiracionLicencia: new Date(Date.now()),
+        aplicaSasp: true,
+        nivelEscolar: null,
+        areaTematica: null,
+        tituloObtenido: null,
+        correoElectronico: null,
+        correoElectronico2: null,
+        recomendadoPor: null,
+      }
+    }
   },
   computed: {
   },
+  
 
   mounted() {
+    Api.getProgramaDivision().then((response) => {
+      this.programaDivision = response.data.data
+      this.postEmpleado.programaDivisionId = this.programaDivision[0].id
+    })
+
+    Api.getPosicion().then((response) => {
+      this.posicionCargo = response.data.data
+      this.postEmpleado.posicionId = this.posicionCargo[0].id
+    })
+
+    Api.getAreaTrabajo().then((response) => {
+      this.areaTrabajo = response.data.data
+      this.postEmpleado.areaTrabajoId = this.areaTrabajo[0].id
+    })
+
+    apiSectores.getSectores().then((response) => {
+      this.sector = response.data.data
+      this.postEmpleado.sectorId = this.sector[0].id
+    })
+
+    Api.getAllTipoSangre().then((response) => {
+      this.tipoSangre = response.data.data
+      this.postEmpleado.tipoSangreId = this.tipoSangre[0].id
+    })
+
+    Api.getProgramaDivision().then((response) => {
+      this.programaDivision = response.data.data
+      this.postEmpleado.programaDivisionId = this.programaDivision[0].id
+      Api.getDepartamentoByProgramaId(this.programaDivision[0].id).then(
+        (response) => {
+          this.departamentos = response.data.data
+          this.postEmpleado.departamentoId = this.departamentos[0].id
+        },
+      )
+    })
+    configuraciones.getGroupConfiguration(configuraciones.grupos.Discapacidad).then(response => {
+      this.discapacidadList = response.data.data
+    })
+    configuraciones.getGroupConfiguration(configuraciones.grupos.nivelEscolar).then(response => {
+      this.nivelEscolarList = response.data.data
+    })
+    configuraciones.getGroupConfiguration(configuraciones.grupos.areaTematica).then(response => {
+      this.areaTematicaList = response.data.data
+    })
+  },
+
+  watch: {
+    EmpleadoId(newId) {
+      if (newId) {
+        Api.getEmpleadoByID(newId).then((response) => {
+          console.log(response)
+        this.postEmpleado = {...response.data.data}
+      })
+      }
+    },
   },
 
   props: {
     showModal: Boolean,
+    EmpleadoId:null
   }
 }
 </script>
