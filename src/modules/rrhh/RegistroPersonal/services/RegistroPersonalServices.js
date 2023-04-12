@@ -4,7 +4,7 @@ import { getAyuntamientoId } from '@/utils/logged-info';
 class RegistroPersonal {
   //get
   getAllTipoSangre() {
-    return http.get('TipoSangre')
+    return http.get('tipos-sangre')
   }
 
   getTipoSangreByID(id) {
