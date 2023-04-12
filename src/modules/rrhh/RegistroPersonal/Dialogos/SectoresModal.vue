@@ -67,7 +67,6 @@ export default {
   methods: {
     closeModal() {
       this.$emit('close-modal');
-      this.newSectorModal = false
     },
     saveSector() {
       this.sectorFormValidated = false;
