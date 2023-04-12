@@ -21,7 +21,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    footer="footerItem"
     header
     :items="this.$store.state.Formulacion.proyecto"
     :columns="columns"
@@ -145,7 +145,7 @@ export default {
         { key: 'Estatus', label: 'Estatus', _style: { width: '40%' } },
         {
           key: '	Fecha inicial',
-          label: '	Fecha inicial',
+          label: '	Fecha Inicial',
           _style: { width: '40%' },
         },
         { key: 'Fecha Final', label: 'Fecha Final', _style: { width: '40%' } },
@@ -162,6 +162,17 @@ export default {
           sorter: false,
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
+      ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
       ],
       details: [],
     }

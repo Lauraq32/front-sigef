@@ -2,12 +2,14 @@
 export default {
   name: 'Contabilidad',
   redirect: '/ContabilidadModule/CuentasContables',
+  meta: { label: 'Contabilidad' },
   component: () =>
     import('@/modules/financiero/NominaModule/layout/TemplateLayout.vue'),
   children: [
     {
       path: 'cuentasContables',
       name: 'cuentasContables',
+      meta: { label: 'Cuentas Contables' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ContabilidadModule/components/CuentasContables.vue'
@@ -16,6 +18,7 @@ export default {
     {
       path: 'configuracionEstadoFlujoEfec',
       name: 'configuracionEstadoFlujoEfec',
+      meta: { label: 'Configuración Estado Flujo Efectivo' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ContabilidadModule/components/ConfiguracionEstadoFlujoEfec.vue'
@@ -24,6 +27,7 @@ export default {
     {
       path: 'configuracionEstadosFinanciero',
       name: 'configuracionEstadosFinanciero',
+      meta: { label: 'Configuración Estados Financiero' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ContabilidadModule/components/ConfiguracionEstadosFinanciero.vue'
@@ -32,6 +36,7 @@ export default {
     {
       path: 'estadoComparativo',
       name: 'estadoComparativo',
+      meta: { label: 'Estado Comparativo' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ContabilidadModule/components/EstadoComparativo.vue'
@@ -40,6 +45,7 @@ export default {
     {
       path: 'estadoRendimientoFinanciero',
       name: 'estadoRendimientoFinanciero',
+      meta: { label: 'Estado Rendimiento Financiero' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ContabilidadModule/components/EstadoRendimientoFinanciero.vue'
@@ -48,6 +54,7 @@ export default {
     {
       path: 'estadoSituacionFinanciera',
       name: 'estadoSituacionFinanciera',
+      meta: { label: 'Estado Situación Financiera' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ContabilidadModule/components/EstadoSituacionFinanciera.vue'
@@ -56,6 +63,7 @@ export default {
     {
       path: 'estadoFlujoEfectivo',
       name: 'estadoFlujoEfectivo',
+      meta: { label: 'Estado Flujo Efectivo' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ContabilidadModule/components/EstadoFlujoEfectivo.vue'
@@ -64,12 +72,12 @@ export default {
     {
       path: 'estadoCambioPatrimonioFinanciero',
       name: 'estadoCambioPatrimonioFinanciero',
+      meta: { label: 'Estado Cambio Patrimonio Financiero' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ContabilidadModule/components/EstadoCambioPatrimonioFinanciero.vue'
         ),
     },
-
 
     //  {
     //     path: '',

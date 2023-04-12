@@ -2,20 +2,42 @@
   <h3 class="text-center">Clasificadores</h3>
   <div class="table-headers">
     <div class="p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReportClsIng">Imprimir Clasificadores de Ingresos
+      <CButton
+        style="font-weight: bold"
+        color="info"
+        @click="IngresoReportClsIng"
+        >Imprimir Clasificadores de Ingresos
       </CButton>
     </div>
     <div class="p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReportClsGas">Imprimir Clasificadores de Gastos
+      <CButton
+        style="font-weight: bold"
+        color="info"
+        @click="IngresoReportClsGas"
+        >Imprimir Clasificadores de Gastos
       </CButton>
     </div>
   </div>
-  <CSmartTable class="sticky-top" clickableRows :tableProps="{
-    striped: true,
-    hover: true,
-  }" :tableHeadProps="{}" :activePage="1" header :items="items" :columns="columns" columnFilter itemsPerPageSelect
-    :itemsPerPage="5" :items-per-page-options="[5, 10, 20, 50, 100, 150]" columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }" pagination>
+  <CSmartTable
+    clickableRows
+    :tableProps="{
+      striped: true,
+      hover: true,
+    }"
+    :tableHeadProps="{}"
+    :activePage="1"
+    header
+    :items="items"
+    :columns="columns"
+    columnFilter
+    itemsPerPageSelect
+    :footer="footerItem"
+    :itemsPerPage="5"
+    :items-per-page-options="[5, 10, 20, 50, 100, 150]"
+    columnSorter
+    :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination
+  >
     <template #status="{ item }">
       <td>
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
@@ -54,7 +76,13 @@
     </template>
     <template #show_details="{ item, index }">
       <td class="py-2">
-        <CButton color="primary" variant="outline" square size="sm" @click="toggleDetails(item, index)">
+        <CButton
+          color="primary"
+          variant="outline"
+          square
+          size="sm"
+          @click="toggleDetails(item, index)"
+        >
           {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
         </CButton>
       </td>
@@ -82,6 +110,17 @@ export default {
   },
   data: () => {
     return {
+      itemsCount: null,
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+      ],
       columns: [
         { key: 'clasifica', label: 'Clasificador' },
         { key: 'cControl', label: 'Control' },
@@ -93,18 +132,24 @@ export default {
           sorter: false,
           _style: { width: '5%' },
         },
-        { key: 'cuentaContag', label: 'Cuenta contable' },
+        { key: 'cuentaContag', label: 'Cuenta Contable' },
 
-
-        { key: 'ctgFuenteId', label: 'Fuente', _style: { textAling: 'center' } },
-        { key: 'ctgFuenteEspecificaId', label: 'Fuente especifica' },
+        {
+          key: 'ctgFuenteId',
+          label: 'Fuente',
+          _style: { textAling: 'center' },
+        },
+        { key: 'ctgFuenteEspecificaId', label: 'Fuente Específica' },
         { key: 'ctgOrganismoFinanciadorId', label: 'Organismo Financiero' },
       ],
       details: [],
       items: [],
-      filter: [{
-        key: 'ccontrol', _style: { color: 'success' }
-      }]
+      filter: [
+        {
+          key: 'ccontrol',
+          _style: { color: 'success' },
+        },
+      ],
     }
   },
   methods: {
@@ -148,11 +193,11 @@ export default {
   },
   computed: {},
   mounted() {
-    Api.getListarClasificadores().then(response => {
+    Api.getListarClasificadores().then((response) => {
       this.items = response.data.data
-      console.log(this.items)
+      this.itemsCount = this.items.length
+      this.footerItem[0].label = `Total items: ${this.itemsCount}`
     })
-    //this.$store.dispatch('Formulacion/getClasificadores');
   },
 }
 </script>

@@ -24,7 +24,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     columnFilter
     :items="sectores"
@@ -134,12 +134,12 @@ export default {
     CModal,
       
   },
-  data: () => {
+  data: function () {
     return {
       postSectores: {
         id: 0,
         nombre: null,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
         ayuntamiento: {
           id: 0,
           secuencial: 0,
@@ -158,6 +158,17 @@ export default {
           sorter: false,
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
+      ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
       ],
       details: [],
       validatedCustom01: null,

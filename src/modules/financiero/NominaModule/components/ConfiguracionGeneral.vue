@@ -29,7 +29,7 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
+    :footer="footerItem"
     header
     key="ingreso.id"
     :items="ingresos"
@@ -235,11 +235,11 @@ export default {
     CSmartTable,
     CModal,
   },
-  data: () => {
+  data: function () {
     return {
       postIngreso: {
-        Ano: parseInt(localStorage.getItem('ano')),
-        id_ayuntamiento: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        Ano: this.$fiscalYearId,
+        id_ayuntamiento: this.$ayuntamientoId,
         CLASIFICA: null,
         INST_OTORGA: 0,
         CONTROL: '',
@@ -322,6 +322,17 @@ export default {
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
+      ],
       details: [],
     }
   },
@@ -374,9 +385,7 @@ export default {
     IngresoReport() {
       window
         .open(
-          `http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fseguridad%2fReport1&rs:Command=Render&id=${localStorage.getItem(
-            'id_Ayuntamiento',
-          )}&ano=${localStorage.getItem('ano')}`,
+          `http://server-iis/ReportServer/Pages/ReportViewer.aspx?%2fseguridad%2fReport1&rs:Command=Render&id=${this.$ayuntamientoId}&ano=${this.$fiscalYearId}`,
           '_blank',
         )
         .focus()

@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
 import http from '@/Api/http-common'
-const user = JSON.parse(localStorage.getItem('usuario'))
+import { getAyuntamientoId } from '@/utils/logged-info';
 class RegistroPersonal {
   //get
   getAllTipoSangre() {
-    return http.get('TipoSangre')
+    return http.get('tipos-sangre')
   }
 
   getTipoSangreByID(id) {
@@ -15,19 +15,32 @@ class RegistroPersonal {
     return http.get(`Sector / ${id}`)
   }
 
+  getProfesion() {
+    return http.get('profesiones')
+  }
+
+  addProfesion(data) {
+    return http.post('profesiones',data)
+  }
+  updateProfesion(id, data) {
+    return http.put(`profesiones/${id}`, data)
+  }
+
+  getProfesionById(id) {
+    return http.get(`profesiones/${id}`)
+  }
+
   getAllEmpleado() {
     return http.get(
       `Empleado?ayuntamientoId=${
-       user?.user.ayuntamiento.id
+       getAyuntamientoId()
       }`,
     )
   }
 
   getProgramaDivision() {
     return http.get(
-      `ProgramaDivision?AyuntamientoId=${
-       user?.user.ayuntamiento.id
-      }`,
+      `ProgramaDivision?AyuntamientoId=${getAyuntamientoId()}`,
     )
   }
 
@@ -42,7 +55,7 @@ class RegistroPersonal {
   getSectores() {
     return http.get(
       `Sector?ayuntamiento=${
-       user?.user.ayuntamiento.id
+       getAyuntamientoId()
       }`,
     )
   }
@@ -114,7 +127,7 @@ class RegistroPersonal {
   deleteSector(id) {
     return http.delete(
       `Sector/${id}?ayuntamiento=${
-       user?.user.ayuntamiento.id
+       getAyuntamientoId()
       }`,
     )
   }

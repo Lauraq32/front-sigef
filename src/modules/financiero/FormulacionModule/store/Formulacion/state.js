@@ -1,3 +1,5 @@
+import { getAyuntamientoId, getFiscalYearId } from "@/utils/logged-info";
+
 export default () => ({
   clasificadores: [
     {
@@ -15365,9 +15367,11 @@ export default () => ({
   proyectos: [],
   organismos: [],
   ingresos: [],
+  ingresosCount:0,
+  estructuraProgCount:0,
   ingreso: {
-    Ano: parseInt(localStorage.getItem('ano')),
-    id_ayuntamiento: parseInt(localStorage.getItem('id_ayuntamiento')),
+    Ano: getFiscalYearId(),
+    id_ayuntamiento: getAyuntamientoId(),
     CLASIFICA: null,
     INST_OTORGA: 0,
     CONTROL: '',

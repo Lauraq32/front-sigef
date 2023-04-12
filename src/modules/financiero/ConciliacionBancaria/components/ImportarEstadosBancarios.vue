@@ -148,7 +148,7 @@ export default {
     CSmartTable,
     CModal,
   },
-  data: () => {
+  data: function () {
     return {
       validatedCustom01: null,
       lgDemo: false,
