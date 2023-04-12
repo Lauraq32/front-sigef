@@ -3,8 +3,7 @@
     <div class="d-flex" v-if="anoFiscal">
       <label class="form-label col-auto col-form-label mx-2">Anio Fiscal</label>
       <CFormSelect v-model="selectedAnio" v-on:change="setFiscalYear($event)" aria-label="Select aniofiscal"
-        :options="fiscalYear">
-        <option></option>
+        :options="fiscalYearList">
       </CFormSelect>
     </div>
     <div class="sticky-top">
@@ -19,9 +18,9 @@
           <CDropdown variant="btn-group">
             <CDropdownToggle v-if="addDropdowm" color="ligth">Acciones</CDropdownToggle>
             <CDropdownMenu>
-              <CDropdownItem v-for="(action, index) in actions" @click="action.accion">{{ action.label }}</CDropdownItem>
+              <CDropdownItem v-for="(action) in actions" @click="action.accion">{{ action.label }}</CDropdownItem>
               <CDropdownDivider />
-              <AppUploadButton :addFileButton="false" :title="nombres" />
+              <AppUploadButton :addFileButton="false" :title="UploadButtonLabel" />
             </CDropdownMenu>
           </CDropdown>
         </CButtonGroup>
@@ -47,7 +46,6 @@ export default {
     actions: [],
     anoFiscal: false,
     addButton: false,
-    input: false,
     addDropdowm: true,
     addFileButton: false,
     anioFiscal: false,
@@ -56,7 +54,7 @@ export default {
   data: function () {
     return {
       selectedAnio: 0,
-      nombres: 'Cargar Archivos',
+      UploadButtonLabel:'Cargar Datos',
       cilCloudUpload,
       texto: null,
       fileName: '',
@@ -66,7 +64,7 @@ export default {
   computed: {
     ...mapStores(useAuthStore),
     ...mapState(useAuthStore, ['authInfo']),
-    fiscalYear() {
+    fiscalYearList() {
       return this.authInfo.fiscalListYears.map((yearFiscal) => {
         return {
           label: yearFiscal.id,
@@ -84,26 +82,21 @@ export default {
       this.changeFiscalYear(selectedAnio.target.value)
       this.$router.go()
     },
-    setcurrentfiscalYear() {
+    setCurrentFiscalYear() {
       this.changeFiscalYear(this.authInfo.currentFiscalYearId)
       this.selectedAnio = this.authInfo.currentFiscalYearId
     },
   },
   mounted() {
-    this.setcurrentfiscalYear()
+    this.setCurrentFiscalYear()
   },
 }
 </script>
 <style scoped>
-
-
 .sticky-top {
   position: sticky;
   top: 0;
   z-index: 1021;
 }
 
-.file-select>input[type='file'] {
-  display: none;
-}
 </style>

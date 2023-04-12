@@ -66,7 +66,6 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
->>>>>>> main
     <template #status="{ item }">
       <td>
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
