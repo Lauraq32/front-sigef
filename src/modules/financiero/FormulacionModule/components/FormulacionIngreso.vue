@@ -133,12 +133,13 @@ export default {
         anioFiscalId: this.$fiscalYearId,
         ayuntamientoId: this.$ayuntamientoId,
         ctgClasificadorId: '',
-        instOtorga: 0,
-        ctaControl: 0,
+        instOtorga: '',
+        ctaControl: '',
         detalle: '',
-        ctgFuenteId: 0,
-        ctgFuenteEspecificaId: 0,
-        ctgOrganismoFinanciadorId: 0,
+        anioAnt: 0,
+        ctgFuenteId: '',
+        ctgFuenteEspecificaId: '',
+        ctgOrganismoFinanciadorId: '',
         anioAnt: 0,
         alaFecha: 0,
         presForm: 0,
@@ -346,13 +347,13 @@ export default {
         anioFiscalId: this.authInfo.user.ayuntamiento.id,
         ayuntamientoId: this.authInfo.currentFiscalYearId,
         ctgClasificadorId: null,
-        instOtorga: 0,
-        ctaControl: 0,
+        instOtorga: '',
+        ctaControl: '',
         detalle: '',
         anioAnt: 0,
-        ctgFuenteId: 0,
-        ctgFuenteEspecificaId: 0,
-        ctgOrganismoFinanciadorId: 0,
+        ctgFuenteId: '',
+        ctgFuenteEspecificaId: '',
+        ctgOrganismoFinanciadorId: '',
         alaFecha: 0,
         presForm: 0,
         variacion: 0,
@@ -403,12 +404,8 @@ export default {
 
     editFormulacion(item) {
       this.showPartidaPresupuestodeIngresoDialog = true
-
-      Api.getPresIngresoById(item).then((response) => {
-        this.id = item.id
-        this.postIngreso = response.data.data;
-        this.postIngreso.ctaControl = this.postIngreso.control;
-      })
+      this.postIngreso = { ...item };
+      this.postIngreso.ctaControl = item.control;
     },
 
     IngresoReport() {

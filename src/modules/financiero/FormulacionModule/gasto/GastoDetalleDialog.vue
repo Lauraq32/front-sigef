@@ -175,7 +175,7 @@
                       <div class="col-4">
                         <CFormLabel for="validationCustom04">Servicios</CFormLabel>
                         <VueNumberFormat v-model:value="detalle.oriBco2" type="text" class="form-control" :options="{
-                          precision: 3,
+                          precision: 2,
                           prefix: '',
                           decimal: '.',
                           thousand: ',',
