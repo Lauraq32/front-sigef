@@ -145,7 +145,7 @@ export default {
         { key: 'Estatus', label: 'Estatus', _style: { width: '40%' } },
         {
           key: '	Fecha inicial',
-          label: '	Fecha inicial',
+          label: '	Fecha Inicial',
           _style: { width: '40%' },
         },
         { key: 'Fecha Final', label: 'Fecha Final', _style: { width: '40%' } },
