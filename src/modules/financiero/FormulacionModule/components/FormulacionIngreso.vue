@@ -114,7 +114,6 @@ import { CSmartTable } from '@coreui/vue-pro'
 import Api from '../services/FormulacionServices'
 import { mapActions, mapStores, mapState } from 'pinia'
 import XLSX from 'xlsx/xlsx.mjs'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { CIcon } from '@coreui/icons-vue'
 import { useToastStore } from '@/store/toast'
 import { useAuthStore } from '@/store/AuthStore'
@@ -248,21 +247,23 @@ export default {
   methods: {
     ...mapActions(useToastStore, ['show']),
     downloadFile() {
-      Api.downloadIngreso().then((response) => {
-        var fileURL = window.URL.createObjectURL(new Blob([response.data]))
-        var fURL = document.createElement('a')
+      Api.downloadIngreso(this.$ayuntamientoId, this.$fiscalYearId)
+      .then((response) => {
+        const fileURL = window.URL.createObjectURL(new Blob([response.data]));
+        const fURL = document.createElement('a');
+        const id =  `${this.$loggedInfo.user.ayuntamiento.codigo}-${new Date().toISOString()}`;
 
-        fURL.href = fileURL
+        fURL.href = fileURL;
+        fURL.id = id;
         fURL.setAttribute(
           'download',
-          `FI-${localStorage
-            .getItem('usuario')
-            .substring(4, 8)}${localStorage.getItem('fecha')}.csv`,
-        )
-        document.body.appendChild(fURL)
+          `FI-${id}.csv`,
+        );
+        document.body.appendChild(fURL);
 
-        fURL.click()
+        fURL.click();
       })
+      .catch(this.handlerHttpError.bind(this))
     },
 
     openModal() {
