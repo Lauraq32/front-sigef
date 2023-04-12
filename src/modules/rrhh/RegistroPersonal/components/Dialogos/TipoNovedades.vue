@@ -1,12 +1,11 @@
 <template>
-  <CModal @close="CloseModals" size="lg" :visible="showModals">
+  <CModal backdrop="static" @close="closeModal" size="lg" :visible="showModal">
     <CModalHeader>
       <CModalTitle>Tipo de Novedad</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CSmartTable
         style="margin-top: 10px"
-        class="sticky-top"
         clickableRows
         :tableProps="{
           striped: true,
@@ -15,8 +14,8 @@
         :tableHeadProps="{}"
         :activePage="1"
         header
-        :items="areasTrabajo"
-        :columns="columns2"
+        :items="tipoAcciones"
+        :columns="columns"
         columnFilter
         itemsPerPageSelect
         :itemsPerPage="5"
@@ -38,44 +37,11 @@
               variant="outline"
               square
               size="sm"
-              @click="toggleDetails(item)"
-            >
-              {{ Boolean(item._toggled) ? 'Hide' : 'Nuevo' }}
-            </CButton>
-
-            <CButton
-              class="mt-1"
-              color="primary"
-              variant="outline"
-              square
-              size="sm"
-              @click="toggleDetails(item)"
+              @click="editTipoAccion(item)"
             >
               {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
             </CButton>
-            <CButton
-              class="mt-1"
-              color="primary"
-              variant="outline"
-              square
-              size="sm"
-              @click="toggleDetails(item)"
-            >
-              {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
-            </CButton>
           </td>
-        </template>
-        <template #details="{ item }">
-          <CCollapse :visible="this.details.includes(item._id)">
-            <CCardBody>
-              <h4>
-                {{ item.username }}
-              </h4>
-              <p class="text-muted">User since: {{ item.registered }}</p>
-              <CButton size="sm" color="info" class=""> User Settings </CButton>
-              <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-            </CCardBody>
-          </CCollapse>
         </template>
       </CSmartTable>
     </CModalBody>
@@ -89,7 +55,8 @@
         class="btn btn-info btn-block mt-1"
         @click="
           () => {
-            lgDemo4 = true
+            showTipoNovedad = true
+            clearTipoAccion()
           }
         "
       >
@@ -99,76 +66,76 @@
   </CModal>
 
   <CModal
+    backdrop="static"
     @close="
       () => {
-        lgDemo4 = false
+        showTipoNovedad = false
       }
     "
-    size="lg"
-    :visible="lgDemo4"
+    size="m"
+    :visible="showTipoNovedad"
   >
     <CModalHeader>
       <CModalTitle>Tipo de Novedad</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
-        <div class="row">
-          <div class="col-3">
-            <CFormLabel for="validationCustom01">Codigo</CFormLabel>
-          </div>
-          <div class="col-9 col-md-4">
-            <CFormInput />
-          </div>
-        </div>
-
         <div class="row mt-3">
-          <div class="col-3">
+          <div class="col-4">
             <CFormLabel>Descripción</CFormLabel>
           </div>
-          <div class="col-9 col-md-4">
-            <CFormInput />
+          <div class="col-8">
+            <CFormInput v-model="postTipoAccion.descripcion" />
           </div>
         </div>
 
-        <div class="row mt-3">
-          <div class="col-3">
-            <div class="row mt-3">
-              <div class="col-9">
-                <CFormLabel>Cambiar estatus?</CFormLabel>
-              </div>
-              <div class="col-3">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="flexCheckDefault"
-                />
-              </div>
-            </div>
-          </div>
-          <div class="col-9">
-            <div class="row mt-3 col-9">
-              <div class="col-3">
-                <CFormLabel>A Estatus:</CFormLabel>
-              </div>
-              <div class="col-9 col-md-4 mx-3">
-                <CFormInput />
-              </div>
-            </div>
+        <div class="row mt-4">
+          <div class="col-4"></div>
+          <div class="col-8">
+            <CFormLabel for="cambiaStatus" class="d-flex">
+              Cambia estatus?
+              <input
+                v-model="postTipoAccion.cambiaStatus"
+                class="form-check-input mx-3"
+                type="checkbox"
+                id="cambiaStatus"
+              />
+            </CFormLabel>
           </div>
         </div>
-        <h6 class="mt-2" style="position: relative; left: 198px">
-          A = Activo I = Inactivo <br />
-          L = Licencia V = Vacaciones
-        </h6>
+
+        <div class="row mt-2">
+          <div class="col-4">
+            <CFormLabel for="selectTipoAccion">Estatus</CFormLabel>
+          </div>
+          <div class="col-8">
+            <CFormSelect v-model="postTipoAccion.estatus" id="selectTipoAccion">
+              <option>Activo</option>
+              <option>Inactivo</option>
+              <option>Licencia</option>
+              <option>Vacaciones</option>
+            </CFormSelect>
+          </div>
+        </div>
       </CCardBody>
     </CModalBody>
 
     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        data-bs-dismiss="modal"
+        @click="showTipoNovedad = false"
+      >
         Cancelar
       </button>
 
-      <button class="btn btn-info btn-block mt-1">Guardar</button>
+      <button
+        class="btn btn-info btn-block mt-1"
+        v-on:click="submitTipoAcciones"
+      >
+        Guardar
+      </button>
     </div>
   </CModal>
 </template>
@@ -176,6 +143,9 @@
 <script>
 import { CModal } from '@coreui/vue'
 import { CSmartTable } from '@coreui/vue-pro'
+import Api from '@/modules/rrhh/RegistroPersonal/services/RegistroPersonalServices'
+import { useToastStore } from '@/store/toast'
+import { mapActions } from 'pinia'
 
 export default {
   name: 'TipoNovedadDialog',
@@ -186,22 +156,29 @@ export default {
 
   data: function () {
     return {
-      lgDemo4: false,
-      columns2: [
-        { key: 'codigo', label: 'Codigo', _style: { width: '5%' } },
+      showTipoNovedad: false,
+      tipoAcciones: [],
+      postTipoAccion: {
+        descripcion: null,
+        cambiaStatus: false,
+        estatus: 'Activo',
+        comprobado: false,
+      },
+      columns: [
+        { key: 'id', label: 'Código', _style: { width: '5%' } },
         {
           key: 'descripcion',
           label: 'Descripción',
           _style: { width: '20%' },
         },
         {
-          key: 'cambiaEstatus',
+          key: 'cambiaStatus',
           label: 'Cambia Estatus',
           _style: { width: '10%' },
         },
         {
-          key: 'aEstatus',
-          label: 'a Estatus',
+          key: 'estatus',
+          label: 'Estatus',
           _style: { width: '10%' },
         },
         {
@@ -212,19 +189,91 @@ export default {
           sorter: false,
         },
       ],
-
-      details: [],
     }
   },
 
   methods: {
-    CloseModals() {
-      this.$emit('closeModals', false)
+    ...mapActions(useToastStore, ['show']),
+    closeModal() {
+      this.$emit('closeModal', false)
+    },
+
+    getTipoAcciones() {
+      Api.getAllTipoAcciones().then((response) => {
+        this.tipoAcciones = response.data.data
+      })
+    },
+
+    editTipoAccion(item) {
+      Api.getTipoAccionByID(item.id).then((response) => {
+        this.postTipoAccion = response.data.data
+        this.id = item.id
+      })
+      this.showTipoNovedad = true
+    },
+
+    postTipoAcciones() {
+      Api.postTipoAcciones(this.postTipoAccion)
+        .then(() => {
+          this.show({
+            content: 'Registro guardado correctamente',
+            closable: true,
+          })
+        })
+        .catch(({ response }) => {
+          this.show({
+            content: response.data.message,
+            closable: true,
+            color: 'danger',
+            class: 'text-white',
+          })
+        })
+    },
+
+    clearTipoAccion() {
+      ;(this.id = null),
+        (this.postTipoAccion = {
+          id: null,
+          descripcion: null,
+          cambiaStatus: null,
+          estatus: null,
+          comprobado: null,
+        })
+    },
+
+    submitTipoAcciones() {
+      if (this.id != null) {
+        Api.putTipoAcciones(this.id, this.postTipoAccion)
+          .then(() => {
+            this.show({
+              content: 'Registro guardado correctamente',
+              closable: true,
+            })
+          })
+          .catch(({ response }) => {
+            this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+            })
+          })
+        setTimeout(this.getTipoAcciones, 500)
+      } else {
+        this.postTipoAcciones()
+        console.log('klk')
+      }
+    },
+  },
+
+  watch: {
+    showModal() {
+      this.getTipoAcciones()
     },
   },
 
   props: {
-    showModals: Boolean,
+    showModal: Boolean,
   },
 }
 </script>

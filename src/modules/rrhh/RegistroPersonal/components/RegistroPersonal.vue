@@ -4,11 +4,10 @@
     :showModal="showAccionPersonal"
     @closeModal="closeAccionPersonal"
     :empleado="EmpleadoAcciones"
-
   />
   <TipoNovedadDialog
-    :showModals="showTipoNovedad"
-    @closeModals="closeTipoNovedad"
+    :showModal="showTipoNovedad"
+    @closeModal="closeTipoNovedad"
   />
   <div class="table-headers">
     <div class="d-inline p-2">

@@ -39,6 +39,10 @@ class RegistroPersonal {
     return http.get(`acciones-personal/empleado/${id}`)
   }
 
+  getTipoAccionByID(id) {
+    return http.get(`tipo-acciones/${id}`)
+  }
+
   getDepartamentoByProgramaId(id) {
     return http.get(`Departamento/Programa/${id}`)
   }
@@ -69,6 +73,10 @@ class RegistroPersonal {
     return http.post('Empleado', data)
   }
 
+  postTipoAcciones(data) {
+    return http.post('tipo-acciones', data)
+  }
+
   postSectores(data) {
     return http.post('sectores', data)
   }
@@ -84,6 +92,10 @@ class RegistroPersonal {
   //put
   putEmpleado(id, data) {
     return http.put(`Empleado/${id}`, data)
+  }
+
+  putTipoAcciones(id, data) {
+    return http.put(`tipo-acciones/${id}`, data)
   }
 
   putAccionesPersonales(id, data) {
