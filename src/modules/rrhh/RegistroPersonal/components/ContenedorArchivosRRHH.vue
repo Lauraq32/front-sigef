@@ -14,7 +14,7 @@
               <div v-for="(documento, index) in documentos" :key="index">
                 <div class="card">
                   <CCollapse :visible="documento.visible">
-                    <canva :src="documento.src" class="card-img-top" :alt="documento.alt" />
+                    <canvas class="card-img-top" :src="documento.src" :alt="documento.alt" />
                   </CCollapse>
                   <div class="card-body">
                     <h5 class="card-title">Descripción del documento</h5>
@@ -45,6 +45,7 @@
 
 <script>
 import { CModal, CModalHeader, CModalTitle, CModalBody } from '@coreui/vue'
+import Api from '../services/FormulacionServices'
 import { CButton, CCollapsePlugin } from '@coreui/vue-pro'
 import { CCollapse } from '@coreui/vue'
 import { CIcon } from '@coreui/icons-vue'
@@ -66,10 +67,29 @@ export default {
       lgDemo5: false,
       fullscreenDemo: false,
       visible: false,
-      file: null
+      file: null,
 
+      documentos: [
+        {
+          src: 'https://i.pinimg.com/originals/79/83/19/79831914e8d3733c333a42f0921388a6.jpg',
+          alt: 'Documento 1',
+          descripcion: 'Descripción del documento 1',
+          visible: false
+        },
+        {
+          src: 'documento2.png',
+          alt: 'Documento 2',
+          descripcion: 'Descripción del documento 2',
+          visible: false
+        },
+        {
+          src: 'documento3.png',
+          alt: 'Documento 3',
+          descripcion: 'Descripción del documento 3',
+          visible: false
+        }
+      ]
 
-      
     }
 
   },
@@ -89,9 +109,10 @@ export default {
     CloseModal() {
       this.$emit('closeModal', false)
     },
-  
-    handleFileUpload(event) {
-      this.file = event.target.files[0]
+
+
+    toggle(index) {
+      this.documentos[index].visible = !this.documentos[index].visible
     }
   },
 
