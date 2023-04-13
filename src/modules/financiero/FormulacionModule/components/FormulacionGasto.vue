@@ -1164,6 +1164,10 @@ export default {
       }
     },
 
+    // Api.getFileById()=>{
+
+    // }
+
     focusInput() {
       this.$refs.name.focus()
     },

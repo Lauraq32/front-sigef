@@ -130,6 +130,9 @@ class FormulacionApi {
       }`,
     )
   }
+  getFileById(id){
+     return http.get(`file/${id}`)
+  }
 
   postGastos(post) {
     return http.post(`PresGasto`, post).catch((error) => {

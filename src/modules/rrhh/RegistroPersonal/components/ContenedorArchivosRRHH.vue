@@ -8,24 +8,21 @@
         <div class="tab-context">
           <div class="row">
             <h3>Empleado : Yonaiky Matos</h3>
-            <hr/>
+            <hr />
 
             <div>
-              <div class="card">
-               <CCollapse :visible="visible">
-                <img src="https://th.bing.com/th/id/OIP.G8FqRu1n4vJpAGAplGWG1wHaKe?pid=ImgDet&rs=1" class="card-img-top"
-                  alt="..." />
-              </CCollapse>
-                <div class="card-body">
-                  <h5 class="card-title">Descripción del documento</h5>
-                  <p class="card-text">
-                  Curriculum vitae 
-                  </p>
-                </div>
-                <div class="card-body">
-                  <CButton color="primary" href="#" @click="visible = !visible">Visualizar</CButton>
-
-            
+              <div v-for="(documento, index) in documentos" :key="index">
+                <div class="card">
+                  <CCollapse :visible="documento.visible">
+                    <canva :src="documento.src" class="card-img-top" :alt="documento.alt" />
+                  </CCollapse>
+                  <div class="card-body">
+                    <h5 class="card-title">Descripción del documento</h5>
+                    <p class="card-text">{{ documento.descripcion }}</p>
+                  </div>
+                  <div class="card-body">
+                    <CButton color="primary" href="#" @click="toggle(index)">Visualizar</CButton>
+                  </div>
                 </div>
               </div>
             </div>
@@ -34,13 +31,14 @@
         </div>
       </CModalBody>
       <div class="modal-footer">
-      <button type="button" color="info" class="btn btn-secondary" data-bs-dismiss="modal">
-        Close
-      </button>
-      <button type="button" color="info" class="btn btn-primary" v-on:click="submitForm">
-        Subir Documentos
-      </button>
-    </div>
+        <button type="button" color="info" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="button" color="info" class="btn btn-primary" v-on:click="submitForm">
+          Guardar
+        </button>
+
+      </div>
     </CModal>
   </div>
 </template>
@@ -49,6 +47,7 @@
 import { CModal, CModalHeader, CModalTitle, CModalBody } from '@coreui/vue'
 import { CButton, CCollapsePlugin } from '@coreui/vue-pro'
 import { CCollapse } from '@coreui/vue'
+import { CIcon } from '@coreui/icons-vue'
 
 export default {
   components: {
@@ -57,8 +56,9 @@ export default {
     CModalTitle,
     CModalBody,
     CButton,
+    CIcon,
     CCollapsePlugin
-},
+  },
 
   data() {
 
@@ -66,7 +66,12 @@ export default {
       lgDemo5: false,
       fullscreenDemo: false,
       visible: false,
+      file: null
+
+
+      
     }
+
   },
   methods: {
     focusInput() {
@@ -84,6 +89,10 @@ export default {
     CloseModal() {
       this.$emit('closeModal', false)
     },
+  
+    handleFileUpload(event) {
+      this.file = event.target.files[0]
+    }
   },
 
   props: {
@@ -91,5 +100,20 @@ export default {
   },
 }
 </script>
-<style>
+<style scoped>
+.file-select>.select-button {
+  padding: 0.5rem;
+
+  line-height: 1.5;
+  color: white;
+  background-color: #375b80;
+
+  border-radius: 0.3rem;
+  cursor: pointer;
+  text-align: center;
+}
+
+.file-select>input[type='file'] {
+  display: none;
+}
 </style>
