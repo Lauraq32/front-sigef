@@ -310,7 +310,7 @@ export default {
         },
         {
           key: 'tipo',
-          label: 'Tipo de beneficiario',
+          label: 'Tipo de Beneficiario',
           _style: { width: '10%' },
         },
         { key: 'direccion', label: 'Cédula', _style: { width: '15%' } },

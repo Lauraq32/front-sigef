@@ -14,7 +14,7 @@
                 <CCol :md="3">
                     <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
                     <div class="position-relative">
-                        <input ref="clasificatorField" required @keyup.enter.prevent="findClasificador"
+                        <input ref="clasificatorField" required @keyup.enter.prevent="findClasificador" maxlength="6"
                             class="form-control padding-input" v-model="formulacionIngreso.ctgClasificadorId" type="number"
                             id="clasifica" />
                         <span class="position-absolute icon-input">
@@ -37,19 +37,33 @@
                 </CCol>
                 <CCol :md="3">
                     <CFormLabel for="validationCustom03">Fuente Financiamiento</CFormLabel>
-                    <CFormInput :disabled="enabledFields.ctgFuenteId"
-                        v-model="formulacionIngreso.ctgFuenteId" id="validationCustom03" required />
+                    <CFormInput
+                        id="validationCustom03" required
+                        :disabled="enabledFields.ctgFuenteId"
+                        v-model="formulacionIngreso.ctgFuenteId"
+                        type="number"
+                        pattern="[0-9]+"
+                    />
                 </CCol>
                 <CCol :md="3">
                     <CFormLabel for="validationCustom04">Fuente Espec&iacute;fica</CFormLabel>
-                    <CFormInput :disabled="enabledFields.ctgFuenteEspecificaId"
-                        v-model="formulacionIngreso.ctgFuenteEspecificaId" id="validationCustom04" required>
-                    </CFormInput>
+                    <CFormInput
+                        id="validationCustom04" required
+                        :disabled="enabledFields.ctgFuenteEspecificaId"
+                        v-model="formulacionIngreso.ctgFuenteEspecificaId"
+                        type="number"
+                        pattern="[0-9]+"
+                    />
                 </CCol>
                 <CCol :md="3">
                     <CFormLabel for="validationCustom05">Organismo Financiador</CFormLabel>
-                    <CFormInput :disabled="enabledFields.ctgOrganismoFinanciadorId"
-                        v-model="formulacionIngreso.ctgOrganismoFinanciadorId" id="validationCustom05" required />
+                    <CFormInput
+                        id="validationCustom05" required
+                        :disabled="enabledFields.ctgOrganismoFinanciadorId"
+                        v-model="formulacionIngreso.ctgOrganismoFinanciadorId"
+                        type="number"
+                        pattern="[0-9]+"
+                    />
                 </CCol>
                 <CCol :md="3">
                     <CFormLabel>Instituci&oacute;n Otorgante</CFormLabel>
@@ -106,7 +120,7 @@
 </template>
 <script setup>
 import { CModal } from '@coreui/vue'
-import { reactive, ref, watchEffect } from 'vue';
+import { reactive, ref } from 'vue';
 import ClasificadorSelectorDialog from '../components/ClasificadorSelectorDialog.vue';
 import { getFiscalYearId } from '@/utils/logged-info';
 
@@ -132,13 +146,17 @@ const enabledFields = reactive({
 
 
 const closeDialog = (data) => {
-    emit('close', data)
+    emit('close', data);
+    enabledFields.ctgFuenteId = false;
+    enabledFields.ctgFuenteEspecificaId = false;
+    enabledFields.ctgOrganismoFinanciadorId = false;
+    formIsValidated.value = false;
 }
 
 const submitForm = () => {
     formIsValidated.value = false;
     if (formulacionForm.value?.$el.checkValidity()) {
-        closeDialog({
+        return closeDialog({
             ...props.formulacionIngreso,
             anioAnt: Number(props.formulacionIngreso.anioAnt),
             alaFecha: Number(props.formulacionIngreso.alaFecha),
@@ -147,29 +165,27 @@ const submitForm = () => {
                 props.formulacionIngreso.ctaControl ??
                 props.formulacionIngreso.ctgClasificadorId.toString().substring(0, props.formulacionIngreso.length - 2)
             ,
-            ctgFuenteEspecificaId: Number(props.formulacionIngreso.ctgFuenteEspecificaId),
-            ctgFuenteId: Number(props.formulacionIngreso.ctgFuenteId),
-            ctgOrganismoFinanciadorId: Number(props.formulacionIngreso.ctgOrganismoFinanciadorId),
+            ctgFuenteEspecificaId: props.formulacionIngreso.ctgFuenteEspecificaId,
+            ctgFuenteId: props.formulacionIngreso.ctgFuenteId,
+            ctgOrganismoFinanciadorId: props.formulacionIngreso.ctgOrganismoFinanciadorId,
         });
-    } else {
-        formIsValidated.value = true;
     }
+
+    formIsValidated.value = true;
 }
 
 const selectClasificator = (clasificador) => {
     if (clasificador) {
-        if (!props.formulacionIngreso.ctgClasificadorId) {
-            props.formulacionIngreso.ctgClasificadorId = clasificador.clasifica
-        }
+        props.formulacionIngreso.ctgClasificadorId = clasificador.clasifica
         props.formulacionIngreso.ctaControl = clasificador.cControl;
         props.formulacionIngreso.detalle = clasificador.nombre;
-        props.formulacionIngreso.ctgFuenteId = clasificador.ctgFuenteId;
-        props.formulacionIngreso.ctgFuenteEspecificaId = clasificador.ctgFuenteEspecificaId;
-        props.formulacionIngreso.ctgOrganismoFinanciadorId = clasificador.ctgOrganismoFinanciadorId;
+        props.formulacionIngreso.ctgFuenteId = clasificador.ctgFuenteId || props.formulacionIngreso.ctgFuenteId;
+        props.formulacionIngreso.ctgFuenteEspecificaId = clasificador.ctgFuenteEspecificaId || props.formulacionIngreso.ctgFuenteEspecificaId;
+        props.formulacionIngreso.ctgOrganismoFinanciadorId = clasificador.ctgOrganismoFinanciadorId || props.formulacionIngreso.ctgOrganismoFinanciadorId;
 
-        validateInputctgFuente();
-        validateInputctgFuenteEspecificaId();
-        validateInputctgOrganismoFinanciadorId();
+        validateInputctgFuente(clasificador);
+        validateInputctgFuenteEspecificaId(clasificador);
+        validateInputctgOrganismoFinanciadorId(clasificador);
     }
     showFindClasificadorModal.value = false;
 }
@@ -180,42 +196,44 @@ const findClasificador = () => {
     }
 }
 
-const validateInputctgFuente = () => {
+const validateInputctgFuente = (clasificatorSelected) => {
     if (props.formulacionIngreso.ctgFuenteId == '') {
-        enabledFields.ctgFuenteId = false
+        enabledFields.ctgFuenteId = false;
     }
     if (
-        props.formulacionIngreso.ctgFuenteId !== '' ||
-        props.formulacionIngreso.ctgFuenteId.length > 30
+        (props.formulacionIngreso.ctgFuenteId !== '' ||
+        props.formulacionIngreso.ctgFuenteId.length > 30) &&
+        clasificatorSelected.ctgFuenteId !== ''
     ) {
         enabledFields.ctgFuenteId = true
     }
 }
 
-const validateInputctgFuenteEspecificaId = () => {
+const validateInputctgFuenteEspecificaId = (clasificatorSelected) => {
     if (props.formulacionIngreso.ctgFuenteEspecificaId == '') {
         enabledFields.ctgFuenteEspecificaId = false
     }
     if (
-        props.formulacionIngreso.ctgFuenteEspecificaId !== '' ||
-        props.formulacionIngreso.ctgFuenteEspecificaId.length > 30
+        (props.formulacionIngreso.ctgFuenteEspecificaId !== '' ||
+        props.formulacionIngreso.ctgFuenteEspecificaId.length > 30) &&
+        clasificatorSelected.ctgFuenteEspecificaId !== ''
     ) {
         enabledFields.ctgFuenteEspecificaId = true
     }
 }
 
-const validateInputctgOrganismoFinanciadorId = () => {
+const validateInputctgOrganismoFinanciadorId = (clasificatorSelected) => {
     if (props.formulacionIngreso.ctgOrganismoFinanciadorId == '') {
         enabledFields.ctgOrganismoFinanciadorId = false
     }
     if (
-        props.formulacionIngreso.ctgOrganismoFinanciadorId !== '' ||
-        props.formulacionIngreso.ctgOrganismoFinanciadorId.length > 30
+        (props.formulacionIngreso.ctgOrganismoFinanciadorId !== '' ||
+        props.formulacionIngreso.ctgOrganismoFinanciadorId.length > 30) &&
+        clasificatorSelected.ctgOrganismoFinanciadorId !== ''
     ) {
         enabledFields.ctgOrganismoFinanciadorId = true
     }
 }  
-
 </script>
 <style scoped>
 .padding-input {

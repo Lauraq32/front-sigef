@@ -108,20 +108,23 @@
 
               <CCol :md="3">
                 <CFormLabel for="ctgFuenteId">Fuente Financiamiento</CFormLabel>
-                <CFormInput v-model="detalle.ctgFuenteId" :disabled="isFieldEditable" id="ctgFuenteId" required />
+                <CFormInput v-model="detalle.ctgFuenteId" :disabled="isFieldEditable" id="ctgFuenteId" required 
+                  type="number" pattern="[0-9]+"/>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="3">
                 <CFormLabel for="ctgFuenteEspecificaId">Fuente Especifica</CFormLabel>
                 <CFormInput v-model="detalle.ctgFuenteEspecificaId" :disabled="isFieldEditable"
-                  id="ctgFuenteEspecificaId">
+                  id="ctgFuenteEspecificaId"
+                  type="number" pattern="[0-9]+">
                 </CFormInput>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="3">
                 <CFormLabel for="ctgOrganismoFinanciadorId">Organismo Financiador</CFormLabel>
                 <CFormInput v-model="detalle.ctgOrganismoFinanciadorId" :disabled="isFieldEditable"
-                  id="ctgOrganismoFinanciadorId" required />
+                  id="ctgOrganismoFinanciadorId" required 
+                  type="number" pattern="[0-9]+"/>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="3" style="margin-top: 3rem">
@@ -172,7 +175,7 @@
                       <div class="col-4">
                         <CFormLabel for="validationCustom04">Servicios</CFormLabel>
                         <VueNumberFormat v-model:value="detalle.oriBco2" type="text" class="form-control" :options="{
-                          precision: 3,
+                          precision: 2,
                           prefix: '',
                           decimal: '.',
                           thousand: ',',
