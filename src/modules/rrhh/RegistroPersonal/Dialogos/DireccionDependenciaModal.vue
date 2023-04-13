@@ -6,7 +6,7 @@
     style="width: 25%"
   >
     <CModalHeader>
-      <CModalTitle>Direcci&oacuten dependencias</CModalTitle>
+      <CModalTitle>Direcci&oacute;n dependencias</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
