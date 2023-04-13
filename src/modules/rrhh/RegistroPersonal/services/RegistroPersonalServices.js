@@ -42,21 +42,18 @@ class RegistroPersonal {
     return http.get('sectores')
   }
 
-  getSectoresById(id) {
+  getSectoreById(id) {
     return http.get(`sectores/${id}`)
   }
 
-  addSectores(data) {
+  addSectore(data) {
     return http.post('sectores', data)
   }
 
-  updateSectores(id, data) {
+  updateSectore(id, data) {
     return http.put(`sectores/${id}`, data)
   }
 
-  deleteSectores(id) {
-    return http.delete(`sectores/${id}`)
-  }
 
   getAreaTrabajo() {
     return http.get('AreaTrabajo')

@@ -26,7 +26,7 @@
     :activePage="1"
     :footer="footerItem"
     header
-    :items="Sectores"
+    :items="sectores"
     :columns="columns"
     columnFilter
     itemsPerPageSelect
@@ -66,7 +66,7 @@ export default {
     return {
       sectorId: null,
       newSectorModal: false,
-      Sectores: [],
+      sectores: [],
       columns: [
         { key: 'nombre', label: 'Sectores', _style: { width: '90%' } },
         {
@@ -104,7 +104,7 @@ export default {
     },
     saveSector(payload) {
       if (this.sectorId != null) {
-        Api.updateSectores(this.sectorId, payload)
+        Api.updateSectore(this.sectorId, payload)
           .then(() => {
             this.show({
               content: 'Registro actualizado correctamente',
@@ -121,7 +121,7 @@ export default {
             })
           })
       } else {
-        Api.addSectores(payload)
+        Api.addSectore(payload)
           .then(() => {
             this.show({
               content: 'Registro añadido correctamente',
@@ -142,7 +142,7 @@ export default {
     },
     getAllSectores() {
       Api.getAllSectores().then((response) => {
-        this.Sectores = response.data.data
+        this.sectores = response.data.data
         this.footerItem[0] = `Total Items ${response.data.data.length}`
       })
     },

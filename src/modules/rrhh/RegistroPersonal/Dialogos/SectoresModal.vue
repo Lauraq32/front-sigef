@@ -16,7 +16,7 @@
           ref="formRef"
         >
           <CCol :md="12">
-            <CFormLabel for="validationCustom02">Sectores</CFormLabel>
+            <CFormLabel for="validationCustom02">Sector</CFormLabel>
             <CFormInput
               v-model="sectorObject.nombre"
               id="validationCustom02"
@@ -87,7 +87,7 @@ export default {
   watch: {
     sectorId(newId) {
       if (newId) {
-        Api.getSectoresById(newId)
+        Api.getSectoreById(newId)
         .then((response) => {
           this.sectorObject = response.data.data
         });
