@@ -1,6 +1,10 @@
 <template>
   <h3 class="text-center">Mantenimientos Empleados</h3>
   <AccionPersonalDialog :showModal="lgDemo4" @custom-event="closeModal" />
+  <EmpleadoReports
+    :showModalRepots="showModalRepots"
+    @closeModalReports="closeModalssss"
+  />
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
@@ -24,6 +28,15 @@
           "
           >Imprimir Reporte</CButton
         >
+        <CButton
+          color="info"
+          @click="
+            () => {
+              showModalRepots = true
+            }
+          "
+          >Imprimir
+        </CButton>
       </div>
     </div>
   </div>
@@ -965,6 +978,7 @@ import apiSectores from '../../../financiero/NominaModule/services/NominaService
 import moment from 'moment'
 import { useToastStore } from '@/store/toast'
 import AccionPersonalDialog from '../../RegistroPersonal/components/Dialogos/AccionPersonal.vue'
+import EmpleadoReports from '@/components/Report/RRHH/ReportsTemplate/EmpleadosReports.vue'
 
 export default {
   components: {
@@ -972,9 +986,11 @@ export default {
     CModal,
     moment,
     AccionPersonalDialog,
+    EmpleadoReports,
   },
   data: function () {
     return {
+      showModalRepots: false,
       lgDemo4: false,
       cambiar: false,
       registroPersonal: [],
@@ -1200,6 +1216,10 @@ export default {
     },
     closeModal(payload) {
       this.lgDemo4 = payload
+    },
+
+    closeModalssss(payload) {
+      this.showModalRepots = payload
     },
 
     changePrograma(e) {
