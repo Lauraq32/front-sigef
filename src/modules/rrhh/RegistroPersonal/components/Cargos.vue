@@ -96,11 +96,6 @@ export default {
       ],
     }
   },
-  watch: {
-    Cargos() {
-      this.getAllCargo()
-    },
-  },
   methods: {
     ...mapActions(useToastStore, ['show']),
     closeModal(payload) {
