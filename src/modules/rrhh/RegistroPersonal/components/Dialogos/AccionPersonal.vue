@@ -48,48 +48,24 @@
         </div>
         <div class="row">
           <div class="d-flex flex-row-reverse">
-            <button
-              class="btn btn-info btn-block mt-1"
-              @click="
-                () => {
-                  showAgregarAcciones = true
-                  getTipoAcciones()
-                  clearAccionPersonal()
-                }
-              "
-            >
+            <button class="btn btn-info btn-block mt-1" @click="
+              () => {
+                showAgregarAcciones = true
+                getTipoAcciones()
+                clearAccionPersonal()
+              }
+            ">
               Nuevo
             </button>
           </div>
         </div>
       </CCardBody>
 
-      <CSmartTable
-        style="margin-top: 10px"
-        class="sticky-top"
-        clickableRows
-        :tableProps="{
-          striped: true,
-          hover: true,
-        }"
-        :tableHeadProps="{}"
-        :activePage="1"
-        header
-        :items="accionPersonal"
-        :columns="columns"
-        columnFilter
-        itemsPerPageSelect
-        :itemsPerPage="5"
-        columnSorter
-        :sorterValue="{ column: 'status', state: 'asc' }"
-        pagination
-      >
-        <template #status="{ item }">
-          <td>
-            <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
-          </td>
-        </template>
-
+      <CSmartTable style="margin-top: 10px" class="sticky-top" clickableRows :tableProps="{
+        striped: true,
+        hover: true,
+      }" :tableHeadProps="{}" :activePage="1" header :items="accionPersonal" :columns="columns" columnFilter
+        itemsPerPageSelect :itemsPerPage="5" columnSorter pagination>
         <template #fechaDesde="{ item }">
           <td>
             {{ formatDate(item.fechaDesde) }}
@@ -98,13 +74,7 @@
 
         <template #show_details="{ item, index }">
           <td class="py-2">
-            <CButton
-              color="primary"
-              variant="outline"
-              square
-              size="sm"
-              v-on:click="this.getAccionesPersonalById(item)"
-            >
+            <CButton color="primary" variant="outline" square size="sm" v-on:click="this.getAccionesPersonalById(item)">
               {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
             </CButton>
           </td>
@@ -112,25 +82,16 @@
       </CSmartTable>
     </CModalBody>
 
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-        Close
-      </button>
-
-      <button class="btn btn-info btn-block mt-1">Guardar</button>
-    </div>
+    <CModalFooter>
+      <CButton type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</CButton>
+    </CModalFooter>
   </CModal>
 
-  <CModal
-    backdrop="static"
-    @close="
-      () => {
-        showAgregarAcciones = false
-      }
-    "
-    size="s"
-    :visible="showAgregarAcciones"
-  >
+  <CModal backdrop="static" @close="
+    () => {
+      showAgregarAcciones = false
+    }
+  " size="s" :visible="showAgregarAcciones">
     <CModalHeader>
       <CModalTitle>Acción de Personal</CModalTitle>
     </CModalHeader>
@@ -141,21 +102,17 @@
             <CFormLabel for="validationCustom01">Fechas</CFormLabel>
           </div>
           <div class="col-9 col-md-6">
-            <CFormInput v-model="fechaDesde" type="date" />
+            <CFormInput id="validationCustom01" v-model="fechaDesde" type="date" />
           </div>
         </div>
 
         <div class="row mt-3">
           <div class="col-3">
-            <CFormLabel>Tipo de Acciones</CFormLabel>
+            <CFormLabel for="validationCustom02">Tipo de Acciones</CFormLabel>
           </div>
           <div class="col-9 col-md-6">
-            <CFormSelect v-model="postAccionPersonal.tipoAccionId">
-              <option
-                v-for="acciones in this.tipoAcciones"
-                :key="acciones.id"
-                :value="acciones.id"
-              >
+            <CFormSelect id="validationCustom02" v-model="postAccionPersonal.tipoAccionId">
+              <option v-for="acciones in this.tipoAcciones" :key="acciones.id" :value="acciones.id">
                 {{ acciones.descripcion }}
               </option>
             </CFormSelect>
@@ -164,61 +121,44 @@
 
         <div class="row mt-3">
           <div class="col-3">
-            <CFormLabel>Cantidad</CFormLabel>
+            <CFormLabel for="validationCustom03">Cantidad</CFormLabel>
           </div>
           <div class="col-9 col-md-6">
-            <VueNumberFormat
-              type="number"
-              v-model:value="postAccionPersonal.cantidad"
-              class="form-control"
-              :format="'0'"
-              :options="{
+            <VueNumberFormat id="validationCustom03" type="number" v-model:value="postAccionPersonal.cantidad"
+              class="form-control" :format="'0'" :options="{
                 precision: 0,
                 prefix: '',
                 decimal: '',
                 thousand: '',
-              }"
-            >
+              }">
             </VueNumberFormat>
           </div>
         </div>
 
         <div class="row mt-3">
           <div class="col-3">
-            <CFormLabel>Hasta</CFormLabel>
+            <CFormLabel for="validationCustom04">Hasta</CFormLabel>
           </div>
           <div class="col-9 col-md-6">
-            <CFormInput type="date" v-model="fechaHasta" />
+            <CFormInput id="validationCustom04" type="date" v-model="fechaHasta" />
           </div>
         </div>
 
         <div class="row mt-3">
           <div class="col-3">
-            <CFormLabel>Detalle</CFormLabel>
+            <CFormLabel for="validationCustom05">Detalle</CFormLabel>
           </div>
           <div class="col-9">
-            <textarea
-              v-model="postAccionPersonal.detalle"
-              class="col-md-10"
-              rows="3"
-            ></textarea>
+            <textarea id="validationCustom05" v-model="postAccionPersonal.detalle" class="col-md-10" rows="3"></textarea>
           </div>
         </div>
       </CCardBody>
     </CModalBody>
 
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-        Close
-      </button>
-
-      <button
-        class="btn btn-info btn-block mt-1"
-        v-on:click="SubmitAccionPersonal"
-      >
-        Guardar
-      </button>
-    </div>
+    <CModalFooter>
+      <CButton type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</CButton>
+      <CButton class="btn btn-info btn-block mt-1" v-on:click="SubmitAccionPersonal">Guardar</CButton>
+    </CModalFooter>
   </CModal>
 </template>
 
@@ -287,8 +227,6 @@ export default {
             date = new Date(this.postAccionPersonal.fechaDesde)
             return date.toISOString().split('T')[0]
           }
-        } else {
-          return
         }
       },
       set(value) {
@@ -309,8 +247,6 @@ export default {
             date = new Date(this.postAccionPersonal.fechaHasta)
             return date.toISOString().split('T')[0]
           }
-        } else {
-          return
         }
       },
       set(value) {
@@ -357,15 +293,15 @@ export default {
     },
 
     clearAccionPersonal() {
-      ;(this.id = null),
-        (this.postAccionPersonal = {
+      this.id = null,
+        this.postAccionPersonal = {
           fechaDesde: null,
           tipoAccionId: null,
           empleadoId: null,
           cantidad: null,
           fechaHasta: null,
           detalle: null,
-        })
+        }
     },
 
     getAccionesPersonalById(item) {
