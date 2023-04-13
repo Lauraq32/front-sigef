@@ -56,7 +56,7 @@
   </CModal>
 </template>
 <script setup>
-import { ref, watchEffect, watch } from 'vue'
+import { ref, watchEffect } from 'vue'
 import Api from '../services/FormulacionServices'
 
 import { CSmartTable } from '@coreui/vue-pro'
@@ -115,9 +115,13 @@ watchEffect(() => {
   }
 });
 
+let termPropValue = props.term;
 watchEffect(() => {
-  autoSelectClasificator(props.term);
-}, {flush: 'async'});
+  if (termPropValue !== props.term) {
+    autoSelectClasificator(props.term);
+    termPropValue = props.term;
+  }
+}, {flush: 'post'});
 
 // if the typed clasificator is found is auto filled and the dialog is closed
 function autoSelectClasificator(term) {
