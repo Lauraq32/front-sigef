@@ -23,7 +23,7 @@ export const useAuthStore = defineStore('Auth', () => {
 
   function changeFiscalYear(fiscalYear) {
     authInfo.value.currentFiscalYearId = fiscalYear
-    setLoggedInfo(authInfo.value);
+    setLoggedInfo(authInfo);
   }
 
   async function signOut() {
