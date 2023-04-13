@@ -45,7 +45,7 @@
 
 <script>
 import { CModal, CModalHeader, CModalTitle, CModalBody } from '@coreui/vue'
-import Api from '../services/FormulacionServices'
+import Api from '../services/RegistroPersonalServices'
 import { CButton, CCollapsePlugin } from '@coreui/vue-pro'
 import { CCollapse } from '@coreui/vue'
 import { CIcon } from '@coreui/icons-vue'
@@ -53,12 +53,13 @@ import { CIcon } from '@coreui/icons-vue'
 export default {
   components: {
     CModal,
-    CModalHeader,
+    CModalHeader,     
     CModalTitle,
     CModalBody,
     CButton,
     CIcon,
     CCollapsePlugin
+ 
   },
 
   data() {

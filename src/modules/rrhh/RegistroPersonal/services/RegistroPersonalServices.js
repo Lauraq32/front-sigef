@@ -22,6 +22,11 @@ class RegistroPersonal {
       }`,
     )
   }
+  getFileById(){
+    return http.get(
+      ` `
+    )
+  }
 
   getProgramaDivision() {
     return http.get(
