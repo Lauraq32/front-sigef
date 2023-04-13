@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import http from '@/Api/http-common'
-const user = JSON.parse(localStorage.getItem('usuario'))
+import { getAyuntamientoId } from '@/utils/logged-info'
 class NominaApi {
   //-----------------------------CLASIFICADORES---------------------------------------//
   //get
@@ -17,28 +17,22 @@ class NominaApi {
   }
 
   getEmpleado() {
-    return http.get(`Empleado?ayuntamientoId=${user?.user.ayuntamiento.id}`)
+    return http.get(`Empleado?ayuntamientoId=${getAyuntamientoId()}`)
   }
 
   getProgramaDivision() {
-
-    return http.get(`ProgramaDivision?AyuntamientoId=${user?.user.ayuntamiento.id}`)
+    return http.get(`ProgramaDivision?AyuntamientoId=${getAyuntamientoId()}`)
   }
 
   getEmpleadoById(value) {
     return http.get(`Empleado/${value}`)
   }
 
-  // getSectores() {
-  //   return http.get('Sector')
-  // }
-  // `Sector?AyuntamientoId=${parseInt(localStorage.getItem('id_Ayuntamiento'))}`
-
   getSectores() {
-    return http.get(`Sector?ayuntamiento=${user?.user.ayuntamiento.id}`)
+    return http.get(`sectores?ayuntamiento=${getAyuntamientoId()}`)
   }
 
-  getEmpleadosPorDepartamentos(id){
+  getEmpleadosPorDepartamentos(id) {
     return http.get(`Empleado/Departamento/${id}`)
   }
 
@@ -50,7 +44,6 @@ class NominaApi {
     return http.get('GrupoNomina')
   }
 
-
   getAreaTrabajo() {
     return http.get('AreaTrabajo')
   }
@@ -60,9 +53,7 @@ class NominaApi {
   }
 
   getAllCuentaBanco() {
-    return http.get(
-      `ConciliacionCuentaBanco/${user?.user.ayuntamiento.id}`,
-    )
+    return http.get(`ConciliacionCuentaBanco/${getAyuntamientoId()}`)
   }
 
   getSectorbyid(id) {
@@ -104,8 +95,6 @@ class NominaApi {
     return http.get(`Nomina/NominaGeneral/${id}`)
   }
 
-  
-
   getNominaByDepartamento(id) {
     return http.get(`Nomina/NominagEmpDep/${id}`)
   }
@@ -115,17 +104,35 @@ class NominaApi {
   }
 
   getTotalIngresos(id_ayuntamiento, ano_fiscal) {
-    return http.get(`/ingresoslista/ListarIngresosTotalizado/?ano=${ano_fiscal}&id=${id_ayuntamiento}`)
+    return http.get(
+      `/ingresoslista/ListarIngresosTotalizado/?ano=${ano_fiscal}&id=${id_ayuntamiento}`,
+    )
   }
   //post
 
-  postnominaGeneral(ayuntamiento, fecha, departamento, programa, tipoPago, TipoContrato) {
-    return http.post(`Nomina/GenerarNomina?AyuntamientoId=${ayuntamiento}&Fecha=${fecha}&TipoContrato=${TipoContrato}&ProgramaDivision=${programa}&DepartamentoId=${departamento}&FormaPago=${tipoPago}`)
+  postnominaGeneral(
+    ayuntamiento,
+    fecha,
+    departamento,
+    programa,
+    tipoPago,
+    TipoContrato,
+  ) {
+    return http.post(
+      `Nomina/GenerarNomina?AyuntamientoId=${ayuntamiento}&Fecha=${fecha}&TipoContrato=${TipoContrato}&ProgramaDivision=${programa}&DepartamentoId=${departamento}&FormaPago=${tipoPago}`,
+    )
   }
 
   getnominaGeneral(Nomina) {
-
-    return http.get(`Nomina/NominaGeneral?AyuntamientoId=${Nomina.AyuntamientoId ? Nomina.AyuntamientoId : null}&TipoContrato=${Nomina.TipoContrato ? Nomina.TipoContrato : null}&FormaPago=${Nomina.FormaPago ? Nomina.FormaPago : null}&Mes=${Nomina.Mes}&Anio=${Nomina.Anio}`)
+    return http.get(
+      `Nomina/NominaGeneral?AyuntamientoId=${
+        Nomina.AyuntamientoId ? Nomina.AyuntamientoId : null
+      }&TipoContrato=${
+        Nomina.TipoContrato ? Nomina.TipoContrato : null
+      }&FormaPago=${Nomina.FormaPago ? Nomina.FormaPago : null}&Mes=${
+        Nomina.Mes
+      }&Anio=${Nomina.Anio}`,
+    )
   }
 
   getNominaPorEmpleado(id) {
@@ -168,8 +175,7 @@ class NominaApi {
     return http.post('ProgramaDivision', data)
   }
 
-  //put 
-
+  //put
 
   putNomina(id, data) {
     return http.put(`Nomina/${id}`, data)
@@ -210,10 +216,8 @@ class NominaApi {
   //delete
 
   deleteSector(id) {
-    return http.delete(`Sector/${id}?ayuntamiento=${user?.user.ayuntamiento.id}`)
+    return http.delete(`Sector/${id}?ayuntamiento=${getAyuntamientoId()}`)
   }
-
-
 }
 
 export default new NominaApi()

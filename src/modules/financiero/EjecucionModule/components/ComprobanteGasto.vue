@@ -1,5 +1,4 @@
 <template>
-      
   <h3 class="text-center">Comprobante de gastos</h3>
   <div class="table-headers">
     <div class="p-2">
@@ -21,7 +20,8 @@
       >
     </div>
   </div>
-  <CSmartTable class="sticky-top"
+  <CSmartTable
+    class="sticky-top"
     clickableRows
     :tableProps="{
       striped: true,
@@ -351,7 +351,8 @@
           </div>
         </CForm>
         <hr />
-        <CSmartTable class="sticky-top"
+        <CSmartTable
+          class="sticky-top"
           clickableRows
           :tableProps="{
             striped: true,
@@ -745,7 +746,8 @@
           </div>
         </CForm>
         <hr />
-        <CSmartTable class="sticky-top"
+        <CSmartTable
+          class="sticky-top"
           clickableRows
           :tableProps="{
             striped: true,
@@ -852,7 +854,8 @@
     <CModalBody>
       <CCardBody>
         <hr />
-        <CSmartTable class="sticky-top"
+        <CSmartTable
+          class="sticky-top"
           clickableRows
           :tableProps="{
             striped: true,
@@ -919,10 +922,9 @@ export default {
     CSmartTable,
     CModal,
     SimpleTypeahead,
-      
   },
 
-  data: () => {
+  data: function () {
     return {
       isVariacion: false,
       isDevengado: false,
@@ -944,8 +946,8 @@ export default {
       postGasto: {
         id: 0,
         tipoGastoId: 1,
-        anioFiscalId: parseInt(localStorage.getItem('ano')),
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        anioFiscalId: this.$fiscalYearId,
+        ayuntamientoId: this.$ayuntamientoId,
         anioFiscal: null,
         secuencialId: '',
         numeroComprobante: 0,
@@ -974,8 +976,8 @@ export default {
       postGastoDetalle: {
         detalleRegistroGastoDto: {
           id: 0,
-          anioFiscalId: parseInt(localStorage.getItem('ano')),
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          anioFiscalId: this.$fiscalYearId,
+          ayuntamientoId: this.$ayuntamientoId,
           secuenciaComprobante: 0,
           fecha: 0,
           bancoId: 0,
@@ -991,8 +993,8 @@ export default {
         },
         detaRetencionDto: [
           {
-            anioFiscalId: parseInt(localStorage.getItem('ano')),
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            anioFiscalId: this.$fiscalYearId,
+            ayuntamientoId: this.$ayuntamientoId,
             id: 0,
             fecha: new Date(Date.now()),
             beneficiarioId: 0,
@@ -1150,8 +1152,8 @@ export default {
     },
     addRetencion() {
       var retencion = {
-        anioFiscalId: parseInt(localStorage.getItem('ano')),
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        anioFiscalId: this.$fiscalYearId,
+        ayuntamientoId: this.$ayuntamientoId,
         id: 0,
         fecha: new Date(Date.now()),
         beneficiarioId: 0,
@@ -1204,8 +1206,8 @@ export default {
       this.postGasto = {
         id: 0,
         tipoGastoId: null,
-        anioFiscalId: parseInt(localStorage.getItem('ano')),
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        anioFiscalId: this.$fiscalYearId,
+        ayuntamientoId: this.$ayuntamientoId,
         anioFiscal: null,
         secuencialId: '',
         numeroComprobante: 0,
@@ -1236,8 +1238,8 @@ export default {
       this.postGastoDetalle = {
         detalleRegistroGastoDto: {
           id: 0,
-          anioFiscalId: parseInt(localStorage.getItem('ano')),
-          ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+          anioFiscalId: this.$fiscalYearId,
+          ayuntamientoId: this.$ayuntamientoId,
           secuenciaComprobante: 0,
           fecha: 0,
           bancoId: 0,
@@ -1253,8 +1255,8 @@ export default {
         },
         detaRetencionDto: [
           {
-            anioFiscalId: parseInt(localStorage.getItem('ano')),
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            anioFiscalId: this.$fiscalYearId,
+            ayuntamientoId: this.$ayuntamientoId,
             id: 0,
             fecha: new Date(Date.now()),
             beneficiarioId: 0,
@@ -1362,7 +1364,7 @@ export default {
       } else {
         Api.putRegistroGasto(this.postGasto, this.cabeceraId).then(
           (response) => {
-                 this.show({
+            this.show({
               content: 'Registro añadido correctamente',
               closable: true,
             })

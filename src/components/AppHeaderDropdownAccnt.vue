@@ -52,15 +52,13 @@
 <script>
 import avatar from '@/assets/images/avatars/1.jpg'
 import router from '@/router'
+import { clearLoggedInfo } from '@/utils/logged-info'
 export default {
   name: 'AppHeaderDropdownAccnt',
   setup() {
     const logOut = () => {
-      router.push({ name: 'Login' })
-      localStorage.removeItem('ano')
-      localStorage.removeItem('id_Ayuntamiento')
-      localStorage.removeItem('usuario')
-      localStorage.removeItem('nombre_ayuntamiento')
+      clearLoggedInfo();
+      router.push({ name: 'Login' });
     }
     return {
       avatar: avatar,

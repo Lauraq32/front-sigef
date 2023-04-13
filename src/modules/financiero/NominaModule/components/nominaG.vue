@@ -1925,7 +1925,7 @@ export default {
 
   },
 
-  data: () => {
+  data: function () {
     return {
       consulEmple: false,
       nominag: [],
@@ -1954,7 +1954,7 @@ export default {
         DepartamentoId: 0,
       },
       nominaGneral: {
-        AyuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        AyuntamientoId: this.$ayuntamientoId,
         Anio: 2023,
         Mes: 1,
         // DepartamentoId: 0,
@@ -1979,7 +1979,7 @@ export default {
       confNomina: [{}],
 
       postGenerarNomina: {
-        AyuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        AyuntamientoId: this.$ayuntamientoId,
         fecha: new Date(Date.now()),
         DepartamentoId: 0,
         TipoContrato: 'Tipo de contrato 2',
@@ -1989,7 +1989,7 @@ export default {
 
       postConfiguracionNomina: {
         id: 0,
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
         textoIng1: null,
         textoIng2: null,
         textoIng3: null,
@@ -2059,7 +2059,7 @@ export default {
       ingresos: [{ total: 0, cantidadIngreso: 0 }],
 
       postEmpleado: {
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        ayuntamientoId: this.$ayuntamientoId,
         codigo: null,
         nombres: null,
         apellidos: null,
@@ -2159,8 +2159,8 @@ export default {
         recomendadoPor: null,
       },
       postNomina: {
-        anioFiscalId: parseInt(localStorage.getItem('ano')),
-        ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+        anioFiscalId: this.$fiscalYearId,
+        ayuntamientoId: this.$ayuntamientoId,
         departamentoId: 0,
         afpMonto: 0,
         fecha: new Date(Date.now()),
@@ -2476,9 +2476,7 @@ export default {
     imprimriPorTPago() {
       window
         .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_Tipo_Pago&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
-            'id_Ayuntamiento'
-          )}&ANO=2022&FORMA_PAGO=${this.nominaGneral.FormaPago}`,
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_Tipo_Pago&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}&ANO=2022&FORMA_PAGO=${this.nominaGneral.FormaPago}`,
           '_blank',
         )
         .focus()
@@ -2488,9 +2486,7 @@ export default {
     imprimriPorDep() {
       window
         .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_Departamento&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
-            'id_Ayuntamiento'
-          )}&ANO=2022&ID_DEPARTAMENTO=${this.idDep}`,
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_Departamento&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}&ANO=2022&ID_DEPARTAMENTO=${this.idDep}`,
           '_blank',
         )
         .focus()
@@ -2499,9 +2495,7 @@ export default {
     IngresoReport() {
       window
         .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_General&rs:Command=Render&ID_AYUNTAMIENTO=${localStorage.getItem(
-            'id_Ayuntamiento',
-          )}&ANO=2022`,
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Nomina_General&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}&ANO=2022`,
           '_blank',
         )
         .focus()
@@ -2630,7 +2624,7 @@ export default {
 
     submiGeneraNomina() {
       Api.postnominaGeneral(
-        localStorage.getItem('id_Ayuntamiento'),
+        this.$ayuntamientoId,
         this.postGenerarNomina.fecha,
         this.postGenerarNomina.DepartamentoId,
         this.postGenerarNomina.ProgramaDivision,
@@ -2655,7 +2649,7 @@ export default {
             // setTimeout(this.getEmpleado, 500)
             this.postConfiguracionNomina = {
               id: 0,
-              ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+              ayuntamientoId: this.$ayuntamientoId,
               textoIng1: null,
               textoIng2: null,
               textoIng3: null,
@@ -2744,7 +2738,7 @@ export default {
         this.lgDemo = true
           // setTimeout(this.getEmpleado, 500)
           ; (this.postConfiguracionNomina = {
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: this.$ayuntamientoId,
             textoIng1: null,
             textoIng2: null,
             textoIng3: null,
@@ -2822,7 +2816,7 @@ export default {
           setTimeout(this.getEmpleado, 500)
           this.postEmpleado = {
             id: 0,
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: this.$ayuntamientoId,
             codigo: null,
             nombres: null,
             apellidos: null,
@@ -2956,7 +2950,7 @@ export default {
         this.lgDemo = true
         setTimeout(this.getEmpleado, 500)
           ; (this.postEmpleado = {
-            ayuntamientoId: parseInt(localStorage.getItem('id_Ayuntamiento')),
+            ayuntamientoId: this.$ayuntamientoId,
             codigo: null,
             nombres: null,
             apellidos: null,
