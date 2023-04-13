@@ -87,7 +87,7 @@ export default {
   watch: {
     sectorId(newId) {
       if (newId) {
-        Api.getSectoreById(newId)
+        Api.getSectorById(newId)
         .then((response) => {
           this.sectorObject = response.data.data
         });

@@ -90,7 +90,7 @@ export default {
   },
   watch: {
     newSectorModal(){
-      this.getAllSectores()
+      this.getAllSector()
     }
   },
   methods: {
@@ -104,14 +104,14 @@ export default {
     },
     saveSector(payload) {
       if (this.sectorId != null) {
-        Api.updateSectore(this.sectorId, payload)
+        Api.updateSector(this.sectorId, payload)
           .then(() => {
             this.show({
               content: 'Registro actualizado correctamente',
               closable: true,
               life: 7_500,
             })
-            setTimeout(() => this.getAllSectores(), 200)
+            setTimeout(() => this.getAllSector(), 200)
           })
           .catch((error) => {
             return this.show({
@@ -121,14 +121,14 @@ export default {
             })
           })
       } else {
-        Api.addSectore(payload)
+        Api.addSector(payload)
           .then(() => {
             this.show({
               content: 'Registro añadido correctamente',
               closable: true,
               life: 7_500,
             })
-            setTimeout(() => this.getAllSectores(), 200)
+            setTimeout(() => this.getAllSector(), 200)
            
           })
           .catch((error) => {
@@ -140,15 +140,15 @@ export default {
           })
       }
     },
-    getAllSectores() {
-      Api.getAllSectores().then((response) => {
+    getAllSector() {
+      Api.getAllSector().then((response) => {
         this.sectores = response.data.data
         this.footerItem[0] = `Total Items ${response.data.data.length}`
       })
     },
   },
   mounted() {
-    this.getAllSectores()
+    this.getAllSector()
   },
 }
 </script>

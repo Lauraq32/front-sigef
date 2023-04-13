@@ -47,19 +47,19 @@ class RegistroPersonal {
   }
 
   //sectores
-  getAllSectore() {
+  getAllSector() {
     return http.get('sectores')
   }
 
-  getSectoreById(id) {
+  getSectorById(id) {
     return http.get(`sectores/${id}`)
   }
 
-  addSectore(data) {
+  addSector(data) {
     return http.post('sectores', data)
   }
 
-  updateSectore(id, data) {
+  updateSector(id, data) {
     return http.put(`sectores/${id}`, data)
   }
 
