@@ -83,7 +83,7 @@
   </CSmartTable>
 
   <RegistroPersonalDialog :showModal="showRegistroPersonalModal" @post-personal="submitForm"
-    @close-modal="closeRegistroPersonalModal" />
+    @close-modal="closeRegistroPersonalModal" :empleadoId="id" />
 </template>
 
 <script>
@@ -264,11 +264,6 @@ export default {
       this.lgDemo4 = payload
     },
 
-    changePrograma(e) {
-      Api.getDepartamentoByProgramaId(e.target.value).then((response) => {
-        this.departamentos = response.data.data
-      })
-    },
     formatDate(fechaIngreso) {
       return new Date(fechaIngreso).toLocaleDateString('en-GB', {
         day: '2-digit',
@@ -278,7 +273,6 @@ export default {
     },
 
     toggleDetails(item) {
-      console.log(item.id)
       this.showRegistroPersonalModal = true
       this.id = item.id
       if (item.empleados !== 0 || item.variacion !== 0) {

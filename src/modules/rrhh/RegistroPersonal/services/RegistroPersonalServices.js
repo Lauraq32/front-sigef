@@ -3,7 +3,7 @@ import http from '@/Api/http-common'
 import { getAyuntamientoId } from '@/utils/logged-info'
 class RegistroPersonal {
   //get
-  getAllTipoSangre() {
+  tipoSangreList() {
     return http.get('tipos-sangre')
   }
 

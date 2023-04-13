@@ -51,268 +51,211 @@
               <div class="col-5 border p-3">
                 <h3>Datos generales</h3>
                 <div class="row mt-3">
-                  <div class="col-6">
-                    <CFormLabel for="validationCustom01">C&oacute;digo de Empleado</CFormLabel>
+                  <div class="col-3">
+                    <CFormLabel for="codigo">C&oacute;digo de Empleado</CFormLabel>
                   </div>
-                  <div class="col-6">
-                    <CCol :md="5">
-                      <input style="position: relative; left: -62px" ref="name" type="text" class="form-control"
-                        v-model="postEmpleado.codigo" id="exampleInputEmail1" />
+                  <div class="col-9">
+                    <CCol :md="12">
+                      <CFormInput ref="name" type="text" class="form-control"
+                        v-model="postEmpleado.codigo" id="codigo" />
                     </CCol>
                   </div>
                 </div>
 
                 <div class="row mt-3">
-                  <div class="col-6">
-                    <CFormLabel for="validationCustom05">Tipo de documento</CFormLabel>
+                  <div class="col-3">
+                    <CFormLabel for="tipoDocumento">Tipo de documento</CFormLabel>
                   </div>
-                  <div class="col-6">
-                    <CCol :md="10">
-                      <CFormSelect style="position: relative; left: -62px" v-model="postEmpleado.tipoDocumento"
-                        id="validationCustom05">
+                  <div class="col-9">
+                    <CCol :md="12">
+                      <CFormSelect v-model="postEmpleado.tipoDocumento"
+                        id="validationCtipoDocumentoustom05">
                         <option>C&eacute;dula</option>
                         <option>Pasaporte</option>
                       </CFormSelect>
-                      <CFormFeedback invalid>
-                        Favor agregar el campo
-                      </CFormFeedback>
-                    </CCol>
-                  </div>
-                </div>
-
-                <div class="row mt-3">
-                  <div class="col-6">
-                    <CFormLabel for="validationCustom02">Documento</CFormLabel>
-                  </div>
-                  <div class="col-6">
-                    <CCol :md="10">
-                      <CFormInput style="position: relative; left: -62px" v-model="postEmpleado.cedula"
-                        id="validationCustom02" required />
-                      <CFormFeedback valid> Exito! </CFormFeedback>
-                      <CFormFeedback invalid>
-                        Favor agregar el campo
-                      </CFormFeedback>
                     </CCol>
                   </div>
                 </div>
 
                 <div class="row mt-3">
                   <div class="col-3">
-                    <CFormLabel for="validationCustom02">Nombre</CFormLabel>
+                    <CFormLabel for="cedula">Documento</CFormLabel>
                   </div>
                   <div class="col-9">
-                    <CCol :md="10">
-                      <CFormInput style="position: relative; right: -52px" v-model="postEmpleado.nombres"
-                        id="validationCustom02" required />
-                      <CFormFeedback valid> Exito! </CFormFeedback>
-                      <CFormFeedback invalid>
-                        Favor agregar el campo
-                      </CFormFeedback>
+                    <CCol :md="12">
+                      <CFormInput v-model="postEmpleado.cedula" id="cedula"
+                        required />
                     </CCol>
                   </div>
                 </div>
 
                 <div class="row mt-3">
                   <div class="col-3">
-                    <CFormLabel for="validationCustom01">Apellidos</CFormLabel>
+                    <CFormLabel for="nombres">Nombre</CFormLabel>
                   </div>
                   <div class="col-9">
-                    <CCol :md="10">
-                      <CFormInput style="position: relative; right: -52px" v-model="postEmpleado.apellidos"
-                        id="validationCustom01" />
-
-                      <CFormFeedback valid> Exito! </CFormFeedback>
-                      <CFormFeedback invalid>
-                        Favor agregar el campo
-                      </CFormFeedback>
+                    <CCol :md="12">
+                      <CFormInput  v-model="postEmpleado.nombres" id="nombres"
+                        required />
                     </CCol>
                   </div>
                 </div>
 
                 <div class="row mt-3">
                   <div class="col-3">
-                    <CFormLabel for="validationCustom02">Dirección</CFormLabel>
+                    <CFormLabel for="apellidos">Apellidos</CFormLabel>
                   </div>
                   <div class="col-9">
-                    <CCol :md="10">
-                      <CFormInput style="position: relative; right: -52px" v-model="postEmpleado.direccion"
-                        id="validationCustom02" required />
-                      <CFormFeedback valid> Exito! </CFormFeedback>
-                      <CFormFeedback invalid>
-                        Favor agregar el campo
-                      </CFormFeedback>
+                    <CCol :md="12">
+                      <CFormInput  v-model="postEmpleado.apellidos"
+                        id="apellidos" />
                     </CCol>
                   </div>
                 </div>
 
                 <div class="row mt-3">
                   <div class="col-3">
-                    <CFormLabel for="validationCustom05">Sectores</CFormLabel>
+                    <CFormLabel for="direccion">Dirección</CFormLabel>
                   </div>
                   <div class="col-9">
-                    <CCol :md="10">
-                      <CFormSelect style="position: relative; right: -52px" v-model="postEmpleado.sectorId"
-                        id="validationCustom05">
+                    <CCol :md="12">
+                      <CFormInput  v-model="postEmpleado.direccion" id="direccion"
+                        required />
+                    </CCol>
+                  </div>
+                </div>
+
+                <div class="row mt-3">
+                  <div class="col-3">
+                    <CFormLabel for="sectorId">Sectores</CFormLabel>
+                  </div>
+                  <div class="col-9">
+                    <CCol :md="12">
+                      <CFormSelect  v-model="postEmpleado.sectorId" id="sectorId">
                         <option v-for="sect in this.sector" :key="sect.id" :value="sect.id">
                           {{ sect.nombre }}
                         </option>
                       </CFormSelect>
-                      <CFormFeedback invalid>
-                        Favor agregar el campo
-                      </CFormFeedback>
                     </CCol>
                   </div>
                 </div>
 
                 <div class="row mt-3">
                   <div class="col-3">
-                    <CFormLabel for="validationCustom02">Teléfono</CFormLabel>
+                    <CFormLabel for="telefono">Tel&eacute;fono</CFormLabel>
                   </div>
                   <div class="col-9">
-                    <CCol :md="10">
-                      <CFormInput style="position: relative; right: -52px" v-model="postEmpleado.telefono"
-                        id="validationCustom02" required />
-                      <CFormFeedback valid> Exito! </CFormFeedback>
-                      <CFormFeedback invalid>
-                        Favor agregar el campo
-                      </CFormFeedback>
+                    <CCol :md="12">
+                      <CFormInput v-model="postEmpleado.telefono" id="telefono"
+                        required />
                     </CCol>
                   </div>
                 </div>
 
                 <div class="row mt-3">
                   <div class="col-3">
-                    <CFormLabel for="validationCustom05">Estado civil</CFormLabel>
+                    <CFormLabel for="estadoCivil">Estado civil</CFormLabel>
                   </div>
                   <div class="col-9">
-                    <CCol :md="10">
-                      <CFormSelect style="position: relative; right: -52px" v-model="postEmpleado.estadoCivil"
-                        id="validationCustom05">
+                    <CCol :md="12">
+                      <CFormSelect  v-model="postEmpleado.estadoCivil"
+                        id="estadoCivil">
                         <option>Soltero/a</option>
                         <option>Casado/a</option>
                       </CFormSelect>
-                      <CFormFeedback invalid>
-                        Favor agregar el campo
-                      </CFormFeedback>
-                    </CCol>
-                  </div>
-                </div>
 
-                <div class="row mt-3">
-                  <div class="col-4">
-                    <CFormLabel for="validationCustom01">Fecha nacimiento</CFormLabel>
-                  </div>
-                  <div class="col-8">
-                    <CCol :md="11">
-                      <CFormInput style="position: relative; right: -13px; width: 267px"
-                        v-model="postEmpleado.fechaNacimiento" type="date" id="validationCustom01"
-                        @change="validateAge($event)" />
-                      <CFormFeedback valid> Exito! </CFormFeedback>
-                      <CFormFeedback invalid>
-                        Favor agregar el campo
-                      </CFormFeedback>
-                    </CCol>
-                  </div>
-                </div>
-
-                <div class="row mt-3">
-                  <div class="col-4">
-                    <CFormLabel for="validationCustom02">Lugar nacimiento</CFormLabel>
-                  </div>
-                  <div class="col-8">
-                    <CCol :md="11">
-                      <CFormInput style="position: relative; right: -13px; width: 267px"
-                        v-model="postEmpleado.lugarNacimiento" id="validationCustom02" required />
-                      <CFormFeedback valid> Exito! </CFormFeedback>
-                      <CFormFeedback invalid>
-                        Favor agregar el campo
-                      </CFormFeedback>
                     </CCol>
                   </div>
                 </div>
 
                 <div class="row mt-3">
                   <div class="col-3">
-                    <CFormLabel for="validationCustom05">Sexo</CFormLabel>
+                    <CFormLabel for="fechaNacimiento">Fecha nacimiento</CFormLabel>
                   </div>
                   <div class="col-9">
-                    <CCol :md="10">
-                      <CFormSelect style="position: relative; right: -52px" v-model="postEmpleado.sexo"
-                        id="validationCustom05">
+                    <CCol :md="12">
+                      <CFormInput v-model="postEmpleado.fechaNacimiento" type="date" id="fechaNacimiento"
+                        @change="validateAge($event)" />
+                    </CCol>
+                  </div>
+                </div>
+
+                <div class="row mt-3">
+                  <div class="col-3">
+                    <CFormLabel for="lugarNacimiento">Lugar nacimiento</CFormLabel>
+                  </div>
+                  <div class="col-9">
+                    <CCol :md="12">
+                      <CFormInput v-model="postEmpleado.lugarNacimiento" id="lugarNacimiento" required />
+                    </CCol>
+                  </div>
+                </div>
+
+                <div class="row mt-3">
+                  <div class="col-3">
+                    <CFormLabel for="sexo">Sexo</CFormLabel>
+                  </div>
+                  <div class="col-9">
+                    <CCol :md="12">
+                      <CFormSelect  v-model="postEmpleado.sexo" id="sexo">
                         <option value="M">Masculino</option>
                         <option value="F">Femenino</option>
                       </CFormSelect>
-                      <CFormFeedback invalid>
-                        Favor agregar el campo
-                      </CFormFeedback>
                     </CCol>
                   </div>
                 </div>
 
                 <div class="row mt-3">
                   <div class="col-3">
-                    <CFormLabel for="validationCustom02">Dependientes</CFormLabel>
+                    <CFormLabel for="dependientes">Dependientes</CFormLabel>
                   </div>
                   <div class="col-9">
-                    <CCol :md="10">
-                      <CFormInput style="position: relative; right: -52px" v-model="postEmpleado.dependientes"
-                        type="number" id="validationCustom02" required />
-                      <CFormFeedback valid> Exito! </CFormFeedback>
-                      <CFormFeedback invalid>
-                        Favor agregar el campo
-                      </CFormFeedback>
+                    <CCol :md="12">
+                      <CFormInput  v-model="postEmpleado.dependientes"
+                        type="number" id="dependientes" required />
                     </CCol>
                   </div>
                 </div>
                 <div class="row mt-3">
                   <div class="col-3">
-                    <CFormLabel for="validationCustom05">Discapacidades</CFormLabel>
+                    <CFormLabel for="discapacidad">Discapacidades</CFormLabel>
                   </div>
                   <div class="col-9">
-                    <CCol :md="10">
-                      <CFormSelect style="position: relative; right: -52px" v-model="postEmpleado.discapacidad"
-                        id="validationCustom05">
+                    <CCol :md="12">
+                      <CFormSelect v-model="postEmpleado.discapacidad"
+                        id="discapacidad">
                         <option v-for="discapacidad in this.discapacidadList" :key="discapacidad.id"
                           :value="discapacidad.id">
                           {{ discapacidad.configValue }}
                         </option>
                       </CFormSelect>
-                      <CFormFeedback invalid>
-                        Favor agregar el campo
-                      </CFormFeedback>
+
                     </CCol>
                   </div>
                 </div>
               </div>
               <div class="col-4 border p-3">
                 <h3>Datos laborales</h3>
-                <CCol :md="5">
-                  <CFormLabel for="validationCustom01">Fecha ingreso</CFormLabel>
-                  <CFormInput v-model="postEmpleado.fechaIngreso" type="date" id="validationCustom01" />
+                <CCol :md="12">
+                  <CFormLabel for="fechaIngreso">Fecha ingreso</CFormLabel>
+                  <CFormInput v-model="postEmpleado.fechaIngreso" type="date" id="fechaIngreso" />
 
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+
                 </CCol>
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom05">Recomendado por</CFormLabel>
-                  <CFormInput type="text" id="validationCustom02" />
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+                  <CFormLabel for="Recomendado">Recomendado por</CFormLabel>
+                  <CFormInput type="text" id="Recomendado" />
+
                 </CCol>
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom05">Dirección o dependencia</CFormLabel>
-                  <CFormSelect v-model="postEmpleado.programaDivisionId" id="validationCustom05"
+                  <CFormLabel for="programaDivisionId">Dirección o dependencia</CFormLabel>
+                  <CFormSelect v-model="postEmpleado.programaDivisionId" id="programaDivisionId"
                     v-on:change="changePrograma($event)">
                     <option v-for="programa in this.programaDivision" :key="programa.id" :value="programa.id">
                       {{ programa.nombre }}
                     </option>
                   </CFormSelect>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+
                 </CCol>
 
 
@@ -320,108 +263,84 @@
 
 
                 <CCol>
-                  <CFormLabel for="validationCustom01">Departamento</CFormLabel>
-                  <CFormSelect v-model="postEmpleado.departamentoId" id="validationCustom05">
+                  <CFormLabel for="departamentoId">Departamento</CFormLabel>
+                  <CFormSelect v-model="postEmpleado.departamentoId" id="departamentoId">
                     <option v-for="departamento in departamentoList" :key="departamento.id" :value="departamento.id">
                       {{ departamento.nombre }}
                     </option>
                   </CFormSelect>
 
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
                 </CCol>
 
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom05">Área de trabajo</CFormLabel>
-                  <CFormSelect v-model="postEmpleado.areaTrabajoId" id="validationCustom05">
+                  <CFormLabel for="areaTrabajoId">Área de trabajo</CFormLabel>
+                  <CFormSelect v-model="postEmpleado.areaTrabajoId" id="areaTrabajoId">
                     <option v-for="area in this.areaTrabajo" :key="area.id" :value="area.id">
                       {{ area.descripcion }}
                     </option>
                   </CFormSelect>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+
                 </CCol>
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom05">Cargos</CFormLabel>
-                  <CFormSelect v-model="postEmpleado.posicionId" id="validationCustom05">
+                  <CFormLabel for="posicionId">Cargos</CFormLabel>
+                  <CFormSelect v-model="postEmpleado.posicionId" id="posicionId">
                     <option v-for="cargo in this.posicionCargo" :key="cargo.id" :value="cargo.id">
                       {{ cargo.nombre }}
                     </option>
                   </CFormSelect>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
                 </CCol>
 
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom05">Tipo Sangre</CFormLabel>
-                  <CFormSelect v-model="postEmpleado.tipoSangreId" id="validationCustom05">
+                  <CFormLabel for="tipoSangreId">Tipo Sangre</CFormLabel>
+                  <CFormSelect v-model="postEmpleado.tipoSangreId" id="tipoSangreId">
                     <option v-for="sangre in this.tipoSangre" :key="sangre.id" :value="sangre.id">
                       {{ sangre.nombre }}
                     </option>
                   </CFormSelect>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
                 </CCol>
 
                 <div class="row">
                   <CCol :md="6">
-                    <CFormLabel for="validationCustom05">Tipo de contrato</CFormLabel>
-                    <CFormSelect v-model="postEmpleado.tipoContrato" id="validationCustom05">
+                    <CFormLabel for="tipoContrato">Tipo de contrato</CFormLabel>
+                    <CFormSelect v-model="postEmpleado.tipoContrato" id="tipoContrato">
                       <option>Tipo de contrato 1</option>
                       <option>Tipo de contrato 2</option>
                     </CFormSelect>
-                    <CFormFeedback invalid>
-                      Favor agregar el campo
-                    </CFormFeedback>
+
                   </CCol>
                   <CCol :md="6">
-                    <CFormLabel for="validationCustom05">Turno</CFormLabel>
-                    <CFormSelect v-model="postEmpleado.turno" id="validationCustom05">
+                    <CFormLabel for="turno">Turno</CFormLabel>
+                    <CFormSelect v-model="postEmpleado.turno" id="turno">
                       <option>DIURNO</option>
                       <option>NOCTURNO</option>
                       <option>ROTATIVO</option>
                     </CFormSelect>
-                    <CFormFeedback invalid>
-                      Favor agregar el campo
-                    </CFormFeedback>
+
                   </CCol>
                 </div>
 
                 <div class="row">
                   <CCol :md="6">
-                    <CFormLabel for="validationCustom05">Tipo cobro</CFormLabel>
-                    <CFormSelect v-model="postEmpleado.periodoPago" id="validationCustom05">
+                    <CFormLabel for="periodoPago">Tipo cobro</CFormLabel>
+                    <CFormSelect v-model="postEmpleado.periodoPago" id="periodoPago">
                       <option>MENSUAL</option>
                       <option>QUINCENAL</option>
                     </CFormSelect>
-                    <CFormFeedback invalid>
-                      Favor agregar el campo
-                    </CFormFeedback>
+
                   </CCol>
                   <CCol :md="12">
-                    <CFormLabel for="validationCustom05">Tipo de pago</CFormLabel>
-                    <CFormSelect v-model="postEmpleado.formaPago" id="validationCustom05">
+                    <CFormLabel for="formaPago">Tipo de pago</CFormLabel>
+                    <CFormSelect v-model="postEmpleado.formaPago" id="formaPago">
                       <option>BANCO</option>
                       <option>CHEQUE</option>
                     </CFormSelect>
-                    <CFormFeedback invalid>
-                      Favor agregar el campo
-                    </CFormFeedback>
                   </CCol>
                 </div>
 
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom02">Sueldo actual</CFormLabel>
-                  <CFormInput v-model="postEmpleado.sueldo" id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+                  <CFormLabel for="sueldo">Sueldo actual</CFormLabel>
+                  <CFormInput v-model="postEmpleado.sueldo" id="sueldo" required />
+
                 </CCol>
 
               </div>
@@ -438,40 +357,25 @@
             <div class="row">
               <div class="col-4 border">
                 <CCol>
-                  <CFormLabel for="validationCustom01">Licencia de conducir</CFormLabel>
-                  <CFormInput v-model="postEmpleado.licenciaConducir" type="date" id="validationCustom01" />
+                  <CFormLabel for="licenciaConducir">Licencia de conducir</CFormLabel>
+                  <CFormInput v-model="postEmpleado.licenciaConducir" type="date" id="licenciaConducir" />
 
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02">Fecha expiraci licencia de conducir</CFormLabel>
-                  <CFormInput v-model="postEmpleado.fechaExpiracionLicencia" type="date" id="validationCustom02" />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+                  <CFormLabel for="fechaExpiracionLicencia">Fecha expiraci licencia de conducir</CFormLabel>
+                  <CFormInput v-model="postEmpleado.fechaExpiracionLicencia" type="date" id="fechaExpiracionLicencia" />
+
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom01">Fecha expira tarjeta del banco:</CFormLabel>
-                  <CFormInput v-model="postEmpleado.fechaExpitaTarjeta" type="date" id="validationCustom01" />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+                  <CFormLabel for="fechaExpitaTarjeta">Fecha expira tarjeta del banco:</CFormLabel>
+                  <CFormInput v-model="postEmpleado.fechaExpitaTarjeta" type="date" id="fechaExpitaTarjeta" />
                 </CCol>
               </div>
               <div class="col-4 border p-3">
                 <h3>Otros</h3>
                 <CCol>
-                  <CFormLabel for="validationCustom02">Otros</CFormLabel>
-                  <CFormInput v-model="postEmpleado.emergenciaTelefono" id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+                  <CFormLabel for="emergenciaTelefono">Otros</CFormLabel>
+                  <CFormInput v-model="postEmpleado.emergenciaTelefono" id="emergenciaTelefono" required />
                 </CCol>
               </div>
             </div>
@@ -482,140 +386,95 @@
                 <h3>En caso de emergencia comunicarse con</h3>
                 <hr />
                 <CCol>
-                  <CFormLabel for="validationCustom01">Nombres</CFormLabel>
+                  <CFormLabel for="emergenciaNombre">Nombres</CFormLabel>
 
-                  <CFormInput v-model="postEmpleado.emergenciaNombre" id="validationCustom01" />
+                  <CFormInput v-model="postEmpleado.emergenciaNombre" id="emergenciaNombre" />
+                </CCol>
+                <CCol>
+                  <CFormLabel for="emergenciaTelefono">Tel&eacute;fono</CFormLabel>
+                  <CFormInput v-model="postEmpleado.emergenciaTelefono" id="emergenciaTelefono" required />
 
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02">Teléfono</CFormLabel>
-                  <CFormInput v-model="postEmpleado.emergenciaTelefono" id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+                  <CFormLabel for="emergenciaDireccion">Dirección</CFormLabel>
+                  <CFormInput v-model="postEmpleado.emergenciaDireccion" id="emergenciaDireccion" />
+
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom01">Dirección</CFormLabel>
-                  <CFormInput v-model="postEmpleado.emergenciaDireccion" id="validationCustom01" />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom05">Parentezco</CFormLabel>
-                  <CFormSelect v-model="postEmpleado.emergenciaParentezco" id="validationCustom05">
+                  <CFormLabel for="emergenciaParentezco">Parentezco</CFormLabel>
+                  <CFormSelect v-model="postEmpleado.emergenciaParentezco" id="emergenciaParentezco">
                     <option>Padre</option>
                     <option>Madre</option>
                     <option>Hermano/a</option>
                     <option>Esposo/a</option>
                     <option>Amigo/a</option>
                   </CFormSelect>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+
                 </CCol>
               </div>
               <div class="col-4 border p-3">
-                <h3>Información medica del empleado</h3>
+                <h3>Informaci&oacute;n m&eacute;dica del empleado</h3>
                 <hr />
                 <CCol>
-                  <CFormLabel for="validationCustom01">Alta</CFormLabel>
-                  <CFormInput id="validationCustom01" />
+                  <CFormLabel for="medica">Alta</CFormLabel>
+                  <CFormInput id="medica" />
 
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02">Teléfonos</CFormLabel>
-                  <CFormInput v-model="postEmpleado.telefono" id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+                  <CFormLabel for="telefono">Tel&eacute;fono</CFormLabel>
+                  <CFormInput v-model="postEmpleado.telefono" id="telefono" required />
                 </CCol>
                 <CCol>
                   <CFormLabel for="validationCustom01">Dirección</CFormLabel>
                   <CFormInput id="validationCustom01" />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02">Parentesco</CFormLabel>
-                  <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+                  <CFormLabel for="Parentesco1">Parentesco</CFormLabel>
+                  <CFormInput id="Parentesco1" required />
+
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02">Parentesco</CFormLabel>
-                  <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+                  <CFormLabel for="Parentesco2">Parentesco</CFormLabel>
+                  <CFormInput id="Parentesco2" required />
+
                 </CCol>
 
                 <CCol>
-                  <CFormLabel for="validationCustom05">Nivel de presión</CFormLabel>
-                  <CFormSelect id="validationCustom05">
+                  <CFormLabel for="presión">Nivel de presi&oacute;n</CFormLabel>
+                  <CFormSelect id="presión">
                     <option>Alta</option>
                     <option>Baja</option>
                   </CFormSelect>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+
                 </CCol>
               </div>
               <div class="col-4 border p-3">
                 <h3>Inf sobre el movimiento del registro</h3>
                 <hr />
                 <CCol>
-                  <CFormLabel for="validationCustom01">Fecha adiciona</CFormLabel>
-                  <CFormInput type="date" id="validationCustom01" />
+                  <CFormLabel for="adiciona">Fecha adiciona</CFormLabel>
+                  <CFormInput type="date" id="adiciona" />
 
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
                 </CCol>
 
                 <CCol>
                   <CFormLabel for="validationCustom02">Usuario modifica</CFormLabel>
                   <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+
                 </CCol>
                 <CCol>
                   <CFormLabel for="validationCustom02">Valores anteriores</CFormLabel>
                   <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+
                 </CCol>
 
-                <h3>Intervención quirurgica(más reciente)</h3>
+                <h3>Intervención quirurgica(m&aacute;s reciente)</h3>
 
                 <CCol>
                   <CFormLabel for="validationCustom02">Detalle diagnostico</CFormLabel>
-                  <CFormTextarea v-model="postEmpleado.telefono" id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+                  <CFormTextarea id="diagnostico" required />
+
                 </CCol>
               </div>
             </div>
@@ -634,70 +493,46 @@
                       {{ nivelEscolar.configValue }}
                     </option>
                   </CFormSelect>
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+
                 </CCol>
                 <CCol :md="6">
-                  <CFormLabel for="validationCustom02">Area Tematica</CFormLabel>
+                  <CFormLabel for="validationCustom02">&Aacute;rea Tem&aacute;tica</CFormLabel>
                   <CFormSelect id="validationCustom05">
                     <option v-for="areaTematica in this.areaTematicaList" :key="areaTematica.id" :value="areaTematica.id">
                       {{ areaTematica.configValue }}
                     </option>
                   </CFormSelect>
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+
                 </CCol>
                 <CCol :md="12">
                   <CFormLabel for="validationCustom02">Titulo obtenido</CFormLabel>
                   <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+
                 </CCol>
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom02">Correo electronico 1 y 2</CFormLabel>
+                  <CFormLabel for="validationCustom02">Correo electr&oacute;nico 1 y 2</CFormLabel>
                   <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+
                 </CCol>
                 <CCol class="mt-2">
                   <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+
                 </CCol>
                 <h5>Datos de Evaluacion de Desenpe&ntilde;o</h5>
                 <CCol :md="12">
                   <CFormLabel for="validationCustom02">Fecha Inicial Evaluaci&oacute;n</CFormLabel>
                   <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+
                 </CCol>
                 <CCol :md="12">
                   <CFormLabel for="validationCustom02">Fecha Inicial Evaluaci&oacute;n</CFormLabel>
                   <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+
                 </CCol>
                 <CCol :md="12">
                   <CFormLabel for="validationCustom02">Nota Final</CFormLabel>
                   <CFormInput id="validationCustom02" required />
-                  <CFormFeedback valid> Exito! </CFormFeedback>
-                  <CFormFeedback invalid>
-                    Favor agregar el campo
-                  </CFormFeedback>
+
                 </CCol>
               </CCol>
               <CCol :md="4">
@@ -851,9 +686,6 @@ export default {
     }
   },
 
-  computed: {
-  },
-
   methods: {
     cargarListas() {
       Api.getProgramaDivision().then((response) => {
@@ -876,7 +708,7 @@ export default {
         this.postEmpleado.sectorId = this.sector[0].id
       })
 
-      Api.getAllTipoSangre().then((response) => {
+      Api.tipoSangreList().then((response) => {
         this.tipoSangre = response.data.data
         this.postEmpleado.tipoSangreId = this.tipoSangre[0].id
       })
@@ -897,7 +729,7 @@ export default {
       Api.listDepartamento().then(response => {
         this.departamentoList = response.data.data
       })
-    },
+    }, 
     saveRegistroPersonal() {
       this.$emit('post-personal', {
         ...this.postEmpleado
@@ -908,13 +740,13 @@ export default {
         this.postEmpleado = { ...response.data.data }
       })
     },
-   
+
     closeModal() {
       this.$emit('close-modal')
       this.clearModal()
     },
     clearModal() {
-      EmpleadoId = null
+      this.empleadoId = null
       this.postEmpleado = {
         ayuntamientoId: this.$ayuntamientoId,
         codigo: null,
@@ -1018,16 +850,13 @@ export default {
     }
 
   },
-  computed: {
-  },
-
 
   mounted() {
     this.cargarListas()
   },
 
   watch: {
-    EmpleadoId(newId) {
+    empleadoId(newId) {
       if (newId) {
         this.getRegistroPersonal(newId)
       }
@@ -1036,7 +865,7 @@ export default {
 
   props: {
     showModal: Boolean,
-    EmpleadoId: null
+    empleadoId: null
   }
 }
 </script>
