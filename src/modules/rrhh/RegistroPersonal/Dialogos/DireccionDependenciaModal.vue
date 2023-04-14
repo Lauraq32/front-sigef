@@ -6,7 +6,7 @@
     style="width: 25%"
   >
     <CModalHeader>
-      <CModalTitle>Direcci&oacute;n dependencias</CModalTitle>
+      <CModalTitle>Direcci&oacute;n Dependencias</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -20,6 +20,7 @@
             <CFormLabel for="validationCustom04">Nombre</CFormLabel>
             <CFormInput
               required
+              type="text"
               v-model="direccionDependeciaObject.nombre"
               id="validationCustom04"
             >

@@ -78,7 +78,7 @@ export default {
       newDireccionDependeciaModal: false,
       columns: [
         { key: 'nombre', label: 'Nombre', _style: { width: '40%' } },
-        { key: 'estructura', label: 'Estructura', _style: { width: '40%' } },
+        { key: 'estructura', label: 'Estructura Programática', _style: { width: '40%' } },
         {
           key: 'show_details',
           label: '',
