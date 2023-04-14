@@ -95,77 +95,92 @@
     <CModalHeader>
       <CModalTitle>Acción de Personal</CModalTitle>
     </CModalHeader>
-    <CModalBody>
-      <CCardBody>
-        <div class="row">
-          <div class="col-3">
-            <CFormLabel for="validationCustom01">Fechas</CFormLabel>
+    <CForm novalidate :validated="validatedCustom01" :onsubmit="submitAccionPersonal">
+      <CModalBody>
+        <CCardBody>
+          <div class="row">
+            <div class="col-3">
+              <CFormLabel for="validationCustom01">Fechas</CFormLabel>
+            </div>
+            <div class="col-9 col-md-6">
+              <CFormInput required id="validationCustom01" v-model="fechaDesde" type="date" />
+              <CFormFeedback valid> Exito! </CFormFeedback>
+              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+            </div>
           </div>
-          <div class="col-9 col-md-6">
-            <CFormInput id="validationCustom01" v-model="fechaDesde" type="date" />
-          </div>
-        </div>
 
-        <div class="row mt-3">
-          <div class="col-3">
-            <CFormLabel for="validationCustom02">Tipo de Acciones</CFormLabel>
-          </div>
-          <div class="col-9 col-md-6">
-            <CFormSelect id="validationCustom02" v-model="postAccionPersonal.tipoAccionId">
-              <option v-for="acciones in this.tipoAcciones" :key="acciones.id" :value="acciones.id">
-                {{ acciones.descripcion }}
-              </option>
-            </CFormSelect>
-          </div>
-        </div>
+          <div class="row mt-3">
+            <div class="col-3">
+              <CFormLabel for="validationCustom02">Tipo de Acciones</CFormLabel>
+            </div>
+            <div class="col-9 col-md-6">
+              <CFormSelect required id="validationCustom02" v-model="postAccionPersonal.tipoAccionId">
+                <option v-for="acciones in this.tipoAcciones" :key="acciones.id" :value="acciones.id">
+                  {{ acciones.descripcion }}
 
-        <div class="row mt-3">
-          <div class="col-3">
-            <CFormLabel for="validationCustom03">Cantidad</CFormLabel>
+                </option>
+              </CFormSelect>
+              <CFormFeedback valid> Exito! </CFormFeedback>
+              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+            </div>
           </div>
-          <div class="col-9 col-md-6">
-            <VueNumberFormat id="validationCustom03" type="number" v-model:value="postAccionPersonal.cantidad"
-              class="form-control" :format="'0'" :options="{
-                precision: 0,
-                prefix: '',
-                decimal: '',
-                thousand: '',
-              }">
-            </VueNumberFormat>
-          </div>
-        </div>
 
-        <div class="row mt-3">
-          <div class="col-3">
-            <CFormLabel for="validationCustom04">Hasta</CFormLabel>
+          <div class="row mt-3">
+            <div class="col-3">
+              <CFormLabel for="validationCustom03">Cantidad</CFormLabel>
+            </div>
+            <div class="col-9 col-md-6">
+              <VueNumberFormat id="validationCustom03" v-model:value="postAccionPersonal.cantidad" class="form-control"
+                :format="'0'" :options="{
+                  precision: 0,
+                  prefix: '',
+                  decimal: '',
+                  thousand: '',
+                }">
+              </VueNumberFormat>
+              <CFormFeedback valid> Exito! </CFormFeedback>
+              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+            </div>
           </div>
-          <div class="col-9 col-md-6">
-            <CFormInput id="validationCustom04" type="date" v-model="fechaHasta" />
-          </div>
-        </div>
 
-        <div class="row mt-3">
-          <div class="col-3">
-            <CFormLabel for="validationCustom05">Detalle</CFormLabel>
+          <div class="row mt-3">
+            <div class="col-3">
+              <CFormLabel for="validationCustom04">Hasta</CFormLabel>
+            </div>
+            <div class="col-9 col-md-6">
+              <CFormInput required id="validationCustom04" type="date" v-model="fechaHasta" />
+              <CFormFeedback valid> Exito! </CFormFeedback>
+              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+            </div>
           </div>
-          <div class="col-9">
-            <textarea id="validationCustom05" v-model="postAccionPersonal.detalle" class="col-md-10" rows="3"></textarea>
-          </div>
-        </div>
-      </CCardBody>
-    </CModalBody>
 
-    <CModalFooter>
-      <CButton type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</CButton>
-      <CButton class="btn btn-info btn-block mt-1" v-on:click="SubmitAccionPersonal">Guardar</CButton>
-    </CModalFooter>
+          <div class="row mt-3">
+            <div class="col-3">
+              <CFormLabel for="validationCustom05">Detalle</CFormLabel>
+            </div>
+            <div class="col-9">
+              <textarea required id="validationCustom05" v-model="postAccionPersonal.detalle" class="col-md-10"
+                rows="3"></textarea>
+              <CFormFeedback valid> Exito! </CFormFeedback>
+              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+            </div>
+          </div>
+
+        </CCardBody>
+
+      </CModalBody>
+      <CModalFooter>
+        <CButton type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</CButton>
+        <input type="submit" class="btn btn-info btn-block mt-1" value="Guardar" />
+      </CModalFooter>
+    </CForm>
   </CModal>
 </template>
 
 <script>
 import Api from '@/modules/rrhh/RegistroPersonal/services/RegistroPersonalServices'
 import { CModal } from '@coreui/vue'
-import { CSmartTable } from '@coreui/vue-pro'
+import { CForm, CSmartTable } from '@coreui/vue-pro'
 import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
 import { formatDate } from '@/utils/format'
@@ -175,11 +190,13 @@ export default {
   components: {
     CSmartTable,
     CModal,
+    CForm
   },
 
   data: function () {
     return {
       formatDate,
+      validatedCustom01: null,
       showAgregarAcciones: false,
       accionPersonal: [],
       tipoAcciones: [],
@@ -263,27 +280,33 @@ export default {
       this.$emit('closeModal', false)
     },
 
-    SubmitAccionPersonal() {
-      if (this.id) {
-        Api.putAccionesPersonales(this.id, this.postAccionPersonal)
-          .then((response) => {
-            this.show({
-              content: 'Registro actualizado correctamente',
-              closable: true,
+    submitAccionPersonal(event) {
+      const form = event.currentTarget
+      event.preventDefault()
+      event.stopPropagation()
+      if (form.checkValidity() === true) {
+        if (this.id) {
+          Api.putAccionesPersonales(this.id, this.postAccionPersonal)
+            .then((response) => {
+              this.show({
+                content: 'Registro actualizado correctamente',
+                closable: true,
+              })
             })
-          })
-          .catch(({ response }) => {
-            this.show({
-              content: response.data,
-              closable: true,
-              color: 'danger',
-              class: 'text-white',
+            .catch(({ response }) => {
+              this.show({
+                content: response.data,
+                closable: true,
+                color: 'danger',
+                class: 'text-white',
+              })
             })
-          })
-        setTimeout(this.getAccionPersonalById, 500)
-      } else {
-        this.postAccionesPersonal()
+        } else {
+          this.postAccionesPersonal()
+        }
       }
+      this.validatedCustom01 = true
+
     },
 
     getTipoAcciones() {
@@ -330,7 +353,6 @@ export default {
             class: 'text-white',
           })
         })
-      setTimeout(this.getAccionPersonalById, 500)
     },
 
     getAccionPersonalById(empleadoId) {

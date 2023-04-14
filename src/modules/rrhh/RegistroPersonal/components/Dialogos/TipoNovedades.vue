@@ -39,49 +39,55 @@
     <CModalHeader>
       <CModalTitle>Tipo de Novedad</CModalTitle>
     </CModalHeader>
-    <CModalBody>
-      <CCardBody>
-        <div class="row mt-3">
-          <div class="col-4">
-            <CFormLabel for="Descripción">Descripción</CFormLabel>
+    <CForm novalidate :validated="validatedCustom01" :onsubmit="submitTipoAcciones">
+      <CModalBody>
+        <CCardBody>
+          <div class="row mt-3">
+            <div class="col-4">
+              <CFormLabel for="Descripción">Descripción</CFormLabel>
+            </div>
+            <div class="col-8">
+              <CFormInput required id="Descripción" v-model="postTipoAccion.descripcion" />
+              <CFormFeedback valid> Exito! </CFormFeedback>
+              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+            </div>
           </div>
-          <div class="col-8">
-            <CFormInput id="Descripción" v-model="postTipoAccion.descripcion" />
-          </div>
-        </div>
 
-        <div class="row mt-4">
-          <div class="col-4"></div>
-          <div class="col-8">
-            <CFormLabel for="cambiaStatus" class="d-flex">
-              Cambia estatus?
-              <input v-model="postTipoAccion.cambiaStatus" class="form-check-input mx-3" type="checkbox"
-                id="cambiaStatus" />
-            </CFormLabel>
+          <div class="row mt-4">
+            <div class="col-4"></div>
+            <div class="col-8">
+              <CFormLabel for="cambiaStatus" class="d-flex">
+                Cambia estatus?
+                <input required v-model="postTipoAccion.cambiaStatus" class="form-check-input mx-3" type="checkbox"
+                  id="cambiaStatus" />
+              </CFormLabel>
+            </div>
           </div>
-        </div>
 
-        <div class="row mt-2">
-          <div class="col-4">
-            <CFormLabel for="selectTipoAccion">Estatus</CFormLabel>
+          <div class="row mt-2">
+            <div class="col-4">
+              <CFormLabel for="selectTipoAccion">Estatus</CFormLabel>
+            </div>
+            <div class="col-8">
+              <CFormSelect required v-model="postTipoAccion.estatus" id="selectTipoAccion">
+                <option>Activo</option>
+                <option>Inactivo</option>
+                <option>Licencia</option>
+                <option>Vacaciones</option>
+              </CFormSelect>
+              <CFormFeedback valid> Exito! </CFormFeedback>
+              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+            </div>
           </div>
-          <div class="col-8">
-            <CFormSelect v-model="postTipoAccion.estatus" id="selectTipoAccion">
-              <option>Activo</option>
-              <option>Inactivo</option>
-              <option>Licencia</option>
-              <option>Vacaciones</option>
-            </CFormSelect>
-          </div>
-        </div>
-      </CCardBody>
-    </CModalBody>
+        </CCardBody>
+      </CModalBody>
+      <CModalFooter>
+        <CButton type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="showTipoNovedad = false">Cancelar
+        </CButton>
+        <input type="submit" class="btn btn-info btn-block mt-1" value="Guardar" />
+      </CModalFooter>
+    </CForm>
 
-    <CModalFooter>
-      <CButton type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="showTipoNovedad = false">Cancelar
-      </CButton>
-      <CButton class="btn btn-info btn-block mt-1" v-on:click="submitTipoAcciones">Guardar</CButton>
-    </CModalFooter>
   </CModal>
 </template>
 
@@ -102,6 +108,7 @@ export default {
   data: function () {
     return {
       showTipoNovedad: false,
+      validatedCustom01: null,
       tipoAcciones: [],
       postTipoAccion: {
         descripcion: null,
@@ -187,27 +194,34 @@ export default {
         }
     },
 
-    submitTipoAcciones() {
-      if (this.id != null) {
-        Api.putTipoAcciones(this.id, this.postTipoAccion)
-          .then(() => {
-            this.show({
-              content: 'Registro guardado correctamente',
-              closable: true,
+    submitTipoAcciones(event) {
+      const form = event.currentTarget
+      event.preventDefault()
+      event.stopPropagation()
+
+      if (form.checkValidity() === true) {
+        if (this.id != null) {
+          Api.putTipoAcciones(this.id, this.postTipoAccion)
+            .then(() => {
+              this.show({
+                content: 'Registro guardado correctamente',
+                closable: true,
+              })
             })
-          })
-          .catch(({ response }) => {
-            this.show({
-              content: response.data,
-              closable: true,
-              color: 'danger',
-              class: 'text-white',
+            .catch(({ response }) => {
+              this.show({
+                content: response.data,
+                closable: true,
+                color: 'danger',
+                class: 'text-white',
+              })
             })
-          })
-        setTimeout(this.getTipoAcciones, 500)
-      } else {
-        this.postTipoAcciones()
+          setTimeout(this.getTipoAcciones, 500)
+        } else {
+          this.postTipoAcciones()
+        }
       }
+      this.validatedCustom01 = true
     },
   },
 
