@@ -197,11 +197,11 @@ export default {
       tipoAcciones: [],
       toasts: [],
       postAccionPersonal: {
-        fechaDesde: new Date(),
+        fechaDesde: null,
         tipoAccionId: 4,
         empleadoId: this.empleado.id,
         cantidad: null,
-        fechaHasta: new Date(),
+        fechaHasta: null,
         detalle: null,
       },
       columns: [
