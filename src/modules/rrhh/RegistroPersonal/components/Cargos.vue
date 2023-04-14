@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Posici&oacute;nes o cargos</h3>
+  <h3 class="text-center">Cargos</h3>
   <hr />
   <div class="table-headers">
     <div class="d-inline p-2">

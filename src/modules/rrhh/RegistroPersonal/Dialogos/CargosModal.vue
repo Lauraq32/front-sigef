@@ -15,7 +15,7 @@
             <CFormLabel for="validationCustomUsername"
               >Posici&oacute;n o cargo</CFormLabel
             >
-            <CFormInput required v-model="cargo.posicion" id="validationCustom04">
+            <CFormInput type="text" required v-model="cargo.posicion" id="validationCustom04">
             </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
