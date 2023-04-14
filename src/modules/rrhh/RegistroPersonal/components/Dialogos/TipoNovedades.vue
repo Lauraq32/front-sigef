@@ -47,7 +47,7 @@
               <CFormLabel for="Descripción">Descripción</CFormLabel>
             </div>
             <div class="col-8">
-              <CFormInput required id="Descripción" v-model="postTipoAccion.descripcion" />
+              <CFormInput required id="Descripcion" v-model="postTipoAccion.descripcion" />
               <CFormFeedback valid> Exito! </CFormFeedback>
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </div>
@@ -184,14 +184,14 @@ export default {
     },
 
     clearTipoAccion() {
-      this.id = null,
-        this.postTipoAccion = {
-          id: null,
-          descripcion: null,
-          cambiaStatus: null,
-          estatus: 'Activo',
-          comprobado: null,
-        }
+      this.id = null
+      this.postTipoAccion = {
+        id: null,
+        descripcion: null,
+        cambiaStatus: null,
+        estatus: 'Activo',
+        comprobado: null,
+      }
     },
 
     submitTipoAcciones(event) {

@@ -316,15 +316,15 @@ export default {
     },
 
     clearAccionPersonal() {
-      this.id = null,
-        this.postAccionPersonal = {
-          fechaDesde: null,
-          tipoAccionId: null,
-          empleadoId: null,
-          cantidad: null,
-          fechaHasta: null,
-          detalle: null,
-        }
+      this.id = null
+      this.postAccionPersonal = {
+        fechaDesde: null,
+        tipoAccionId: null,
+        empleadoId: null,
+        cantidad: null,
+        fechaHasta: null,
+        detalle: null,
+      }
     },
 
     getAccionesPersonalById(item) {
