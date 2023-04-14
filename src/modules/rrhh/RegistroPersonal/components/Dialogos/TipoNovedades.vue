@@ -12,7 +12,7 @@
         <template #show_details="{ item }">
           <td class="py-1">
             <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="editTipoAccion(item)">
-              {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
+              Editar
             </CButton>
           </td>
         </template>
@@ -48,7 +48,6 @@
             </div>
             <div class="col-8">
               <CFormInput required id="Descripcion" v-model="postTipoAccion.descripcion" />
-              <CFormFeedback valid> Exito! </CFormFeedback>
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </div>
           </div>
@@ -75,7 +74,6 @@
                 <option>Licencia</option>
                 <option>Vacaciones</option>
               </CFormSelect>
-              <CFormFeedback valid> Exito! </CFormFeedback>
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </div>
           </div>

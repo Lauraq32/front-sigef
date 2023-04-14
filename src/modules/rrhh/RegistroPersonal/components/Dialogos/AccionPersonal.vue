@@ -75,7 +75,7 @@
         <template #show_details="{ item, index }">
           <td class="py-2">
             <CButton color="primary" variant="outline" square size="sm" v-on:click="this.getAccionesPersonalById(item)">
-              {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
+              Editar
             </CButton>
           </td>
         </template>
@@ -104,7 +104,6 @@
             </div>
             <div class="col-9 col-md-6">
               <CFormInput required id="validationCustom01" v-model="fechaDesde" type="date" />
-              <CFormFeedback valid> Exito! </CFormFeedback>
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </div>
           </div>
@@ -120,7 +119,6 @@
 
                 </option>
               </CFormSelect>
-              <CFormFeedback valid> Exito! </CFormFeedback>
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </div>
           </div>
@@ -138,7 +136,6 @@
                   thousand: '',
                 }">
               </VueNumberFormat>
-              <CFormFeedback valid> Exito! </CFormFeedback>
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </div>
           </div>
@@ -149,7 +146,6 @@
             </div>
             <div class="col-9 col-md-6">
               <CFormInput required id="validationCustom04" type="date" v-model="fechaHasta" />
-              <CFormFeedback valid> Exito! </CFormFeedback>
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </div>
           </div>
@@ -161,7 +157,6 @@
             <div class="col-9">
               <textarea required id="validationCustom05" v-model="postAccionPersonal.detalle" class="col-md-10"
                 rows="3"></textarea>
-              <CFormFeedback valid> Exito! </CFormFeedback>
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </div>
           </div>
@@ -198,7 +193,7 @@ export default {
       formatDate,
       validatedCustom01: null,
       showAgregarAcciones: false,
-      accionPersonal: [],
+      accionPersonalList: [],
       tipoAcciones: [],
       toasts: [],
       postAccionPersonal: {
@@ -357,7 +352,7 @@ export default {
 
     getAccionPersonalById(empleadoId) {
       Api.getAccionPersonalByID(empleadoId).then((response) => {
-        this.accionPersonal = response.data.data
+        this.accionPersonalList = response.data.data
       })
     },
   },

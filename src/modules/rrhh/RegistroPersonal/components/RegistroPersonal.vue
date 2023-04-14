@@ -3,7 +3,7 @@
   <AccionPersonalDialog
     :showModal="showAccionPersonal"
     @closeModal="closeAccionPersonal"
-    :empleado="EmpleadoAcciones"
+    :empleado="accionEmpleado"
   />
   <TipoNovedadDialog
     :showModal="showTipoNovedad"
@@ -117,7 +117,7 @@
             @click="
               () => {
                 showAccionPersonal = true
-                EmpleadoAcciones = item
+                accionEmpleado = item
               }
             "
             >Evaluación</CDropdownItem
@@ -981,7 +981,7 @@ export default {
   },
   data: function () {
     return {
-      EmpleadoAcciones: {},
+      accionEmpleado: {},
       accionPersonal: [],
       showAccionPersonal: false,
       showTipoNovedad: false,
