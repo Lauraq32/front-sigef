@@ -70,6 +70,11 @@
                 lgDemo4 = true
               }
             ">Evaluación</CDropdownItem>
+            <CDropdownItem @click="
+              () => {
+                newTarjetaEmpleadoModal = true
+              }
+            ">Tarjeta</CDropdownItem>
             <CDropdownItem>Eventualidad</CDropdownItem>
           </CDropdownMenu>
         </CDropdown>
@@ -84,6 +89,9 @@
 
   <RegistroPersonalDialog :showModal="showRegistroPersonalModal" @post-personal="submitForm"
     @close-modal="closeRegistroPersonalModal" :empleadoId="id" />
+
+    <TarjetaEmpleadoDialogs :newTarjetaEmpleadoModal="newTarjetaEmpleadoModal"
+    @close-modal="closeTarjetaEmpleadoModal" :tarjetaEmpleadoId="tarjetaEmpleadoId" />
 </template>
 
 <script>
@@ -98,16 +106,20 @@ import Api from '../services/RegistroPersonalServices'
 import moment from 'moment'
 import { useToastStore } from '@/store/toast'
 import RegistroPersonalDialog from '../components/Dialogos/RegistroPersonalDialog.vue'
+import TarjetaEmpleadoDialogs from '../components/Dialogos/TarjetaEmpleado.vue'
 
 export default {
   components: {
     CSmartTable,
     CModal,
     moment,
-    RegistroPersonalDialog
+    RegistroPersonalDialog,
+    TarjetaEmpleadoDialogs
   },
   data: function () {
     return {
+      tarjetaEmpleadoId: null,
+      newTarjetaEmpleadoModal: false,
       showRegistroPersonalModal: false,
       id: null,
       lgDemo4: false,
@@ -187,8 +199,11 @@ export default {
 
     closeRegistroPersonalModal() {
       this.showRegistroPersonalModal = false
-    }
-    ,
+    },
+
+    closeTarjetaEmpleadoModal() {
+      this.newTarjetaEmpleadoModal = false
+    },
     showModal() {
       this.showRegistroPersonalModal = true
     },
@@ -275,6 +290,7 @@ export default {
     toggleDetails(item) {
       this.showRegistroPersonalModal = true
       this.id = item.id
+      this.tarjetaEmpleadoId = item.id
       if (item.empleados !== 0 || item.variacion !== 0) {
         this.empleadoValue = true
       } else {
