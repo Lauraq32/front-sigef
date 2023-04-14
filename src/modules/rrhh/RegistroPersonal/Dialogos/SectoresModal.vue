@@ -18,6 +18,7 @@
           <CCol :md="12">
             <CFormLabel for="validationCustom02">Sector</CFormLabel>
             <CFormInput
+            type="text"
               v-model="sectorObject.nombre"
               id="validationCustom02"
               required
