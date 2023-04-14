@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import http from '@/Api/http-common'
-import { getAyuntamientoId } from '@/utils/logged-info';
+import { getAyuntamientoId } from '@/utils/logged-info'
 class RegistroPersonal {
   //get
   getAllTipoSangre() {
@@ -8,11 +8,11 @@ class RegistroPersonal {
   }
 
   getTipoSangreByID(id) {
-    return http.get(`TipoSangre/${id}`)
+    return http.get(`tipos-sangre/${id}`)
   }
 
   getSectorbyid(id) {
-    return http.get(`Sector / ${id}`)
+    return http.get(`sectores/${id}`)
   }
 
   getProfesion() {
@@ -31,17 +31,11 @@ class RegistroPersonal {
   }
 
   getAllEmpleado() {
-    return http.get(
-      `Empleado?ayuntamientoId=${
-       getAyuntamientoId()
-      }`,
-    )
+    return http.get(`empleados`)
   }
 
   getProgramaDivision() {
-    return http.get(
-      `ProgramaDivision?AyuntamientoId=${getAyuntamientoId()}`,
-    )
+    return http.get(`ProgramaDivision?AyuntamientoId=${getAyuntamientoId()}`)
   }
 
   getEmpleadoByID(id) {
@@ -53,15 +47,11 @@ class RegistroPersonal {
   }
 
   getSectores() {
-    return http.get(
-      `Sector?ayuntamiento=${
-       getAyuntamientoId()
-      }`,
-    )
+    return http.get(`sectores?ayuntamiento=${getAyuntamientoId()}`)
   }
 
   getAreaTrabajo() {
-    return http.get('AreaTrabajo')
+    return http.get('areas-trabajo')
   }
 
   //Combobox cargo
@@ -70,7 +60,7 @@ class RegistroPersonal {
   }
 
   getAreaTrabajobyid(id) {
-    return http.get(`AreaTrabajo/${id}`)
+    return http.get(`areas-trabajo/${id}`)
   }
   //post
 
@@ -79,11 +69,11 @@ class RegistroPersonal {
   }
 
   postSectores(data) {
-    return http.post('Sector', data)
+    return http.post('sectores', data)
   }
 
   postAreaTrabajo(data) {
-    return http.post('AreaTrabajo', data)
+    return http.post('areas-trabajo', data)
   }
 
   //put
@@ -96,11 +86,11 @@ class RegistroPersonal {
   }
 
   putSector(id, post) {
-    return http.put(`Sector / ${id}`, post)
+    return http.put(`sectores/${id}`, post)
   }
 
   putAreaTrabajo(id) {
-    return http.put(`AreaTrabajo/${id}`)
+    return http.put(`areas-trabajo/${id}`)
   }
 
   deleteEmpleado(id) {
@@ -108,11 +98,7 @@ class RegistroPersonal {
   }
 
   deleteSector(id) {
-    return http.delete(
-      `Sector/${id}?ayuntamiento=${
-       getAyuntamientoId()
-      }`,
-    )
+    return http.delete(`sectores/${id}?ayuntamiento=${getAyuntamientoId()}`)
   }
 }
 
