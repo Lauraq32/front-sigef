@@ -72,7 +72,7 @@
           </td>
         </template>
 
-        <template #show_details="{ item, index }">
+        <template #show_details="{ item }">
           <td class="py-2">
             <CButton color="primary" variant="outline" square size="sm" v-on:click="this.getAccionesPersonalById(item)">
               Editar
