@@ -1,17 +1,18 @@
 <template >
-  <v-idle @idle="handleIdle" :duration="300" :loop="false" />
+  <v-idle @idle="handleIdle" :duration="authInfo.sessionTimeLimit" :loop="false" />
 </template>
 
 <script>
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { useAuthStore } from "@/store/AuthStore"
-import { mapActions } from 'pinia'
+import { mapActions, mapState, mapStores } from 'pinia'
 import router from '@/router/index'
+
+
 export default {
   name: "SessionManager",
   methods: {
     ...mapActions(useAuthStore, ["signOut"]),
-
     handleIdle() {
 
       this.signOut().then(() => {
@@ -28,6 +29,10 @@ export default {
         })
       })
     }
+  },
+  computed: {
+    ...mapStores(useAuthStore),
+    ...mapState(useAuthStore, ["authInfo"])
   }
 }
 
