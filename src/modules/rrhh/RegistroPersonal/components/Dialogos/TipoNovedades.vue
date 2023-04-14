@@ -44,7 +44,7 @@
         <CCardBody>
           <div class="row mt-3">
             <div class="col-4">
-              <CFormLabel for="Descripción">Descripción</CFormLabel>
+              <CFormLabel for="Descripcion">Descripción</CFormLabel>
             </div>
             <div class="col-8">
               <CFormInput required id="Descripcion" v-model="postTipoAccion.descripcion" />
