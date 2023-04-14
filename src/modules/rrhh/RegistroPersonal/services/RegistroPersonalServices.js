@@ -33,9 +33,10 @@ class RegistroPersonal {
   getAllEmpleado() {
     return http.get(`empleados`)
   }
+  //get Archivos por el id del empleado
   getFileById(){
     return http.get(
-      ` `
+      ` empleados/${id}`
     )
   }
 
@@ -70,9 +71,12 @@ class RegistroPersonal {
   //post
 
   postEmpleado(data) {
-    return http.post('Empleado', data)
+    return http.post('empleados', data)
   }
+  postFiles(formData){
+    return http.post(`files`, formData)
 
+  }
   postSectores(data) {
     return http.post('sectores', data)
   }
