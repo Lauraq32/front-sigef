@@ -44,11 +44,11 @@
 .black-text {
     color: black;
 }
-.card{
+.main-menu-cards-container .card{
   transition: transform 0.25s ease-in;
 }
 
-.card:hover{
+.main-menu-cards-container  .card:hover{
   cursor: pointer;
   transform: scale(1.03);
 
