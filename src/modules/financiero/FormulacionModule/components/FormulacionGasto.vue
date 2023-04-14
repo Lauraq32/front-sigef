@@ -1,68 +1,38 @@
 <template>
-  <h3 class="text-center">Formulaci&oacute;n Gastos</h3>
-  <div class="table-headers">
-    <div class="d-inline p-2">
-      <CButton
-        style="font-weight: bold"
-        color="info"
-        @click="setNuevoFormulacionGasto"
-      >
-        Agregar
-      </CButton>
-    </div>
-    <div class="p-2">
-      <CButton color="info" @click="IngresoReport">Imprimir</CButton>
-    </div>
-    <div class="p-2">
-      <CButton color="info" @click="cargarEstructuras"
-        >Cargar Estructuras</CButton
-      >
-    </div>
-    <div class="p-2">
-      <CButton color="info" @click="goToIngreso"
-        >Ir a Formulaci&oacute;n Ingreso</CButton
-      >
-    </div>
-    <div class="p-2">
-      <label class="file-select btn" role="button">
-        <CIcon icon="cilCloudUpload" size="sm" />
-        <input
-          type="file"
-          id="formFileProyecto"
-          @change="onFileChangeProyectos"
-        />
-        <span class="label">Importar Proyectos</span>
-      </label>
-    </div>
-    <div class="p-2">
-      <label class="file-select btn" role="button">
-        <CIcon icon="cilCloudUpload" size="sm" />
-        <input type="file" id="formFileFormulaciion" @change="onFileChange" />
-        <span class="label">Importar Formulaci&oacute;n</span>
-      </label>
-    </div>
-  </div>
-  <CSmartTable
-    class="sticky-top"
-    clickableRows
-    :tableProps="{
-      striped: true,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    :footer="footerItem"
-    header
-    columnFilter
-    :items="prepGastoList"
-    :columns="columns"
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination
-    :items-per-page-label="'Artículos por página:'"
-  >
+  <h3 class="text-center  mb-4">Formulaci&oacute;n Gastos</h3>
+
+  <AppAccionHeader :actions="[
+    {
+      label: 'Imprimir',
+      accionHandler: this.IngresoReport.bind(this),
+      icon: 'cilPrint'
+    },
+    {
+      label: 'Cargar Estructuras',
+      accionHandler: this.cargarEstructuras.bind(this),
+      icon: 'cilLayers'
+    },
+    {
+      label: 'Importar Proyectos',
+      accionHandler: this.onFileChangeProyectos.bind(this),
+      type: 'upload'
+    },
+    {
+      label: 'Importar Formulaci&oacute;n',
+      accionHandler: this.onFileChange.bind(this),
+      type: 'upload'
+    }
+  ]">
+    <CButton color="info" @click="setNuevoFormulacionGasto">Agregar</CButton>
+    <CButton color="secondary" @click="goToIngreso">Ir a Formulaci&oacute;n Ingreso</CButton>
+  </AppAccionHeader>
+
+  <CSmartTable class="sticky-top" clickableRows :tableProps="{
+    striped: true,
+    hover: true,
+  }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header columnFilter :items="prepGastoList"
+    :columns="columns" itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination :items-per-page-label="'Artículos por página:'">
     <template #totalPresupuesto="{ item }">
       <td class="text-end">
         {{ formatPrice(item.totalPresupuesto) }}
@@ -76,23 +46,14 @@
     <!-- Borre el , index  dentro del template de abajo -->
     <template #show_details="{ item }">
       <td class="py-2">
-        <CButton
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item)"
-          >Editar
+        <CButton color="primary" variant="outline" square size="sm" @click="toggleDetails(item)">Editar
         </CButton>
       </td>
     </template>
   </CSmartTable>
 
-  <FormulacionGastoDialog
-    :isVisible="showFormulacionDialog"
-    :formulacionGasto="formulacionGasto"
-    @close="onFormulacionGastoDialogClose"
-  />
+  <FormulacionGastoDialog :isVisible="showFormulacionDialog" :formulacionGasto="formulacionGasto"
+    @close="onFormulacionGastoDialogClose" />
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
@@ -105,12 +66,15 @@ import XLSX from 'xlsx/xlsx.mjs'
 import router from '@/router'
 import { formatPrice } from '../../../../utils/format'
 import { useToastStore } from '@/store/toast'
-import FormulacionGastoDialog from '../gasto/FormulacionGastoDialog'
+import FormulacionGastoDialog from "../gasto/FormulacionGastoDialog";
+import AppAccionHeader from "../../../../components/AppActionHeader.vue";
+
 export default {
   components: {
     CSmartTable,
     CModal,
     FormulacionGastoDialog,
+    AppAccionHeader
   },
   data: function () {
     return {
@@ -212,8 +176,8 @@ export default {
               MestProgId: `0011${Object.values(item)[4]
                 .toString()
                 .padStart(2, 0)}${Object.values(item)[5]
-                .toString()
-                .padStart(4, 0)}`,
+                  .toString()
+                  .padStart(4, 0)}`,
 
               PNAP: pnap,
               Programa: programa,
@@ -291,13 +255,11 @@ export default {
               mestProgId: `${this.pnap}${this.programa}${Object.values(item)[4]
                 .toString()
                 .padStart(2, 0)}${Object.values(item)[5]
-                .toString()
-                .padStart(4, 0)}`,
-              ctgClasificadorId: `${Object.values(item)[6]}${
-                Object.values(item)[7]
-              }${Object.values(item)[8]}${
-                Object.values(item)[9]
-              }${Object.values(item)[10].toString().padStart(2, 0)}`,
+                  .toString()
+                  .padStart(4, 0)}`,
+              ctgClasificadorId: `${Object.values(item)[6]}${Object.values(item)[7]
+                }${Object.values(item)[8]}${Object.values(item)[9]
+                }${Object.values(item)[10].toString().padStart(2, 0)}`,
               cControl: `${Object.values(item)[8]}`,
               auxiliar: `${Object.values(item)[10].toString().padStart(2, 0)}`,
               ctgFuenteId: `${Object.values(item)[15]}`,
@@ -310,36 +272,32 @@ export default {
               tipoGasto: '',
               oriBco1: 0,
               estimadoBco1: 0,
-              presupuestoBco1: `${
-                Object.values(item)[11] == 'P' ? Object.values(item)[18] : 0
-              }`,
+              presupuestoBco1: `${Object.values(item)[11] == 'P' ? Object.values(item)[18] : 0
+                }`,
               variacionBco1: 0,
               totalDevengadoBco1: 0,
               disponiblePagadoBco1: 0,
               totalPagadoBco1: 0,
               oriBco2: 0,
               estimadoBco2: 0,
-              presupuestoBco2: `${
-                Object.values(item)[11] == 'S' ? Object.values(item)[18] : 0
-              }`,
+              presupuestoBco2: `${Object.values(item)[11] == 'S' ? Object.values(item)[18] : 0
+                }`,
               variacionBco2: 0,
               totalDevengadoBco2: 0,
               disponiblePagadoBco2: 0,
               totalPagadoBco2: 0,
               oriBco3: 0,
               estimadoBco3: 0,
-              presupuestoBco3: `${
-                Object.values(item)[11] == 'I' ? Object.values(item)[18] : 0
-              }`,
+              presupuestoBco3: `${Object.values(item)[11] == 'I' ? Object.values(item)[18] : 0
+                }`,
               variacionBco3: 0,
               totalDevengadoBco3: 0,
               disponiblePagadoBco3: 0,
               totalPagadoBco3: 0,
               oriBco4: 0,
               estimadoBco4: 0,
-              presupuestoBco4: `${
-                Object.values(item)[11] == 'E' ? Object.values(item)[18] : 0
-              }`,
+              presupuestoBco4: `${Object.values(item)[11] == 'E' ? Object.values(item)[18] : 0
+                }`,
               variacionBco4: 0,
               totalDevengadoBco4: 0,
               disponiblePagadoBco4: 0,
@@ -523,11 +481,11 @@ export default {
   color: white;
 }
 
-.file-select > .label {
+.file-select>.label {
   margin-left: 0.1rem;
 }
 
-.file-select > input[type='file'] {
+.file-select>input[type='file'] {
   visibility: hidden;
   position: absolute;
   width: 100%;
