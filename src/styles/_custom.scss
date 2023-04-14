@@ -44,3 +44,12 @@
 .black-text {
     color: black;
 }
+.card{
+  transition: transform 0.25s ease-in;
+}
+
+.card:hover{
+  cursor: pointer;
+  transform: scale(1.03);
+
+}
