@@ -15,8 +15,8 @@
     </div>
 
     <div class="row">
-      <div class="col-md-5 mt-5 border p-3 border-dark ml-2">
-        <div class="row">
+      <div class="col-md-6  mt-5   ml-2">
+        <div class="row w-100 p-3 border border-dark">
           <div class="col-6 fw-bold">
             <div v-for="(datosGenerales, index) in datosGenerales" :key="index">
               <label for="idCampos"> {{ datosGenerales }}: </label>
@@ -29,8 +29,8 @@
           </div>
         </div>
       </div>
-      <div class="col-5 mt-5 border border-dark">
-        <div class="row">
+      <div class="col-6 mt-5 ">
+        <div class="row w-100 p-3 border border-dark">
           <div class="col-6 fw-bold">
             <div v-for="(datosLaborales, index) in datosLaborales" :key="index">
               <label for="idCampos"> {{ datosLaborales }}: </label>
@@ -43,9 +43,9 @@
           </div>
         </div>
       </div>
-      <div class="col-2"></div>
-      <div class="col-5 mt-5 border border-dark">
-        <div class="row">
+
+      <div class="col-6 mt-5 ">
+        <div class="row w-100 p-3 border border-dark">
           <div class="col-6 fw-bold">
             <div v-for="(datosEmergencia, index) in datosEmergencia" :key="index">
               <label for="idCampos"> {{ datosEmergencia }}: </label>
@@ -58,8 +58,8 @@
           </div>
         </div>
       </div>
-      <div class="col-5 mt-5 border border-dark">
-        <div class="row">
+      <div class="col-6 mt-5 ">
+        <div class="row w-100 p-3 border border-dark">
           <div class="col-6 fw-bold">
             <div v-for="(datosPresionAlterial, index) in datosPresionAlterial" :key="index">
               <label for="idCampos"> {{ datosPresionAlterial }}: </label>
