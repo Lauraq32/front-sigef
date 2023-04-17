@@ -505,7 +505,7 @@
 
                 </CCol>
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom02">Titulo obtenido</CFormLabel>
+                  <CFormLabel for="validationCustom02">T&iacute;tulo obtenido</CFormLabel>
                   <CFormInput id="validationCustom02" required />
 
                 </CCol>
