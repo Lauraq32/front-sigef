@@ -395,7 +395,7 @@ const routes = [
     children: [
 
       {
-        path: 'empleados',
+        path: 'empleados/:id',
         name: 'empleadosReports',
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route

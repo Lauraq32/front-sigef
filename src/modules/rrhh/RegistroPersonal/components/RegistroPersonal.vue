@@ -1,6 +1,7 @@
 <template>
   <h3 class="text-center">Mantenimientos Empleados</h3>
-  <AccionPersonalDialog :showModal="lgDemo4" @custom-event="closeModal" />
+  <!-- <AccionPersonalDialog :showModal="lgDemo4" @custom-event="closeModal" /> -->
+  
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton color="info" @click="
@@ -16,13 +17,6 @@
             reportes = true
           }
         ">Imprimir Reporte</CButton>
-        <CButton color="info" @click="
-          () => {
-            imprimirempleado()
-            showModalRepots = true
-          }
-        ">Imprimir
-        </CButton>
       </div>
     </div>
   </div>
@@ -94,6 +88,10 @@
             }
           ">Evaluación</CDropdownItem>
           <CDropdownItem>Eventualidad</CDropdownItem>
+          <CDropdownItem @click="() => {
+            empleadoReporte = item
+            imprimirEmpleado(item)
+          }">Imprimir empleado</CDropdownItem>
         </CDropdownMenu>
       </CDropdown>
     </template>
@@ -724,11 +722,13 @@ import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
 import Api from '../services/RegistroPersonalServices'
+import EmpleadoReports from '@/components/Report/RRHH/ReportsTemplate/EmpleadosReports.vue'
 import apiSectores from '../../../financiero/NominaModule/services/NominaServices'
 import moment from 'moment'
 import { useToastStore } from '@/store/toast'
 import AccionPersonalDialog from '../../RegistroPersonal/components/Dialogos/AccionPersonal.vue'
 import router from '@/router'
+
 
 export default {
   components: {
@@ -736,9 +736,11 @@ export default {
     CModal,
     moment,
     AccionPersonalDialog,
+    EmpleadoReports
   },
   data: function () {
     return {
+      empleadoReporte: {},
       showModalRepots: false,
       lgDemo4: false,
       cambiar: false,
@@ -1307,8 +1309,9 @@ export default {
       }
     },
 
-    imprimirempleado() {
-      router.push({ name: 'empleadosReports' })
+    imprimirEmpleado(empleado) {
+      window.open(`/#/pages/empleados/${empleado.id}`);
+      //router.push({ name: 'empleadosReports' })
     },
 
     deleteEmp(item) {

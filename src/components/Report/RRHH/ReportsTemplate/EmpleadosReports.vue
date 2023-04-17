@@ -15,7 +15,7 @@
     </div>
 
     <div class="row">
-      <div class="col-md-6  mt-5   ml-2">
+      <div class="col-md-6 mt-5">
         <div class="row w-100 p-3 border border-dark">
           <div class="col-6 fw-bold">
             <div v-for="(datosGenerales, index) in datosGenerales" :key="index">
@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="col-6 mt-5 ">
-        <div class="row w-100 p-3 border border-dark">
+        <div class="row w-100 h-100 p-3 border border-dark">
           <div class="col-6 fw-bold">
             <div v-for="(datosLaborales, index) in datosLaborales" :key="index">
               <label for="idCampos"> {{ datosLaborales }}: </label>
@@ -77,9 +77,19 @@
 </template>
 
 <script>
-export default {
-  name: 'EmpleadoReports',
 
+import Api from '@/modules/rrhh/RegistroPersonal/services/RegistroPersonalServices';
+import { useRoute } from 'vue-router';
+
+export default {
+  name: 'EmpleadoReport',
+  setup() {
+    const route = useRoute();
+
+    return {
+      empleadoId: route.params.id
+    }
+  },
   data() {
     return {
       datosLaborales: [
@@ -142,6 +152,10 @@ export default {
         'Soltero',
         'Masculino',
       ],
+
+      empleadosObject: {
+
+      }
     }
   },
   // created() {
@@ -166,15 +180,27 @@ export default {
       this.$emit('closeModalReports', false)
     },
 
+    getEmpleadoById() {
+      Api.getEmpleadoByID(this.empleadoId).then((response) => {
+        this.empleadosObject = response.data.data
+        console.log('kdkd')
+      })
+    }
+
   },
   // mounted() {
   //   window.print()
-  // }
-
-  // props: {
-  //   showModalRepots: Boolean,
-  //   Label: Array,
   // },
+
+  // watch: {
+  //   empleado() {
+  //     this.getEmpleadoById(this.empleados.id)
+  //   }
+  // },
+
+  props: {
+    empleados: Array,
+  },
 }
 </script>
 
