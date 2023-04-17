@@ -32,7 +32,8 @@
           color="info"
           @click="
             () => {
-              showModalRepots = true
+              imprimirempleado()
+              // showModalRepots = true
             }
           "
           >Imprimir
@@ -979,6 +980,7 @@ import moment from 'moment'
 import { useToastStore } from '@/store/toast'
 import AccionPersonalDialog from '../../RegistroPersonal/components/Dialogos/AccionPersonal.vue'
 import EmpleadoReports from '@/components/Report/RRHH/ReportsTemplate/EmpleadosReports.vue'
+import router from '@/router'
 
 export default {
   components: {
@@ -1556,6 +1558,11 @@ export default {
         event.stopPropagation()
         setTimeout(this.getRegistroPersonal, 500)
       }
+    },
+
+    imprimirempleado(){
+      router.push({ name: 'empleadosReports' })
+ 
     },
 
     deleteEmp(item) {

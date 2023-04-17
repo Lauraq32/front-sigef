@@ -1,121 +1,76 @@
 <template>
-  <CModal @close="onClick" size="lg" :visible="showModalRepots">
-    <CModalHeader>
-      <CModalTitle>Reporte Empleados</CModalTitle>
-    </CModalHeader>
-    <CModalBody>
-      <div class="text-center">
-        <h5>Ayuntamiento Municipal de ...</h5>
-        <p>Telefono (000)000-0000 Fax (000)000-0000</p>
-        <h5>Tarjeta del Empleado</h5>
-      </div>
+  <div class="text-center">
+    <h5>Ayuntamiento Municipal de Altamira</h5>
+    <p>Telefono (000)000-0000 Fax (000)000-0000</p>
+    <h5>Tarjeta del Empleado</h5>
+  </div>
 
-      <div class="d-flex flex-row-reverse">
-        <div class="col-2" style="margin-top: 9px; width: 140px; height: 129px">
-          <div class="border">
-            <img
-              style="width: 120px; height: 100px"
-              src="@/assets/images/Francisco.png"
-              alt="descripción-de-la-imagen"
-            />
-          </div>
-        </div>
+  <div class="d-flex flex-row-reverse">
+    <div class="col-2" style="margin-top: 9px; width: 140px; height: 129px">
+      <div class="border">
+        <img style="width: 120px; height: 100px" src="@/assets/images/Francisco.png" alt="descripción-de-la-imagen" />
       </div>
-
-      <div class="row mx-4">
-        <div class="col-md-6 mt-5 border border-dark ml-2">
-          <div class="row">
-            <div class="col-6 fw-bold">
-              <div
-                v-for="(datosGenerales, index) in datosGenerales"
-                :key="index"
-              >
-                <label for="idCampos"> {{ datosGenerales }}: </label>
-              </div>
-            </div>
-            <div class="col-6">
-              <p
-                id="idCampos"
-                v-for="(empleadoList, index) in empleadoList"
-                :key="index"
-              >
-                {{ empleadoList }}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-6 mt-5 border border-dark">
-          <div class="row">
-            <div class="col-6 fw-bold">
-              <div
-                v-for="(datosLaborales, index) in datosLaborales"
-                :key="index"
-              >
-                <label for="idCampos"> {{ datosLaborales }}: </label>
-              </div>
-            </div>
-            <div class="col-6">
-              <p
-                id="idCampos"
-                v-for="(empleadoList, index) in empleadoList"
-                :key="index"
-              >
-                {{ empleadoList }}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-6 mt-5 border border-dark">
-          <div class="row">
-            <div class="col-6 fw-bold">
-              <div
-                v-for="(datosEmergencia, index) in datosEmergencia"
-                :key="index"
-              >
-                <label for="idCampos"> {{ datosEmergencia }}: </label>
-              </div>
-            </div>
-            <div class="col-6">
-              <p
-                id="idCampos"
-                v-for="(empleadoList, index) in empleadoList"
-                :key="index"
-              >
-                {{ empleadoList }}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-6 mt-5 border border-dark">
-          <div class="row">
-            <div class="col-6 fw-bold">
-              <div
-                v-for="(datosPresionAlterial, index) in datosPresionAlterial"
-                :key="index"
-              >
-                <label for="idCampos"> {{ datosPresionAlterial }}: </label>
-              </div>
-            </div>
-            <div class="col-6">
-              <p
-                id="idCampos"
-                v-for="(empleadoList, index) in empleadoList"
-                :key="index"
-              >
-                {{ empleadoList }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </CModalBody>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-        Cerrar
-      </button>
-      <button type="button" class="btn btn-primary">Imprimir</button>
     </div>
-  </CModal>
+  </div>
+
+  <div class="row mx-4">
+    <div class="col-md-6 mt-5 border border-dark ml-2">
+      <div class="row">
+        <div class="col-6 fw-bold">
+          <div v-for="(datosGenerales, index) in datosGenerales" :key="index">
+            <label for="idCampos"> {{ datosGenerales }}: </label>
+          </div>
+        </div>
+        <div class="col-6">
+          <p id="idCampos" v-for="(empleadoList, index) in empleadoList" :key="index">
+            {{ empleadoList }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 mt-5 border border-dark">
+      <div class="row">
+        <div class="col-6 fw-bold">
+          <div v-for="(datosLaborales, index) in datosLaborales" :key="index">
+            <label for="idCampos"> {{ datosLaborales }}: </label>
+          </div>
+        </div>
+        <div class="col-6">
+          <p id="idCampos" v-for="(empleadoList, index) in empleadoList" :key="index">
+            {{ empleadoList }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 mt-5 border border-dark">
+      <div class="row">
+        <div class="col-6 fw-bold">
+          <div v-for="(datosEmergencia, index) in datosEmergencia" :key="index">
+            <label for="idCampos"> {{ datosEmergencia }}: </label>
+          </div>
+        </div>
+        <div class="col-6">
+          <p id="idCampos" v-for="(empleadoList, index) in empleadoList" :key="index">
+            {{ empleadoList }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 mt-5 border border-dark">
+      <div class="row">
+        <div class="col-6 fw-bold">
+          <div v-for="(datosPresionAlterial, index) in datosPresionAlterial" :key="index">
+            <label for="idCampos"> {{ datosPresionAlterial }}: </label>
+          </div>
+        </div>
+        <div class="col-6">
+          <p id="idCampos" v-for="(empleadoList, index) in empleadoList" :key="index">
+            {{ empleadoList }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -207,12 +162,16 @@ export default {
     onClick() {
       this.$emit('closeModalReports', false)
     },
+    
   },
+  mounted(){
+    window.print()
+  }
 
-  props: {
-    showModalRepots: Boolean,
-    Label: Array,
-  },
+  // props: {
+  //   showModalRepots: Boolean,
+  //   Label: Array,
+  // },
 }
 </script>
 
