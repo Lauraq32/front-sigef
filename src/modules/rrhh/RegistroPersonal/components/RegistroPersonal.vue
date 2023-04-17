@@ -1,7 +1,7 @@
 <template>
   <h3 class="text-center">Mantenimientos Empleados</h3>
   <!-- <AccionPersonalDialog :showModal="lgDemo4" @custom-event="closeModal" /> -->
-  
+
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton color="info" @click="
@@ -89,7 +89,6 @@
           ">Evaluación</CDropdownItem>
           <CDropdownItem>Eventualidad</CDropdownItem>
           <CDropdownItem @click="() => {
-            empleadoReporte = item
             imprimirEmpleado(item)
           }">Imprimir empleado</CDropdownItem>
         </CDropdownMenu>
