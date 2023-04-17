@@ -139,7 +139,7 @@
                       <h3>Cuenta</h3>
                       <div class="col-4">
                         <CFormLabel for="oriBco1">Personal</CFormLabel>
-                        <CurrencyInput id="oriBco1" v-model="detalle.oriBco1" :options="{ locale: 'en-US',currency: 'USD',precision: 2,}" />
+                        <CurrencyInput id="oriBco1" v-model="detalle.oriBco1" :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}" />
                         <!-- <VueNumberFormat v-model:value="detalle.oriBco1" type="text" class="form-control" :options="{
                           precision: 2,
                           prefix: '',
@@ -173,7 +173,7 @@
                     <div class="row">
                       <div class="col-4">
                         <CFormLabel for="validationCustom04">Servicios</CFormLabel>
-                        <CurrencyInput id="oriBco2" v-model="detalle.oriBco2" :options="{ locale: 'en-US',currency: 'USD',precision: 2,}" />
+                        <CurrencyInput id="oriBco2" v-model="detalle.oriBco2" :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}" />
                         <CFormFeedback invalid>
                           Favor agregar el campo
                         </CFormFeedback>
@@ -201,7 +201,7 @@
                     <div class="row">
                       <div class="col-4">
                         <CFormLabel for="oriBco3">Inversión</CFormLabel>
-                        <CurrencyInput id="oriBco3" v-model="detalle.oriBco3" :options="{ locale: 'en-US',currency: 'USD',precision: 2,}" />
+                        <CurrencyInput id="oriBco3" v-model="detalle.oriBco3" :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}" />
                         <CFormFeedback invalid>
                           Favor agregar el campo
                         </CFormFeedback>
@@ -238,7 +238,7 @@
                     <div class="row">
                       <div class="col-4">
                         <CFormLabel for="oriBco4">E/G Salud</CFormLabel>
-                        <CurrencyInput id="oriBco4" v-model="detalle.oriBco3" :options="{ locale: 'en-US',currency: 'USD',precision: 2,}" />
+                        <CurrencyInput id="oriBco4" v-model="detalle.oriBco3" :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}" />
                         <CFormFeedback invalid>
                           Favor agregar el campo
                         </CFormFeedback>
