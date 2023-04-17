@@ -4,7 +4,7 @@
         :visible="isVisible"
         size="xl"
         @close="closeDialog()"
-        style="width: 80%;"
+        style="width: 85%;"
     >
         <CModalHeader>
             <CModalTitle>
@@ -17,27 +17,35 @@
                     <CCol :md="2">
                         <CFormLabel for="formulacionGasto.pnap">PNAP</CFormLabel>
                         <CFormInput class="form-control" :disabled="formulacionGasto.id ? true : false"
-                            v-model="formulacionGasto.pnap" id="formulacionGasto.pnap" type="number" maxlength="2"/>
+                            v-model="formulacionGasto.pnap" id="formulacionGasto.pnap" required maxlength="2"
+                            @keypress="onlyNumber"
+                        />
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <CCol :md="2">
                         <CFormLabel for="formulacionGasto.programa">Programa</CFormLabel>
                         <CFormInput :disabled="formulacionGasto.id ? true : false" v-model="formulacionGasto.programa"
-                            id="formulacionGasto.programa" required  type="number" maxlength="2"/>
+                            id="formulacionGasto.programa" required maxlength="2"
+                            @keypress="onlyNumber"
+                        />
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <CCol :md="2">
                         <CFormLabel for="formulacionGasto.proyecto">Proyecto</CFormLabel>
                         <CInputGroup class="has-validation">
                             <CFormInput :disabled="formulacionGasto.id ? true : false" v-model="formulacionGasto.proyecto"
-                                id="formulacionGasto.proyecto" value="" aria-describedby="inputGroupPrepend" required  type="number" maxlength="2"/>
+                                id="formulacionGasto.proyecto" value="" aria-describedby="inputGroupPrepend" required maxlength="2"
+                            @keypress="onlyNumber"
+                        />
                             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                         </CInputGroup>
                     </CCol>
                     <CCol :md="4">
                         <CFormLabel for="formulacionGasto.actObra">Actividad/Obra</CFormLabel>
                         <CFormInput :disabled="formulacionGasto.id ? true : false" v-model="formulacionGasto.actObra"
-                            id="formulacionGasto.actObra" required  type="number" maxlength="4"/>
+                            id="formulacionGasto.actObra" required maxlength="4"
+                            @keypress="onlyNumber"
+                        />
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <CCol :md="3">
@@ -93,17 +101,15 @@
                     header 
                     :items="formulacionGasto.detallePresGastos" 
                     :columns="columns"
-                    itemsPerPageSelect 
                     columnFilter 
-                    :footer="footerItems" 
-                    :itemsPerPage="10" 
+                    :footer="footerItems"
                     columnSorter
                     :sorterValue="{ column: 'status', state: 'asc' }"
                     pagination
                 >
                     <template #totalOriginal="{ item }">
                         <td class="text-end">
-                            {{ formatPrice(item.totalOriginal ?? 0) }}
+                            {{ formatPrice(item.totalOriginal || 0) }}
                         </td>
                     </template>
 
@@ -132,10 +138,15 @@
                     </template>
 
                     <template #show_details="{ item }">
-                        <td class="py-2">
-                            <CButton color="primary" variant="outline" square size="sm" @click="onEditDetalle(item)">
-                                Editar
-                            </CButton>
+                        <td>
+                            <div>
+                                <CButton class="m-1" color="danger" square size="sm" @click="onDeleteDetalle(item)">
+                                    <CIcon icon="cilTrash" size="sm"/>
+                                </CButton>
+                                <CButton class="m-1" color="warning" square size="sm" @click="onEditDetalle(item)">
+                                    <CIcon icon="cilPencil" size="sm"/>
+                                </CButton>
+                            </div>
                         </td>
                     </template>
                 </CSmartTable>
@@ -157,11 +168,14 @@
 import { CSmartTable, CCol } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 
-import { formatPrice } from '@/utils/format'
+import { formatPrice } from '@/utils/format';
+import { onlyNumber } from '@/utils/validator';
 import { ref, watchEffect, nextTick } from 'vue'
 import Api from '../services/FormulacionServices'
 import GastoDetalleDialog from './GastoDetalleDialog'
 import { getAyuntamientoId, getFiscalYearId } from '@/utils/logged-info'
+import CIcon from '@coreui/icons-vue';
+import Swal from 'sweetalert2';
 
 const emit = defineEmits(['close']);
 const newDetailData = {
@@ -241,35 +255,35 @@ const columns = [
     {
         key: 'ctgClasificadorId',
         label: 'Clasificador',
-        _style: { width: '20%' },
+        _style: { width: '10%' },
     },
     {
         key: 'nombre',
         label: 'Denominacion',
-        _style: { width: '60%' },
+        _style: { width: '25%' },
     },
     {
         Object: 'detallePresGastos',
         key: 'totalOriginal',
         label: 'Presupuesto',
-        _style: { width: '40%' },
+        _style: { width: '12%' },
     },
     {
         key: 'oriBco1',
         label: 'Gastos Personal',
-        _style: { width: '40%' },
+        _style: { width: '12%' },
     },
-    { key: 'oriBco2', label: 'Servicios', _style: { width: '40%' } },
-    { key: 'oriBco3', label: 'Inversion', _style: { width: '40%' } },
+    { key: 'oriBco2', label: 'Servicios', _style: { width: '12%' } },
+    { key: 'oriBco3', label: 'Inversion', _style: { width: '12%' } },
     {
         key: 'oriBco4',
         label: 'Educ/Genero/Salud',
-        _style: { width: '40%' },
+        _style: { width: '12%' },
     },
     {
         key: 'show_details',
         label: '',
-        _style: { width: '1%' },
+        _style: { width: '5%' },
         filter: false,
         sorter: false,
     },
@@ -277,42 +291,42 @@ const columns = [
 
 const footerItems = ref([
     {
-        label: 'Total Items 0',
+        label: '',
         _props: {
             colspan: 2,
             style: 'font-weight:bold; text-align:left',
         },
     },
     {
-        label: 0,
+        label: '',
         _props: {
             colspan: 1,
             style: 'font-weight:bold; text-align:right ',
         },
     },
     {
-        label: 0,
+        label: '',
         _props: {
             colspan: 1,
             style: 'font-weight:bold; text-align:right ',
         },
     },
     {
-        label: 0,
+        label: '',
         _props: {
             colspan: 1,
             style: 'font-weight:bold; text-align:right ',
         },
     },
     {
-        label: 0,
+        label: '',
         _props: {
             colspan: 1,
             style: 'font-weight:bold; text-align:right ',
         },
     },
     {
-        label: 0,
+        label: '',
         _props: {
             colspan: 1,
             style: 'font-weight:bold; text-align:right ',
@@ -372,6 +386,31 @@ const onDetailDialogClose = (data) => {
 const onEditDetalle = (item) => {
     detalle.value = {...item, editing: true};
     showDetailDialog.value = true;
+}
+
+const onDeleteDetalle = (item) => {
+    Swal.fire({
+        title: 'Realmente quieres borrar este registro?',
+        showDenyButton: true,
+        confirmButtonText: 'Si',
+        denyButtonText: 'No',
+        allowEscapeKey: false,
+        allowOutsideClick: false
+    }).then((result) => {
+        console.log(result);
+        if (result.isConfirmed) {
+            const index = props.formulacionGasto.detallePresGastos.findIndex(x => (
+                x.ctgClasificadorId === item.ctgClasificadorId
+                && x.cControl === item.cControl
+                && x.ctgFuenteId === item.ctgFuenteId
+                && x.ctgFuenteEspecificaId === item.ctgFuenteEspecificaId
+                && x.ctgOrganismoFinanciadorId === item.ctgOrganismoFinanciadorId
+            ));
+
+            props.formulacionGasto.detallePresGastos.splice(index, 1);
+            calculateTotals(props.formulacionGasto.detallePresGastos);
+        }
+    });
 }
 
 const closeDialog = (data) => {

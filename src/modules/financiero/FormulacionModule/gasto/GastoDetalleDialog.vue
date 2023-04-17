@@ -141,6 +141,18 @@
                       <h3>Cuenta</h3>
                       <div class="col-4">
                         <CFormLabel for="oriBco1">Personal</CFormLabel>
+                        <IMaskComponent
+                          v-model:value="detalle.oriBco1"
+                          :mask="Number"
+                          radix="."
+                          required
+                          type="text"
+                          class="form-control"
+                          thousandsSeparator=","
+                          :normalizeZeros="true"
+                          :padFractionalZeros="true"
+                          :scale="2"
+                        />
                         <VueNumberFormat v-model:value="detalle.oriBco1" type="text" class="form-control" :options="{
                           precision: 2,
                           prefix: '',
@@ -301,18 +313,27 @@
       <CButton color="primary" @click="guardarDetalleGasto()">Guardar</CButton>
     </CModalFooter>
   </CModal>
-  <ClasificadorSelectorDialog :isVisible="showClasificatorDialog" :filtered="
-    (clasificator) =>
-    (clasificator.tipo ===
-      'DETALLE' && clasificator.origen === 'GASTO' && clasificator?.clasifica?.toString().match(/^(2|4)/g))
-  " :term="detalle.ctgClasificadorId" @close="onClasificatorDialogClose" />
+
+  <ClasificadorSelectorDialog
+    :isVisible="showClasificatorDialog" 
+    :filtered="
+      (clasificator) =>
+      (clasificator.tipo ===
+        'DETALLE' && clasificator.origen === 'GASTO' && clasificator?.clasifica?.toString().match(/^(2|4)/g))
+    " 
+    :term="detalle.ctgClasificadorId" 
+    @close="onClasificatorDialogClose"
+  />
+
 </template>
 <script>
 import ClasificadorSelectorDialog from '../components/ClasificadorSelectorDialog.vue'
 import { CCol } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { computed, ref } from 'vue'
-import { formatPrice } from '@/utils/format'
+import { formatPrice } from '@/utils/format';
+import { onlyDecimal } from '@/utils/validator';
+import { IMaskComponent } from 'vue-imask';
 
 export default {
   props: {
@@ -336,10 +357,10 @@ export default {
     }
     const sumOfBalance = computed(() => {
       return formatPrice(
-        Number(props.detalle.oriBco1 || 0) +
-        Number(props.detalle.oriBco2 || 0) +
-        Number(props.detalle.oriBco3 || 0) +
-        Number(props.detalle.oriBco4 || 0)
+        Number((props.detalle.oriBco1 || 0).toString().replace(',', '')) +
+        Number((props.detalle.oriBco2 || 0).toString().replace(',', '')) +
+        Number((props.detalle.oriBco3 || 0).toString().replace(',', '')) +
+        Number((props.detalle.oriBco4 || 0).toString().replace(',', ''))
       )
     });
 
@@ -368,18 +389,24 @@ export default {
         if (props.detalle.oriBco4 === '') {
           props.detalle.oriBco4 = 0;
         }
-        props.detalle.presupuestoBco1 = props.detalle.oriBco1;
-        props.detalle.presupuestoBco2 = props.detalle.oriBco2;
-        props.detalle.presupuestoBco3 = props.detalle.oriBco3;
-        props.detalle.presupuestoBco4 = props.detalle.oriBco4;
+        props.detalle.presupuestoBco1 = Number((props.detalle.oriBco1 || 0).toString().replace(',', ''));
+        props.detalle.presupuestoBco2 = Number((props.detalle.oriBco2 || 0).toString().replace(',', ''));
+        props.detalle.presupuestoBco3 = Number((props.detalle.oriBco3 || 0).toString().replace(',', ''));
+        props.detalle.presupuestoBco4 = Number((props.detalle.oriBco4 || 0).toString().replace(',', ''));
         props.detalle.totalOriginal = (
-          Number(props.detalle.oriBco1 || 0) +
-          Number(props.detalle.oriBco2 || 0) +
-          Number(props.detalle.oriBco3 || 0) +
-          Number(props.detalle.oriBco4 || 0)
+          Number((props.detalle.oriBco1 || 0).toString().replace(',', '')) +
+          Number((props.detalle.oriBco2 || 0).toString().replace(',', '')) +
+          Number((props.detalle.oriBco3 || 0).toString().replace(',', '')) +
+          Number((props.detalle.oriBco4 || 0).toString().replace(',', ''))
         );
 
-        closeDialog({ ...props.detalle });
+        closeDialog({
+          ...props.detalle,
+          oriBco1: Number((props.detalle.oriBco1 || 0).toString().replace(',', '')),
+          oriBco1: Number((props.detalle.oriBco2 || 0).toString().replace(',', '')),
+          oriBco1: Number((props.detalle.oriBco3 || 0).toString().replace(',', '')),
+          oriBco1: Number((props.detalle.oriBco4 || 0).toString().replace(',', ''))
+        });
       } else {
         isFormValidated.value = true;
       }
@@ -414,10 +441,11 @@ export default {
       isFieldEditable,
       sumOfBalance,
       detailForm,
-      isFormValidated
+      isFormValidated,
+      onlyDecimal
     }
   },
-  components: { ClasificadorSelectorDialog, CModal, CCol },
+  components: { ClasificadorSelectorDialog, CModal, CCol, IMaskComponent },
 }
 </script>
 <style>
