@@ -1,22 +1,21 @@
 <template >
-  \
-  <div class="miPage">
-    <div class="text-center">
+  <div class="container flex-column">
+    <div class="text-center justify-content-center">
       <h5>Ayuntamiento Municipal de Altamira</h5>
       <p>Telefono (000)000-0000 Fax (000)000-0000</p>
       <h5>Tarjeta del Empleado</h5>
     </div>
 
-    <div class="d-flex flex-row-reverse">
-      <div class="col-2" style="margin-top: 9px; width: 140px; height: 129px">
+    <div class="d-flex align-self-end">
+      <div class="col-2 me-4" style="width: 140px; height: 140px">
         <div class="border">
-          <img style="width: 120px; height: 100px" src="@/assets/images/Francisco.png" alt="descripción-de-la-imagen" />
+          <img src="@/assets/images/Francisco.png" alt="Imagen del emplead" class="mr-4" />
         </div>
       </div>
     </div>
 
-    <div class="row mx-4">
-      <div class="col-md-6 mt-5 border border-dark ml-2">
+    <div class="row">
+      <div class="col-md-5 mt-5 border p-3 border-dark ml-2">
         <div class="row">
           <div class="col-6 fw-bold">
             <div v-for="(datosGenerales, index) in datosGenerales" :key="index">
@@ -30,7 +29,7 @@
           </div>
         </div>
       </div>
-      <div class="col-6 mt-5 border border-dark">
+      <div class="col-5 mt-5 border border-dark">
         <div class="row">
           <div class="col-6 fw-bold">
             <div v-for="(datosLaborales, index) in datosLaborales" :key="index">
@@ -44,7 +43,8 @@
           </div>
         </div>
       </div>
-      <div class="col-6 mt-5 border border-dark">
+      <div class="col-2"></div>
+      <div class="col-5 mt-5 border border-dark">
         <div class="row">
           <div class="col-6 fw-bold">
             <div v-for="(datosEmergencia, index) in datosEmergencia" :key="index">
@@ -58,7 +58,7 @@
           </div>
         </div>
       </div>
-      <div class="col-6 mt-5 border border-dark">
+      <div class="col-5 mt-5 border border-dark">
         <div class="row">
           <div class="col-6 fw-bold">
             <div v-for="(datosPresionAlterial, index) in datosPresionAlterial" :key="index">
@@ -179,12 +179,6 @@ export default {
 </script>
 
 <style>
-.miPage {
-  width: 50%;
-  position: relative;
-  left: 570px;
-}
-
 .container {
   display: flex;
   justify-content: center;
@@ -207,5 +201,10 @@ label {
 
 p {
   margin: 0;
+}
+
+img {
+  max-width: 100%;
+  object-fit: contain;
 }
 </style>
