@@ -24,6 +24,12 @@ export function getFiscalYearId() {
     return  Number(loggedInfo?.currentFiscalYearId) ?? undefined;
 }
 
+export function fiscalYearInfo() {
+    const fiscalYearId = getFiscalYearId();
+    const loggedInfo = getLoggedInfo();
+    return loggedInfo.fiscalListYears.find(fy => fy.id === fiscalYearId);
+}
+
 export function isAuthenticated() {
     return Boolean(getLoggedInfo());
 }

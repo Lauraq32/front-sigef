@@ -6,6 +6,9 @@
                 <CFormSelect id="fiscalYearSelect" v-model="selectedFiscalYear" @change="setFiscalYear"
                     aria-label="Selecionar año fiscal" :options="fiscalYearList">
                 </CFormSelect>
+                <div class="form-label col-auto col-form-label">
+                    <span class="text-muted small d-block" v-for="text of selectedFiscalYearInfo">{{ text }}</span>
+                </div>
             </div>
             <div class="d-flex gap-3 align-items-center">
                 <slot></slot>
@@ -76,6 +79,14 @@ export default {
             })
             .sort((first, second) => second.info.anio - first.info.anio)
         },
+        selectedFiscalYearInfo() {
+            const fy = this.fiscalYearList.find(fy => fy.value === Number(this.selectedFiscalYear));
+            if (fy) {
+                return [fy.info.estatus, fy.info.esAprobado ? 'Aprobado' : ''];
+            }
+
+            return [];
+        }
     },
     methods: {
         ...mapActions(useAuthStore, ['changeFiscalYear']),
