@@ -11,6 +11,7 @@
       <AppFooter />
     </div>
   </div>
+  <SessionManager/>
   <ToastStack />
 </template>
 <script>
@@ -19,6 +20,7 @@ import AppFooter from '@/components/AppFooter.vue'
 import AppHeader from '@/components/AppHeader.vue'
 import AppSidebar from '@/components/AppSidebar.vue'
 import ToastStack from '@/components/ToastStack.vue'
+import SessionManager from '@/components/SessionManager.vue'
 
 export default {
   name: 'DefaultLayout',
@@ -28,6 +30,7 @@ export default {
     AppSidebar,
     CContainer,
     ToastStack,
+    SessionManager
   },
 }
 </script>
