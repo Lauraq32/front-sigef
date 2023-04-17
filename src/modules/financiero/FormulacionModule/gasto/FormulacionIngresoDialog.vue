@@ -37,38 +37,27 @@
                 </CCol>
                 <CCol :md="3">
                     <CFormLabel for="validationCustom03">Fuente Financiamiento</CFormLabel>
-                    <CFormInput
-                        id="validationCustom03" required
-                        :disabled="enabledFields.ctgFuenteId"
-                        v-model="formulacionIngreso.ctgFuenteId"
-                        type="number"
-                        pattern="[0-9]+"
-                    />
+                    <CFormInput id="validationCustom03" required :disabled="enabledFields.ctgFuenteId"
+                        v-model="formulacionIngreso.ctgFuenteId" type="number" pattern="[0-9]+" />
                 </CCol>
                 <CCol :md="3">
                     <CFormLabel for="validationCustom04">Fuente Espec&iacute;fica</CFormLabel>
-                    <CFormInput
-                        id="validationCustom04" required
-                        :disabled="enabledFields.ctgFuenteEspecificaId"
-                        v-model="formulacionIngreso.ctgFuenteEspecificaId"
-                        type="number"
-                        pattern="[0-9]+"
-                    />
+                    <CFormInput id="validationCustom04" required :disabled="enabledFields.ctgFuenteEspecificaId"
+                        v-model="formulacionIngreso.ctgFuenteEspecificaId" type="number" pattern="[0-9]+" />
                 </CCol>
                 <CCol :md="3">
                     <CFormLabel for="validationCustom05">Organismo Financiador</CFormLabel>
-                    <CFormInput
-                        id="validationCustom05" required
-                        :disabled="enabledFields.ctgOrganismoFinanciadorId"
-                        v-model="formulacionIngreso.ctgOrganismoFinanciadorId"
-                        type="number"
-                        pattern="[0-9]+"
-                    />
+
+                    <CFormInput id="validationCustom05" required :disabled="enabledFields.ctgOrganismoFinanciadorId"
+                        v-model="formulacionIngreso.ctgOrganismoFinanciadorId" type="number" pattern="[0-9]+" />
                 </CCol>
                 <CCol :md="3">
                     <CFormLabel>Instituci&oacute;n Otorgante</CFormLabel>
-                    <CFormInput v-model="formulacionIngreso.instOtorga" type="number" step="any">
-                    </CFormInput>
+                    <CFormSelect v-model="formulacionIngreso.instOtorga" id="validationCustom05">
+                        <option v-for="iOtorgante in this.sector" :key="iOtorgante.id" :value="iOtorgante.id">
+                            {{ iOtorgante.nombre }}
+                        </option>
+                    </CFormSelect>
                 </CCol>
                 <hr />
                 <CCol :md="4">
@@ -202,7 +191,7 @@ const validateInputctgFuente = (clasificatorSelected) => {
     }
     if (
         (props.formulacionIngreso.ctgFuenteId !== '' ||
-        props.formulacionIngreso.ctgFuenteId.length > 30) &&
+            props.formulacionIngreso.ctgFuenteId.length > 30) &&
         clasificatorSelected.ctgFuenteId !== ''
     ) {
         enabledFields.ctgFuenteId = true
@@ -215,7 +204,7 @@ const validateInputctgFuenteEspecificaId = (clasificatorSelected) => {
     }
     if (
         (props.formulacionIngreso.ctgFuenteEspecificaId !== '' ||
-        props.formulacionIngreso.ctgFuenteEspecificaId.length > 30) &&
+            props.formulacionIngreso.ctgFuenteEspecificaId.length > 30) &&
         clasificatorSelected.ctgFuenteEspecificaId !== ''
     ) {
         enabledFields.ctgFuenteEspecificaId = true
@@ -228,7 +217,7 @@ const validateInputctgOrganismoFinanciadorId = (clasificatorSelected) => {
     }
     if (
         (props.formulacionIngreso.ctgOrganismoFinanciadorId !== '' ||
-        props.formulacionIngreso.ctgOrganismoFinanciadorId.length > 30) &&
+            props.formulacionIngreso.ctgOrganismoFinanciadorId.length > 30) &&
         clasificatorSelected.ctgOrganismoFinanciadorId !== ''
     ) {
         enabledFields.ctgOrganismoFinanciadorId = true
