@@ -1,29 +1,28 @@
 <template>
   <h3 class="text-center mb-4">Formulaci&oacute;n Ingreso</h3>
-  <div class="table-headers">
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="openModal">Agregar</CButton>
-    </div>
 
-    <div class="p-2">
-      <CButton color="info" @click="IngresoReport">Imprimir</CButton>
-    </div>
-    <div class="p-2">
-      <CButton color="info" @click="downloadFile">Descargar</CButton>
-    </div>
-    <div class="p-2">
-      <CButton color="info" @click="goToGasto">Ir a Formulaci&oacute;n Gasto</CButton>
-    </div>
-    <div class="p-2">
-      <label class="file-select">
-        <div class="select-button">
-          <CIcon icon="cilCloudUpload" size="sm" />
-          <span class="label ms-1">Importar Ingresos</span>
-        </div>
-        <input type="file" id="formFile" @change="onFileChange" />
-      </label>
-    </div>
-  </div>
+  <AppAccionHeader
+    :actions="[
+      {
+        label: 'Imprimir',
+        accionHandler: this.IngresoReport.bind(this),
+        icon: 'cilPrint'
+      },
+      {
+        label: 'Descargar',
+        accionHandler: this.downloadFile.bind(this),
+        icon: 'cilCloudDownload'
+      },
+      {
+        label: 'Importar Ingresos',
+        accionHandler: this.onFileChange.bind(this),
+        type: 'upload'
+      }
+    ]"
+  >
+    <CButton color="info" @click="openModal">Agregar</CButton>
+    <CButton color="secondary" @click="goToGasto">Ir a Formulaci&oacute;n Gasto</CButton>
+  </AppAccionHeader>
 
   <CSmartTable
     class="sticky-top"
@@ -120,11 +119,14 @@ import { useAuthStore } from '@/store/AuthStore'
 import router from '@/router'
 import { formatPrice } from '../../../../utils/format';
 import FormulacionIngresoDialog from "../gasto/FormulacionIngresoDialog.vue";
+import AppAccionHeader from "../../../../components/AppActionHeader.vue";
+
 export default {
   components: {
     CSmartTable,
     CIcon,
-    FormulacionIngresoDialog
+    FormulacionIngresoDialog,
+    AppAccionHeader
 },
   data: function () {
     return {
