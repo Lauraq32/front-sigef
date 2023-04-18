@@ -46,9 +46,23 @@ class RegistroPersonal {
     return http.get(`Departamento/Programa/${id}`)
   }
 
-  getSectores() {
-    return http.get(`sectores?ayuntamiento=${getAyuntamientoId()}`)
+  //sectores
+  getAllSector() {
+    return http.get('sectores')
   }
+
+  getSectorById(id) {
+    return http.get(`sectores/${id}`)
+  }
+
+  addSector(data) {
+    return http.post('sectores', data)
+  }
+
+  updateSector(id, data) {
+    return http.put(`sectores/${id}`, data)
+  }
+
 
   getAreaTrabajo() {
     return http.get('areas-trabajo')
@@ -74,6 +88,23 @@ class RegistroPersonal {
 
   postAreaTrabajo(data) {
     return http.post('areas-trabajo', data)
+  }
+
+  //direccion o dependecia
+  getDireccionDependeciaById(id) {
+    return http.get(`programas-division/${id}`)
+  }
+
+  getDireccionDependecia() {
+    return http.get('programas-division')
+  }
+
+  postDireccionDependecia(data) {
+    return http.post('programas-division', data)
+  }
+
+  putDireccionDependecia(id, data) {
+    return http.put(`programas-division/${id}`, data)
   }
 
   //put

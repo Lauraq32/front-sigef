@@ -1,51 +1,61 @@
 <template>
-  <div class="bg-light min-vh-100 d-flex flex-row align-items-center">
+  <div class="bg-light min-vh-100 d-flex flex-row align-items-center position-relative">
     <CContainer>
       <CRow class="justify-content-center">
         <CCol :md="8">
           <CCardGroup>
-            <CCard class="text-white py-5" style="width: 100%">
+            <CCard class="d-flex justify-content-center align-items-center py-5" style="width: 100%">
               <img src="../../../public/LogoTemp.png" />
             </CCard>
             <CCard class="p-5">
               <CCardBody>
-                <CForm :validated="validatedCustom01" @submit="handleSubmitCustom01">
-                  <h1>Iniciar Sesion</h1>
-                  <p class="text-medium-emphasis"></p>
+                <CCardTitle class="text-center">Iniciar Sesi&oacute;n</CCardTitle>
+                <CForm
+                  @submit="handleAuth"
+                  class="mt-4"
+                >
                   <CInputGroup class="mb-3">
                     <CInputGroupText>
                       <CIcon icon="cil-user" />
                     </CInputGroupText>
-
-                    <CFormInput id="validationCustom01" placeholder="Usuario" autocomplete="Correo" required
-                      v-model="userForm.usuario" />
+                    <CFormInput
+                      placeholder="Usuario" required
+                      v-model="userForm.usuario"
+                      :disabled="isLoading"
+                    />
                     <CFormFeedback invalid>
                       Favor agregar el campo
                     </CFormFeedback>
                   </CInputGroup>
-                  <CInputGroup class="mb-4">
+                  <CInputGroup class="mb-1">
                     <CInputGroupText>
                       <CIcon icon="cil-lock-locked" />
                     </CInputGroupText>
-                    <CFormInput id="validationCustom02" type="password" placeholder="Contraseña"
-                      autocomplete="current-password" required v-model="userForm.password" />
+                    <CFormInput 
+                      type="password"
+                      placeholder="Contraseña" required
+                      v-model="userForm.password"
+                      :disabled="isLoading"
+                    />
                     <CFormFeedback invalid>
                       Favor agregar el campo
                     </CFormFeedback>
                   </CInputGroup>
-                  <CRow>
-                    <CCol :xs="6" style="width: 100%" class="text-center">
-                      <input value="Ingreso" type="submit" color="primary" class="btn btn-primary btn-block mt-1" />
-                      <!-- <button
-              class="btn btn-primary btn-block mt-1"
-              @click="getClasificador"
-            >
-              Buscar
-            </button> -->
-                    </CCol>
-                    <CCol :xs="6" class="text-center" style="width: 100%">
+                  <CRow class="mb-4">
+                    <CCol class="text-end">
                       <CButton color="link" class="px-0">
-                        ¿Olvidaste tu Contraseña?
+                        ¿Olvidaste tu Contrase&ntilde;a?
+                      </CButton>
+                    </CCol>
+                  </CRow>
+                  <CAlert v-if="msg" color="danger" v-html="msg"></CAlert>
+                  <CRow class="text-center">
+                    <CCol class="d-grid">
+                      <CButton 
+                        type="submit"
+                        color="primary"
+                        :disabled="isLoading">
+                        Ingresar
                       </CButton>
                     </CCol>
                   </CRow>
@@ -55,51 +65,92 @@
           </CCardGroup>
         </CCol>
       </CRow>
+      <LoadingIndicator :isVisible="isLoading"/>
+      <AppFiscalYearSelectorDialog
+        :isVisible="Boolean(fiscalYearSelectableList.length)"
+        :fiscalYearList="fiscalYearSelectableList"
+        @select="setFiscalYearToBeUse"
+      />
     </CContainer>
   </div>
-  {{ user }}
 </template>
 
 <script>
-import { useAuthStore } from '@/store/AuthStore'
-import { mapGetters } from 'vuex'
-import { mapStores } from 'pinia'
-import { mapState } from 'pinia'
-import { mapActions } from 'pinia'
+import { useAuthStore } from '@/store/AuthStore';
+import { mapStores } from 'pinia';
+import LoadingIndicator from '../../components/AppLoadingIndicator.vue';
+import AppFiscalYearSelectorDialog from '../../components/AppFiscalYearSelectorDialog.vue';
 
 export default {
   name: 'Login',
+  components: {
+    LoadingIndicator,
+    AppFiscalYearSelectorDialog
+  },
   data: () => {
     return {
       userForm: {
         email: '',
         password: '',
       },
-      validatedCustom01: null,
-      validationCustom02: null,
+      msg: '',
+      isLoading: false,
+      fiscalYearSelectableList: [],
+      loginInfo: {}
     }
   },
   computed: {
     ...mapStores(useAuthStore),
-    ...mapState(useAuthStore, ['user', 'canLogIn']),
   },
   methods: {
-    handleSubmitCustom01(event) {
+    handleAuth(event) {
+      this.msg = '';
+      this.isLoading = true;
       const form = event.currentTarget
       if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
+        event.preventDefault();
+        event.stopPropagation();
+        this.msg = 'Usuario y contrase&ntilde;a inv&aacute;lidos';
+        this.isLoading = false;
       }
-      event.preventDefault()
-      event.stopPropagation()
-      this.validatedCustom01 = true
 
       this.AuthStore.signIn(this.userForm)
-        .then(this.gotToDashboard.bind(this))
+        .then(this.filterFiscalYears)
+        .catch(error => {
+          this.isLoading = false;
+          this.msg = error.response.data.message ?? error.response.data.data;
+        });
     },
-    gotToDashboard() {
+    goHome() {
+      this.AuthStore.setLoginInfo(this.loginInfo);
       this.$router.push({ name: 'financiero' })
+    },
+    filterFiscalYears(data) {
+      this.loginInfo = data;
+      const fiscalYearListNoClosed = data.fiscalListYears.filter(fy => fy.estatus?.toLowerCase() !== 'cerrado');
+      const fiscalYearListCurrent = fiscalYearListNoClosed.filter(fy => fy.estatus?.toLowerCase() !== 'actual');
+
+      if (fiscalYearListNoClosed.length === 1) {
+        return this.setFiscalYearToBeUse(fiscalYearListNoClosed[0]);
+      }
+
+      if (fiscalYearListCurrent.length === 1 && data.currentFiscalYearId === fiscalYearListCurrent?.[0].id) {
+        return this.setFiscalYearToBeUse(fiscalYearListCurrent[0]);
+      }
+
+      this.isLoading = false;
+      this.fiscalYearSelectableList = fiscalYearListNoClosed.sort((fy1, fy2) => fy2.anio - fy1.anio);
+    },
+    setFiscalYearToBeUse(fiscalYear) {
+      this.loginInfo.currentFiscalYearId = fiscalYear.id;
+      this.goHome();
     }
   },
 }
 </script>
+<style>
+img {
+    max-width: 100%;
+    object-fit: cover;
+}
+</style>
