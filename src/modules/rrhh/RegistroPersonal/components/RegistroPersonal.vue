@@ -300,7 +300,7 @@ export default {
           setTimeout(this.getRegistroPersonal, 500)
         })
       } else {
-        setTimeout(this.getRegistroPersonal, 500)
+        
 
         Api.postEmpleado(payload)
           .then((response) => {
@@ -309,6 +309,7 @@ export default {
               closable: true,
             })
             this.id = null
+            setTimeout(this.getRegistroPersonal, 500)
           })
           .catch((error) => {
             this.show({

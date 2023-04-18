@@ -32,7 +32,7 @@
                 tabPaneActiveKey = 4
               }
             ">
-              Historial clínico
+              Historial Cl&iacute;nico
             </CNavLink>
           </CNavItem>
           <CNavItem>
@@ -146,7 +146,7 @@
                   </div>
                   <div class="col-9">
                     <CCol :md="12">
-                      <CFormInput v-model="postEmpleado.telefono" id="telefono"
+                      <CFormInput v-model="postEmpleado.telefono" id="telefono" type="number"
                         required />
                     </CCol>
                   </div>
@@ -186,7 +186,7 @@
                   </div>
                   <div class="col-9">
                     <CCol :md="12">
-                      <CFormInput v-model="postEmpleado.lugarNacimiento" id="lugarNacimiento" required />
+                      <CFormInput v-model="postEmpleado.lugarNacimiento" id="lugarNacimiento" required v-on:keypress="isLetter($event)"/>
                     </CCol>
                   </div>
                 </div>
@@ -244,7 +244,7 @@
                 </CCol>
                 <CCol :md="12">
                   <CFormLabel for="Recomendado">Recomendado por</CFormLabel>
-                  <CFormInput type="text" id="Recomendado" />
+                  <CFormInput type="text" id="Recomendado" v-on:keypress="isLetter($event)" />
 
                 </CCol>
                 <CCol :md="12">
@@ -290,14 +290,7 @@
                   </CFormSelect>
                 </CCol>
 
-                <CCol :md="12">
-                  <CFormLabel for="tipoSangreId">Tipo Sangre</CFormLabel>
-                  <CFormSelect v-model="postEmpleado.tipoSangreId" id="tipoSangreId">
-                    <option v-for="sangre in this.tipoSangre" :key="sangre.id" :value="sangre.id">
-                      {{ sangre.nombre }}
-                    </option>
-                  </CFormSelect>
-                </CCol>
+               
 
                 <div class="row">
                   <CCol :md="6">
@@ -339,7 +332,7 @@
 
                 <CCol :md="12">
                   <CFormLabel for="sueldo">Sueldo actual</CFormLabel>
-                  <CFormInput v-model="postEmpleado.sueldo" id="sueldo" required />
+                  <CFormInput type="number" v-model="postEmpleado.sueldo" id="sueldo" required />
 
                 </CCol>
 
@@ -375,7 +368,7 @@
                 <h3>Otros</h3>
                 <CCol>
                   <CFormLabel for="emergenciaTelefono">Otros</CFormLabel>
-                  <CFormInput v-model="postEmpleado.emergenciaTelefono" id="emergenciaTelefono" required />
+                  <CFormInput v-model="postEmpleado.emergenciaTelefono" id="emergenciaTelefono" type="number" required />
                 </CCol>
               </div>
             </div>
@@ -385,6 +378,7 @@
               <div class="col-4 border p-3">
                 <h3>En caso de emergencia comunicarse con</h3>
                 <hr />
+               
                 <CCol>
                   <CFormLabel for="emergenciaNombre">Nombres</CFormLabel>
 
@@ -392,7 +386,7 @@
                 </CCol>
                 <CCol>
                   <CFormLabel for="emergenciaTelefono">Tel&eacute;fono</CFormLabel>
-                  <CFormInput v-model="postEmpleado.emergenciaTelefono" id="emergenciaTelefono" required />
+                  <CFormInput v-model="postEmpleado.emergenciaTelefono" id="emergenciaTelefono" type="number" required />
 
                 </CCol>
                 <CCol>
@@ -400,6 +394,57 @@
                   <CFormInput v-model="postEmpleado.emergenciaDireccion" id="emergenciaDireccion" />
 
                 </CCol>
+           
+                
+              </div>
+              <div class="col-4 border p-3">
+                <h3>Informaci&oacute;n m&eacute;dica del empleado</h3>
+                <hr />
+
+                <CCol>
+                  <CFormLabel for="tipoSangreId">Tipo Sangre</CFormLabel>
+                  <CFormSelect v-model="postEmpleado.tipoSangreId" id="tipoSangreId">
+                    <option v-for="sangre in this.tipoSangre" :key="sangre.id" :value="sangre.id">
+                      {{ sangre.nombre }}
+                    </option>
+                  </CFormSelect>
+                </CCol>
+
+                
+
+                <CCol>
+                  <CFormLabel for="tipoSangreId">Alergico</CFormLabel>
+                  <CFormSelect v-model="postEmpleado.emergenciaAlergico" id="emergenciaAlergico">
+                    <option>
+                     Si
+                    </option>
+                    <option>
+                     No
+                    </option>
+                  </CFormSelect>
+                </CCol>
+
+                <CCol>
+                  <CFormLabel for="tipoSangreId">Diab&eacute;tico</CFormLabel>
+                  <CFormSelect v-model="postEmpleado.emergenciaDiabetico" id="emergenciaDiabetico">
+                    <option>
+                     Si
+                    </option>
+                    <option>
+                     No
+                    </option>
+                  </CFormSelect>
+                </CCol>
+
+                <CCol>
+                  <CFormLabel for="presión">Nivel de presi&oacute;n</CFormLabel>
+                  <CFormSelect id="emergenciaPresionAlta" v-model="postEmpleado.emergenciaPresionAlta">
+                    <option>Alta</option>
+                    <option>Baja</option>
+                  </CFormSelect>
+
+                </CCol>
+
                 <CCol>
                   <CFormLabel for="emergenciaParentezco">Parentezco</CFormLabel>
                   <CFormSelect v-model="postEmpleado.emergenciaParentezco" id="emergenciaParentezco">
@@ -411,42 +456,16 @@
                   </CFormSelect>
 
                 </CCol>
-              </div>
-              <div class="col-4 border p-3">
-                <h3>Informaci&oacute;n m&eacute;dica del empleado</h3>
-                <hr />
                 <CCol>
-                  <CFormLabel for="medica">Alta</CFormLabel>
-                  <CFormInput id="medica" />
+                  <CFormLabel for="emergenciaParentezco">En tratamiento</CFormLabel>
+                  <CFormSelect v-model="postEmpleado.emergenciaEnTratamiento" id="emergenciaEnTratamiento">
+                    <option>Si</option>
+                    <option>No</option>
 
-                </CCol>
-                <CCol>
-                  <CFormLabel for="telefono">Tel&eacute;fono</CFormLabel>
-                  <CFormInput v-model="postEmpleado.telefono" id="telefono" required />
-                </CCol>
-                <CCol>
-                  <CFormLabel for="validationCustom01">Dirección</CFormLabel>
-                  <CFormInput id="validationCustom01" />
-
-                </CCol>
-                <CCol>
-                  <CFormLabel for="Parentesco1">Parentesco</CFormLabel>
-                  <CFormInput id="Parentesco1" required />
-
-                </CCol>
-                <CCol>
-                  <CFormLabel for="Parentesco2">Parentesco</CFormLabel>
-                  <CFormInput id="Parentesco2" required />
-
-                </CCol>
-
-                <CCol>
-                  <CFormLabel for="presión">Nivel de presi&oacute;n</CFormLabel>
-                  <CFormSelect id="presión">
-                    <option>Alta</option>
-                    <option>Baja</option>
                   </CFormSelect>
 
+                  
+                  
                 </CCol>
               </div>
               <div class="col-4 border p-3">
@@ -469,7 +488,7 @@
 
                 </CCol>
 
-                <h3>Intervención quirurgica(m&aacute;s reciente)</h3>
+                <h3>Intervención quir&uacute;rgica(m&aacute;s reciente)</h3>
 
                 <CCol>
                   <CFormLabel for="validationCustom02">Detalle diagnostico</CFormLabel>
@@ -481,8 +500,6 @@
           </CTabPane>
           <CTabPane role="tabpanel" aria-labelledby="profile-tab" :visible="tabPaneActiveKey === 5">
             <div class="row">
-              <h3>En caso de emergencia comunicarse con</h3>
-              <hr />
               <CCol :md="8">
 
 
@@ -505,12 +522,12 @@
 
                 </CCol>
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom02">T&iacute;tulo obtenido</CFormLabel>
+                  <CFormLabel for="validationCustom02">T&iacute;tulo Obtenido</CFormLabel>
                   <CFormInput id="validationCustom02" required />
 
                 </CCol>
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom02">Correo electr&oacute;nico 1 y 2</CFormLabel>
+                  <CFormLabel for="validationCustom02">Correo Electr&oacute;nico 1 y 2</CFormLabel>
                   <CFormInput id="validationCustom02" required />
 
                 </CCol>
@@ -518,15 +535,15 @@
                   <CFormInput id="validationCustom02" required />
 
                 </CCol>
-                <h5>Datos de Evaluacion de Desenpe&ntilde;o</h5>
+                <h5>Datos de Evaluaci&oacute;n de Desempe&ntilde;o</h5>
                 <CCol :md="12">
                   <CFormLabel for="validationCustom02">Fecha Inicial Evaluaci&oacute;n</CFormLabel>
-                  <CFormInput id="validationCustom02" required />
+                  <CFormInput id="validationCustom02" type="date" required />
 
                 </CCol>
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom02">Fecha Inicial Evaluaci&oacute;n</CFormLabel>
-                  <CFormInput id="validationCustom02" required />
+                  <CFormLabel for="validationCustom02">Fecha Final Evaluaci&oacute;n</CFormLabel>
+                  <CFormInput id="validationCustom02" type="date" required />
 
                 </CCol>
                 <CCol :md="12">
@@ -588,7 +605,7 @@ export default {
         codigo: null,
         nombres: null,
         apellidos: null,
-        tipoDocumento: null,
+        tipoDocumento: 'Cédula',
         cedula: null,
         direccion: null,
         sectorId: 1,
@@ -666,12 +683,12 @@ export default {
         emergenciaDireccion: null,
         emergenciaParentezco: null,
         tipoSangreId: 0,
-        emergenciaAlergico: null,
-        emergenciaDiabetico: 'sT',
+        emergenciaAlergico: 'Si',
+        emergenciaDiabetico: 'Si',
         emergenciaInsodepend: 'st',
         emergenciaPresionAlta: null,
         emergenciaPresionBaja: null,
-        emergenciaEnTratamiento: 'st',
+        emergenciaEnTratamiento: 'Si',
         emergenciaDiagnostico: null,
         licenciaConducir: null,
         fechaExpiracionLicencia: new Date(Date.now()),
@@ -687,6 +704,12 @@ export default {
   },
 
   methods: {
+    isLetter(e) {
+  let char = String.fromCharCode(e.keyCode); // Get the character
+  if(/^[A-Za-z]+$/.test(char)) return true; // Match with regex 
+  else e.preventDefault(); // If not match, don't add to input text
+},
+
     cargarListas() {
       Api.getProgramaDivision().then((response) => {
         this.programaDivision = response.data.data
@@ -719,15 +742,19 @@ export default {
       })
       configuraciones.getGroupConfiguration(configuraciones.grupos.Discapacidad).then(response => {
         this.discapacidadList = response.data.data
+        this.postEmpleado.discapacidad = this.discapacidadList[0].id
       })
       configuraciones.getGroupConfiguration(configuraciones.grupos.nivelEscolar).then(response => {
         this.nivelEscolarList = response.data.data
+        this.postEmpleado.nivelEscolar = this.nivelEscolarList[0].id
       })
       configuraciones.getGroupConfiguration(configuraciones.grupos.areaTematica).then(response => {
         this.areaTematicaList = response.data.data
+        this.postEmpleado.areaTematica = this.areaTematicaList[0].id
       })
       Api.listDepartamento().then(response => {
         this.departamentoList = response.data.data
+        this.postEmpleado.departamentoId = this.departamentoList[0].id
       })
     }, 
     saveRegistroPersonal() {
@@ -830,12 +857,12 @@ export default {
         emergenciaDireccion: null,
         emergenciaParentezco: null,
         tipoSangreId: 0,
-        emergenciaAlergico: null,
-        emergenciaDiabetico: 'sT',
+        emergenciaAlergico: 'Si',
+        emergenciaDiabetico: 'Si',
         emergenciaInsodepend: 'st',
         emergenciaPresionAlta: null,
         emergenciaPresionBaja: null,
-        emergenciaEnTratamiento: 'st',
+        emergenciaEnTratamiento: 'Si',
         emergenciaDiagnostico: null,
         licenciaConducir: null,
         fechaExpiracionLicencia: new Date(Date.now()),
