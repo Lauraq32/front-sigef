@@ -5,7 +5,7 @@
     style="width: 25%"
   >
     <CModalHeader>
-      <CModalTitle>Sectores</CModalTitle>
+      <CModalTitle>Sector</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
