@@ -15,7 +15,7 @@
   import { CModal } from '@coreui/vue'
   import { CSmartTable } from '@coreui/vue-pro'
   import { CIcon } from '@coreui/icons-vue'
-  import Api from '../../services/Profesiones'
+  import Api from '../../services/EducationServices'
   
   export default {
     name: 'EducacionDialog',
@@ -50,10 +50,23 @@
       closeModal() {
         this.$emit('closeModal')
       },
+
+      listarEducation(id){
+        Api.getEmployeeById(id).then(response => {
+          console.log(response)
+        })
+      }
     },
   
+    watch:{
+      employeeId(id){
+        this.listarEducation(id)
+      }
+    },
+
     props: {
       showModal: Boolean,
+      employeeId: null,
     },
     mounted() {
       

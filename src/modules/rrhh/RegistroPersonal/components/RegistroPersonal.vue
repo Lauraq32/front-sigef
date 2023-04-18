@@ -1,7 +1,7 @@
 <template>
   <h3 class="text-center">Mantenimientos Empleados</h3>
   <AccionPersonalDialog :showModal="lgDemo4" @custom-event="closeModal" />
-  <EducacionDialog :showModal="showEducacion" @closeModal="closeEducacion" />
+  <EducacionDialog :showModal="showEducacion" @closeModal="closeEducacion" :employeeId="employeeId" />
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton color="info" @click="
@@ -739,6 +739,7 @@ export default {
   },
   data: function () {
     return {
+      employeeId:null,
       showEducacion:false,
       lgDemo4: false,
       cambiar: false,
