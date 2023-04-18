@@ -1,7 +1,7 @@
 <template>
   <CModal size="md" :visible="cargoModal" backdrop="static">
     <CModalHeader>
-      <CModalTitle>Cargos</CModalTitle>
+      <CModalTitle>Cargo</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
