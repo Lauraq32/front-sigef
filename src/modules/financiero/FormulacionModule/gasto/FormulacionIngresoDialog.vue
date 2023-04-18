@@ -16,8 +16,9 @@
                     <div class="position-relative">
                         <input ref="clasificatorField" required @keyup.enter.prevent="findClasificador" maxlength="6"
                             class="form-control padding-input" v-model="formulacionIngreso.ctgClasificadorId" type="number"
-                            id="clasifica" />
-                        <span class="position-absolute icon-input">
+                            id="clasifica"
+                            :disabled="notAllowEdit"/>
+                        <span class="position-absolute icon-input" v-if="!notAllowEdit">
                             <CIcon icon="cisSearch" size="xl" v-on:click="() => (showFindClasificadorModal = true)" />
                         </span>
                     </div>
@@ -67,14 +68,14 @@
                 </CCol>
                 <CCol :md="3">
                     <CFormLabel>Instituci&oacute;n Otorgante</CFormLabel>
-                    <CFormInput v-model="formulacionIngreso.instOtorga" type="number" step="any">
+                    <CFormInput v-model="formulacionIngreso.instOtorga" type="number" step="any" :disabled="notAllowEdit">
                     </CFormInput>
                 </CCol>
                 <hr />
                 <CCol :md="4">
                     <CFormLabel>A&ntilde;o Anterior</CFormLabel>
                     <VueNumberFormat v-model:value="formulacionIngreso.anioAnt" type="text" class="form-control text-end"
-                        :enabled="allowEdit"
+                        :disabled="notAllowAmount || notAllowEdit"
                         :options="{
                             precision: 2,
                             prefix: '',
@@ -86,7 +87,7 @@
                 <CCol :md="4">
                     <CFormLabel>A la Fecha</CFormLabel>
                     <VueNumberFormat v-model:value="formulacionIngreso.alaFecha" type="text" class="form-control text-end"
-                        :enabled="allowEdit"
+                        :disabled="notAllowAmount || notAllowEdit"
                         :options="{
                             precision: 2,
                             prefix: '',
@@ -98,7 +99,7 @@
                     <CFormLabel>Presupuesto Formulado</CFormLabel>
                     <VueNumberFormat v-model:value="formulacionIngreso.presForm" type="text" step="any"
                         class="form-control text-end"
-                        :enabled="allowEdit"
+                        :disabled="notAllowAmount || notAllowEdit"
                         :options="{
                             precision: 2,
                             prefix: '',
@@ -110,9 +111,20 @@
         </CModalBody>
 
         <CModalFooter>
-            <CButton color="secondary" data-bs-dismiss="modal" @click="closeDialog()">Cancelar</CButton>
-            <CButton :disabled="formulacionIngreso.ingresos !== 0 || formulacionIngreso.variacion !== 0" color="primary"
-                @click="submitForm">Guardar</CButton>
+            <CButton
+                color="secondary"
+                data-bs-dismiss="modal"
+                @click="closeDialog()"
+            >
+                {{ (hasBugetOrExecution || notAllowEdit) ? 'Cerrar' : 'Cancelar' }}
+            </CButton>
+            <CButton
+                v-if="hasBugetOrExecution || !(formulacionIngreso.id && isFiscalYearApprovedOrClose)"
+                color="primary"
+                @click="submitForm"
+            >
+                Guardar
+            </CButton>
         </CModalFooter>
     </CModal>
 
@@ -124,10 +136,9 @@
 </template>
 <script setup>
 import { CModal } from '@coreui/vue'
-import { reactive, ref } from 'vue';
+import { reactive, ref, computed, watchEffect } from 'vue';
 import ClasificadorSelectorDialog from '../components/ClasificadorSelectorDialog.vue';
 import { fiscalYearInfo } from '@/utils/logged-info';
-import { useLoginInfo } from '@/utils/login-info-plugin';
 
 const emit = defineEmits(['close'])
 const props = defineProps({
@@ -137,8 +148,8 @@ const props = defineProps({
         default: {},
     },
     isVisible: Boolean,
+    isFiscalYearApprovedOrClose: Boolean,
 });
-const loginInfo = useLoginInfo();
 const fiscalYearData = fiscalYearInfo();
 const anioFiscal = ref(fiscalYearData.anio);
 const formIsValidated = ref(null);
@@ -150,8 +161,18 @@ const enabledFields = reactive({
     ctgFuenteEspecificaId: false,
     ctgOrganismoFinanciadorId: false
 });
-const allowEdit = computed(() => loginInfo.isFiscalYearCloseOrApproved || props.formulacionIngreso.ingresos !== 0 || props.formulacionIngreso.variacion !== 0);
+const hasBugetOrExecution = computed(() => props.formulacionIngreso.ingresos !== 0 || props.formulacionIngreso.variacion !== 0);
+const notAllowEdit = computed(() => (hasBugetOrExecution.value || props.isFiscalYearApprovedOrClose) && Boolean(props.formulacionIngreso.id));
+const notAllowAmount = computed(() => props.isFiscalYearApprovedOrClose && !Boolean(props.formulacionIngreso.id));
 
+watchEffect(() => {
+    console.log(hasBugetOrExecution, props.formulacionIngreso.id, props.isFiscalYearApprovedOrClose,  props.formulacionIngreso);
+    console.log({
+        hasBugetOrExecution: hasBugetOrExecution.value,
+        notAllowEdit: notAllowEdit.value,
+        idFiscal: props.formulacionIngreso.id && props.isFiscalYearApprovedOrClose
+    })
+})
 
 const closeDialog = (data) => {
     emit('close', data);

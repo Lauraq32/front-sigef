@@ -2,30 +2,9 @@
   <h3 class="text-center  mb-4">Formulaci&oacute;n Gastos</h3>
   
   <AppAccionHeader
-    :actions="[
-      {
-        label: 'Imprimir',
-        accionHandler: this.IngresoReport.bind(this),
-        icon: 'cilPrint'
-      },
-      {
-        label: 'Cargar Estructuras',
-        accionHandler: this.cargarEstructuras.bind(this),
-        icon: 'cilLayers'
-      },
-      {
-        label: 'Importar Proyectos',
-        accionHandler: this.onFileChangeProyectos.bind(this),
-        type: 'upload'
-      },
-      {
-        label: 'Importar Formulaci&oacute;n',
-        accionHandler: this.onFileChange.bind(this),
-        type: 'upload'
-      }
-    ]"
+    :actions="pageActions"
   >
-    <CButton color="info" @click="setNuevoFormulacionGasto">Agregar</CButton>
+    <CButton color="info" @click="setNuevoFormulacionGasto">{{ isFiscalYearApprovedOrClose ? 'Habilitar' : 'Agregar' }}</CButton>
     <CButton color="secondary" @click="goToIngreso">Ir a Formulaci&oacute;n Ingreso</CButton>
   </AppAccionHeader>
 
@@ -484,8 +463,42 @@ export default {
       'gastoListCount',
       'totalBugetAmount',
     ]),
-  },
+    isFiscalYearApprovedOrClose() {
+      return this.LoginInfo.isFiscalYearCloseOrApproved;
+    },
+    pageActions() {
+      const actions = [
+        {
+          label: 'Imprimir',
+          accionHandler: this.IngresoReport.bind(this),
+          icon: 'cilPrint'
+        }
+      ];
 
+      if (!this.isFiscalYearApprovedOrClose) {
+        actions.push(...[
+          {
+            label: 'Cargar Estructuras',
+            accionHandler: this.cargarEstructuras.bind(this),
+            icon: 'cilLayers'
+          },
+          {
+            label: 'Importar Proyectos',
+            accionHandler: this.onFileChangeProyectos.bind(this),
+            type: 'upload'
+          },
+          {
+            label: 'Importar Formulaci&oacute;n',
+            accionHandler: this.onFileChange.bind(this),
+            type: 'upload'
+          }
+        ]);
+      }
+
+      return actions;
+    }
+  },
+  inject: ['LoginInfo'],
   mounted() {
     this.loadData();
   },

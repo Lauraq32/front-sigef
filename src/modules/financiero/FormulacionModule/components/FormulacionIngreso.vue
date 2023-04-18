@@ -2,25 +2,9 @@
   <h3 class="text-center mb-4">Formulaci&oacute;n Ingreso</h3>
 
   <AppAccionHeader
-    :actions="[
-      {
-        label: 'Imprimir',
-        accionHandler: this.IngresoReport.bind(this),
-        icon: 'cilPrint'
-      },
-      {
-        label: 'Descargar',
-        accionHandler: this.downloadFile.bind(this),
-        icon: 'cilCloudDownload'
-      },
-      {
-        label: 'Importar Ingresos',
-        accionHandler: this.onFileChange.bind(this),
-        type: 'upload'
-      }
-    ]"
+    :actions="pageActions"
   >
-    <CButton color="info" @click="openModal">Agregar</CButton>
+    <CButton color="info" @click="openModal">{{ isFiscalYearApprovedOrClose ? 'Habilitar' : 'Agregar' }}</CButton>
     <CButton color="secondary" @click="goToGasto">Ir a Formulaci&oacute;n Gasto</CButton>
   </AppAccionHeader>
 
@@ -91,9 +75,16 @@
       <td class="py-2">
         <div class="d-flex justify-content-around">
           <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="editFormulacion(item)">
-            Editar
+            {{ (isFiscalYearApprovedOrClose || hasBugetOrExecution(item)) ? 'Detalle' : 'Editar' }}
           </CButton>
-          <CButton class="mt-1" color="danger" variant="outline" square size="sm" @click="deleteItem(item)">
+          <CButton
+            v-if="!isFiscalYearApprovedOrClose"
+            class="mt-1"
+            color="danger"
+            variant="outline"
+            square size="sm"
+            @click="deleteItem(item)"
+          >
             Eliminar
           </CButton>
         </div>
@@ -104,6 +95,7 @@
   <FormulacionIngresoDialog
     :isVisible="showPartidaPresupuestodeIngresoDialog"
     :formulacionIngreso="postIngreso"
+    :isFiscalYearApprovedOrClose="isFiscalYearApprovedOrClose"
     @close="onCloseFormulacionDialog"
   />
 
@@ -247,6 +239,7 @@ export default {
       formatPrice
     }
   },
+  inject: ['LoginInfo'],
   methods: {
     ...mapActions(useToastStore, ['show']),
     downloadFile() {
@@ -458,11 +451,49 @@ export default {
         color: 'danger',
         class: 'text-white',
       });
+    },
+    hasBugetOrExecution(item) {
+      let sumUp = 0;
+
+      for (let i = 1; i < 13; i++) {
+        sumUp += item[`variacion${i.toString().padStart(2, '0')}`];
+        sumUp += item[`ingreso${i.toString().padStart(2, '0')}`];
+      }
+      sumUp += item.variacion + item.ingreso;
+
+      return sumUp > 0;
     }
   },
   computed: {
     ...mapStores(useAuthStore),
     ...mapState(useAuthStore, ['authInfo']),
+    isFiscalYearApprovedOrClose() {
+      return this.LoginInfo.isFiscalYearCloseOrApproved;
+    },
+    pageActions() {
+      const actions = [
+        {
+          label: 'Imprimir',
+          accionHandler: this.IngresoReport.bind(this),
+          icon: 'cilPrint'
+        },
+        {
+          label: 'Descargar',
+          accionHandler: this.downloadFile.bind(this),
+          icon: 'cilCloudDownload'
+        }
+      ];
+
+      if (!this.isFiscalYearApprovedOrClose) {
+        actions.push({
+          label: 'Importar Ingresos',
+          accionHandler: this.onFileChange.bind(this),
+          type: 'upload'
+        });
+      }
+
+      return actions;
+    }
   },
 
   mounted() {
@@ -470,21 +501,4 @@ export default {
   },
 }
 </script>
-<style scoped>
-
-.file-select>.select-button {
-  padding: 0.5rem;
-  line-height: 1.5;
-  color: white;
-  background-color: #375b80;
-
-  border-radius: 0.3rem;
-  cursor: pointer;
-  text-align: center;
-}
-
-.file-select>input[type='file'] {
-  display: none;
-}
-</style>
 
