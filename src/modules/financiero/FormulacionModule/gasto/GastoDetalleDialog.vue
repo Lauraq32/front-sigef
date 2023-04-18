@@ -108,20 +108,21 @@
 
               <CCol :md="3">
                 <CFormLabel for="ctgFuenteId">Fuente Financiamiento</CFormLabel>
-                <CFormInput v-model="detalle.ctgFuenteId" :disabled="isFieldEditable" id="ctgFuenteId" required />
+                <CFormInput v-model="detalle.ctgFuenteId" :disabled="isFieldEditable" id="ctgFuenteId" required
+                  type="number" pattern="[0-9]+" />
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="3">
                 <CFormLabel for="ctgFuenteEspecificaId">Fuente Especifica</CFormLabel>
-                <CFormInput v-model="detalle.ctgFuenteEspecificaId" :disabled="isFieldEditable"
-                  id="ctgFuenteEspecificaId">
+                <CFormInput v-model="detalle.ctgFuenteEspecificaId" :disabled="isFieldEditable" id="ctgFuenteEspecificaId"
+                  type="number" pattern="[0-9]+">
                 </CFormInput>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="3">
                 <CFormLabel for="ctgOrganismoFinanciadorId">Organismo Financiador</CFormLabel>
                 <CFormInput v-model="detalle.ctgOrganismoFinanciadorId" :disabled="isFieldEditable"
-                  id="ctgOrganismoFinanciadorId" required />
+                  id="ctgOrganismoFinanciadorId" required type="number" pattern="[0-9]+" />
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="3" style="margin-top: 3rem">
@@ -138,12 +139,13 @@
                       <h3>Cuenta</h3>
                       <div class="col-4">
                         <CFormLabel for="oriBco1">Personal</CFormLabel>
-                        <VueNumberFormat v-model:value="detalle.oriBco1" type="text" class="form-control" :options="{
-                          precision: 3,
+                        <CurrencyInput id="oriBco1" v-model="detalle.oriBco1" :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}" />
+                        <!-- <VueNumberFormat v-model:value="detalle.oriBco1" type="text" class="form-control" :options="{
+                          precision: 2,
                           prefix: '',
                           decimal: '.',
                           thousand: ',',
-                        }" id="oriBco1" required />
+                        }" id="oriBco1" required /> -->
                         <CFormFeedback invalid>
                           Favor agregar el campo
                         </CFormFeedback>
@@ -171,12 +173,7 @@
                     <div class="row">
                       <div class="col-4">
                         <CFormLabel for="validationCustom04">Servicios</CFormLabel>
-                        <VueNumberFormat v-model:value="detalle.oriBco2" type="text" class="form-control" :options="{
-                          precision: 3,
-                          prefix: '',
-                          decimal: '.',
-                          thousand: ',',
-                        }" id="oriBco2" required />
+                        <CurrencyInput id="oriBco2" v-model="detalle.oriBco2" :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}" />
                         <CFormFeedback invalid>
                           Favor agregar el campo
                         </CFormFeedback>
@@ -204,12 +201,7 @@
                     <div class="row">
                       <div class="col-4">
                         <CFormLabel for="oriBco3">Inversión</CFormLabel>
-                        <VueNumberFormat v-model:value="detalle.oriBco3" type="text" class="form-control" :options="{
-                          precision: 3,
-                          prefix: '',
-                          decimal: '.',
-                          thousand: ',',
-                        }" id="oriBco3" required />
+                        <CurrencyInput id="oriBco3" v-model="detalle.oriBco3" :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}" />
                         <CFormFeedback invalid>
                           Favor agregar el campo
                         </CFormFeedback>
@@ -246,12 +238,7 @@
                     <div class="row">
                       <div class="col-4">
                         <CFormLabel for="oriBco4">E/G Salud</CFormLabel>
-                        <VueNumberFormat v-model:value="detalle.oriBco4" type="text" class="form-control" :options="{
-                          precision: 3,
-                          prefix: '',
-                          decimal: '.',
-                          thousand: ',',
-                        }" id="oriBco4" required />
+                        <CurrencyInput id="oriBco4" v-model="detalle.oriBco3" :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}" />
                         <CFormFeedback invalid>
                           Favor agregar el campo
                         </CFormFeedback>
@@ -266,7 +253,7 @@
                           <option value="313">
                             313-Para Gastos en Educacion (Corto Plazo)
                           </option>
-                          <option  value="323">
+                          <option value="323">
                             323-Para Gastos en Educacion (Largo Plazo)
                           </option>
                         </CFormSelect>
@@ -306,12 +293,14 @@
 </template>
 <script>
 import ClasificadorSelectorDialog from '../components/ClasificadorSelectorDialog.vue'
+import CurrencyInput from '@/utils/CurrencyInput.vue'
 import { CCol } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { computed, ref } from 'vue'
 import { formatPrice } from '@/utils/format'
 
 export default {
+
   props: {
     detalle: {
       required: true,
@@ -369,6 +358,12 @@ export default {
         props.detalle.presupuestoBco2 = props.detalle.oriBco2;
         props.detalle.presupuestoBco3 = props.detalle.oriBco3;
         props.detalle.presupuestoBco4 = props.detalle.oriBco4;
+        props.detalle.totalOriginal = (
+          Number(props.detalle.oriBco1 || 0) +
+          Number(props.detalle.oriBco2 || 0) +
+          Number(props.detalle.oriBco3 || 0) +
+          Number(props.detalle.oriBco4 || 0)
+        );
 
         closeDialog({ ...props.detalle });
       } else {
@@ -408,7 +403,7 @@ export default {
       isFormValidated
     }
   },
-  components: { ClasificadorSelectorDialog, CModal, CCol },
+  components: { ClasificadorSelectorDialog, CModal, CCol, CurrencyInput },
 }
 </script>
 <style>

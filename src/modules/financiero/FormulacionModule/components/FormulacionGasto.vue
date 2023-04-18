@@ -1,43 +1,34 @@
 <template>
-  <h3 class="text-center">Formulaci&oacute;n Gastos</h3>
-  <div class="table-headers">
-    <div class="d-inline p-2">
-      <CButton
-        style="font-weight: bold"
-        color="info"
-        @click="setNuevoFormulacionGasto"
-      >
-        Agregar
-      </CButton>
-    </div>
-    <div class="p-2">
-      <CButton color="info" @click="IngresoReport">Imprimir</CButton>
-    </div>
-    <div class="p-2">
-      <CButton color="info" @click="cargarEstructuras"
-        >Cargar Estructuras</CButton
-      >
-    </div>
-    <div class="p-2">
-      <CButton color="info" @click="goToIngreso"
-        >Ir a Formulaci&oacute;n Ingreso</CButton
-      >
-    </div>
-    <div class="p-2">
-      <label class="file-select btn" role="button">
-        <CIcon icon="cilCloudUpload" size="sm" />
-        <input type="file" id="formFileProyecto" @change="onFileChangeProyectos" />
-        <span class="label">Importar Proyectos</span>
-      </label>
-    </div>
-    <div class="p-2">
-      <label class="file-select btn" role="button">
-        <CIcon icon="cilCloudUpload" size="sm" />
-        <input type="file" id="formFileFormulaciion" @change="onFileChange" />
-        <span class="label">Importar Formulaci&oacute;n</span>
-      </label>
-    </div>
-  </div>
+  <h3 class="text-center  mb-4">Formulaci&oacute;n Gastos</h3>
+  
+  <AppAccionHeader
+    :actions="[
+      {
+        label: 'Imprimir',
+        accionHandler: this.IngresoReport.bind(this),
+        icon: 'cilPrint'
+      },
+      {
+        label: 'Cargar Estructuras',
+        accionHandler: this.cargarEstructuras.bind(this),
+        icon: 'cilLayers'
+      },
+      {
+        label: 'Importar Proyectos',
+        accionHandler: this.onFileChangeProyectos.bind(this),
+        type: 'upload'
+      },
+      {
+        label: 'Importar Formulaci&oacute;n',
+        accionHandler: this.onFileChange.bind(this),
+        type: 'upload'
+      }
+    ]"
+  >
+    <CButton color="info" @click="setNuevoFormulacionGasto">Agregar</CButton>
+    <CButton color="secondary" @click="goToIngreso">Ir a Formulaci&oacute;n Ingreso</CButton>
+  </AppAccionHeader>
+
   <CSmartTable
     class="sticky-top"
     clickableRows
@@ -57,6 +48,7 @@
     columnSorter
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
+    :items-per-page-label="'Artículos por página:'"
   >
     <template #totalPresupuesto="{ item }">
       <td class="text-end">
@@ -102,12 +94,14 @@ import router from '@/router'
 import { formatPrice } from '../../../../utils/format'
 import { useToastStore } from '@/store/toast'
 import FormulacionGastoDialog from "../gasto/FormulacionGastoDialog";
-import { nextTick } from 'vue'
+import AppAccionHeader from "../../../../components/AppActionHeader.vue";
+
 export default {
   components: {
     CSmartTable,
     CModal,
-    FormulacionGastoDialog
+    FormulacionGastoDialog,
+    AppAccionHeader
   },
   data: function () {
     return {
@@ -116,22 +110,22 @@ export default {
       formatPrice,
 
       columns: [
-        { key: 'pnap', label: 'Pnap', _style: { width: '10%' } },
-        { key: 'programa', label: 'Programa', _style: { width: '10%' } },
+        { key: 'pnap', label: 'Pnap', _style: { width: '7%' } },
+        { key: 'programa', label: 'Programa', _style: { width: '7%' } },
         { key: 'proyecto', label: 'Proyecto', _style: { width: '10%' } },
-        { key: 'actObra', label: 'Act/Obra', _style: { width: '10%' } },
-        { key: 'estControl', label: 'Control', _style: { width: '10%' } },
-        { key: 'nombre', label: 'Denominación', _style: { width: '20%' } },
-        { key: 'tipo', label: 'Tipo', _style: { width: '20%' } },
+        { key: 'actObra', label: 'Act/Obra', _style: { width: '7%' } },
+        { key: 'estControl', label: 'Control', _style: { width: '8%' } },
+        { key: 'nombre', label: 'Denominación', _style: { width: '25%' } },
+        { key: 'tipo', label: 'Tipo', _style: { width: '8%' } },
         {
           key: 'unidadResp',
-          label: 'Unidad responsable',
-          _style: { width: '40%' },
+          label: 'Unidad Responsable',
+          _style: { width: '15%' },
         },
         {
           key: 'totalPresupuesto',
           label: 'Presupuesto',
-          _style: { width: '40%' },
+          _style: { width: '10%' },
         },
         {
           key: 'show_details',
@@ -145,11 +139,24 @@ export default {
         {
           label: 'Total Items',
           _props: {
-            colspan: 10,
+            colspan: 8,
             style: 'font-weight:bold;',
           },
         },
-
+        {
+          label: '',
+          _props: {
+            colspan: 1,
+            style: 'font-weight:bold;text-align:right',
+          },
+        },
+        {
+          label: '',
+          _props: {
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
       ],
     }
   },
@@ -409,6 +416,7 @@ export default {
     onFormulacionGastoDialogClose(data) {
       if (data) {
         const { detallePresGastos, ...rest } = data;
+        rest.totalPresupuesto = detallePresGastos.reduce((acc, detalle) => acc + detalle.totalOriginal, 0);
         this.guardarFormulacionGasto({
           detallePresGastoDtos: detallePresGastos,
           presGastoDto: rest 
@@ -463,11 +471,8 @@ export default {
       this.showFormulacionDialog = true;
     },
     loadData() {
-      this.getListarGastos()
       setTimeout(() => {
-        nextTick().then(() => {
-          this.footerItem[0].label = `Total items: ${this.gastoListCount}`;
-        });
+        this.getListarGastos();
       }, 200);
     }
   },
@@ -477,12 +482,21 @@ export default {
     ...mapState(usePrepGastoStore, [
       'prepGastoList',
       'gastoListCount',
+      'totalBugetAmount',
     ]),
   },
 
   mounted() {
     this.loadData();
   },
+  watch: {
+    prepGastoList() {
+      setTimeout(() => {
+        this.footerItem[0].label = `Total items: ${this.gastoListCount}`;
+        this.footerItem[1].label = this.formatPrice(this.totalBugetAmount);
+      }, 200);
+    }
+  }
 }
 </script>
 <style scoped>
