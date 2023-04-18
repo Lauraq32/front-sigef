@@ -56,8 +56,7 @@
                   </div>
                   <div class="col-9">
                     <CCol :md="12">
-                      <CFormInput ref="name" type="text" class="form-control"
-                        v-model="postEmpleado.codigo" id="codigo" />
+                      <CFormInput ref="name" type="text" class="form-control" v-model="postEmpleado.codigo" id="codigo" />
                     </CCol>
                   </div>
                 </div>
@@ -68,8 +67,7 @@
                   </div>
                   <div class="col-9">
                     <CCol :md="12">
-                      <CFormSelect v-model="postEmpleado.tipoDocumento"
-                        id="validationCtipoDocumentoustom05">
+                      <CFormSelect v-model="postEmpleado.tipoDocumento" id="validationCtipoDocumentoustom05">
                         <option>C&eacute;dula</option>
                         <option>Pasaporte</option>
                       </CFormSelect>
@@ -83,8 +81,7 @@
                   </div>
                   <div class="col-9">
                     <CCol :md="12">
-                      <CFormInput v-model="postEmpleado.cedula" id="cedula"
-                        required />
+                      <CFormInput v-model="postEmpleado.cedula" id="cedula" required />
                     </CCol>
                   </div>
                 </div>
@@ -95,8 +92,7 @@
                   </div>
                   <div class="col-9">
                     <CCol :md="12">
-                      <CFormInput  v-model="postEmpleado.nombres" id="nombres"
-                        required />
+                      <CFormInput v-model="postEmpleado.nombres" id="nombres" required />
                     </CCol>
                   </div>
                 </div>
@@ -107,8 +103,7 @@
                   </div>
                   <div class="col-9">
                     <CCol :md="12">
-                      <CFormInput  v-model="postEmpleado.apellidos"
-                        id="apellidos" />
+                      <CFormInput v-model="postEmpleado.apellidos" id="apellidos" />
                     </CCol>
                   </div>
                 </div>
@@ -119,8 +114,7 @@
                   </div>
                   <div class="col-9">
                     <CCol :md="12">
-                      <CFormInput  v-model="postEmpleado.direccion" id="direccion"
-                        required />
+                      <CFormInput v-model="postEmpleado.direccion" id="direccion" required />
                     </CCol>
                   </div>
                 </div>
@@ -131,7 +125,7 @@
                   </div>
                   <div class="col-9">
                     <CCol :md="12">
-                      <CFormSelect  v-model="postEmpleado.sectorId" id="sectorId">
+                      <CFormSelect v-model="postEmpleado.sectorId" id="sectorId">
                         <option v-for="sect in this.sector" :key="sect.id" :value="sect.id">
                           {{ sect.nombre }}
                         </option>
@@ -146,8 +140,7 @@
                   </div>
                   <div class="col-9">
                     <CCol :md="12">
-                      <CFormInput v-model="postEmpleado.telefono" id="telefono" type="number"
-                        required />
+                      <CFormInput v-model="postEmpleado.telefono" id="telefono" type="number" required />
                     </CCol>
                   </div>
                 </div>
@@ -158,8 +151,7 @@
                   </div>
                   <div class="col-9">
                     <CCol :md="12">
-                      <CFormSelect  v-model="postEmpleado.estadoCivil"
-                        id="estadoCivil">
+                      <CFormSelect v-model="postEmpleado.estadoCivil" id="estadoCivil">
                         <option>Soltero/a</option>
                         <option>Casado/a</option>
                       </CFormSelect>
@@ -186,7 +178,8 @@
                   </div>
                   <div class="col-9">
                     <CCol :md="12">
-                      <CFormInput v-model="postEmpleado.lugarNacimiento" id="lugarNacimiento" required v-on:keypress="isLetter($event)"/>
+                      <CFormInput v-model="postEmpleado.lugarNacimiento" id="lugarNacimiento" required
+                        v-on:keypress="isLetter($event)" />
                     </CCol>
                   </div>
                 </div>
@@ -197,7 +190,7 @@
                   </div>
                   <div class="col-9">
                     <CCol :md="12">
-                      <CFormSelect  v-model="postEmpleado.sexo" id="sexo">
+                      <CFormSelect v-model="postEmpleado.sexo" id="sexo">
                         <option value="M">Masculino</option>
                         <option value="F">Femenino</option>
                       </CFormSelect>
@@ -211,8 +204,7 @@
                   </div>
                   <div class="col-9">
                     <CCol :md="12">
-                      <CFormInput  v-model="postEmpleado.dependientes"
-                        type="number" id="dependientes" required />
+                      <CFormInput v-model="postEmpleado.dependientes" type="number" id="dependientes" required />
                     </CCol>
                   </div>
                 </div>
@@ -222,8 +214,7 @@
                   </div>
                   <div class="col-9">
                     <CCol :md="12">
-                      <CFormSelect v-model="postEmpleado.discapacidad"
-                        id="discapacidad">
+                      <CFormSelect v-model="postEmpleado.discapacidad" id="discapacidad">
                         <option v-for="discapacidad in this.discapacidadList" :key="discapacidad.id"
                           :value="discapacidad.id">
                           {{ discapacidad.configValue }}
@@ -290,7 +281,7 @@
                   </CFormSelect>
                 </CCol>
 
-               
+
 
                 <div class="row">
                   <CCol :md="6">
@@ -355,7 +346,7 @@
 
                 </CCol>
                 <CCol>
-                  <CFormLabel for="fechaExpiracionLicencia">Fecha expiraci licencia de conducir</CFormLabel>
+                  <CFormLabel for="fechaExpiracionLicencia">Fecha expiraci&oacute;n licencia de conducir</CFormLabel>
                   <CFormInput v-model="postEmpleado.fechaExpiracionLicencia" type="date" id="fechaExpiracionLicencia" />
 
                 </CCol>
@@ -378,7 +369,7 @@
               <div class="col-4 border p-3">
                 <h3>En caso de emergencia comunicarse con</h3>
                 <hr />
-               
+
                 <CCol>
                   <CFormLabel for="emergenciaNombre">Nombres</CFormLabel>
 
@@ -394,8 +385,18 @@
                   <CFormInput v-model="postEmpleado.emergenciaDireccion" id="emergenciaDireccion" />
 
                 </CCol>
-           
-                
+                <CCol>
+                  <CFormLabel for="emergenciaParentezco">Parentezco</CFormLabel>
+                  <CFormSelect v-model="postEmpleado.emergenciaParentezco" id="emergenciaParentezco">
+                    <option>Padre</option>
+                    <option>Madre</option>
+                    <option>Hermano/a</option>
+                    <option>Esposo/a</option>
+                    <option>Amigo/a</option>
+                  </CFormSelect>
+
+                </CCol>
+
               </div>
               <div class="col-4 border p-3">
                 <h3>Informaci&oacute;n m&eacute;dica del empleado</h3>
@@ -410,16 +411,16 @@
                   </CFormSelect>
                 </CCol>
 
-                
+
 
                 <CCol>
                   <CFormLabel for="tipoSangreId">Alergico</CFormLabel>
                   <CFormSelect v-model="postEmpleado.emergenciaAlergico" id="emergenciaAlergico">
                     <option>
-                     Si
+                      Si
                     </option>
                     <option>
-                     No
+                      No
                     </option>
                   </CFormSelect>
                 </CCol>
@@ -428,10 +429,10 @@
                   <CFormLabel for="tipoSangreId">Diab&eacute;tico</CFormLabel>
                   <CFormSelect v-model="postEmpleado.emergenciaDiabetico" id="emergenciaDiabetico">
                     <option>
-                     Si
+                      Si
                     </option>
                     <option>
-                     No
+                      No
                     </option>
                   </CFormSelect>
                 </CCol>
@@ -464,8 +465,15 @@
 
                   </CFormSelect>
 
-                  
-                  
+
+
+                </CCol>
+                <h3>Intervención quir&uacute;rgica(m&aacute;s reciente)</h3>
+
+                <CCol>
+                  <CFormLabel for="validationCustom02">Detalle diagnostico</CFormLabel>
+                  <CFormTextarea id="diagnostico" required />
+
                 </CCol>
               </div>
               <div class="col-4 border p-3">
@@ -488,13 +496,7 @@
 
                 </CCol>
 
-                <h3>Intervención quir&uacute;rgica(m&aacute;s reciente)</h3>
 
-                <CCol>
-                  <CFormLabel for="validationCustom02">Detalle diagnostico</CFormLabel>
-                  <CFormTextarea id="diagnostico" required />
-
-                </CCol>
               </div>
             </div>
           </CTabPane>
@@ -705,10 +707,10 @@ export default {
 
   methods: {
     isLetter(e) {
-  let char = String.fromCharCode(e.keyCode); // Get the character
-  if(/^[A-Za-z]+$/.test(char)) return true; // Match with regex 
-  else e.preventDefault(); // If not match, don't add to input text
-},
+      let char = String.fromCharCode(e.keyCode); // Get the character
+      if (/^[A-Za-z]+$/.test(char)) return true; // Match with regex 
+      else e.preventDefault(); // If not match, don't add to input text
+    },
 
     cargarListas() {
       Api.getProgramaDivision().then((response) => {
@@ -756,7 +758,7 @@ export default {
         this.departamentoList = response.data.data
         this.postEmpleado.departamentoId = this.departamentoList[0].id
       })
-    }, 
+    },
     saveRegistroPersonal() {
       this.$emit('post-personal', {
         ...this.postEmpleado
