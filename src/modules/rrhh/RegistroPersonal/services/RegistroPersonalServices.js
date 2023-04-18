@@ -46,9 +46,23 @@ class RegistroPersonal {
     return http.get(`Departamento/Programa/${id}`)
   }
 
-  getSectores() {
-    return http.get(`sectores?ayuntamiento=${getAyuntamientoId()}`)
+  //sectores
+  getAllSector() {
+    return http.get('sectores')
   }
+
+  getSectorById(id) {
+    return http.get(`sectores/${id}`)
+  }
+
+  addSector(data) {
+    return http.post('sectores', data)
+  }
+
+  updateSector(id, data) {
+    return http.put(`sectores/${id}`, data)
+  }
+
 
   getAreaTrabajo() {
     return http.get('areas-trabajo')
