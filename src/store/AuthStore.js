@@ -15,7 +15,7 @@ export const useAuthStore = defineStore('Auth', () => {
 
   async function signIn(user) {
     return Api.Login(user).then((response) => {
-      authInfo.value = { sessionTimeLimit: 300, ...response.data.data }
+      authInfo.value = { sessionTimeLimit: 3000, ...response.data.data }
       setLoggedInfo(authInfo.value);
       return Promise.resolve(true)
     })
