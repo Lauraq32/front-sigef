@@ -17,6 +17,10 @@ class FormulacionApi {
     return http.get('/CtgOrganismoFinanciador')
   }
 
+  getListarInsOtorgante() {
+    return http.get('/instituciones-otorgantes')
+  }
+
   getEstProgramatica() {
     return http.get('CtgMestProg')
   }
@@ -58,7 +62,7 @@ class FormulacionApi {
 
   getDetalle(id) {
     return http.get(
-      `PresGasto/Detalle/${id}?anio=${ getFiscalYearId() }&ayuntamientoId=${ getAyuntamientoId() }`,
+      `PresGasto/Detalle/${id}?anio=${getFiscalYearId()}&ayuntamientoId=${getAyuntamientoId()}`,
     )
   }
 
@@ -104,19 +108,15 @@ class FormulacionApi {
     return http.get('/Financiero/ListarCatalogoFunciones')
   }
 
-
   getListarGastos() {
     return http.get(
-      `PresGasto?anio=${
-        getFiscalYearId()
-      }&ayuntamientoId=${
-        getAyuntamientoId()
-      }`,
+      `PresGasto?anio=${getFiscalYearId()}&ayuntamientoId=${getAyuntamientoId()}`,
     )
   }
 
   getListarGastosById(id) {
-    return http.get(`PresGasto/${id}?anio=${ getFiscalYearId() }&ayuntamientoId=${ getAyuntamientoId() }`,
+    return http.get(
+      `PresGasto/${id}?anio=${getFiscalYearId()}&ayuntamientoId=${getAyuntamientoId()}`,
     )
   }
 
@@ -137,14 +137,9 @@ class FormulacionApi {
   }
 
   cargarEstructuras() {
-    return http
-      .post(
-        `PresGasto/InsertPresGasto?anio=${
-          getFiscalYearId()
-        }&ayuntamientoId=${
-          getAyuntamientoId()
-        }`,
-      )
+    return http.post(
+      `PresGasto/InsertPresGasto?anio=${getFiscalYearId()}&ayuntamientoId=${getAyuntamientoId()}`,
+    )
   }
 
   postDetalleGasto(post) {

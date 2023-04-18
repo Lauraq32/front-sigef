@@ -35,29 +35,26 @@
                             aria-describedby="inputGroupPrepend" required />
                     </CInputGroup>
                 </CCol>
-                <CCol :md="3">
+                <CCol :md="4">
                     <CFormLabel for="validationCustom03">Fuente Financiamiento</CFormLabel>
                     <CFormInput id="validationCustom03" required :disabled="enabledFields.ctgFuenteId"
                         v-model="formulacionIngreso.ctgFuenteId" type="number" pattern="[0-9]+" />
                 </CCol>
-                <CCol :md="3">
+                <CCol :md="4">
                     <CFormLabel for="validationCustom04">Fuente Espec&iacute;fica</CFormLabel>
                     <CFormInput id="validationCustom04" required :disabled="enabledFields.ctgFuenteEspecificaId"
                         v-model="formulacionIngreso.ctgFuenteEspecificaId" type="number" pattern="[0-9]+" />
                 </CCol>
-                <CCol :md="3">
+                <CCol :md="4">
                     <CFormLabel for="validationCustom05">Organismo Financiador</CFormLabel>
 
                     <CFormInput id="validationCustom05" required :disabled="enabledFields.ctgOrganismoFinanciadorId"
                         v-model="formulacionIngreso.ctgOrganismoFinanciadorId" type="number" pattern="[0-9]+" />
                 </CCol>
-                <CCol :md="3">
+                <CCol :md="12">
                     <CFormLabel>Instituci&oacute;n Otorgante</CFormLabel>
-                    <CFormSelect v-model="formulacionIngreso.instOtorga" id="validationCustom05">
-                        <option v-for="iOtorgante in this.sector" :key="iOtorgante.id" :value="iOtorgante.id">
-                            {{ iOtorgante.nombre }}
-                        </option>
-                    </CFormSelect>
+                    <v-select v-model="selectedInstitucionOtorgante" :options="instuticionOtorgante"></v-select>
+
                 </CCol>
                 <hr />
                 <CCol :md="4">
@@ -109,9 +106,11 @@
 </template>
 <script setup>
 import { CModal } from '@coreui/vue'
-import { reactive, ref } from 'vue';
+import { reactive, ref, watchEffect } from 'vue';
 import ClasificadorSelectorDialog from '../components/ClasificadorSelectorDialog.vue';
 import { getFiscalYearId } from '@/utils/logged-info';
+import vSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css';
 
 const emit = defineEmits(['close'])
 const props = defineProps({
@@ -121,10 +120,18 @@ const props = defineProps({
         default: {},
     },
     isVisible: Boolean,
+
+    instuticionOtorgante: {
+        require: true,
+        type: Array,
+        default: [],
+    }
 });
+
 const anioFiscal = ref(getFiscalYearId());
 const formIsValidated = ref(null);
 const formulacionForm = ref(null);
+const selectedInstitucionOtorgante = ref({});
 const showFindClasificadorModal = ref(false);
 const clasificatorField = ref(null);
 const enabledFields = reactive({
@@ -157,6 +164,7 @@ const submitForm = () => {
             ctgFuenteEspecificaId: props.formulacionIngreso.ctgFuenteEspecificaId,
             ctgFuenteId: props.formulacionIngreso.ctgFuenteId,
             ctgOrganismoFinanciadorId: props.formulacionIngreso.ctgOrganismoFinanciadorId,
+            instOtorga: selectedInstitucionOtorgante.value.code
         });
     }
 
@@ -222,7 +230,15 @@ const validateInputctgOrganismoFinanciadorId = (clasificatorSelected) => {
     ) {
         enabledFields.ctgOrganismoFinanciadorId = true
     }
-}  
+}
+
+watchEffect(() => {
+    if (props.formulacionIngreso.instOtorga) {
+        selectedInstitucionOtorgante.value = props.instuticionOtorgante.find(io => io.code === props.formulacionIngreso.instOtorga) ?? {};
+
+    }
+});
+
 </script>
 <style scoped>
 .padding-input {

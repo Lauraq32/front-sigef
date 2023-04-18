@@ -1,52 +1,34 @@
 <template>
   <h3 class="text-center mb-4">Formulaci&oacute;n Ingreso</h3>
 
-  <AppAccionHeader
-    :actions="[
-      {
-        label: 'Imprimir',
-        accionHandler: this.IngresoReport.bind(this),
-        icon: 'cilPrint'
-      },
-      {
-        label: 'Descargar',
-        accionHandler: this.downloadFile.bind(this),
-        icon: 'cilCloudDownload'
-      },
-      {
-        label: 'Importar Ingresos',
-        accionHandler: this.onFileChange.bind(this),
-        type: 'upload'
-      }
-    ]"
-  >
+  <AppAccionHeader :actions="[
+    {
+      label: 'Imprimir',
+      accionHandler: this.IngresoReport.bind(this),
+      icon: 'cilPrint'
+    },
+    {
+      label: 'Descargar',
+      accionHandler: this.downloadFile.bind(this),
+      icon: 'cilCloudDownload'
+    },
+    {
+      label: 'Importar Ingresos',
+      accionHandler: this.onFileChange.bind(this),
+      type: 'upload'
+    }
+  ]">
     <CButton color="info" @click="openModal">Agregar</CButton>
     <CButton color="secondary" @click="goToGasto">Ir a Formulaci&oacute;n Gasto</CButton>
   </AppAccionHeader>
 
-  <CSmartTable
-    class="sticky-top"
-    clickableRows
-    :tableProps="{
-      striped: true,
-      hover: true,
-    }"
-    :tableHeadProps="{}" 
-    :activePage="1" 
-    :footer="footerItem" 
-    header 
-    key="ingreso.id" 
-    :items="ingresos"
-    :columns="columns" 
-    itemsPerPageSelect 
-    columnFilter 
-    :itemsPerPage="10"
-    :items-per-page-label="'Artículos por página:'"
-    :items-per-page-options="[10, 20, 50, 100, 150]" 
-    columnSorter 
-    :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination
-  >
+  <CSmartTable class="sticky-top" clickableRows :tableProps="{
+    striped: true,
+    hover: true,
+  }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header key="ingreso.id" :items="ingresos"
+    :columns="columns" itemsPerPageSelect columnFilter :itemsPerPage="10" :items-per-page-label="'Artículos por página:'"
+    :items-per-page-options="[10, 20, 50, 100, 150]" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination>
     <template #ctgFuenteEspecificaId="{ item }">
       <td class="text-center">
         {{ item.ctgFuenteEspecificaId }}
@@ -101,12 +83,8 @@
     </template>
   </CSmartTable>
 
-  <FormulacionIngresoDialog
-    :isVisible="showPartidaPresupuestodeIngresoDialog"
-    :formulacionIngreso="postIngreso"
-    @close="onCloseFormulacionDialog"
-  />
-
+  <FormulacionIngresoDialog :isVisible="showPartidaPresupuestodeIngresoDialog"
+    :instuticionOtorgante="institucionOtorgante" :formulacionIngreso="postIngreso" @close="onCloseFormulacionDialog" />
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
@@ -127,10 +105,11 @@ export default {
     CIcon,
     FormulacionIngresoDialog,
     AppAccionHeader
-},
+  },
   data: function () {
     return {
       ingresos: [],
+      institucionOtorgante: [],
       postIngreso: {
         anioFiscalId: this.$fiscalYearId,
         ayuntamientoId: this.$ayuntamientoId,
@@ -154,7 +133,7 @@ export default {
         {
           label: 'Total presupuesto',
           _props: {
-            
+
             colspan: 6,
             style: 'font-weight:bold',
           },
@@ -162,7 +141,7 @@ export default {
         {
           label: '0.00',
           _props: {
-            
+
             colspan: 1,
             style: 'font-weight:bold; text-align:right',
           },
@@ -170,7 +149,7 @@ export default {
         {
           label: '0.00',
           _props: {
-            
+
             colspan: 1,
             style: 'font-weight:bold; text-align:right',
           },
@@ -178,7 +157,7 @@ export default {
         {
           label: '0.00',
           _props: {
-            
+
             colspan: 1,
             style: 'font-weight:bold; text-align:right',
           },
@@ -249,24 +228,36 @@ export default {
   },
   methods: {
     ...mapActions(useToastStore, ['show']),
+
+    getInstitucionOtorgante() {
+      Api.getListarInsOtorgante().then(({data: { data }}) => {
+        this.institucionOtorgante = data.map(elem => ({
+            code: elem.code,
+            label: elem.detail
+          })
+        );
+
+      })
+    },
+
     downloadFile() {
       Api.downloadIngreso(this.$ayuntamientoId, this.$fiscalYearId)
-      .then((response) => {
-        const fileURL = window.URL.createObjectURL(new Blob([response.data]));
-        const fURL = document.createElement('a');
-        const id =  `${this.$loggedInfo.user.ayuntamiento.codigo}-${new Date().toISOString()}`;
+        .then((response) => {
+          const fileURL = window.URL.createObjectURL(new Blob([response.data]));
+          const fURL = document.createElement('a');
+          const id = `${this.$loggedInfo.user.ayuntamiento.codigo}-${new Date().toISOString()}`;
 
-        fURL.href = fileURL;
-        fURL.id = id;
-        fURL.setAttribute(
-          'download',
-          `FI-${id}.csv`,
-        );
-        document.body.appendChild(fURL);
+          fURL.href = fileURL;
+          fURL.id = id;
+          fURL.setAttribute(
+            'download',
+            `FI-${id}.csv`,
+          );
+          document.body.appendChild(fURL);
 
-        fURL.click();
-      })
-      .catch(this.handlerHttpError.bind(this))
+          fURL.click();
+        })
+        .catch(this.handlerHttpError.bind(this))
     },
 
     openModal() {
@@ -289,7 +280,7 @@ export default {
           const presIngrsoMasivo = [];
           data.map((item) => {
             presIngrsoMasivo.push({
-              anioFiscalId:  this.authInfo.currentFiscalYearId,
+              anioFiscalId: this.authInfo.currentFiscalYearId,
               ayuntamientoId: this.authInfo.user.ayuntamiento.id,
               ctgClasificadorId: `${Object.values(item)[2]}${Object.values(item)[3]
                 }${Object.values(item)[4]}${Object.values(item)[5]
@@ -322,7 +313,7 @@ export default {
             });
             this.loadData();
           })
-          .catch(this.handlerHttpError.bind(this));
+            .catch(this.handlerHttpError.bind(this));
         }
 
         reader.readAsBinaryString(this.file)
@@ -394,7 +385,7 @@ export default {
               content: 'Registro añadido correctamente',
               closable: true,
             });
-            
+
             this.loadData();
             setTimeout(() => this.cleanModalData(), 500);
 
@@ -430,25 +421,25 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           Api.deleteIngreso(item.id)
-          .then(() => {
-            this.show({
-              content: 'Eliminado correctamente',
-              closable: true,
+            .then(() => {
+              this.show({
+                content: 'Eliminado correctamente',
+                closable: true,
+              })
+
+              this.loadData();
             })
-            
-            this.loadData();
-          })
-          .catch(this.handlerHttpError.bind(this));
+            .catch(this.handlerHttpError.bind(this));
         }
       })
     },
     loadData(time = 500) {
       setTimeout(() => {
         Api.getAllFormulacionIngreso(this.authInfo.currentFiscalYearId, this.authInfo.user.ayuntamiento.id)
-        .then((response) => {
-          this.ingresos = response.data.data;
-          return this.getTotales()
-        });
+          .then((response) => {
+            this.ingresos = response.data.data;
+            return this.getTotales()
+          });
       }, time);
     },
     handlerHttpError(error) {
@@ -465,13 +456,15 @@ export default {
     ...mapState(useAuthStore, ['authInfo']),
   },
 
+
+
   mounted() {
     this.loadData(0)
+    this.getInstitucionOtorgante()
   },
 }
 </script>
 <style scoped>
-
 .file-select>.select-button {
   padding: 0.5rem;
   line-height: 1.5;
