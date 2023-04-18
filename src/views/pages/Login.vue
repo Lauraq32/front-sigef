@@ -66,6 +66,11 @@
         </CCol>
       </CRow>
       <LoadingIndicator :isVisible="isLoading"/>
+      <AppFiscalYearSelectorDialog
+        :isVisible="Boolean(fiscalYearSelectableList.length)"
+        :fiscalYearList="fiscalYearSelectableList"
+        @select="setFiscalYearToBeUse"
+      />
     </CContainer>
   </div>
 </template>
@@ -74,11 +79,13 @@
 import { useAuthStore } from '@/store/AuthStore';
 import { mapStores } from 'pinia';
 import LoadingIndicator from '../../components/AppLoadingIndicator.vue';
+import AppFiscalYearSelectorDialog from '../../components/AppFiscalYearSelectorDialog.vue';
 
 export default {
   name: 'Login',
   components: {
-    LoadingIndicator
+    LoadingIndicator,
+    AppFiscalYearSelectorDialog
   },
   data: () => {
     return {
@@ -88,6 +95,8 @@ export default {
       },
       msg: '',
       isLoading: false,
+      fiscalYearSelectableList: [],
+      loginInfo: {}
     }
   },
   computed: {
@@ -101,18 +110,40 @@ export default {
       if (form.checkValidity() === false) {
         event.preventDefault();
         event.stopPropagation();
-        this.msg = 'Usuario/contrase&ntilde;a inv&aacute;lidos';
+        this.msg = 'Usuario y contrase&ntilde;a inv&aacute;lidos';
         this.isLoading = false;
       }
 
       this.AuthStore.signIn(this.userForm)
-        .then(() => {
-          this.$router.push({ name: 'financiero' })
-        })
+        .then(this.filterFiscalYears)
         .catch(error => {
           this.isLoading = false;
           this.msg = error.response.data.message ?? error.response.data.data;
         });
+    },
+    goHome() {
+      this.AuthStore.setLoginInfo(this.loginInfo);
+      this.$router.push({ name: 'financiero' })
+    },
+    filterFiscalYears(data) {
+      this.loginInfo = data;
+      const fiscalYearListNoClosed = data.fiscalListYears.filter(fy => fy.estatus?.toLowerCase() !== 'cerrado');
+      const fiscalYearListCurrent = fiscalYearListNoClosed.filter(fy => fy.estatus?.toLowerCase() !== 'actual');
+
+      if (fiscalYearListNoClosed.length === 1) {
+        return this.setFiscalYearToBeUse(fiscalYearListNoClosed[0]);
+      }
+
+      if (fiscalYearListCurrent.length === 1 && data.currentFiscalYearId === fiscalYearListCurrent?.[0].id) {
+        return this.setFiscalYearToBeUse(fiscalYearListCurrent[0]);
+      }
+
+      this.isLoading = false;
+      this.fiscalYearSelectableList = fiscalYearListNoClosed.sort((fy1, fy2) => fy2.anio - fy1.anio);
+    },
+    setFiscalYearToBeUse(fiscalYear) {
+      this.loginInfo.currentFiscalYearId = fiscalYear.id;
+      this.goHome();
     }
   },
 }

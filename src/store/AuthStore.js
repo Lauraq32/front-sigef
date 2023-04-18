@@ -14,16 +14,18 @@ export const useAuthStore = defineStore('Auth', () => {
   })()
 
   async function signIn(user) {
-    return Api.Login(user).then((response) => {
-      authInfo.value = response.data.data
-      setLoggedInfo(authInfo.value);
-      return Promise.resolve(true)
-    })
+    return Api.Login(user)
+    .then(response => response.data.data);
+  }
+
+  function setLoginInfo(loginInfo) {
+    authInfo.value = loginInfo;
+    setLoggedInfo(authInfo.value);
   }
 
   function changeFiscalYear(fiscalYear) {
     authInfo.value.currentFiscalYearId = fiscalYear
-    setLoggedInfo(authInfo);
+    setLoggedInfo(authInfo.value);
   }
 
   async function signOut() {
@@ -32,5 +34,5 @@ export const useAuthStore = defineStore('Auth', () => {
     return Promise.resolve(true);
   }
 
-  return { user, signIn, authInfo, changeFiscalYear, signOut }
+  return { user, signIn, authInfo, changeFiscalYear, signOut, setLoginInfo }
 })
