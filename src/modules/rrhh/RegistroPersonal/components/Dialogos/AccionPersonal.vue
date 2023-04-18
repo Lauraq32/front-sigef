@@ -198,7 +198,7 @@ export default {
       toasts: [],
       postAccionPersonal: {
         fechaDesde: null,
-        tipoAccionId: 4,
+        tipoAccionId: null,
         empleadoId: this.empleado.id,
         cantidad: null,
         fechaHasta: null,
@@ -307,6 +307,7 @@ export default {
     getTipoAcciones() {
       Api.getAllTipoAcciones().then((response) => {
         this.tipoAcciones = response.data.data
+        this.postAccionPersonal.tipoAccionId = this.tipoAcciones[0].id
       })
     },
 
