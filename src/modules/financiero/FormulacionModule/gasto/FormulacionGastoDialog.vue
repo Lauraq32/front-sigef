@@ -113,27 +113,27 @@
                         </td>
                     </template>
 
-                    <template #oriBco1="{ item }">
+                    <template #presupuestoBco1="{ item }">
                         <td class="text-end">
-                            {{ formatPrice(item.oriBco1) }}
+                            {{ formatPrice(item.presupuestoBco1) }}
                         </td>
                     </template>
 
-                    <template #oriBco2="{ item }">
+                    <template #presupuestoBco2="{ item }">
                         <td class="text-end">
-                            {{ formatPrice(item.oriBco2) }}
+                            {{ formatPrice(item.presupuestoBco2) }}
                         </td>
                     </template>
 
-                    <template #oriBco3="{ item }">
+                    <template #presupuestoBco3="{ item }">
                         <td class="text-end">
-                            {{ formatPrice(item.oriBco3) }}
+                            {{ formatPrice(item.presupuestoBco3) }}
                         </td>
                     </template>
 
-                    <template #oriBco4="{ item }">
+                    <template #presupuestoBco4="{ item }">
                         <td class="text-end">
-                            {{ formatPrice(item.oriBco4) }}
+                            {{ formatPrice(item.presupuestoBco4) }}
                         </td>
                     </template>
 
@@ -199,28 +199,28 @@ const newDetailData = {
     TIPO_GASTO3: '21',
     TIPO_GASTO4: '13',
     tipoGasto: '',
-    oriBco1: 0,
+    presupuestoBco1: 0,
     estimadoBco1: 0,
     presupuestoBco1: 0,
     variacionBco1: 0,
     totalDevengadoBco1: 0,
     disponiblePagadoBco1: 0,
     totalPagadoBco1: 0,
-    oriBco2: 0,
+    presupuestoBco2: 0,
     estimadoBco2: 0,
     presupuestoBco2: 0,
     variacionBco2: 0,
     totalDevengadoBco2: 0,
     disponiblePagadoBco2: 0,
     totalPagadoBco2: 0,
-    oriBco3: 0,
+    presupuestoBco3: 0,
     estimadoBco3: 0,
     presupuestoBco3: 0,
     variacionBco3: 0,
     totalDevengadoBco3: 0,
     disponiblePagadoBco3: 0,
     totalPagadoBco3: 0,
-    oriBco4: 0,
+    presupuestoBco4: 0,
     estimadoBco4: 0,
     presupuestoBco4: 0,
     variacionBco4: 0,
@@ -269,14 +269,14 @@ const columns = [
         _style: { width: '12%' },
     },
     {
-        key: 'oriBco1',
+        key: 'presupuestoBco1',
         label: 'Gastos Personal',
         _style: { width: '12%' },
     },
-    { key: 'oriBco2', label: 'Servicios', _style: { width: '12%' } },
-    { key: 'oriBco3', label: 'Inversion', _style: { width: '12%' } },
+    { key: 'presupuestoBco2', label: 'Servicios', _style: { width: '12%' } },
+    { key: 'presupuestoBco3', label: 'Inversion', _style: { width: '12%' } },
     {
-        key: 'oriBco4',
+        key: 'presupuestoBco4',
         label: 'Educ/Genero/Salud',
         _style: { width: '12%' },
     },
@@ -430,10 +430,10 @@ const guardarFormulacionGasto = () => {
 
 function calculateTotals(detalles) {
     const totalAmountPresupuesto    = detalles.reduce((acc, detail) => acc + (detail.totalOriginal ?? 0), 0);
-    const totalAmountGPersonal      = detalles.reduce((acc, detail) => acc + detail.oriBco1, 0);
-    const totalAmountServicio       = detalles.reduce((acc, detail) => acc + detail.oriBco2, 0);
-    const totalAmountInversion      = detalles.reduce((acc, detail) => acc + detail.oriBco3, 0);
-    const totalAmountEdiGenero      = detalles.reduce((acc, detail) => acc + detail.oriBco4, 0);
+    const totalAmountGPersonal      = detalles.reduce((acc, detail) => acc + detail.presupuestoBco1, 0);
+    const totalAmountServicio       = detalles.reduce((acc, detail) => acc + detail.presupuestoBco2, 0);
+    const totalAmountInversion      = detalles.reduce((acc, detail) => acc + detail.presupuestoBco3, 0);
+    const totalAmountEdiGenero      = detalles.reduce((acc, detail) => acc + detail.presupuestoBco4, 0);
 
     footerItems.value[0].label = `Total Items ${detalles.length}`;
     footerItems.value[1].label = formatPrice(totalAmountPresupuesto);

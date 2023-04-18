@@ -5,7 +5,7 @@
                 Partida del presupuesto de ingresos
             </CModalTitle>
             <div class="font-weight-bold">
-                A&ntilde;o No. <strong>{{ anioFiscal }}</strong>
+                A&ntilde;o <strong>{{ anioFiscal }}</strong>
             </div>
         </CModalHeader>
 
@@ -74,6 +74,7 @@
                 <CCol :md="4">
                     <CFormLabel>A&ntilde;o Anterior</CFormLabel>
                     <VueNumberFormat v-model:value="formulacionIngreso.anioAnt" type="text" class="form-control text-end"
+                        :enabled="allowEdit"
                         :options="{
                             precision: 2,
                             prefix: '',
@@ -85,6 +86,7 @@
                 <CCol :md="4">
                     <CFormLabel>A la Fecha</CFormLabel>
                     <VueNumberFormat v-model:value="formulacionIngreso.alaFecha" type="text" class="form-control text-end"
+                        :enabled="allowEdit"
                         :options="{
                             precision: 2,
                             prefix: '',
@@ -95,7 +97,9 @@
                 <CCol :md="4">
                     <CFormLabel>Presupuesto Formulado</CFormLabel>
                     <VueNumberFormat v-model:value="formulacionIngreso.presForm" type="text" step="any"
-                        class="form-control text-end" :options="{
+                        class="form-control text-end"
+                        :enabled="allowEdit"
+                        :options="{
                             precision: 2,
                             prefix: '',
                             decimal: '.',
@@ -122,7 +126,8 @@
 import { CModal } from '@coreui/vue'
 import { reactive, ref } from 'vue';
 import ClasificadorSelectorDialog from '../components/ClasificadorSelectorDialog.vue';
-import { getFiscalYearId } from '@/utils/logged-info';
+import { fiscalYearInfo } from '@/utils/logged-info';
+import { useLoginInfo } from '@/utils/login-info-plugin';
 
 const emit = defineEmits(['close'])
 const props = defineProps({
@@ -133,7 +138,9 @@ const props = defineProps({
     },
     isVisible: Boolean,
 });
-const anioFiscal = ref(getFiscalYearId());
+const loginInfo = useLoginInfo();
+const fiscalYearData = fiscalYearInfo();
+const anioFiscal = ref(fiscalYearData.anio);
 const formIsValidated = ref(null);
 const formulacionForm = ref(null);
 const showFindClasificadorModal = ref(false);
@@ -143,6 +150,7 @@ const enabledFields = reactive({
     ctgFuenteEspecificaId: false,
     ctgOrganismoFinanciadorId: false
 });
+const allowEdit = computed(() => loginInfo.isFiscalYearCloseOrApproved || props.formulacionIngreso.ingresos !== 0 || props.formulacionIngreso.variacion !== 0);
 
 
 const closeDialog = (data) => {
