@@ -7,7 +7,9 @@ export const usePrepGastoStore = defineStore('prepGasto', () => {
   const GastosListDos = ref([])
   let gastoListCount = ref(0)
   let getGasto = ref(null)
-  const is_loading = true
+  const is_loading = true;
+
+  const totalBugetAmount = computed(() => prepGastoList.value.reduce((acc, item) => acc + Number(item.totalPresupuesto), 0));
 
   function getListarGastos() {
     Api.getListarGastos().then((response) => {
@@ -72,6 +74,7 @@ export const usePrepGastoStore = defineStore('prepGasto', () => {
     updatePresGasto,
     updatePresGastoDetalle,
     getDetalleGasto,
-    gastoListCount
+    gastoListCount,
+    totalBugetAmount
   }
 })

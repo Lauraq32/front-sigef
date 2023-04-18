@@ -14,10 +14,11 @@ import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
 import VueNumberFormat from 'vue-number-format'
 import { createPinia } from 'pinia';
 import { loggedInfo } from "./utils/login-info-plugin";
+import Vidle from 'v-idle-3'
+
 
 const pinia = createPinia()
 const app = createApp(App)
-
 app.use(store)
 app.use(router)
 app.use(CoreuiVue)
@@ -30,5 +31,6 @@ app.component('DocsExample', DocsExample)
 app.use(VueSweetalert2)
 app.use(SimpleTypeahead)
 app.use(VueNumberFormat)
+app.use(Vidle)
 
 app.mount('#app')

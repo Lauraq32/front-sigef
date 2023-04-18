@@ -17,17 +17,17 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use((config) => {
   config.headers['Authorization'] = `ApiKey ${getLoggedInfo()?.token}`;
   config.headers['X-Fiscal-Year-Id'] =  getFiscalYearId();
-  config.timeout = 15_000;
   return config;
 });
 
 axiosInstance.interceptors.response.use(
   (response) => response,
-  ({response}) => {
-    if (response.status === 401) {
+  (error) => {
+    if (error?.response?.status === 401) {
       router.push({ name: "Login", replace: true})
       .catch(console.error);
     }
+    return Promise.reject(error);
   }
 );
 

@@ -15,8 +15,23 @@ class RegistroPersonal {
     return http.get(`sectores/${id}`)
   }
 
+  getProfesion() {
+    return http.get('profesiones')
+  }
+
+  addProfesion(data) {
+    return http.post('profesiones',data)
+  }
+  updateProfesion(id, data) {
+    return http.put(`profesiones/${id}`, data)
+  }
+
+  getProfesionById(id) {
+    return http.get(`profesiones/${id}`)
+  }
+
   getAllEmpleado() {
-    return http.get(`Empleado?ayuntamientoId=${getAyuntamientoId()}`)
+    return http.get(`empleados`)
   }
 
   getProgramaDivision() {
