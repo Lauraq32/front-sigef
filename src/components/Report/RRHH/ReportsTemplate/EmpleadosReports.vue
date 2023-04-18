@@ -15,20 +15,31 @@
     </div>
 
     <div class="row">
-      <div class="col-md-6 mt-5">
-        <div class="row w-100 p-3 border border-dark">
-          <div class="col-6 fw-bold">
-            <div v-for="(datosGenerales, index) in datosGenerales" :key="index">
-
-              <label for="idCampos"> {{ datosGenerales.label }}: </label>
-            </div>
-          </div>
-          <div class="col-6">
-            <p id="idCampos" v-for="(data, index) in datosGenerales" :key="index" v-html="lookInfo(data.key)">
-            </p>
-          </div>
+      <div class="row col-6">
+        <div class="col-6" v-for="(datosGenerales, index) in datosGenerales" :key="index">
+          <label for="idCampos"> {{ datosGenerales.label }}: </label>
+        </div>
+        <div class="col-6">
+          <p id="idCampos" v-for="(data, index) in datosGenerales" :key="index" v-html="lookInfo(data.key)">
+          </p>
         </div>
       </div>
+
+      <!-- <div class="col-md-6 mt-5">
+        <div class="row w-100 p-3 border border-dark">
+          <div>
+            <div class="row">
+              <div class="col-6" v-for="(datosGenerales, index) in datosGenerales" :key="index">
+                <label for="idCampos"> {{ datosGenerales.label }}: </label>
+              </div>
+              <div class="col-6">
+                <p id="idCampos" v-for="(data, index) in datosGenerales" :key="index" v-html="lookInfo(data.key)">
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
       <div class="col-6 mt-5 ">
         <div class="row w-100 h-100 p-3 border border-dark">
           <div class="col-6 fw-bold">
@@ -38,7 +49,6 @@
           </div>
           <div class="col-6">
             <p id="idCampos" v-for="(data, index) in datosLaborales" :key="index" v-html="lookInfo(data.key)">
-
             </p>
           </div>
         </div>
@@ -79,9 +89,11 @@
 
 import Api from '@/modules/rrhh/RegistroPersonal/services/RegistroPersonalServices';
 import { useRoute } from 'vue-router';
+import { formatDate } from '@/utils/format'
 
 export default {
   name: 'EmpleadoReport',
+
   setup() {
     const route = useRoute();
 
@@ -91,9 +103,10 @@ export default {
   },
   data() {
     return {
+      formatDate,
       datosLaborales: [
         {
-          label: 'F.Ingreso',
+          label: 'Fecha Ingreso',
           key: 'fechaIngreso'
         },
 
@@ -250,6 +263,8 @@ export default {
     getEmpleadoById(id) {
       Api.getEmpleadoByID(id).then((response) => {
         this.empleadosObjects = response.data.data
+        this.empleadosObjects.fechaIngreso = this.formatDate(this.empleadosObjects.fechaIngreso)
+        this.empleadosObjects.fechaNacimiento = this.formatDate(this.empleadosObjects.fechaNacimiento)
       })
     },
     lookInfo(param) {
