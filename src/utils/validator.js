@@ -14,9 +14,6 @@ export function onlyNumber(event) {
 
 export function onlyDecimal(event) {
     const value = !event.target.value ? event.key : `${event.target.value}${event.key}`;
-    console.log(!event.target.value ? event.key : `${event.target.value}${event.key}`);
-    console.log(event.target.value, event.key, /^[0-9]+\.?\d*?$/.test(value), value, `${event.target.value}${event.key}`);
-    console.log(!(/^[0-9]+\.?\d*?$/.test(value)) || (event.key === '.' && event.target.value.indexOf('.') > -1))
     if(!(/^[0-9]+\.?\d*?$/.test(value)) || (event.key === '.' && event.target.value.indexOf('.') > -1)) {
         event.preventDefault();
         return false;

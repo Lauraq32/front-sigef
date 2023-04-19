@@ -7,7 +7,7 @@
                     aria-label="Selecionar año fiscal" :options="fiscalYearList">
                 </CFormSelect>
                 <div class="form-label col-auto col-form-label">
-                    <span class="text-muted small d-block" v-for="text of selectedFiscalYearInfo">{{ text }}</span>
+                    <CBadge class="d-block mt-1" :color="determineColor(text)" v-for="text of selectedFiscalYearInfo">{{ text }}</CBadge>
                 </div>
             </div>
             <div class="d-flex gap-3 align-items-center">
@@ -72,7 +72,7 @@ export default {
         fiscalYearList() {
             return this.authInfo.fiscalListYears.map((yearFiscal) => {
                 return {
-                    label: yearFiscal.anio,
+                    label: `(${yearFiscal.id}) - ${yearFiscal.anio}`,
                     value: yearFiscal.id,
                     info: yearFiscal,
                 }
@@ -82,7 +82,7 @@ export default {
         selectedFiscalYearInfo() {
             const fy = this.fiscalYearList.find(fy => fy.value === Number(this.selectedFiscalYear));
             if (fy) {
-                return [fy.info.estatus, fy.info.esAprobado ? 'Aprobado' : ''];
+                return [fy.info.estatus, fy.info.esAprobado ? 'Aprobado' : null].filter(Boolean);
             }
 
             return [];
@@ -97,6 +97,16 @@ export default {
         },
         catchFileSelection(event, callback) {
             callback(event);
+        },
+        determineColor(badgeText) {
+            if (/cerrado|aprobado/i.test(badgeText)) {
+                return 'danger';
+            }
+            if (/actual/i.test(badgeText)) {
+                return 'success';
+            }
+
+            return 'dark';
         }
     },
     mounted() {

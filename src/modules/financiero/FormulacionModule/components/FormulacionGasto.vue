@@ -4,7 +4,7 @@
   <AppAccionHeader
     :actions="pageActions"
   >
-    <CButton color="info" @click="setNuevoFormulacionGasto">{{ isFiscalYearApprovedOrClose ? 'Habilitar' : 'Agregar' }}</CButton>
+    <CButton color="info" @click="setNuevoFormulacionGasto">Agregar</CButton>
     <CButton color="secondary" @click="goToIngreso">Ir a Formulaci&oacute;n Ingreso</CButton>
   </AppAccionHeader>
 

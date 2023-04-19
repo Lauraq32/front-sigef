@@ -238,7 +238,7 @@
                     <div class="row">
                       <div class="col-4">
                         <CFormLabel for="presupuestoBco4">E/G Salud</CFormLabel>
-                        <CurrencyInput id="presupuestoBco4" v-model="detalle.presupuestoBco3" :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}" />
+                        <CurrencyInput id="presupuestoBco4" v-model="detalle.presupuestoBco4" :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}" />
                         <CFormFeedback invalid>
                           Favor agregar el campo
                         </CFormFeedback>
@@ -368,10 +368,10 @@ export default {
         props.detalle.presupuestoBco4 = Number((props.detalle.presupuestoBco4 || 0).toString().replace(',', ''));
         
         props.detalle.totalOriginal = (
-          Number((props.detalle.presupuestoBco1 || 0).toString().replace(',', '')) +
-          Number((props.detalle.presupuestoBco2 || 0).toString().replace(',', '')) +
-          Number((props.detalle.presupuestoBco3 || 0).toString().replace(',', '')) +
-          Number((props.detalle.presupuestoBco4 || 0).toString().replace(',', ''))
+          props.detalle.presupuestoBco1 +
+          props.detalle.presupuestoBco2 +
+          props.detalle.presupuestoBco3 +
+          props.detalle.presupuestoBco4 
         );
 
         closeDialog({ ...props.detalle });

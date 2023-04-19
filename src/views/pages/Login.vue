@@ -69,6 +69,7 @@
       <AppFiscalYearSelectorDialog
         :isVisible="Boolean(fiscalYearSelectableList.length)"
         :fiscalYearList="fiscalYearSelectableList"
+        :mayority="loginInfo?.user?.ayuntamiento"
         @select="setFiscalYearToBeUse"
       />
     </CContainer>
@@ -130,8 +131,8 @@ export default {
       const fiscalYearListNoClosed = data.fiscalListYears.filter(fy => fy.estatus?.toLowerCase() !== 'cerrado');
       const fiscalYearListCurrent = fiscalYearListNoClosed.filter(fy => fy.estatus?.toLowerCase() !== 'actual');
 
-      if (fiscalYearListNoClosed.length === 1) {
-        return this.setFiscalYearToBeUse(fiscalYearListNoClosed[0]);
+      if (fiscalYearListNoClosed.length === 1 || data.fiscalListYears.length === 1) {
+        return this.setFiscalYearToBeUse(fiscalYearListNoClosed[0] ?? data.fiscalListYears[0]);
       }
 
       if (fiscalYearListCurrent.length === 1 && data.currentFiscalYearId === fiscalYearListCurrent?.[0].id) {
@@ -142,6 +143,11 @@ export default {
       this.fiscalYearSelectableList = fiscalYearListNoClosed.sort((fy1, fy2) => fy2.anio - fy1.anio);
     },
     setFiscalYearToBeUse(fiscalYear) {
+      if (!fiscalYear) {
+        this.fiscalYearSelectableList.length = 0;
+        return;
+      }
+
       this.loginInfo.currentFiscalYearId = fiscalYear.id;
       this.fiscalYearSelectableList.length = 0;
       this.isLoading = true;
