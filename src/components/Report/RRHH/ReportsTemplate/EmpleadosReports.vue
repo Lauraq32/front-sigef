@@ -1,83 +1,59 @@
 <template >
-  <div class="container flex-column">
-    <div class="text-center justify-content-center">
-      <h5>Ayuntamiento Municipal de {{ empleadosObjects.ayuntamientoId }}</h5>
-      <p>Telefono {{ empleadosObjects.telefono }} Fax (000)000-0000</p>
-      <h5>Tarjeta del Empleado</h5>
+  <div>
+    <div class="d-flex mt-3 justify-content-center">
+      <button @click="imprimir">
+        <CIcon icon="cilPrint" size="3xl" />
+      </button>
     </div>
 
-    <div class="d-flex align-self-end">
-      <div class="col-2 me-4" style="width: 140px; height: 140px">
-        <div class="border">
-          <img src="@/assets/images/Francisco.png" alt="Imagen del emplead" class="mr-4" />
-        </div>
+    <div class="container-fluid flex-column">
+      <div class="text-center justify-content-center">
+        <h5>Ayuntamiento Municipal de {{ empleadosObjects.ayuntamientoId }}</h5>
+        <p>Telefono {{ empleadosObjects.telefono }} </p>
+        <h5>Tarjeta del Empleado</h5>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="row col-6">
-        <div class="col-6" v-for="(datosGenerales, index) in datosGenerales" :key="index">
-          <label for="idCampos"> {{ datosGenerales.label }}: </label>
-        </div>
-        <div class="col-6">
-          <p id="idCampos" v-for="(data, index) in datosGenerales" :key="index" v-html="lookInfo(data.key)">
-          </p>
+      <div class="d-flex w-100 justify-content-end">
+        <div class="border" style="width: 150px;">
+          <img src="@/assets/images/Francisco.png" alt="Imagen del emplead" />
         </div>
       </div>
 
-      <!-- <div class="col-md-6 mt-5">
-        <div class="row w-100 p-3 border border-dark">
-          <div>
-            <div class="row">
-              <div class="col-6" v-for="(datosGenerales, index) in datosGenerales" :key="index">
-                <label for="idCampos"> {{ datosGenerales.label }}: </label>
-              </div>
-              <div class="col-6">
-                <p id="idCampos" v-for="(data, index) in datosGenerales" :key="index" v-html="lookInfo(data.key)">
-                </p>
-              </div>
+      <div class="mt-1 gridy">
+        <div class="w-100 h-100 p-3 border border-dark">
+          <div class="row" v-for="(data, index) in datosGenerales" :key="index">
+            <div class="col-6 fw-bold">
+              <label for="datosGenerales"> {{ data.label }}: </label>
             </div>
+            <p class="col-6 text-truncate" id="datosGenerales" v-html="lookInfo(data.key)"></p>
           </div>
         </div>
-      </div> -->
-      <div class="col-6 mt-5 ">
-        <div class="row w-100 h-100 p-3 border border-dark">
-          <div class="col-6 fw-bold">
-            <div v-for="(datosLaborales, index) in datosLaborales" :key="index">
-              <label for="idCampos"> {{ datosLaborales.label }}: </label>
+
+        <div class="w-100 h-100 p-3 border border-dark">
+          <div class="row" v-for="(data, index) in datosLaborales" :key="index">
+            <div class="col-6 fw-bold">
+              <label for="idCampos"> {{ data.label }}: </label>
             </div>
-          </div>
-          <div class="col-6">
-            <p id="idCampos" v-for="(data, index) in datosLaborales" :key="index" v-html="lookInfo(data.key)">
-            </p>
+            <p class="col-6 text-truncate" id="idCampos" v-html="lookInfo(data.key)"></p>
           </div>
         </div>
       </div>
 
-      <div class="col-6 mt-5 ">
-        <div class="row w-100 p-3 border border-dark">
-          <div class="col-6 fw-bold">
-            <div v-for="(datosEmergencia, index) in datosEmergencia" :key="index">
-              <label for="idCampos"> {{ datosEmergencia.label }}: </label>
+      <div class="mt-1 gridy">
+        <div class="w-100 h-100 p-3 border border-dark">
+          <div class="row" v-for="(data, index) in datosEmergencia" :key="index">
+            <div class="col-6 fw-bold">
+              <label for="idCampos"> {{ data.label }}: </label>
             </div>
-          </div>
-          <div class="col-6">
-            <p id="idCampos" v-for="(data, index) in datosEmergencia" :key="index" v-html="lookInfo(data.key)">
-
-            </p>
+            <p class="col-6 text-truncate" id="idCampos" v-html="lookInfo(data.key)"></p>
           </div>
         </div>
-      </div>
-      <div class="col-6 mt-5 ">
-        <div class="row w-100 h-100 p-3 border border-dark">
-          <div class="col-6 fw-bold">
-            <div v-for="(datosPresionAlterial, index) in datosPresionAlterial" :key="index">
-              <label for="idCampos"> {{ datosPresionAlterial.label }}: </label>
+        <div class="w-100 h-100 p-3 border border-dark">
+          <div class="row" v-for="(data, index) in datosPresionAlterial" :key="index">
+            <div class="col-6 fw-bold">
+              <label for="idCampos"> {{ data.label }}: </label>
             </div>
-          </div>
-          <div class="col-6">
-            <p id="idCampos" v-for="(data, index) in datosPresionAlterial" :key="index" v-html="lookInfo(data.key)">
-            </p>
+            <p class="col-6 text-truncate" id="idCampos" v-html="lookInfo(data.key)"></p>
           </div>
         </div>
       </div>
@@ -90,6 +66,8 @@
 import Api from '@/modules/rrhh/RegistroPersonal/services/RegistroPersonalServices';
 import { useRoute } from 'vue-router';
 import { formatDate } from '@/utils/format'
+import { CIcon } from '@coreui/icons-vue'
+import * as icon from '@coreui/icons'
 
 export default {
   name: 'EmpleadoReport',
@@ -260,6 +238,10 @@ export default {
       this.$emit('closeModalReports', false)
     },
 
+    imprimir() {
+      window.print();
+    },
+
     getEmpleadoById(id) {
       Api.getEmpleadoByID(id).then((response) => {
         this.empleadosObjects = response.data.data
@@ -282,6 +264,7 @@ export default {
     }
   },
 
+
   props: {
     empleados: Array,
   },
@@ -289,32 +272,25 @@ export default {
 </script>
 
 <style>
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.row {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.col-md-6 {
-  flex-basis: 50%;
-}
-
-label {
-  margin-right: 10px;
+@media print {
+  button {
+    display: none;
+  }
 }
 
 p {
   margin: 0;
+  padding: 1px;
 }
 
 img {
   max-width: 100%;
   object-fit: contain;
+}
+
+.gridy {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
 }
 </style>
