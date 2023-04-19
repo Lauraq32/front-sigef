@@ -7,6 +7,10 @@ class SolicitudEmpleo {
     return http.get('solicitud-empleos')
   }
 
+  getPosiciones(){
+    return http.get('Posicion')
+  }
+
   getByIdSolicitudEmpleo(id){
     return http.get(`solicitud-empleos/${id}`)
   }
@@ -18,6 +22,8 @@ class SolicitudEmpleo {
   putSolicitudEmpleo(id,data){
     return http.put(`solicitud-empleos/${id}`,data)
   }
+
+
 
 
 }

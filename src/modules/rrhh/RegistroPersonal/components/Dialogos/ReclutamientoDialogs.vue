@@ -81,8 +81,19 @@
                   </CCol>
                   <CCol :md="12">
                     <CFormLabel for="posicionId">Posici&oacute;n solicitada</CFormLabel>
-                    <CFormInput  v-model="solicitudEmpleo.posicionId" id="posicionId" v-on:keypress="isLetter($event)"> </CFormInput>
-
+                   
+                    <CFormSelect
+                    v-model="solicitudEmpleo.posicionId"
+                    id="posicionId"
+                  >
+                    <option
+                      v-for="posicion in posicionesList"
+                      :key="posicion.id"
+                      :value="posicion.id"
+                    >
+                      {{ posicion.nombre }}
+                    </option>
+                  </CFormSelect>
                   </CCol>
                   <CCol :md="12">
                     <CFormLabel for="entrevistado">Entrevistado</CFormLabel>
@@ -190,6 +201,7 @@ export default {
       validatedCustom01: null,
       displayNameProfesion: '',
       showProfessionModal: false,
+      posicionesList:[],
       solicitudEmpleo: {
         cedula: "",
         fecha: (new Date().toISOString()),
@@ -220,6 +232,13 @@ export default {
       let char = String.fromCharCode(e.keyCode); // Get the character
       if (/^[A-Za-z]+$/.test(char)) return true; // Match with regex 
       else e.preventDefault(); // If not match, don't add to input text
+    },
+
+    getPosicion(){
+      Api.getPosiciones().then(response => {
+        this.posicionesList = response.data.data
+        this.solicitudEmpleo.posicionId = this.posicionesList[0].id
+      })
     },
 
     closeProfesionModal() {
@@ -288,6 +307,10 @@ export default {
         this.getSolicitudEmpleoById(newId)
       }
     },
+  },
+
+  mounted(){
+    this.getPosicion()
   },
 
 
