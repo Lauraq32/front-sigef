@@ -441,22 +441,13 @@
                   <CFormLabel for="presión">Nivel de presi&oacute;n</CFormLabel>
                   <CFormSelect id="emergenciaPresionAlta" v-model="postEmpleado.emergenciaPresionAlta">
                     <option>Alta</option>
+                    <option>Normal</option>
                     <option>Baja</option>
                   </CFormSelect>
 
                 </CCol>
 
-                <CCol>
-                  <CFormLabel for="emergenciaParentezco">Parentezco</CFormLabel>
-                  <CFormSelect v-model="postEmpleado.emergenciaParentezco" id="emergenciaParentezco">
-                    <option>Padre</option>
-                    <option>Madre</option>
-                    <option>Hermano/a</option>
-                    <option>Esposo/a</option>
-                    <option>Amigo/a</option>
-                  </CFormSelect>
-
-                </CCol>
+      
                 <CCol>
                   <CFormLabel for="emergenciaParentezco">En tratamiento</CFormLabel>
                   <CFormSelect v-model="postEmpleado.emergenciaEnTratamiento" id="emergenciaEnTratamiento">
