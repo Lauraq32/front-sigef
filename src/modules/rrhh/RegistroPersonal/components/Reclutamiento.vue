@@ -3,227 +3,80 @@
 
   <div class="table-headers">
     <div class="d-inline p-2">
-      <CButton
-        color="info"
-        @click="
-          () => {
-            lgDemo = true
-          }
-        "
-        >Agregar</CButton
-      >
-    </div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-        >Imprimir</CButton
-      >
+      <CButton color="info" @click="
+        () => {
+          showReclutamientoModal= true
+        }
+      ">Agregar</CButton>
     </div>
   </div>
-  <CSmartTable class="sticky-top"
-    clickableRows
-    :tableProps="{
-     striped: true,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    :footer="footerItem"
-    header
-    :items="this.$store.state.RRHHModule.reclutamientoSolicitud"
-    :columns="columns"
-    columnFilter
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination
-  >
-    <template #status="{ item }">
-      <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
-      </td>
-    </template>
+  <CSmartTable class="sticky-top" clickableRows :tableProps="{
+    striped: true,
+    hover: true,
+  }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header :items="solicitudItem" :columns="columns"
+    columnFilter itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination>
     <template #show_details="{ item, index }">
+      <td>
+        <CButton  @click="getReclutamientoById(item)" color="primary" variant="outline">Editar</CButton>
+      </td>
+           
+    </template>
+    <template #entrevistado="{ item, index }">
       <td class="py-2">
-        <CButton
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item, index)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
-        </CButton>
+        {{ item.entrevistado === true ? 'No' : 'Si' }}
       </td>
     </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
+    <template #evaluado="{ item, index }">
+      <td class="py-2">
+        {{ item.evaluado === true ? 'No' : 'Si' }}
+      </td>
     </template>
-  </CSmartTable>
-  <CModal
-    size="lg"
-    :visible="lgDemo"
-    @close="
-      () => {
-        lgDemo = false
-      }
-    "
-  >
-    <CModalHeader>
-      <CModalTitle>Formulario de solicitudes</CModalTitle>
-    </CModalHeader>
-    <CModalBody>
-      <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
-          <CCol :md="2">
-            <CFormLabel for="validationCustom01">Solicitud número</CFormLabel>
-            <CFormInput disabled id="validationCustom01" />
 
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustom02">Fecha Solicitud</CFormLabel>
-            <CFormInput type="date" id="validationCustom02" required />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustomUsername"
-              >Nombre solicitante</CFormLabel
-            >
-            <CInputGroup class="has-validation">
-              <CFormInput
-                id="validationCustomUsername"
-                value=""
-                aria-describedby="inputGroupPrepend"
-                required
-              />
-              <CFormFeedback valid> Exito! </CFormFeedback>
-              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-            </CInputGroup>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom03">Direccion</CFormLabel>
-            <CFormInput id="validationCustom03" required />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom04">Edad</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom05">Profesión</CFormLabel>
-            <CFormInput id="validationCustom05" required />
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom04"
-              >Posición solicitada</CFormLabel
-            >
-            <CFormInput id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom04">Entrevistado</CFormLabel>
-            <CFormSelect id="validationCustom04">
-              <option>Si</option>
-              <option>No</option>
-            </CFormSelect>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom04">Evaluado</CFormLabel>
-            <CFormSelect id="validationCustom04">
-              <option>Si</option>
-              <option>No</option>
-            </CFormSelect>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom04">Descalificado</CFormLabel>
-            <CFormSelect id="validationCustom04">
-              <option>Si</option>
-              <option>No</option>
-            </CFormSelect>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom04">Remitido a</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
-              Guardar
-            </button>
-          </div>
-        </CForm>
-      </CCardBody>
-    </CModalBody>
-  </CModal>
+  </CSmartTable>
+  <ReclutamientoDialog :showModal="showReclutamientoModal" @closeModal="closeModal" @post-reclutamiento="saveSolicitudEmpleo"
+    solicitudEmpleoObject="solicitudItem" :solicitudEmpleoId="reclutamientoId" />
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import ReclutamientoDialog from '../components/Dialogos/ReclutamientoDialogs.vue'
+import Api from '../services/SolicitudEmpleo'
+import { mapActions} from 'pinia'
+import { useToastStore } from '@/store/toast'
+
 export default {
   components: {
     CSmartTable,
     CModal,
+    ReclutamientoDialog,
   },
   data: () => {
     return {
+
       validatedCustom01: null,
-      lgDemo: false,
+      showReclutamientoModal: false,
+      solicitudEmpleoId: null,
       columns: [
         {
-          key: 'Solicitud No.',
+          key: 'id',
           label: 'Solicitud No.',
-          _style: { width: '40%' },
+          _style: { width: '20%' },
         },
         {
-          key: 'Nombre solicitante',
-          label: 'Nombre solicitante',
-          _style: { width: '40%' },
+          key: 'nombre',
+          label: 'Nombre Solicitante',
+          _style: { width: '30%' },
         },
-        { key: 'Teléfono', label: 'Teléfono', _style: { width: '40%' } },
-        { key: 'Edad', label: 'Edad', _style: { width: '40%' } },
+        { key: 'telefono', label: 'Teléfono', _style: { width: '10%' } },
+        { key: 'edad', label: 'Edad', _style: { width: '10%' } },
         {
-          key: 'Entrevistado',
+          key: 'entrevistado',
           label: 'Entrevistado',
-          _style: { width: '40%' },
+          _style: { width: '10%' },
         },
-        { key: 'Evaluado', label: 'Evaluado', _style: { width: '40%' } },
-        { key: 'Califica', label: 'Califica', _style: { width: '40%' } },
+        { key: 'evaluado', label: 'Evaluado', _style: { width: '10%' } },
+
         {
           key: 'show_details',
           label: '',
@@ -233,6 +86,7 @@ export default {
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
+      solicitudItem: [],
       footerItem: [
         {
           label: 'Total Items',
@@ -247,15 +101,54 @@ export default {
       details: [],
     }
   },
-
+  watch: {
+    showReclutamientoModal() {
+      this.getAll()
+    }
+  },
   methods: {
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
+    ...mapActions(useToastStore, ['show']),
+    getAll() {
+      Api.getSolicitudEmpleo().then(response => (
+        this.solicitudItem = response.data.data
+      ))
+    },
+    saveSolicitudEmpleo(payload) {
+
+      if (this.solicitudEmpleoId != null) {
+        Api.putSolicitudEmpleo(this.solicitudEmpleoId, payload).then((response) => {
+          this.show({
+            content: 'Registro actualizado correctamente',
+            closable: true,
+          })
+        }
+        ).catch(error => {
+          this.show({
+            content: error.response.data,
+            closable: true,
+            color:'danger'
+          })
+        })
+      } else {
+        Api.postSolicitudEmpleo(payload).then(response => {
+          this.show({
+            content: 'Registro Agregado correctamente',
+            closable: true,
+          })
+          this.showReclutamientoModal= false
+        }).catch((error) => {
+          this.show({
+            content: error.response.data,
+            closable: true,
+            color:'danger'
+          })
+        })
       }
-      this.validatedCustom01 = true
+     
+
+    },
+    closeModal() {
+      this.showReclutamientoModal= false;
     },
     getBadge(status) {
       switch (status) {
@@ -271,16 +164,16 @@ export default {
           'primary'
       }
     },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
-      }
-      this.details.push(item._id)
+    getReclutamientoById(item) {
+      this.solicitudEmpleoId = item.id
+      this.reclutamientoId = item.id
+      this.showReclutamientoModal= true
     },
+
   },
   mounted() {
-    this.$store.dispatch('AdministrativoModule/getUsuarios')
+    this.getAll()
   },
 }
 </script>
+

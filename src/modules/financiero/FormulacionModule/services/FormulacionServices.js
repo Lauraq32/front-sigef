@@ -2,9 +2,9 @@ import http from '@/Api/http-common'
 import { getAyuntamientoId, getFiscalYearId } from '@/utils/logged-info'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 class FormulacionApi {
-  downloadIngreso() {
+  downloadIngreso(ayuntamientoId, anioFiscalId) {
     return http.get(
-      `ExportFile/IngresoFormulacion?ayuntamientoId=${getAyuntamientoId()}&anioFiscalId=${getFiscalYearId()}`,
+      `ExportFile/IngresoFormulacion?ayuntamientoId=${ayuntamientoId}&anioFiscalId=${anioFiscalId}`,
     )
   }
 
@@ -58,11 +58,7 @@ class FormulacionApi {
 
   getDetalle(id) {
     return http.get(
-      `PresGasto/GetDetallePresGastobyIdAsync/${id}?anio=${
-        getFiscalYearId()
-      }&ayuntamientoId=${
-        getAyuntamientoId()
-      }`,
+      `PresGasto/Detalle/${id}?anio=${ getFiscalYearId() }&ayuntamientoId=${ getAyuntamientoId() }`,
     )
   }
 
@@ -109,7 +105,7 @@ class FormulacionApi {
   }
 
 
-  getListarGastos(id) {
+  getListarGastos() {
     return http.get(
       `PresGasto?anio=${
         getFiscalYearId()
@@ -120,86 +116,35 @@ class FormulacionApi {
   }
 
   getListarGastosById(id) {
-    return http.get(
-      `PresGasto?anio=${
-        getFiscalYearId()
-      }&ayuntamientoId=${
-        getAyuntamientoId()
-      }`,
+    return http.get(`PresGasto/${id}?anio=${ getFiscalYearId() }&ayuntamientoId=${ getAyuntamientoId() }`,
     )
   }
 
   postGastos(post) {
-    return http.post(`PresGasto`, post).catch((error) => {
-      Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        text: error.response.data.detail,
-        title: 'Error',
-        showConfirmButton: false,
-        timer: 1500,
-      })
-    })
+    return http.post(`PresGasto`, post)
   }
 
   postCargaMasiva(post) {
-    return http.post(`UploadFile/PresIngreso`, post).catch((error) => {
-      Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        text: error.response.data.detail,
-        title: 'Error',
-        showConfirmButton: false,
-        timer: 1500,
-      })
-    })
+    return http.post(`UploadFile/PresIngreso`, post)
   }
 
   postCargaMasivaCabecera(post) {
-    return http.post(`UploadFile/PresGasto`, post).catch((error) => {
-      Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        text: error.response.data.detail,
-        title: 'Error',
-        showConfirmButton: false,
-        timer: 1500,
-      })
-    })
+    return http.post(`UploadFile/PresGasto`, post)
   }
 
   postCargaMasivaDetalle(post) {
-    return http.post(`UploadFile/PresGasto/Detalle`, post).catch((error) => {
-      Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        text: error.response.data.detail,
-        title: 'Error',
-        showConfirmButton: false,
-        timer: 1500,
-      })
-    })
+    return http.post(`UploadFile/PresGasto/Detalle`, post)
   }
 
   cargarEstructuras() {
     return http
       .post(
-        `PresGasto?anio=${
+        `PresGasto/InsertPresGasto?anio=${
           getFiscalYearId()
         }&ayuntamientoId=${
           getAyuntamientoId()
         }`,
       )
-      .catch((error) => {
-        Swal.fire({
-          position: 'top-end',
-          icon: 'error',
-          text: error.response.data.detail,
-          title: 'Error',
-          showConfirmButton: false,
-          timer: 1500,
-        })
-      })
   }
 
   postDetalleGasto(post) {
