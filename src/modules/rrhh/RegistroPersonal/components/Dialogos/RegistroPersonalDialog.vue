@@ -414,7 +414,7 @@
 
 
                 <CCol>
-                  <CFormLabel for="tipoSangreId">Alergico</CFormLabel>
+                  <CFormLabel for="tipoSangreId">Al&eacute;rgico</CFormLabel>
                   <CFormSelect v-model="postEmpleado.emergenciaAlergico" id="emergenciaAlergico">
                     <option>
                       Si
