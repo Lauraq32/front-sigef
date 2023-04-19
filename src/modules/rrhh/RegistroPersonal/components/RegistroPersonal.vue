@@ -1,7 +1,7 @@
 <template>
   <h3 class="text-center">Mantenimientos Empleados</h3>
   <AccionPersonalDialog :showModal="lgDemo4" @custom-event="closeModal" />
-  <EducacionDialog :showModal="showEducacion" @closeModal="closeEducacion" :employeeId="employeeId" />
+  <EducacionDialog :showModal="showEducacion" @closeModal="closeEducacion" :employeeInfo="employeeInfo" />
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton color="info" @click="
@@ -88,10 +88,7 @@
             }
           ">Evaluación</CDropdownItem>
           <CDropdownItem>Eventualidad</CDropdownItem>
-          <CDropdownItem @click="
-            () => {
-              showEducacion = true
-            }
+          <CDropdownItem @click="getEmpleadoByID(item)
           ">Educaci&oacute;n</CDropdownItem>
         </CDropdownMenu>
       </CDropdown>
@@ -739,8 +736,8 @@ export default {
   },
   data: function () {
     return {
-      employeeId:null,
-      showEducacion:false,
+      employeeInfo: {},
+      showEducacion: false,
       lgDemo4: false,
       cambiar: false,
       registroPersonal: [],
@@ -1008,7 +1005,13 @@ export default {
       }
     },
 
+    getEmpleadoByID(item) {
+      this.showEducacion = true
+      this.employeeInfo = {...item}
+    },
+
     toggleDetails(item) {
+
       if (item.empleados !== 0 || item.variacion !== 0) {
         this.empleadoValue = true
       } else {

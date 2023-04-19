@@ -7,10 +7,10 @@ class EducationServices {
   getEmployeeById(id) {
     return http.get(`employee-education?employeeId=${id}`)
   }
-  getEmployeeById(data) {
+  postEmployee(data) {
     return http.post(`employee-education`,data)
   }
-  getEmployeeById(id,data) {
+  putEmployee(data,id) {
     return http.put(`employee-education/${id}`,data)
   }
 
