@@ -14,11 +14,13 @@ export const useAuthStore = defineStore('Auth', () => {
   })()
 
   async function signIn(user) {
-    return Api.Login(user).then((response) => {
-      authInfo.value = { sessionTimeLimit: 3000, ...response.data.data }
-      setLoggedInfo(authInfo.value);
-      return Promise.resolve(true)
-    })
+    return Api.Login(user)
+    .then(response => response.data.data);
+  }
+
+  function setLoginInfo(loginInfo) {
+    authInfo.value = { sessionTimeLimit: 300, ...loginInfo };
+    setLoggedInfo(authInfo.value);
   }
 
   function changeFiscalYear(fiscalYear) {
@@ -32,5 +34,5 @@ export const useAuthStore = defineStore('Auth', () => {
     return Promise.resolve(true);
   }
 
-  return { user, signIn, authInfo, changeFiscalYear, signOut }
+  return { user, signIn, authInfo, changeFiscalYear, signOut, setLoginInfo }
 })
