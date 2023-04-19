@@ -134,7 +134,6 @@ export default {
         { key: 'apellidos', label: 'Apellido', _style: { width: '15%' } },
         { key: 'nombres', label: 'Nombre', _style: { width: '15%' } },
         { key: 'cedula', label: 'Cédula', _style: { width: '10%' } },
-        { key: 'codigo', label: 'Código', _style: { width: '10%' } },
         {
           key: 'programaDivision',
           label: 'Programa',

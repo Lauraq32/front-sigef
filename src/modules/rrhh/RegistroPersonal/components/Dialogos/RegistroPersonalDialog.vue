@@ -447,7 +447,7 @@
 
                 </CCol>
 
-      
+
                 <CCol>
                   <CFormLabel for="emergenciaParentezco">En tratamiento</CFormLabel>
                   <CFormSelect v-model="postEmpleado.emergenciaEnTratamiento" id="emergenciaEnTratamiento">
@@ -592,6 +592,7 @@ export default {
       registroEmpleadoId: null,
       areaTrabajo: [],
       programaDivision: [],
+      cedulaValue: null,
       sector: [],
       tabPaneActiveKey: 1,
       postEmpleado: {
@@ -701,6 +702,14 @@ export default {
       let char = String.fromCharCode(e.keyCode); // Get the character
       if (/^[A-Za-z]+$/.test(char)) return true; // Match with regex 
       else e.preventDefault(); // If not match, don't add to input text
+    },
+    changeDocumento(e) {
+      if (this.tipoDocumento == 'Pasaporte') {
+        let char = String.fromCharCode(e.keyCode); // Get the character
+        if (/^[A-Za-z]+$/.test(char)) return true; // Match with regex 
+        else e.preventDefault(); // If not match, don't add to input text
+      }
+
     },
 
     cargarListas() {
