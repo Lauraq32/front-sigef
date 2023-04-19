@@ -80,8 +80,8 @@
                     </div>
                   </CCol>
                   <CCol :md="12">
-                    <CFormLabel for="posicionId">Posición solicitada</CFormLabel>
-                    <CFormInput  v-model="solicitudEmpleo.posicionId" id="posicionId" > </CFormInput>
+                    <CFormLabel for="posicionId">Posici&oacute;n solicitada</CFormLabel>
+                    <CFormInput  v-model="solicitudEmpleo.posicionId" id="posicionId" v-on:keypress="isLetter($event)"> </CFormInput>
 
                   </CCol>
                   <CCol :md="12">
@@ -109,7 +109,7 @@
                   </CCol>
                   <CCol :md="12">
                     <CFormLabel for="remitidoA">Remitido a</CFormLabel>
-                    <CFormInput type="text"  pattern="[a-zA-Z]+" v-model="solicitudEmpleo.remitidoA" id="remitidoA"> </CFormInput>
+                    <CFormInput type="text"  v-on:keypress="isLetter($event)" v-model="solicitudEmpleo.remitidoA" id="remitidoA"> </CFormInput>
 
                   </CCol>
                 </CCol>
@@ -215,10 +215,12 @@ export default {
   },
 
   methods: {
-    filtrarTexto() {
-      console.log('prubea')
-        this.solicitudEmpleo.remitidoA = this.solicitudEmpleo.remitidoA.replace(/[^a-zA-Z]/g, '');
-      }, 
+
+    isLetter(e) {
+      let char = String.fromCharCode(e.keyCode); // Get the character
+      if (/^[A-Za-z]+$/.test(char)) return true; // Match with regex 
+      else e.preventDefault(); // If not match, don't add to input text
+    },
 
     closeProfesionModal() {
       this.showProfessionModal = false
