@@ -64,7 +64,7 @@
       <CSmartTable style="margin-top: 10px" class="sticky-top" clickableRows :tableProps="{
         striped: true,
         hover: true,
-      }" :tableHeadProps="{}" :activePage="1" header :items="accionPersonal" :columns="columns" columnFilter
+      }" :tableHeadProps="{}" :activePage="1" header :items="accionPersonalList" :columns="columns" columnFilter
         itemsPerPageSelect :itemsPerPage="5" columnSorter pagination>
         <template #fechaDesde="{ item }">
           <td>
@@ -276,13 +276,16 @@ export default {
     },
 
     submitAccionPersonal(event) {
+
       const form = event.currentTarget
       event.preventDefault()
       event.stopPropagation()
       if (form.checkValidity() === true) {
         if (this.id) {
+
           Api.putAccionesPersonales(this.id, this.postAccionPersonal)
             .then((response) => {
+              setTimeout(this.getAccionPersonalById(this.empleado.id), 500)
               this.show({
                 content: 'Registro actualizado correctamente',
                 closable: true,
@@ -312,6 +315,7 @@ export default {
     },
 
     clearAccionPersonal() {
+      this.validatedCustom01 = null
       this.id = null
       this.postAccionPersonal = {
         fechaDesde: null,
@@ -324,6 +328,7 @@ export default {
     },
 
     getAccionesPersonalById(item) {
+      this.clearAccionPersonal()
       this.getTipoAcciones()
       this.showAgregarAcciones = true
       Api.getAccionesPersonalById(item.id).then((response) => {
@@ -336,6 +341,7 @@ export default {
       this.postAccionPersonal.empleadoId = this.empleado.id
       Api.postAccionesPersonal(this.postAccionPersonal)
         .then((response) => {
+          setTimeout(this.getAccionPersonalById(this.empleado.id), 500)
           this.show({
             content: 'Registro guardado correctamente',
             closable: true,

@@ -57,7 +57,7 @@
             <div class="col-8">
               <CFormLabel for="cambiaStatus" class="d-flex">
                 Cambia estatus?
-                <input required v-model="postTipoAccion.cambiaStatus" class="form-check-input mx-3" type="checkbox"
+                <input v-model="postTipoAccion.cambiaStatus" class="form-check-input mx-3" type="checkbox"
                   id="cambiaStatus" />
               </CFormLabel>
             </div>
@@ -155,6 +155,7 @@ export default {
     },
 
     editTipoAccion(item) {
+      this.clearTipoAccion()
       Api.getTipoAccionByID(item.id).then((response) => {
         this.postTipoAccion = response.data.data
         this.id = item.id
@@ -165,6 +166,7 @@ export default {
     postTipoAcciones() {
       Api.postTipoAcciones(this.postTipoAccion)
         .then(() => {
+          setTimeout(this.getTipoAcciones, 500)
           this.show({
             content: 'Registro guardado correctamente',
             closable: true,
@@ -178,17 +180,17 @@ export default {
             class: 'text-white',
           })
         })
-      setTimeout(this.getTipoAcciones, 500)
     },
 
     clearTipoAccion() {
+      this.validatedCustom01 = null
       this.id = null
       this.postTipoAccion = {
         id: null,
         descripcion: null,
-        cambiaStatus: null,
+        cambiaStatus: false,
         estatus: 'Activo',
-        comprobado: null,
+        comprobado: false,
       }
     },
 
@@ -199,6 +201,7 @@ export default {
 
       if (form.checkValidity() === true) {
         if (this.id != null) {
+          setTimeout(this.getTipoAcciones, 500)
           Api.putTipoAcciones(this.id, this.postTipoAccion)
             .then(() => {
               this.show({
@@ -214,7 +217,6 @@ export default {
                 class: 'text-white',
               })
             })
-          setTimeout(this.getTipoAcciones, 500)
         } else {
           this.postTipoAcciones()
         }
