@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center  mb-4">Formulaci&oacute;n Gastos</h3>
+  <h3 class="text-center mb-4">Formulaci&oacute;n Gastos</h3>
   
   <AppAccionHeader
     :actions="pageActions"
@@ -28,6 +28,7 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
     :items-per-page-label="'Artículos por página:'"
+    :no-items-label="''"
   >
     <template #totalPresupuesto="{ item }">
       <td class="text-end">
@@ -48,7 +49,8 @@
           square
           size="sm"
           @click="toggleDetails(item)"
-        >Editar
+        >
+          {{ isFiscalYearApprovedOrClose ? 'Detalle' : 'Editar' }}
         </CButton>
       </td>
     </template>
@@ -57,6 +59,7 @@
   <FormulacionGastoDialog
     :isVisible="showFormulacionDialog"
     :formulacionGasto="formulacionGasto"
+    :isFiscalYearApprovedOrClose="isFiscalYearApprovedOrClose"
     @close="onFormulacionGastoDialogClose"
   />
 
@@ -206,7 +209,7 @@ export default {
           })
 
           if (proyectosList.length) {
-            Api.postCargaMasivaCabecera(proyectosList).then((response) => {
+            Api.postCargaMasivaCabecera(proyectosList).then(() => {
               this.show({
                 content: 'Registro añadido correctamente',
                 closable: true,
@@ -483,13 +486,13 @@ export default {
             icon: 'cilLayers'
           },
           {
-            label: 'Importar Proyectos',
-            accionHandler: this.onFileChangeProyectos.bind(this),
+            label: 'Importar Formulación',
+            accionHandler: this.onFileChange.bind(this),
             type: 'upload'
           },
           {
-            label: 'Importar Formulaci&oacute;n',
-            accionHandler: this.onFileChange.bind(this),
+            label: 'Importar Proyectos',
+            accionHandler: this.onFileChangeProyectos.bind(this),
             type: 'upload'
           }
         ]);

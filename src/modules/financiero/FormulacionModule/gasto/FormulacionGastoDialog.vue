@@ -16,35 +16,39 @@
                 <CForm ref="formulacionForm" class="row g-3 needs-validation"  novalidate :validated="isFormValidated">
                     <CCol :md="2">
                         <CFormLabel for="formulacionGasto.pnap">PNAP</CFormLabel>
-                        <CFormInput class="form-control" :disabled="formulacionGasto.id ? true : false"
+                        <CFormInput class="form-control"
                             v-model="formulacionGasto.pnap" id="formulacionGasto.pnap" required maxlength="2"
                             @keypress="onlyNumber"
+                            :disabled="notActionAllow"
                         />
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <CCol :md="2">
                         <CFormLabel for="formulacionGasto.programa">Programa</CFormLabel>
-                        <CFormInput :disabled="formulacionGasto.id ? true : false" v-model="formulacionGasto.programa"
+                        <CFormInput v-model="formulacionGasto.programa"
                             id="formulacionGasto.programa" required maxlength="2"
                             @keypress="onlyNumber"
+                            :disabled="notActionAllow"
                         />
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <CCol :md="2">
                         <CFormLabel for="formulacionGasto.proyecto">Proyecto</CFormLabel>
                         <CInputGroup class="has-validation">
-                            <CFormInput :disabled="formulacionGasto.id ? true : false" v-model="formulacionGasto.proyecto"
+                            <CFormInput v-model="formulacionGasto.proyecto"
                                 id="formulacionGasto.proyecto" value="" aria-describedby="inputGroupPrepend" required maxlength="2"
-                            @keypress="onlyNumber"
-                        />
+                                @keypress="onlyNumber"
+                                :disabled="notActionAllow"
+                            />
                             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                         </CInputGroup>
                     </CCol>
                     <CCol :md="4">
                         <CFormLabel for="formulacionGasto.actObra">Actividad/Obra</CFormLabel>
-                        <CFormInput :disabled="formulacionGasto.id ? true : false" v-model="formulacionGasto.actObra"
+                        <CFormInput v-model="formulacionGasto.actObra"
                             id="formulacionGasto.actObra" required maxlength="4"
                             @keypress="onlyNumber"
+                            :disabled="notActionAllow"
                         />
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
@@ -56,18 +60,24 @@
                     </CCol>
                     <CCol :md="3">
                         <CFormLabel for="formulacionGasto.nombre">Denominación</CFormLabel>
-                        <CFormInput v-model="formulacionGasto.nombre" id="formulacionGasto.nombre" />
+                        <CFormInput v-model="formulacionGasto.nombre" id="formulacionGasto.nombre"
+                            :disabled="notActionAllow"
+                        />
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <CCol :md="4">
                         <CFormLabel for="formulacionGasto.unidadResp">Unidad responsable</CFormLabel>
-                        <CFormInput v-model="formulacionGasto.unidadResp" id="formulacionGasto.unidadResp">
-                        </CFormInput>
+                        <CFormInput v-model="formulacionGasto.unidadResp" id="formulacionGasto.unidadResp"
+                            :disabled="notActionAllow"
+                        />
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <CCol :md="4">
                         <CFormLabel for="formulacionGasto.tipo">Tipo</CFormLabel>
-                        <CFormSelect v-model="formulacionGasto.tipo" id="formulacionGasto.tipo">
+                        <CFormSelect
+                            v-model="formulacionGasto.tipo" id="formulacionGasto.tipo"
+                            :disabled="notActionAllow"
+                        >
                             <option value="DETALLE">DETALLE</option>
                             <option value="CABECERA">CABECERA</option>
                         </CFormSelect>
@@ -75,17 +85,28 @@
                     </CCol>
                     <CCol :md="4">
                         <CFormLabel for="formulacionGasto.costObra">No. fondo transferido</CFormLabel>
-                        <VueNumberFormat v-model:value="formulacionGasto.costObra" type="text" class="form-control" id="formulacionGasto.costObra"
-                        :options="{
-                            precision: 0,
-                            prefix: '',
-                            decimal: '',
-                            thousand: '',
-                        }"/>
+                        <VueNumberFormat
+                            v-model:value="formulacionGasto.costObra"
+                            type="text"
+                            class="form-control"
+                            id="formulacionGasto.costObra"
+                            :options="{
+                                precision: 0,
+                                prefix: '',
+                                decimal: '',
+                                thousand: '',
+                            }"
+                            :disabled="notActionAllow"
+                        />
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-info btn-block mt-1" @click="() => showDetailDialog = true">
+                        <button
+                            type="button"
+                            class="btn btn-info btn-block mt-1"
+                            @click="() => showDetailDialog = true"
+                            v-if="!notActionAllow"
+                        >
                             Adicionar Detalle
                         </button>
                     </div>
@@ -106,6 +127,8 @@
                     columnSorter
                     :sorterValue="{ column: 'status', state: 'asc' }"
                     pagination
+                    :itemsPerPage="6"
+                    :no-items-label="''"
                 >
                     <template #totalOriginal="{ item }">
                         <td class="text-end">
@@ -153,8 +176,16 @@
             </CCardBody>
         </CModalBody>
         <CModalFooter>
-            <CButton color="secondary" data-bs-dismiss="modal" @click="closeDialog()">Cancelar</CButton>
-            <CButton color="primary" @click="guardarFormulacionGasto">Guardar</CButton>
+            <CButton color="secondary" data-bs-dismiss="modal" @click="closeDialog()">
+                {{ isFiscalYearApprovedOrClose ? 'Cerrar' : 'Cancelar' }}
+            </CButton>
+            <CButton
+                v-if="!notActionAllow"
+                color="primary"
+                @click="guardarFormulacionGasto"
+            >
+                Guardar
+            </CButton>
         </CModalFooter>
     </CModal>
 
@@ -170,7 +201,7 @@ import { CModal } from '@coreui/vue'
 
 import { formatPrice } from '@/utils/format';
 import { onlyNumber } from '@/utils/validator';
-import { ref, watchEffect, nextTick } from 'vue'
+import { ref, watchEffect, nextTick, computed } from 'vue'
 import Api from '../services/FormulacionServices'
 import GastoDetalleDialog from './GastoDetalleDialog'
 import { getAyuntamientoId, getFiscalYearId } from '@/utils/logged-info'
@@ -248,10 +279,20 @@ const props = defineProps({
         type: Object,
         default: {},
     },
-    isVisible: Boolean
+    isVisible: Boolean,
+    isFiscalYearApprovedOrClose: Boolean,
 });
 
-const columns = [
+const notActionAllow = computed(() => props.isFiscalYearApprovedOrClose && Boolean(props.formulacionGasto.id));
+let columns = [];
+const controllerColumn =  {
+    key: 'show_details',
+    label: '',
+    _style: { width: '5%' },
+    filter: false,
+    sorter: false,
+};
+const columnsTemplate = [
     {
         key: 'ctgClasificadorId',
         label: 'Clasificador',
@@ -259,7 +300,7 @@ const columns = [
     },
     {
         key: 'nombre',
-        label: 'Denominacion',
+        label: 'Denominación',
         _style: { width: '25%' },
     },
     {
@@ -274,18 +315,11 @@ const columns = [
         _style: { width: '12%' },
     },
     { key: 'presupuestoBco2', label: 'Servicios', _style: { width: '12%' } },
-    { key: 'presupuestoBco3', label: 'Inversion', _style: { width: '12%' } },
+    { key: 'presupuestoBco3', label: 'Inversión', _style: { width: '12%' } },
     {
         key: 'presupuestoBco4',
-        label: 'Educ/Genero/Salud',
+        label: 'Educ/Género/Salud',
         _style: { width: '12%' },
-    },
-    {
-        key: 'show_details',
-        label: '',
-        _style: { width: '5%' },
-        filter: false,
-        sorter: false,
     },
 ];
 
@@ -353,6 +387,12 @@ watchEffect(() => {
             props.formulacionGasto.estructuraProgramaticaControl = response.data?.data?.ccontrol ?? '';
         });
     }
+
+    if (props.isVisible && props.isFiscalYearApprovedOrClose && Boolean(props.formulacionGasto.id)) {
+        columns = [ ...columnsTemplate ];
+    } else {
+        columns = [ ...columnsTemplate, controllerColumn ];
+    }
 });
 
 const onDetailDialogClose = (data) => {
@@ -397,7 +437,6 @@ const onDeleteDetalle = (item) => {
         allowEscapeKey: false,
         allowOutsideClick: false
     }).then((result) => {
-        console.log(result);
         if (result.isConfirmed) {
             const index = props.formulacionGasto.detallePresGastos.findIndex(x => (
                 x.ctgClasificadorId === item.ctgClasificadorId

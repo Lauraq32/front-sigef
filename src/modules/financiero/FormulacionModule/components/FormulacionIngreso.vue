@@ -96,6 +96,7 @@
     :isVisible="showPartidaPresupuestodeIngresoDialog"
     :formulacionIngreso="postIngreso"
     :isFiscalYearApprovedOrClose="isFiscalYearApprovedOrClose"
+    :institucionesOtorgante="institucionesOtorgante"
     @close="onCloseFormulacionDialog"
   />
 
@@ -123,11 +124,12 @@ export default {
   data: function () {
     return {
       ingresos: [],
+      institucionesOtorgante: [],
       postIngreso: {
         anioFiscalId: this.$fiscalYearId,
         ayuntamientoId: this.$ayuntamientoId,
         ctgClasificadorId: '',
-        instOtorga: '',
+        instOtorga: '0000',
         ctaControl: '',
         detalle: '',
         anioAnt: 0,
@@ -245,7 +247,7 @@ export default {
     downloadFile() {
       Api.downloadIngreso(this.$ayuntamientoId, this.$fiscalYearId)
       .then((response) => {
-        const fileURL = window.URL.createObjectURL(new Blob([response.data]));
+        const fileURL = window.URL.createObjectURL(new Blob([response.data ?? response]));
         const fURL = document.createElement('a');
         const id =  `${this.$loggedInfo.user.ayuntamiento.codigo}-${new Date().toISOString()}`;
 
@@ -342,7 +344,7 @@ export default {
         anioFiscalId: this.authInfo.user.ayuntamiento.id,
         ayuntamientoId: this.authInfo.currentFiscalYearId,
         ctgClasificadorId: null,
-        instOtorga: '',
+        instOtorga: '0000',
         ctaControl: '',
         detalle: '',
         anioAnt: 0,
@@ -462,7 +464,16 @@ export default {
       sumUp += item.variacion + item.ingreso;
 
       return sumUp > 0;
-    }
+    },
+    getInstitucionOtorgante() {
+      Api.getListarInsOtorgante().then(({data: { data }}) => {
+        this.institucionesOtorgante = data.map(elem => ({
+            code: elem.code,
+            label: elem.detail
+          })
+        );
+      })
+    },
   },
   computed: {
     ...mapStores(useAuthStore),
@@ -497,7 +508,8 @@ export default {
   },
 
   mounted() {
-    this.loadData(0)
+    this.loadData(0);
+    this.getInstitucionOtorgante();
   },
 }
 </script>

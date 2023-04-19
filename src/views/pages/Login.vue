@@ -143,7 +143,12 @@ export default {
     },
     setFiscalYearToBeUse(fiscalYear) {
       this.loginInfo.currentFiscalYearId = fiscalYear.id;
-      this.goHome();
+      this.fiscalYearSelectableList.length = 0;
+      this.isLoading = true;
+      setTimeout(() => {
+        this.isLoading = false;
+        this.goHome();
+      }, 250);
     }
   },
 }

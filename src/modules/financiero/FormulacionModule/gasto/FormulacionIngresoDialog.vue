@@ -36,7 +36,7 @@
                             aria-describedby="inputGroupPrepend" required />
                     </CInputGroup>
                 </CCol>
-                <CCol :md="3">
+                <CCol :md="4">
                     <CFormLabel for="validationCustom03">Fuente Financiamiento</CFormLabel>
                     <CFormInput
                         id="validationCustom03" required
@@ -46,7 +46,7 @@
                         pattern="[0-9]+"
                     />
                 </CCol>
-                <CCol :md="3">
+                <CCol :md="4">
                     <CFormLabel for="validationCustom04">Fuente Espec&iacute;fica</CFormLabel>
                     <CFormInput
                         id="validationCustom04" required
@@ -56,7 +56,7 @@
                         pattern="[0-9]+"
                     />
                 </CCol>
-                <CCol :md="3">
+                <CCol :md="4">
                     <CFormLabel for="validationCustom05">Organismo Financiador</CFormLabel>
                     <CFormInput
                         id="validationCustom05" required
@@ -66,10 +66,12 @@
                         pattern="[0-9]+"
                     />
                 </CCol>
-                <CCol :md="3">
+                <CCol :md="12">
                     <CFormLabel>Instituci&oacute;n Otorgante</CFormLabel>
-                    <CFormInput v-model="formulacionIngreso.instOtorga" type="number" step="any" :disabled="notAllowEdit">
-                    </CFormInput>
+                    <v-select
+                        v-model="selectedInstitucionOtorgante"
+                        :options="institucionesOtorgante"
+                        :disabled="notAllowEdit"></v-select>
                 </CCol>
                 <hr />
                 <CCol :md="4">
@@ -149,7 +151,13 @@ const props = defineProps({
     },
     isVisible: Boolean,
     isFiscalYearApprovedOrClose: Boolean,
+    institucionesOtorgante: {
+        require: true,
+        type: Array,
+        default: [],
+    }
 });
+const selectedInstitucionOtorgante = ref({});
 const fiscalYearData = fiscalYearInfo();
 const anioFiscal = ref(fiscalYearData.anio);
 const formIsValidated = ref(null);
@@ -164,15 +172,6 @@ const enabledFields = reactive({
 const hasBugetOrExecution = computed(() => props.formulacionIngreso.ingresos !== 0 || props.formulacionIngreso.variacion !== 0);
 const notAllowEdit = computed(() => (hasBugetOrExecution.value || props.isFiscalYearApprovedOrClose) && Boolean(props.formulacionIngreso.id));
 const notAllowAmount = computed(() => props.isFiscalYearApprovedOrClose && !Boolean(props.formulacionIngreso.id));
-
-watchEffect(() => {
-    console.log(hasBugetOrExecution, props.formulacionIngreso.id, props.isFiscalYearApprovedOrClose,  props.formulacionIngreso);
-    console.log({
-        hasBugetOrExecution: hasBugetOrExecution.value,
-        notAllowEdit: notAllowEdit.value,
-        idFiscal: props.formulacionIngreso.id && props.isFiscalYearApprovedOrClose
-    })
-})
 
 const closeDialog = (data) => {
     emit('close', data);
@@ -197,6 +196,7 @@ const submitForm = () => {
             ctgFuenteEspecificaId: props.formulacionIngreso.ctgFuenteEspecificaId,
             ctgFuenteId: props.formulacionIngreso.ctgFuenteId,
             ctgOrganismoFinanciadorId: props.formulacionIngreso.ctgOrganismoFinanciadorId,
+            instOtorga: selectedInstitucionOtorgante.value.code
         });
     }
 
@@ -262,7 +262,13 @@ const validateInputctgOrganismoFinanciadorId = (clasificatorSelected) => {
     ) {
         enabledFields.ctgOrganismoFinanciadorId = true
     }
-}  
+}
+
+watchEffect(() => {
+    if (props.institucionesOtorgante && !selectedInstitucionOtorgante.value?.code) {
+        selectedInstitucionOtorgante.value = props.institucionesOtorgante.find(io => io.code === props.formulacionIngreso.instOtorga) ?? {};
+    }
+});
 </script>
 <style scoped>
 .padding-input {

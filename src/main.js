@@ -15,6 +15,8 @@ import VueNumberFormat from 'vue-number-format'
 import { createPinia } from 'pinia';
 import { loggedInfo } from "./utils/login-info-plugin";
 import Vidle from 'v-idle-3'
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
 
 
 const pinia = createPinia()
@@ -26,6 +28,7 @@ app.use(pinia)
 app.use(loggedInfo);
 app.provide('icons', icons)
 app.component('CIcon', CIcon)
+app.component('v-select', vSelect)
 app.component('DocsCallout', DocsCallout)
 app.component('DocsExample', DocsExample)
 app.use(VueSweetalert2)
