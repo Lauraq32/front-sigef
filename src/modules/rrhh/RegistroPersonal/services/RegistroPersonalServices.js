@@ -34,6 +34,24 @@ class RegistroPersonal {
     return http.get(`empleados`)
   }
 
+  //CARGOS
+  getAllCargos() {
+    return http.get('cargos')
+  }
+
+  getCargobyid(id) {
+    return http.get(`cargos/${id}`)
+  }
+
+  updateCargo(id, data) {
+    return http.put(`cargos/${id}`, data)
+  }
+
+  addCargos(data) {
+    return http.post('cargos', data)
+  }
+
+
   getProgramaDivision() {
     return http.get(`ProgramaDivision?AyuntamientoId=${getAyuntamientoId()}`)
   }

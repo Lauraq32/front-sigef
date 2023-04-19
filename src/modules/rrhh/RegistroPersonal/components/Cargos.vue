@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Posiciones o cargos</h3>
+  <h3 class="text-center">Cargos</h3>
   <hr />
   <div class="table-headers">
     <div class="d-inline p-2">
@@ -7,137 +7,74 @@
         color="info"
         @click="
           () => {
-            lgDemo = true
+            cargoModal = true
           }
         "
         >Agregar</CButton
       >
     </div>
     <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
+      <CButton style="font-weight: bold" color="info"
         >Imprimir</CButton
       >
     </div>
   </div>
   <hr />
-  <CSmartTable class="sticky-top"
+  <CSmartTable
+    class="sticky-top"
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    
     header
-    :items="this.$store.state.RRHHModule.posicionesCargos"
+    :items="cargos"
     :columns="columns"
+    :footer="footerItem"
     columnFilter
     itemsPerPageSelect
     :itemsPerPage="5"
     columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
+    :sorterValue="{ column: 'posicion', state: 'asc' }"
     pagination
   >
-    <template #status="{ item }">
-      <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
-      </td>
-    </template>
-    <template #show_details="{ item, index }">
+  <template #show_details="{ item }">
       <td class="py-2">
-        <CButton
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item, index)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
-        </CButton>
+        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="getCargosById(item)">Editar</CButton>
       </td>
-    </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
     </template>
   </CSmartTable>
-  <CModal
-    size="lg"
-    :visible="lgDemo"
-    @close="
-      () => {
-        lgDemo = false
-      }
-    "
-  >
-    <CModalHeader>
-      <CModalTitle>Posiciones o cargos</CModalTitle>
-    </CModalHeader>
-    <CModalBody>
-      <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
-          <CCol :md="2">
-            <CFormLabel for="validationCustom01">Código</CFormLabel>
-            <CFormInput disabled id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustomUsername"
-              >Posicion o cargo</CFormLabel
-            >
-            <CFormInput id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
-              Guardar
-            </button>
-          </div>
-        </CForm>
-      </CCardBody>
-    </CModalBody>
-  </CModal>
+  <CargosModal
+    :cargoModal="cargoModal"
+    @close-modal="closeModal"
+    @post-cargo="saveCargo"
+    :cargoId="cargoId"
+  />
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import CargosModal from '../Dialogos/CargosModal.vue'
+import { mapActions } from 'pinia'
+import Api from '../services/RegistroPersonalServices'
+import { useToastStore } from '@/store/toast'
 export default {
   components: {
     CSmartTable,
     CModal,
+    CargosModal,
   },
   data: () => {
     return {
-      validatedCustom01: null,
-      lgDemo: false,
+      cargoId: null,
+      cargos: [],
+      cargoModal: false,
       columns: [
-        { key: 'Código', label: 'Código', _style: { width: '40%' } },
         {
-          key: 'Posicion o cargo',
-          label: 'Posicion o cargo',
+          key: 'posicion',
+          label: 'Posición o cargo',
           _style: { width: '40%' },
         },
         {
@@ -146,45 +83,74 @@ export default {
           _style: { width: '1%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
-      details: [],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+      ],
     }
   },
   methods: {
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
+    ...mapActions(useToastStore, ['show']),
+    closeModal(payload) {
+      this.cargoModal = payload
     },
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
+    getCargosById(item) {
+      this.cargoId = item.id
+      this.cargoModal = true
+    },
+    saveCargo(payload) {
+      if (this.cargoId != null) {
+        Api.updateCargo(this.cargoId, payload)
+          .then(() => {
+            this.show({
+              content: 'Registro actualizado correctamente',
+              closable: true,
+              life: 15000,
+            })
+            setTimeout(() => this.getAllCargo(), 200)
+          })
+          .catch((error) => {
+            return this.show({
+              content: error.response.data,
+              closable: true,
+              color: 'danger',
+            })
+          })
+      } else {
+        Api.addCargos(payload)
+          .then(() => {
+            this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
+              life: 15000,
+            })
+            setTimeout(() => this.getAllCargo(), 200)
+          })
+          .catch((error) => {
+            return this.show({
+              content: error.response.data,
+              closable: true,
+              color: 'danger',
+            })
+          })
       }
     },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
-      }
-      this.details.push(item._id)
+    getAllCargo() {
+      Api.getAllCargos().then((response) => {
+        this.cargos = response.data.data
+        this.footerItem[0] = `Total Items ${response.data.data.length}`
+      })
     },
   },
   mounted() {
-    this.$store.dispatch('AdministrativoModule/getUsuarios')
+    this.getAllCargo()
   },
 }
 </script>
