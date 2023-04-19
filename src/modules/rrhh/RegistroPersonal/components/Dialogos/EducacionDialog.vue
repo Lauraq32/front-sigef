@@ -1,7 +1,7 @@
 <template>
   <CModal size="lg" :visible="showModal" @close="closeModal">
     <CModalHeader>
-      <CModalTitle>Profesiones</CModalTitle>
+      <CModalTitle>Profesi&oacute;n</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -23,7 +23,7 @@
           </CCol>
 
           <CCol :md="12">
-            <CFormLabel for="validationCustom04">Duracion del Curso</CFormLabel>
+            <CFormLabel for="validationCustom04">Duraci&oacute;n del Curso</CFormLabel>
             <CFormInput v-model="education.courseTime" required id="validationCustom04"> </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -38,7 +38,7 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="12">
-            <CFormLabel for="validationCustom04">Record del Curso</CFormLabel>
+            <CFormLabel for="validationCustom04">R&eacute;cord del Curso</CFormLabel>
             <CFormTextarea v-model="education.courseRecord" id="exampleFormControlTextarea1">
             </CFormTextarea>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -84,6 +84,7 @@ import { CIcon } from '@coreui/icons-vue'
 import Api from '../../services/EducationServices'
 import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
+import { formatDate } from '@/utils/format'
 
 export default {
   name: 'EducacionDialog',
@@ -93,7 +94,9 @@ export default {
     CIcon
   },
   data: function () {
+
     return {
+      formatDate,
       educationId: null,
       education: {
         employeeId: 0,
@@ -107,13 +110,10 @@ export default {
       educationList: [],
       tabPaneActiveKey: 1,
       columns: [
-        { key: 'courseName', label: 'Nombre', _style: { width: '40%' } },
-        // { key: 'courseRecord', label: 'Nota', _style: { width: '50%' } },
+        { key: 'courseName', label: 'Nombre', _style: { width: '50%' } },
         { key: 'courseTime', label: 'Tiempo', _style: { width: '10%' } },
-        // { key: 'employee', label: 'Nombre', _style: { width: '50%' } },
-        // { key: 'employeeId', label: 'Nombre', _style: { width: '50%' } },
-        { key: 'startDate', label: 'Fecha Inicio', _style: { width: '30%' } },
-        { key: 'finishDate', label: 'Fecha Final', _style: { width: '30%' } },
+        { key: 'startDate', label: 'Fecha Inicio', _style: { width: '20%' } },
+        { key: 'finishDate', label: 'Fecha Final', _style: { width: '20%' } },
         {
           key: 'show_details',
           label: '',
@@ -121,10 +121,6 @@ export default {
           filter: false,
           sorter: false,
         },
-
-        // { key: 'id', label: 'Nombre', _style: { width: '50%' } },
-
-
       ],
     }
   },
@@ -132,13 +128,6 @@ export default {
   methods: {
     ...mapActions(useToastStore, ['show']),
 
-    formatDate(fecha) {
-      return new Date(fecha).toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-      })
-    },
 
     closeModal() {
       this.$emit('closeModal')
@@ -149,30 +138,27 @@ export default {
       if (form.checkValidity() === true) {
         if (this.educationId == null) {
           Api.postEmployee(this.education).then(response => {
-            if (response.status === 200) {
-              this.show({
-                content: 'Registro añadido correctamente',
-                closable: true,
-              })
-            }
+            this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
+            })
             setTimeout(this.listarEducation(this.employeeInfo.id), 500)
           }).catch(error => {
-            console.log(error.response.data.errors)
             this.show({
-              content: error.response.data.errors,
+              content: error.response.data,
               closable: true,
               color: 'danger'
             })
           })
-          this.educationId = null,
-            this.education = {
-              employeeId: this.employeeInfo.id,
-              courseName: "",
-              courseTime: 0,
-              startDate: "",
-              finishDate: "",
-              courseRecord: ""
-            }
+          this.educationId = null
+          this.education = {
+            employeeId: this.employeeInfo.id,
+            courseName: "",
+            courseTime: 0,
+            startDate: "",
+            finishDate: "",
+            courseRecord: "",
+          }
         }
         else {
           Api.putEmployee(this.education, this.educationId).then(response => {
