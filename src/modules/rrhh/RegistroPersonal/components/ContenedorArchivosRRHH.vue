@@ -1,51 +1,101 @@
 <template>
   <div>
-    <CModal @close="CloseModal" size="lg" :visible="showModal">
+    <CModal backdrop="static" @close="onClick" size="lg" :visible="showModal" >
       <CModalHeader>
         <CModalTitle>Captura de imagenes Asociadas al Documento</CModalTitle>
       </CModalHeader>
       <CModalBody>
-        <div class="tab-context">
-          <div class="row">
-            <h3>Empleado : Yonaiky Matos</h3>
-            <hr />
-
-            <div>
-              <div v-for="(documento, index) in documentos" :key="index">
-                <div class="card">
-                  <CCollapse :visible="documento.visible">
-                    <canvas class="card-img-top" :src="documento.src" :alt="documento.alt" />
-                  </CCollapse>
-                  <div class="card-body">
-                    <h5 class="card-title">Descripción del documento</h5>
-                    <p class="card-text">{{ documento.descripcion }}</p>
-                  </div>
-                  <div class="card-body">
-                    <CButton color="primary" href="#" @click="toggle(index)">Visualizar</CButton>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
+      
+        <CButton
+          type="button"
+          color="info"
+          class="btn btn-primary" @click="() => { smDemo = true }">Agregar Documentos</CButton>
+        <hr>
+        
+            <CSmartTable
+          clickableRows
+          :tableProps="{
+            striped: true,
+            hover: true,
+          }"
+          :tableHeadProps="{}"
+          :activePage="1"
+          :footer="footerItem"
+          header
+          :items="documentos"
+          :columns="columns"
+          tableFilter 
+          itemsPerPageSelect
+          :itemsPerPage="10"
+          columnSorter
+          :sorterValue="{ column: 'status', state: 'asc' }"
+          pagination
+        >      <template #show_details="{ item, index }">
+            <td class="py-2">
+              <CButton color="primary" variant="outline" square size="sm">
+                Ver
+              </CButton>
+            </td>
+          </template>
+        </CSmartTable>
       </CModalBody>
-      <div class="modal-footer">
-        <button type="button" color="info" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
-        <button type="button" color="info" class="btn btn-primary" v-on:click="submitForm">
-          Guardar
-        </button>
 
+      <div class="modal-footer">
+       
+      
+        <CButton
+          color="info"
+          data-bs-dismiss="modal"
+          @click="getFileById(this.empleado.id)"
+        >
+          Close
+        </CButton>
+        <CButton
+          color="info"
+          @click="postDocumentos"
+        >
+          Guardar
+        </CButton>
       </div>
     </CModal>
+
+    <CModal backdrop="static"  size="sm" :visible="smDemo" @close="() => { smDemo = false }">
+    <CModalHeader>
+      <CModalTitle>Agregar Documentos</CModalTitle>
+    </CModalHeader>
+    <CModalBody>
+      <CFormInput
+    type="text"
+    label="Descripcion"
+  />
+  <CFormInput
+    type="text"
+    label="name"
+  />
+      <div class="p-2">
+          <label class="file-select">
+            <div class="select-button">
+              <CIcon icon="cilCloudUpload" size="sm" />
+              <span class="label ms-1">Adjuntar Documentos </span>
+            </div>
+            <input
+              type="file"
+              id="formFile"
+              accept=".doc,.docx,.png,.jpge,.jpg, .pdf" 
+              multiple
+              @change="handleFileChange"
+            />
+          </label>
+      </div>
+    </CModalBody>
+  </CModal>
   </div>
 </template>
 
 <script>
 import { CModal, CModalHeader, CModalTitle, CModalBody } from '@coreui/vue'
 import Api from '../services/RegistroPersonalServices'
+import { CSmartTable } from '@coreui/vue-pro'
 import { CButton, CCollapsePlugin } from '@coreui/vue-pro'
 import { CCollapse } from '@coreui/vue'
 import { CIcon } from '@coreui/icons-vue'
@@ -53,77 +103,113 @@ import { CIcon } from '@coreui/icons-vue'
 export default {
   components: {
     CModal,
-    CModalHeader,     
+    CSmartTable,
+    CModalHeader,
     CModalTitle,
     CModalBody,
     CButton,
     CIcon,
-    CCollapsePlugin
- 
+    CCollapsePlugin,
   },
 
-  data() {
-
+  data: function () {
     return {
+      filedata: {},
       lgDemo5: false,
       fullscreenDemo: false,
       visible: false,
       file: null,
+      smDemo: false,
+      postEmpleado: {},
 
-      documentos: [
+      documentos: [],
+      columns: [
         {
-          src: 'https://i.pinimg.com/originals/79/83/19/79831914e8d3733c333a42f0921388a6.jpg',
-          alt: 'Documento 1',
-          descripcion: 'Descripción del documento 1',
-          visible: false
+          key: 'name',
+          label: 'Nombre',
+          _style: { width: '20%' },
         },
         {
-          src: 'documento2.png',
-          alt: 'Documento 2',
-          descripcion: 'Descripción del documento 2',
-          visible: false
+          key: 'createdAt',
+          label: 'Fecha de creacion',
+          sorter: false,
+          _style: { width: '35%' },
         },
         {
-          src: 'documento3.png',
-          alt: 'Documento 3',
-          descripcion: 'Descripción del documento 3',
-          visible: false
-        }
-      ]
-
+          key: 'contentType',
+          label: 'Tipo',
+          _style: { width: '5%' },
+        },
+        {
+          key: 'show_details',
+          label: '',
+          _style: { width: '20%' },
+          filter: false,
+          sorter: false,
+        },
+      
+      ],
     }
-
+  },
+  mounted() {
+    this.getFileById(this.empleado.id)
   },
   methods: {
-    focusInput() {
-      this.$refs.name.focus()
-      this.$refs.klk.focus()
-    },
-
-    unaVez() {
-      this.focusInput()
-    },
-    openModal() {
-      this.xlDemo = true
-      setTimeout(this.unaVez, 200)
-    },
     CloseModal() {
       this.$emit('closeModal', false)
     },
+    
+    
+ 
 
+    postDocumentos() {
+      if (this.empleado.id != null) {
+        const formData = new FormData()
+        formData.append('userId', this.empleado.id)
+        formData.append('file', this.filedata)
+
+        Api.postFiles(formData)
+      }
+    },
+    onClick() {
+
+      this.$emit('custom-event', false)
+
+    },
+
+    handleFileChange(event) {
+      this.filedata = event.target.files[0]
+    },
 
     toggle(index) {
       this.documentos[index].visible = !this.documentos[index].visible
-    }
+    },
+
+
+
+    getFileById(id) {
+      Api.getFileById(id).then((response) => {
+        this.documentos = response.data.data
+        console.log(this.documentos)
+      })
+    },
   },
+
+  watch: {
+    empleados() {
+      this.getEmpleadosById(this.empleados.id)
+    },
+  },
+  
 
   props: {
     showModal: Boolean,
+    empleado: Object,
   },
 }
 </script>
 <style scoped>
-.file-select>.select-button {
+.file-select > .select-button {
   padding: 0.5rem;
 
   line-height: 1.5;
@@ -135,7 +221,7 @@ export default {
   text-align: center;
 }
 
-.file-select>input[type='file'] {
+.file-select > input[type='file'] {
   display: none;
 }
 </style>

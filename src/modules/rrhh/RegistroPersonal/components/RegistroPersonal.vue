@@ -1,6 +1,7 @@
 <template>
   <h3 class="text-center">Mantenimientos Empleados</h3>
-  <AccionPersonalDialog :showModal="lgDemo4" @custom-event="closeModal" />
+  <AccionPersonalDialog :showModal="lgDemo4" @custom-event="closeModal"
+  />
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton color="info" @click="
@@ -9,7 +10,7 @@
           clearModal1()
         }
       ">Agregar</CButton>
-      <ContenedorArchivosRRHH :showModal="showModalDoc" />
+      <ContenedorArchivosRRHH :showModal="showModalDoc" :empleado="selectedEmployee" @custom-event="closeModal"/>
 
       <div class="d-inline p-2">
         <CButton color="info" @click="
@@ -89,7 +90,7 @@
             }
           ">Evaluación</CDropdownItem>
           <CDropdownItem>Eventualidad</CDropdownItem>
-          <CDropdownItem @click="showModalDoc = true">Ver Documentos</CDropdownItem>
+          <CDropdownItem @click="selectedEmployee = item; showModalDoc = true">Ver Documentos</CDropdownItem>
         </CDropdownMenu>
       </CDropdown>
     </template>
@@ -500,15 +501,6 @@
                 <div class="border" style="height: 40%"></div>
                 <h4>Guardar Imagen</h4>
                 <h4>Abrir Carpeta</h4>
-                <div class="p-2">
-                  <label class="file-select">
-                    <div class="select-button">
-                      <CIcon icon="cilCloudUpload" size="sm" />
-                      <span class="label ms-1">Adjuntar Documentos </span>
-                    </div>
-                    <input type="file" id="formFile" accept=".doc,.docx,.png,.jpge,jpg" multiple @change="onFileChange" />
-                  </label>
-                </div>
               </div>
             </div>
           </CTabPane>
@@ -746,6 +738,7 @@ export default {
   },
   data: function () {
     return {
+      selectedEmployee:{},
       filedata: {},
       userid: null,
       status: false,
@@ -977,9 +970,9 @@ export default {
       setTimeout(this.unaVez, 200)
     },
     closeModal(payload) {
-      this.lgDemo4 = payload
+      this.showModalDoc = payload
     },
-
+   
     changePrograma(e) {
       Api.getDepartamentoByProgramaId(e.target.value).then((response) => {
         this.departamentos = response.data.data

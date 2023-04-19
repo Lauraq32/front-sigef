@@ -34,9 +34,9 @@ class RegistroPersonal {
     return http.get(`empleados`)
   }
   //get Archivos por el id del empleado
-  getFileById(){
+  getFileById(id){
     return http.get(
-      ` empleados/${id}`
+      `files?tag=${id}`
     )
   }
 
@@ -45,7 +45,7 @@ class RegistroPersonal {
   }
 
   getEmpleadoByID(id) {
-    return http.get(`Empleado/${id}`)
+    return http.get(`empleados/${id}`)
   }
 
   getDepartamentoByProgramaId(id) {
@@ -68,13 +68,19 @@ class RegistroPersonal {
   getAreaTrabajobyid(id) {
     return http.get(`areas-trabajo/${id}`)
   }
+  getImagenesById(fileId){
+    return http.get(`files/${fileId}`)
+  }
   //post
 
-  postEmpleado(data) {
+  postEmpleados(data) {
     return http.post('empleados', data)
   }
   postFiles(formData){
     return http.post(`files`, formData)
+
+  }
+  getImagenesById(id){
 
   }
   postSectores(data) {
@@ -87,7 +93,7 @@ class RegistroPersonal {
 
   //put
   putEmpleado(id, data) {
-    return http.put(`Empleado/${id}`, data)
+    return http.put(`empleados/${id}`, data)
   }
 
   putArea(id) {
