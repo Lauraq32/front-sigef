@@ -8,8 +8,8 @@
 
     <div class="container-fluid flex-column">
       <div class="text-center justify-content-center">
-        <h5>Ayuntamiento Municipal de {{ empleadosObjects.ayuntamientoId }}</h5>
-        <p>Telefono {{ empleadosObjects.telefono }} </p>
+        <h5>{{ ayuntamiento.descripcion }}</h5>
+        <p>Telefono {{ empleado.telefono }} </p>
         <h5>Tarjeta del Empleado</h5>
       </div>
 
@@ -67,7 +67,8 @@ import Api from '@/modules/rrhh/RegistroPersonal/services/RegistroPersonalServic
 import { useRoute } from 'vue-router';
 import { formatDate } from '@/utils/format'
 import { CIcon } from '@coreui/icons-vue'
-import * as icon from '@coreui/icons'
+
+
 
 export default {
   name: 'EmpleadoReport',
@@ -82,6 +83,7 @@ export default {
   data() {
     return {
       formatDate,
+      ayuntamiento: {},
       datosLaborales: [
         {
           label: 'Fecha Ingreso',
@@ -228,7 +230,7 @@ export default {
 
       ],
 
-      empleadosObjects: {},
+      empleado: {},
     }
   },
 
@@ -242,15 +244,24 @@ export default {
       window.print();
     },
 
+    getAyuntamientobyId(id) {
+      Api.getAyuntamientoById(id).then((response) => {
+        this.ayuntamiento = response.data.data
+
+      })
+    },
+
     getEmpleadoById(id) {
       Api.getEmpleadoByID(id).then((response) => {
-        this.empleadosObjects = response.data.data
-        this.empleadosObjects.fechaIngreso = this.formatDate(this.empleadosObjects.fechaIngreso)
-        this.empleadosObjects.fechaNacimiento = this.formatDate(this.empleadosObjects.fechaNacimiento)
+        this.empleado = response.data.data
+        this.empleado.fechaIngreso = this.formatDate(this.empleado.fechaIngreso)
+        this.empleado.fechaNacimiento = this.formatDate(this.empleado.fechaNacimiento)
+        this.empleado.ayuntamientoId = response.data.data.ayuntamientoId
+        this.getAyuntamientobyId(this.empleado.ayuntamientoId)
       })
     },
     lookInfo(param) {
-      return param.split(".").reduce((acc, item) => acc?.[item], this.empleadosObjects) ?? '&nbsp;'
+      return param.split(".").reduce((acc, item) => acc?.[item], this.empleado) ?? '&nbsp;'
     }
 
   },

@@ -30,6 +30,10 @@ class RegistroPersonal {
     return http.get(`profesiones/${id}`)
   }
 
+  getAyuntamientoById(id){
+    return http.get(`Ayuntamiento/${id}`)
+  }
+
   getAllEmpleado() {
     return http.get(`empleados`)
   }
