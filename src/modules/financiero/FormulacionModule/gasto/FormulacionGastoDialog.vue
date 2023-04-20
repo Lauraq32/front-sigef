@@ -162,12 +162,12 @@
 
                     <template #show_details="{ item }">
                         <td>
-                            <div>
-                                <CButton class="m-1" color="danger" square size="sm" @click="onDeleteDetalle(item)">
-                                    <CIcon icon="cilTrash" size="sm"/>
-                                </CButton>
-                                <CButton class="m-1" color="warning" square size="sm" @click="onEditDetalle(item)">
+                            <div class="d-flex">
+                                <CButton class="text-primary" square size="sm" @click="onEditDetalle(item)">
                                     <CIcon icon="cilPencil" size="sm"/>
+                                </CButton>
+                                <CButton class="me-1 text-danger" square size="sm" @click="onDeleteDetalle(item)">
+                                    <CIcon icon="cilTrash" size="sm"/>
                                 </CButton>
                             </div>
                         </td>

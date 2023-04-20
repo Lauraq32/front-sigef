@@ -486,13 +486,13 @@ export default {
             icon: 'cilLayers'
           },
           {
-            label: 'Importar Formulación',
-            accionHandler: this.onFileChange.bind(this),
+            label: 'Importar Proyectos',
+            accionHandler: this.onFileChangeProyectos.bind(this),
             type: 'upload'
           },
           {
-            label: 'Importar Proyectos',
-            accionHandler: this.onFileChangeProyectos.bind(this),
+            label: 'Importar Formulación',
+            accionHandler: this.onFileChange.bind(this),
             type: 'upload'
           }
         ]);
