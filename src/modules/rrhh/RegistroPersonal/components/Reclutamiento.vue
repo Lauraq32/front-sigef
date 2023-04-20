@@ -5,7 +5,7 @@
     <div class="d-inline p-2">
       <CButton color="info" @click="
         () => {
-          showReclutamientoModal= true
+          showReclutamientoModal = true
         }
       ">Agregar</CButton>
     </div>
@@ -18,9 +18,9 @@
     pagination>
     <template #show_details="{ item, index }">
       <td>
-        <CButton  @click="getReclutamientoById(item)" color="primary" variant="outline">Editar</CButton>
+        <CButton @click="getReclutamientoById(item)" color="primary" variant="outline">Editar</CButton>
       </td>
-           
+
     </template>
     <template #entrevistado="{ item, index }">
       <td class="py-2">
@@ -34,15 +34,16 @@
     </template>
 
   </CSmartTable>
-  <ReclutamientoDialog :showModal="showReclutamientoModal" @closeModal="closeModal" @post-reclutamiento="saveSolicitudEmpleo"
-    solicitudEmpleoObject="solicitudItem" :solicitudEmpleoId="reclutamientoId" />
+  <ReclutamientoDialog :showModal="showReclutamientoModal" @closeModal="closeModal"
+    @post-reclutamiento="saveSolicitudEmpleo" solicitudEmpleoObject="solicitudItem"
+    :solicitudEmpleoId="reclutamientoId" />
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import ReclutamientoDialog from '../components/Dialogos/ReclutamientoDialogs.vue'
 import Api from '../services/SolicitudEmpleo'
-import { mapActions} from 'pinia'
+import { mapActions } from 'pinia'
 import { useToastStore } from '@/store/toast'
 
 export default {
@@ -89,13 +90,13 @@ export default {
       solicitudItem: [],
       footerItem: [
         {
-          label: 'Total Items',
+          label: 'Total Item',
           _props: {
             color: '',
             colspan: 1,
             style: 'font-weight:bold;',
           },
-        },
+        }
 
       ],
       details: [],
@@ -110,7 +111,8 @@ export default {
     ...mapActions(useToastStore, ['show']),
     getAll() {
       Api.getSolicitudEmpleo().then(response => (
-        this.solicitudItem = response.data.data
+        this.solicitudItem = response.data.data,
+        this.footerItem[0].label = `Total Item: ${this.solicitudItem.length}`
       ))
     },
     saveSolicitudEmpleo(payload) {
@@ -126,7 +128,7 @@ export default {
           this.show({
             content: error.response.data,
             closable: true,
-            color:'danger'
+            color: 'danger'
           })
         })
       } else {
@@ -135,20 +137,20 @@ export default {
             content: 'Registro Agregado correctamente',
             closable: true,
           })
-          this.showReclutamientoModal= false
+          this.showReclutamientoModal = false
         }).catch((error) => {
           this.show({
             content: error.response.data,
             closable: true,
-            color:'danger'
+            color: 'danger'
           })
         })
       }
-     
+
 
     },
     closeModal() {
-      this.showReclutamientoModal= false;
+      this.showReclutamientoModal = false;
     },
     getBadge(status) {
       switch (status) {
@@ -167,7 +169,7 @@ export default {
     getReclutamientoById(item) {
       this.solicitudEmpleoId = item.id
       this.reclutamientoId = item.id
-      this.showReclutamientoModal= true
+      this.showReclutamientoModal = true
     },
 
   },

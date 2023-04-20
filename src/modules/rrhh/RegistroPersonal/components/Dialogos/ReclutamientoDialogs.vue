@@ -30,7 +30,7 @@
 
                   </CCol>
                   <CCol :md="12">
-                    <CFormLabel for="fecha">Fecha Solicitud</CFormLabel>
+                    <CFormLabel for="fecha">Fecha solicitud</CFormLabel>
                     <CFormInput v-model="solicitudEmpleo.fecha" type="date" id="fecha" required />
 
                   </CCol>
@@ -66,7 +66,7 @@
                 <CCol :md="6">
                   <CCol :md="12">
                     <CFormLabel for="edad">Edad</CFormLabel>
-                    <CFormInput v-model="solicitudEmpleo.edad" id="edad" type="number"/>
+                    <CFormInput v-model="solicitudEmpleo.edad" id="edad" type="text" v-on:keypress="onlyNumber($event)"/>
 
                   </CCol>
                   <CCol :md="12">
@@ -186,7 +186,7 @@ import { CCol, CSmartTable } from '@coreui/vue-pro'
 import { CIcon } from '@coreui/icons-vue'
 import ProfessionDialog from './SelectProfesionDialog.vue'
 import Api from '../../services/SolicitudEmpleo'
-
+import {onlyNumber} from '@/utils/validator'
 export default {
   name: 'ReclutamientoDialog',
   components: {
@@ -198,6 +198,7 @@ export default {
   },
   data: function () {
     return {
+      onlyNumber,
       validatedCustom01: null,
       displayNameProfesion: '',
       showProfessionModal: false,
@@ -217,7 +218,7 @@ export default {
         entrevistado: 'Si',
         evaluado: 'Si',
         descalificado: 'Si',
-        resultado: "",
+        resultado: " ",
         observacion: ""
       },
       professionModal: false,
