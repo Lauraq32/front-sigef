@@ -1,0 +1,135 @@
+<template>
+  <CModal
+    backdrop="static"
+    size="m"
+    :visible="showModal"
+    @close="
+      () => {
+        closeModal()
+      }
+    "
+  >
+    <CModalHeader>
+      <CModalTitle>Útiles Laboral</CModalTitle>
+    </CModalHeader>
+    <CModalBody>
+      <!-- <div class="row mx-3">
+        <div class="col-6">
+          <h5>Descripción:</h5>
+        </div>
+        <div class="col-6">
+          <h6>{{ postInventario.descripcion }}</h6>
+        </div>
+      </div>
+
+      <div class="row mx-3">
+        <div class="col-6">
+          <h5>Tipo:</h5>
+        </div>
+        <div class="col-6">
+          <h6>{{ postInventario.tipo }}</h6>
+        </div>
+      </div> -->
+
+      <CCardBody class="mt-3">
+        <div class="row">
+          <div class="row mt-4 mx-4">
+            <div class="col-4 col-label">Fecha</div>
+            <div class="col-8 col-md-6">
+              <CFormInput type="date" v-model="postInventarioCantidad.fecha" />
+            </div>
+          </div>
+
+          <div class="row mt-4 mx-4">
+            <div class="col-4 col-label">Observacion</div>
+            <div class="col-8 col-md-6">
+              <CFormInput v-model="postInventarioCantidad.observacion" />
+            </div>
+          </div>
+
+          <div class="row mt-4 mx-4">
+            <div class="col-4 col-label">autorizadoPor</div>
+            <div class="col-8 col-md-6">
+              <CFormInput
+                v-model="postInventarioCantidad.autorizadoPor"
+                id="validationCustom04"
+              >
+              </CFormInput>
+            </div>
+          </div>
+
+          <div class="row mt-4 mx-4">
+            <div class="col-4 col-label">Cantidad</div>
+            <div class="col-8 col-md-6">
+              <VueNumberFormat
+                v-model:value="postInventarioCantidad.cantidad"
+                class="form-control"
+                :format="'0'"
+                :options="{
+                  precision: 0,
+                  prefix: '',
+                  decimal: '',
+                  thousand: '',
+                }"
+              >
+              </VueNumberFormat>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer mt-4">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+            @click="
+              () => {
+                this.showModal = false
+              }
+            "
+          >
+            Close
+          </button>
+          <button
+            class="btn btn-info btn-block mt-1"
+            v-on:click="agregarCantidadInventario"
+          >
+            Guardar
+          </button>
+        </div>
+      </CCardBody>
+    </CModalBody>
+  </CModal>
+</template>
+
+<script>
+import { CSmartTable } from '@coreui/vue-pro'
+import { CModal } from '@coreui/vue'
+
+export default {
+  name: 'utilesLaborales',
+  components: {
+    CSmartTable,
+    CModal,
+  },
+  data: () => {
+    return {
+      postInventarioCantidad: {
+        fecha: null,
+        observacion: null,
+        autorizadoPor: null,
+        cantidad: 0,
+      },
+    }
+  },
+
+  methods: {
+    closeModal() {
+      this.$emit('closeModal', false)
+    },
+  },
+
+  props: {
+    showModal: Boolean,
+  },
+}
+</script>

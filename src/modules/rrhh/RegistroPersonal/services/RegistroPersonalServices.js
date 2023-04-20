@@ -51,6 +51,10 @@ class RegistroPersonal {
     return http.post(`inventarios/${id}/utiles-laborales`, data)
   }
 
+  postEventos(id, data) {
+    return http.post(`inventarios/${id}/eventos`, data)
+  }
+
   updateCargo(id, data) {
     return http.put(`cargos/${id}`, data)
   }
