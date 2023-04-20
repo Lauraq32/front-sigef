@@ -66,7 +66,7 @@ export default {
       meta: { label: 'Sectores' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/rrhh/RegistroPersonal/components/Sectorees.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/rrhh/RegistroPersonal/components/Sectores.vue'
         ),
     },
     {
