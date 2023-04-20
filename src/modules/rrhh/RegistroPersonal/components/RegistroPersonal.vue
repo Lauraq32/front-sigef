@@ -72,7 +72,8 @@
             ">Evaluación</CDropdownItem>
             <CDropdownItem @click="
               () => {
-                newTarjetaEmpleadoModal = true
+                empleado=item;
+                newTarjetaEmpleadoModal = true;
               }
             ">Tarjeta</CDropdownItem>
             <CDropdownItem>Eventualidad</CDropdownItem>
@@ -91,7 +92,7 @@
     @close-modal="closeRegistroPersonalModal" :empleadoId="id" />
 
     <TarjetaEmpleadoDialogs :newTarjetaEmpleadoModal="newTarjetaEmpleadoModal"
-    @close-modal="closeTarjetaEmpleadoModal" :tarjetaEmpleadoId="tarjetaEmpleadoId" />
+    @close-modal="closeTarjetaEmpleadoModal" :empleado="empleado"  />
 </template>
 
 <script>
@@ -118,7 +119,7 @@ export default {
   },
   data: function () {
     return {
-      tarjetaEmpleadoId: null,
+      empleado: null,
       newTarjetaEmpleadoModal: false,
       showRegistroPersonalModal: false,
       id: null,
@@ -288,9 +289,9 @@ export default {
     },
 
     toggleDetails(item) {
+      console.log(item)
       this.showRegistroPersonalModal = true
       this.id = item.id
-      this.tarjetaEmpleadoId = item.id
       if (item.empleados !== 0 || item.variacion !== 0) {
         this.empleadoValue = true
       } else {
