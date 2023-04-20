@@ -442,8 +442,8 @@
                 <CCol>
                   <CFormLabel for="presión">Nivel de presi&oacute;n</CFormLabel>
                   <CFormSelect id="emergenciaPresionAlta" v-model="postEmpleado.emergenciaPresionAlta">
-                    <option>Alta</option>
                     <option>Normal</option>
+                    <option>Alta</option>
                     <option>Baja</option>
                   </CFormSelect>
 
