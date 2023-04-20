@@ -4,25 +4,33 @@
     backdrop="static"
     style="width: 25%"
   >
-    <CModalHeader>
-      <CModalTitle>{{itemEmpleado.nombres}}</CModalTitle>
-
+    <CModalHeader :close-button="false">
+      <CModalTitle>{{ itemEmpleado.nombres }}</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
-        <label class="d-block font-weight-bold">Cargo: <span class="font-weight-normal">{{itemEmpleado.posicion.nombre}}</span></label>
-        <label class="d-block font-weight-bold">Departamento: <span class="font-weight-normal">{{itemEmpleado.departamento.nombre}}</span></label>
-        <img style="max-width: 400px" :src="imageUrl" alt="" />
+        <label class="d-block">
+          <span class="fw-bold"> Cargo: </span>
+          <span>
+            {{ itemEmpleado.posicion.nombre }}
+          </span>
+        </label>
+        <label class="d-block">
+          <span class="fw-bold"> Departamento: </span>
+          <span>{{ itemEmpleado.departamento.nombre }}</span></label
+        >
+        <div class="mt-4">
+          <img style="max-width: 100%" :src="imageUrl" alt="imagen Empleado" />
+        </div>
       </CCardBody>
     </CModalBody>
     <CModalFooter>
       <CButton color="secondary" data-bs-dismiss="modal" @click="closeModal">
         Cerrar
       </CButton>
-      <!-- <CButton 
-          color="primary" @click="saveProfesion">
-          Guardar
-        </CButton> -->
+      <CButton color="primary" @click="goToTarjetaEmpleado">
+        Tarjeta Empleado
+      </CButton>
     </CModalFooter>
   </CModal>
 </template>
@@ -43,19 +51,14 @@ export default {
     return {
       itemEmpleado: {
         nombres: '',
-        posicion:{
-          nombre:''
+        posicion: {
+          nombre: '',
         },
         departamento: {
-          nombre: ''
-        }
+          nombre: '',
+        },
       },
-      imageUrl:
-        'https://imgd.aeplcdn.com/393x221/n/cw/ec/1/versions/ktm-rc-200-standard1676900452795.jpg?q=75',
-      //   profesionFormValidated: false,
-      //   profesionObject: {
-      //     name: '',
-      //   },
+      imageUrl: '',
     }
   },
 
@@ -63,20 +66,9 @@ export default {
     closeModal() {
       this.$emit('close-modal')
     },
-    // saveProfesion() {
-    //   this.profesionFormValidated = false;
-    //   if (this.$refs.formRef.$el.checkValidity()) {
-    //     this.$emit('post-profesiones', { ...this.profesionObject })
-    //     this.clearForm()
-    //     return;
-    //   }
-    //   this.profesionFormValidated = true;
-    // },
-    // clearForm() {
-    //   this.profesionObject = {
-    //     name: '',
-    //   }
-    // },
+    goToTarjetaEmpleado() {
+      window.open(`/#/pages/empleados/${this.empleado.id}`, '_blank').focus()
+    },
   },
 
   watch: {
@@ -89,14 +81,12 @@ export default {
         },
       })
         .then((files) => {
-          console.log(files)
           return Api.getFileById(files.pop().id)
         })
         .then((blobUrl) => {
           this.imageUrl = blobUrl
           this.itemEmpleado = { ...obj }
         })
-      console.log('3224', obj)
     },
   },
 
