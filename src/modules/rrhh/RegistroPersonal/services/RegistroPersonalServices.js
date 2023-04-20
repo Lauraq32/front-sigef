@@ -43,6 +43,14 @@ class RegistroPersonal {
     return http.get(`cargos/${id}`)
   }
 
+  getInventarioById(id) {
+    return http.get(`inventarios/${id}/utiles-laborales`)
+  }
+
+  postInventarioById(id, data) {
+    return http.post(`inventarios/${id}/utiles-laborales`, data)
+  }
+
   updateCargo(id, data) {
     return http.put(`cargos/${id}`, data)
   }
@@ -67,6 +75,10 @@ class RegistroPersonal {
   //sectores
   getAllSector() {
     return http.get('sectores')
+  }
+
+  getAllInventario() {
+    return http.get('inventarios')
   }
 
   //AREA TRABAJO
@@ -114,6 +126,10 @@ class RegistroPersonal {
     return http.post('Empleado', data)
   }
 
+  postInventario(data) {
+    return http.post('inventarios', data)
+  }
+
   postSectores(data) {
     return http.post('sectores', data)
   }
@@ -142,6 +158,10 @@ class RegistroPersonal {
   //put
   putEmpleado(id, data) {
     return http.put(`Empleado/${id}`, data)
+  }
+
+  putInventario(id, data) {
+    return http.put(`inventarios/${id}`, data)
   }
 
   putArea(id) {
