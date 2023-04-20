@@ -44,7 +44,14 @@
           <CDropdownItem @click="abrirModal(item)"
             >Agregar Útiles</CDropdownItem
           >
-          <CDropdownItem @click="">Agregar Movimientos</CDropdownItem>
+          <CDropdownItem
+            @click="
+              () => {
+                showEvento = true
+              }
+            "
+            >Agregar Movimientos</CDropdownItem
+          >
         </CDropdownMenu>
       </CDropdown>
     </template>
@@ -100,7 +107,11 @@
           <div class="row mt-4 mx-4">
             <div class="col-4 col-label">autorizadoPor</div>
             <div class="col-8 col-md-6">
-              <CFormInput v-model="postInventarioCantidad.autorizadoPor" id="validationCustom04"> </CFormInput>
+              <CFormInput
+                v-model="postInventarioCantidad.autorizadoPor"
+                id="validationCustom04"
+              >
+              </CFormInput>
             </div>
           </div>
 
@@ -204,6 +215,83 @@
       </CCardBody>
     </CModalBody>
   </CModal>
+  <CModal
+    size="m"
+    :visible="showEvento"
+    @close="
+      () => {
+        showEvento = false
+      }
+    "
+  >
+    <CModalHeader>
+      <CModalTitle>Inventario útiles de trabajo</CModalTitle>
+    </CModalHeader>
+    <CModalBody>
+      <CCardBody>
+        <div class="row">
+          <div class="row mt-4 ">
+            <div class="col-4 col-label">Fecha</div>
+            <div class="col-8">
+              <CFormInput type="date" v-model="postEvento.fecha" />
+            </div>
+          </div>
+
+          <div class="row mt-4 ">
+            <div class="col-4 col-label">Cantidad</div>
+            <div class="col-8 ">
+              <VueNumberFormat
+                v-model:value="postEvento.cantidad"
+                class="form-control"
+                :format="'0'"
+                :options="{
+                  precision: 0,
+                  prefix: '',
+                  decimal: '',
+                  thousand: '',
+                }"
+              >
+              </VueNumberFormat>
+            </div>
+          </div>
+
+          <div class="row mt-4 ">
+            <div class="col-4 col-label">Tipo</div>
+            <div class="col-8">
+              <CFormSelect
+                v-model="postInventario.tipo"
+                id="validationCustom04"
+              >
+                <option>Deducible</option>
+                <option>No-retornable</option>
+                <option>Retornable</option>
+              </CFormSelect>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer mt-4">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+            @click="
+              () => {
+                showEvento = false
+              }
+            "
+          >
+            Close
+          </button>
+          <button
+            class="btn btn-info btn-block mt-1"
+            v-on:click="submitInvetario"
+          >
+            Guardar
+          </button>
+        </div>
+      </CCardBody>
+    </CModalBody>
+  </CModal>
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
@@ -228,9 +316,17 @@ export default {
       validatedCustom01: null,
       showAgregarCantidad: false,
       showInventario: false,
+      showEvento: false,
       postInventario: {
         descripcion: null,
         tipo: null,
+      },
+      postEvento: {
+        utilId: 0,
+        fecha: null,
+        cantidad: null,
+        tipo: null,
+        empleadoId: 0,
       },
       columns: [
         { key: 'descripcion', label: 'Descripción', _style: { width: '20%' } },
