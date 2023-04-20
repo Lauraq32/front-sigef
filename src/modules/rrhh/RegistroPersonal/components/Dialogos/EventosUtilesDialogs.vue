@@ -65,7 +65,7 @@
           </button>
           <button
             class="btn btn-info btn-block mt-1"
-            v-on:click="agregarEventos"
+            v-on:click="submitEventos"
           >
             Guardar
           </button>
@@ -96,10 +96,19 @@ export default {
     closeModal() {
       this.$emit('closeModal', false)
     },
+
+    submitEventos() {
+      this.$emit('submitEventos', this.postEvento)
+    },
   },
 
   props: {
     showModal: Boolean,
+    inventario: {
+      type: Object,
+      default: {},
+      required: true,
+    },
   },
 }
 </script>

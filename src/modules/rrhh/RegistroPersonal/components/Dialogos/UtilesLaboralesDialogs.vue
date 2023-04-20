@@ -91,7 +91,7 @@
           </button>
           <button
             class="btn btn-info btn-block mt-1"
-            v-on:click="agregarCantidadInventario"
+            v-on:click="submitUtilesLaborales"
           >
             Guardar
           </button>
@@ -104,6 +104,7 @@
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import Api from '@/modules/rrhh/RegistroPersonal/services/RegistroPersonalServices'
 
 export default {
   name: 'utilesLaborales',
@@ -126,10 +127,20 @@ export default {
     closeModal() {
       this.$emit('closeModal', false)
     },
+
+
+    submitUtilesLaborales(){
+      this.$emit('submitUtilesLaborales', this.postInventarioCantidad)
+    }
   },
 
   props: {
     showModal: Boolean,
+    inventario: {
+      type: Object,
+      default: {},
+      required: true,
+    },
   },
 }
 </script>

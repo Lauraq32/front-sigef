@@ -45,6 +45,7 @@
             @click="
               () => {
                 showAgregarCantidad = true
+                inventarioById = item
               }
             "
             >Agregar Útiles</CDropdownItem
@@ -52,7 +53,7 @@
           <CDropdownItem
             @click="
               () => {
-                showEvento = true
+                showModalEvento(item)
               }
             "
             >Agregar Movimientos</CDropdownItem
@@ -122,15 +123,25 @@
     </CModalBody>
   </CModal>
 
-  <utilesLaborales :showModal="showAgregarCantidad" @closeModal="closeModal" />
-  <eventoUtiles :showModal="showEvento" @closeModal="closeModal" />
+  <utilesLaborales
+    :showModal="showAgregarCantidad"
+    @closeModal="closeModal"
+    @submitInvetario="agregarCantidadInventario"
+    :inventario="inventarioById"
+  />
+  <eventoUtiles
+    :showModal="showEvento"
+    @closeModal="closeModal"
+    @submitEventos="agregarEventos"
+    :inventario="inventarioById"
+  />
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/RegistroPersonalServices'
-import utilesLaborales from '@/modules/rrhh/RegistroPersonal/components/Dialogos/UtilesLaborales.vue'
-import eventoUtiles from '@/modules/rrhh/RegistroPersonal/components/Dialogos/EventosUtiles.vue'
+import utilesLaborales from '@/modules/rrhh/RegistroPersonal/components/Dialogos/UtilesLaboralesDialogs.vue'
+import eventoUtiles from '@/modules/rrhh/RegistroPersonal/components/Dialogos/EventosUtilesDialogs.vue'
 
 export default {
   components: {
@@ -177,52 +188,11 @@ export default {
     }
   },
 
-  computed: {
-    fechaInventario: {
-      get() {
-        if (
-          this.postInventarioCantidad.fecha !== null &&
-          this.postInventarioCantidad.fecha?.toString() !== 'Invalid Date'
-        ) {
-          let date = this.postInventarioCantidad.fecha
-          if (typeof this.postInventarioCantidad.fecha === 'string') {
-            date = new Date(this.postInventarioCantidad.fecha)
-            return date.toISOString().split('T')[0]
-          }
-        } else {
-          return
-        }
-      },
-      set(value) {
-        return (this.postInventarioCantidad.fecha = new Date(
-          `${value}T00:00:00`,
-        ))
-      },
-    },
-  },
   methods: {
     getInventario() {
       Api.getAllInventario().then((response) => {
         this.inventario = response.data.data
       })
-    },
-
-    agregarEventos() {
-      Api.postEventos(this.id, this.postEvento)
-        .then(() => {
-          this.show({
-            content: 'Registro añadido correctamente',
-            closable: true,
-          })
-        })
-        .catch((error) => {
-          this.show({
-            content: error.data,
-            closable: true,
-            color: 'danger',
-            class: 'text-white',
-          })
-        })
     },
 
     closeModal(close) {
@@ -242,10 +212,28 @@ export default {
       this.postInventario.descripcion = item.descripcion
     },
 
-    agregarCantidadInventario() {
-      Api.postInventarioById(this.id, this.postInventarioCantidad)
+    agregarCantidadInventario(payload) {
+      Api.postInventarioById(this.id, payload)
         .then(() => {
           setTimeout(this.getInventario, 500)
+          this.show({
+            content: 'Registro añadido correctamente',
+            closable: true,
+          })
+        })
+        .catch((error) => {
+          this.show({
+            content: error.data,
+            closable: true,
+            color: 'danger',
+            class: 'text-white',
+          })
+        })
+    },
+
+    agregarEventos(payload) {
+      Api.postEventos(this.id, payload)
+        .then(() => {
           this.show({
             content: 'Registro añadido correctamente',
             closable: true,
