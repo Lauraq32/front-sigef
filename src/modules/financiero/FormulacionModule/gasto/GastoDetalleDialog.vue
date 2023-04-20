@@ -140,12 +140,6 @@
                       <div class="col-4">
                         <CFormLabel for="presupuestoBco1">Personal</CFormLabel>
                         <CurrencyInput id="presupuestoBco1" v-model="detalle.presupuestoBco1" :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}" />
-                        <!-- <VueNumberFormat v-model:value="detalle.presupuestoBco1" type="text" class="form-control" :options="{
-                          precision: 2,
-                          prefix: '',
-                          decimal: '.',
-                          thousand: ',',
-                        }" id="presupuestoBco1" required /> -->
                         <CFormFeedback invalid>
                           Favor agregar el campo
                         </CFormFeedback>
