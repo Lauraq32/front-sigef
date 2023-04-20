@@ -67,7 +67,8 @@
                   </div>
                   <div class="col-9">
                     <CCol :md="12">
-                      <CFormSelect v-model="postEmpleado.tipoDocumento" id="validationCtipoDocumentoustom05">
+                      <CFormSelect v-model="postEmpleado.tipoDocumento" v-on:change="changeDocument()"
+                        id="validationCtipoDocumentoustom05">
                         <option>C&eacute;dula</option>
                         <option>Pasaporte</option>
                       </CFormSelect>
@@ -77,11 +78,12 @@
 
                 <div class="row mt-3">
                   <div class="col-3">
-                    <CFormLabel for="cedula">Documento</CFormLabel>
+                    <CFormLabel for="codigoIdentidad">Documento</CFormLabel>
                   </div>
                   <div class="col-9">
                     <CCol :md="12">
-                      <CFormInput v-model="postEmpleado.cedula" id="cedula" required />
+                      <CFormInput v-model="postEmpleado.codigoIdentidad" :maxlength="cedulaMax" id="codigoIdentidad"
+                        v-on:keypress="checkDocument($event)" required />
                     </CCol>
                   </div>
                 </div>
@@ -592,15 +594,15 @@ export default {
       registroEmpleadoId: null,
       areaTrabajo: [],
       programaDivision: [],
-      cedulaValue: null,
       sector: [],
+      cedulaMax: null,
       tabPaneActiveKey: 1,
       postEmpleado: {
         codigo: null,
         nombres: null,
         apellidos: null,
         tipoDocumento: 'Cédula',
-        cedula: null,
+        codigoIdentidad: null,
         direccion: null,
         sectorId: 1,
         telefono: null,
@@ -698,18 +700,27 @@ export default {
   },
 
   methods: {
+    checkDocument(e) {
+      if (this.postEmpleado.tipoDocumento === 'Cédula') {
+        this.isNumber(e)
+        this.cedulaMax = 11
+      }
+    },
+    changeDocument() {
+      this.postEmpleado.codigoIdentidad = null
+      this.cedulaMax = null
+    },
+
+
     isLetter(e) {
       let char = String.fromCharCode(e.keyCode); // Get the character
       if (/^[A-Za-z]+$/.test(char)) return true; // Match with regex 
       else e.preventDefault(); // If not match, don't add to input text
     },
-    changeDocumento(e) {
-      if (this.tipoDocumento == 'Pasaporte') {
-        let char = String.fromCharCode(e.keyCode); // Get the character
-        if (/^[A-Za-z]+$/.test(char)) return true; // Match with regex 
-        else e.preventDefault(); // If not match, don't add to input text
-      }
-
+    isNumber(e) {
+      let char = String.fromCharCode(e.keyCode); // Get the character
+      if (/^-?\d+\.?\d*$/.test(char)) return true; // Match with regex 
+      else e.preventDefault(); // If not match, don't add to input text
     },
 
     cargarListas() {
@@ -781,8 +792,8 @@ export default {
         codigo: null,
         nombres: null,
         apellidos: null,
-        tipoDocumento: null,
-        cedula: null,
+        tipoDocumento: 'Cédula',
+        codigoIdentidad: null,
         direccion: null,
         sectorId: 0,
         telefono: null,
