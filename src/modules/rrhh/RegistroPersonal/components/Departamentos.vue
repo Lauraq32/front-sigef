@@ -5,12 +5,7 @@
     <div class="d-inline p-2">
       <CButton
         color="info"
-        @click="
-          () => {
-            lgDemo = true
-          }
-        "
-        >Agregar</CButton
+        @click="() => {showAddDeptModal = true}">Agregar</CButton
       >
     </div>
     <div class="d-inline p-2">
@@ -24,8 +19,7 @@
     clickableRows
     :tableProps="{
      striped: true,
-      hover: true,
-    }"
+      hover: true,}"
     :tableHeadProps="{}"
     :activePage="1"
     :footer="footerItem"
@@ -37,8 +31,8 @@
     :itemsPerPage="5"
     columnSorter
     :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination
-  >
+    pagination>
+
     <template #status="{ item }">
       <td>
         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
@@ -70,126 +64,49 @@
       </CCollapse>
     </template>
   </CSmartTable>
-  <CModal
-    size="lg"
-    :visible="lgDemo"
-    @close="
-      () => {
-        lgDemo = false
-      }
-    "
-  >
-    <CModalHeader>
-      <CModalTitle>Departamentos</CModalTitle>
-    </CModalHeader>
-    <CModalBody>
-      <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
-          <CCol :md="2">
-            <CFormLabel for="validationCustom01">Clasificación</CFormLabel>
-            <CFormSelect id="validationCustom04">
-              <option>Ingreso</option>
-              <option>Gastos</option>
-            </CFormSelect>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustomUsername">Clasificador</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustomUsername">Descripción</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustomUsername">Tipo</CFormLabel>
-            <CFormSelect id="validationCustom04">
-              <option>indefinido</option>
-              <option>indefinido</option>
-            </CFormSelect>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustomUsername">Resumen Desc</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustomUsername"
-              >Cuenta Contable</CFormLabel
-            >
-            <CFormInput id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
-              Guardar
-            </button>
-          </div>
-        </CForm>
-      </CCardBody>
-    </CModalBody>
-  </CModal>
+
+  <AddDepartment @onClose="handleAddModalClose" :showModal="showAddDeptModal" />
+
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
-import { CModal } from '@coreui/vue'
+import AddDepartment from './Dialogos/AddDepartment.vue'
 export default {
   components: {
     CSmartTable,
-    CModal,
+    AddDepartment
   },
   data: () => {
     return {
       validatedCustom01: null,
-      lgDemo: false,
+      showAddDeptModal: false,
       columns: [
-        { key: 'Código', label: 'Código', _style: { width: '40%' } },
+        { key: 'Código', label: 'Código', _style: { width: '8%' } },
         {
           key: 'Departamento',
           label: 'Departamento',
-          _style: { width: '40%' },
+          _style: { width: '25%' },
         },
-        { key: 'Programa', label: 'Programa', _style: { width: '40%' } },
+        { key: 'Programa', label: 'Programa', _style: { width: '23%' } },
         {
           key: 'Grupo de nomina',
           label: 'Grupo de nomina',
-          _style: { width: '40%' },
+          _style: { width: '12%' },
         },
         {
           key: 'Estructura Prog.',
           label: 'Estructura Prog.',
-          _style: { width: '40%' },
+          _style: { width: '12%' },
         },
         {
           key: 'Clasificador',
           label: 'Clasificador',
-          _style: { width: '40%' },
+          _style: { width: '10%' },
         },
         {
           key: 'Limitado rep.',
           label: 'Limitado rep.',
-          _style: { width: '40%' },
+          _style: { width: '15%' },
         },
         {
           key: 'show_details',
@@ -215,6 +132,10 @@ export default {
     }
   },
   methods: {
+    handleAddModalClose(event){
+      this.showAddDeptModal = false
+    }
+    ,
     handleSubmitCustom01(event) {
       const form = event.currentTarget
       if (form.checkValidity() === false) {
@@ -246,7 +167,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('AdministrativoModule/getUsuarios')
+    // this.$store.dispatch('AdministrativoModule/getUsuarios')
   },
 }
 </script>
