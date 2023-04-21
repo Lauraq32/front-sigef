@@ -27,6 +27,10 @@ class RegistroPersonal {
     return http.get('profesiones')
   }
 
+  getAccionesPersonalById(id) {
+    return http.get(`acciones-personal/${id}`)
+  }
+
   addProfesion(data) {
     return http.post('profesiones', data)
   }

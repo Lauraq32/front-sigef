@@ -399,11 +399,11 @@ export default {
     getAccionesPersonalById(item) {
       this.clearAccionPersonal()
       this.getTipoAcciones()
-      this.showAgregarAcciones = true
       Api.getAccionesPersonalById(item.id).then((response) => {
         this.postAccionPersonal = response.data.data
         this.id = item.id
       })
+      this.showAgregarAcciones = true
     },
 
     postAccionesPersonal() {
