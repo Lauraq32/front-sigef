@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Cargos</h3>
+  <h3 class="text-center">Sectores</h3>
   <hr />
   <div class="table-headers">
     <div class="d-inline p-2">
@@ -7,15 +7,10 @@
         color="info"
         @click="
           () => {
-            cargoModal = true
+            newSectorModal = true
           }
         "
         >Agregar</CButton
-      >
-    </div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info"
-        >Imprimir</CButton
       >
     </div>
   </div>
@@ -29,54 +24,51 @@
     }"
     :tableHeadProps="{}"
     :activePage="1"
-    header
-    :items="cargos"
-    :columns="columns"
     :footer="footerItem"
+    header
+    :items="sectores"
+    :columns="columns"
     columnFilter
     itemsPerPageSelect
     :itemsPerPage="5"
     columnSorter
-    :sorterValue="{ column: 'posicion', state: 'asc' }"
+    :sorterValue="{ column: 'nombre', state: 'asc' }"
     pagination
   >
   <template #show_details="{ item }">
       <td class="py-2">
-        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="getCargosById(item)">Editar</CButton>
+        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="editSector(item)">Editar</CButton>
       </td>
     </template>
   </CSmartTable>
-  <CargosModal
-    :cargoModal="cargoModal"
+  <SectoresModal
+    :newSectorModal="newSectorModal"
     @close-modal="closeModal"
-    @post-cargo="saveCargo"
-    :cargoId="cargoId"
+    @post-sector="saveSector"
+    :sectorId="sectorId"
   />
 </template>
+
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
-import CargosModal from '../Dialogos/CargosModal.vue'
 import { mapActions } from 'pinia'
-import Api from '../services/RegistroPersonalServices'
 import { useToastStore } from '@/store/toast'
+import SectoresModal from '../Dialogos/SectoresModal.vue'
+import Api from '../services/RegistroPersonalServices'
 export default {
   components: {
     CSmartTable,
     CModal,
-    CargosModal,
+    SectoresModal,
   },
-  data: () => {
+  data: function () {
     return {
-      cargoId: null,
-      cargos: [],
-      cargoModal: false,
+      sectorId: null,
+      newSectorModal: false,
+      sectores: [],
       columns: [
-        {
-          key: 'posicion',
-          label: 'Posición o cargo',
-          _style: { width: '40%' },
-        },
+        { key: 'nombre', label: 'Sectores', _style: { width: '90%' } },
         {
           key: 'show_details',
           label: '',
@@ -96,25 +88,30 @@ export default {
       ],
     }
   },
+  watch: {
+    newSectorModal(){
+      this.getAllSector()
+    }
+  },
   methods: {
     ...mapActions(useToastStore, ['show']),
-    closeModal(payload) {
-      this.cargoModal = payload
+    closeModal() {
+      this.newSectorModal = false
     },
-    getCargosById(item) {
-      this.cargoId = item.id
-      this.cargoModal = true
+    editSector(item) {
+      this.sectorId = item.id
+      this.newSectorModal = true
     },
-    saveCargo(payload) {
-      if (this.cargoId != null) {
-        Api.updateCargo(this.cargoId, payload)
+    saveSector(payload) {
+      if (this.sectorId != null) {
+        Api.updateSector(this.sectorId, payload)
           .then(() => {
             this.show({
               content: 'Registro actualizado correctamente',
               closable: true,
-              life: 15000,
+              life: 7_500,
             })
-            setTimeout(() => this.getAllCargo(), 200)
+            setTimeout(() => this.getAllSector(), 200)
           })
           .catch((error) => {
             return this.show({
@@ -124,14 +121,15 @@ export default {
             })
           })
       } else {
-        Api.addCargos(payload)
+        Api.addSector(payload)
           .then(() => {
             this.show({
               content: 'Registro añadido correctamente',
               closable: true,
-              life: 15000,
+              life: 7_500,
             })
-            setTimeout(() => this.getAllCargo(), 200)
+            setTimeout(() => this.getAllSector(), 200)
+           
           })
           .catch((error) => {
             return this.show({
@@ -142,15 +140,15 @@ export default {
           })
       }
     },
-    getAllCargo() {
-      Api.getAllCargos().then((response) => {
-        this.cargos = response.data.data
+    getAllSector() {
+      Api.getAllSector().then((response) => {
+        this.sectores = response.data.data
         this.footerItem[0] = `Total Items ${response.data.data.length}`
       })
     },
   },
   mounted() {
-    this.getAllCargo()
+    this.getAllSector()
   },
 }
 </script>
