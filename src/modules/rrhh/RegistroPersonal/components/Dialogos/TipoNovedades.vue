@@ -67,7 +67,7 @@
         showTipoNovedad = false
       }
     "
-    size="m"
+    size="sm"
     :visible="showTipoNovedad"
   >
     <CModalHeader>

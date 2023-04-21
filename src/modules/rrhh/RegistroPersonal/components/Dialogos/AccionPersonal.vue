@@ -40,9 +40,9 @@
           </div>
           <div class="col-5">
             <div style="margin-top: 9px; width: 264px; height: 300px">
-              <div class="border" style="height: 200px"></div>
-              <h4>Guardar Imagen</h4>
-              <h4>Abrir Carpeta</h4>
+              <div class="border" style="height: 200px">
+                <img style="max-width: 100%" :src="imageUrl" alt="imagen Empleado" />
+              </div>
             </div>
           </div>
         </div>
@@ -52,7 +52,7 @@
               class="btn btn-info btn-block mt-1"
               @click="
                 () => {
-                  showAgregarAcciones = true
+                  showDialogAgregarAccionesPersonal = true
                   getTipoAcciones()
                   clearAccionPersonal()
                 }
@@ -95,7 +95,7 @@
               variant="outline"
               square
               size="sm"
-              v-on:click="this.getAccionesPersonalById(item)"
+              @click="getAccionesPersonalById(item)"
             >
               Editar
             </CButton>
@@ -119,11 +119,11 @@
     backdrop="static"
     @close="
       () => {
-        showAgregarAcciones = false
+        showDialogAgregarAccionesPersonal = false
       }
     "
-    size="s"
-    :visible="showAgregarAcciones"
+    size="sm"
+    :visible="showDialogAgregarAccionesPersonal"
   >
     <CModalHeader>
       <CModalTitle>Acción de Personal</CModalTitle>
@@ -231,7 +231,7 @@
           type="button"
           class="btn btn-secondary"
           data-bs-dismiss="modal"
-          v-on:click="showAgregarAcciones = false"
+          v-on:click="showDialogAgregarAccionesPersonal = false"
           >Cerrar</CButton
         >
         <input
@@ -251,6 +251,8 @@ import { CForm, CSmartTable } from '@coreui/vue-pro'
 import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
 import { formatDate } from '@/utils/format'
+import ApiFiles from '@/modules/rrhh/RegistroPersonal/services/Files'
+
 
 export default {
   name: 'AccionPersonalDialog',
@@ -262,9 +264,10 @@ export default {
 
   data: function () {
     return {
+      imageUrl: '',
       formatDate,
       validatedCustom01: null,
-      showAgregarAcciones: false,
+      showDialogAgregarAccionesPersonal: false,
       accionPersonalList: [],
       tipoAcciones: [],
       toasts: [],
@@ -403,7 +406,7 @@ export default {
         this.postAccionPersonal = response.data.data
         this.id = item.id
       })
-      this.showAgregarAcciones = true
+      this.showDialogAgregarAccionesPersonal = true
     },
 
     postAccionesPersonal() {
@@ -435,6 +438,13 @@ export default {
   watch: {
     empleado() {
       setTimeout(this.getAccionPersonalById(this.empleado.id), 10000)
+      ApiFiles.getEmployeeIdentityImage(  {
+          empleadoId: this.empleado.id,
+          FileType: '.png',
+          FileType2: 'png',
+        },).then((url) =>{
+          this.imageUrl = url;
+        })
     },
   },
 
