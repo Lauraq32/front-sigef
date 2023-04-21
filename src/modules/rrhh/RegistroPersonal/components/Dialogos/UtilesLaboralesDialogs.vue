@@ -10,15 +10,15 @@
     "
   >
     <CModalHeader>
-      <CModalTitle>Útiles Laboral</CModalTitle>
+      <CModalTitle>Útil Laboral</CModalTitle>
     </CModalHeader>
     <CModalBody>
-      <!-- <div class="row mx-3">
+      <div class="row mx-3">
         <div class="col-6">
           <h5>Descripción:</h5>
         </div>
         <div class="col-6">
-          <h6>{{ postInventario.descripcion }}</h6>
+          <h6>{{ inventario.descripcion }}</h6>
         </div>
       </div>
 
@@ -27,16 +27,16 @@
           <h5>Tipo:</h5>
         </div>
         <div class="col-6">
-          <h6>{{ postInventario.tipo }}</h6>
+          <h6>{{ inventario.tipo }}</h6>
         </div>
-      </div> -->
+      </div>
 
       <CCardBody class="mt-3">
         <div class="row">
           <div class="row mt-4 mx-4">
             <div class="col-4 col-label">Fecha</div>
             <div class="col-8 col-md-6">
-              <CFormInput type="date" v-model="postInventarioCantidad.fecha" />
+              <CFormInput type="date" v-model="initialDate" />
             </div>
           </div>
 
@@ -91,7 +91,7 @@
           </button>
           <button
             class="btn btn-info btn-block mt-1"
-            v-on:click="submitUtilesLaborales"
+            v-on:click="submitUtilesLaborales()"
           >
             Guardar
           </button>
@@ -104,7 +104,6 @@
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
-import Api from '@/modules/rrhh/RegistroPersonal/services/RegistroPersonalServices'
 
 export default {
   name: 'utilesLaborales',
@@ -115,7 +114,7 @@ export default {
   data: () => {
     return {
       postInventarioCantidad: {
-        fecha: null,
+        fecha: new Date(Date.now()),
         observacion: null,
         autorizadoPor: null,
         cantidad: 0,
@@ -128,10 +127,33 @@ export default {
       this.$emit('closeModal', false)
     },
 
+    submitUtilesLaborales() {
+      this.$emit('saveUtilesLaborales', this.postInventarioCantidad)
+    },
+  },
 
-    submitUtilesLaborales(){
-      this.$emit('submitUtilesLaborales', this.postInventarioCantidad)
-    }
+  computed: {
+    initialDate: {
+      get() {
+        if (
+          this.postInventarioCantidad.fecha !== null &&
+          this.postInventarioCantidad.fecha?.toString() !== 'Invalid Date'
+        ) {
+          let date = this.postInventarioCantidad.fecha
+          if (typeof this.postInventarioCantidad.fecha === 'string') {
+            date = new Date(this.postInventarioCantidad.fecha)
+            return date.toISOString().split('T')[0]
+          }
+        } else {
+          return
+        }
+      },
+      set(value) {
+        return (this.postInventarioCantidad.fecha = new Date(
+          `${value}T00:00:00`,
+        ))
+      },
+    },
   },
 
   props: {

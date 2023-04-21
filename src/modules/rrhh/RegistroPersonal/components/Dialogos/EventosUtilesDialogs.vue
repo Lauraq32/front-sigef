@@ -22,6 +22,17 @@
           </div>
 
           <div class="row mt-4">
+            <div class="col-4 col-label">Tipo</div>
+            <div class="col-8">
+              <CFormSelect v-model="postEvento.tipo" id="validationCustom04">
+                <option value="antregado">Entregado</option>
+                <option value="Retornado">Retornado</option>
+                <option value="abastecimiento">Abastecimiento</option>
+              </CFormSelect>
+            </div>
+          </div>
+
+          <div class="row mt-4">
             <div class="col-4 col-label">Cantidad</div>
             <div class="col-8">
               <VueNumberFormat
@@ -40,12 +51,34 @@
           </div>
 
           <div class="row mt-4">
-            <div class="col-4 col-label">Tipo</div>
+            <div class="col-4 col-label">Empleados</div>
             <div class="col-8">
-              <CFormSelect v-model="postEvento.tipo" id="validationCustom04">
-                <option>entregado</option>
-                <option>retornado</option>
-                <option>Abastecimiento</option>
+              <CFormSelect
+                v-model="postEvento.empleadoId"
+                id="validationCustom04"
+              >
+                <option
+                  v-for="empleados in this.empleados"
+                  :key="empleados.id"
+                  :value="empleados.id"
+                >
+                  {{ empleados.nombres }}
+                </option>
+              </CFormSelect>
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-4 col-label">Util Laboral</div>
+            <div class="col-8">
+              <CFormSelect v-model="postEvento.utilId" id="validationCustom04">
+                <option
+                  v-for="utils in utils"
+                  :key="utils.id"
+                  :value="utils.id"
+                >
+                  {{ utils.id }}
+                </option>
               </CFormSelect>
             </div>
           </div>
@@ -84,9 +117,9 @@ export default {
     return {
       postEvento: {
         utilId: 0,
-        fecha: null,
+        fecha: new Date(Date.now()),
         cantidad: null,
-        tipo: null,
+        tipo: 'entregado',
         empleadoId: 0,
       },
     }
@@ -98,7 +131,7 @@ export default {
     },
 
     submitEventos() {
-      this.$emit('submitEventos', this.postEvento)
+      this.$emit('saveEvents', this.postEvento)
     },
   },
 
@@ -107,6 +140,18 @@ export default {
     inventario: {
       type: Object,
       default: {},
+      required: true,
+    },
+
+    empleados: {
+      type: Array,
+      default: [],
+      required: true,
+    },
+
+    utils: {
+      type: Array,
+      default: [],
       required: true,
     },
   },

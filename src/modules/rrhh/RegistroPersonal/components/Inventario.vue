@@ -44,7 +44,7 @@
           <CDropdownItem
             @click="
               () => {
-                showAgregarCantidad = true
+                showModalUtilsLaboral(item)
                 inventarioById = item
               }
             "
@@ -54,6 +54,7 @@
             @click="
               () => {
                 showModalEvento(item)
+                getUtilInventario(item)
               }
             "
             >Agregar Movimientos</CDropdownItem
@@ -63,77 +64,25 @@
     </template>
   </CSmartTable>
 
-  <CModal
-    size="m"
-    :visible="showInventario"
-    @close="
-      () => {
-        showInventario = false
-      }
-    "
-  >
-    <CModalHeader>
-      <CModalTitle>Inventario útiles de trabajo</CModalTitle>
-    </CModalHeader>
-    <CModalBody>
-      <CCardBody>
-        <div class="row">
-          <div class="row mt-4 mx-2">
-            <div class="col-4 col-label">Descripción</div>
-            <div class="col-8">
-              <CFormInput v-model="postInventario.descripcion" />
-            </div>
-          </div>
-
-          <div class="row mt-4 mx-2">
-            <div class="col-4 col-label">Tipo</div>
-            <div class="col-8">
-              <CFormSelect
-                v-model="postInventario.tipo"
-                id="validationCustom04"
-              >
-                <option>Deducible</option>
-                <option>No-retornable</option>
-                <option>Retornable</option>
-              </CFormSelect>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer mt-4">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-            @click="
-              () => {
-                showInventario = false
-              }
-            "
-          >
-            Close
-          </button>
-          <button
-            class="btn btn-info btn-block mt-1"
-            v-on:click="submitInvetario"
-          >
-            Guardar
-          </button>
-        </div>
-      </CCardBody>
-    </CModalBody>
-  </CModal>
+  <Invetario
+    :showModal="showInventario"
+    @closeModal="closeModal"
+    @saveInventario="saveInventario"
+  />
 
   <utilesLaborales
     :showModal="showAgregarCantidad"
-    @closeModal="closeModal"
-    @submitInvetario="agregarCantidadInventario"
     :inventario="inventarioById"
+    @closeModal="closeModal"
+    @saveUtilesLaborales="saveUtilesLaborales"
   />
+
   <eventoUtiles
     :showModal="showEvento"
+    :empleados="empleados"
+    :utils="utils"
     @closeModal="closeModal"
-    @submitEventos="agregarEventos"
-    :inventario="inventarioById"
+    @saveEvents="saveEventos"
   />
 </template>
 <script>
@@ -142,6 +91,7 @@ import { CModal } from '@coreui/vue'
 import Api from '../services/RegistroPersonalServices'
 import utilesLaborales from '@/modules/rrhh/RegistroPersonal/components/Dialogos/UtilesLaboralesDialogs.vue'
 import eventoUtiles from '@/modules/rrhh/RegistroPersonal/components/Dialogos/EventosUtilesDialogs.vue'
+import Invetario from '@/modules/rrhh/RegistroPersonal/components/Dialogos/InventarioDialogs.vue'
 
 export default {
   components: {
@@ -149,19 +99,19 @@ export default {
     CModal,
     utilesLaborales,
     eventoUtiles,
+    Invetario,
   },
   data: () => {
     return {
+      empleados: [],
       inventario: [],
+      utils: [],
       inventarioById: {},
       validatedCustom01: null,
+      showInventario: false,
       showAgregarCantidad: false,
       showInventario: false,
       showEvento: false,
-      postInventario: {
-        descripcion: null,
-        tipo: null,
-      },
 
       columns: [
         { key: 'descripcion', label: 'Descripción', _style: { width: '20%' } },
@@ -198,6 +148,7 @@ export default {
     closeModal(close) {
       this.showAgregarCantidad = close
       this.showEvento = close
+      this.showInventario = close
     },
 
     showModalEvento(item) {
@@ -208,11 +159,9 @@ export default {
     showModalUtilsLaboral(item) {
       this.showAgregarCantidad = true
       this.id = item.id
-      this.postInventario.tipo = item.tipo
-      this.postInventario.descripcion = item.descripcion
     },
 
-    agregarCantidadInventario(payload) {
+    saveUtilesLaborales(payload) {
       Api.postInventarioById(this.id, payload)
         .then(() => {
           setTimeout(this.getInventario, 500)
@@ -231,7 +180,7 @@ export default {
         })
     },
 
-    agregarEventos(payload) {
+    saveEventos(payload) {
       Api.postEventos(this.id, payload)
         .then(() => {
           this.show({
@@ -249,31 +198,8 @@ export default {
         })
     },
 
-    submitInvetario() {
-      if (this.id != null) {
-        Api.putInventario(this.id, this.postInventario)
-          .then(() => {
-            setTimeout(this.getInventario, 500)
-            this.show({
-              content: 'Registro añadido correctamente',
-              closable: true,
-            })
-          })
-          .catch((error) => {
-            this.show({
-              content: error.data,
-              closable: true,
-              color: 'danger',
-              class: 'text-white',
-            })
-          })
-      } else {
-        this.postInventarios()
-      }
-    },
-
-    postInventarios() {
-      Api.postInventario(this.postInventario)
+    saveInventario(payload) {
+      Api.postInventario(payload)
         .then(() => {
           setTimeout(this.getInventario, 500)
           this.show({
@@ -290,9 +216,23 @@ export default {
           })
         })
     },
+
+    getEmpleados() {
+      Api.getAllEmpleado().then((response) => {
+        this.empleados = response.data.data
+      })
+    },
+
+    getUtilInventario(item) {
+      Api.getInventarioById(item.id).then((response) => {
+        this.utils = response.data.data
+        console.log(this.utils)
+      })
+    },
   },
   mounted() {
     this.getInventario()
+    this.getEmpleados()
   },
 }
 </script>
