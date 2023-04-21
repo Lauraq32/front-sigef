@@ -17,148 +17,161 @@
       </CNavItem>
 
     </CNav>
-    <CTabContent>
-      <CTabPane role="tabpanel" aria-labelledby="home-tab" :visible="tabPaneActiveKey === 1">
-        <CModalBody>
-          <CCardBody>
-            <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01"
-              @submit="handleSubmitCustom01">
-              <CCol :md="6">
-                <CFormLabel for="cedula">Solicitud número</CFormLabel>
-                <CFormInput v-model="solicitudEmpleo.cedula" id="cedula" />
+    <CForm novalidate :validated="validatedCustom01" :onsubmit="saveReclutamiento">
+      <CTabContent>
+        <CTabPane role="tabpanel" aria-labelledby="home-tab" :visible="tabPaneActiveKey === 1">
+          <CModalBody>
+            <CCardBody>
+              <div class="row">
+                <CCol :md="6">
+                  <CCol :md="12">
+                    <CFormLabel for="cedula">Solicitud número</CFormLabel>
+                    <CFormInput v-model="solicitudEmpleo.cedula" id="cedula" maxlength="10" />
 
-              </CCol>
-              <CCol :md="6">
-                <CFormLabel for="fecha">Fecha Solicitud</CFormLabel>
-                <CFormInput v-model="solicitudEmpleo.fecha" type="date" id="fecha" required />
+                  </CCol>
+                  <CCol :md="12">
+                    <CFormLabel for="fecha">Fecha Solicitud</CFormLabel>
+                    <CFormInput v-model="solicitudEmpleo.fecha" type="date" id="fecha" required />
 
-              </CCol>
-              <CCol :md="6">
-                <CFormLabel for="nombre">Nombre solicitante</CFormLabel>
-                <CInputGroup class="has-validation">
-                  <CFormInput v-model="solicitudEmpleo.nombre" id="nombre" value="" aria-describedby="inputGroupPrepend"
-                    required />
+                  </CCol>
+                  <CCol :md="12">
+                    <CFormLabel for="nombre">Nombre solicitante</CFormLabel>
+                    <CInputGroup class="has-validation">
+                      <CFormInput v-model="solicitudEmpleo.nombre" id="nombre" value=""
+                        aria-describedby="inputGroupPrepend" required />
 
-                </CInputGroup>
-              </CCol>
-              <CCol :md="6">
-                <CFormLabel for="direccion1">Direcci&oacute;n 1</CFormLabel>
-                <CFormInput v-model="solicitudEmpleo.direccion1" id="direccion1" required />
+                    </CInputGroup>
+                  </CCol>
+                  <CCol :md="12">
+                    <CFormLabel for="direccion1">Direcci&oacute;n 1</CFormLabel>
+                    <CFormInput v-model="solicitudEmpleo.direccion1" id="direccion1" required />
 
-              </CCol>
-              <CCol :md="6">
-                <CFormLabel for="direccion2">Direcci&oacute;n 2</CFormLabel>
-                <CFormInput v-model="solicitudEmpleo.direccion2" id="direccion2" required />
+                  </CCol>
+                  <CCol :md="12">
+                    <CFormLabel for="direccion2">Direcci&oacute;n 2</CFormLabel>
+                    <CFormInput v-model="solicitudEmpleo.direccion2" id="direccion2" required />
 
-              </CCol>
-              <CCol :md="6">
-                <CFormLabel for="telefono">Tel&eacute;fono</CFormLabel>
-                <CFormInput v-model="solicitudEmpleo.telefono" id="telefono" required />
+                  </CCol>
+                  <CCol :md="12">
+                    <CFormLabel for="telefono">Tel&eacute;fono</CFormLabel>
+                    <CFormInput v-model="solicitudEmpleo.telefono" id="telefono" required type="number"/>
 
-              </CCol>
-              <CCol :md="6">
-                <CFormLabel for="celular">Celular</CFormLabel>
-                <CFormInput v-model="solicitudEmpleo.celular" id="celular" required />
+                  </CCol>
+                  <CCol :md="12">
+                    <CFormLabel for="celular">Celular</CFormLabel>
+                    <CFormInput v-model="solicitudEmpleo.celular" id="celular" required type="number"/>
 
-              </CCol>
-              <CCol :md="6">
-                <CFormLabel for="edad">Edad</CFormLabel>
-                <CFormInput v-model="solicitudEmpleo.edad" id="edad"> </CFormInput>
+                  </CCol>
+                </CCol>
+                <CCol :md="6">
+                  <CCol :md="12">
+                    <CFormLabel for="edad">Edad</CFormLabel>
+                    <CFormInput v-model="solicitudEmpleo.edad" id="edad" type="number"/>
 
-              </CCol>
-              <CCol :md="6">
-                <CFormLabel for="displayNameProfesion">Profesión</CFormLabel>
-                <div class="position-relative">
-                  <input v-model="displayNameProfesion" ref="name" required class="form-control padding-input" type="text"
-                    id="displayNameProfesion" />
-                  <span class="position-absolute icon-input">
-                    <CIcon icon="cisSearch" size="xl" v-on:click="openProfesionModal" />
-                  </span>
-                </div>
-              </CCol>
-              <CCol :md="6">
-                <CFormLabel for="posicionId">Posición solicitada</CFormLabel>
-                <CFormInput v-model="solicitudEmpleo.posicionId" id="posicionId"> </CFormInput>
+                  </CCol>
+                  <CCol :md="12">
+                    <CFormLabel for="displayNameProfesion">Profesión</CFormLabel>
+                    <div class="position-relative">
+                      <input v-model="displayNameProfesion" ref="name" required class="form-control padding-input"
+                        type="text" id="displayNameProfesion" />
+                      <span class="position-absolute icon-input">
+                        <CIcon icon="cisSearch" size="xl" v-on:click="openProfesionModal" />
+                      </span>
+                    </div>
+                  </CCol>
+                  <CCol :md="12">
+                    <CFormLabel for="posicionId">Posición solicitada</CFormLabel>
+                    <CFormInput  v-model="solicitudEmpleo.posicionId" id="posicionId" > </CFormInput>
 
-              </CCol>
-              <CCol :md="6">
-                <CFormLabel for="entrevistado">Entrevistado</CFormLabel>
-                <CFormSelect v-model="solicitudEmpleo.entrevistado" id="entrevistado">
-                  <option value='Si'>Si</option>
-                  <option value='No'>No</option>
-                </CFormSelect>
+                  </CCol>
+                  <CCol :md="12">
+                    <CFormLabel for="entrevistado">Entrevistado</CFormLabel>
+                    <CFormSelect v-model="solicitudEmpleo.entrevistado" id="entrevistado">
+                      <option value='Si'>Si</option>
+                      <option value='No'>No</option>
+                    </CFormSelect>
 
-              </CCol>
-              <CCol :md="6">
-                <CFormLabel for="evaluado">Evaluado</CFormLabel>
-                <CFormSelect v-model="solicitudEmpleo.evaluado" id="evaluado">
-                  <option value='Si'>Si</option>
-                  <option value='No'>No</option>
-                </CFormSelect>
+                  </CCol>
+                  <CCol :md="12">
+                    <CFormLabel for="evaluado">Evaluado</CFormLabel>
+                    <CFormSelect v-model="solicitudEmpleo.evaluado" id="evaluado">
+                      <option value='Si'>Si</option>
+                      <option value='No'>No</option>
+                    </CFormSelect>
 
-              </CCol>
-              <CCol :md="6">
-                <CFormLabel for="descalificado">Descalificado</CFormLabel>
-                <CFormSelect v-model="solicitudEmpleo.descalificado" id="descalificado">
-                  <option value='Si'>Si</option>
-                  <option value='No'>No</option>
-                </CFormSelect>
-              </CCol>
-              <CCol :md="6">
-                <CFormLabel for="remitidoA">Remitido a</CFormLabel>
-                <CFormInput v-model="solicitudEmpleo.remitidoA" id="remitidoA"> </CFormInput>
+                  </CCol>
+                  <CCol :md="12">
+                    <CFormLabel for="descalificado">Descalificado</CFormLabel>
+                    <CFormSelect v-model="solicitudEmpleo.descalificado" id="descalificado">
+                      <option value='Si'>Si</option>
+                      <option value='No'>No</option>
+                    </CFormSelect>
+                  </CCol>
+                  <CCol :md="12">
+                    <CFormLabel for="remitidoA">Remitido a</CFormLabel>
+                    <CFormInput type="text"  pattern="[a-zA-Z]+" v-model="solicitudEmpleo.remitidoA" id="remitidoA"> </CFormInput>
 
-              </CCol>
+                  </CCol>
+                </CCol>
 
-            </CForm>
-          </CCardBody>
-        </CModalBody>
-      </CTabPane>
-      <CTabPane role="tabpanel" aria-labelledby="profile-tab" :visible="tabPaneActiveKey === 2">
-        <CModalBody>
-          <CCardBody>
-            <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01"
-              @submit="handleSubmitCustom01">
+
+              </div>
+
+
+            </CCardBody>
+          </CModalBody>
+        </CTabPane>
+        <CTabPane role="tabpanel" aria-labelledby="profile-tab" :visible="tabPaneActiveKey === 2">
+          <CModalBody>
+            <CCardBody>
+
               <CCol :md="12">
                 <CFormLabel for="nombre">Nombre Solicitante</CFormLabel>
                 <CFormInput v-model="solicitudEmpleo.nombre" id="nombre" />
 
 
               </CCol>
-              <CCol :md="6">
-                <CFormLabel for="resultado">La Entrevista</CFormLabel>
-                <CFormTextarea v-model="solicitudEmpleo.resultado" id="resultado"></CFormTextarea>
+              <CCol :md="12">
+                <div class="row">
 
+                  <CCol :md="6">
+                  <CFormLabel for="resultado">La Entrevista</CFormLabel>
+                  <CFormTextarea v-model="solicitudEmpleo.resultado" id="resultado"></CFormTextarea>
+  
+                </CCol>
+                <CCol :md="6">
+                  <CFormLabel for="observacion">Observaci&oacute;n</CFormLabel>
+                  <CFormTextarea v-model="solicitudEmpleo.observacion" id="observacion"></CFormTextarea>
+  
+  
+                </CCol>
+                </div>
               </CCol>
-              <CCol :md="6">
-                <CFormLabel for="observacion">Observaci&oacute;n</CFormLabel>
-                <CFormTextarea v-model="solicitudEmpleo.observacion" id="observacion"></CFormTextarea>
+             
 
 
-              </CCol>
+            </CCardBody>
+          </CModalBody>
 
-            </CForm>
-          </CCardBody>
-        </CModalBody>
+        </CTabPane>
 
-      </CTabPane>
+      </CTabContent>
+      <div class="modal-footer">
+        <button type="su" class="btn btn-secondary" data-bs-dismiss="modal" @click="closeModal">
+          Cerrar
+        </button>
+        <input type="submit" class="btn btn-info btn-block mt-1" value="Guardar" />
 
-    </CTabContent>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="closeModal">
-        Cerrar
-      </button>
-      <button class="btn btn-info btn-block mt-1" v-on:click="saveReclutamiento">
-        Guardar
-      </button>
-    </div>
+      </div>
+    </CForm>
+
   </CModal>
   <ProfessionDialog :showModal="showProfessionModal" @selectProfesion="setProfesion" @closeModal="closeProfesionModal" />
 </template>
 
 <script>
 import { CModal } from '@coreui/vue'
-import { CSmartTable } from '@coreui/vue-pro'
+import { CCol, CSmartTable } from '@coreui/vue-pro'
 import { CIcon } from '@coreui/icons-vue'
 import ProfessionDialog from './SelectProfesionDialog.vue'
 import Api from '../../services/SolicitudEmpleo'
@@ -169,9 +182,9 @@ export default {
     CSmartTable,
     CModal,
     CIcon,
-    ProfessionDialog
+    ProfessionDialog,
+    CCol
   },
-
   data: function () {
     return {
       validatedCustom01: null,
@@ -202,6 +215,10 @@ export default {
   },
 
   methods: {
+    filtrarTexto() {
+      console.log('prubea')
+        this.solicitudEmpleo.remitidoA = this.solicitudEmpleo.remitidoA.replace(/[^a-zA-Z]/g, '');
+      }, 
 
     closeProfesionModal() {
       this.showProfessionModal = false
@@ -216,7 +233,9 @@ export default {
     },
     saveReclutamiento(event) {
       const form = event.currentTarget
-      if (form.checkValidity() === false) {
+      event.preventDefault()
+      event.stopPropagation()
+      if (form.checkValidity() === true) {
         this.$emit('post-reclutamiento', {
           ...this.solicitudEmpleo,
           evaluado: this.solicitudEmpleo.evaluado === 'Si',
@@ -225,8 +244,7 @@ export default {
         })
         this.clearForm()
         solicitudEmpleoId = null
-        event.preventDefault()
-        event.stopPropagation()
+
       }
       this.validatedCustom01 = true
 

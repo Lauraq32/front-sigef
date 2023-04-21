@@ -3,7 +3,7 @@ import http from '@/Api/http-common'
 import { getAyuntamientoId } from '@/utils/logged-info'
 class RegistroPersonal {
   //get
-  getAllTipoSangre() {
+  tipoSangreList() {
     return http.get('tipos-sangre')
   }
 
@@ -53,11 +53,11 @@ class RegistroPersonal {
 
 
   getProgramaDivision() {
-    return http.get(`ProgramaDivision?AyuntamientoId=${getAyuntamientoId()}`)
+    return http.get(`programas-division`)
   }
 
   getEmpleadoByID(id) {
-    return http.get(`Empleado/${id}`)
+    return http.get(`empleados/${id}`)
   }
 
   getDepartamentoByProgramaId(id) {
@@ -111,7 +111,7 @@ class RegistroPersonal {
   //post
 
   postEmpleado(data) {
-    return http.post('Empleado', data)
+    return http.post('empleados', data)
   }
 
   postSectores(data) {
@@ -141,7 +141,7 @@ class RegistroPersonal {
 
   //put
   putEmpleado(id, data) {
-    return http.put(`Empleado/${id}`, data)
+    return http.put(`empleados/${id}`, data)
   }
 
   putArea(id) {
@@ -157,11 +157,14 @@ class RegistroPersonal {
   }
 
   deleteEmpleado(id) {
-    return http.delete(`Empleado/${id}`)
+    return http.delete(`empleados/${id}`)
   }
 
   deleteSector(id) {
     return http.delete(`sectores/${id}?ayuntamiento=${getAyuntamientoId()}`)
+  }
+  listDepartamento(){
+    return http.get('departamentos/lista')
   }
 }
 

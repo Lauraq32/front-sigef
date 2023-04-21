@@ -31,6 +31,8 @@
             <CFormLabel for="validationCustom04">Estructura</CFormLabel>
             <CFormInput
               required
+              type="text"
+              v-on:keypress="onlyNumber($event)"
               v-model="direccionDependeciaObject.estructura"
               id="validationCustom04"
             >
@@ -54,6 +56,7 @@
 import { CModalFooter, CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/RegistroPersonalServices'
+import {onlyNumber} from '@/utils/validator'
 
 export default {
   name: 'DireccionDependeciaDialogs',
@@ -61,10 +64,13 @@ export default {
     CSmartTable,
     CModal,
     CModalFooter,
+    
   },
 
   data: function () {
+  
     return {
+      onlyNumber,
       direccionDependeciaFormValidated: false,
       direccionDependeciaObject: {
         nombre: '',

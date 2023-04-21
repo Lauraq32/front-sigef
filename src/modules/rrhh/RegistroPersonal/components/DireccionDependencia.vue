@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Direcci&oacute;n dependencia</h3>
+  <h3 class="text-center">Direcci&oacute;n Dependencia</h3>
   <hr />
   <div class="table-headers">
     <div class="d-inline p-2">
