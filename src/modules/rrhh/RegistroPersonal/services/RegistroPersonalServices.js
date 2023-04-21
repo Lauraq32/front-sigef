@@ -3,7 +3,7 @@ import http from '@/Api/http-common'
 import { getAyuntamientoId } from '@/utils/logged-info'
 class RegistroPersonal {
   //get
-  getAllTipoSangre() {
+  tipoSangreList() {
     return http.get('tipos-sangre')
   }
 
@@ -59,13 +59,12 @@ class RegistroPersonal {
     return http.post('cargos', data)
   }
 
-
   getProgramaDivision() {
-    return http.get(`ProgramaDivision?AyuntamientoId=${getAyuntamientoId()}`)
+    return http.get(`programas-division`)
   }
 
   getEmpleadoByID(id) {
-    return http.get(`Empleados/${id}`)
+    return http.get(`empleados/${id}`)
   }
 
   getAccionPersonalByID(id) {
@@ -100,7 +99,6 @@ class RegistroPersonal {
 
   updateAreaTrabajo(id, data) {
     return http.put(`areas-trabajo/${id}`, data)
-
   }
   getSectorById(id) {
     return http.get(`sectores/${id}`)
@@ -114,7 +112,6 @@ class RegistroPersonal {
     return http.put(`sectores/${id}`, data)
   }
 
-
   getAreaTrabajo() {
     return http.get('areas-trabajo')
   }
@@ -127,7 +124,7 @@ class RegistroPersonal {
   //post
 
   postEmpleado(data) {
-    return http.post('Empleado', data)
+    return http.post('empleados', data)
   }
 
   postTipoAcciones(data) {
@@ -165,7 +162,7 @@ class RegistroPersonal {
 
   //put
   putEmpleado(id, data) {
-    return http.put(`Empleado/${id}`, data)
+    return http.put(`empleados/${id}`, data)
   }
 
   putTipoAcciones(id, data) {
@@ -189,11 +186,14 @@ class RegistroPersonal {
   }
 
   deleteEmpleado(id) {
-    return http.delete(`Empleado/${id}`)
+    return http.delete(`empleados/${id}`)
   }
 
   deleteSector(id) {
     return http.delete(`sectores/${id}?ayuntamiento=${getAyuntamientoId()}`)
+  }
+  listDepartamento() {
+    return http.get('departamentos/lista')
   }
 }
 
