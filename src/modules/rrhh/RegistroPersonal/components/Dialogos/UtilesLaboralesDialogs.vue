@@ -41,13 +41,6 @@
           </div>
 
           <div class="row mt-4 mx-4">
-            <div class="col-4 col-label">Observacion</div>
-            <div class="col-8 col-md-6">
-              <CFormInput v-model="postInventarioCantidad.observacion" />
-            </div>
-          </div>
-
-          <div class="row mt-4 mx-4">
             <div class="col-4 col-label">autorizadoPor</div>
             <div class="col-8 col-md-6">
               <CFormInput
@@ -73,6 +66,20 @@
                 }"
               >
               </VueNumberFormat>
+            </div>
+          </div>
+
+          <div class="row mt-4 mx-4">
+            <div class="col-4 col-label">Observacion</div>
+            <div class="col-8">
+              <textarea
+                required
+                class="w-75"
+                id="validationCustom05"
+                v-model="postInventarioCantidad.observacion"
+                rows="3"
+              ></textarea>
+              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </div>
           </div>
         </div>
