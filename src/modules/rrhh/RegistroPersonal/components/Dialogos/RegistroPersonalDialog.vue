@@ -464,7 +464,7 @@
                 <h3>Intervención quir&uacute;rgica(m&aacute;s reciente)</h3>
 
                 <CCol>
-                  <CFormLabel for="validationCustom02">Detalle diagnostico</CFormLabel>
+                  <CFormLabel for="diagnostico">Detalle diagnostico</CFormLabel>
                   <CFormTextarea id="diagnostico" required />
 
                 </CCol>
@@ -473,19 +473,19 @@
                 <h3>Inf sobre el movimiento del registro</h3>
                 <hr />
                 <CCol>
-                  <CFormLabel for="adiciona">Fecha adiciona</CFormLabel>
-                  <CFormInput type="date" id="adiciona" />
+                  <CFormLabel for="FechaAdiciona">Fecha adiciona</CFormLabel>
+                  <CFormInput type="date" id="FechaAdiciona" />
 
                 </CCol>
 
                 <CCol>
-                  <CFormLabel for="validationCustom02">Usuario modifica</CFormLabel>
-                  <CFormInput id="validationCustom02" required />
+                  <CFormLabel for="usuario">Usuario modifica</CFormLabel>
+                  <CFormInput id="usuario" required />
 
                 </CCol>
                 <CCol>
-                  <CFormLabel for="validationCustom02">Valores anteriores</CFormLabel>
-                  <CFormInput id="validationCustom02" required />
+                  <CFormLabel for="valorAnterior">Valores anteriores</CFormLabel>
+                  <CFormInput id="valorAnterior" required />
 
                 </CCol>
 
@@ -499,8 +499,8 @@
 
 
                 <CCol :md="6">
-                  <CFormLabel for="validationCustom02">Nivel Escolar</CFormLabel>
-                  <CFormSelect v-model="postEmpleado.nivelEscolar" id="validationCustom05">
+                  <CFormLabel for="nivelEscolar">Nivel Escolar</CFormLabel>
+                  <CFormSelect v-model="postEmpleado.nivelEscolar" id="nivelEscolar">
                     <option v-for="nivelEscolar in this.nivelEscolarList" :key="nivelEscolar.id" :value="nivelEscolar.id">
                       {{ nivelEscolar.configValue }}
                     </option>
@@ -508,8 +508,8 @@
 
                 </CCol>
                 <CCol :md="6">
-                  <CFormLabel for="validationCustom02">&Aacute;rea Tem&aacute;tica</CFormLabel>
-                  <CFormSelect id="validationCustom05">
+                  <CFormLabel for="areaTematica">&Aacute;rea Tem&aacute;tica</CFormLabel>
+                  <CFormSelect id="areaTematica">
                     <option v-for="areaTematica in this.areaTematicaList" :key="areaTematica.id" :value="areaTematica.id">
                       {{ areaTematica.configValue }}
                     </option>
@@ -517,33 +517,33 @@
 
                 </CCol>
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom02">T&iacute;tulo Obtenido</CFormLabel>
-                  <CFormInput id="validationCustom02" required />
+                  <CFormLabel for="tituloObtenido">T&iacute;tulo Obtenido</CFormLabel>
+                  <CFormInput id="tituloObtenido" required />
 
                 </CCol>
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom02">Correo Electr&oacute;nico 1 y 2</CFormLabel>
-                  <CFormInput id="validationCustom02" required />
+                  <CFormLabel for="correo1">Correo Electr&oacute;nico 1 y 2</CFormLabel>
+                  <CFormInput id="correo1" required />
 
                 </CCol>
                 <CCol class="mt-2">
-                  <CFormInput id="validationCustom02" required />
+                  <CFormInput id="correo2" required />
 
                 </CCol>
                 <h5>Datos de Evaluaci&oacute;n de Desempe&ntilde;o</h5>
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom02">Fecha Inicial Evaluaci&oacute;n</CFormLabel>
-                  <CFormInput id="validationCustom02" type="date" required />
+                  <CFormLabel for="FechaInicial">Fecha Inicial Evaluaci&oacute;n</CFormLabel>
+                  <CFormInput id="FechaInicial" type="date" required />
 
                 </CCol>
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom02">Fecha Final Evaluaci&oacute;n</CFormLabel>
-                  <CFormInput id="validationCustom02" type="date" required />
+                  <CFormLabel for="fechaFinal">Fecha Final Evaluaci&oacute;n</CFormLabel>
+                  <CFormInput id="fechaFinal" type="date" required />
 
                 </CCol>
                 <CCol :md="12">
-                  <CFormLabel for="validationCustom02">Nota Final</CFormLabel>
-                  <CFormInput id="validationCustom02" required />
+                  <CFormLabel for="notaFinal">Nota Final</CFormLabel>
+                  <CFormInput id="notaFinal" required />
 
                 </CCol>
               </CCol>
