@@ -4,14 +4,34 @@
       <CModalTitle>Tipo de Novedad</CModalTitle>
     </CModalHeader>
     <CModalBody>
-      <CSmartTable style="margin-top: 10px" clickableRows :tableProps="{
-        striped: true,
-        hover: true,
-      }" :tableHeadProps="{}" :activePage="1" header :items="tipoAcciones" :columns="columns" columnFilter
-        itemsPerPageSelect :itemsPerPage="5" columnSorter pagination>
+      <CSmartTable
+        style="margin-top: 10px"
+        clickableRows
+        :tableProps="{
+          striped: true,
+          hover: true,
+        }"
+        :tableHeadProps="{}"
+        :activePage="1"
+        header
+        :items="tipoAcciones"
+        :columns="columns"
+        columnFilter
+        itemsPerPageSelect
+        :itemsPerPage="5"
+        columnSorter
+        pagination
+      >
         <template #show_details="{ item }">
           <td class="py-1">
-            <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="editTipoAccion(item)">
+            <CButton
+              class="mt-1"
+              color="primary"
+              variant="outline"
+              square
+              size="sm"
+              @click="editTipoAccion(item)"
+            >
               Editar
             </CButton>
           </td>
@@ -20,26 +40,44 @@
     </CModalBody>
 
     <CModalFooter>
-      <CButton type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="showTipoNovedad = false">Cerrar
+      <CButton
+        type="button"
+        class="btn btn-secondary"
+        data-bs-dismiss="modal"
+        @click="closeModal"
+        >Cerrar
       </CButton>
-      <CButton class="btn btn-info btn-block mt-1" @click="
-        () => {
-          showTipoNovedad = true
-          clearTipoAccion()
-        }
-      ">Nuevo</CButton>
+      <CButton
+        class="btn btn-info btn-block mt-1"
+        @click="
+          () => {
+            showTipoNovedad = true
+            clearTipoAccion()
+          }
+        "
+        >Nuevo</CButton
+      >
     </CModalFooter>
   </CModal>
 
-  <CModal backdrop="static" @close="
-    () => {
-      showTipoNovedad = false
-    }
-  " size="m" :visible="showTipoNovedad">
+  <CModal
+    backdrop="static"
+    @close="
+      () => {
+        showTipoNovedad = false
+      }
+    "
+    size="m"
+    :visible="showTipoNovedad"
+  >
     <CModalHeader>
       <CModalTitle>Tipo de Novedad</CModalTitle>
     </CModalHeader>
-    <CForm novalidate :validated="validatedCustom01" :onsubmit="submitTipoAcciones">
+    <CForm
+      novalidate
+      :validated="validatedCustom01"
+      :onsubmit="submitTipoAcciones"
+    >
       <CModalBody>
         <CCardBody>
           <div class="row mt-3">
@@ -47,19 +85,28 @@
               <CFormLabel for="Descripcion">Descripción</CFormLabel>
             </div>
             <div class="col-8">
-              <CFormInput required id="Descripcion" v-model="postTipoAccion.descripcion" />
+              <CFormInput
+                required
+                id="Descripcion"
+                v-model="postTipoAccion.descripcion"
+              />
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </div>
           </div>
 
-          <div class="row mt-4">
-            <div class="col-4"></div>
-            <div class="col-8">
-              <CFormLabel for="cambiaStatus" class="d-flex">
-                Cambia estatus?
-                <input v-model="postTipoAccion.cambiaStatus" class="form-check-input mx-3" type="checkbox"
-                  id="cambiaStatus" />
-              </CFormLabel>
+          <div class="row my-3">
+            <div class="col-4">
+              <CFormLabel for="cambiaStatus"> Cambia estatus? </CFormLabel>
+            </div>
+            <div class="col-8 d-flex">
+              <span style="padding-right: 10px">No</span>
+              <CFormSwitch
+                style="height: 25px; width: 55px"
+                id="cambiaStatus"
+                v-model="postTipoAccion.cambiaStatus"
+                checked
+              />
+              <span style="padding-left: 10px">Si</span>
             </div>
           </div>
 
@@ -68,7 +115,11 @@
               <CFormLabel for="selectTipoAccion">Estatus</CFormLabel>
             </div>
             <div class="col-8">
-              <CFormSelect required v-model="postTipoAccion.estatus" id="selectTipoAccion">
+              <CFormSelect
+                required
+                v-model="postTipoAccion.estatus"
+                id="selectTipoAccion"
+              >
                 <option>Activo</option>
                 <option>Inactivo</option>
                 <option>Licencia</option>
@@ -80,12 +131,20 @@
         </CCardBody>
       </CModalBody>
       <CModalFooter>
-        <CButton type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="showTipoNovedad = false">Cancelar
+        <CButton
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          v-on:click="showTipoNovedad = false"
+          >Cancelar
         </CButton>
-        <input type="submit" class="btn btn-info btn-block mt-1" value="Guardar" />
+        <input
+          type="submit"
+          class="btn btn-info btn-block mt-1"
+          value="Guardar"
+        />
       </CModalFooter>
     </CForm>
-
   </CModal>
 </template>
 
