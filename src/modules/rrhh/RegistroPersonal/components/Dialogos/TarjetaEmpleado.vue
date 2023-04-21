@@ -5,19 +5,19 @@
     style="width: 25%"
   >
     <CModalHeader :close-button="false">
-      <CModalTitle>{{ itemEmpleado.nombres }}</CModalTitle>
+      <CModalTitle>{{ empleado?.nombres }}</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
         <label class="d-block">
           <span class="fw-bold"> Cargo: </span>
           <span>
-            {{ itemEmpleado.posicion.nombre }}
+            {{ empleado?.posicion?.nombre }}
           </span>
         </label>
         <label class="d-block">
           <span class="fw-bold"> Departamento: </span>
-          <span>{{ itemEmpleado.departamento.nombre }}</span></label
+          <span>{{ empleado?.departamento?.nombre }}</span></label
         >
         <div class="mt-4">
           <img style="max-width: 100%" :src="imageUrl" alt="imagen Empleado" />
@@ -49,15 +49,6 @@ export default {
 
   data: function () {
     return {
-      itemEmpleado: {
-        nombres: '',
-        posicion: {
-          nombre: '',
-        },
-        departamento: {
-          nombre: '',
-        },
-      },
       imageUrl: '',
     }
   },
@@ -85,7 +76,6 @@ export default {
         })
         .then((blobUrl) => {
           this.imageUrl = blobUrl
-          this.itemEmpleado = { ...obj }
         })
     },
   },

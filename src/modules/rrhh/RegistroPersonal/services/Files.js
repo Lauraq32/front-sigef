@@ -13,7 +13,6 @@ class Files {
             }, []);
             
             query = query ? `${query}&${tags.join('&')}` : `?${tags.join('&')}`;
-            console.log({query, tags});
         }
         return http.get(`files${query}`).then((response) => response.data.data)
     }
