@@ -111,7 +111,7 @@
 <script>
 import { CModal } from '@coreui/vue'
 export default {
-  name: 'eventoUtiles',
+  name: 'EventoInventario',
 
   data: () => {
     return {

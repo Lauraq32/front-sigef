@@ -113,7 +113,7 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 
 export default {
-  name: 'utilesLaborales',
+  name: 'UtilesLaborales',
   components: {
     CSmartTable,
     CModal,

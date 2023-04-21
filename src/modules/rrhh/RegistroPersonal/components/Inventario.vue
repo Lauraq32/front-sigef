@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Inventario útiles de trabajo</h3>
+  <h3 class="text-center">Inventario</h3>
   <hr />
   <div class="table-headers">
     <div class="d-inline p-2">
@@ -64,20 +64,20 @@
     </template>
   </CSmartTable>
 
-  <Invetario
+  <InventarioDialog
     :showModal="showInventario"
     @closeModal="closeModal"
     @saveInventario="saveInventario"
   />
 
-  <utilesLaborales
+  <UtilesLaboralesDialog
     :showModal="showAgregarCantidad"
     :inventario="inventarioById"
     @closeModal="closeModal"
     @saveUtilesLaborales="saveUtilesLaborales"
   />
 
-  <eventoUtiles
+  <EventoInventarioDialog
     :showModal="showEvento"
     :empleados="empleados"
     :utils="utils"
@@ -89,17 +89,17 @@
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/RegistroPersonalServices'
-import utilesLaborales from '@/modules/rrhh/RegistroPersonal/components/Dialogos/UtilesLaboralesDialogs.vue'
-import eventoUtiles from '@/modules/rrhh/RegistroPersonal/components/Dialogos/EventosUtilesDialogs.vue'
-import Invetario from '@/modules/rrhh/RegistroPersonal/components/Dialogos/InventarioDialogs.vue'
+import UtilesLaboralesDialog from '@/modules/rrhh/RegistroPersonal/components/Dialogos/UtilesLaboralesDialogs.vue'
+import EventoInventarioDialog from '@/modules/rrhh/RegistroPersonal/components/Dialogos/EventosInventarioDialogs.vue'
+import InventarioDialog from '@/modules/rrhh/RegistroPersonal/components/Dialogos/InventarioDialogs.vue'
 
 export default {
   components: {
     CSmartTable,
     CModal,
-    utilesLaborales,
-    eventoUtiles,
-    Invetario,
+    UtilesLaboralesDialog,
+    EventoInventarioDialog,
+    InventarioDialog,
   },
   data: () => {
     return {
