@@ -113,7 +113,7 @@
                   </CCol>
                   <CCol :md="12">
                     <CFormLabel for="remitidoA">Remitido a</CFormLabel>
-                    <CFormInput type="text" v-on:keypress="isLetter($event)" v-model="solicitudEmpleo.remitidoA"
+                    <CFormInput type="text" v-on:keypress="onlyLetter($event)" v-model="solicitudEmpleo.remitidoA"
                       id="remitidoA"> </CFormInput>
 
                   </CCol>
@@ -180,8 +180,9 @@ import { CCol, CSmartTable } from '@coreui/vue-pro'
 import { CIcon } from '@coreui/icons-vue'
 import ProfessionDialog from './SelectProfesionDialog.vue'
 import Api from '../../services/SolicitudEmpleo'
-import { onlyNumber } from '@/utils/validator'
+import { onlyNumber,onlyLetter } from '@/utils/validator'
 import profesionesApi from '../../services/Profesiones'
+
 import { format } from "date-fns";
 export default {
   name: 'ReclutamientoDialog',
@@ -194,6 +195,7 @@ export default {
   },
   data: function () {
     return {
+      onlyLetter,
       onlyNumber,
       validatedCustom01: null,
       displayNameProfesion: '',
@@ -225,11 +227,6 @@ export default {
 
   methods: {
 
-    isLetter(e) {
-      let char = String.fromCharCode(e.keyCode); // Get the character
-      if (/^[A-Za-z]+$/.test(char)) return true; // Match with regex 
-      else e.preventDefault(); // If not match, don't add to input text
-    },
 
     getPosicion() {
       Api.getPosiciones().then(response => {
@@ -260,7 +257,6 @@ export default {
           entrevistado: this.solicitudEmpleo.entrevistado === 'Si',
           descalificado: this.solicitudEmpleo.descalificado === 'Si'
         })
-        // this.clearForm()
         solicitudEmpleoId = null
 
       }
@@ -303,7 +299,6 @@ export default {
         profesionesApi.getProfesionesById(this.solicitudEmpleo.profesionId).then(response => {
           this.displayNameProfesion = response.data.data.name
         })
-        //this.solicitudEmpleo.fecha = this.formattedDate(this.solicitudEmpleo.fecha)
         this.getPosicion()
 
       })
