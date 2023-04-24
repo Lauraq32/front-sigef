@@ -24,19 +24,18 @@
     </template>
     <template #entrevistado="{ item, index }">
       <td class="py-2">
-        {{ item.entrevistado === true ? 'No' : 'Si' }}
+        {{ item.entrevistado  ? 'Si' : 'No' }}
       </td>
     </template>
     <template #evaluado="{ item, index }">
       <td class="py-2">
-        {{ item.evaluado === true ? 'No' : 'Si' }}
+        {{ item.evaluado ? 'Si' : 'No' }}
       </td>
     </template>
 
   </CSmartTable>
   <ReclutamientoDialog :showModal="showReclutamientoModal" @closeModal="closeModal"
-    @post-reclutamiento="saveSolicitudEmpleo" solicitudEmpleoObject="solicitudItem"
-    :solicitudEmpleoId="reclutamientoId" />
+    @post-reclutamiento="saveSolicitudEmpleo" :solicitudEmpleoId="reclutamientoId" />
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'

@@ -17,7 +17,7 @@
       </CNavItem>
 
     </CNav>
-    <CForm novalidate :validated="validatedCustom01" :onsubmit="saveReclutamiento">
+    <CForm novalidate :onsubmit="saveReclutamiento">
       <CTabContent>
         <CTabPane role="tabpanel" aria-labelledby="home-tab" :visible="tabPaneActiveKey === 1">
           <CModalBody>
@@ -31,7 +31,7 @@
                   </CCol>
                   <CCol :md="12">
                     <CFormLabel for="fecha">Fecha solicitud</CFormLabel>
-                    <CFormInput v-model="solicitudEmpleo.fecha" type="date" id="fecha" required />
+                    <CFormInput v-model="fecha" type="date" id="fecha" required />
 
                   </CCol>
                   <CCol :md="12">
@@ -54,19 +54,19 @@
                   </CCol>
                   <CCol :md="12">
                     <CFormLabel for="telefono">Tel&eacute;fono</CFormLabel>
-                    <CFormInput v-model="solicitudEmpleo.telefono" id="telefono" required type="number"/>
+                    <CFormInput v-model="solicitudEmpleo.telefono" id="telefono" required type="number" />
 
                   </CCol>
                   <CCol :md="12">
                     <CFormLabel for="celular">Celular</CFormLabel>
-                    <CFormInput v-model="solicitudEmpleo.celular" id="celular" required type="number"/>
+                    <CFormInput v-model="solicitudEmpleo.celular" id="celular" required type="number" />
 
                   </CCol>
                 </CCol>
                 <CCol :md="6">
                   <CCol :md="12">
                     <CFormLabel for="edad">Edad</CFormLabel>
-                    <CFormInput v-model="solicitudEmpleo.edad" id="edad" type="text" v-on:keypress="onlyNumber($event)"/>
+                    <CFormInput v-model="solicitudEmpleo.edad" id="edad" type="text" v-on:keypress="onlyNumber($event)" />
 
                   </CCol>
                   <CCol :md="12">
@@ -81,19 +81,12 @@
                   </CCol>
                   <CCol :md="12">
                     <CFormLabel for="posicionId">Posici&oacute;n solicitada</CFormLabel>
-                   
-                    <CFormSelect
-                    v-model="solicitudEmpleo.posicionId"
-                    id="posicionId"
-                  >
-                    <option
-                      v-for="posicion in posicionesList"
-                      :key="posicion.id"
-                      :value="posicion.id"
-                    >
-                      {{ posicion.nombre }}
-                    </option>
-                  </CFormSelect>
+
+                    <CFormSelect v-model="solicitudEmpleo.posicionId" id="posicionId">
+                      <option v-for="posicion in posicionesList" :key="posicion.id" :value="posicion.id">
+                        {{ posicion.nombre }}
+                      </option>
+                    </CFormSelect>
                   </CCol>
                   <CCol :md="12">
                     <CFormLabel for="entrevistado">Entrevistado</CFormLabel>
@@ -120,7 +113,8 @@
                   </CCol>
                   <CCol :md="12">
                     <CFormLabel for="remitidoA">Remitido a</CFormLabel>
-                    <CFormInput type="text"  v-on:keypress="isLetter($event)" v-model="solicitudEmpleo.remitidoA" id="remitidoA"> </CFormInput>
+                    <CFormInput type="text" v-on:keypress="isLetter($event)" v-model="solicitudEmpleo.remitidoA"
+                      id="remitidoA"> </CFormInput>
 
                   </CCol>
                 </CCol>
@@ -146,19 +140,19 @@
                 <div class="row">
 
                   <CCol :md="6">
-                  <CFormLabel for="resultado">La Entrevista</CFormLabel>
-                  <CFormTextarea v-model="solicitudEmpleo.resultado" id="resultado"></CFormTextarea>
-  
-                </CCol>
-                <CCol :md="6">
-                  <CFormLabel for="observacion">Observaci&oacute;n</CFormLabel>
-                  <CFormTextarea v-model="solicitudEmpleo.observacion" id="observacion"></CFormTextarea>
-  
-  
-                </CCol>
+                    <CFormLabel for="resultado">La Entrevista</CFormLabel>
+                    <CFormTextarea v-model="solicitudEmpleo.resultado" id="resultado"></CFormTextarea>
+
+                  </CCol>
+                  <CCol :md="6">
+                    <CFormLabel for="observacion">Observaci&oacute;n</CFormLabel>
+                    <CFormTextarea v-model="solicitudEmpleo.observacion" id="observacion"></CFormTextarea>
+
+
+                  </CCol>
                 </div>
               </CCol>
-             
+
 
 
             </CCardBody>
@@ -186,7 +180,9 @@ import { CCol, CSmartTable } from '@coreui/vue-pro'
 import { CIcon } from '@coreui/icons-vue'
 import ProfessionDialog from './SelectProfesionDialog.vue'
 import Api from '../../services/SolicitudEmpleo'
-import {onlyNumber} from '@/utils/validator'
+import { onlyNumber } from '@/utils/validator'
+import profesionesApi from '../../services/Profesiones'
+import { format } from "date-fns";
 export default {
   name: 'ReclutamientoDialog',
   components: {
@@ -202,7 +198,7 @@ export default {
       validatedCustom01: null,
       displayNameProfesion: '',
       showProfessionModal: false,
-      posicionesList:[],
+      posicionesList: [],
       solicitudEmpleo: {
         cedula: "",
         fecha: (new Date().toISOString()),
@@ -235,7 +231,7 @@ export default {
       else e.preventDefault(); // If not match, don't add to input text
     },
 
-    getPosicion(){
+    getPosicion() {
       Api.getPosiciones().then(response => {
         this.posicionesList = response.data.data
         this.solicitudEmpleo.posicionId = this.posicionesList[0].id
@@ -251,7 +247,7 @@ export default {
     },
     closeModal() {
       this.$emit('closeModal')
-      this.clearForm()
+
     },
     saveReclutamiento(event) {
       const form = event.currentTarget
@@ -264,11 +260,10 @@ export default {
           entrevistado: this.solicitudEmpleo.entrevistado === 'Si',
           descalificado: this.solicitudEmpleo.descalificado === 'Si'
         })
-        this.clearForm()
+        // this.clearForm()
         solicitudEmpleoId = null
 
       }
-      this.validatedCustom01 = true
 
     },
     clearForm() {
@@ -292,12 +287,24 @@ export default {
         observacion: ""
       }
     },
+    formattedDate(fecha) {
+      const date = new Date(fecha);
+      return format(date, "yyyy-MM-dd");
+    },
     openProfesionModal() {
       this.showProfessionModal = true
     },
     getSolicitudEmpleoById(id) {
       Api.getByIdSolicitudEmpleo(id).then((response) => {
-        this.solicitudEmpleo = response.data.data
+        this.solicitudEmpleo = { ...response.data.data }
+        this.solicitudEmpleo.descalificado = response.data.data.descalificado ? 'Si' : 'No'
+        this.solicitudEmpleo.evaluado = response.data.data.evaluado ? 'Si' : 'No'
+        this.solicitudEmpleo.entrevistado = response.data.data.entrevistado ? 'Si' : 'No'
+        profesionesApi.getProfesionesById(this.solicitudEmpleo.profesionId).then(response => {
+          this.displayNameProfesion = response.data.data.name
+        })
+        //this.solicitudEmpleo.fecha = this.formattedDate(this.solicitudEmpleo.fecha)
+        this.getPosicion()
 
       })
     },
@@ -310,10 +317,31 @@ export default {
     },
   },
 
-  mounted(){
+  mounted() {
     this.getPosicion()
   },
 
+  computed: {
+    fecha: {
+      get() {
+        if (
+          this.solicitudEmpleo.fecha !== null &&
+          this.solicitudEmpleo.fecha?.toString() !== 'Invalid Date'
+        ) {
+          let date = this.solicitudEmpleo.fecha
+          if (typeof this.solicitudEmpleo.fecha === 'string') {
+            date = new Date(this.solicitudEmpleo.fecha)
+            return date.toISOString().split('T')[0]
+          }
+        }
+      },
+      set(value) {
+        return (this.solicitudEmpleo.fecha = new Date(
+          `${value}T00:00:00`,
+        ))
+      },
+    },
+  },
 
   props: {
     showModal: Boolean,
