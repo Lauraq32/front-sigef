@@ -1,7 +1,7 @@
 <template>
   <CModal size="lg" :visible="showModal" @close="closeModal">
     <CModalHeader>
-      <CModalTitle>Profesi&oacute;n</CModalTitle>
+      <CModalTitle>Educaci&oacute;n</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -17,7 +17,7 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="12">
-            <CFormLabel for="validationCustom04">Nombre Curso</CFormLabel>
+            <CFormLabel for="validationCustom04">Nombre del Curso</CFormLabel>
             <CFormInput required id="validationCustom04" v-model="education.courseName"> </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -28,7 +28,7 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="6">
-            <CFormLabel for="validationCustom04">Fecha inicio</CFormLabel>
+            <CFormLabel for="validationCustom04">Fecha Inicio</CFormLabel>
             <CFormInput type="date" v-model="education.startDate" required id="validationCustom04"> </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>

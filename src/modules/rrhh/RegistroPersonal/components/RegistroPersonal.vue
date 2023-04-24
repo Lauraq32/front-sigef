@@ -76,18 +76,7 @@
         </CDropdownMenu>
       </CDropdown>
     </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
-    </template>
+    
   </CSmartTable>
   <CModal size="xl" :visible="lgDemo" @close="
     () => {
@@ -913,8 +902,11 @@ export default {
     },
 
     getEmpleadoByID(item) {
+      console.log(item)
       this.showEducacion = true
       this.employeeInfo = {...item}
+      this.employeeInfo.nombres = `${item.nombres} ${item.apellidos}`
+
     },
 
     toggleDetails(item) {
