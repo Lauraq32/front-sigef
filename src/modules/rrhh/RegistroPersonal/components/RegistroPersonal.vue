@@ -902,7 +902,6 @@ export default {
     },
 
     getEmpleadoByID(item) {
-      console.log(item)
       this.showEducacion = true
       this.employeeInfo = {...item}
       this.employeeInfo.nombres = `${item.nombres} ${item.apellidos}`
