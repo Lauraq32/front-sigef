@@ -7,39 +7,39 @@
       <CCardBody>
         <CForm class="row g-3 needs-validation" novalidate :validated="profesionFormValidated" @submit="saveEducation">
           <CCol :md="4">
-            <CFormLabel for="validationCustom04">C&oacute;digo Empleado</CFormLabel>
-            <CFormInput required id="validationCustom04" v-model="employeeInfo.id" disabled> </CFormInput>
+            <CFormLabel for="employeeInfoId">C&oacute;digo Empleado</CFormLabel>
+            <CFormInput required id="employeeInfoId" v-model="employeeInfo.id" disabled> </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="8">
-            <CFormLabel for="validationCustom04">Nombre Empleado</CFormLabel>
-            <CFormInput required id="validationCustom04" v-model="employeeInfo.nombres" disabled> </CFormInput>
+            <CFormLabel for="nombres">Nombre Empleado</CFormLabel>
+            <CFormInput required id="nombres" v-model="employeeInfo.nombres" disabled> </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="12">
-            <CFormLabel for="validationCustom04">Nombre del Curso</CFormLabel>
-            <CFormInput required id="validationCustom04" v-model="education.courseName"> </CFormInput>
+            <CFormLabel for="courseName">Nombre del Curso</CFormLabel>
+            <CFormInput required id="courseName" v-model="education.courseName"> </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
 
           <CCol :md="12">
-            <CFormLabel for="validationCustom04">Duraci&oacute;n del Curso</CFormLabel>
-            <CFormInput v-model="education.courseTime" required id="validationCustom04"> </CFormInput>
+            <CFormLabel for="courseTime">Duraci&oacute;n del Curso</CFormLabel>
+            <CFormInput v-model="education.courseTime" required id="courseTime"> </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="6">
-            <CFormLabel for="validationCustom04">Fecha Inicio</CFormLabel>
-            <CFormInput type="date" v-model="education.startDate" required id="validationCustom04"> </CFormInput>
+            <CFormLabel for="startDate">Fecha Inicio</CFormLabel>
+            <CFormInput type="date" v-model="education.startDate" required id="startDate"> </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="6">
-            <CFormLabel for="validationCustom04">Fecha Final</CFormLabel>
-            <CFormInput type="date" v-model="education.finishDate" required id="validationCustom04"> </CFormInput>
+            <CFormLabel for="finishDate">Fecha Final</CFormLabel>
+            <CFormInput type="date" v-model="education.finishDate" required id="finishDate"> </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="12">
-            <CFormLabel for="validationCustom04">R&eacute;cord del Curso</CFormLabel>
-            <CFormTextarea v-model="education.courseRecord" id="exampleFormControlTextarea1">
+            <CFormLabel for="courseRecord">R&eacute;cord del Curso</CFormLabel>
+            <CFormTextarea v-model="education.courseRecord" id="courseRecord">
             </CFormTextarea>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
