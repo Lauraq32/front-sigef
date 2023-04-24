@@ -1,5 +1,5 @@
 <template>
-  <CModal size="lg" :visible="showModal" @close="closeModal">
+  <CModal size="lg" :visible="showModal" @close="closeModal" backdrop="static">
     <CModalHeader>
       <CModalTitle>Educaci&oacute;n</CModalTitle>
     </CModalHeader>
