@@ -1,15 +1,15 @@
 <template>
-  <CModal backdrop="static" @close="closeModal" :visible="showModal">
+  <CModal backdrop="static" @close="showModal = false" :visible="showModal">
     <CModalHeader>
       <CModalTitle>Acción de Personal</CModalTitle>
     </CModalHeader>
-    <CForm
-      novalidate
-      :validated="validatedCustom01"
-      :onsubmit="submitAccionPersonal"
-    >
-      <CModalBody>
-        <CCardBody>
+    <CModalBody>
+      <CCardBody>
+        <CForm
+          novalidate
+          :validated="isFormEventTypeValidated"
+          ref="eventTypeForm"
+        >
           <div class="row">
             <div class="col-3">
               <CFormLabel for="validationCustom01">Fecha</CFormLabel>
@@ -36,7 +36,7 @@
                 v-model="postAccionPersonal.tipoAccionId"
               >
                 <option
-                  v-for="acciones in this.tipoAcciones"
+                  v-for="acciones in this.TipoAcciones"
                   :key="acciones.id"
                   :value="acciones.id"
                 >
@@ -99,105 +99,120 @@
               <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
             </div>
           </div>
-        </CCardBody>
-      </CModalBody>
-      <CModalFooter>
-        <CButton
-          type="button"
-          class="btn btn-secondary"
-          data-bs-dismiss="modal"
-          @click="closeModal"
-          >Cerrar</CButton
-        >
-        <input
-          type="submit"
-          class="btn btn-info btn-block mt-1"
-          value="Guardar"
-        />
-      </CModalFooter>
-    </CForm>
+        </CForm>
+      </CCardBody>
+    </CModalBody>
+    <CModalFooter>
+      <CButton
+        type="button"
+        color="secondary"
+        data-bs-dismiss="modal"
+        @click="showModal = false"
+        >Cerrar</CButton
+      >
+      <CButton type="button" color="primary" @click="saveData">
+        Guardar
+      </CButton>
+    </CModalFooter>
   </CModal>
 </template>
 
 <script>
 import { CModal } from '@coreui/vue'
+import { CButton } from '@coreui/vue-pro'
 
 export default {
   name: 'AgregarAccionPersonalDialog',
+  emits: ['closeModal'],
   components: {
     CModal,
+    CButton,
   },
 
   data: () => {
     return {
       postAccionPersonal: {
         fechaDesde: null,
+        empleadoId: null,
         tipoAccionId: null,
-        // empleadoId: this.empleado.id,
         cantidad: null,
         fechaHasta: null,
         detalle: null,
       },
+      isFormEventTypeValidated: false,
     }
   },
 
-  methods: {
-    closeModal() {
-      this.$emit('closeModal', false)
-    },
-
-    submitAccionPersonal(event) {
-      const form = event.currentTarget
-      event.preventDefault()
-      event.stopPropagation()
-      if (form.checkValidity() === true) {
-        if (this.id) {
-          Api.putAccionesPersonales(this.id, this.postAccionPersonal)
-            .then((response) => {
-              setTimeout(this.getAccionPersonalById(this.empleado.id), 500)
-              this.show({
-                content: 'Registro actualizado correctamente',
-                closable: true,
-              })
-            })
-            .catch(({ response }) => {
-              this.show({
-                content: response.data,
-                closable: true,
-                color: 'danger',
-                class: 'text-white',
-              })
-            })
-        } else {
-          this.postAccionesPersonal()
+  computed: {
+    fechaDesde: {
+      get() {
+        if (
+          this.postAccionPersonal.fechaDesde !== null &&
+          this.postAccionPersonal.fechaDesde?.toString() !== 'Invalid Date'
+        ) {
+          let date = this.postAccionPersonal.fechaDesde
+          if (typeof this.postAccionPersonal.fechaDesde === 'string') {
+            date = new Date(this.postAccionPersonal.fechaDesde)
+            return date.toISOString().split('T')[0]
+          }
         }
-      }
-      this.validatedCustom01 = true
+      },
+      set(value) {
+        return (this.postAccionPersonal.fechaDesde = new Date(
+          `${value}T00:00:00`,
+        ))
+      },
     },
 
-    postAccionesPersonal() {
-      this.postAccionPersonal.empleadoId = this.empleado.id
-      Api.postAccionesPersonal(this.postAccionPersonal)
-        .then((response) => {
-          setTimeout(this.getAccionPersonalById(this.empleado.id), 500)
-          this.show({
-            content: 'Registro guardado correctamente',
-            closable: true,
-          })
-        })
-        .catch(({ response }) => {
-          this.show({
-            content: response.data,
-            closable: true,
-            color: 'danger',
-            class: 'text-white',
-          })
-        })
+    fechaHasta: {
+      get() {
+        if (
+          this.postAccionPersonal.fechaHasta !== null &&
+          this.postAccionPersonal.fechaHasta?.toString() !== 'Invalid Date'
+        ) {
+          let date = this.postAccionPersonal.fechaHasta
+          if (typeof this.postAccionPersonal.fechaHasta === 'string') {
+            date = new Date(this.postAccionPersonal.fechaHasta)
+            return date.toISOString().split('T')[0]
+          }
+        }
+      },
+      set(value) {
+        return (this.postAccionPersonal.fechaHasta = new Date(
+          `${value}T00:00:00`,
+        ))
+      },
+    },
+  },
+
+  methods: {
+    closeModal(data) {
+      this.$emit('closeModal', data)
+    },
+    saveData() {
+      this.isFormEventTypeValidated = false
+      if (this.$refs.eventTypeForm.$el.checkValidity()) {
+        this.closeModal({ ...this.postAccionPersonal })
+        return
+      }
+      this.isFormEventTypeValidated = true
+    },
+  },
+
+  watch: {
+    AccionPersonal() {
+      this.postAccionPersonal = this.AccionPersonal
+    },
+    empleadoId() {
+      this.postAccionPersonal.empleadoId = this.empleadoId
     },
   },
 
   props: {
     showModal: Boolean,
+    TipoAcciones: Array,
+    AccionPersonal: Object,
+    empleadoId: Number,
   },
 }
 </script>

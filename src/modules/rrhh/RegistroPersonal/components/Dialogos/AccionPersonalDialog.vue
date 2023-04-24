@@ -56,9 +56,7 @@
               class="btn btn-info btn-block mt-1"
               @click="
                 () => {
-                  showAgregarAccionPersonalDialog = true
-                  //   getTipoAcciones()
-                  //   clearAccionPersonal()
+                  getTipoAcciones()
                 }
               "
             >
@@ -78,7 +76,7 @@
         :tableHeadProps="{}"
         :activePage="1"
         header
-        :items="accionPersonal"
+        :items="accionPersonalList"
         :columns="columns"
         columnFilter
         itemsPerPageSelect
@@ -120,8 +118,11 @@
   </CModal>
 
   <AgregarAccionPersonalDialog
+    :empleadoId="empleadoId"
+    :TipoAcciones="tipoAcciones"
     :showModal="showAgregarAccionPersonalDialog"
-    @closeModal="closeModalAgregarAccionPersonal"
+    @closeModal="submitAccionPersonal"
+    :AccionPersonal="postAccionPersonal"
   />
 </template>
 
@@ -129,7 +130,9 @@
 import { CModal } from '@coreui/vue'
 import { CForm, CSmartTable } from '@coreui/vue-pro'
 import { formatDate } from '@/utils/format'
+import Api from '@/modules/rrhh/RegistroPersonal/services/RegistroPersonalServices'
 import AgregarAccionPersonalDialog from '@/modules/rrhh/RegistroPersonal/components/Dialogos/AgregarAccionPersonalDialog.vue'
+import ApiFiles from '@/modules/rrhh/RegistroPersonal/services/Files'
 export default {
   name: 'AccionPersonalDialog',
   components: {
@@ -142,6 +145,8 @@ export default {
   data: () => {
     return {
       formatDate,
+      accionPersonalList: [],
+      tipoAcciones: [],
       showAgregarAccionPersonalDialog: false,
       columns: [
         { key: 'fechaDesde', label: 'Fecha', _style: { width: '20%' } },
@@ -170,9 +175,103 @@ export default {
     closeModal() {
       this.$emit('closeModal', false)
     },
+    // closeAccionPersonalModal(data) {
+    //   if (data) {
+    //   }
+    //   this.showAgregarAccionPersonalDialog = false
+    // },
 
-    closeModalAgregarAccionPersonal() {
-      this.showAgregarAccionPersonalDialog = false
+    getTipoAcciones() {
+      this.showAgregarAccionPersonalDialog = true
+      Api.getAllTipoAcciones().then((response) => {
+        this.tipoAcciones = response.data.data
+      })
+    },
+
+    getAccionesPersonalById(item) {
+      this.getTipoAcciones()
+      Api.getAccionesPersonalById(item.id).then((response) => {
+        this.postAccionPersonal = response.data.data
+        this.id = item.id
+      })
+      this.showAgregarAccionPersonalDialog = true
+    },
+
+    submitAccionPersonal(payload) {
+      if (this.id) {
+        Api.putAccionesPersonales(this.id, payload)
+          .then(() => {
+            this.clearAccionPersonal()
+            setTimeout(this.getAccionPersonalById(this.empleado.id), 500)
+            this.show({
+              content: 'Registro actualizado correctamente',
+              closable: true,
+            })
+          })
+          .catch(({ response }) => {
+            this.show({
+              content: response.data,
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+            })
+          })
+      } else {
+        this.postAccionesPersonal(payload)
+      }
+    },
+
+    postAccionesPersonal(payload) {
+      Api.postAccionesPersonal(payload)
+        .then(() => {
+          this.clearAccionPersonal()
+          setTimeout(this.getAccionPersonalById(this.empleado.id), 500)
+          this.show({
+            content: 'Registro guardado correctamente',
+            closable: true,
+          })
+        })
+        .catch(({ response }) => {
+          this.show({
+            content: response.data,
+            closable: true,
+            color: 'danger',
+            class: 'text-white',
+          })
+        })
+    },
+
+    clearAccionPersonal() {
+      this.validatedCustom01 = null
+      this.id = null
+      this.postAccionPersonal = {
+        fechaDesde: null,
+        tipoAccionId: null,
+        empleadoId: null,
+        cantidad: null,
+        fechaHasta: null,
+        detalle: null,
+      }
+    },
+
+    getAccionPersonalById(empleadoId) {
+      Api.getAccionPersonalByID(empleadoId).then((response) => {
+        this.accionPersonalList = response.data.data
+      })
+    },
+  },
+
+  watch: {
+    empleado() {
+      this.empleadoId = this.empleado.id
+      setTimeout(this.getAccionPersonalById(this.empleado.id), 10000)
+      ApiFiles.getEmployeeIdentityImage({
+        empleadoId: this.empleado.id,
+        FileType: '.png',
+        FileType2: 'png',
+      }).then((url) => {
+        this.imageUrl = url
+      })
     },
   },
 
