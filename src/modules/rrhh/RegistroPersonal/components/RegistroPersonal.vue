@@ -1,14 +1,6 @@
 <template>
   <h3 class="text-center">Mantenimientos Empleados</h3>
-  <AccionPersonalDialog
-    :showModal="showAccionPersonal"
-    @closeModal="closeAccionPersonal"
-    :empleado="accionEmpleado"
-  />
-  <TipoNovedadDialog
-    :showModal="showTipoNovedad"
-    @closeModal="closeTipoNovedad"
-  />
+
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
@@ -147,6 +139,18 @@
     @close-modal="closeTarjetaEmpleadoModal"
     :empleado="empleado"
   />
+
+  <AccionPersonalDialog
+    :showModal="showAccionPersonal"
+    @closeModal="closeAccionPersonal"
+    :empleado="accionEmpleado"
+  />
+
+  <TipoNovedadDialog
+    :showModal="showTipoNovedad"
+    @closeModal="closeTipoNovedad"
+  />
+
 </template>
 
 <script>
@@ -160,7 +164,7 @@ import { mapActions } from 'pinia'
 import Api from '../services/RegistroPersonalServices'
 import moment from 'moment'
 import { useToastStore } from '@/store/toast'
-import AccionPersonalDialog from './AccionPersonal.vue'
+import AccionPersonalDialog from './Dialogos/AccionPersonalDialog.vue'
 import TipoNovedadDialog from './TipoNovedades.vue'
 import RegistroPersonalDialog from '../components/Dialogos/RegistroPersonalDialog.vue'
 import TarjetaEmpleadoDialogs from '../components/Dialogos/TarjetaEmpleado.vue'

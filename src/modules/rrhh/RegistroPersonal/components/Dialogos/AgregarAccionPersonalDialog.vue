@@ -1,5 +1,9 @@
 <template>
-  <CModal backdrop="static" @close="showModal = false" :visible="showModal">
+  <CModal
+    backdrop="static"
+    @close="() => closeModal()"
+    :visible="showModalAgregarAccionPersonal"
+  >
     <CModalHeader>
       <CModalTitle>Acción de Personal</CModalTitle>
     </CModalHeader>
@@ -36,7 +40,7 @@
                 v-model="postAccionPersonal.tipoAccionId"
               >
                 <option
-                  v-for="acciones in this.TipoAcciones"
+                  v-for="acciones in tipoAcciones"
                   :key="acciones.id"
                   :value="acciones.id"
                 >
@@ -107,10 +111,10 @@
         type="button"
         color="secondary"
         data-bs-dismiss="modal"
-        @click="showModal = false"
+        @click="() => closeModal()"
         >Cerrar</CButton
       >
-      <CButton type="button" color="primary" @click="saveData">
+      <CButton type="button" color="primary" @click="sendData">
         Guardar
       </CButton>
     </CModalFooter>
@@ -123,7 +127,7 @@ import { CButton } from '@coreui/vue-pro'
 
 export default {
   name: 'AgregarAccionPersonalDialog',
-  emits: ['closeModal'],
+  emits: ['close', 'clearModal'],
   components: {
     CModal,
     CButton,
@@ -133,7 +137,6 @@ export default {
     return {
       postAccionPersonal: {
         fechaDesde: null,
-        empleadoId: null,
         tipoAccionId: null,
         cantidad: null,
         fechaHasta: null,
@@ -186,33 +189,38 @@ export default {
   },
 
   methods: {
-    closeModal(data) {
-      this.$emit('closeModal', data)
+    clearAccionPersonal() {
+      this.$emit('clearModal', this.postAccionPersonal)
     },
-    saveData() {
+    closeModal(data) {
+      this.$emit('close', data)
+      this.clearAccionPersonal()
+    },
+    saveDataAccionPersonal(data) {
+      this.closeModal(data)
+    },
+    sendData() {
       this.isFormEventTypeValidated = false
       if (this.$refs.eventTypeForm.$el.checkValidity()) {
-        this.closeModal({ ...this.postAccionPersonal })
-        return
+        return this.saveDataAccionPersonal({ ...this.postAccionPersonal })
       }
       this.isFormEventTypeValidated = true
     },
   },
 
   watch: {
-    AccionPersonal() {
-      this.postAccionPersonal = this.AccionPersonal
+    accionPersonal() {
+      this.postAccionPersonal = { ...this.accionPersonal }
     },
-    empleadoId() {
-      this.postAccionPersonal.empleadoId = this.empleadoId
-    },
+    tipoAcciones() {
+      this.postAccionPersonal.tipoAccionId = this.tipoAcciones?.[0].id;
+    }
   },
 
   props: {
-    showModal: Boolean,
-    TipoAcciones: Array,
-    AccionPersonal: Object,
-    empleadoId: Number,
+    showModalAgregarAccionPersonal: Boolean,
+    tipoAcciones: Array,
+    accionPersonal: Object,
   },
 }
 </script>

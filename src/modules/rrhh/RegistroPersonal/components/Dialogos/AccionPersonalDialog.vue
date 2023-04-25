@@ -1,5 +1,14 @@
 <template>
-  <CModal backdrop="static" @close="closeModal" size="lg" :visible="showModal">
+  <CModal
+    backdrop="static"
+    @close="
+      () => {
+        closeModalAccionPersonalDialog()
+      }
+    "
+    size="lg"
+    :visible="showModal"
+  >
     <CModalHeader>
       <CModalTitle>Acción de Personal</CModalTitle>
     </CModalHeader>
@@ -56,7 +65,7 @@
               class="btn btn-info btn-block mt-1"
               @click="
                 () => {
-                  getTipoAcciones()
+                  showAgregarAccionPersonalDialog = true
                 }
               "
             >
@@ -111,18 +120,19 @@
         type="button"
         class="btn btn-secondary"
         data-bs-dismiss="modal"
-        @click="closeModal"
-        >Cerrar</CButton
+        @click="closeModalAccionPersonalDialog"
       >
+        Cerrar
+      </CButton>
     </CModalFooter>
   </CModal>
 
   <AgregarAccionPersonalDialog
-    :empleadoId="empleadoId"
-    :TipoAcciones="tipoAcciones"
-    :showModal="showAgregarAccionPersonalDialog"
-    @closeModal="submitAccionPersonal"
-    :AccionPersonal="postAccionPersonal"
+    :tipoAcciones="tipoAcciones"
+    :showModalAgregarAccionPersonal="showAgregarAccionPersonalDialog"
+    @close="closeModalAgregarAccionPersonal"
+    @clearModal="clearAccionPersonal"
+    :accionPersonal="postAccionPersonal"
   />
 </template>
 
@@ -133,6 +143,9 @@ import { formatDate } from '@/utils/format'
 import Api from '@/modules/rrhh/RegistroPersonal/services/RegistroPersonalServices'
 import AgregarAccionPersonalDialog from '@/modules/rrhh/RegistroPersonal/components/Dialogos/AgregarAccionPersonalDialog.vue'
 import ApiFiles from '@/modules/rrhh/RegistroPersonal/services/Files'
+import { useToastStore } from '@/store/toast'
+import { mapActions } from 'pinia'
+
 export default {
   name: 'AccionPersonalDialog',
   components: {
@@ -172,82 +185,61 @@ export default {
   },
 
   methods: {
-    closeModal() {
+    ...mapActions(useToastStore, ['show']),
+    closeModalAccionPersonalDialog() {
       this.$emit('closeModal', false)
     },
-    // closeAccionPersonalModal(data) {
-    //   if (data) {
-    //   }
-    //   this.showAgregarAccionPersonalDialog = false
-    // },
 
-    getTipoAcciones() {
-      this.showAgregarAccionPersonalDialog = true
-      Api.getAllTipoAcciones().then((response) => {
-        this.tipoAcciones = response.data.data
-      })
-    },
-
-    getAccionesPersonalById(item) {
-      this.getTipoAcciones()
-      Api.getAccionesPersonalById(item.id).then((response) => {
-        this.postAccionPersonal = response.data.data
-        this.id = item.id
-      })
-      this.showAgregarAccionPersonalDialog = true
-    },
-
-    submitAccionPersonal(payload) {
-      if (this.id) {
-        Api.putAccionesPersonales(this.id, payload)
+    closeModalAgregarAccionPersonal(data) {
+      if (data) {
+        this.submitAccionPersonal({ ...data, empleadoId: this.empleado.id })
           .then(() => {
-            this.clearAccionPersonal()
-            setTimeout(this.getAccionPersonalById(this.empleado.id), 500)
-            this.show({
-              content: 'Registro actualizado correctamente',
-              closable: true,
-            })
+            this.loadData()
           })
           .catch(({ response }) => {
             this.show({
               content: response.data,
               closable: true,
               color: 'danger',
-              class: 'text-white',
             })
           })
-      } else {
-        this.postAccionesPersonal(payload)
       }
+      this.showAgregarAccionPersonalDialog = false
     },
 
-    postAccionesPersonal(payload) {
-      Api.postAccionesPersonal(payload)
-        .then(() => {
-          this.clearAccionPersonal()
-          setTimeout(this.getAccionPersonalById(this.empleado.id), 500)
-          this.show({
-            content: 'Registro guardado correctamente',
-            closable: true,
-          })
+    getAccionesPersonalById(item) {
+      this.postAccionPersonal = item
+      this.showAgregarAccionPersonalDialog = true
+    },
+
+    submitAccionPersonal(payload) {
+      if (payload.id) {
+        return Api.putAccionesPersonales(payload.id, payload).then(
+          (response) => {
+            this.show({
+              content: 'Registro actualizado correctamente',
+              closable: true,
+            })
+            return response
+          },
+        )
+      }
+
+      return Api.postAccionesPersonal(payload).then((response) => {
+        this.show({
+          content: 'Registro guardado correctamente',
+          closable: true,
         })
-        .catch(({ response }) => {
-          this.show({
-            content: response.data,
-            closable: true,
-            color: 'danger',
-            class: 'text-white',
-          })
-        })
+        return response
+      })
     },
 
     clearAccionPersonal() {
-      this.validatedCustom01 = null
       this.id = null
       this.postAccionPersonal = {
         fechaDesde: null,
         tipoAccionId: null,
-        empleadoId: null,
+        empleadoId: this.empleado.id,
         cantidad: null,
         fechaHasta: null,
         detalle: null,
@@ -259,12 +251,30 @@ export default {
         this.accionPersonalList = response.data.data
       })
     },
+    loadData() {
+      this.clearAccionPersonal()
+      setTimeout(() => this.getAccionPersonalById(this.empleado.id), 500)
+    },
   },
 
   watch: {
     empleado() {
-      this.empleadoId = this.empleado.id
+      /*Promise.all([
+        this.getAccionPersonalById(this.empleado.id),
+        ApiFiles.getEmployeeIdentityImage({
+          empleadoId: this.empleado.id,
+          FileType: '.png',
+          FileType2: 'png',
+        }),
+      ])
+      // this.empleadoId = this.empleado.id
       setTimeout(this.getAccionPersonalById(this.empleado.id), 10000)
+      */
+      Api.getAllTipoAcciones().then((response) => {
+        this.tipoAcciones = response.data.data
+      })
+
+      this.loadData()
       ApiFiles.getEmployeeIdentityImage({
         empleadoId: this.empleado.id,
         FileType: '.png',
@@ -277,7 +287,7 @@ export default {
 
   props: {
     showModal: Boolean,
-    empleado: Array,
+    empleado: Object,
     accionPersonal: Array,
   },
 }
