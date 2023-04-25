@@ -408,6 +408,7 @@ const onDetailDialogClose = (data) => {
             ));
             
             props.formulacionGasto.detallePresGastos[index] = rest;
+            showDetailDialog.value = false
         } else {
             props.formulacionGasto.detallePresGastos.push(rest);
         }
@@ -417,7 +418,6 @@ const onDetailDialogClose = (data) => {
         nextTick().then(() => {
             calculateTotals(props.formulacionGasto.detallePresGastos);
             detalle.value = { ...newDetailData };
-            !data && (showDetailDialog.value = false);
         })
         .catch(console.error);
     }, 200);

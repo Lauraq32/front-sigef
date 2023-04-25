@@ -70,7 +70,7 @@
                     <CFormLabel>Instituci&oacute;n Otorgante</CFormLabel>
                     <v-select
                         v-model="selectedInstitucionOtorgante"
-                        :options="institucionesOtorgante"
+                        :options="institucionesOtorgantes"
                         :disabled="notAllowEdit"></v-select>
                 </CCol>
                 <hr />
@@ -151,7 +151,7 @@ const props = defineProps({
     },
     isVisible: Boolean,
     isFiscalYearApprovedOrClose: Boolean,
-    institucionesOtorgante: {
+    institucionesOtorgantes: {
         require: true,
         type: Array,
         default: [],
@@ -267,8 +267,8 @@ const validateInputctgOrganismoFinanciadorId = (clasificatorSelected) => {
 }
 
 watchEffect(() => {
-    if (props.institucionesOtorgante && !Number(selectedInstitucionOtorgante.value?.code)) {
-        selectedInstitucionOtorgante.value = props.institucionesOtorgante.find(io => io.code === props.formulacionIngreso.instOtorga) ?? {}; 
+    if (props.institucionesOtorgantes && !Number(selectedInstitucionOtorgante.value?.code)) {
+        selectedInstitucionOtorgante.value = props.institucionesOtorgantes.find(io => io.code === props.formulacionIngreso.instOtorga) ?? {}; 
     }
     if (props.isVisible && clasificatorField.value) {
         clasificatorField.value.focus();

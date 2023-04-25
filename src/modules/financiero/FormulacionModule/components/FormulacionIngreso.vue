@@ -96,7 +96,7 @@
     :isVisible="showPartidaPresupuestodeIngresoDialog"
     :formulacionIngreso="postIngreso"
     :isFiscalYearApprovedOrClose="isFiscalYearApprovedOrClose"
-    :institucionesOtorgante="institucionesOtorgante"
+    :institucionesOtorgantes="institucionesOtorgantes"
     @close="onCloseFormulacionDialog"
   />
 
@@ -124,7 +124,7 @@ export default {
   data: function () {
     return {
       ingresos: [],
-      institucionesOtorgante: [],
+      institucionesOtorgantes: [],
       postIngreso: {
         anioFiscalId: this.$fiscalYearId,
         ayuntamientoId: this.$ayuntamientoId,
@@ -467,7 +467,7 @@ export default {
     },
     getInstitucionOtorgante() {
       Api.getListarInsOtorgante().then(({data: { data }}) => {
-        this.institucionesOtorgante = data.map(elem => ({
+        this.institucionesOtorgantes = data.map(elem => ({
             code: elem.code,
             label: `${elem.code}-${elem.detail}`
           })
