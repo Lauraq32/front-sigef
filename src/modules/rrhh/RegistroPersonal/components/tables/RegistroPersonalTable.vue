@@ -2,7 +2,7 @@
   <CSmartTable class="sticky-top" clickableRows :tableProps="{
     striped: true,
     hover: true,
-  }" :tableHeadProps="{}" :activePage="1" header :items="tableData" :columns="tablecolumns" columnFilter
+  }" :tableHeadProps="{}" :activePage="1" header :items="tableData" :columns="tablecolumns" columnFilter :footer="footer"
     itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }" pagination>
     <template #sexo="{ item,index }">
       <td>
@@ -41,41 +41,9 @@
         <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
         <CDropdownMenu>
           <CDropdownItem v-for="action in actions" @click="action.IsFunction(item)">{{action.label}}</CDropdownItem>
-          <!-- <CDropdownItem @click="deleteEmp(item)">Eliminar</CDropdownItem>
-          <CDropdownItem @click="
-            () => {
-              lgDemo4 = true
-            }
-          ">Evaluación</CDropdownItem>
-          <CDropdownItem>Eventualidad</CDropdownItem> -->
         </CDropdownMenu>
       </CDropdown>
-      <!-- <CDropdown>
-        <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
-        <CDropdownMenu>
-          <CDropdownItem @click="toggleDetails(item)">Editar</CDropdownItem>
-          <CDropdownItem @click="deleteEmp(item)">Eliminar</CDropdownItem>
-          <CDropdownItem @click="
-            () => {
-              lgDemo4 = true
-            }
-          ">Evaluación</CDropdownItem>
-          <CDropdownItem>Eventualidad</CDropdownItem>
-        </CDropdownMenu>
-      </CDropdown> -->
     </template> -->
-    <!-- <template #details="{ item }">
-        <CCollapse :visible="this.details.includes(item._id)">
-          <CCardBody>
-            <h4>
-              {{ item.username }}
-            </h4>
-            <p class="text-muted">User since: {{ item.registered }}</p>
-            <CButton size="sm" color="info" class=""> User Settings </CButton>
-            <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-          </CCardBody>
-        </CCollapse>
-      </template> -->
     </CSmartTable>
 
     </template>
@@ -104,6 +72,7 @@
       props:{
           tableData:[],
           tablecolumns:[],
+          footer:[],
           actions:[],
       }
    
