@@ -469,7 +469,7 @@ export default {
       Api.getListarInsOtorgante().then(({data: { data }}) => {
         this.institucionesOtorgante = data.map(elem => ({
             code: elem.code,
-            label: elem.detail
+            label: `${elem.code}-${elem.detail}`
           })
         );
       })
