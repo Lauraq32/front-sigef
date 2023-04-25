@@ -1,29 +1,28 @@
 <template>
   <h3 class="text-center mb-4">Formulaci&oacute;n Ingreso</h3>
-  <div class="table-headers">
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="openModal">Agregar</CButton>
-    </div>
 
-    <div class="p-2">
-      <CButton color="info" @click="IngresoReport">Imprimir</CButton>
-    </div>
-    <div class="p-2">
-      <CButton color="info" @click="downloadFile">Descargar</CButton>
-    </div>
-    <div class="p-2">
-      <CButton color="info" @click="goToGasto">Ir a Formulaci&oacute;n Gasto</CButton>
-    </div>
-    <div class="p-2">
-      <label class="file-select">
-        <div class="select-button">
-          <CIcon icon="cilCloudUpload" size="sm" />
-          <span class="label ms-1">Importar Ingresos</span>
-        </div>
-        <input type="file" id="formFile" @change="onFileChange" />
-      </label>
-    </div>
-  </div>
+  <AppAccionHeader
+    :actions="[
+      {
+        label: 'Imprimir',
+        accionHandler: this.IngresoReport.bind(this),
+        icon: 'cilPrint'
+      },
+      {
+        label: 'Descargar',
+        accionHandler: this.downloadFile.bind(this),
+        icon: 'cilCloudDownload'
+      },
+      {
+        label: 'Importar Ingresos',
+        accionHandler: this.onFileChange.bind(this),
+        type: 'upload'
+      }
+    ]"
+  >
+    <CButton color="info" @click="openModal">Agregar</CButton>
+    <CButton color="secondary" @click="goToGasto">Ir a Formulaci&oacute;n Gasto</CButton>
+  </AppAccionHeader>
 
   <CSmartTable
     class="sticky-top"
@@ -120,11 +119,14 @@ import { useAuthStore } from '@/store/AuthStore'
 import router from '@/router'
 import { formatPrice } from '../../../../utils/format';
 import FormulacionIngresoDialog from "../gasto/FormulacionIngresoDialog.vue";
+import AppAccionHeader from "../../../../components/AppActionHeader.vue";
+
 export default {
   components: {
     CSmartTable,
     CIcon,
-    FormulacionIngresoDialog
+    FormulacionIngresoDialog,
+    AppAccionHeader
 },
   data: function () {
     return {
@@ -133,12 +135,13 @@ export default {
         anioFiscalId: this.$fiscalYearId,
         ayuntamientoId: this.$ayuntamientoId,
         ctgClasificadorId: '',
-        instOtorga: 0,
-        ctaControl: 0,
+        instOtorga: '',
+        ctaControl: '',
         detalle: '',
-        ctgFuenteId: 0,
-        ctgFuenteEspecificaId: 0,
-        ctgOrganismoFinanciadorId: 0,
+        anioAnt: 0,
+        ctgFuenteId: '',
+        ctgFuenteEspecificaId: '',
+        ctgOrganismoFinanciadorId: '',
         anioAnt: 0,
         alaFecha: 0,
         presForm: 0,
@@ -346,13 +349,13 @@ export default {
         anioFiscalId: this.authInfo.user.ayuntamiento.id,
         ayuntamientoId: this.authInfo.currentFiscalYearId,
         ctgClasificadorId: null,
-        instOtorga: 0,
-        ctaControl: 0,
+        instOtorga: '',
+        ctaControl: '',
         detalle: '',
         anioAnt: 0,
-        ctgFuenteId: 0,
-        ctgFuenteEspecificaId: 0,
-        ctgOrganismoFinanciadorId: 0,
+        ctgFuenteId: '',
+        ctgFuenteEspecificaId: '',
+        ctgOrganismoFinanciadorId: '',
         alaFecha: 0,
         presForm: 0,
         variacion: 0,
@@ -403,12 +406,8 @@ export default {
 
     editFormulacion(item) {
       this.showPartidaPresupuestodeIngresoDialog = true
-
-      Api.getPresIngresoById(item).then((response) => {
-        this.id = item.id
-        this.postIngreso = response.data.data;
-        this.postIngreso.ctaControl = this.postIngreso.control;
-      })
+      this.postIngreso = { ...item };
+      this.postIngreso.ctaControl = item.control;
     },
 
     IngresoReport() {

@@ -1,6 +1,6 @@
 <template lang="">
   <CContainer lg>
-    <div>
+    <div class="main-menu-cards-container">
       <CRow>
         <CCol :md="2" class="mt-4" style="font-weight: bolder">
           <CWidgetStatsD

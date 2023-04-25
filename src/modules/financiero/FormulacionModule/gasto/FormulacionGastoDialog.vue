@@ -16,7 +16,7 @@
                 <CForm ref="formulacionForm" class="row g-3 needs-validation"  novalidate :validated="isFormValidated">
                     <CCol :md="2">
                         <CFormLabel for="formulacionGasto.pnap">PNAP</CFormLabel>
-                        <input ref="name" class="form-control" :disabled="formulacionGasto.id ? true : false"
+                        <CFormInput class="form-control" :disabled="formulacionGasto.id ? true : false"
                             v-model="formulacionGasto.pnap" id="formulacionGasto.pnap" type="number" maxlength="2"/>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
@@ -42,13 +42,13 @@
                     </CCol>
                     <CCol :md="3">
                         <CFormLabel for="formulacionGasto.mestprogId">Est. Programática control</CFormLabel>
-                        <CFormInput disabled v-model="formulacionGasto.mestprogId" id="formulacionGasto.mestprogId">
+                        <CFormInput disabled v-model="formulacionGasto.estructuraProgramaticaControl" id="formulacionGasto.mestprogId">
                         </CFormInput>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <CCol :md="3">
                         <CFormLabel for="formulacionGasto.nombre">Denominación</CFormLabel>
-                        <CFormInput v-model="formulacionGasto.nombre" id="formulacionGasto.nombre" required />
+                        <CFormInput v-model="formulacionGasto.nombre" id="formulacionGasto.nombre" />
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <CCol :md="4">
@@ -336,6 +336,7 @@ watchEffect(() => {
         .then((response) => {
             props.formulacionGasto.nombre = response.data?.data?.nombre ?? '';
             props.formulacionGasto.unidadResp = response.data?.data?.unidadRespon ?? '';
+            props.formulacionGasto.estructuraProgramaticaControl = response.data?.data?.ccontrol ?? '';
         });
     }
 });
@@ -375,6 +376,8 @@ const onEditDetalle = (item) => {
 
 const closeDialog = (data) => {
     emit('close', data);
+    isFormValidated.value = false;
+    calculateTotals([]);
 }
 
 const guardarFormulacionGasto = () => {

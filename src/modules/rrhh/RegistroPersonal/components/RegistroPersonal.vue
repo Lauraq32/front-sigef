@@ -17,8 +17,9 @@
     </div>
   </div>
 
+  <RegistroPersonalTable :tableData="registroPersonal" :tablecolumns="columns" :actions="buttonActions" :footer="footerItem" />
 
-  <CSmartTable class="sticky-top" clickableRows :tableProps="{
+  <!-- <CSmartTable class="sticky-top" clickableRows :tableProps="{
       striped: true,
       hover: true,
     }" :tableHeadProps="{}" :activePage="1" header :items="registroPersonal" :columns="columns" :footer="footerItem"
@@ -85,7 +86,7 @@
       </template>
     </td>
     </template>
-  </CSmartTable>
+  </CSmartTable> -->
 
   <RegistroPersonalDialog :showModal="showRegistroPersonalModal" @post-personal="submitForm"
     @close-modal="closeRegistroPersonalModal" :empleadoId="id" />
@@ -103,11 +104,15 @@ import Api from '../services/RegistroPersonalServices'
 import moment from 'moment'
 import { useToastStore } from '@/store/toast'
 import RegistroPersonalDialog from '../components/Dialogos/RegistroPersonalDialog.vue'
+import AccionPersonalDialog from '../../RegistroPersonal/components/Dialogos/AccionPersonal.vue'
+import RegistroPersonalTable from '../components/tables/RegistroPersonalTable.vue'
 
 export default {
   components: {
     CSmartTable,
+    RegistroPersonalTable,
     CModal,
+    AccionPersonalDialog,
     moment,
     RegistroPersonalDialog
   },
@@ -115,6 +120,7 @@ export default {
     return {
       showRegistroPersonalModal: false,
       id: null,
+      actions: [],
       lgDemo4: false,
       cambiar: false,
       registroPersonal: [],
@@ -161,6 +167,7 @@ export default {
           sorter: false,
         },
       ],
+     
       footerItem: [
         {
           label: 'Total Items',
@@ -170,6 +177,31 @@ export default {
             style: 'font-weight:bold;',
           },
         },
+      ],
+
+      buttonActions:[
+        {
+          label:'Editar',
+          IsFunction: (value) => {
+            this.toggleDetails(value)
+          }
+        },
+        {
+          label:'Eliminar',
+          IsFunction: (value) => {
+            this.deleteEmp(value)
+          }
+        },
+        {
+          label:'Evaluación',
+          IsFunction: (value) => {
+            this.lgDemo4 = true
+          }
+        },
+        {
+          label:'Eventualidad'
+        },
+        
       ],
       validatedCustom01: null,
       lgDemo: false,
