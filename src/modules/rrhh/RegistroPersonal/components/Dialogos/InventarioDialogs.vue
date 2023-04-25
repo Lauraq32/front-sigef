@@ -42,7 +42,7 @@
             data-bs-dismiss="modal"
             @click="
               () => {
-                showModal = false
+                closeModal()
               }
             "
           >

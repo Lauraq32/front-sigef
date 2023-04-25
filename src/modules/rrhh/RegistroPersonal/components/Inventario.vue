@@ -89,9 +89,9 @@
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/RegistroPersonalServices'
-import UtilesLaboralesDialog from '@/modules/rrhh/RegistroPersonal/components/Dialogos/UtilesLaboralesDialogs.vue'
-import EventoInventarioDialog from '@/modules/rrhh/RegistroPersonal/components/Dialogos/EventosInventarioDialogs.vue'
-import InventarioDialog from '@/modules/rrhh/RegistroPersonal/components/Dialogos/InventarioDialogs.vue'
+import UtilesLaboralesDialog from './Dialogos/UtilesLaboralesDialogs.vue'
+import EventoInventarioDialog from './Dialogos/EventosInventarioDialogs.vue'
+import InventarioDialog from './Dialogos/InventarioDialogs.vue'
 
 export default {
   components: {

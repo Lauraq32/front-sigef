@@ -15,9 +15,17 @@
       <CCardBody>
         <div class="row">
           <div class="row mt-4">
-            <div class="col-4 col-label">Fecha</div>
+            <div class="col-4 col-label">Util Laboral</div>
             <div class="col-8">
-              <CFormInput type="date" v-model="postEvento.fecha" />
+              <CFormSelect v-model="postEvento.utilId" id="validationCustom04">
+                <option
+                  v-for="utils in utils"
+                  :key="utils.id"
+                  :value="utils.id"
+                >
+                  {{ utils.descripcion }}
+                </option>
+              </CFormSelect>
             </div>
           </div>
 
@@ -28,6 +36,24 @@
                 <option value="antregado">Entregado</option>
                 <option value="Retornado">Retornado</option>
                 <option value="abastecimiento">Abastecimiento</option>
+              </CFormSelect>
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-4 col-label">Empleados</div>
+            <div class="col-8">
+              <CFormSelect
+                v-model="postEvento.empleadoId"
+                id="validationCustom04"
+              >
+                <option
+                  v-for="empleados in this.empleados"
+                  :key="empleados.id"
+                  :value="empleados.id"
+                >
+                  {{ empleados.nombres }}
+                </option>
               </CFormSelect>
             </div>
           </div>
@@ -51,35 +77,9 @@
           </div>
 
           <div class="row mt-4">
-            <div class="col-4 col-label">Empleados</div>
+            <div class="col-4 col-label">Fecha</div>
             <div class="col-8">
-              <CFormSelect
-                v-model="postEvento.empleadoId"
-                id="validationCustom04"
-              >
-                <option
-                  v-for="empleados in this.empleados"
-                  :key="empleados.id"
-                  :value="empleados.id"
-                >
-                  {{ empleados.nombres }}
-                </option>
-              </CFormSelect>
-            </div>
-          </div>
-
-          <div class="row mt-4">
-            <div class="col-4 col-label">Util Laboral</div>
-            <div class="col-8">
-              <CFormSelect v-model="postEvento.utilId" id="validationCustom04">
-                <option
-                  v-for="utils in utils"
-                  :key="utils.id"
-                  :value="utils.id"
-                >
-                  {{ utils.id }}
-                </option>
-              </CFormSelect>
+              <CFormInput type="date" v-model="postEvento.fecha" />
             </div>
           </div>
         </div>

@@ -34,9 +34,13 @@
       <CCardBody class="mt-3">
         <div class="row">
           <div class="row mt-4 mx-4">
-            <div class="col-4 col-label">Fecha</div>
+            <div class="col-4 col-label">Descripción</div>
             <div class="col-8 col-md-6">
-              <CFormInput type="date" v-model="initialDate" />
+              <CFormInput
+                v-model="postInventarioCantidad.descripcion"
+                id="validationCustom04"
+              >
+              </CFormInput>
             </div>
           </div>
 
@@ -70,6 +74,13 @@
           </div>
 
           <div class="row mt-4 mx-4">
+            <div class="col-4 col-label">Fecha</div>
+            <div class="col-8 col-md-6">
+              <CFormInput type="date" v-model="initialDate" />
+            </div>
+          </div>
+
+          <div class="row mt-4 mx-4">
             <div class="col-4 col-label">Observacion</div>
             <div class="col-8">
               <textarea
@@ -90,7 +101,7 @@
             data-bs-dismiss="modal"
             @click="
               () => {
-                this.showModal = false
+                closeModal()
               }
             "
           >
@@ -125,6 +136,7 @@ export default {
         observacion: null,
         autorizadoPor: null,
         cantidad: 0,
+        Descripción: null,
       },
     }
   },
