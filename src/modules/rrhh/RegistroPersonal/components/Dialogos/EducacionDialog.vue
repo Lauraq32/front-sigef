@@ -66,6 +66,11 @@
               {{ formatDate(item.finishDate) }}
             </td>
           </template>
+          <template #courseTime="{ item, index }">
+            <td class="py-2">
+              {{ item.courseTime}} horas
+            </td>
+          </template>
           <template #show_details="{ item, index }">
             <td class="py-2">
               <CButton color="primary" variant="outline" @click="selectEducation(item)">Editar</CButton>
@@ -110,8 +115,8 @@ export default {
       educationList: [],
       tabPaneActiveKey: 1,
       columns: [
-        { key: 'courseName', label: 'Nombre', _style: { width: '50%' } },
-        { key: 'courseTime', label: 'Tiempo', _style: { width: '10%' } },
+        { key: 'courseName', label: 'Nombre', _style: { width: '40%' } },
+        { key: 'courseTime', label: 'Tiempo', _style: { width: '20%' } },
         { key: 'startDate', label: 'Fecha Inicio', _style: { width: '20%' } },
         { key: 'finishDate', label: 'Fecha Final', _style: { width: '20%' } },
         {
