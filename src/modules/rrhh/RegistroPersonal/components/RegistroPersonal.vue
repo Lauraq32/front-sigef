@@ -215,11 +215,17 @@ export default {
 
   methods: {
     ...mapActions(useRegistroStore, [
-      'getRegistroPersonal',
       'addRegistroPersonal',
       'getPosicion',
     ]),
     ...mapActions(useToastStore, ['show']),
+
+    getRegistroPersonal(){
+      Api.getAllEmpleado().then((response) => {
+            this.registroPersonal = response.data.data
+        })
+    },
+
 
     closeRegistroPersonalModal() {
       this.showRegistroPersonalModal = false
@@ -422,9 +428,4 @@ export default {
 }
 </script>
 <style>
-  
-/* .btn-group{
-  position: relative;
-  z-index: -1;
-} */
 </style>
