@@ -180,6 +180,7 @@ const closeDialog = (data) => {
     enabledFields.ctgOrganismoFinanciadorId = false;
     formIsValidated.value = false;
     selectedInstitucionOtorgante.value = {};
+    props.formulacionIngreso.instOtorga = '0000';
 }
 
 const submitForm = () => {
