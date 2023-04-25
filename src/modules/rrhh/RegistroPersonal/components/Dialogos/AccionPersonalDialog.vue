@@ -259,17 +259,6 @@ export default {
 
   watch: {
     empleado() {
-      /*Promise.all([
-        this.getAccionPersonalById(this.empleado.id),
-        ApiFiles.getEmployeeIdentityImage({
-          empleadoId: this.empleado.id,
-          FileType: '.png',
-          FileType2: 'png',
-        }),
-      ])
-      // this.empleadoId = this.empleado.id
-      setTimeout(this.getAccionPersonalById(this.empleado.id), 10000)
-      */
       Api.getAllTipoAcciones().then((response) => {
         this.tipoAcciones = response.data.data
       })

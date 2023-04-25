@@ -115,7 +115,7 @@
         data-bs-dismiss="modal"
         @click="
           () => {
-            showTipoNovedad = false
+            closeModal()
           }
         "
         >Cerrar
@@ -179,6 +179,10 @@ export default {
 
   methods: {
     ...mapActions(useToastStore, ['show']),
+
+    closeModal() {
+      this.$emit('closeModal', false)
+    },
 
     getTipoAcciones() {
       Api.getAllTipoAcciones().then((response) => {

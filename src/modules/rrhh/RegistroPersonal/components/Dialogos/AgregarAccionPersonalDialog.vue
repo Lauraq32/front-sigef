@@ -124,6 +124,8 @@
 <script>
 import { CModal } from '@coreui/vue'
 import { CButton } from '@coreui/vue-pro'
+import { useToastStore } from '@/store/toast'
+import { mapActions } from 'pinia'
 
 export default {
   name: 'AgregarAccionPersonalDialog',
@@ -189,6 +191,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(useToastStore, ['show']),
     clearAccionPersonal() {
       this.$emit('clearModal', this.postAccionPersonal)
     },
@@ -213,8 +216,8 @@ export default {
       this.postAccionPersonal = { ...this.accionPersonal }
     },
     tipoAcciones() {
-      this.postAccionPersonal.tipoAccionId = this.tipoAcciones?.[0].id;
-    }
+      this.postAccionPersonal.tipoAccionId = this.tipoAcciones?.[0].id
+    },
   },
 
   props: {
