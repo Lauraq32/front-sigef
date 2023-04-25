@@ -69,6 +69,7 @@
                     <CCol :md="12">
                       <CFormSelect v-model="postEmpleado.tipoDocumento" v-on:change="changeDocument()"
                         id="validationCtipoDocumentoustom05">
+                        <option disabled selected value="">Seleccionar</option>
                         <option>C&eacute;dula</option>
                         <option>Pasaporte</option>
                       </CFormSelect>
@@ -128,6 +129,7 @@
                   <div class="col-9">
                     <CCol :md="12">
                       <CFormSelect v-model="postEmpleado.sectorId" id="sectorId">
+                        <option value="" disabled selected>Seleccione</option>
                         <option v-for="sect in this.sector" :key="sect.id" :value="sect.id">
                           {{ sect.nombre }}
                         </option>
@@ -153,7 +155,8 @@
                   </div>
                   <div class="col-9">
                     <CCol :md="12">
-                      <CFormSelect v-model="postEmpleado.estadoCivil" id="estadoCivil">
+                      <CFormSelect v-model="postEmpleado.estadoCivil" id="estadoCivil" aria-placeholder="Estado">
+                        <option disabled selected value="">Seleccionar</option>
                         <option>Soltero/a</option>
                         <option>Casado/a</option>
                       </CFormSelect>
@@ -193,6 +196,7 @@
                   <div class="col-9">
                     <CCol :md="12">
                       <CFormSelect v-model="postEmpleado.sexo" id="sexo">
+                        <option disabled selected value="">Seleccionar</option>
                         <option value="M">Masculino</option>
                         <option value="F">Femenino</option>
                       </CFormSelect>
@@ -217,6 +221,7 @@
                   <div class="col-9">
                     <CCol :md="12">
                       <CFormSelect v-model="postEmpleado.discapacidad" id="discapacidad">
+                        <option value="" disabled selected>Seleccione</option>
                         <option v-for="discapacidad in this.discapacidadList" :key="discapacidad.id"
                           :value="discapacidad.id">
                           {{ discapacidad.configValue }}
@@ -244,6 +249,7 @@
                   <CFormLabel for="programaDivisionId">Dirección o dependencia</CFormLabel>
                   <CFormSelect v-model="postEmpleado.programaDivisionId" id="programaDivisionId"
                     v-on:change="changePrograma($event)">
+                    <option value="" disabled selected>Seleccione</option>
                     <option v-for="programa in this.programaDivision" :key="programa.id" :value="programa.id">
                       {{ programa.nombre }}
                     </option>
@@ -258,6 +264,7 @@
                 <CCol>
                   <CFormLabel for="departamentoId">Departamento</CFormLabel>
                   <CFormSelect v-model="postEmpleado.departamentoId" id="departamentoId">
+                    <option value="" disabled selected>Seleccione</option>
                     <option v-for="departamento in departamentoList" :key="departamento.id" :value="departamento.id">
                       {{ departamento.nombre }}
                     </option>
@@ -268,6 +275,7 @@
                 <CCol :md="12">
                   <CFormLabel for="areaTrabajoId">Área de trabajo</CFormLabel>
                   <CFormSelect v-model="postEmpleado.areaTrabajoId" id="areaTrabajoId">
+                    <option value="" disabled selected>Seleccione</option>
                     <option v-for="area in this.areaTrabajo" :key="area.id" :value="area.id">
                       {{ area.descripcion }}
                     </option>
@@ -277,6 +285,7 @@
                 <CCol :md="12">
                   <CFormLabel for="posicionId">Cargos</CFormLabel>
                   <CFormSelect v-model="postEmpleado.posicionId" id="posicionId">
+                    <option value="" disabled selected>Seleccione</option>
                     <option v-for="cargo in this.posicionCargo" :key="cargo.id" :value="cargo.id">
                       {{ cargo.nombre }}
                     </option>
@@ -289,6 +298,7 @@
                   <CCol :md="6">
                     <CFormLabel for="tipoContrato">Tipo de contrato</CFormLabel>
                     <CFormSelect v-model="postEmpleado.tipoContrato" id="tipoContrato">
+                      <option disabled selected value="">Seleccionar</option>
                       <option>Tipo de contrato 1</option>
                       <option>Tipo de contrato 2</option>
                     </CFormSelect>
@@ -297,6 +307,7 @@
                   <CCol :md="6">
                     <CFormLabel for="turno">Turno</CFormLabel>
                     <CFormSelect v-model="postEmpleado.turno" id="turno">
+                      <option disabled selected value="">Seleccionar</option>
                       <option>DIURNO</option>
                       <option>NOCTURNO</option>
                       <option>ROTATIVO</option>
@@ -309,6 +320,7 @@
                   <CCol :md="6">
                     <CFormLabel for="periodoPago">Tipo cobro</CFormLabel>
                     <CFormSelect v-model="postEmpleado.periodoPago" id="periodoPago">
+                      <option disabled selected value="">Seleccionar</option>
                       <option>MENSUAL</option>
                       <option>QUINCENAL</option>
                     </CFormSelect>
@@ -317,6 +329,7 @@
                   <CCol :md="12">
                     <CFormLabel for="formaPago">Tipo de pago</CFormLabel>
                     <CFormSelect v-model="postEmpleado.formaPago" id="formaPago">
+                      <option disabled selected value="">Seleccionar</option>
                       <option>BANCO</option>
                       <option>CHEQUE</option>
                     </CFormSelect>
@@ -361,7 +374,7 @@
                 <h3>Otros</h3>
                 <CCol>
                   <CFormLabel for="emergenciaTelefono">Otros</CFormLabel>
-                  <CFormInput v-model="postEmpleado.emergenciaTelefono" id="emergenciaTelefono" type="number" required />
+                  <CFormInput id="emergenciaTelefono" type="text" required />
                 </CCol>
               </div>
             </div>
@@ -390,6 +403,7 @@
                 <CCol>
                   <CFormLabel for="emergenciaParentezco">Parentezco</CFormLabel>
                   <CFormSelect v-model="postEmpleado.emergenciaParentezco" id="emergenciaParentezco">
+                    <option value="" disabled selected>Seleccione</option>
                     <option>Padre</option>
                     <option>Madre</option>
                     <option>Hermano/a</option>
@@ -407,6 +421,7 @@
                 <CCol>
                   <CFormLabel for="tipoSangreId">Tipo Sangre</CFormLabel>
                   <CFormSelect v-model="postEmpleado.tipoSangreId" id="tipoSangreId">
+                    <option value="" disabled selected>Seleccione</option>
                     <option v-for="sangre in this.tipoSangre" :key="sangre.id" :value="sangre.id">
                       {{ sangre.nombre }}
                     </option>
@@ -418,6 +433,7 @@
                 <CCol>
                   <CFormLabel for="tipoSangreId">Al&eacute;rgico</CFormLabel>
                   <CFormSelect v-model="postEmpleado.emergenciaAlergico" id="emergenciaAlergico">
+                    <option value="" disabled selected>Seleccione</option>
                     <option>
                       Si
                     </option>
@@ -430,6 +446,7 @@
                 <CCol>
                   <CFormLabel for="tipoSangreId">Diab&eacute;tico</CFormLabel>
                   <CFormSelect v-model="postEmpleado.emergenciaDiabetico" id="emergenciaDiabetico">
+                    <option value="" disabled selected>Seleccione</option>
                     <option>
                       Si
                     </option>
@@ -442,6 +459,7 @@
                 <CCol>
                   <CFormLabel for="presión">Nivel de presi&oacute;n</CFormLabel>
                   <CFormSelect id="emergenciaPresionAlta" v-model="postEmpleado.emergenciaPresionAlta">
+                    <option value="" disabled selected>Seleccione</option>
                     <option>Normal</option>
                     <option>Alta</option>
                     <option>Baja</option>
@@ -453,6 +471,7 @@
                 <CCol>
                   <CFormLabel for="emergenciaParentezco">En tratamiento</CFormLabel>
                   <CFormSelect v-model="postEmpleado.emergenciaEnTratamiento" id="emergenciaEnTratamiento">
+                    <option value="" disabled selected>Seleccione</option>
                     <option>Si</option>
                     <option>No</option>
 
@@ -501,6 +520,7 @@
                 <CCol :md="6">
                   <CFormLabel for="nivelEscolar">Nivel Escolar</CFormLabel>
                   <CFormSelect v-model="postEmpleado.nivelEscolar" id="nivelEscolar">
+                    <option value="" disabled selected>Seleccione</option>
                     <option v-for="nivelEscolar in this.nivelEscolarList" :key="nivelEscolar.id" :value="nivelEscolar.id">
                       {{ nivelEscolar.configValue }}
                     </option>
@@ -510,6 +530,7 @@
                 <CCol :md="6">
                   <CFormLabel for="areaTematica">&Aacute;rea Tem&aacute;tica</CFormLabel>
                   <CFormSelect id="areaTematica">
+                    <option value="" disabled selected>Seleccione</option>
                     <option v-for="areaTematica in this.areaTematicaList" :key="areaTematica.id" :value="areaTematica.id">
                       {{ areaTematica.configValue }}
                     </option>
@@ -523,11 +544,11 @@
                 </CCol>
                 <CCol :md="12">
                   <CFormLabel for="correo1">Correo Electr&oacute;nico 1 y 2</CFormLabel>
-                  <CFormInput id="correo1" required />
+                  <CFormInput id="correo1" v-model="postEmpleado.correoElectronico" required />
 
                 </CCol>
                 <CCol class="mt-2">
-                  <CFormInput id="correo2" required />
+                  <CFormInput id="correo2" v-model="postEmpleado.correoElectronico2" required />
 
                 </CCol>
                 <h5>Datos de Evaluaci&oacute;n de Desempe&ntilde;o</h5>
@@ -601,16 +622,16 @@ export default {
         codigo: null,
         nombres: null,
         apellidos: null,
-        tipoDocumento: 'Cédula',
+        tipoDocumento: '',
         codigoIdentidad: null,
         direccion: null,
-        sectorId: 1,
+        sectorId: '',
         telefono: null,
         celular: null,
         fechaNacimiento: new Date(Date.now()),
         lugarNacimiento: null,
-        estadoCivil: 'Soltero',
-        sexo: 'M',
+        estadoCivil: '',
+        sexo: '',
         dependientes: 0,
         fechaIngreso: new Date(),
         fechaSalida: new Date(Date.now()),
@@ -679,8 +700,8 @@ export default {
         emergenciaDireccion: null,
         emergenciaParentezco: null,
         tipoSangreId: 0,
-        emergenciaAlergico: 'Si',
-        emergenciaDiabetico: 'Si',
+        emergenciaAlergico: '',
+        emergenciaDiabetico: '',
         emergenciaInsodepend: 'st',
         emergenciaPresionAlta: null,
         emergenciaPresionBaja: null,
@@ -726,48 +747,48 @@ export default {
     cargarListas() {
       Api.getProgramaDivision().then((response) => {
         this.programaDivision = response.data.data
-        this.postEmpleado.programaDivisionId = this.programaDivision[0].id
+
       })
 
       Api.getPosicion().then((response) => {
         this.posicionCargo = response.data.data
-        this.postEmpleado.posicionId = this.posicionCargo[0].id
+ 
       })
 
       Api.getAreaTrabajo().then((response) => {
         this.areaTrabajo = response.data.data
-        this.postEmpleado.areaTrabajoId = this.areaTrabajo[0].id
+
       })
 
       apiSectores.getSectores().then((response) => {
         this.sector = response.data.data
-        this.postEmpleado.sectorId = this.sector[0].id
+    
       })
 
       Api.tipoSangreList().then((response) => {
         this.tipoSangre = response.data.data
-        this.postEmpleado.tipoSangreId = this.tipoSangre[0].id
+ 
       })
 
       Api.getProgramaDivision().then((response) => {
         this.programaDivision = response.data.data
-        this.postEmpleado.programaDivisionId = this.programaDivision[0].id
+
       })
       configuraciones.getGroupConfiguration(configuraciones.grupos.Discapacidad).then(response => {
         this.discapacidadList = response.data.data
-        this.postEmpleado.discapacidad = this.discapacidadList[0].id
+
       })
       configuraciones.getGroupConfiguration(configuraciones.grupos.nivelEscolar).then(response => {
         this.nivelEscolarList = response.data.data
-        this.postEmpleado.nivelEscolar = this.nivelEscolarList[0].id
+
       })
       configuraciones.getGroupConfiguration(configuraciones.grupos.areaTematica).then(response => {
         this.areaTematicaList = response.data.data
-        this.postEmpleado.areaTematica = this.areaTematicaList[0].id
+
       })
       Api.listDepartamento().then(response => {
         this.departamentoList = response.data.data
-        this.postEmpleado.departamentoId = this.departamentoList[0].id
+
       })
     },
     saveRegistroPersonal() {
@@ -800,7 +821,7 @@ export default {
         celular: null,
         fechaNacimiento: new Date(Date.now()),
         lugarNacimiento: null,
-        estadoCivil: 'M',
+        estadoCivil: '',
         sexo: 'M',
         dependientes: 0,
         fechaIngreso: new Date(Date.now()),

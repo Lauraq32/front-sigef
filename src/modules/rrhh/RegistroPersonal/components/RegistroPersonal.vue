@@ -3,28 +3,27 @@
   <AccionPersonalDialog :showModal="lgDemo4" @custom-event="closeModal" />
   <div class="table-headers">
     <div class="d-inline p-2">
-      <CButton color="info" @click="
-        () => {
+      <CButton color="info" @click="() => {
           showModal()
         }
-      ">Agregar</CButton>
+        ">Agregar</CButton>
 
       <div class="d-inline p-2">
-        <CButton color="info" @click="
-          () => {
+        <CButton color="info" @click="() => {
             reportes = true
           }
-        ">Imprimir Reporte</CButton>
+          ">Imprimir Reporte</CButton>
       </div>
     </div>
   </div>
 
 
   <CSmartTable class="sticky-top" clickableRows :tableProps="{
-    striped: true,
-    hover: true,
-  }" :tableHeadProps="{}" :activePage="1" header :items="registroPersonal" :columns="columns" columnFilter
-    itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }" pagination>
+      striped: true,
+      hover: true,
+    }" :tableHeadProps="{}" :activePage="1" header :items="registroPersonal" :columns="columns" :footer="footerItem"
+    columnFilter itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination>
     <template #sexo="{ item }">
       <td>
         {{ item.sexo == 'M' ? 'Masculino' : 'Femenino' }}
@@ -58,20 +57,25 @@
       </td>
     </template>
     <template #show_details="{ item }">
+      <td>
+
+
       <template v-if="item.estatus !== false">
 
+
         <CDropdown>
+
           <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
           <CDropdownMenu>
             <CDropdownItem @click="toggleDetails(item)">Editar</CDropdownItem>
             <CDropdownItem @click="deleteEmp(item)">Eliminar</CDropdownItem>
-            <CDropdownItem @click="
-              () => {
+            <CDropdownItem @click="() => {
                 lgDemo4 = true
               }
-            ">Evaluación</CDropdownItem>
+              ">Evaluación</CDropdownItem>
             <CDropdownItem>Eventualidad</CDropdownItem>
           </CDropdownMenu>
+
         </CDropdown>
       </template>
       <template v-if="item.estatus == false">
@@ -79,6 +83,7 @@
           <CBadge color="danger" shape="rounded-pill">{{ item.estatus ? 'Activo' : 'Inactivo' }}</CBadge>
         </td>
       </template>
+    </td>
     </template>
   </CSmartTable>
 
@@ -146,12 +151,12 @@ export default {
           _style: { width: '15%' },
         },
 
-        { key: 'sexo', label: 'Sexo', _style: { width: '2%' } },
+        { key: 'sexo', label: 'Sexo', _style: { width: '20%' } },
+
 
         {
           key: 'show_details',
           label: '',
-          _style: { width: '20%' },
           filter: false,
           sorter: false,
         },
@@ -186,6 +191,7 @@ export default {
 
     closeRegistroPersonalModal() {
       this.showRegistroPersonalModal = false
+      this.getRegistroPersonal()
     }
     ,
     showModal() {
@@ -295,11 +301,12 @@ export default {
             content: 'Registro actualizado correctamente',
             closable: true,
           })
+          this.closeRegistroPersonalModal()
           this.id = null
           setTimeout(this.getRegistroPersonal, 500)
         })
       } else {
-        
+
 
         Api.postEmpleado(payload)
           .then((response) => {
@@ -307,6 +314,7 @@ export default {
               content: 'Registro añadido correctamente',
               closable: true,
             })
+            this.closeRegistroPersonalModal()
             this.id = null
             setTimeout(this.getRegistroPersonal, 500)
           })
@@ -371,12 +379,20 @@ export default {
     this.getRegistroPersonal()
     Api.getAllEmpleado().then((response) => {
       this.registroPersonal = response.data.data
+      this.footerItem[0].label = `Items: ${response.data.data.length}`
     })
   },
   watch: {
-    showRegistroPersonalModal() {
+    showRegistroPersonalModal(){
       this.getRegistroPersonal()
-    },
+    }
   },
 }
 </script>
+<style>
+  
+/* .btn-group{
+  position: relative;
+  z-index: -1;
+} */
+</style>
