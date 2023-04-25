@@ -166,7 +166,7 @@
                   <div class="col-12">
                     <div class="row">
                       <div class="col-4">
-                        <CFormLabel for="validationCustom04">Servicios</CFormLabel>
+                        <CFormLabel for="presupuestoBco2">Servicios</CFormLabel>
                         <CurrencyInput id="presupuestoBco2" v-model="detalle.presupuestoBco2" :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}" />
                         <CFormFeedback invalid>
                           Favor agregar el campo

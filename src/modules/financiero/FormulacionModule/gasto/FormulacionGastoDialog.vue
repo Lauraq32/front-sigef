@@ -417,10 +417,10 @@ const onDetailDialogClose = (data) => {
         nextTick().then(() => {
             calculateTotals(props.formulacionGasto.detallePresGastos);
             detalle.value = { ...newDetailData };
-            showDetailDialog.value = false;
+            !data && (showDetailDialog.value = false);
         })
         .catch(console.error);
-    }, 200);;
+    }, 200);
 }
 
 const onEditDetalle = (item) => {

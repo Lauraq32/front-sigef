@@ -179,6 +179,7 @@ const closeDialog = (data) => {
     enabledFields.ctgFuenteEspecificaId = false;
     enabledFields.ctgOrganismoFinanciadorId = false;
     formIsValidated.value = false;
+    selectedInstitucionOtorgante.value = {};
 }
 
 const submitForm = () => {
@@ -265,8 +266,11 @@ const validateInputctgOrganismoFinanciadorId = (clasificatorSelected) => {
 }
 
 watchEffect(() => {
-    if (props.institucionesOtorgante && !selectedInstitucionOtorgante.value?.code) {
-        selectedInstitucionOtorgante.value = props.institucionesOtorgante.find(io => io.code === props.formulacionIngreso.instOtorga) ?? {};
+    if (props.institucionesOtorgante && !Number(selectedInstitucionOtorgante.value?.code)) {
+        selectedInstitucionOtorgante.value = props.institucionesOtorgante.find(io => io.code === props.formulacionIngreso.instOtorga) ?? {}; 
+    }
+    if (props.isVisible && clasificatorField.value) {
+        clasificatorField.value.focus();
     }
 });
 </script>
