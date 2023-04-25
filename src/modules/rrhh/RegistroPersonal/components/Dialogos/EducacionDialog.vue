@@ -135,7 +135,16 @@ export default {
 
 
     closeModal() {
+      
       this.$emit('closeModal')
+      this.education = {
+        employeeId: this.employeeInfo.id,
+        courseName: "",
+        courseTime: 0,
+        startDate: new Date(Date.now()),
+        finishDate: new Date(Date.now()),
+        courseRecord: "",
+      }
     },
 
     saveEducation(event) {
