@@ -29,17 +29,17 @@
           </CCol>
           <CCol :md="6">
             <CFormLabel for="startDate">Fecha Inicio</CFormLabel>
-            <CFormInput type="date" v-model="education.startDate" required id="startDate"> </CFormInput>
+            <CFormInput type="date" v-model="startDate" required id="startDate"> </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="6">
             <CFormLabel for="finishDate">Fecha Final</CFormLabel>
-            <CFormInput type="date" v-model="education.finishDate" required id="finishDate"> </CFormInput>
+            <CFormInput type="date" v-model="finishDate" required id="finishDate"> </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="12">
             <CFormLabel for="courseRecord">R&eacute;cord del Curso</CFormLabel>
-            <CFormTextarea v-model="education.courseRecord" id="courseRecord">
+            <CFormTextarea v-model="education.courseRecord" id="courseRecord" required>
             </CFormTextarea>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -51,9 +51,9 @@
           </div>
         </CForm>
         <CSmartTable clickableRows :tableProps="{
-          striped: true,
-          hover: true,
-        }" :tableHeadProps="{}" :activePage="1" header :items="educationList" :columns="columns" itemsPerPageSelect
+            striped: true,
+            hover: true,
+          }" :tableHeadProps="{}" :activePage="1" header :items="educationList" :columns="columns" itemsPerPageSelect
           :itemsPerPage="5" :sorterValue="{ column: 'status', state: 'asc' }" pagination>
 
           <template #startDate="{ item, index }">
@@ -102,8 +102,8 @@ export default {
         employeeId: 0,
         courseName: "",
         courseTime: 0,
-        startDate: "",
-        finishDate: "",
+        startDate: new Date(Date.now()),
+        finishDate: new Date(Date.now()),
         courseRecord: ""
       },
       profesionFormValidated: false,
@@ -134,6 +134,7 @@ export default {
     },
 
     saveEducation(event) {
+
       const form = event.currentTarget
       if (form.checkValidity() === true) {
         if (this.educationId == null) {
@@ -142,6 +143,7 @@ export default {
               content: 'Registro añadido correctamente',
               closable: true,
             })
+            this.profesionFormValidated = false
             setTimeout(this.listarEducation(this.employeeInfo.id), 500)
           }).catch(error => {
             this.show({
@@ -163,9 +165,11 @@ export default {
         else {
           Api.putEmployee(this.education, this.educationId).then(response => {
             setTimeout(this.listarEducation(this.employeeInfo.id), 500)
+            this.profesionFormValidated = false
           })
         }
       }
+      this.profesionFormValidated = true
     },
 
     selectEducation(item) {
@@ -188,6 +192,46 @@ export default {
     },
   },
 
+  computed: {
+    startDate: {
+      get() {
+        if (
+          this.education.startDate !== null &&
+          this.education.startDate?.toString() !== 'Invalid Date'
+        ) {
+          let date = this.education.startDate
+          if (typeof this.education.startDate === 'string') {
+            date = new Date(this.education.startDate)
+            return date.toISOString().split('T')[0]
+          }
+        }
+      },
+      set(value) {
+        return (this.education.startDate = new Date(
+          `${value}T00:00:00`,
+        ))
+      },
+    },
+    finishDate: {
+      get() {
+        if (
+          this.education.finishDate !== null &&
+          this.education.finishDate?.toString() !== 'Invalid Date'
+        ) {
+          let date = this.education.finishDate
+          if (typeof this.education.finishDate === 'string') {
+            date = new Date(this.education.finishDate)
+            return date.toISOString().split('T')[0]
+          }
+        }
+      },
+      set(value) {
+        return (this.education.finishDate = new Date(
+          `${value}T00:00:00`,
+        ))
+      },
+    },
+  },
   props: {
     showModal: Boolean,
 
