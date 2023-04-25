@@ -24,7 +24,7 @@
     :activePage="1"
     :footer="footerItem"
     header
-    :items="this.$store.state.RRHHModule.departamentos"
+    :items="deparments"
     :columns="columns"
     columnFilter
     itemsPerPageSelect
@@ -33,35 +33,16 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination>
 
-    <template #status="{ item }">
-      <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
-      </td>
-    </template>
-    <template #show_details="{ item, index }">
+    <template #delete="{ item, index }">
       <td class="py-2">
         <CButton
-          color="primary"
-          variant="outline"
+          color="danger"
           square
           size="sm"
-          @click="toggleDetails(item, index)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
+          @click="handleDelete(item, index)">
+          Eliminar
         </CButton>
       </td>
-    </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
     </template>
   </CSmartTable>
 
@@ -71,6 +52,7 @@
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import AddDepartment from './Dialogos/AddDepartment.vue'
+import DeparmentServices from '../services/DeparmentServices'
 export default {
   components: {
     CSmartTable,
@@ -80,41 +62,40 @@ export default {
     return {
       validatedCustom01: null,
       showAddDeptModal: false,
+      deparments: [],
       columns: [
-        { key: 'Código', label: 'Código', _style: { width: '8%' } },
         {
-          key: 'Departamento',
+          key: 'nombre',
           label: 'Departamento',
           _style: { width: '25%' },
         },
-        { key: 'Programa', label: 'Programa', _style: { width: '23%' } },
+        { key: 'programaDivisionId', label: 'Programa', _style: { width: '15%' } },
         {
-          key: 'Grupo de nomina',
+          key: 'grupoNominaId',
           label: 'Grupo de nomina',
           _style: { width: '12%' },
         },
         {
-          key: 'Estructura Prog.',
+          key: 'estructura',
           label: 'Estructura Prog.',
           _style: { width: '12%' },
         },
         {
-          key: 'Clasificador',
+          key: 'ctgClasificadorId',
           label: 'Clasificador',
           _style: { width: '10%' },
         },
         {
-          key: 'Limitado rep.',
-          label: 'Limitado rep.',
-          _style: { width: '15%' },
+          key: 'saspId',
+          label: 'Cta. SASP',
+          _style: { width: '10%' },
         },
         {
-          key: 'show_details',
+          key: 'delete',
           label: '',
           _style: { width: '1%' },
           filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
+          sorter: false
         },
       ],
       footerItem: [
@@ -134,6 +115,9 @@ export default {
   methods: {
     handleAddModalClose(event){
       this.showAddDeptModal = false
+    },
+    handleDelete(item, index){
+      console.log(item)
     }
     ,
     handleSubmitCustom01(event) {
@@ -144,30 +128,10 @@ export default {
       }
       this.validatedCustom01 = true
     },
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
-      }
-      this.details.push(item._id)
-    },
   },
   mounted() {
     // this.$store.dispatch('AdministrativoModule/getUsuarios')
+   DeparmentServices.getDepartments().then((response) => this.deparments = response.data.data);
   },
 }
 </script>
