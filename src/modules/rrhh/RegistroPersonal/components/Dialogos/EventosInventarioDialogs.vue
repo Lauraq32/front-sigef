@@ -113,7 +113,7 @@
 <script>
 import { CModal } from '@coreui/vue'
 import vSelect from 'vue-select'
-import 'vue-select/dist/vue-select.css';
+import 'vue-select/dist/vue-select.css'
 
 export default {
   name: 'EventoInventario',
