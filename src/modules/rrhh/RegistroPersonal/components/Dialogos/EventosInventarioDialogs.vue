@@ -7,111 +7,108 @@
         closeModal()
       }
     "
+    style="width: 25%"
   >
     <CModalHeader>
       <CModalTitle>Movimiento de inventario</CModalTitle>
     </CModalHeader>
     <CModalBody>
-      <CCardBody>
-        <div class="row">
-          <div class="row mt-4">
-            <div class="col-4 col-label">Util Laboral</div>
-            <div class="col-8">
-              <CFormLabel>Instituci&oacute;n Otorgante</CFormLabel>
-              <v-select v-model="postEvento.utilId" :options="utils"></v-select>
-              <!-- <CFormSelect v-model="postEvento.utilId" id="validationCustom04">
-                <option
-                  v-for="utils in utils"
-                  :key="utils.id"
-                  :value="utils.id"
-                >
-                  {{ utils.descripcion }}
-                </option>
-              </CFormSelect> -->
-            </div>
-          </div>
+      <CForm
+        novalidate
+        :validated="isFormEventTypeValidated"
+        ref="eventTypeForm"
+      >
+        <CCardBody class="mx-4">
+          <CCol class="row">
+            <CFormLabel for="validationCustom01">Util Laboral</CFormLabel>
+            <v-select
+              required
+              id="validationCustom01"
+              v-model="selectedUtil"
+              :options="utils"
+            ></v-select>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
 
-          <div class="row mt-4">
-            <div class="col-4 col-label">Tipo</div>
-            <div class="col-8">
-              <CFormSelect v-model="postEvento.tipo" id="validationCustom04">
-                <option value="antregado">Entregado</option>
-                <option value="Retornado">Retornado</option>
-                <option value="abastecimiento">Abastecimiento</option>
-              </CFormSelect>
-            </div>
-          </div>
+          <CCol>
+            <CFormLabel for="validationCustom02">Tipo</CFormLabel>
+            <CFormSelect
+              required
+              id="validationCustom02"
+              v-model="postEvento.tipo"
+            >
+              <option value="antregado">Entregado</option>
+              <option value="Retornado">Retornado</option>
+              <option value="abastecimiento">Abastecimiento</option>
+            </CFormSelect>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
 
-          <div class="row mt-4">
-            <div class="col-4 col-label">Empleados</div>
-            <div class="col-8">
-              <CFormSelect
-                v-model="postEvento.empleadoId"
-                id="validationCustom04"
-              >
-                <option
-                  v-for="empleados in this.empleados"
-                  :key="empleados.id"
-                  :value="empleados.id"
-                >
-                  {{ empleados.nombres }}
-                </option>
-              </CFormSelect>
-            </div>
-          </div>
+          <CCol>
+            <CFormLabel for="validationCustom03">Empleados</CFormLabel>
+            <v-select
+              required
+              id="validationCustom03"
+              v-model="selectedEmpleado"
+              :options="empleados"
+            ></v-select>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
 
-          <div class="row mt-4">
-            <div class="col-4 col-label">Cantidad</div>
-            <div class="col-8">
-              <VueNumberFormat
-                v-model:value="postEvento.cantidad"
-                class="form-control"
-                :format="'0'"
-                :options="{
-                  precision: 0,
-                  prefix: '',
-                  decimal: '',
-                  thousand: '',
-                }"
-              >
-              </VueNumberFormat>
-            </div>
-          </div>
+          <CCol>
+            <CFormLabel for="validationCustom04">Cantidad</CFormLabel>
+            <VueNumberFormat
+              required
+              id="validationCustom04"
+              v-model:value="postEvento.cantidad"
+              class="form-control"
+              :format="'0'"
+              :options="{
+                precision: 0,
+                prefix: '',
+                decimal: '',
+                thousand: '',
+              }"
+            >
+            </VueNumberFormat>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
 
-          <div class="row mt-4">
-            <div class="col-4 col-label">Fecha</div>
-            <div class="col-8">
-              <CFormInput type="date" v-model="postEvento.fecha" />
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer mt-4">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-            @click="
-              () => {
-                showModal = false
-              }
-            "
-          >
-            Close
-          </button>
-          <button
-            class="btn btn-info btn-block mt-1"
-            v-on:click="submitEventos"
-          >
-            Guardar
-          </button>
-        </div>
-      </CCardBody>
+          <CCol>
+            <CFormLabel for="validationCustom05">Fecha</CFormLabel>
+            <CFormInput
+              required
+              id="validationCustom05"
+              type="date"
+              v-model="postEvento.fecha"
+            />
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+        </CCardBody>
+      </CForm>
     </CModalBody>
+    <CModalFooter>
+      <Cbutton
+        type="button"
+        class="btn btn-secondary mx-2"
+        @click="
+          () => {
+            showModal = false
+          }
+        "
+      >
+        Cerrar
+      </Cbutton>
+      <Cbutton class="btn btn-info btn-block" @click="sendData">
+        Guardar
+      </Cbutton>
+    </CModalFooter>
   </CModal>
 </template>
 
 <script>
 import { CModal } from '@coreui/vue'
+import { CFooter } from '@coreui/vue-pro'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
 
@@ -119,10 +116,12 @@ export default {
   name: 'EventoInventario',
   components: {
     vSelect,
+    CFooter,
   },
 
   data: () => {
     return {
+      selectedUtil: {},
       postEvento: {
         utilId: 0,
         fecha: new Date(Date.now()),
@@ -130,16 +129,43 @@ export default {
         tipo: 'entregado',
         empleadoId: 0,
       },
+      isFormEventTypeValidated: false,
     }
   },
+  computed: {
+    selectedUtil: {
+      get() {
+        return this.utils.find((x) => x.code == this.postEvento.utilId)
+      },
+      set(util) {
+        this.postEvento.utilId = Number(util.code)
+      },
+    },
 
+    selectedEmpleado: {
+      get() {
+        return this.empleados.find((x) => x.code == this.postEvento.empleadoId)
+      },
+      set(empleado) {
+        this.postEvento.empleadoId = Number(empleado.code)
+      },
+    },
+  },
   methods: {
     closeModal() {
       this.$emit('closeModal', false)
     },
 
-    submitEventos() {
-      this.$emit('saveEvents', this.postEvento)
+    submitEventos(data) {
+      this.$emit('saveEvents', data)
+    },
+
+    sendData() {
+      this.isFormEventTypeValidated = false
+      if (this.$refs.eventTypeForm.$el.checkValidity()) {
+        return this.submitEventos({ ...this.postEvento })
+      }
+      this.isFormEventTypeValidated = true
     },
   },
 

@@ -13,109 +13,127 @@
       <CModalTitle>Útil Laboral</CModalTitle>
     </CModalHeader>
     <CModalBody>
-      <div class="row mx-3">
-        <div class="col-6">
-          <h5>Descripción:</h5>
-        </div>
-        <div class="col-6">
-          <h6>{{ inventario.descripcion }}</h6>
-        </div>
+      <div class="d-flex justify-content-center align-items-center">
+        <CCard class="w-75">
+          <CCardBody>
+            <div class="mb-4 mx-4">
+              <h5>Inventario</h5>
+            </div>
+
+            <div class="row mx-3">
+              <div class="col-6">
+                <h5>Descripción</h5>
+              </div>
+              <div class="col-6">
+                <h6>{{ inventario.descripcion }}</h6>
+              </div>
+            </div>
+
+            <div class="row mx-3">
+              <div class="col-6">
+                <h5>Tipo:</h5>
+              </div>
+              <div class="col-6">
+                <h6>{{ inventario.tipo }}</h6>
+              </div>
+            </div>
+          </CCardBody>
+        </CCard>
       </div>
 
-      <div class="row mx-3">
-        <div class="col-6">
-          <h5>Tipo:</h5>
-        </div>
-        <div class="col-6">
-          <h6>{{ inventario.tipo }}</h6>
-        </div>
-      </div>
+      <CCardBody class="m-5">
+        <CForm
+          novalidate
+          :validated="isFormEventTypeValidated"
+          ref="eventTypeForm"
+        >
+          <CCol>
+            <CFormLabel for="validationCustom01" class="form-label"
+              >Descripción</CFormLabel
+            >
+            <CFormInput
+              required
+              v-model="postInventarioCantidad.descripcion"
+              id="validationCustom01"
+            >
+            </CFormInput>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
 
-      <CCardBody class="mt-3">
-        <div class="row">
-          <div class="row mt-4 mx-4">
-            <div class="col-4 col-label">Descripción</div>
-            <div class="col-8 col-md-6">
-              <CFormInput
-                v-model="postInventarioCantidad.descripcion"
-                id="validationCustom04"
-              >
-              </CFormInput>
-            </div>
-          </div>
+          <CCol>
+            <CFormLabel for="validationCustom02" class="form-label"
+              >Autorizado Por</CFormLabel
+            >
+            <CFormInput
+              required
+              v-model="postInventarioCantidad.autorizadoPor"
+              id="validationCustom02"
+            >
+            </CFormInput>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
 
-          <div class="row mt-4 mx-4">
-            <div class="col-4 col-label">Autorizado Por</div>
-            <div class="col-8 col-md-6">
-              <CFormInput
-                v-model="postInventarioCantidad.autorizadoPor"
-                id="validationCustom04"
-              >
-              </CFormInput>
-            </div>
-          </div>
+          <CCol>
+            <CFormLabel for="validationCustom03">Cantidad</CFormLabel>
+            <VueNumberFormat
+              id="validationCustom03"
+              required
+              v-model:value="postInventarioCantidad.cantidad"
+              class="form-control"
+              :format="'0'"
+              :options="{
+                precision: 0,
+                prefix: '',
+                decimal: '',
+                thousand: '',
+              }"
+            >
+            </VueNumberFormat>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
 
-          <div class="row mt-4 mx-4">
-            <div class="col-4 col-label">Cantidad</div>
-            <div class="col-8 col-md-6">
-              <VueNumberFormat
-                v-model:value="postInventarioCantidad.cantidad"
-                class="form-control"
-                :format="'0'"
-                :options="{
-                  precision: 0,
-                  prefix: '',
-                  decimal: '',
-                  thousand: '',
-                }"
-              >
-              </VueNumberFormat>
-            </div>
-          </div>
+          <CCol>
+            <CFormLabel for="validationCustom04">Fecha:</CFormLabel>
+            <CFormInput
+              id="validationCustom04"
+              required
+              type="date"
+              v-model="initialDate"
+            />
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
 
-          <div class="row mt-4 mx-4">
-            <div class="col-4 col-label">Fecha</div>
-            <div class="col-8 col-md-6">
-              <CFormInput type="date" v-model="initialDate" />
-            </div>
-          </div>
-
-          <div class="row mt-4 mx-4">
-            <div class="col-4 col-label">Observacion</div>
-            <div class="col-8">
-              <textarea
-                required
-                class="w-75"
-                id="validationCustom05"
-                v-model="postInventarioCantidad.observacion"
-                rows="3"
-              ></textarea>
-              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer mt-4">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-            @click="
-              () => {
-                closeModal()
-              }
-            "
-          >
-            Close
-          </button>
-          <button
-            class="btn btn-info btn-block mt-1"
-            v-on:click="submitUtilesLaborales()"
-          >
-            Guardar
-          </button>
-        </div>
+          <CCol>
+            <CFormLabel for="validationCustom05">Observación</CFormLabel>
+            <textarea
+              required
+              id="validationCustom05"
+              v-model="postInventarioCantidad.observacion"
+              rows="4"
+              class="w-100"
+            ></textarea>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+        </CForm>
       </CCardBody>
     </CModalBody>
+
+    <CModalFooter>
+      <Cbutton
+        type="button"
+        class="btn btn-secondary mx-2"
+        @click="
+          () => {
+            closeModal()
+          }
+        "
+      >
+        Cerrar
+      </Cbutton>
+      <Cbutton type="submit" class="btn btn-info btn-block" @click="sendData">
+        Guardar
+      </Cbutton>
+    </CModalFooter>
   </CModal>
 </template>
 
@@ -138,6 +156,7 @@ export default {
         cantidad: 0,
         Descripción: null,
       },
+      isFormEventTypeValidated: false,
     }
   },
 
@@ -146,8 +165,16 @@ export default {
       this.$emit('closeModal', false)
     },
 
-    submitUtilesLaborales() {
-      this.$emit('saveUtilesLaborales', this.postInventarioCantidad)
+    submitUtilesLaborales(data) {
+      this.$emit('saveUtilesLaborales', data)
+    },
+
+    sendData() {
+      this.isFormEventTypeValidated = false
+      if (this.$refs.eventTypeForm.$el.checkValidity()) {
+        return this.submitUtilesLaborales({ ...this.postInventarioCantidad })
+      }
+      this.isFormEventTypeValidated = true
     },
   },
 

@@ -92,6 +92,7 @@ import Api from '../services/RegistroPersonalServices'
 import UtilesLaboralesDialog from './Dialogos/UtilesLaboralesDialogs.vue'
 import EventoInventarioDialog from './Dialogos/EventosInventarioDialogs.vue'
 import InventarioDialog from './Dialogos/InventarioDialogs.vue'
+import { el } from 'date-fns/locale'
 
 export default {
   components: {
@@ -218,22 +219,29 @@ export default {
     },
 
     getEmpleados() {
-      Api.getAllEmpleado().then((response) => {
-        this.empleados = response.data.data
+      Api.getAllEmpleado().then(({ data: { data } }) => {
+        this.empleados = data.map((elem) => ({
+          code: elem.id,
+          label: `(${elem.codigo})  ${elem.nombres}`,
+        }))
+        this.empleados.unshift({
+          code: 0,
+          label: 'Seleccionar',
+        })
       })
     },
 
     getUtilInventario(item) {
       Api.getInventarioById(item.id).then(({ data: { data } }) => {
         this.utils = data.map((elem) => ({
-          code: elem.code,
-          label: elem.detail,
+          code: elem.id,
+          label: `(${elem.id})  ${elem.descripcion}`,
         }))
+        this.utils.unshift({
+          code: 0,
+          label: 'Seleccionar',
+        })
       })
-      // Api.getInventarioById(item.id).then((response) => {
-      //   this.utils = response.data.data
-      //   console.log(this.utils)
-      // })
     },
   },
   mounted() {
