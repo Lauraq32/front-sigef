@@ -167,7 +167,7 @@ export default {
             this.clearModal()
           }).catch(error => {
             this.show({
-              content: error.response.data.errors,
+              content: error.data.message,
               closable: true,
               color: 'danger'
             })
