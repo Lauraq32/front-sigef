@@ -167,7 +167,7 @@ export default {
             this.clearModal()
           }).catch(error => {
             this.show({
-              content: error.response.data,
+              content: error.response.data.errors,
               closable: true,
               color: 'danger'
             })
@@ -184,6 +184,13 @@ export default {
             setTimeout(this.listarEducation(this.employeeInfo.id), 500)
             this.profesionFormValidated = false
             this.clearModal()
+          }).catch(error => {
+            this.show({
+              content: error.data.message,    
+              closable: true,
+              color: 'danger'
+            })
+            
           })
         }
       }
