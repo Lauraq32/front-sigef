@@ -8,39 +8,35 @@
       <div class="row">
         <CNav variant="tabs" role="tablist">
           <CNavItem>
-            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 1" @click="
-              () => {
+            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 1" @click="() => {
                 tabPaneActiveKey = 1
               }
-            ">
+              ">
               General
             </CNavLink>
           </CNavItem>
 
           <CNavItem>
-            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 3" @click="
-              () => {
+            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 3" @click="() => {
                 tabPaneActiveKey = 3
               }
-            ">
+              ">
               Observación
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 4" @click="
-              () => {
+            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 4" @click="() => {
                 tabPaneActiveKey = 4
               }
-            ">
+              ">
               Historial Cl&iacute;nico
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 5" @click="
-              () => {
+            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 5" @click="() => {
                 tabPaneActiveKey = 5
               }
-            ">
+              ">
               Otras Informaciones
             </CNavLink>
           </CNavItem>
@@ -70,8 +66,8 @@
                       <CFormSelect v-model="postEmpleado.tipoDocumento" v-on:change="changeDocument()"
                         id="validationCtipoDocumentoustom05">
                         <option disabled selected value="">Seleccionar</option>
-                        <option>C&eacute;dula</option>
-                        <option>Pasaporte</option>
+                        <option value="cedula">C&eacute;dula</option>
+                        <option value="pasaporte">Pasaporte</option>
                       </CFormSelect>
                     </CCol>
                   </div>
@@ -752,7 +748,7 @@ export default {
 
       Api.getPosicion().then((response) => {
         this.posicionCargo = response.data.data
- 
+
       })
 
       Api.getAreaTrabajo().then((response) => {
@@ -762,12 +758,12 @@ export default {
 
       apiSectores.getSectores().then((response) => {
         this.sector = response.data.data
-    
+
       })
 
       Api.tipoSangreList().then((response) => {
         this.tipoSangre = response.data.data
- 
+
       })
 
       Api.getProgramaDivision().then((response) => {
