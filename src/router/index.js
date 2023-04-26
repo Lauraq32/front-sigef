@@ -412,6 +412,12 @@ const routes = [
         name: 'Register',
         component: () => import('@/views/pages/Register'),
       },
+      {
+        path: 'evaluacion',
+        name: 'Evaluacion',
+        component: () => import('@/modules/rrhh/RegistroPersonal/components/Report/EvaluacionDesenpeno'),
+      },
+
     ],
   },
 ]
