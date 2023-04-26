@@ -1,8 +1,8 @@
 <template>
   <CModal
     backdrop="static"
-    size="m"
     :visible="showModal"
+    size="lg"
     @close="
       () => {
         closeModal()
@@ -45,7 +45,7 @@
           </div>
 
           <div class="row mt-4 mx-4">
-            <div class="col-4 col-label">autorizadoPor</div>
+            <div class="col-4 col-label">Autorizado Por</div>
             <div class="col-8 col-md-6">
               <CFormInput
                 v-model="postInventarioCantidad.autorizadoPor"

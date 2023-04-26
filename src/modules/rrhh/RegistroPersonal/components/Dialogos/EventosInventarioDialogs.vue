@@ -1,6 +1,6 @@
 <template>
   <CModal
-    size="m"
+    size="lg"
     :visible="showModal"
     @close="
       () => {
