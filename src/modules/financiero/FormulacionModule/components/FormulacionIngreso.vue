@@ -4,7 +4,7 @@
   <AppAccionHeader
     :actions="pageActions"
   >
-    <CButton color="info" @click="openModal">Agregar</CButton>
+    <CButton color="info" @click="openModal" v-if="!isFiscalYearClosed">Agregar</CButton>
     <CButton color="secondary" @click="goToGasto">Ir a Formulaci&oacute;n Gasto</CButton>
   </AppAccionHeader>
 
@@ -480,6 +480,9 @@ export default {
     ...mapState(useAuthStore, ['authInfo']),
     isFiscalYearApprovedOrClose() {
       return this.LoginInfo.isFiscalYearCloseOrApproved;
+    },
+    isFiscalYearClosed() {
+      return this.LoginInfo.isFiscalYearClosed;
     },
     pageActions() {
       const actions = [

@@ -8,7 +8,11 @@ export function loggedInfo(app) {
         loggedInfo: getLoggedInfo(),
         get isFiscalYearCloseOrApproved() {
             const data = fiscalYearInfo();
-            return /cerrado|aprobado/i.test(data?.estatus) || data?.esAprobado;
+            return /cerrado/i.test(data?.estatus) || data?.esAprobado;
+        },
+        get isFiscalYearClosed() {
+            const data = fiscalYearInfo();
+            return /cerrado/i.test(data?.estatus);
         }
     });
 

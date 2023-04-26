@@ -4,7 +4,7 @@
   <AppAccionHeader
     :actions="pageActions"
   >
-    <CButton color="info" @click="setNuevoFormulacionGasto">Agregar</CButton>
+    <CButton color="info" @click="setNuevoFormulacionGasto" v-if="!isFiscalYearClosed">Agregar</CButton>
     <CButton color="secondary" @click="goToIngreso">Ir a Formulaci&oacute;n Ingreso</CButton>
   </AppAccionHeader>
 
@@ -469,6 +469,9 @@ export default {
     isFiscalYearApprovedOrClose() {
       return this.LoginInfo.isFiscalYearCloseOrApproved;
     },
+    isFiscalYearClosed() {
+      return this.LoginInfo.isFiscalYearClosed;
+    },
     pageActions() {
       const actions = [
         {
@@ -503,6 +506,7 @@ export default {
   },
   inject: ['LoginInfo'],
   mounted() {
+    console.log(this.LoginInfo)
     this.loadData();
   },
   watch: {
