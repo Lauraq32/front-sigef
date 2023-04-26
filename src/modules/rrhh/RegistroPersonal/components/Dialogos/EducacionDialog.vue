@@ -88,8 +88,10 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { CIcon } from '@coreui/icons-vue'
 import Api from '../../services/EducationServices'
 import { useToastStore } from '@/store/toast'
-import { mapActions } from 'pinia'
+
 import { formatDate } from '@/utils/format'
+import { mapStores,mapActions } from 'pinia'
+
 
 export default {
   name: 'EducacionDialog',
@@ -133,10 +135,7 @@ export default {
   methods: {
     ...mapActions(useToastStore, ['show']),
 
-
-    closeModal() {
-      
-      this.$emit('closeModal')
+    clearModal(){
       this.education = {
         employeeId: this.employeeInfo.id,
         courseName: "",
@@ -145,6 +144,12 @@ export default {
         finishDate: new Date(Date.now()),
         courseRecord: "",
       }
+    },
+
+    closeModal() {
+      
+      this.$emit('closeModal')
+      this.clearModal()
     },
 
     saveEducation(event) {
@@ -159,31 +164,31 @@ export default {
             })
             this.profesionFormValidated = false
             setTimeout(this.listarEducation(this.employeeInfo.id), 500)
+            this.clearModal()
           }).catch(error => {
             this.show({
               content: error.response.data,
               closable: true,
               color: 'danger'
             })
+            
           })
-          this.educationId = null
-          this.education = {
-            employeeId: this.employeeInfo.id,
-            courseName: "",
-            courseTime: 0,
-            startDate: "",
-            finishDate: "",
-            courseRecord: "",
-          }
+      
         }
         else {
           Api.putEmployee(this.education, this.educationId).then(response => {
+              this.show({
+            content: 'Registro actualizado correctamente',
+            closable: true,
+          })
             setTimeout(this.listarEducation(this.employeeInfo.id), 500)
             this.profesionFormValidated = false
+            this.clearModal()
           })
         }
       }
       this.profesionFormValidated = true
+      this.educationId = null
     },
 
     selectEducation(item) {
@@ -207,6 +212,7 @@ export default {
   },
 
   computed: {
+    ...mapStores(useToastStore),
     startDate: {
       get() {
         if (
