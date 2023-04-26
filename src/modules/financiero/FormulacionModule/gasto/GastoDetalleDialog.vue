@@ -139,7 +139,12 @@
                       <h3>Cuenta</h3>
                       <div class="col-4">
                         <CFormLabel for="presupuestoBco1">Personal</CFormLabel>
-                        <CurrencyInput id="presupuestoBco1" v-model="detalle.presupuestoBco1" :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}" />
+                        <CurrencyInput
+                          id="presupuestoBco1"
+                          v-model="detalle.presupuestoBco1"
+                          :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}"
+                          :disabled="isFiscalYearApprovedOrClose"
+                        />
                         <CFormFeedback invalid>
                           Favor agregar el campo
                         </CFormFeedback>
@@ -167,7 +172,12 @@
                     <div class="row">
                       <div class="col-4">
                         <CFormLabel for="presupuestoBco2">Servicios</CFormLabel>
-                        <CurrencyInput id="presupuestoBco2" v-model="detalle.presupuestoBco2" :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}" />
+                        <CurrencyInput
+                          id="presupuestoBco2"
+                          v-model="detalle.presupuestoBco2"
+                          :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}"
+                          :disabled="isFiscalYearApprovedOrClose"
+                        />
                         <CFormFeedback invalid>
                           Favor agregar el campo
                         </CFormFeedback>
@@ -195,7 +205,12 @@
                     <div class="row">
                       <div class="col-4">
                         <CFormLabel for="presupuestoBco3">Inversión</CFormLabel>
-                        <CurrencyInput id="presupuestoBco3" v-model="detalle.presupuestoBco3" :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}" />
+                        <CurrencyInput
+                          id="presupuestoBco3"
+                          v-model="detalle.presupuestoBco3"
+                          :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}"
+                          :disabled="isFiscalYearApprovedOrClose"
+                        />
                         <CFormFeedback invalid>
                           Favor agregar el campo
                         </CFormFeedback>
@@ -232,7 +247,12 @@
                     <div class="row">
                       <div class="col-4">
                         <CFormLabel for="presupuestoBco4">E/G Salud</CFormLabel>
-                        <CurrencyInput id="presupuestoBco4" v-model="detalle.presupuestoBco4" :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}" />
+                        <CurrencyInput
+                          id="presupuestoBco4"
+                          v-model="detalle.presupuestoBco4"
+                          :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}"
+                          :disabled="isFiscalYearApprovedOrClose"
+                        />
                         <CFormFeedback invalid>
                           Favor agregar el campo
                         </CFormFeedback>
@@ -312,6 +332,7 @@ export default {
       type: Boolean,
       default: false,
     },
+    isFiscalYearApprovedOrClose: Boolean,
   },
   emits: ['close'],
   setup(props, { emit }) {

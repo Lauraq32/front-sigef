@@ -160,6 +160,12 @@
                         </td>
                     </template>
 
+                    <template #finOrigin="{item}">
+                        <td>
+                            {{ item.ctgFuenteId }}/{{ item.ctgFuenteEspecificaId }}/{{ item.ctgOrganismoFinanciadorId }}
+                        </td>
+                    </template>
+
                     <template #show_details="{ item }">
                         <td>
                             <div class="d-flex">
@@ -191,6 +197,7 @@
 
     <GastoDetalleDialog 
         :isVisible="showDetailDialog"
+        :isFiscalYearApprovedOrClose="isFiscalYearApprovedOrClose"
         @close="onDetailDialogClose"
         :detalle="detalle"
     />
@@ -207,6 +214,7 @@ import GastoDetalleDialog from './GastoDetalleDialog'
 import { getAyuntamientoId, getFiscalYearId } from '@/utils/logged-info'
 import CIcon from '@coreui/icons-vue';
 import Swal from 'sweetalert2';
+import {useToastStore} from '@/store/toast';
 
 const emit = defineEmits(['close']);
 const newDetailData = {
@@ -282,6 +290,7 @@ const props = defineProps({
     isVisible: Boolean,
     isFiscalYearApprovedOrClose: Boolean,
 });
+const toastStore = useToastStore()
 
 const notActionAllow = computed(() => props.isFiscalYearApprovedOrClose && Boolean(props.formulacionGasto.id));
 let columns = [];
@@ -301,7 +310,12 @@ const columnsTemplate = [
     {
         key: 'nombre',
         label: 'Denominación',
-        _style: { width: '25%' },
+        _style: { width: '20%' },
+    },
+    {
+        key: 'finOrigin',
+        label: 'O/Fin',
+        _style: { width: '5%' },
     },
     {
         Object: 'detallePresGastos',
@@ -318,7 +332,7 @@ const columnsTemplate = [
     { key: 'presupuestoBco3', label: 'Inversión', _style: { width: '12%' } },
     {
         key: 'presupuestoBco4',
-        label: 'Educ/Género/Salud',
+        label: 'Educ Género/Salud',
         _style: { width: '12%' },
     },
 ];
@@ -329,6 +343,13 @@ const footerItems = ref([
         _props: {
             colspan: 2,
             style: 'font-weight:bold; text-align:left',
+        },
+    },
+    {
+        label: '',
+        _props: {
+            colspan: 1,
+            style: 'font-weight:bold; text-align:right ',
         },
     },
     {
@@ -398,18 +419,26 @@ watchEffect(() => {
 const onDetailDialogClose = (data) => {
     if (data) {
         const {editing, ...rest} = data;
+        const index = props.formulacionGasto.detallePresGastos.findIndex(x => (
+            x.ctgClasificadorId === rest.ctgClasificadorId
+            && x.cControl === rest.cControl
+            && x.ctgFuenteId === rest.ctgFuenteId
+            && x.ctgFuenteEspecificaId === rest.ctgFuenteEspecificaId
+            && x.ctgOrganismoFinanciadorId === rest.ctgOrganismoFinanciadorId
+        ));
+
         if (editing) {
-            const index = props.formulacionGasto.detallePresGastos.findIndex(x => (
-                x.ctgClasificadorId === rest.ctgClasificadorId
-                && x.cControl === rest.cControl
-                && x.ctgFuenteId === rest.ctgFuenteId
-                && x.ctgFuenteEspecificaId === rest.ctgFuenteEspecificaId
-                && x.ctgOrganismoFinanciadorId === rest.ctgOrganismoFinanciadorId
-            ));
-            
             props.formulacionGasto.detallePresGastos[index] = rest;
             showDetailDialog.value = false
         } else {
+            if (index >= 0) {
+                return toastStore.show({
+                    content: `Ya el clasificador ${rest.ctgClasificadorId} existe con el mismo origen de financiamiento`,
+                    time: 10_000,
+                    color: 'danger',
+                    class: 'text-white',
+                });
+            }
             props.formulacionGasto.detallePresGastos.push(rest);
         }
         props.formulacionGasto.detallePresGastos = [...props.formulacionGasto.detallePresGastos];
@@ -418,7 +447,7 @@ const onDetailDialogClose = (data) => {
         nextTick().then(() => {
             calculateTotals(props.formulacionGasto.detallePresGastos);
             detalle.value = { ...newDetailData };
-            !data && (showDetailDialog.value = false)
+            !data && (showDetailDialog.value = false);
         })
         .catch(console.error);
     }, 200);
@@ -431,12 +460,16 @@ const onEditDetalle = (item) => {
 
 const onDeleteDetalle = (item) => {
     Swal.fire({
-        title: 'Realmente quieres borrar este registro?',
-        showDenyButton: true,
-        confirmButtonText: 'Si',
         denyButtonText: 'No',
         allowEscapeKey: false,
-        allowOutsideClick: false
+        allowOutsideClick: false,
+        title: 'Estás seguro que deseas eliminar este registro?',
+        text: 'No podrás revertirlo',
+        icon: 'Confirmación',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar!',
     }).then((result) => {
         if (result.isConfirmed) {
             const index = props.formulacionGasto.detallePresGastos.findIndex(x => (
@@ -476,11 +509,11 @@ function calculateTotals(detalles) {
     const totalAmountEdiGenero      = detalles.reduce((acc, detail) => acc + detail.presupuestoBco4, 0);
 
     footerItems.value[0].label = `Total Items ${detalles.length}`;
-    footerItems.value[1].label = formatPrice(totalAmountPresupuesto);
-    footerItems.value[2].label = formatPrice(totalAmountGPersonal);
-    footerItems.value[3].label = formatPrice(totalAmountServicio);
-    footerItems.value[4].label = formatPrice(totalAmountInversion);
-    footerItems.value[5].label = formatPrice(totalAmountEdiGenero);
+    footerItems.value[2].label = formatPrice(totalAmountPresupuesto);
+    footerItems.value[3].label = formatPrice(totalAmountGPersonal);
+    footerItems.value[4].label = formatPrice(totalAmountServicio);
+    footerItems.value[5].label = formatPrice(totalAmountInversion);
+    footerItems.value[6].label = formatPrice(totalAmountEdiGenero);
 }
 
 </script>
