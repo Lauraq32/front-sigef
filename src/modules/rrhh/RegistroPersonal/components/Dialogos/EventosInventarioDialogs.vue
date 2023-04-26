@@ -17,7 +17,9 @@
           <div class="row mt-4">
             <div class="col-4 col-label">Util Laboral</div>
             <div class="col-8">
-              <CFormSelect v-model="postEvento.utilId" id="validationCustom04">
+              <CFormLabel>Instituci&oacute;n Otorgante</CFormLabel>
+              <v-select v-model="postEvento.utilId" :options="utils"></v-select>
+              <!-- <CFormSelect v-model="postEvento.utilId" id="validationCustom04">
                 <option
                   v-for="utils in utils"
                   :key="utils.id"
@@ -25,7 +27,7 @@
                 >
                   {{ utils.descripcion }}
                 </option>
-              </CFormSelect>
+              </CFormSelect> -->
             </div>
           </div>
 
@@ -110,8 +112,14 @@
 
 <script>
 import { CModal } from '@coreui/vue'
+import vSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css';
+
 export default {
   name: 'EventoInventario',
+  components: {
+    vSelect,
+  },
 
   data: () => {
     return {

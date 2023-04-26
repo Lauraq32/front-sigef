@@ -224,10 +224,16 @@ export default {
     },
 
     getUtilInventario(item) {
-      Api.getInventarioById(item.id).then((response) => {
-        this.utils = response.data.data
-        console.log(this.utils)
+      Api.getInventarioById(item.id).then(({ data: { data } }) => {
+        this.utils = data.map((elem) => ({
+          code: elem.code,
+          label: elem.detail,
+        }))
       })
+      // Api.getInventarioById(item.id).then((response) => {
+      //   this.utils = response.data.data
+      //   console.log(this.utils)
+      // })
     },
   },
   mounted() {
