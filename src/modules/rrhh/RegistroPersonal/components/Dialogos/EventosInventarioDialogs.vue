@@ -62,7 +62,6 @@
               id="validationCustom04"
               v-model:value="postEvento.cantidad"
               class="form-control"
-              :format="'0'"
               :options="{
                 precision: 0,
                 prefix: '',
@@ -80,7 +79,7 @@
               required
               id="validationCustom05"
               type="date"
-              v-model="postEvento.fecha"
+              v-model="initialDate"
             />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -88,7 +87,7 @@
       </CForm>
     </CModalBody>
     <CModalFooter>
-      <Cbutton
+      <CButton
         type="button"
         class="btn btn-secondary mx-2"
         @click="
@@ -98,10 +97,10 @@
         "
       >
         Cerrar
-      </Cbutton>
-      <Cbutton class="btn btn-info btn-block" @click="sendData">
+      </CButton>
+      <CButton class="btn btn-info btn-block" @click="sendData">
         Guardar
-      </Cbutton>
+      </CButton>
     </CModalFooter>
   </CModal>
 </template>
@@ -121,10 +120,9 @@ export default {
 
   data: () => {
     return {
-      selectedUtil: {},
       postEvento: {
         utilId: 0,
-        fecha: new Date(Date.now()),
+        fecha: new Date(),
         cantidad: null,
         tipo: 'entregado',
         empleadoId: 0,
@@ -133,6 +131,27 @@ export default {
     }
   },
   computed: {
+    initialDate: {
+      get() {
+        let date = new Date()
+        if (
+          this.postEvento.fecha !== null &&
+          this.postEvento.fecha?.toString() !== 'Invalid Date'
+        ) {
+          date = this.postEvento.fecha
+          if (typeof this.postEvento.fecha === 'string') {
+            date = new Date(this.postEvento.fecha)
+            return date.toISOString().split('T')[0]
+          }
+        }
+
+        return date.toISOString().split('T')[0]
+      },
+      set(value) {
+        return (this.postEvento.fecha = new Date(`${value}T00:00:00`))
+      },
+    },
+
     selectedUtil: {
       get() {
         return this.utils.find((x) => x.code == this.postEvento.utilId)
@@ -182,12 +201,6 @@ export default {
 
   props: {
     showModal: Boolean,
-    inventario: {
-      type: Object,
-      default: {},
-      required: true,
-    },
-
     empleados: {
       type: Array,
       default: [],

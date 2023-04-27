@@ -80,7 +80,6 @@
               required
               v-model:value="postInventarioCantidad.cantidad"
               class="form-control"
-              :format="'0'"
               :options="{
                 precision: 0,
                 prefix: '',
@@ -119,7 +118,7 @@
     </CModalBody>
 
     <CModalFooter>
-      <Cbutton
+      <CButton
         type="button"
         class="btn btn-secondary mx-2"
         @click="
@@ -129,10 +128,10 @@
         "
       >
         Cerrar
-      </Cbutton>
-      <Cbutton type="submit" class="btn btn-info btn-block" @click="sendData">
+      </CButton>
+      <CButton type="submit" class="btn btn-info btn-block" @click="sendData">
         Guardar
-      </Cbutton>
+      </CButton>
     </CModalFooter>
   </CModal>
 </template>
@@ -150,10 +149,10 @@ export default {
   data: () => {
     return {
       postInventarioCantidad: {
-        fecha: new Date(Date.now()),
+        fecha: new Date(),
         observacion: null,
         autorizadoPor: null,
-        cantidad: 0,
+        cantidad: 1,
         Descripción: null,
       },
       isFormEventTypeValidated: false,
@@ -183,7 +182,7 @@ export default {
         fecha: null,
         observacion: null,
         autorizadoPor: null,
-        cantidad: 0,
+        cantidad: 1,
         Descripción: null,
       }
     },

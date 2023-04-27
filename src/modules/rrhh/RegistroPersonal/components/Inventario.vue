@@ -131,7 +131,6 @@ export default {
         {
           label: 'Total Items',
           _props: {
-            color: '',
             colspan: 1,
             style: 'font-weight:bold;',
           },
@@ -208,6 +207,7 @@ export default {
           this.show({
             content: 'Registro Agregado',
             closable: true,
+            time: 30000,
           })
         })
         .catch((error) => {
