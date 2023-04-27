@@ -1,6 +1,7 @@
 <template>
   <h3 class="text-center">Mantenimientos Empleados</h3>
   <AccionPersonalDialog :showModal="lgDemo4" @custom-event="closeModal" />
+  <EducacionDialog :showModal="showEducacion" @closeModal="closeEducacion" :employeeInfo="employeeInfo" />
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton color="info" @click="() => {
@@ -45,7 +46,8 @@ export default {
     CModal,
     AccionPersonalDialog,
     moment,
-    RegistroPersonalDialog
+    AccionPersonalDialog,
+    EducacionDialog
   },
   data: function () {
     return {
@@ -237,6 +239,9 @@ export default {
     closeModal(payload) {
       this.lgDemo4 = payload
     },
+    closeEducacion() {
+      this.showEducacion = false
+    },
 
     formatDate(fechaIngreso) {
       return new Date(fechaIngreso).toLocaleDateString('en-GB', {
@@ -246,9 +251,39 @@ export default {
       })
     },
 
+    handleSubmitCustom01(event) {
+      const form = event.currentTarget
+      if (form.checkValidity() === false) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      this.validatedCustom01 = true
+    },
+
+    getBadge(status) {
+      switch (status) {
+        case 'Active':
+          return 'success'
+        case 'Inactive':
+          return 'secondary'
+        case 'Pending':
+          return 'warning'
+        case 'Banned':
+          return 'danger'
+        default:
+          'primary'
+      }
+    },
+
+    getEmpleadoByID(item) {
+      this.showEducacion = true
+      this.employeeInfo = {...item}
+      this.employeeInfo.nombres = `${item.nombres} ${item.apellidos}`
+
+    },
+
     toggleDetails(item) {
-      this.showRegistroPersonalModal = true
-      this.id = item.id
+
       if (item.empleados !== 0 || item.variacion !== 0) {
         this.empleadoValue = true
       } else {
