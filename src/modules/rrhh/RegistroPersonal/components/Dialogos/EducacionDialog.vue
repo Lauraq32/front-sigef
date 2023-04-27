@@ -23,7 +23,7 @@
           </CCol>
 
           <CCol :md="12">
-            <CFormLabel for="courseTime">Duraci&oacute;n del Curso</CFormLabel>
+            <CFormLabel for="courseTime">Duraci&oacute;n del Curso en Horas</CFormLabel>
             <CFormInput v-model="education.courseTime" required id="courseTime"> </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
