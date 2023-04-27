@@ -2,7 +2,7 @@
   <CSmartTable class="sticky-top" clickableRows :tableProps="{
     striped: true,
     hover: true,
-  }" :tableHeadProps="{}" :activePage="1" header :items="TableData" :columns="Tablecolumns" columnFilter
+  }" :tableHeadProps="{}" :activePage="1" header :items="tableData" :columns="tableColumns" columnFilter
     :footer="footer" itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'nombres', state: 'asc' }"
     pagination>
     <template #sexo="{ item, index }">
@@ -66,8 +66,8 @@ export default {
   },
 
   props: {
-    TableData: [],
-    Tablecolumns: [],
+    tableData: [],
+    tableColumns: [],
     footer: [],
     actions: [],
   }

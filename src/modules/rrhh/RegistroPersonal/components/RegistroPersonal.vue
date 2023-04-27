@@ -18,7 +18,7 @@
     </div>
   </div>
 
-  <RegistroPersonalTable :TableData="registroPersonal" :Tablecolumns="columns" :actions="buttonActions"
+  <RegistroPersonalTable :tableData="registroPersonal" :tableColumns="columns" :actions="buttonActions"
     :footer="footerItem" />
   <RegistroPersonalDialog :showModal="showRegistroPersonalModal" @post-personal="submitForm"
     @close-modal="closeRegistroPersonalModal" :empleadoId="id" />
