@@ -180,7 +180,7 @@
                   <div class="col-9">
                     <CCol :md="12">
                       <CFormInput v-model="postEmpleado.lugarNacimiento" id="lugarNacimiento" required
-                        v-on:keypress="isLetter($event)" />
+                        v-on:keypress="onlyLetter($event)" />
                     </CCol>
                   </div>
                 </div>
@@ -238,7 +238,7 @@
                 </CCol>
                 <CCol :md="12">
                   <CFormLabel for="Recomendado">Recomendado por</CFormLabel>
-                  <CFormInput type="text" id="Recomendado" v-on:keypress="isLetter($event)" />
+                  <CFormInput type="text" id="Recomendado" v-on:keypress="onlyLetter($event)" />
 
                 </CCol>
                 <CCol :md="12">
@@ -593,6 +593,7 @@ import moment from 'moment'
 import Api from '../../services/RegistroPersonalServices'
 import apiSectores from '../../../../financiero/NominaModule/services/NominaServices'
 import configuraciones from '@/utils/configuraciones'
+import {onlyLetter,onlyNumber } from '@/utils/validator'
 export default {
   name: 'RegistroPersonalDialog',
   components: {
@@ -718,25 +719,13 @@ export default {
   methods: {
     checkDocument(e) {
       if (this.postEmpleado.tipoDocumento === 'cedula') {
-        this.isNumber(e)
+        onlyNumber(e)
         this.cedulaMax = 11
       }
     },
     changeDocument() {
       this.postEmpleado.codigoIdentidad = null
       this.cedulaMax = null
-    },
-
-
-    isLetter(e) {
-      let char = String.fromCharCode(e.keyCode); // Get the character
-      if (/^[A-Za-z]+$/.test(char)) return true; // Match with regex 
-      else e.preventDefault(); // If not match, don't add to input text
-    },
-    isNumber(e) {
-      let char = String.fromCharCode(e.keyCode); // Get the character
-      if (/^-?\d+\.?\d*$/.test(char)) return true; // Match with regex 
-      else e.preventDefault(); // If not match, don't add to input text
     },
 
     cargarListas() {

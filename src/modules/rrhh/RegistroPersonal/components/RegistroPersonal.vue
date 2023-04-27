@@ -38,12 +38,14 @@ import { useToastStore } from '@/store/toast'
 import RegistroPersonalDialog from '../components/Dialogos/RegistroPersonalDialog.vue'
 import AccionPersonalDialog from '../../RegistroPersonal/components/Dialogos/AccionPersonal.vue'
 import RegistroPersonalTable from '../components/tables/RegistroPersonalTable.vue'
+import EducacionDialog from './Dialogos/EducacionDialog.vue'
 
 export default {
   components: {
     CSmartTable,
     RegistroPersonalTable,
     CModal,
+    RegistroPersonalDialog,
     AccionPersonalDialog,
     moment,
     AccionPersonalDialog,
@@ -51,6 +53,8 @@ export default {
   },
   data: function () {
     return {
+      showEducacion:false,
+      employeeInfo:null,
       showRegistroPersonalModal: false,
       id: null,
       actions: [],
@@ -283,7 +287,7 @@ export default {
     },
 
     toggleDetails(item) {
-
+      this.showModal()
       if (item.empleados !== 0 || item.variacion !== 0) {
         this.empleadoValue = true
       } else {
