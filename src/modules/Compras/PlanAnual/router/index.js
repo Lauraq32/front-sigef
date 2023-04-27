@@ -1,7 +1,7 @@
 export default {
   name: 'Plan Anual',
   redirect: '/PlanAnual/planAnual',
-  meta: { label: 'Plan Anual' },
+  meta: { label: 'Compras' },
   component: () =>
     import('@/modules/Compras/PlanAnual/layout/TemplateLayout.vue'),
   children: [
