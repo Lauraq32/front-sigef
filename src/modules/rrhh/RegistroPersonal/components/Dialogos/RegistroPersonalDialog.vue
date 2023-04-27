@@ -243,8 +243,7 @@
                 </CCol>
                 <CCol :md="12">
                   <CFormLabel for="programaDivisionId">Dirección o dependencia</CFormLabel>
-                  <CFormSelect v-model="postEmpleado.programaDivisionId" id="programaDivisionId"
-                    v-on:change="changePrograma($event)">
+                  <CFormSelect v-model="postEmpleado.programaDivisionId" id="programaDivisionId">
                     <option value="" disabled selected>Seleccione</option>
                     <option v-for="programa in this.programaDivision" :key="programa.id" :value="programa.id">
                       {{ programa.nombre }}
@@ -718,7 +717,7 @@ export default {
 
   methods: {
     checkDocument(e) {
-      if (this.postEmpleado.tipoDocumento === 'Cédula') {
+      if (this.postEmpleado.tipoDocumento === 'cedula') {
         this.isNumber(e)
         this.cedulaMax = 11
       }
