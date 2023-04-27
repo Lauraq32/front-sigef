@@ -37,7 +37,7 @@
   >
     <template #cantidad="{ item }">
       <td class="text-end">
-        {{ formatPrice(item.cantidad) }}
+        {{ formatNumber(item.cantidad) }}
       </td>
     </template>
 
@@ -100,6 +100,7 @@ import EventoInventarioDialog from './Dialogos/EventosInventarioDialogs.vue'
 import InventarioDialog from './Dialogos/InventarioDialogs.vue'
 import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
+import { formatNumber } from '@/utils/format'
 
 export default {
   components: {
@@ -111,6 +112,7 @@ export default {
   },
   data: () => {
     return {
+      formatNumber,
       empleados: [],
       inventario: [],
       utils: [],
@@ -206,12 +208,7 @@ export default {
         })
     },
 
-    formatPrice(value) {
-      let val = Math.round(value)
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-      return val
-    },
+    
 
     saveInventario(payload) {
       Api.postInventario(payload)

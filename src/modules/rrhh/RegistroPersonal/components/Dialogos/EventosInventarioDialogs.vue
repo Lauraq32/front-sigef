@@ -37,7 +37,7 @@
               id="validationCustom02"
               v-model="postEvento.tipo"
             >
-              <option value="antregado">Entregado</option>
+              <option value="entregado">Entregado</option>
               <option value="Retornado">Retornado</option>
               <option value="abastecimiento">Abastecimiento</option>
             </CFormSelect>
@@ -123,7 +123,7 @@ export default {
       postEvento: {
         utilId: 0,
         fecha: new Date(),
-        cantidad: null,
+        cantidad: 1,
         tipo: 'entregado',
         empleadoId: 0,
       },
@@ -192,8 +192,8 @@ export default {
       this.postEvento = {
         utilId: 0,
         fecha: null,
-        cantidad: null,
-        tipo: 'entregado',
+        cantidad: 1,
+        tipo: null,
         empleadoId: 0,
       }
     },
