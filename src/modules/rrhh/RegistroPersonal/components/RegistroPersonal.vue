@@ -951,8 +951,8 @@ import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
 import Api from '../services/RegistroPersonalServices'
 import EmpleadoReports from '@/components/Report/RRHH/ReportsTemplate/EmpleadosReports.vue'
-import AccionPersonalDialog from '../../RegistroPersonal/components/Dialogos/AccionPersonal.vue'
 import { useToastStore } from '@/store/toast'
+import AccionPersonalDialog from '../../RegistroPersonal/components/Dialogos/AccionPersonal.vue'
 import EducacionDialog from '../../RegistroPersonal/components/Dialogos/EducacionDialog.vue'
 
 export default {
@@ -966,9 +966,9 @@ export default {
 
   data: function () {
     return {
-      employeeInfo: {},
       empleadoReporte: {},
       showModalRepots: false,
+      employeeInfo: {},
       showEducacion: false,
       lgDemo4: false,
       cambiar: false,
@@ -1136,7 +1136,7 @@ export default {
         this.departamentos = response.data.data
       })
     },
-    
+
     closeEducacion() {
       this.showEducacion = false
     },
@@ -1274,10 +1274,6 @@ export default {
   },
 
   mounted() {
-    setInterval(() => {
-      this.horaActual = moment().format('HH:mm')
-    }, 1000)
-
     this.getRegistroPersonal()
     Api.getAllEmpleado().then((response) => {
       this.registroPersonal = response.data.data

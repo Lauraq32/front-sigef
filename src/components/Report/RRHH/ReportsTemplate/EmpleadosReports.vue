@@ -1,4 +1,4 @@
-<template >
+<template>
   <div>
     <div class="d-flex mt-3 justify-content-center">
       <button @click="imprimir">
@@ -9,13 +9,13 @@
     <div class="container-fluid flex-column">
       <div class="text-center justify-content-center">
         <h5>{{ ayuntamiento.descripcion }}</h5>
-        <p>Telefono {{ empleado.telefono }} </p>
+        <p>Telefono {{ empleado.telefono }}</p>
         <h5>Tarjeta del Empleado</h5>
       </div>
 
       <div class="d-flex w-100 justify-content-end">
-        <div class="border" style="width: 150px;">
-          <img src="@/assets/images/Francisco.png" alt="Imagen del emplead" />
+        <div class="border" style="height: 200px">
+          <img style="max-width: 100%" :src="imageUrl" alt="imagen Empleado" />
         </div>
       </div>
 
@@ -25,7 +25,11 @@
             <div class="col-6 fw-bold">
               <label for="datosGenerales"> {{ data.label }}: </label>
             </div>
-            <p class="col-6 text-truncate" id="datosGenerales" v-html="lookInfo(data.key)"></p>
+            <p
+              class="col-6 text-truncate"
+              id="datosGenerales"
+              v-html="lookInfo(data.key)"
+            ></p>
           </div>
         </div>
 
@@ -34,26 +38,46 @@
             <div class="col-6 fw-bold">
               <label for="idCampos"> {{ data.label }}: </label>
             </div>
-            <p class="col-6 text-truncate" id="idCampos" v-html="lookInfo(data.key)"></p>
+            <p
+              class="col-6 text-truncate"
+              id="idCampos"
+              v-html="lookInfo(data.key)"
+            ></p>
           </div>
         </div>
       </div>
 
       <div class="mt-1 gridy">
         <div class="w-100 h-100 p-3 border border-dark">
-          <div class="row" v-for="(data, index) in datosEmergencia" :key="index">
+          <div
+            class="row"
+            v-for="(data, index) in datosEmergencia"
+            :key="index"
+          >
             <div class="col-6 fw-bold">
               <label for="idCampos"> {{ data.label }}: </label>
             </div>
-            <p class="col-6 text-truncate" id="idCampos" v-html="lookInfo(data.key)"></p>
+            <p
+              class="col-6 text-truncate"
+              id="idCampos"
+              v-html="lookInfo(data.key)"
+            ></p>
           </div>
         </div>
         <div class="w-100 h-100 p-3 border border-dark">
-          <div class="row" v-for="(data, index) in datosPresionAlterial" :key="index">
+          <div
+            class="row"
+            v-for="(data, index) in datosPresionAlterial"
+            :key="index"
+          >
             <div class="col-6 fw-bold">
               <label for="idCampos"> {{ data.label }}: </label>
             </div>
-            <p class="col-6 text-truncate" id="idCampos" v-html="lookInfo(data.key)"></p>
+            <p
+              class="col-6 text-truncate"
+              id="idCampos"
+              v-html="lookInfo(data.key)"
+            ></p>
           </div>
         </div>
       </div>
@@ -62,22 +86,20 @@
 </template>
 
 <script>
-
-import Api from '@/modules/rrhh/RegistroPersonal/services/RegistroPersonalServices';
-import { useRoute } from 'vue-router';
+import Api from '@/modules/rrhh/RegistroPersonal/services/RegistroPersonalServices'
+import { useRoute } from 'vue-router'
 import { formatDate } from '@/utils/format'
 import { CIcon } from '@coreui/icons-vue'
-
-
+import ApiFiles from '@/modules/rrhh/RegistroPersonal/services/Files'
 
 export default {
   name: 'EmpleadoReport',
 
   setup() {
-    const route = useRoute();
+    const route = useRoute()
 
     return {
-      empleadoId: route.params.id
+      empleadoId: route.params.id,
     }
   },
   data() {
@@ -87,153 +109,148 @@ export default {
       datosLaborales: [
         {
           label: 'Fecha Ingreso',
-          key: 'fechaIngreso'
+          key: 'fechaIngreso',
         },
 
         {
           label: 'Programa',
-          key: 'programaDivision.nombre'
+          key: 'programaDivision.nombre',
         },
 
         {
           label: 'Area',
-          key: 'areaTrabajo.descripcion'
+          key: 'areaTrabajo.descripcion',
         },
         {
           label: 'Turno',
-          key: 'turno'
+          key: 'turno',
         },
         {
           label: 'Tipo Cobro',
-          key: 'formaPago'
+          key: 'formaPago',
         },
         {
           label: 'Sueldo Bruto',
-          key: 'sueldo'
+          key: 'sueldo',
         },
-
       ],
 
       datosEmergencia: [
         {
           label: 'Nombres',
-          key: 'emergenciaNombre'
+          key: 'emergenciaNombre',
         },
         {
           label: 'Telefonos',
-          key: 'emergenciaTelefono'
+          key: 'emergenciaTelefono',
         },
         {
           label: 'Direccion',
-          key: 'emergenciaDireccion'
+          key: 'emergenciaDireccion',
         },
         {
           label: 'Parentezco',
-          key: 'emergenciaParentezco'
+          key: 'emergenciaParentezco',
         },
         {
           label: 'Tipo de sangre',
-          key: 'tipoSangre.nombre'
+          key: 'tipoSangre.nombre',
         },
         {
           label: 'Alergico a',
-          key: 'emergenciaAlergico'
+          key: 'emergenciaAlergico',
         },
         {
           label: 'Diabetico',
-          key: 'emergenciaDiabetico'
+          key: 'emergenciaDiabetico',
         },
         {
           label: 'Insulino Dependiente',
-          key: 'emergenciaInsodepend'
+          key: 'emergenciaInsodepend',
         },
-
       ],
 
       datosPresionAlterial: [
         {
           label: 'Presion Alta',
-          key: 'emergenciaPresionAlta'
+          key: 'emergenciaPresionAlta',
         },
         {
           label: 'Presion Baja',
-          key: 'emergenciaPresionBaja'
+          key: 'emergenciaPresionBaja',
         },
         {
           label: 'En tratamiento',
-          key: 'emergenciaEnTratamiento'
+          key: 'emergenciaEnTratamiento',
         },
         {
           label: 'Diagnostico',
-          key: 'emergenciaDiagnostico'
+          key: 'emergenciaDiagnostico',
         },
         {
           label: 'Fecha',
-          key: 'fechaIngreso'
+          key: 'fechaIngreso',
         },
         {
           label: 'Lugar',
-          key: 'emergenciaDireccion'
+          key: 'emergenciaDireccion',
         },
         {
           label: 'Otros',
-          key: 'codigo'
+          key: 'codigo',
         },
-
       ],
       datosGenerales: [
         {
           label: 'Cdo Empleado',
-          key: 'codigo'
+          key: 'codigo',
         },
         {
           label: 'Apellidos',
-          key: 'apellidos'
+          key: 'apellidos',
         },
         {
           label: 'Nombres',
-          key: 'nombres'
+          key: 'nombres',
         },
         {
           label: 'Cedula',
-          key: 'cedula'
+          key: 'cedula',
         },
         {
           label: 'Dirrecion',
-          key: 'direccion'
+          key: 'direccion',
         },
         {
           label: 'Sector',
-          key: 'sector.nombre'
+          key: 'sector.nombre',
         },
 
         {
           label: 'Telefono',
-          key: 'telefono'
+          key: 'telefono',
         },
         {
           label: 'Fecha Nacimiento',
-          key: 'fechaNacimiento'
+          key: 'fechaNacimiento',
         },
         {
           label: 'Lugar Nacimiento',
-          key: 'lugarNacimient'
+          key: 'lugarNacimient',
         },
         {
           label: 'Est. Civil',
-          key: 'estadoCivil'
+          key: 'estadoCivil',
         },
         {
           label: 'Sexo',
-          key: 'sexo'
+          key: 'sexo',
         },
-
       ],
 
       empleado: {},
     }
   },
-
 
   methods: {
     onClick() {
@@ -241,13 +258,12 @@ export default {
     },
 
     imprimir() {
-      window.print();
+      window.print()
     },
 
     getAyuntamientobyId(id) {
       Api.getAyuntamientoById(id).then((response) => {
         this.ayuntamiento = response.data.data
-
       })
     },
 
@@ -255,26 +271,40 @@ export default {
       Api.getEmpleadoByID(id).then((response) => {
         this.empleado = response.data.data
         this.empleado.fechaIngreso = this.formatDate(this.empleado.fechaIngreso)
-        this.empleado.fechaNacimiento = this.formatDate(this.empleado.fechaNacimiento)
+        this.empleado.fechaNacimiento = this.formatDate(
+          this.empleado.fechaNacimiento,
+        )
         this.empleado.ayuntamientoId = response.data.data.ayuntamientoId
         this.getAyuntamientobyId(this.empleado.ayuntamientoId)
       })
     },
     lookInfo(param) {
-      return param.split(".").reduce((acc, item) => acc?.[item], this.empleado) ?? '&nbsp;'
-    }
+      return (
+        param.split('.').reduce((acc, item) => acc?.[item], this.empleado) ??
+        '&nbsp;'
+      )
+    },
 
+    fot() {
+      ApiFiles.getEmployeeIdentityImage({
+        empleadoId: this.empleados.id,
+        FileType: '.png',
+        FileType2: 'png',
+      }).then((url) => {
+        this.imageUrl = url
+      })
+      console.log(this.imageUrl)
+    },
   },
   mounted() {
-    this.getEmpleadoById(this.empleadoId);
+    this.getEmpleadoById(this.empleadoId)
   },
 
   watch: {
     empleado() {
       this.getEmpleadoById(this.empleadoId)
-    }
+    },
   },
-
 
   props: {
     empleados: Array,
