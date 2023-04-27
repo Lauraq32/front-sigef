@@ -191,23 +191,22 @@ export default {
   computed: {
     initialDate: {
       get() {
+        let date = new Date()
         if (
           this.postInventarioCantidad.fecha !== null &&
           this.postInventarioCantidad.fecha?.toString() !== 'Invalid Date'
         ) {
-          let date = this.postInventarioCantidad.fecha
+          date = this.postInventarioCantidad.fecha
           if (typeof this.postInventarioCantidad.fecha === 'string') {
             date = new Date(this.postInventarioCantidad.fecha)
             return date.toISOString().split('T')[0]
           }
-        } else {
-          return
         }
+
+        return date.toISOString().split('T')[0]
       },
       set(value) {
-        return (this.postInventarioCantidad.fecha = new Date(
-          `${value}T00:00:00`,
-        ))
+        return (this.postInventarioCantidad.fecha = new Date(`${value}T00:00:00`))
       },
     },
   },

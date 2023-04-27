@@ -1,6 +1,6 @@
 <template>
-  <h3 class="text-center">Inventario</h3>
-  <hr />
+  <h3 class="text-center mb-3">Inventario</h3>
+
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
@@ -14,7 +14,7 @@
       >
     </div>
   </div>
-  <hr />
+
   <CSmartTable
     class="sticky-top"
     clickableRows
@@ -32,9 +32,15 @@
     itemsPerPageSelect
     :itemsPerPage="5"
     columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
+    :sorterValue="{ column: 'descripcion', state: 'asc' }"
     pagination
   >
+    <template #cantidad="{ item }">
+      <td class="text-end">
+        {{ formatPrice(item.cantidad) }}
+      </td>
+    </template>
+
     <template #show_details="{ item }">
       <CDropdown>
         <CDropdownToggle color="primary" variant="outline"
@@ -116,13 +122,13 @@ export default {
       showEvento: false,
 
       columns: [
-        { key: 'descripcion', label: 'Descripción', _style: { width: '20%' } },
-        { key: 'tipo', label: 'Tipo', _style: { width: '10%' } },
+        { key: 'descripcion', label: 'Descripción', _style: { width: '70%' } },
+        { key: 'tipo', label: 'Tipo', _style: { width: '20%' } },
         { key: 'cantidad', label: 'Existencia', _style: { width: '5%' } },
         {
           key: 'show_details',
           label: '',
-          _style: { width: '2%' },
+          _style: { width: '5%' },
           filter: false,
           sorter: false,
         },
@@ -198,6 +204,13 @@ export default {
             class: 'text-white',
           })
         })
+    },
+
+    formatPrice(value) {
+      let val = Math.round(value)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      return val
     },
 
     saveInventario(payload) {
