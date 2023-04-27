@@ -130,34 +130,6 @@ const routes = [
         path: '/PlanAnual',
         ...PlanAnual,
       },
-      {
-        path: '/base',
-        name: 'Base',
-        component: {
-          render() {
-            return h(resolveComponent('router-view'))
-          },
-        },
-        redirect: '/base/breadcrumbs',
-        children: [
-          {
-            path: '/base/accordion',
-            name: 'Accordion',
-            component: () => import('@/views/base/Accordion.vue'),
-          },
-          {
-            path: '/base/breadcrumbs',
-            name: 'Breadcrumbs',
-            component: () => import('@/views/base/Breadcrumbs.vue'),
-          },
-
-          {
-            path: '/base/navs',
-            name: 'Navs',
-            component: () => import('@/views/base/Navs.vue'),
-          },
-        ],
-      },
     ],
   },
   {
@@ -173,11 +145,6 @@ const routes = [
         path: '/',
         name: 'Login',
         component: () => import('@/views/pages/Login'),
-      },
-      {
-        path: 'register',
-        name: 'Register',
-        component: () => import('@/views/pages/Register'),
       },
     ],
   },

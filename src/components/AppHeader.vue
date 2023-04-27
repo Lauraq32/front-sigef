@@ -35,7 +35,6 @@
 <script>
 import AppBreadcrumb from './AppBreadcrumb'
 import AppHeaderDropdownAccnt from './AppHeaderDropdownAccnt'
-import { logo } from '@/assets/brand/logo'
 import { useAuthStore } from '@/store/AuthStore'
 export default {
   name: 'AppHeader',
@@ -53,7 +52,6 @@ export default {
 
     const url = localStorage.getItem('image')
     return {
-      logo,
       ayuntamiento,
       NoHallado,
       url,
