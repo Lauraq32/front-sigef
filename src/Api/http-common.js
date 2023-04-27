@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getFiscalYearId, getLoggedInfo } from '@/utils/logged-info';
 import router from '../router';
-
+console.log(process.env);
 const axiosInstance = axios.create({
 	baseURL: `${process.env.VUE_APP_API_URL}/api`,
 	headers: {
