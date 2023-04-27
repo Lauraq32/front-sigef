@@ -37,7 +37,7 @@
                   <CCol :md="12">
                     <CFormLabel for="nombre">Nombre solicitante</CFormLabel>
                     <CInputGroup class="has-validation">
-                      <CFormInput v-model="solicitudEmpleo.nombre" id="nombre" value="" v-on="keypress=>(onlyLetter)"
+                      <CFormInput v-model="solicitudEmpleo.nombre" id="nombre" value="" v-on:keypress="onlyLetter($event)"
                         aria-describedby="inputGroupPrepend" required />
 
                     </CInputGroup>
@@ -66,7 +66,7 @@
                 <CCol :md="6">
                   <CCol :md="12">
                     <CFormLabel for="edad">Edad</CFormLabel>
-                    <CFormInput v-model="solicitudEmpleo.edad" id="edad" type="text" v-on:keypress="onlyNumber($event)" />
+                    <CFormInput v-model="solicitudEmpleo.edad" id="edad" type="number" v-on:keypress="minNumber($event)"/>
 
                   </CCol>
                   <CCol :md="12">
@@ -196,7 +196,6 @@ export default {
   data: function () {
     return {
       onlyLetter,
-      onlyNumber,
       validatedCustom01: null,
       displayNameProfesion: '',
       showProfessionModal: false,
@@ -226,7 +225,14 @@ export default {
   },
 
   methods: {
-
+    minNumber(e){
+      if(e.target.value.length > 2){
+        e.preventDefault();
+        return false;
+      }
+      
+     
+    },
 
     getPosicion() {
       Api.getPosiciones().then(response => {
