@@ -87,6 +87,7 @@ export default {
 
     submitInventario(data) {
       this.$emit('saveInventario', data)
+      this.clearInventario()
     },
 
     sendData() {
@@ -95,6 +96,13 @@ export default {
         return this.submitInventario({ ...this.postInventario })
       }
       this.isFormEventTypeValidated = true
+    },
+
+    clearInventario() {
+      this.postInventario = {
+        descripcion: null,
+        tipo: 'Deducible',
+      }
     },
   },
 

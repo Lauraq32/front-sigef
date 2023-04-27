@@ -158,6 +158,7 @@ export default {
 
     submitEventos(data) {
       this.$emit('saveEvents', data)
+      this.clearEventos()
     },
 
     sendData() {
@@ -166,6 +167,16 @@ export default {
         return this.submitEventos({ ...this.postEvento })
       }
       this.isFormEventTypeValidated = true
+    },
+
+    clearEventos() {
+      this.postEvento = {
+        utilId: 0,
+        fecha: null,
+        cantidad: null,
+        tipo: 'entregado',
+        empleadoId: 0,
+      }
     },
   },
 

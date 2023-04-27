@@ -167,6 +167,7 @@ export default {
 
     submitUtilesLaborales(data) {
       this.$emit('saveUtilesLaborales', data)
+      this.clearUtilesLaborales()
     },
 
     sendData() {
@@ -175,6 +176,16 @@ export default {
         return this.submitUtilesLaborales({ ...this.postInventarioCantidad })
       }
       this.isFormEventTypeValidated = true
+    },
+
+    clearUtilesLaborales() {
+      this.postInventarioCantidad = {
+        fecha: null,
+        observacion: null,
+        autorizadoPor: null,
+        cantidad: 0,
+        Descripción: null,
+      }
     },
   },
 

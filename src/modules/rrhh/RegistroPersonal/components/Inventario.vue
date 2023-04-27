@@ -92,7 +92,8 @@ import Api from '../services/RegistroPersonalServices'
 import UtilesLaboralesDialog from './Dialogos/UtilesLaboralesDialogs.vue'
 import EventoInventarioDialog from './Dialogos/EventosInventarioDialogs.vue'
 import InventarioDialog from './Dialogos/InventarioDialogs.vue'
-import { el } from 'date-fns/locale'
+import { useToastStore } from '@/store/toast'
+import { mapActions } from 'pinia'
 
 export default {
   components: {
@@ -140,6 +141,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(useToastStore, ['show']),
     getInventario() {
       Api.getAllInventario().then((response) => {
         this.inventario = response.data.data
@@ -164,10 +166,10 @@ export default {
 
     saveUtilesLaborales(payload) {
       Api.postInventarioById(this.id, payload)
-        .then(() => {
+        .then((response) => {
           setTimeout(this.getInventario, 500)
           this.show({
-            content: 'Registro añadido correctamente',
+            content: response.data,
             closable: true,
           })
         })
@@ -204,7 +206,7 @@ export default {
         .then(() => {
           setTimeout(this.getInventario, 500)
           this.show({
-            content: 'Registro añadido correctamente',
+            content: 'Registro Agregado',
             closable: true,
           })
         })
