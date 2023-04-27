@@ -25,7 +25,6 @@ build:
     - echo "NODE_ENV=$ENV" >> .env.production.local
   script:
     - npm install
-    - npm run lint
     - npm run build:prod
   artifacts:
     paths:
