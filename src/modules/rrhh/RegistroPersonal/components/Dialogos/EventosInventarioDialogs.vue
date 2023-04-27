@@ -38,7 +38,7 @@
               v-model="postEvento.tipo"
             >
               <option value="entregado">Entregado</option>
-              <option value="Retornado">Retornado</option>
+              <option value="retornado">Retornado</option>
               <option value="abastecimiento">Abastecimiento</option>
             </CFormSelect>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -124,7 +124,7 @@ export default {
         utilId: 0,
         fecha: new Date(),
         cantidad: 1,
-        tipo: 'entregado',
+        tipo: null,
         empleadoId: 0,
       },
       isFormEventTypeValidated: false,
