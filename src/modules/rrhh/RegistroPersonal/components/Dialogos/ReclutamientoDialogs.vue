@@ -25,8 +25,8 @@
               <div class="row">
                 <CCol :md="6">
                   <CCol :md="12">
-                    <CFormLabel for="cedula">Solicitud número</CFormLabel>
-                    <CFormInput v-model="solicitudEmpleo.cedula" id="cedula" maxlength="10" />
+                    <CFormLabel for="cedula">C&eacute;dula</CFormLabel>
+                    <CFormInput v-model="solicitudEmpleo.cedula" id="cedula" maxlength="11" />
 
                   </CCol>
                   <CCol :md="12">
@@ -37,7 +37,7 @@
                   <CCol :md="12">
                     <CFormLabel for="nombre">Nombre solicitante</CFormLabel>
                     <CInputGroup class="has-validation">
-                      <CFormInput v-model="solicitudEmpleo.nombre" id="nombre" value=""
+                      <CFormInput v-model="solicitudEmpleo.nombre" id="nombre" value="" v-on="keypress=>(onlyLetter)"
                         aria-describedby="inputGroupPrepend" required />
 
                     </CInputGroup>
@@ -244,7 +244,7 @@ export default {
     },
     closeModal() {
       this.$emit('closeModal')
-
+      this.clearForm()
     },
     saveReclutamiento(event) {
       const form = event.currentTarget
@@ -258,7 +258,7 @@ export default {
           descalificado: this.solicitudEmpleo.descalificado === 'Si'
         })
         solicitudEmpleoId = null
-
+        this.clearForm()
       }
 
     },
