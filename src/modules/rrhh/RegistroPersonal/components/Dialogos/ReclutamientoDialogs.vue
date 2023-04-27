@@ -216,7 +216,6 @@ export default {
 
   methods: {
     filtrarTexto() {
-      console.log('prubea')
         this.solicitudEmpleo.remitidoA = this.solicitudEmpleo.remitidoA.replace(/[^a-zA-Z]/g, '');
       }, 
 
