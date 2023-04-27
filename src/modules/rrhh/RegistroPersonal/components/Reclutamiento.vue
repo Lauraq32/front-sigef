@@ -122,6 +122,7 @@ export default {
             content: 'Registro actualizado correctamente',
             closable: true,
           })
+          this.getAll()
         }
         ).catch(error => {
           this.show({
@@ -136,6 +137,7 @@ export default {
             content: 'Registro Agregado correctamente',
             closable: true,
           })
+          this.getAll()
           this.showReclutamientoModal = false
         }).catch((error) => {
           this.show({
