@@ -1,0 +1,16 @@
+vue.config.js
+public
+tests
+.eslintignore
+.eslintrc.js
+.prettierrc.json
+.gitlab-ci.yml
+cypress.json
+README.md
+**/node_modules/
+.git
+npm-debug.log
+.coverage
+.coverage.*
+.env
+.aws

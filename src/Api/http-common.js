@@ -4,7 +4,7 @@ import router from '../router'
 
 
 const axiosInstance = axios.create({
-  baseURL: `${process.env.VUE_APP_API_URL}/api`,
+  baseURL: `${process.env.APP_API_URL}/api`,
   headers: {
     'Content-type': 'application/json',
     'Access-Control-Allow-Origin': '*',

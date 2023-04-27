@@ -3,6 +3,6 @@ module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave: false,
   devServer: {
-    proxy: `${process.env.VUE_APP_API_URL}`,
+    proxy: `${process.env.APP_API_URL}`,
   },
 })
