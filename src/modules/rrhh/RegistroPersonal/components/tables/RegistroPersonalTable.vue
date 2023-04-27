@@ -2,8 +2,8 @@
   <CSmartTable class="sticky-top" clickableRows :tableProps="{
     striped: true,
     hover: true,
-  }" :tableHeadProps="{}" :activePage="1" header :items="tableData" :columns="tablecolumns" columnFilter
-    :footer="footer" itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
+  }" :tableHeadProps="{}" :activePage="1" header :items="TableData" :columns="Tablecolumns" columnFilter
+    :footer="footer" itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'nombres', state: 'asc' }"
     pagination>
     <template #sexo="{ item, index }">
       <td>
@@ -42,7 +42,7 @@
         <CDropdown>
           <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
           <CDropdownMenu>
-            <CDropdownItem v-for="action in actions" @click="action.IsFunction(item)">{{ action.label }}</CDropdownItem>
+            <CDropdownItem v-for="action in actions" @click="action.clickHandler && action.clickHandler(item)">{{ action.label }}</CDropdownItem>
           </CDropdownMenu>
         </CDropdown>
       </td>
@@ -63,17 +63,11 @@ export default {
     return {
       formatDate
     }
-
   },
-  watch: {
 
-  },
-  methods: {
-
-  },
   props: {
-    tableData: [],
-    tablecolumns: [],
+    TableData: [],
+    Tablecolumns: [],
     footer: [],
     actions: [],
   }

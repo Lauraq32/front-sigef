@@ -17,77 +17,8 @@
     </div>
   </div>
 
-  <RegistroPersonalTable :tableData="registroPersonal" :tablecolumns="columns" :actions="buttonActions" :footer="footerItem" />
-
-  <!-- <CSmartTable class="sticky-top" clickableRows :tableProps="{
-      striped: true,
-      hover: true,
-    }" :tableHeadProps="{}" :activePage="1" header :items="registroPersonal" :columns="columns" :footer="footerItem"
-    columnFilter itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination>
-    <template #sexo="{ item }">
-      <td>
-        {{ item.sexo == 'M' ? 'Masculino' : 'Femenino' }}
-      </td>
-    </template>
-    <template #posicion="{ item }">
-      <td>
-        {{ item.posicion.nombre }}
-      </td>
-    </template>
-    <template #programaDivision="{ item }">
-      <td>
-        {{ item.programaDivision.nombre }}
-      </td>
-    </template>
-
-    <template #fechaIngreso="{ item }">
-      <td>
-        {{ formatDate(item.fechaIngreso) }}
-      </td>
-    </template>
-    <template #fechaNacimiento="{ item }">
-      <td>
-        {{ formatDate(item.fechaNacimiento) }}
-      </td>
-    </template>
-
-    <template #formaPago="{ item }">
-      <td>
-        {{ formatDate(item.formaPago) }}
-      </td>
-    </template>
-    <template #show_details="{ item }">
-      <td>
-
-
-      <template v-if="item.estatus !== false">
-
-
-        <CDropdown>
-
-          <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
-          <CDropdownMenu>
-            <CDropdownItem @click="toggleDetails(item)">Editar</CDropdownItem>
-            <CDropdownItem @click="deleteEmp(item)">Eliminar</CDropdownItem>
-            <CDropdownItem @click="() => {
-                lgDemo4 = true
-              }
-              ">Evaluación</CDropdownItem>
-            <CDropdownItem>Eventualidad</CDropdownItem>
-          </CDropdownMenu>
-
-        </CDropdown>
-      </template>
-      <template v-if="item.estatus == false">
-        <td>
-          <CBadge color="danger" shape="rounded-pill">{{ item.estatus ? 'Activo' : 'Inactivo' }}</CBadge>
-        </td>
-      </template>
-    </td>
-    </template>
-  </CSmartTable> -->
-
+  <RegistroPersonalTable :TableData="registroPersonal" :Tablecolumns="columns" :actions="buttonActions"
+    :footer="footerItem" />
   <RegistroPersonalDialog :showModal="showRegistroPersonalModal" @post-personal="submitForm"
     @close-modal="closeRegistroPersonalModal" :empleadoId="id" />
 </template>
@@ -167,7 +98,7 @@ export default {
           sorter: false,
         },
       ],
-     
+
       footerItem: [
         {
           label: 'Total Items',
@@ -179,29 +110,29 @@ export default {
         },
       ],
 
-      buttonActions:[
+      buttonActions: [
         {
-          label:'Editar',
-          IsFunction: (value) => {
+          label: 'Editar',
+          clickHandler: (value) => {
             this.toggleDetails(value)
           }
         },
         {
-          label:'Eliminar',
-          IsFunction: (value) => {
+          label: 'Eliminar',
+          clickHandler: (value) => {
             this.deleteEmp(value)
           }
         },
         {
-          label:'Evaluación',
-          IsFunction: (value) => {
+          label: 'Evaluación',
+          clickHandler: (value) => {
             this.lgDemo4 = true
           }
         },
         {
-          label:'Eventualidad'
+          label: 'Eventualidad'
         },
-        
+
       ],
       validatedCustom01: null,
       lgDemo: false,
@@ -220,10 +151,10 @@ export default {
     ]),
     ...mapActions(useToastStore, ['show']),
 
-    getRegistroPersonal(){
+    getRegistroPersonal() {
       Api.getAllEmpleado().then((response) => {
-            this.registroPersonal = response.data.data
-        })
+        this.registroPersonal = response.data.data
+      })
     },
 
 
@@ -393,12 +324,11 @@ export default {
           setTimeout(this.getRegistroPersonal, 500)
         })
         .catch((error) => {
-          this.$swal({
-            position: 'top-end',
-            icon: 'error',
-            title: error.errors,
-            showConfirmButton: false,
-            timer: 1500,
+          this.show({
+            content: error.response.data,
+            closable: true,
+            color: 'danger',
+            class: 'text-white',
           })
         })
     },
@@ -421,11 +351,10 @@ export default {
     })
   },
   watch: {
-    showRegistroPersonalModal(){
+    showRegistroPersonalModal() {
       this.getRegistroPersonal()
     }
   },
 }
 </script>
-<style>
-</style>
+<style></style>
