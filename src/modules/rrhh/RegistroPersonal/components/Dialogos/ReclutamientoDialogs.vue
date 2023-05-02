@@ -26,7 +26,7 @@
                 <CCol :md="6">
                   <CCol :md="12">
                     <CFormLabel for="cedula">C&eacute;dula</CFormLabel>
-                    <CFormInput v-model="solicitudEmpleo.cedula" id="cedula" maxlength="11"
+                    <CFormInput v-model="solicitudEmpleo.cedula" id="cedula" maxlength="11" required
                       v-on:keypress="onlyNumber($event)" />
 
                   </CCol>
@@ -67,7 +67,7 @@
                 <CCol :md="6">
                   <CCol :md="12">
                     <CFormLabel for="edad">Edad</CFormLabel>
-                    <CFormInput v-model="solicitudEmpleo.edad" id="edad" type="number"
+                    <CFormInput v-model="solicitudEmpleo.edad" id="edad" type="number" required
                       v-on:keypress="minNumber($event), this.onlyNumber($event)" 
                       v-on:blur="this.olderThan($event)"
                       />
@@ -118,7 +118,7 @@
                   <CCol :md="12">
                     <CFormLabel for="remitidoA">Remitido a</CFormLabel>
                     <CFormInput type="text" v-on:keypress="onlyLetter($event)" v-model="solicitudEmpleo.remitidoA"
-                      id="remitidoA"> </CFormInput>
+                      id="remitidoA" required> </CFormInput>
 
                   </CCol>
                 </CCol>
@@ -208,22 +208,22 @@ export default {
       showProfessionModal: false,
       posicionesList: [],
       solicitudEmpleo: {
-        cedula: "",
+        cedula: null,
         fecha: (new Date().toISOString()),
-        nombre: "",
-        direccion1: "",
-        direccion2: "",
-        telefono: "",
-        celular: "",
+        nombre: null,
+        direccion1: null,
+        direccion2:null,
+        telefono: null,
+        celular: null,
         edad: 0,
         profesionId: 0,
         posicionId: 0,
-        remitidoA: "",
+        remitidoA: null,
         entrevistado: 'Si',
         evaluado: 'Si',
         descalificado: 'Si',
-        resultado: "",
-        observacion: ""
+        resultado: null,
+        observacion: null
       },
       professionModal: false,
       tabPaneActiveKey: 1,
@@ -241,7 +241,7 @@ export default {
     },
 
     olderThan(e){
-      if( e.target.value > 18){
+      if( e.target.value >= 18){
         e.preventDefault();
         return false;
       }
@@ -295,22 +295,22 @@ export default {
     clearForm() {
       this.displayNameProfesion = ''
       this.solicitudEmpleo = {
-        cedula: "",
+        cedula: null,
         fecha: (new Date().toISOString()),
-        nombre: "",
-        direccion1: "",
-        direccion2: "",
-        telefono: "",
-        celular: "",
+        nombre: null,
+        direccion1: null,
+        direccion2:null,
+        telefono: null,
+        celular: null,
         edad: 0,
         profesionId: 0,
         posicionId: 0,
-        remitidoA: "",
+        remitidoA: null,
         entrevistado: 'Si',
         evaluado: 'Si',
         descalificado: 'Si',
-        resultado: "",
-        observacion: ""
+        resultado: null,
+        observacion: null
       }
     },
     formattedDate(fecha) {
