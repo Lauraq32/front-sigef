@@ -52,7 +52,7 @@
                   </div>
                   <div class="col-9">
                     <CCol :md="12">
-                      <CFormInput ref="name" type="text" class="form-control" v-model="postEmpleado.codigo" id="codigo" />
+                      <CFormInput ref="name" type="text" class="form-control" v-model="postEmpleado.codigo" id="codigo" :maxlength="9"/>
                     </CCol>
                   </div>
                 </div>
