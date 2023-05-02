@@ -13,9 +13,9 @@
         <h5>Tarjeta del Empleado</h5>
       </div>
 
-      <div class="d-flex w-100 justify-content-end">
-        <div class="border" style="height: 200px">
-          <img style="max-width: 100%" :src="imageUrl" alt="imagen Empleado" />
+      <div class="d-flex  justify-content-end">
+        <div class="border border-2 border-dark" style="width: 15%">
+          <img :src="imageUrl" alt="imagen Empleado" />
         </div>
       </div>
 
@@ -249,6 +249,7 @@ export default {
       ],
 
       empleado: {},
+      imageUrl: null,
     }
   },
 
@@ -285,7 +286,7 @@ export default {
       )
     },
 
-    watchImage() {
+    loadImage() {
       ApiFiles.getEmployeeIdentityImage({
         empleadoId: this.empleadoId,
         FileType: '.png',
@@ -293,12 +294,11 @@ export default {
       }).then((url) => {
         this.imageUrl = url
       })
-      console.log(this.imageUrl)
     },
   },
   mounted() {
     this.getEmpleadoById(this.empleadoId)
-    this.watchImage()
+    this.loadImage()
   },
 
   // watch: {
