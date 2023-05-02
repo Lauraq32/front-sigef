@@ -2,7 +2,7 @@
   <CModal @close="closeModal" size="lg" :visible="showModal" backdrop="static">
 
     <CModalHeader>
-      <CModalTitle>Formulario de solicitudes</CModalTitle>
+      <CModalTitle>Formulario de Solicitudes</CModalTitle>
     </CModalHeader>
     <CNav class="p-2" variant="tabs" role="tablist">
       <CNavItem>
@@ -17,7 +17,7 @@
       </CNavItem>
 
     </CNav>
-    <CForm novalidate :onsubmit="saveReclutamiento">
+    <CForm novalidate :validated="isFormEventTypeValidated" ref="eventTypeForm">
       <CTabContent>
         <CTabPane role="tabpanel" aria-labelledby="home-tab" :visible="tabPaneActiveKey === 1">
           <CModalBody>
@@ -26,7 +26,8 @@
                 <CCol :md="6">
                   <CCol :md="12">
                     <CFormLabel for="cedula">C&eacute;dula</CFormLabel>
-                    <CFormInput v-model="solicitudEmpleo.cedula" id="cedula" maxlength="11" />
+                    <CFormInput v-model="solicitudEmpleo.cedula" id="cedula" maxlength="11"
+                      v-on:keypress="onlyNumber($event)" />
 
                   </CCol>
                   <CCol :md="12">
@@ -66,7 +67,8 @@
                 <CCol :md="6">
                   <CCol :md="12">
                     <CFormLabel for="edad">Edad</CFormLabel>
-                    <CFormInput v-model="solicitudEmpleo.edad" id="edad" type="number" v-on:keypress="minNumber($event)"/>
+                    <CFormInput v-model="solicitudEmpleo.edad" id="edad" type="number"
+                      v-on:keypress="minNumber($event),this.onlyNumber($event)" />
 
                   </CCol>
                   <CCol :md="12">
@@ -132,7 +134,7 @@
 
               <CCol :md="12">
                 <CFormLabel for="nombre">Nombre Solicitante</CFormLabel>
-                <CFormInput v-model="solicitudEmpleo.nombre" id="nombre" />
+                <CFormInput v-model="solicitudEmpleo.nombre" id="nombre" required />
 
 
               </CCol>
@@ -141,12 +143,12 @@
 
                   <CCol :md="6">
                     <CFormLabel for="resultado">La Entrevista</CFormLabel>
-                    <CFormTextarea v-model="solicitudEmpleo.resultado" id="resultado"></CFormTextarea>
+                    <CFormTextarea v-model="solicitudEmpleo.resultado" id="resultado" required ></CFormTextarea>
 
                   </CCol>
                   <CCol :md="6">
                     <CFormLabel for="observacion">Observaci&oacute;n</CFormLabel>
-                    <CFormTextarea v-model="solicitudEmpleo.observacion" id="observacion"></CFormTextarea>
+                    <CFormTextarea v-model="solicitudEmpleo.observacion" id="observacion" required></CFormTextarea>
 
 
                   </CCol>
@@ -165,7 +167,7 @@
         <button type="su" class="btn btn-secondary" data-bs-dismiss="modal" @click="closeModal">
           Cerrar
         </button>
-        <input type="submit" class="btn btn-info btn-block mt-1" value="Guardar" />
+        <button type="submit" class="btn btn-info btn-block mt-1" @click="sendData">Guardar </button>
 
       </div>
     </CForm>
@@ -180,8 +182,8 @@ import { CCol, CSmartTable } from '@coreui/vue-pro'
 import { CIcon } from '@coreui/icons-vue'
 import ProfessionDialog from './SelectProfesionDialog.vue'
 import Api from '../../services/SolicitudEmpleo'
-import { onlyNumber,onlyLetter } from '@/utils/validator'
-import profesionesApi from '../../services/Profesiones'
+import { onlyNumber, onlyLetter } from '@/utils/validator'
+import ProfesionesServices from '../../services/Profesiones'
 
 import { format } from "date-fns";
 export default {
@@ -195,7 +197,9 @@ export default {
   },
   data: function () {
     return {
+      onlyNumber,
       onlyLetter,
+      isFormEventTypeValidated: false,
       validatedCustom01: null,
       displayNameProfesion: '',
       showProfessionModal: false,
@@ -215,7 +219,7 @@ export default {
         entrevistado: 'Si',
         evaluado: 'Si',
         descalificado: 'Si',
-        resultado: " ",
+        resultado: "",
         observacion: ""
       },
       professionModal: false,
@@ -225,13 +229,29 @@ export default {
   },
 
   methods: {
-    minNumber(e){
-      if(e.target.value.length > 2){
+    minNumber(e) {
+      
+      if (e.target.value.length > 2) {
+      
         e.preventDefault();
         return false;
       }
-      
-     
+
+
+    },
+
+    sendData() {
+
+      this.isFormEventTypeValidated = false
+
+      if (this.$refs.eventTypeForm.$el.checkValidity()) {
+
+        return this.saveReclutamiento()
+
+      }
+
+      this.isFormEventTypeValidated = true
+
     },
 
     getPosicion() {
@@ -249,27 +269,22 @@ export default {
       this.displayNameProfesion = payload.name
     },
     closeModal() {
-      this.$emit('closeModal')
       this.clearForm()
+      this.$emit('closeModal')
+
     },
-    saveReclutamiento(event) {
-      const form = event.currentTarget
-      event.preventDefault()
-      event.stopPropagation()
-      if (form.checkValidity() === true) {
-        this.$emit('post-reclutamiento', {
-          ...this.solicitudEmpleo,
-          evaluado: this.solicitudEmpleo.evaluado === 'Si',
-          entrevistado: this.solicitudEmpleo.entrevistado === 'Si',
-          descalificado: this.solicitudEmpleo.descalificado === 'Si'
-        })
-        this.closeModal()
-        solicitudEmpleoId = null
-      }
-  
+    saveReclutamiento() {
+      this.$emit('post-reclutamiento', {
+        ...this.solicitudEmpleo,
+        evaluado: this.solicitudEmpleo.evaluado === 'Si',
+        entrevistado: this.solicitudEmpleo.entrevistado === 'Si',
+        descalificado: this.solicitudEmpleo.descalificado === 'Si'
+      })
+      this.closeModal()
+      solicitudEmpleoId = null
     },
     clearForm() {
-
+      this.displayNameProfesion = ''
       this.solicitudEmpleo = {
         cedula: "",
         fecha: (new Date().toISOString()),
@@ -306,15 +321,16 @@ export default {
           this.displayNameProfesion = response.data.data.name
         })
         this.getPosicion()
-
       })
     },
   },
   watch: {
-    solicitudEmpleoId(newId) {
-      if (newId) {
-        this.getSolicitudEmpleoById(newId)
-      }
+    solicitudEmpleoId(item) {
+      console.log(item.profesionId)
+      this.solicitudEmpleo = item
+      ProfesionesServices.getProfesionesById(item.profesionId).then(response => {
+       this.displayNameProfesion =   response.data.data.name
+      })
     },
   },
 

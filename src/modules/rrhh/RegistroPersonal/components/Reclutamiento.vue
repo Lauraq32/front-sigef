@@ -61,7 +61,7 @@ export default {
         {
           key: 'id',
           label: 'Solicitud No.',
-          _style: { width: '20%' },
+          _style: { width: '10%' },
         },
         {
           key: 'nombre',
@@ -169,7 +169,7 @@ export default {
     },
     getReclutamientoById(item) {
       this.solicitudEmpleoId = item.id
-      this.reclutamientoId = item.id
+      this.reclutamientoId = item
       this.showReclutamientoModal = true
     },
 
