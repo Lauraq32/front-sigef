@@ -199,7 +199,7 @@ export default {
       postAccionPersonal: {
         fechaDesde: null,
         tipoAccionId: 4,
-        empleadoId: this.empleado.id,
+        // empleadoId: this.empleado.id,
         cantidad: null,
         fechaHasta: null,
         detalle: null,

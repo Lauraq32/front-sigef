@@ -1,4 +1,14 @@
 <template>
+  <button
+    @click="
+      () => {
+        showTarjeta = true
+      }
+    "
+  >
+    klk
+  </button>
+
   <h3 class="text-center">Mantenimientos Empleados</h3>
   <!-- <AccionPersonalDialog :showModal="lgDemo4" @custom-event="closeModal" /> -->
 
@@ -8,6 +18,12 @@
     @closeModal="closeEducacion"
     :employeeInfo="employeeInfo"
   />
+
+  <TarjetaEmpleado
+    :newTarjetaEmpleadoModal="showTarjeta"
+    :empleado="employeeInfo"
+  />
+
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
@@ -114,6 +130,14 @@
           >
           <CDropdownItem @click="getEmpleadoByID(item)"
             >Educaci&oacute;n</CDropdownItem
+          >
+          <CDropdownItem
+            @click="
+              () => {
+                showTarjeta = false
+              }
+            "
+            >Tarjeta</CDropdownItem
           >
         </CDropdownMenu>
       </CDropdown>
@@ -954,6 +978,7 @@ import EmpleadoReports from '@/components/Report/RRHH/ReportsTemplate/EmpleadosR
 import { useToastStore } from '@/store/toast'
 import AccionPersonalDialog from '../../RegistroPersonal/components/Dialogos/AccionPersonal.vue'
 import EducacionDialog from '../../RegistroPersonal/components/Dialogos/EducacionDialog.vue'
+import TarjetaEmpleado from './Dialogos/TarjetaEmpleado.vue'
 
 export default {
   components: {
@@ -962,11 +987,13 @@ export default {
     AccionPersonalDialog,
     EmpleadoReports,
     EducacionDialog,
+    TarjetaEmpleado,
   },
 
   data: function () {
     return {
       empleadoReporte: {},
+      showTarjeta: false,
       showModalRepots: false,
       employeeInfo: {},
       showEducacion: false,
