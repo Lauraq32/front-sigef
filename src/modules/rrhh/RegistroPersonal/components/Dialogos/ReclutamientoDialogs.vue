@@ -68,7 +68,9 @@
                   <CCol :md="12">
                     <CFormLabel for="edad">Edad</CFormLabel>
                     <CFormInput v-model="solicitudEmpleo.edad" id="edad" type="number"
-                      v-on:keypress="minNumber($event),this.onlyNumber($event)" />
+                      v-on:keypress="minNumber($event), this.onlyNumber($event)" 
+                      v-on:blur="this.olderThan($event)"
+                      />
 
                   </CCol>
                   <CCol :md="12">
@@ -143,7 +145,7 @@
 
                   <CCol :md="6">
                     <CFormLabel for="resultado">La Entrevista</CFormLabel>
-                    <CFormTextarea v-model="solicitudEmpleo.resultado" id="resultado" required ></CFormTextarea>
+                    <CFormTextarea v-model="solicitudEmpleo.resultado" id="resultado" required></CFormTextarea>
 
                   </CCol>
                   <CCol :md="6">
@@ -184,7 +186,8 @@ import ProfessionDialog from './SelectProfesionDialog.vue'
 import Api from '../../services/SolicitudEmpleo'
 import { onlyNumber, onlyLetter } from '@/utils/validator'
 import ProfesionesServices from '../../services/Profesiones'
-
+import { mapActions } from 'pinia'
+import { useToastStore } from '@/store/toast'
 import { format } from "date-fns";
 export default {
   name: 'ReclutamientoDialog',
@@ -229,29 +232,35 @@ export default {
   },
 
   methods: {
+    ...mapActions(useToastStore, ['show']),
     minNumber(e) {
-      
       if (e.target.value.length > 2) {
-      
         e.preventDefault();
         return false;
       }
+    },
 
-
+    olderThan(e){
+      if( e.target.value > 18){
+        e.preventDefault();
+        return false;
+      }
+      else{
+        this.show({
+            content: 'Debe ser mayor de 18 a&ntilde;os',
+            closable: true,
+            color:'danger'
+          })
+        this.solicitudEmpleo.edad = null
+      }
     },
 
     sendData() {
-
       this.isFormEventTypeValidated = false
-
       if (this.$refs.eventTypeForm.$el.checkValidity()) {
-
         return this.saveReclutamiento()
-
       }
-
       this.isFormEventTypeValidated = true
-
     },
 
     getPosicion() {
@@ -329,7 +338,7 @@ export default {
       console.log(item.profesionId)
       this.solicitudEmpleo = item
       ProfesionesServices.getProfesionesById(item.profesionId).then(response => {
-       this.displayNameProfesion =   response.data.data.name
+        this.displayNameProfesion = response.data.data.name
       })
     },
   },
