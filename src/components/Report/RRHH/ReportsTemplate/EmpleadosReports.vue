@@ -285,9 +285,9 @@ export default {
       )
     },
 
-    fot() {
+    watchImage() {
       ApiFiles.getEmployeeIdentityImage({
-        empleadoId: this.empleados.id,
+        empleadoId: this.empleadoId,
         FileType: '.png',
         FileType2: 'png',
       }).then((url) => {
@@ -298,13 +298,15 @@ export default {
   },
   mounted() {
     this.getEmpleadoById(this.empleadoId)
+    this.watchImage()
   },
 
-  watch: {
-    empleado() {
-      this.getEmpleadoById(this.empleadoId)
-    },
-  },
+  // watch: {
+  //   empleado() {
+  //     this.getEmpleadoById(this.empleadoId)
+  //     this.fot()
+  //   },
+  // },
 
   props: {
     empleados: Array,

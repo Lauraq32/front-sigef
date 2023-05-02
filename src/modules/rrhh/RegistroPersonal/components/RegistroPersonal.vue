@@ -1,14 +1,4 @@
 <template>
-  <button
-    @click="
-      () => {
-        showTarjeta = true
-      }
-    "
-  >
-    klk
-  </button>
-
   <h3 class="text-center">Mantenimientos Empleados</h3>
   <!-- <AccionPersonalDialog :showModal="lgDemo4" @custom-event="closeModal" /> -->
 
@@ -22,6 +12,7 @@
   <TarjetaEmpleado
     :newTarjetaEmpleadoModal="showTarjeta"
     :empleado="employeeInfo"
+    @close-modal="closeTarjetaEmpleadoModal"
   />
 
   <div class="table-headers">
@@ -134,7 +125,8 @@
           <CDropdownItem
             @click="
               () => {
-                showTarjeta = false
+                showTarjeta = true
+                this.employeeInfo = { ...item }
               }
             "
             >Tarjeta</CDropdownItem
@@ -1077,7 +1069,7 @@ export default {
     },
 
     closeTarjetaEmpleadoModal() {
-      this.newTarjetaEmpleadoModal = false
+      this.showTarjeta = false
     },
     showModal() {
       this.showRegistroPersonalModal = true
