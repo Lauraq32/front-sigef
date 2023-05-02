@@ -55,12 +55,12 @@
                   </CCol>
                   <CCol :md="12">
                     <CFormLabel for="telefono">Tel&eacute;fono</CFormLabel>
-                    <CFormInput v-model="solicitudEmpleo.telefono" id="telefono" required type="number" />
+                    <CFormInput v-model="solicitudEmpleo.telefono" v-on:keypress="onlyNumber($event)"  id="telefono" required type="text" />
 
                   </CCol>
                   <CCol :md="12">
                     <CFormLabel for="celular">Celular</CFormLabel>
-                    <CFormInput v-model="solicitudEmpleo.celular" id="celular" required type="number" />
+                    <CFormInput v-model="solicitudEmpleo.celular" v-on:keypress="onlyNumber($event)" id="celular" required type="text" />
 
                   </CCol>
                 </CCol>
@@ -215,7 +215,7 @@ export default {
         direccion2:null,
         telefono: null,
         celular: null,
-        edad: 0,
+        edad: null,
         profesionId: 0,
         posicionId: 0,
         remitidoA: null,
@@ -234,7 +234,7 @@ export default {
   methods: {
     ...mapActions(useToastStore, ['show']),
     minNumber(e) {
-      if (e.target.value.length > 2) {
+      if (e.target.value.length > 1) {
         e.preventDefault();
         return false;
       }
