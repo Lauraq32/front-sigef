@@ -1913,6 +1913,7 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 import { useToastStore } from '@/store/toast'
 import Api from '../services/NominaServices'
@@ -2504,28 +2505,22 @@ export default {
     changePrograma(e) {
       Api.getDepartamentoByProgramaId(e.target.value).then((response) => {
         this.departamentos = response.data.data
-
       })
 
     },
     klk() {
-      Api.getDepartamentoById(this.departamentos[0].id).then((response) => {
+      Api.getDepartamentoById(1).then((response) => {
         this.clasificador = response.data.data.ctgClasificadorId
         this.programid1 = response.data.data.programaDivisionId
         this.estructuras = response.data.data.estructura
-
       })
     },
     changeDepartamento(e) {
-
       this.departamentosId = e.target.value
-
       Api.getDepartamentoById(e.target.value).then((response) => {
         this.clasificador = response.data.data.ctgClasificadorId
         this.programid1 = response.data.data.programaDivisionId
         this.estructuras = response.data.data.estructura
-
-
       })
 
     },
@@ -2561,9 +2556,7 @@ export default {
 
 
     focusInput() {
-
       this.$refs.name.$el.focus()
-
     },
 
     focusInput1() {
@@ -2618,7 +2611,6 @@ export default {
     submiNomina() {
       Api.postNomina(this.postNomina).then((response) => {
         this.postNomina.afpMonto = this.postEmpleado.afpFijo
-
       })
     },
 
@@ -2630,178 +2622,184 @@ export default {
         this.postGenerarNomina.ProgramaDivision,
         this.postGenerarNomina.FormaPago,
         this.postGenerarNomina.TipoContrato,
-      ).then((response) => {
-
+      ).catch((error)=>{
+        console.log(error)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: error.response.data.message,
+          text: 'No se pude enviar el formulario',
+          showConfirmButton: false,
+          timer: 1500,
+        })
       })
     },
     submiFormConf() {
       this.submiGeneraNomina()
-      if (this.id) {
-        Api.putConfiguracionNomina(this.id, this.postConfiguracionNomina).then(
-          (response) => {
-
-            this.lgDemo = false
-            this.show({
-              content: 'Registro añadido correctamente',
-              closable: true,
-            })
-
-            // setTimeout(this.getEmpleado, 500)
-            this.postConfiguracionNomina = {
-              id: 0,
-              ayuntamientoId: this.$ayuntamientoId,
-              textoIng1: null,
-              textoIng2: null,
-              textoIng3: null,
-              textoIng4: null,
-              textoIng5: null,
-              textoIng6: null,
-              textoIng7: null,
-              textoIng8: null,
-              textoIng9: null,
-              textoEgr1: null,
-              textoEgr2: null,
-              textoEgr3: null,
-              textoEgr4: null,
-              textoEgr5: null,
-              textoEgr6: null,
-              textoEgr7: null,
-              textoEgr8: null,
-              textoEgr9: null,
-              textoEgr10: null,
-              retencion1Id: 0,
-              retencion2Id: 0,
-              retencion3Id: 0,
-              retencion4Id: 0,
-              retencion5Id: 0,
-              retencion6Id: 0,
-              retencion7Id: 0,
-              retencion8Id: 0,
-              retencion9Id: 0,
-              retencion10Id: 0,
-              sue: 0,
-              factorDivicionIg02: 0,
-              factorDivicionIg03: 0,
-              factorDivicionIg04: 0,
-              factorDivicionIg05: 0,
-              factorDivicionIg06: 0,
-              factorDivicionIg07: 0,
-              factorDivicionIg08: 0,
-              factorDivicionIg01: 0,
-              factorDivicionIg09: 0,
-              factorDivicionIg010: 0,
-              factorDivicionEg01: 0,
-              factorDivicionEg02: 0,
-              factorDivicionEg03: 0,
-              factorDivicionEg04: 0,
-              factorDivicionEg05: 0,
-              factorDivicionEg06: 0,
-              factorDivicionEg07: 0,
-              factorDivicionEg08: 0,
-              factorDivicionEg09: 0,
-              factorDivicionEg010: 0,
-              porcRetencAfp: 0,
-              porcRetencAfpPatron: 0,
-              porcRetencArs: 0,
-              porcRetencArsPatron: 0,
-              sueldoTopoTss: 0,
-              porcRetencArlPatron: 0,
-              porcLimiteRetenc: 0,
-            }
-          },
-        )
-        // setTimeout(this.getEmpleado, 500)
-      } else {
-        Api.postConfiguracionNomina(this.postConfiguracionNomina).then((response) => {
-          this.show({
-            content: 'Registro añadido correctamente',
-            closable: true,
-          })
-        })
-          .catch((error) => {
-            this.show({
-              content: 'Error al enviar el formulario',
-              closable: true,
-              color: 'danger',
-              class: 'text-white',
-            })
-          })
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          text: 'Datos agregados con exito',
-          title: 'Agregado',
-          showConfirmButton: false,
-          timer: 1500,
-        })
-        //const form = event.currentTarget
-        this.lgDemo = true
-          // setTimeout(this.getEmpleado, 500)
-          ; (this.postConfiguracionNomina = {
-            ayuntamientoId: this.$ayuntamientoId,
-            textoIng1: null,
-            textoIng2: null,
-            textoIng3: null,
-            textoIng4: null,
-            textoIng5: null,
-            textoIng6: null,
-            textoIng7: null,
-            textoIng8: null,
-            textoIng9: null,
-            textoEgr1: null,
-            textoEgr2: null,
-            textoEgr3: null,
-            textoEgr4: null,
-            textoEgr5: null,
-            textoEgr6: null,
-            textoEgr7: null,
-            textoEgr8: null,
-            textoEgr9: null,
-            textoEgr10: null,
-            retencion1Id: 0,
-            retencion2Id: 0,
-            retencion3Id: 0,
-            retencion4Id: 0,
-            retencion5Id: 0,
-            retencion6Id: 0,
-            retencion7Id: 0,
-            retencion8Id: 0,
-            retencion9Id: 0,
-            retencion10Id: 0,
-            sue: 0,
-            factorDivicionIg02: 0,
-            factorDivicionIg03: 0,
-            factorDivicionIg04: 0,
-            factorDivicionIg05: 0,
-            factorDivicionIg06: 0,
-            factorDivicionIg07: 0,
-            factorDivicionIg08: 0,
-            factorDivicionIg01: 0,
-            factorDivicionIg09: 0,
-            factorDivicionIg010: 0,
-            factorDivicionEg01: 0,
-            factorDivicionEg02: 0,
-            factorDivicionEg03: 0,
-            factorDivicionEg04: 0,
-            factorDivicionEg05: 0,
-            factorDivicionEg06: 0,
-            factorDivicionEg07: 0,
-            factorDivicionEg08: 0,
-            factorDivicionEg09: 0,
-            factorDivicionEg010: 0,
-            porcRetencAfp: 0,
-            porcRetencAfpPatron: 0,
-            porcRetencArs: 0,
-            porcRetencArsPatron: 0,
-            sueldoTopoTss: 0,
-            porcRetencArlPatron: 0,
-            porcLimiteRetenc: 0,
-            id: 0,
-          }),
-            (this.validatedCustom01 = false)
-        event.preventDefault()
-        event.stopPropagation()
-      }
+      // if (this.id) {
+      //   Api.putConfiguracionNomina(this.id, this.postConfiguracionNomina).then(
+      //     (response) => {
+      //       this.lgDemo = false
+      //       this.show({
+      //         content: 'Registro añadido correctamente',
+      //         closable: true,
+      //       })
+      //       // setTimeout(this.getEmpleado, 500)
+      //       this.postConfiguracionNomina = {
+      //         id: 0,
+      //         ayuntamientoId: this.$ayuntamientoId,
+      //         textoIng1: null,
+      //         textoIng2: null,
+      //         textoIng3: null,
+      //         textoIng4: null,
+      //         textoIng5: null,
+      //         textoIng6: null,
+      //         textoIng7: null,
+      //         textoIng8: null,
+      //         textoIng9: null,
+      //         textoEgr1: null,
+      //         textoEgr2: null,
+      //         textoEgr3: null,
+      //         textoEgr4: null,
+      //         textoEgr5: null,
+      //         textoEgr6: null,
+      //         textoEgr7: null,
+      //         textoEgr8: null,
+      //         textoEgr9: null,
+      //         textoEgr10: null,
+      //         retencion1Id: 0,
+      //         retencion2Id: 0,
+      //         retencion3Id: 0,
+      //         retencion4Id: 0,
+      //         retencion5Id: 0,
+      //         retencion6Id: 0,
+      //         retencion7Id: 0,
+      //         retencion8Id: 0,
+      //         retencion9Id: 0,
+      //         retencion10Id: 0,
+      //         sue: 0,
+      //         factorDivicionIg02: 0,
+      //         factorDivicionIg03: 0,
+      //         factorDivicionIg04: 0,
+      //         factorDivicionIg05: 0,
+      //         factorDivicionIg06: 0,
+      //         factorDivicionIg07: 0,
+      //         factorDivicionIg08: 0,
+      //         factorDivicionIg01: 0,
+      //         factorDivicionIg09: 0,
+      //         factorDivicionIg010: 0,
+      //         factorDivicionEg01: 0,
+      //         factorDivicionEg02: 0,
+      //         factorDivicionEg03: 0,
+      //         factorDivicionEg04: 0,
+      //         factorDivicionEg05: 0,
+      //         factorDivicionEg06: 0,
+      //         factorDivicionEg07: 0,
+      //         factorDivicionEg08: 0,
+      //         factorDivicionEg09: 0,
+      //         factorDivicionEg010: 0,
+      //         porcRetencAfp: 0,
+      //         porcRetencAfpPatron: 0,
+      //         porcRetencArs: 0,
+      //         porcRetencArsPatron: 0,
+      //         sueldoTopoTss: 0,
+      //         porcRetencArlPatron: 0,
+      //         porcLimiteRetenc: 0,
+      //       }
+      //     },
+      //   )
+      //   // setTimeout(this.getEmpleado, 500)
+      // } else {
+      //   Api.postConfiguracionNomina(this.postConfiguracionNomina).then((response) => {
+      //     this.show({
+      //       content: 'Registro añadido correctamente',
+      //       closable: true,
+      //     })
+      //   })
+      //     .catch((error) => {
+      //       this.show({
+      //         content: 'Error al enviar el formulario',
+      //         closable: true,
+      //         color: 'danger',
+      //         class: 'text-white',
+      //       })
+      //     })
+      //   Swal.fire({
+      //     position: 'top-end',
+      //     icon: 'success',
+      //     text: 'Datos agregados con exito',
+      //     title: 'Agregado',
+      //     showConfirmButton: false,
+      //     timer: 1500,
+      //   })
+      //   //const form = event.currentTarget
+      //   this.lgDemo = true
+      //     // setTimeout(this.getEmpleado, 500)
+      //     ; (this.postConfiguracionNomina = {
+      //       ayuntamientoId: this.$ayuntamientoId,
+      //       textoIng1: null,
+      //       textoIng2: null,
+      //       textoIng3: null,
+      //       textoIng4: null,
+      //       textoIng5: null,
+      //       textoIng6: null,
+      //       textoIng7: null,
+      //       textoIng8: null,
+      //       textoIng9: null,
+      //       textoEgr1: null,
+      //       textoEgr2: null,
+      //       textoEgr3: null,
+      //       textoEgr4: null,
+      //       textoEgr5: null,
+      //       textoEgr6: null,
+      //       textoEgr7: null,
+      //       textoEgr8: null,
+      //       textoEgr9: null,
+      //       textoEgr10: null,
+      //       retencion1Id: 0,
+      //       retencion2Id: 0,
+      //       retencion3Id: 0,
+      //       retencion4Id: 0,
+      //       retencion5Id: 0,
+      //       retencion6Id: 0,
+      //       retencion7Id: 0,
+      //       retencion8Id: 0,
+      //       retencion9Id: 0,
+      //       retencion10Id: 0,
+      //       sue: 0,
+      //       factorDivicionIg02: 0,
+      //       factorDivicionIg03: 0,
+      //       factorDivicionIg04: 0,
+      //       factorDivicionIg05: 0,
+      //       factorDivicionIg06: 0,
+      //       factorDivicionIg07: 0,
+      //       factorDivicionIg08: 0,
+      //       factorDivicionIg01: 0,
+      //       factorDivicionIg09: 0,
+      //       factorDivicionIg010: 0,
+      //       factorDivicionEg01: 0,
+      //       factorDivicionEg02: 0,
+      //       factorDivicionEg03: 0,
+      //       factorDivicionEg04: 0,
+      //       factorDivicionEg05: 0,
+      //       factorDivicionEg06: 0,
+      //       factorDivicionEg07: 0,
+      //       factorDivicionEg08: 0,
+      //       factorDivicionEg09: 0,
+      //       factorDivicionEg010: 0,
+      //       porcRetencAfp: 0,
+      //       porcRetencAfpPatron: 0,
+      //       porcRetencArs: 0,
+      //       porcRetencArsPatron: 0,
+      //       sueldoTopoTss: 0,
+      //       porcRetencArlPatron: 0,
+      //       porcLimiteRetenc: 0,
+      //       id: 0,
+      //     }),
+      //       (this.validatedCustom01 = false)
+      //   event.preventDefault()
+      //   event.stopPropagation()
+      // }
     },
 
 
@@ -3083,8 +3081,6 @@ export default {
 
 
     toggleDetails(item) {
-
-
       if (item.postConfiguracionNomina !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
       } else {
@@ -3108,44 +3104,27 @@ export default {
     },
 
     toggleDetail2(item) {
-
-
       Api.getNominaGeneralById(item.id).then((response) => {
-
         this.idDep = item.departamentoId
         this.getFiltro = response.data.data
-
-
-
         Api.getNominaByDepartamento(item.id).then((response) => {
           this.getEmpleadosDep = response.data.data
-
         })
       })
 
     },
-
     toggleDetail3(item) {
-
-
       Api.getNominaGeneralById(item.id).then((response) => {
-
         this.idDep = item.departamentoId
         this.getFiltro = response.data.data
-
-
-
         Api.getNominaPorEmpleado(item.id).then((response) => {
           this.getEmpleadosDep1 = response.data.data
-
         })
       })
-
     },
   },
 
   mounted() {
-
     Api.getPocision().then((response) => {
       pocision = response.data.data
     })
@@ -3188,13 +3167,10 @@ export default {
     Api.getProgramaDivision().then((response) => {
       this.programaDivision = response.data.data
       this.postGenerarNomina.ProgramaDivision = this.programaDivision[0].id
-
-
       Api.getDepartamentoByProgramaId(this.programaDivision[0].id).then(
         (response) => {
           this.departamentos = response.data.data
           this.postGenerarNomina.DepartamentoId = this.departamentos[0].id
-
         },
       )
 

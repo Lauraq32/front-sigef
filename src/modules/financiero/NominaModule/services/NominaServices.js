@@ -21,7 +21,7 @@ class NominaApi {
   }
 
   getProgramaDivision() {
-    return http.get(`ProgramaDivision?AyuntamientoId=${getAyuntamientoId()}`)
+    return http.get(`programas-division`)
   }
 
   getEmpleadoById(value) {
@@ -37,7 +37,7 @@ class NominaApi {
   }
 
   getDepartamento() {
-    return http.get('Departamento')
+    return http.get('departamentos')
   }
 
   getGrupoNomina() {
@@ -69,10 +69,10 @@ class NominaApi {
   }
 
   getDepartamentoById(id) {
-    return http.get(`Departamento/${id}`)
+    return http.get(`departamentos/${id}`)
   }
   getDepartamentoByProgramaId(id) {
-    return http.get(`Departamento/Programa/${id}`)
+    return http.get(`departamentos/Programa/${id}`)
   }
 
   getPocisionbyid(id) {
