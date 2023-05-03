@@ -1,43 +1,34 @@
 <template>
-  <h3 class="text-center">Formulaci&oacute;n Gastos</h3>
-  <div class="table-headers">
-    <div class="d-inline p-2">
-      <CButton
-        style="font-weight: bold"
-        color="info"
-        @click="setNuevoFormulacionGasto"
-      >
-        Agregar
-      </CButton>
-    </div>
-    <div class="p-2">
-      <CButton color="info" @click="IngresoReport">Imprimir</CButton>
-    </div>
-    <div class="p-2">
-      <CButton color="info" @click="cargarEstructuras"
-        >Cargar Estructuras</CButton
-      >
-    </div>
-    <div class="p-2">
-      <CButton color="info" @click="goToIngreso"
-        >Ir a Formulaci&oacute;n Ingreso</CButton
-      >
-    </div>
-    <div class="p-2">
-      <label class="file-select btn" role="button">
-        <CIcon icon="cilCloudUpload" size="sm" />
-        <input type="file" id="formFileProyecto" @change="onFileChangeProyectos" />
-        <span class="label">Importar Proyectos</span>
-      </label>
-    </div>
-    <div class="p-2">
-      <label class="file-select btn" role="button">
-        <CIcon icon="cilCloudUpload" size="sm" />
-        <input type="file" id="formFileFormulaciion" @change="onFileChange" />
-        <span class="label">Importar Formulaci&oacute;n</span>
-      </label>
-    </div>
-  </div>
+  <h3 class="text-center  mb-4">Formulaci&oacute;n Gastos</h3>
+  
+  <AppAccionHeader
+    :actions="[
+      {
+        label: 'Imprimir',
+        accionHandler: this.IngresoReport.bind(this),
+        icon: 'cilPrint'
+      },
+      {
+        label: 'Cargar Estructuras',
+        accionHandler: this.cargarEstructuras.bind(this),
+        icon: 'cilLayers'
+      },
+      {
+        label: 'Importar Proyectos',
+        accionHandler: this.onFileChangeProyectos.bind(this),
+        type: 'upload'
+      },
+      {
+        label: 'Importar Formulaci&oacute;n',
+        accionHandler: this.onFileChange.bind(this),
+        type: 'upload'
+      }
+    ]"
+  >
+    <CButton color="info" @click="setNuevoFormulacionGasto">Agregar</CButton>
+    <CButton color="secondary" @click="goToIngreso">Ir a Formulaci&oacute;n Ingreso</CButton>
+  </AppAccionHeader>
+
   <CSmartTable
     class="sticky-top"
     clickableRows
@@ -103,11 +94,14 @@ import router from '@/router'
 import { formatPrice } from '../../../../utils/format'
 import { useToastStore } from '@/store/toast'
 import FormulacionGastoDialog from "../gasto/FormulacionGastoDialog";
+import AppAccionHeader from "../../../../components/AppActionHeader.vue";
+
 export default {
   components: {
     CSmartTable,
     CModal,
-    FormulacionGastoDialog
+    FormulacionGastoDialog,
+    AppAccionHeader
   },
   data: function () {
     return {
