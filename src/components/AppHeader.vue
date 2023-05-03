@@ -22,29 +22,7 @@
         </CNavItem>
       </CHeaderNav>
       <CHeaderNav>
-        <CNavItem>
-          <CNavLink>
-            <CIcon class="mx-2" icon="cil-bell" size="lg" />
-          </CNavLink>
-        </CNavItem>
-        <CNavItem>
-          <CNavLink>
-            <CIcon class="mx-2" icon="cil-list" size="lg" />
-          </CNavLink>
-        </CNavItem>
-        <CNavItem>
-          <CNavLink>
-            <CIcon class="mx-2" icon="cil-envelope-open" size="lg" />
-          </CNavLink>
-        </CNavItem>
         <AppHeaderDropdownAccnt />
-        <CNavItem>
-          <CNavLink>
-            <CNavItem>
-              <CIcon class="mx-1" icon="cil-account-logout" size="lg" />
-            </CNavItem>
-          </CNavLink>
-        </CNavItem>
       </CHeaderNav>
     </CContainer>
     <CHeaderDivider />
@@ -57,7 +35,6 @@
 <script>
 import AppBreadcrumb from './AppBreadcrumb'
 import AppHeaderDropdownAccnt from './AppHeaderDropdownAccnt'
-import { logo } from '@/assets/brand/logo'
 import { useAuthStore } from '@/store/AuthStore'
 export default {
   name: 'AppHeader',
@@ -66,21 +43,21 @@ export default {
     AppHeaderDropdownAccnt,
   },
   setup() {
-  
-
-const authStore = useAuthStore()
+    const authStore = useAuthStore()
     const ayuntamiento = authStore.authInfo.user.ayuntamiento.descripcion
+    const userName = authStore.authInfo.user.email
     const NoHallado = (ayuntamiento) => {
       if (ayuntamiento === 'null') return 'No encontrado'
     }
 
-    const url = localStorage.getItem('image');
+    const url = localStorage.getItem('image')
     return {
-      logo,
       ayuntamiento,
       NoHallado,
       url,
+      userName,
     }
+    
   },
 
   mounted() {},
