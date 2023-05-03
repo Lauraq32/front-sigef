@@ -731,7 +731,7 @@ export default [
         items: [
           {
             component: 'CNavItem',
-            name: 'Dirección dependencia',
+            name: 'Dirección o dependencia',
             to: '/RRHHModule/dependencia',
             icon: 'cil-notes',
           },
@@ -743,7 +743,7 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Áreas de Trabajo',
+            name: 'Áreas de trabajo',
             to: '/RRHHModule/areaTrabajo',
             icon: 'cilClipboard',
           },
@@ -817,15 +817,5 @@ export default [
         icon: 'cilPeoplePlus',
       },
     ],
-  },
-  {
-    component: 'CNavItem',
-    name: 'Dashboard',
-    to: '/dashboard',
-    icon: 'cil-speedometer',
-    badge: {
-      color: 'primary',
-      text: 'NEW',
-    },
   },
 ]
