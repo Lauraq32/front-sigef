@@ -27,17 +27,6 @@ const routes = [
     component: DefaultLayout,
     children: [
       {
-        path: '/dashboard',
-        name: 'Dashboard',
-        meta: { label: 'Dashboard' },
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () =>
-          import(/* webpackChunkName: "dashboard" */ '@/views/Dashboard.vue'),
-      },
-
-      {
         path: '/home',
         name: 'home',
         meta: { label: 'Home' },
@@ -152,7 +141,6 @@ const routes = [
       },
     },
     children: [
-
       {
         path: 'empleados/:id',
         name: 'empleadosReports',
@@ -160,7 +148,9 @@ const routes = [
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () =>
-          import(/* webpackChunkName: "dashboard" */ '@/components/Report/RRHH/ReportsTemplate/EmpleadosReports.vue'),
+          import(
+            /* webpackChunkName: "dashboard" */ '@/components/Report/RRHH/ReportsTemplate/EmpleadosReports.vue'
+          ),
       },
 
       {

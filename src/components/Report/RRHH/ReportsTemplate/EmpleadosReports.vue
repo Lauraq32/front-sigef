@@ -13,7 +13,7 @@
         <h5>Tarjeta del Empleado</h5>
       </div>
 
-      <div class="d-flex  justify-content-end">
+      <div class="d-flex justify-content-end">
         <div class="border border-2 border-dark" style="width: 15%">
           <img :src="imageUrl" alt="imagen Empleado" />
         </div>
@@ -254,9 +254,6 @@ export default {
   },
 
   methods: {
-    onClick() {
-      this.$emit('closeModalReports', false)
-    },
 
     imprimir() {
       window.print()
@@ -275,8 +272,7 @@ export default {
         this.empleado.fechaNacimiento = this.formatDate(
           this.empleado.fechaNacimiento,
         )
-        this.empleado.ayuntamientoId = response.data.data.ayuntamientoId
-        this.getAyuntamientobyId(this.empleado.ayuntamientoId)
+        this.getAyuntamientobyId(response.data.data.ayuntamientoId)
       })
     },
     lookInfo(param) {
@@ -299,17 +295,6 @@ export default {
   mounted() {
     this.getEmpleadoById(this.empleadoId)
     this.loadImage()
-  },
-
-  // watch: {
-  //   empleado() {
-  //     this.getEmpleadoById(this.empleadoId)
-  //     this.fot()
-  //   },
-  // },
-
-  props: {
-    empleados: Array,
   },
 }
 </script>
