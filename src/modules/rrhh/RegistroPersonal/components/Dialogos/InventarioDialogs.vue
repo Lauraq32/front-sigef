@@ -73,7 +73,7 @@ export default {
     return {
       postInventario: {
         descripcion: null,
-        tipo: null,
+        tipo: 'deducible',
       },
       isFormEventTypeValidated: false,
     }
