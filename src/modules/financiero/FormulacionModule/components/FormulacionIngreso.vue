@@ -289,7 +289,7 @@ export default {
               ctgClasificadorId: `${Object.values(item)[2]}${Object.values(item)[3]
                 }${Object.values(item)[4]}${Object.values(item)[5]
                 }${Object.values(item)[6].toString().padStart(2, 0)}`,
-              instOtorga: Object.values(item)[10],
+              instOtorga: String(Object.values(item)[10]).padStart(4, '0'),
               control: '',
               detalle: Api.getClasificador(
                 `${Object.values(item)[2]}${Object.values(item)[3]}${Object.values(item)[4]
