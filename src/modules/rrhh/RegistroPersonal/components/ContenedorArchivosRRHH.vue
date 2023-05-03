@@ -41,7 +41,7 @@
               <CFormTextarea v-model="fileDescription" label="Descripci&oacute;n" />
             </div>
             <div class="d-flex justify-content-center">
-              <DropZone @drop.prevent="drop" @change="selectedFile" />
+              <DropZone @fileSelected="selectedFile" :disableDrop = "!!dropzoneFile" />
             </div>
           </CForm>
         </CModalBody>
@@ -139,9 +139,9 @@ export default {
         formData.append('fileCustomDescription', this.fileDescription)
         formData.append('fileCustomtype', this.typeDocument)
         formData.append('file', this.dropzoneFile)
-        Api.postFiles(formData).then((response) => {
-          console.log("response", response)
+        Api.postFiles(formData).then(() => {
           this.getFileById(this.empleado.id)
+          this.dropzoneFile = null; 
         }).catch((e) => console.log('error', e))
       }
     },
@@ -157,19 +157,15 @@ export default {
     getFileById(id) {
       Api.getFileById(id).then((response) => {
         this.documentos = response.data.data
-        console.log(this.documentos)
       })
     },
   },
   setup() {
     let dropzoneFile = ref("");
-    const drop = (e) => {
-      dropzoneFile.value = e.dataTransfer.files[0];
+    const selectedFile = (file) => {
+      dropzoneFile.value = file;
     };
-    const selectedFile = () => {
-      dropzoneFile.value = document.querySelector(".dropzoneFile").files[0];
-    };
-    return { dropzoneFile, drop, selectedFile };
+    return { dropzoneFile, selectedFile };
   },
   watch: {
     empleado() {
