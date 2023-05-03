@@ -728,7 +728,7 @@ export default {
       this.cedulaMax = null
     },
 
-    cargarListas() {
+    cargaInformacionRequerida() {
       Api.getProgramaDivision().then((response) => {
         this.programaDivision = response.data.data
 
@@ -897,7 +897,7 @@ export default {
   },
 
   mounted() {
-    this.cargarListas()
+    this.cargaInformacionRequerida()
   },
 
   watch: {
