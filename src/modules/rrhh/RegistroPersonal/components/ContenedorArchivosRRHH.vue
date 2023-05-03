@@ -1,36 +1,19 @@
 <template>
   <div>
-    <CModal backdrop="static" @close="onClick" size="lg" :visible="showModal" >
+    <CModal backdrop="static" @close="onClick" size="lg" :visible="showModal">
       <CModalHeader>
         <CModalTitle>Captura de imagenes Asociadas al Documento</CModalTitle>
       </CModalHeader>
       <CModalBody>
-      
-        <CButton
-          type="button"
-          color="info"
-          class="btn btn-primary" @click="() => { smDemo = true }">Agregar Documentos</CButton>
+        <CButton type="button" color="info" class="btn btn-primary" @click="() => { smDemo = true }">Agregar Documentos
+        </CButton>
         <hr>
-        
-            <CSmartTable
-          clickableRows
-          :tableProps="{
+        <CSmartTable clickableRows :tableProps="{
             striped: true,
             hover: true,
-          }"
-          :tableHeadProps="{}"
-          :activePage="1"
-          :footer="footerItem"
-          header
-          :items="documentos"
-          :columns="columns"
-          tableFilter 
-          itemsPerPageSelect
-          :itemsPerPage="10"
-          columnSorter
-          :sorterValue="{ column: 'status', state: 'asc' }"
-          pagination
-        >      <template #show_details="{ item, index }">
+          }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header :items="documentos" :columns="columns"
+          tableFilter itemsPerPageSelect :itemsPerPage="10" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
+          pagination> <template #show_details="{ item, index }">
             <td class="py-2">
               <CButton color="primary" variant="outline" square size="sm">
                 Ver
@@ -39,66 +22,43 @@
           </template>
         </CSmartTable>
       </CModalBody>
-
-      <div class="modal-footer">
-       
-      
-        <CButton
-          color="info"
-          data-bs-dismiss="modal"
-          @click="getFileById(this.empleado.id)"
-        >
-          Close
-        </CButton>
-        <CButton
-          color="info"
-          @click="postDocumentos"
-        >
-          Guardar
-        </CButton>
-      </div>
     </CModal>
 
-    <CModal backdrop="static"  size="sm" :visible="smDemo" @close="() => { smDemo = false }">
-    <CModalHeader>
-      <CModalTitle>Agregar Documentos</CModalTitle>
-    </CModalHeader>
-    <CModalBody>
-      <CFormInput
-    type="text"
-    label="Descripcion"
-  />
-  <CFormInput
-    type="text"
-    label="name"
-  />
-      <div class="p-2">
-          <label class="file-select">
-            <div class="select-button">
-              <CIcon icon="cilCloudUpload" size="sm" />
-              <span class="label ms-1">Adjuntar Documentos </span>
+    <CModal backdrop="static" size="md" :visible="smDemo" @close="() => { smDemo = false }">
+        <CModalHeader>
+          <CModalTitle>Agregar Documentos</CModalTitle>
+        </CModalHeader>
+        <CModalBody>
+          <CForm class="flex flex-column" novalidate :validated="isFormEventTypeValidated" ref="eventTypeForm">
+            <div class="mb-2">
+              <CFormInput v-model="fileName" type="text" label="Nombre" required />
+              <div class="my-2">
+                <CFormLabel>Tipo de Documento</CFormLabel>
+                <CFormSelect v-model="typeDocument" required>
+                  <option v-for="opt in optionsSelect" :value="opt">{{ opt }}</option>
+                </CFormSelect>
+              </div>
+              <CFormTextarea v-model="fileDescription" label="Descripci&oacute;n" />
             </div>
-            <input
-              type="file"
-              id="formFile"
-              accept=".doc,.docx,.png,.jpge,.jpg, .pdf" 
-              multiple
-              @change="handleFileChange"
-            />
-          </label>
-      </div>
-    </CModalBody>
-  </CModal>
+            <div class="d-flex justify-content-center">
+              <DropZone @drop.prevent="drop" @change="selectedFile" />
+            </div>
+          </CForm>
+        </CModalBody>
+        <CModalFooter>
+          <CButton color="info" @click="sendData">Guardar</CButton>
+        </CModalFooter>
+    </CModal>
   </div>
 </template>
 
 <script>
-import { CModal, CModalHeader, CModalTitle, CModalBody } from '@coreui/vue'
+import { ref } from "vue";
+import { CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter } from '@coreui/vue'
 import Api from '../services/RegistroPersonalServices'
-import { CSmartTable } from '@coreui/vue-pro'
-import { CButton, CCollapsePlugin } from '@coreui/vue-pro'
-import { CCollapse } from '@coreui/vue'
+import { CSmartTable, CButton, CCollapsePlugin, CForm } from '@coreui/vue-pro'
 import { CIcon } from '@coreui/icons-vue'
+import DropZone from "@/components/DropZone.vue"
 
 export default {
   components: {
@@ -110,8 +70,9 @@ export default {
     CButton,
     CIcon,
     CCollapsePlugin,
-  },
-
+    DropZone,
+    CForm
+},
   data: function () {
     return {
       filedata: {},
@@ -121,8 +82,17 @@ export default {
       file: null,
       smDemo: false,
       postEmpleado: {},
-
       documentos: [],
+      typeDocument: '',
+      fileName: '',
+      fileDescription: '',
+      isFormEventTypeValidated: false,
+      optionsSelect: [
+        "Documento Personal",
+        "Certificado",
+        "Documento Estudio",
+        "Otros"
+      ],
       columns: [
         {
           key: 'name',
@@ -131,7 +101,7 @@ export default {
         },
         {
           key: 'createdAt',
-          label: 'Fecha de creacion',
+          label: 'Fecha de Creación',
           sorter: false,
           _style: { width: '35%' },
         },
@@ -147,46 +117,43 @@ export default {
           filter: false,
           sorter: false,
         },
-      
       ],
     }
-  },
-  mounted() {
-    this.getFileById(this.empleado.id)
   },
   methods: {
     CloseModal() {
       this.$emit('closeModal', false)
     },
-    
-    
- 
-
+    sendData() {
+      this.isFormEventTypeValidated = false
+      if (this.$refs.eventTypeForm.$el.checkValidity()) {
+        return this.postDocumentos()
+      }
+      this.isFormEventTypeValidated = true
+    },
     postDocumentos() {
-      if (this.empleado.id != null) {
+      if (this.empleado.id && this.dropzoneFile) {
         const formData = new FormData()
-        formData.append('userId', this.empleado.id)
-        formData.append('file', this.filedata)
-
-        Api.postFiles(formData)
+        formData.append('empleadoId', this.empleado.id)
+        formData.append('fileCustomName', this.fileName)
+        formData.append('fileCustomDescription', this.fileDescription)
+        formData.append('fileCustomtype', this.typeDocument)
+        formData.append('file', this.dropzoneFile)
+        Api.postFiles(formData).then((response) => {
+          console.log("response", response)
+          this.getFileById(this.empleado.id)
+        }).catch((e) => console.log('error', e))
       }
     },
     onClick() {
-
-      this.$emit('custom-event', false)
-
-    },
-
+      this.$emit('custom-event', false)
+    },
     handleFileChange(event) {
       this.filedata = event.target.files[0]
     },
-
     toggle(index) {
       this.documentos[index].visible = !this.documentos[index].visible
     },
-
-
-
     getFileById(id) {
       Api.getFileById(id).then((response) => {
         this.documentos = response.data.data
@@ -194,14 +161,21 @@ export default {
       })
     },
   },
-
+  setup() {
+    let dropzoneFile = ref("");
+    const drop = (e) => {
+      dropzoneFile.value = e.dataTransfer.files[0];
+    };
+    const selectedFile = () => {
+      dropzoneFile.value = document.querySelector(".dropzoneFile").files[0];
+    };
+    return { dropzoneFile, drop, selectedFile };
+  },
   watch: {
-    empleados() {
-      this.getEmpleadosById(this.empleados.id)
+    empleado() {
+      this.getFileById(this.empleado.id)
     },
   },
-  
-
   props: {
     showModal: Boolean,
     empleado: Object,
@@ -209,7 +183,7 @@ export default {
 }
 </script>
 <style scoped>
-.file-select > .select-button {
+.file-select>.select-button {
   padding: 0.5rem;
 
   line-height: 1.5;
@@ -221,7 +195,7 @@ export default {
   text-align: center;
 }
 
-.file-select > input[type='file'] {
+.file-select>input[type='file'] {
   display: none;
 }
 </style>

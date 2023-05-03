@@ -18,11 +18,6 @@
             reportes = true
           }
         ">Imprimir Reporte</CButton>
-        <CButton color="info" @click="
-          () => {
-            reportes = true
-          }
-        ">Imprimir Reporte</CButton>
       </div>
     </div>
   </div>
@@ -84,7 +79,6 @@
     </template>
     <template #show_details="{ item }">
       <CDropdown>
-        <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
         <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
         <CDropdownMenu>
           <CDropdownItem @click="toggleDetails(item)">Editar</CDropdownItem>
