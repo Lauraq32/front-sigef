@@ -13,41 +13,46 @@
             hover: true,
           }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header :items="documentos" :columns="columns"
           tableFilter itemsPerPageSelect :itemsPerPage="10" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
-          pagination> <template #show_details="{ item, index }">
+          pagination>
+          <template #createdAt="{ item, index }">
             <td class="py-2">
-              <CButton color="primary" variant="outline" square size="sm">
-                Ver
-              </CButton>
-            </td>
+                {{ formatDate(item.createdAt) }}
+              </td>
+          </template>
+          <template #show_details="{ item, index }">
+              <td class="py-2">
+                <CButton color="primary" variant="outline" square size="sm" @click="seeImage(item.id)">
+                  Ver
+                </CButton>
+              </td>
           </template>
         </CSmartTable>
       </CModalBody>
     </CModal>
-
     <CModal backdrop="static" size="md" :visible="smDemo" @close="() => { smDemo = false }">
-        <CModalHeader>
-          <CModalTitle>Agregar Documentos</CModalTitle>
-        </CModalHeader>
-        <CModalBody>
-          <CForm class="flex flex-column" novalidate :validated="isFormEventTypeValidated" ref="eventTypeForm">
-            <div class="mb-2">
-              <CFormInput v-model="fileName" type="text" label="Nombre" required />
-              <div class="my-2">
-                <CFormLabel>Tipo de Documento</CFormLabel>
-                <CFormSelect v-model="typeDocument" required>
-                  <option v-for="opt in optionsSelect" :value="opt">{{ opt }}</option>
-                </CFormSelect>
-              </div>
-              <CFormTextarea v-model="fileDescription" label="Descripci&oacute;n" />
+      <CModalHeader>
+        <CModalTitle>Agregar Documentos</CModalTitle>
+      </CModalHeader>
+      <CModalBody>
+        <CForm class="flex flex-column" novalidate :validated="isFormEventTypeValidated" ref="eventTypeForm">
+          <div class="mb-2">
+            <CFormInput v-model="fileName" type="text" label="Nombre" required />
+            <div class="my-2">
+              <CFormLabel>Tipo de Documento</CFormLabel>
+              <CFormSelect v-model="typeDocument" required>
+                <option v-for="opt in optionsSelect" :value="opt">{{ opt }}</option>
+              </CFormSelect>
             </div>
-            <div class="d-flex justify-content-center">
-              <DropZone @fileSelected="selectedFile" :disableDrop = "!!dropzoneFile" />
-            </div>
-          </CForm>
-        </CModalBody>
-        <CModalFooter>
-          <CButton color="info" @click="sendData">Guardar</CButton>
-        </CModalFooter>
+            <CFormTextarea v-model="fileDescription" label="Descripci&oacute;n" />
+          </div>
+          <div class="d-flex justify-content-center">
+            <DropZone @fileSelected="selectedFile" :disableDrop="!!dropzoneFile" />
+          </div>
+        </CForm>
+      </CModalBody>
+      <CModalFooter>
+        <CButton color="info" @click="sendData">Guardar</CButton>
+      </CModalFooter>
     </CModal>
   </div>
 </template>
@@ -56,9 +61,11 @@
 import { ref } from "vue";
 import { CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter } from '@coreui/vue'
 import Api from '../services/RegistroPersonalServices'
+import ApiFile from '../services/Files'
 import { CSmartTable, CButton, CCollapsePlugin, CForm } from '@coreui/vue-pro'
 import { CIcon } from '@coreui/icons-vue'
 import DropZone from "@/components/DropZone.vue"
+import { formatDate } from "@/utils/format";
 
 export default {
   components: {
@@ -72,7 +79,7 @@ export default {
     CCollapsePlugin,
     DropZone,
     CForm
-},
+  },
   data: function () {
     return {
       filedata: {},
@@ -118,6 +125,7 @@ export default {
           sorter: false,
         },
       ],
+      formatDate
     }
   },
   methods: {
@@ -141,7 +149,7 @@ export default {
         formData.append('file', this.dropzoneFile)
         Api.postFiles(formData).then(() => {
           this.getFileById(this.empleado.id)
-          this.dropzoneFile = null; 
+          this.dropzoneFile = null;
         }).catch((e) => console.log('error', e))
       }
     },
@@ -159,6 +167,12 @@ export default {
         this.documentos = response.data.data
       })
     },
+    seeImage(id){
+      ApiFile.getFileById(id).then((response) => {
+        console.log(response);
+        window.open(response, "_blank")
+      })
+    }
   },
   setup() {
     let dropzoneFile = ref("");

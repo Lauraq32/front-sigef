@@ -10,7 +10,6 @@
         }
       ">Agregar</CButton>
       <ContenedorArchivosRRHH :showModal="showModalDoc" :empleado="selectedEmployee" @custom-event="closeModal"/>
-
       <div class="d-inline p-2">
         <CButton color="info" @click="
           () => {
