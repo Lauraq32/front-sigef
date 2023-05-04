@@ -1,137 +1,114 @@
 <template>
   <h3 class="text-center">Departamentos</h3>
   <hr />
-  <div class="table-headers">
-    <div class="d-inline p-2">
-      <CButton
-        color="info"
-        @click="() => {showAddDeptModal = true}">Agregar</CButton
-      >
+  <div class="table-headers justify-content-between">
+
+    <div class="d-inline-flex gap-3 align-items-center">
+      <CFormLabel class="form-label col-auto col-form-label" >Filtro:</CFormLabel>
+      <CFormSelect id="fiscalYearSelect" @update:modelValue="handleStatusFilter"
+          aria-label="Selecionar año fiscal"
+          :options="[
+            { label: 'Activo', value: true },
+            { label: 'Inactivo', value: 'false' }
+            ]">
+
+      </CFormSelect>
     </div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-        >Imprimir</CButton
-      >
+
+    <div>
+      <div class="d-inline p-2">
+        <CButton
+          color="info"
+          @click="() => {showAddDeptModal = true; this.departamento = null}">Agregar</CButton
+        >
+      </div>
+
+      <div class="d-inline p-2">
+        <CButton style="font-weight: bold" color="info" @click="IngresoReport"
+          >Imprimir</CButton
+        >
+      </div>
     </div>
   </div>
   <hr />
-  <CSmartTable class="sticky-top"
-    clickableRows
-    :tableProps="{
-     striped: true,
-      hover: true,}"
-    :tableHeadProps="{}"
-    :activePage="1"
-    :footer="footerItem"
-    header
-    :items="deparments"
-    :columns="columns"
-    columnFilter
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination>
 
-    <template #delete="{ item, index }">
-      <td class="py-2">
-        <CButton
-          color="danger"
-          square
-          size="sm"
-          @click="handleDelete(item, index)">
-          Eliminar
-        </CButton>
-      </td>
-    </template>
-  </CSmartTable>
 
-  <AddDepartment @onClose="handleAddModalClose" :showModal="showAddDeptModal" />
+  <DepartmentsTable @onUpdate="handleUpdate" @handleDelete="handleDelete" :deparments="deparments"/>
+  <AddDepartment :modal-title="this.deparmentModalTitle" :departamento="this.departamento" @OnSubmit="handleSubmit" @onClose="handleModalClose" :showModal="showAddDeptModal" :is-nomina="false"/>
 
 </template>
 <script>
-import { CSmartTable } from '@coreui/vue-pro'
 import AddDepartment from './Dialogos/AddDepartment.vue'
-import DeparmentServices from '../services/DeparmentServices'
+import DepartmentsTable from './DepartmentsTable.vue'
+import deparmentServices from '../services/DeparmentServices'
+import {useToastStore} from "@/store/toast"
+import { CFormLabel } from '@coreui/vue-pro'
+import { mapActions } from 'pinia';
 export default {
   components: {
-    CSmartTable,
-    AddDepartment
-  },
+    AddDepartment,
+    DepartmentsTable,
+    CFormLabel
+},
   data: () => {
     return {
+      deparments: [],
       validatedCustom01: null,
       showAddDeptModal: false,
-      deparments: [],
-      columns: [
-        {
-          key: 'nombre',
-          label: 'Departamento',
-          _style: { width: '25%' },
-        },
-        { key: 'programaDivisionId', label: 'Programa', _style: { width: '15%' } },
-        {
-          key: 'grupoNominaId',
-          label: 'Grupo de nomina',
-          _style: { width: '12%' },
-        },
-        {
-          key: 'estructura',
-          label: 'Estructura Prog.',
-          _style: { width: '12%' },
-        },
-        {
-          key: 'ctgClasificadorId',
-          label: 'Clasificador',
-          _style: { width: '10%' },
-        },
-        {
-          key: 'saspId',
-          label: 'Cta. SASP',
-          _style: { width: '10%' },
-        },
-        {
-          key: 'delete',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false
-        },
-      ],
-      footerItem: [
-        {
-          label: 'Total Items',
-          _props: {
-            color: '',
-            colspan: 1,
-            style: 'font-weight:bold;',
-          },
-        },
-
-      ],
-      details: [],
+      departamento: null,
+      deparmentModalTitle: null
     }
   },
   methods: {
-    handleAddModalClose(event){
-      this.showAddDeptModal = false
+    ...mapActions(useToastStore, ['show'])
+    ,
+    handleStatusFilter(value){
+      deparmentServices.getDepartments(value).then((response) => this.deparments = response.data.data);
     },
-    handleDelete(item, index){
-      console.log(item)
+    handleModalClose(event){
+      this.showAddDeptModal = false,
+      this.departamento = {},
+      this.deparmentModalTitle = null
+    },
+    handleUpdate(dept){
+      this.showAddDeptModal = true;
+      this.deparmentModalTitle ="Modificar Departamento"
+      this.departamento = dept;
     }
     ,
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
+    handleDelete(item){
+      deparmentServices.deleteDepartment(item.id)
+      .then(result => {
+        if(result.status == 204){
+          this.deparments = this.deparments.filter(x => x.id != item.id);
+        }
+      }).catch(err => {
+        this.show({content: err.response.data.message, color:'danger'})
+        console.log(err.response.data.message)
+      });
+    }
+    ,
+    handleSubmit(dept) {
+      console.log(dept)
+      if(dept.id !== 0){
+        if (dept.status) {
+
+          deparmentServices.updateDepartment(dept).then(response => {
+            const deptIndex = this.deparments.findIndex(x => x.id === dept.id);
+            this.deparments[deptIndex] = response.data.data;
+            this.handleModalClose();
+          })
+        }
+      }else{
+        deparmentServices.createDepartment(dept).then((response) => {
+          this.deparments = [response.data.data ,...this.deparments];
+          this.handleModalClose();
+        }).catch((error) => this.show({content: err.response.data, color:'danger'}))
       }
-      this.validatedCustom01 = true
     },
   },
   mounted() {
-    // this.$store.dispatch('AdministrativoModule/getUsuarios')
-   DeparmentServices.getDepartments().then((response) => this.deparments = response.data.data);
-  },
+    deparmentServices.getDepartments(true).then((response) => this.deparments = response.data.data);
+  }
 }
 </script>

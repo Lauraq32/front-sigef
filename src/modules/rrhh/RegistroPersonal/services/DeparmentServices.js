@@ -3,13 +3,22 @@ import { getAyuntamientoId } from '@/utils/logged-info'
 
 class DeparmentServices {
 
-  getDepartments(){
-    return httpClient.get("/departamentos")
+  deleteDepartment(id){
+    return httpClient.delete(`/departamentos/${id}`)
+  }
+
+  getDepartments(value = true){
+    return httpClient.get(`/departamentos?Status=${value}`)
   }
 
   createDepartment(data){
    return httpClient.post("/departamentos", data)
   }
+
+  updateDepartment(data){
+    return httpClient.put(`/departamentos/${data.id}`, data)
+   }
+
   getProgramasDivision(){
     return httpClient.get("/programas-division");
   }

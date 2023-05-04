@@ -7,7 +7,7 @@
     :validated="formIsValid" >
 
     <CModalHeader>
-      <CModalTitle>Agregar Departamentos</CModalTitle>
+      <CModalTitle>{{this.modalTitle ?? "Agregar Departamento"}}</CModalTitle>
     </CModalHeader>
 
     <CModalBody>
@@ -26,15 +26,15 @@
           </CRow>
 
           <div>
-            <CFormLabel for="validationCustomUsername">Nombre Depto. ó Nómina</CFormLabel>
-            <CFormInput required id="validationCustom04" v-model="newDepartment.nombre"> </CFormInput>
+            <CFormLabel >Nombre Depto. ó Nómina</CFormLabel>
+            <CFormInput required  v-model="newDepartment.nombre"> </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </div>
 
           <CRow>
             <CCol :md="6">
-              <CFormLabel for="validationCustomUsername">Programa</CFormLabel>
-              <CFormSelect required id="validationCustom04" v-model="newDepartment.programaDivisionId">
+              <CFormLabel >Programa</CFormLabel>
+              <CFormSelect required  v-model="newDepartment.programaDivisionId">
                 <option>Selecionar Programa</option>
                 <option v-for="programa in programas" :value="programa.id" :key="programa.id">
                   {{ programa.nombre }}
@@ -43,8 +43,8 @@
             </CCol>
 
             <CCol :md="6">
-              <CFormLabel for="validationCustomUsername">Grupo Nomina</CFormLabel>
-              <CFormSelect required id="validationCustom04" v-model="newDepartment.grupoNominaId">
+              <CFormLabel >Grupo Nomina</CFormLabel>
+              <CFormSelect required  v-model="newDepartment.grupoNominaId">
                 <option>Selecionar Grupo Nomina</option>
                 <option v-for="grupo in gruposNomina" :value="grupo.id" :key="grupo.id">
                   {{ grupo.nombre }}
@@ -54,14 +54,17 @@
           </CRow>
 
           <div>
-            <CFormLabel for="validationCustomUsername">Cuenta de banco</CFormLabel>
-            <CFormSelect required id="validationCustom04" v-model="newDepartment.cuentaBancoId" :options="['Seleccione Cuenta', ...cuentasBanco]">
+            <CFormLabel >Cuenta de banco</CFormLabel>
+            <CFormSelect required  v-model="newDepartment.cuentaBancoId">
               <option :key="0">Selecionar Cuenta de banco</option>
+                <option v-for="cuenta in cuentasBanco" :value="cuenta.bancoId" :key="cuenta.bancoId">
+                  {{ cuenta.nombreCuenta }}
+                </option>
             </CFormSelect>
           </div>
           <div>
-            <CFormLabel for="validationCustomUsername">Estructura</CFormLabel>
-            <CFormSelect required id="validationCustom04" v-model="newDepartment.estructura">
+            <CFormLabel >Estructura</CFormLabel>
+            <CFormSelect required  v-model="newDepartment.estructura">
               <option v-for="estructura in estructurasProgramaticas" :value="estructura.numero" :key="estructura.id">
                 {{ estructura.nombre }}
               </option>
@@ -72,37 +75,27 @@
             <CRow>
 
               <CCol :md="4">
-                <CFormLabel for="validationCustomUsername">Clasificador</CFormLabel>
-                <CFormSelect required id="validationCustom04" v-model="newDepartment.ctgClasificadorId" @update:modelValue="handleClasificadorChange"
+                <CFormLabel >Clasificador</CFormLabel>
+                <CFormSelect required  v-model="newDepartment.clasificadorId" @update:modelValue="handleClasificadorChange"
                   :options="['Seleccione Clasificador', ...clasificadores]">
 
                 </CFormSelect>
               </CCol>
-
-              <!-- <CCol>
-                <CFormLabel>Clasificador</CFormLabel>
-                <ClasificadorSelectorDialog
-                :isVisible="showclasificardorSelector"
-                :filtered="(clasificator) => (clasificator.tipo ==='DETALLE' && clasificator.origen === 'INGRESO' && clasificator?.clasifica?.toString().match(/^(1|3)/g))"
-                :term="newDepartment.ctgClasificadorId"
-                @close="selectClasificator" />
-              </CCol> -->
-
               <CCol :md="4">
-                <CFormLabel for="validationCustomUsername">Fuente Financiamineto</CFormLabel>
-                <CFormInput  id="validationCustom04" v-model="newDepartment.ctgFuenteId"></CFormInput>
+                <CFormLabel >Fuente Financiamineto</CFormLabel>
+                <CFormInput   v-model="newDepartment.fuenteId"></CFormInput>
               </CCol>
             </CRow>
 
             <CRow>
               <CCol :md="4">
-                <CFormLabel for="validationCustomUsername">Fuente Especifica</CFormLabel>
-                <CFormInput  id="validationCustom04" v-model="newDepartment.ctgFuenteEspecificaId"></CFormInput>
+                <CFormLabel >Fuente Especifica</CFormLabel>
+                <CFormInput   v-model="newDepartment.fuenteEspecificaId"></CFormInput>
               </CCol>
 
               <CCol :md="4">
-                <CFormLabel for="validationCustomUsername">Organismo Financiero</CFormLabel>
-                <CFormInput  id="validationCustom04" v-model="newDepartment.ctgOrganismoFinanciadorId">
+                <CFormLabel >Organismo Financiero</CFormLabel>
+                <CFormInput   v-model="newDepartment.organismoFinanciadorId">
                 </CFormInput>
               </CCol>
 
@@ -114,26 +107,26 @@
 
               <CRow>
                 <CCol :md="3">
-                  <CFormLabel for="validationCustomUsername">Casificador</CFormLabel>
+                  <CFormLabel >Casificador</CFormLabel>
                   <CFormInput required
-                              v-model="newDepartment.ctgClasificadorRegaliaId"
+                              v-model="newDepartment.clasificadorRegaliaId"
                               feedbackInvalid="You must agree before submitting."
                               id="invalidClasificador"></CFormInput>
                 </CCol>
 
                 <CCol :md="3">
-                  <CFormLabel for="validationCustomUsername">Fuente Financiamineto</CFormLabel>
-                  <CFormInput  id="validationCustom04" v-model="newDepartment.ctgFuenteRegaliaId"></CFormInput>
+                  <CFormLabel >Fuente Financiamineto</CFormLabel>
+                  <CFormInput   v-model="newDepartment.fuenteRegaliaId"></CFormInput>
                 </CCol>
 
                 <CCol :md="3">
-                  <CFormLabel for="validationCustomUsername">Fuente Especifica</CFormLabel>
-                  <CFormInput  id="validationCustom04" v-model="newDepartment.ctgFuenteEspecificaRegaliaId"></CFormInput>
+                  <CFormLabel >Fuente Especifica</CFormLabel>
+                  <CFormInput   v-model="newDepartment.fuenteEspecificaRegaliaId"></CFormInput>
                 </CCol>
 
                 <CCol :md="3">
-                  <CFormLabel for="validationCustomUsername">Org. Fin</CFormLabel>
-                  <CFormInput  id="validationCustom04" v-model="newDepartment.ctgOrganismoFinanciadorRegaliaId">
+                  <CFormLabel >Org. Fin</CFormLabel>
+                  <CFormInput   v-model="newDepartment.organismoFinanciadorRegaliaId">
                   </CFormInput>
                 </CCol>
 
@@ -178,6 +171,14 @@ export default {
     isNomina: {
       type: Boolean,
       default: false
+    },
+    departamento: {
+      type: Object,
+      default: null
+    },
+    modalTitle: {
+      type: Text,
+      default: null
     }
   },
 
@@ -202,73 +203,53 @@ export default {
         saspId: 0,
         cuentaBancoId: 0,
         estructura: "",
-        ctgClasificadorId: "",
-        ctgOrganismoFinanciadorId: "",
-        ctgClasificadorRegaliaId: "",
-        ctgOrganismoFinanciadorRegaliaId: "",
-        ctgFuenteId: "",
-        ctgFuenteEspecificaId: "",
-        ctgFuenteRegaliaId: "",
-        ctgFuenteEspecificaRegaliaId: ""
+        clasificadorId: "",
+        organismoFinanciadorId: "",
+        clasificadorRegaliaId: "",
+        organismoFinanciadorRegaliaId: "",
+        fuenteId: "",
+        fuenteEspecificaId: "",
+        fuenteRegaliaId: "",
+        fuenteEspecificaRegaliaId: ""
       }
     }
   },
 
   methods: {
-
-    selectClasificator(clasificador){
-      console.log(clasificador)
-    },
-
     hanldeSubmitForm(event) {
-
-      console.log(this.newDepartment)
       const form = event.currentTarget;
       this.formIsValid = false;
 
       if (form.checkValidity()) {
         event.preventDefault()
         event.stopPropagation()
-
-        departmentService.createDepartment(this.newDepartment).then((response) => {
-          if(response.status === 200){
-            console.log(response.data)
-          }
-
-          console.log(response.data)
-        }).catch((error) => console.log(error))
+        console.log(this.newDepartment)
+        this.$emit('OnSubmit', this.newDepartment)
 
       }else{
         this.formIsValid = true
       }
-
-      // this.$emit('onClose')
     },
 
 
     handleClasificadorChange(clasificadorId) {
       const selected = this.clasificadores.find(x => x.value === clasificadorId);
 
-      this.newDepartment.ctgFuenteId = selected.item.ctgFuenteId;
-      this.newDepartment.ctgFuenteEspecificaId = selected.item.ctgFuenteEspecificaId;
-      this.newDepartment.ctgOrganismoFinanciadorId = selected.item.ctgOrganismoFinanciadorId;
+      this.newDepartment.fuenteId = selected.item.ctgFuenteId;
+      this.newDepartment.fuenteEspecificaId = selected.item.ctgFuenteEspecificaId;
+      this.newDepartment.organismoFinanciadorId = selected.item.ctgOrganismoFinanciadorId;
 
 
-      this.newDepartment.ctgClasificadorRegaliaId = selected.item.clasifica;
-      this.newDepartment.ctgFuenteRegaliaId = selected.item.ctgFuenteId;
-      this.newDepartment.ctgFuenteEspecificaRegaliaId = selected.item.ctgFuenteEspecificaId;
-      this.newDepartment.ctgOrganismoFinanciadorRegaliaId = selected.item.ctgOrganismoFinanciadorId;
+      this.newDepartment.clasificadorRegaliaId = selected.item.clasifica;
+      this.newDepartment.fuenteRegaliaId = selected.item.ctgFuenteId;
+      this.newDepartment.fuenteEspecificaRegaliaId = selected.item.ctgFuenteEspecificaId;
+      this.newDepartment.organismoFinanciadorRegaliaId = selected.item.ctgOrganismoFinanciadorId;
     }
   },
   mounted() {
     departmentService.getProgramasDivision().then((response) => this.programas = response.data.data),
     departmentService.getGruposNomina().then((response) => this.gruposNomina = response.data.data)
-    departmentService.getCuentasDeBancos().then((response) => this.cuentasBanco = response.data.data.map((cuenta) => {
-      return {
-        label: `${cuenta.nombreCuenta} - ${cuenta.numeroCuenta}`,
-        value: cuenta.bancoId,
-      }
-    }))
+    departmentService.getCuentasDeBancos().then((response) => this.cuentasBanco = response.data.data)
     departmentService.getEstructurasProgramaticas().then((response) => this.estructurasProgramaticas = response.data.data)
     departmentService.getClasificadores().then((response) => {
         this.clasificadores = response.data.data.filter(clasificator => clasificator.tipo === 'DETALLE' && clasificator.origen === 'INGRESO' && clasificator?.clasifica?.toString().match(/^(1|3)/g)
@@ -280,6 +261,31 @@ export default {
         }
       });
     })
+  },
+  watch:{
+    departamento(){
+      if(this.departamento){
+          this.newDepartment = {
+          id: this.departamento?.id,
+          programaDivisionId: this.departamento.programaDivision?.id,
+          grupoNominaId: this.departamento.grupoNomina?.id,
+          nombre: this.departamento.nombre,
+          saspId: this.departamento.saspId,
+          cuentaBancoId: +this.departamento.cuentaBanco?.id,
+          estructura: this.departamento.estructura,
+          clasificadorId: this.departamento.clasificador?.id,
+          organismoFinanciadorId: this.departamento.organismoFinanciador?.id,
+          clasificadorRegaliaId: this.departamento.clasificadorRegalia?.id,
+          organismoFinanciadorRegaliaId: this.departamento.organismoFinanciadorRegalia?.id,
+          fuenteId: this.departamento.fuente?.id,
+          fuenteEspecificaId: this.departamento.fuenteEspecifica?.id,
+          fuenteRegaliaId: this.departamento.fuenteRegalia?.id,
+          fuenteEspecificaRegaliaId: this.departamento.fuenteEspecificaRegalia?.id
+        }
+
+        console.log(this.newDepartment.cuentaBancoId)
+      }
+    }
   }
 
 }
