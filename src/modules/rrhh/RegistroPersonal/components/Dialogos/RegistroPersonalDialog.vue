@@ -185,7 +185,6 @@
                     </CCol>
                   </div>
                 </div>
-
                 <div class="row mt-3">
                   <div class="col-3">
                     <CFormLabel for="sexo">Sexo</CFormLabel>
@@ -200,7 +199,6 @@
                     </CCol>
                   </div>
                 </div>
-
                 <div class="row mt-3">
                   <div class="col-3">
                     <CFormLabel for="dependientes">Dependientes</CFormLabel>
@@ -224,7 +222,6 @@
                           {{ discapacidad.configValue }}
                         </option>
                       </CFormSelect>
-
                     </CCol>
                   </div>
                 </div>
@@ -234,13 +231,10 @@
                 <CCol :md="12">
                   <CFormLabel for="fechaIngreso">Fecha ingreso</CFormLabel>
                   <CFormInput v-model="postEmpleado.fechaIngreso" type="date" id="fechaIngreso" />
-
-
                 </CCol>
                 <CCol :md="12">
                   <CFormLabel for="Recomendado">Recomendado por</CFormLabel>
                   <CFormInput type="text" id="Recomendado" v-on:keypress="onlyLetter($event)" />
-
                 </CCol>
                 <CCol :md="12">
                   <CFormLabel for="programaDivisionId">Dirección o dependencia</CFormLabel>
@@ -250,23 +244,9 @@
                       {{ programa.nombre }}
                     </option>
                   </CFormSelect>
-
                 </CCol>
-
-
-
-
-
                 <CCol>
                   <CFormLabel for="departamentoId">Departamento</CFormLabel>
-                  <!-- <CFormSelect v-model="postEmpleado.departamentoId" id="departamentoId">
-                    <option value="" disabled selected>Seleccione</option>
-                    <option v-for="departamento in departamentoList" :key="departamento.id" :value="departamento.id">
-                      {{ departamento.nombre }}
-                    </option>
-                  </CFormSelect> -->
-
-
                   <v-select required id="validationCustom03" v-model="selectedDepartamento"
                     :options="departamentoList"></v-select>
 
@@ -346,7 +326,8 @@
 
               <div class="col-3">
                 <div class="position-relative flex justify-content-center border-2 border-dark" style="height: 200px">
-                  <label class="position-absolute top-50 start-50 translate-middle fs-5 upload-label" style="font-weight: bolder;" for="">Click aqui
+                  <label class="position-absolute top-50 start-50 translate-middle fs-5 upload-label"
+                    style="font-weight: bolder;" for="">Click aqui
                     para agregar imagen</label>
                   <img class="w-75" :src="imageUrl" alt="imagen de perfil del empleado" style="opacity: 0.5;">
                   <input accept="image/png, image/jpeg" type="file" @change="saveFile"
@@ -770,7 +751,6 @@ export default {
 
     getListDepartamento() {
       Api.listDepartamento().then(({ data: { data } }) => {
-        console.log(data)
         this.departamentoList = data.map((elem) => ({
           code: elem.id,
           label: `(${elem.id})  ${elem.nombre}`,
@@ -779,7 +759,6 @@ export default {
           code: 0,
           label: 'Seleccionar',
         })
-        console.log(this.departamentoList)
       })
     },
 
@@ -827,11 +806,6 @@ export default {
       })
 
       this.getListDepartamento()
-
-      Api.listDepartamento().then(response => {
-        this.departamentoList = response.data.data
-
-      })
     },
 
 
