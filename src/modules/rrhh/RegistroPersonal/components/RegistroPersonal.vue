@@ -111,14 +111,7 @@
             >Evaluación</CDropdownItem
           >
           <CDropdownItem>Eventualidad</CDropdownItem>
-          <CDropdownItem
-            @click="
-              () => {
-                imprimirEmpleado(item)
-              }
-            "
-            >Imprimir empleado</CDropdownItem
-          >
+
           <CDropdownItem @click="getEmpleadoByID(item)"
             >Educaci&oacute;n</CDropdownItem
           >

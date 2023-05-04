@@ -215,7 +215,7 @@ export default {
         },
         {
           label: 'Cedula',
-          key: 'cedula',
+          key: 'codigoIdentidad',
         },
         {
           label: 'Dirrecion',
