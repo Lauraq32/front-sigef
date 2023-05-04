@@ -29,15 +29,12 @@ class Files {
 
   getEmployeeIdentityImage(tags) {
     return this.getFiles({ tag: tags }).then((files) => {
-      console.log(files[0].id)
       return this.getFileById(files[0].id)
     })
   }
 
   saveFile(formData) {
     return http.post(`files`, formData).then((response) => {
-      console.log(response)
-      // return URL.createObjectURL(response.data)
       return response
     })
   }

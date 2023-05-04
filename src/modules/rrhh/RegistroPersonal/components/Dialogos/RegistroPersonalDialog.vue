@@ -726,12 +726,8 @@ export default {
           formData.append('file', file)
           formData.append('empleadoId', this.empleadoId)
           formData.append('profileImage', 1)
-          fileApi.saveFile(formData).then(response => {
-
-          }).catch(console.log)
-
-
-
+          fileApi.saveFile(formData)
+            .catch(console.log)
         };
         reader.readAsDataURL(file);
 
@@ -830,7 +826,6 @@ export default {
         FileType5: '.jpeg',
         FileType6: 'jpeg',
       }).then(response => {
-        console.log(response)
         this.imageUrl = response
       }).catch(console.log)
     },
