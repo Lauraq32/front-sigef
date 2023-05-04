@@ -49,7 +49,7 @@
           </div>
           <div class="col-5 border">
             <div style="width: 100%">
-              <img style="width: 257px;" :src="imageUrl" alt="imagen Empleado" />
+              <img style="width: 257px" :src="imageUrl" alt="imagen Empleado" />
             </div>
           </div>
         </div>
@@ -126,7 +126,8 @@
   <AgregarAccionPersonalDialog
     :tipoAcciones="tipoAcciones"
     :showModalAgregarAccionPersonal="showAgregarAccionPersonalDialog"
-    @close="closeModalAgregarAccionPersonal"
+    @sendData="sendModalAgregarAccionPersonal"
+    @close="closeAgregarAccionPersonal"
     @clearModal="clearAccionPersonal"
     :accionPersonal="postAccionPersonal"
   />
@@ -186,7 +187,11 @@ export default {
       this.$emit('closeModal', false)
     },
 
-    closeModalAgregarAccionPersonal(data) {
+    closeAgregarAccionPersonal() {
+      this.showAgregarAccionPersonalDialog = false
+    },
+
+    sendModalAgregarAccionPersonal(data) {
       if (data) {
         this.submitAccionPersonal({ ...data, empleadoId: this.empleado.id })
           .then(() => {
@@ -238,7 +243,7 @@ export default {
         fechaDesde: null,
         tipoAccionId: null,
         empleadoId: this.empleado.id,
-        cantidad: null,
+        cantidad: 0,
         fechaHasta: null,
         detalle: null,
       }
