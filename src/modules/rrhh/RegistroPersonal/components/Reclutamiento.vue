@@ -3,17 +3,16 @@
 
   <div class="table-headers">
     <div class="d-inline p-2">
-      <CButton color="info" @click="
-        () => {
+      <CButton color="info" @click="() => {
           showReclutamientoModal = true
         }
-      ">Agregar</CButton>
+        ">Agregar</CButton>
     </div>
   </div>
   <CSmartTable class="sticky-top" clickableRows :tableProps="{
-    striped: true,
-    hover: true,
-  }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header :items="solicitudItem" :columns="columns"
+      striped: true,
+      hover: true,
+    }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header :items="solicitudItem" :columns="columns"
     columnFilter itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
     pagination>
     <template #show_details="{ item, index }">
@@ -24,7 +23,7 @@
     </template>
     <template #entrevistado="{ item, index }">
       <td class="py-2">
-        {{ item.entrevistado  ? 'Si' : 'No' }}
+        {{ item.entrevistado ? 'Si' : 'No' }}
       </td>
     </template>
     <template #evaluado="{ item, index }">
@@ -131,6 +130,7 @@ export default {
             color: 'danger'
           })
         })
+
       } else {
         Api.postSolicitudEmpleo(payload).then(response => {
           this.show({
@@ -147,11 +147,12 @@ export default {
           })
         })
       }
-
+      this.solicitudEmpleoId = null
 
     },
     closeModal() {
       this.showReclutamientoModal = false;
+      this.solicitudEmpleoId = null
     },
     getBadge(status) {
       switch (status) {

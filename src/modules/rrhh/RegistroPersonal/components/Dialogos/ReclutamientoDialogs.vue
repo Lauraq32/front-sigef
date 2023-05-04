@@ -76,7 +76,7 @@
                   <CCol :md="12">
                     <CFormLabel for="displayNameProfesion">Profesión</CFormLabel>
                     <div class="position-relative">
-                      <input v-model="displayNameProfesion" ref="name" required class="form-control padding-input"
+                      <input v-model="displayNameProfesion" ref="name" disabled required class="form-control padding-input"
                         type="text" id="displayNameProfesion" />
                       <span class="position-absolute icon-input">
                         <CIcon icon="cisSearch" size="xl" v-on:click="openProfesionModal" />
@@ -323,9 +323,7 @@ export default {
     getSolicitudEmpleoById(id) {
       Api.getByIdSolicitudEmpleo(id).then((response) => {
         this.solicitudEmpleo = { ...response.data.data }
-        this.solicitudEmpleo.descalificado = response.data.data.descalificado ? 'Si' : 'No'
-        this.solicitudEmpleo.evaluado = response.data.data.evaluado ? 'Si' : 'No'
-        this.solicitudEmpleo.entrevistado = response.data.data.entrevistado ? 'Si' : 'No'
+
         profesionesApi.getProfesionesById(this.solicitudEmpleo.profesionId).then(response => {
           this.displayNameProfesion = response.data.data.name
         })
@@ -335,8 +333,10 @@ export default {
   },
   watch: {
     solicitudEmpleoId(item) {
-      console.log(item.profesionId)
       this.solicitudEmpleo = item
+              this.solicitudEmpleo.descalificado = item.descalificado ? 'Si' : 'No'
+        this.solicitudEmpleo.evaluado = item.evaluado ? 'Si' : 'No'
+        this.solicitudEmpleo.entrevistado = item.entrevistado ? 'Si' : 'No'
       ProfesionesServices.getProfesionesById(item.profesionId).then(response => {
         this.displayNameProfesion = response.data.data.name
       })
