@@ -1,5 +1,6 @@
 <template>
   <CModal
+    backdrop="static"
     size="lg"
     :visible="showModal"
     @close="
@@ -10,7 +11,7 @@
     style="width: 25%"
   >
     <CModalHeader>
-      <CModalTitle>Movimiento de inventario</CModalTitle>
+      <CModalTitle>Movimiento de Inventario</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CForm
@@ -20,7 +21,7 @@
       >
         <CCardBody class="mx-4">
           <CCol class="row">
-            <CFormLabel for="validationCustom01">Util Laboral</CFormLabel>
+            <CFormLabel for="validationCustom01">Útil Laboral</CFormLabel>
             <v-select
               required
               id="validationCustom01"
@@ -191,7 +192,7 @@ export default {
     clearEventos() {
       this.postEvento = {
         utilId: 0,
-        fecha: null,
+        fecha: new Date(),
         cantidad: 1,
         tipo: null,
         empleadoId: 0,

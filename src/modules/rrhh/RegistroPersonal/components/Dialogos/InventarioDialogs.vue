@@ -1,5 +1,6 @@
 <template>
   <CModal
+    backdrop="static"
     :visible="showModal"
     @close="
       () => {

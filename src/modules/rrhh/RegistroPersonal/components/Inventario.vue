@@ -77,6 +77,7 @@
   />
 
   <UtilesLaboralesDialog
+    :utilesInventatio="utilesInventatio"
     :showModal="showAgregarCantidad"
     :inventario="inventarioById"
     @closeModal="closeModal"
@@ -117,6 +118,7 @@ export default {
       inventario: [],
       utils: [],
       inventarioById: {},
+      utilesInventatio: [],
       validatedCustom01: null,
       showInventario: false,
       showAgregarCantidad: false,
@@ -124,9 +126,9 @@ export default {
       showEvento: false,
 
       columns: [
-        { key: 'descripcion', label: 'Descripción', _style: { width: '70%' } },
+        { key: 'descripcion', label: 'Descripción', _style: { width: '60%' } },
         { key: 'tipo', label: 'Tipo', _style: { width: '20%' } },
-        { key: 'cantidad', label: 'Existencia', _style: { width: '5%' } },
+        { key: 'cantidad', label: 'Existencia', _style: { width: '15%' } },
         {
           key: 'show_details',
           label: '',
@@ -169,12 +171,14 @@ export default {
     showModalUtilsLaboral(item) {
       this.showAgregarCantidad = true
       this.id = item.id
+      this.getUtilesInventario(this.id)
     },
 
     saveUtilesLaborales(payload) {
       Api.postInventarioById(this.id, payload)
         .then((response) => {
           setTimeout(this.getInventario, 500)
+          setTimeout(this.getUtilesInventario(this.id), 500)
           this.show({
             content: response.data,
             closable: true,
@@ -197,6 +201,7 @@ export default {
             content: 'Registro añadido correctamente',
             closable: true,
           })
+          this.showEvento = false
         })
         .catch((error) => {
           this.show({
@@ -207,8 +212,6 @@ export default {
           })
         })
     },
-
-    
 
     saveInventario(payload) {
       Api.postInventario(payload)
@@ -245,6 +248,7 @@ export default {
 
     getUtilInventario(item) {
       Api.getInventarioById(item.id).then(({ data: { data } }) => {
+        this.utilesInventatio = data
         this.utils = data.map((elem) => ({
           code: elem.id,
           label: `(${elem.id})  ${elem.descripcion}`,
@@ -253,6 +257,12 @@ export default {
           code: 0,
           label: 'Seleccionar',
         })
+      })
+    },
+
+    getUtilesInventario(item) {
+      Api.getInventarioById(item).then(({ data: { data } }) => {
+        this.utilesInventatio = data
       })
     },
   },

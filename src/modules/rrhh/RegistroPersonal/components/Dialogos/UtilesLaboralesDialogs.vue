@@ -16,13 +16,13 @@
       <div class="d-flex justify-content-center align-items-center">
         <CCard class="w-75">
           <CCardBody>
-            <div class="mb-4 mx-4">
-              <h5>Inventario</h5>
+            <div class="mb-4 mx-4 d-flex justify-content-center">
+              <h4>Inventario</h4>
             </div>
 
             <div class="row mx-3">
               <div class="col-6">
-                <h5>Descripción</h5>
+                <h5>Descripción:</h5>
               </div>
               <div class="col-6">
                 <h6>{{ inventario.descripcion }}</h6>
@@ -68,6 +68,7 @@
               required
               v-model="postInventarioCantidad.autorizadoPor"
               id="validationCustom02"
+              v-on:keypress="onlyLetter($event)"
             >
             </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -92,7 +93,7 @@
           </CCol>
 
           <CCol>
-            <CFormLabel for="validationCustom04">Fecha:</CFormLabel>
+            <CFormLabel for="validationCustom04">Fecha</CFormLabel>
             <CFormInput
               id="validationCustom04"
               required
@@ -115,6 +116,39 @@
           </CCol>
         </CForm>
       </CCardBody>
+
+      <CSmartTable
+        class="sticky-tops"
+        clickableRows
+        :tableProps="{
+          striped: true,
+          hover: true,
+        }"
+        :tableHeadProps="{}"
+        :activePage="1"
+        :footer="footerItem"
+        header
+        :items="utilesInventatio"
+        :columns="columns"
+        columnFilter
+        itemsPerPageSelect
+        :itemsPerPage="5"
+        columnSorter
+        :sorterValue="{ column: 'descripcion', state: 'asc' }"
+        pagination
+      >
+        <template #fecha="{ item }">
+          <td>
+            {{ formatDate(item.fecha) }}
+          </td>
+        </template>
+
+        <template #cantidad="{ item }">
+          <td class="text-end">
+            {{ formatNumber(item.cantidad) }}
+          </td>
+        </template>
+      </CSmartTable>
     </CModalBody>
 
     <CModalFooter>
@@ -139,6 +173,9 @@
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import { formatDate } from '@/utils/format'
+import { formatNumber } from '@/utils/format'
+import { onlyLetter } from '@/utils/validator'
 
 export default {
   name: 'UtilesLaborales',
@@ -148,6 +185,9 @@ export default {
   },
   data: () => {
     return {
+      formatDate,
+      formatNumber,
+      onlyLetter,
       postInventarioCantidad: {
         fecha: new Date(),
         observacion: null,
@@ -156,6 +196,12 @@ export default {
         Descripción: null,
       },
       isFormEventTypeValidated: false,
+
+      columns: [
+        { key: 'id', label: 'Código', _style: { width: '40%' } },
+        { key: 'descripcion', label: 'Descripción', _style: { width: '40%' } },
+        { key: 'cantidad', label: 'Cantidad', _style: { width: '20%' } },
+      ],
     }
   },
 
@@ -206,7 +252,9 @@ export default {
         return date.toISOString().split('T')[0]
       },
       set(value) {
-        return (this.postInventarioCantidad.fecha = new Date(`${value}T00:00:00`))
+        return (this.postInventarioCantidad.fecha = new Date(
+          `${value}T00:00:00`,
+        ))
       },
     },
   },
@@ -218,6 +266,19 @@ export default {
       default: {},
       required: true,
     },
+    utilesInventatio: {
+      type: Array,
+      default: [],
+      required: true,
+    },
   },
 }
 </script>
+
+<style>
+.sticky-tops thead {
+  position: sticky;
+  top: 0px;
+  background-color: white;
+}
+</style>
