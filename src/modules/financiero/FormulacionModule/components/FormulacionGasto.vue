@@ -217,6 +217,15 @@ export default {
               });
               this.loadData();
             })
+            .catch(({response}) => {
+              this.show({
+                content: response.data,
+                closable: true,
+                time: 15_000,
+                color: 'danger',
+                class: 'text-white',
+              });
+            })
           } else {
             this.show({
                 content: 'No se encontraron registros',
@@ -344,6 +353,15 @@ export default {
                 closable: true,
               })
               this.loadData();
+            })
+            .catch(error => {
+              this.show({
+                content: error.response.data,
+                closable: true,
+                color: 'danger',
+                class: 'text-white',
+                time: 15_000
+              })
             })
           } else {
             this.show({

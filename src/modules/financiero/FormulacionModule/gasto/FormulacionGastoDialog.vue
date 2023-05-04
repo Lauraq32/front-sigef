@@ -476,13 +476,6 @@ const onDeleteDetalle = (item) => {
         confirmButtonText: 'Si, Eliminar!',
     }).then((result) => {
         if (result.isConfirmed) {
-            const index = props.formulacionGasto.detallePresGastos.findIndex(x => (
-                Number(x.ctgClasificadorId) === Number(item.ctgClasificadorId)
-                && Number(x.ctgFuenteId) === Number(item.ctgFuenteId)
-                && Number(x.ctgFuenteEspecificaId) === Number(item.ctgFuenteEspecificaId)
-                && Number(x.ctgOrganismoFinanciadorId) === Number(item.ctgOrganismoFinanciadorId)
-            ));
-
             props.formulacionGasto.detallePresGastos =  props.formulacionGasto.detallePresGastos.filter(x => !(
                 Number(x.ctgClasificadorId) === Number(item.ctgClasificadorId)
                 && Number(x.ctgFuenteId) === Number(item.ctgFuenteId)
