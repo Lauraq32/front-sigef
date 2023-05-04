@@ -19,7 +19,12 @@
         </div>
       </div>
 
-      <div class="mt-1 gridy">
+      <div class="row mt-3">
+        <h6 class="col-6">Datos Generales:</h6>
+        <h6 class="col-6">Datos Laborales:</h6>
+      </div>
+
+      <div class="gridy">
         <div class="w-100 h-100 p-3 border border-dark">
           <div class="row" v-for="(data, index) in datosGenerales" :key="index">
             <div class="col-6 fw-bold">
@@ -47,7 +52,12 @@
         </div>
       </div>
 
-      <div class="mt-1 gridy">
+      <div class="row mt-3">
+        <h6 class="col-6">En Caso de Emergencia Comunicarse con:</h6>
+        <h6 class="col-6">Niveles de Presión Alterial:</h6>
+      </div>
+
+      <div class="gridy">
         <div class="w-100 h-100 p-3 border border-dark">
           <div
             class="row"
@@ -121,14 +131,27 @@ export default {
           label: 'Area',
           key: 'areaTrabajo.descripcion',
         },
+
+        {
+          label: 'Cargo',
+          key: 'posicion.nombre',
+        },
+
         {
           label: 'Turno',
           key: 'turno',
         },
+
         {
           label: 'Tipo Cobro',
+          key: 'periodoPago',
+        },
+
+        {
+          label: 'Tipo Pago',
           key: 'formaPago',
         },
+
         {
           label: 'Sueldo Bruto',
           key: 'sueldo',
@@ -172,11 +195,11 @@ export default {
 
       datosPresionAlterial: [
         {
-          label: 'Presion Alta',
+          label: 'Presión Alta',
           key: 'emergenciaPresionAlta',
         },
         {
-          label: 'Presion Baja',
+          label: 'Presión Baja',
           key: 'emergenciaPresionBaja',
         },
         {
@@ -236,7 +259,7 @@ export default {
         },
         {
           label: 'Lugar Nacimiento',
-          key: 'lugarNacimient',
+          key: 'lugarNacimiento',
         },
         {
           label: 'Est. Civil',
@@ -254,7 +277,6 @@ export default {
   },
 
   methods: {
-
     imprimir() {
       window.print()
     },
