@@ -74,6 +74,7 @@
       </div>
 
       <CSmartTable
+        class="sticky-tops"
         style="margin-top: 10px"
         clickableRows
         :tableProps="{
@@ -91,6 +92,12 @@
         columnSorter
         pagination
       >
+        <template #cambiaStatus="{ item }">
+          <td>
+            {{ item.cambiaStatus ? 'Si' : 'No' }}
+          </td>
+        </template>
+
         <template #show_details="{ item }">
           <td class="py-1">
             <CButton
@@ -273,3 +280,11 @@ export default {
   },
 }
 </script>
+
+<style>
+.sticky-tops thead {
+  position: sticky;
+  top: 0px;
+  background-color: white;
+}
+</style>

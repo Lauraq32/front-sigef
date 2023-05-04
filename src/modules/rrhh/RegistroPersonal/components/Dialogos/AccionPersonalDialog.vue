@@ -17,7 +17,7 @@
         <div class="row">
           <div class="col-7">
             <div class="row mt-4 mx-3">
-              <div class="col-4 col-label">Nombres:</div>
+              <div class="col-4 col-label">Nombre:</div>
               <div class="col-8">
                 <h6>{{ empleado.nombres }}</h6>
               </div>
@@ -47,18 +47,13 @@
               </div>
             </div>
           </div>
-          <div class="col-5">
-            <div style="margin-top: 9px; width: 264px; height: 300px">
-              <div class="border" style="height: 200px">
-                <img
-                  style="max-width: 100%"
-                  :src="imageUrl"
-                  alt="imagen Empleado"
-                />
-              </div>
+          <div class="col-5 border">
+            <div style="width: 100%">
+              <img style="width: 257px;" :src="imageUrl" alt="imagen Empleado" />
             </div>
           </div>
         </div>
+
         <div class="row">
           <div class="d-flex flex-row-reverse">
             <button
@@ -76,6 +71,7 @@
       </CCardBody>
 
       <CSmartTable
+        class="sticky-tops"
         style="margin-top: 10px"
         clickableRows
         :tableProps="{
@@ -195,6 +191,7 @@ export default {
         this.submitAccionPersonal({ ...data, empleadoId: this.empleado.id })
           .then(() => {
             this.loadData()
+            this.showAgregarAccionPersonalDialog = false
           })
           .catch(({ response }) => {
             this.show({
@@ -203,8 +200,9 @@ export default {
               color: 'danger',
             })
           })
+
+        this.showAgregarAccionPersonalDialog = false
       }
-      this.showAgregarAccionPersonalDialog = false
     },
 
     getAccionesPersonalById(item) {
@@ -281,3 +279,11 @@ export default {
   },
 }
 </script>
+
+<style>
+.sticky-tops thead {
+  position: sticky;
+  top: 0px;
+  background-color: white;
+}
+</style>

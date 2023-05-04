@@ -20,12 +20,18 @@
             </div>
             <div class="col-9 col-md-6">
               <CFormInput
+                v-on:change="validarFecha"
                 required
                 id="validationCustom01"
                 v-model="fechaDesde"
                 type="date"
               />
-              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              <CFormFeedback
+                invalid
+                :style="{ display: isLowerSelectedInitDate ? 'flex' : 'none' }"
+              >
+                La fecha no puede ser menor a la fecha actual
+              </CFormFeedback>
             </div>
           </div>
 
@@ -57,10 +63,10 @@
             </div>
             <div class="col-9 col-md-6">
               <VueNumberFormat
+                v-on:change="validarCantidad"
                 id="validationCustom03"
                 v-model:value="postAccionPersonal.cantidad"
                 class="form-control"
-                :format="'0'"
                 :options="{
                   precision: 0,
                   prefix: '',
@@ -69,7 +75,14 @@
                 }"
               >
               </VueNumberFormat>
-              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              <CFormFeedback
+                invalid
+                :style="{
+                  display: postAccionPersonal.cantidad == 0 ? 'flex' : 'none',
+                }"
+              >
+                La cantidad no puede ser 0
+              </CFormFeedback>
             </div>
           </div>
 
@@ -140,11 +153,13 @@ export default {
       postAccionPersonal: {
         fechaDesde: null,
         tipoAccionId: null,
-        cantidad: null,
+        cantidad: 0,
         fechaHasta: null,
         detalle: null,
       },
       isFormEventTypeValidated: false,
+      isLowerSelectedInitDate: false,
+      isZeroEqualZero: false,
     }
   },
 
@@ -204,10 +219,22 @@ export default {
     },
     sendData() {
       this.isFormEventTypeValidated = false
-      if (this.$refs.eventTypeForm.$el.checkValidity()) {
+      if (
+        this.$refs.eventTypeForm.$el.checkValidity() &&
+        !this.isLowerSelectedInitDate &&
+        this.postAccionPersonal.cantidad > 0
+      ) {
         return this.saveDataAccionPersonal({ ...this.postAccionPersonal })
       }
       this.isFormEventTypeValidated = true
+    },
+
+    validarFecha() {
+      const fechaInput = new Date(this.postAccionPersonal.fechaDesde)
+      const fechaActual = new Date()
+      if (fechaInput < fechaActual) {
+        this.isLowerSelectedInitDate = true
+      }
     },
   },
 
