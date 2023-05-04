@@ -49,7 +49,7 @@
           </div>
           <div class="col-5 border">
             <div style="width: 100%">
-              <img style="width: 257px" :src="imageUrl" alt="imagen Empleado" />
+              <img :src="imageUrl" alt="imagen Empleado" />
             </div>
           </div>
         </div>
