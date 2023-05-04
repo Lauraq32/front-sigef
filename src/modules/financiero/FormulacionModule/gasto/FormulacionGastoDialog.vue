@@ -54,7 +54,7 @@
                     </CCol>
                     <CCol :md="3">
                         <CFormLabel for="formulacionGasto.mestprogId">Est. Programática control</CFormLabel>
-                        <CFormInput disabled v-model="formulacionGasto.estructuraProgramaticaControl" id="formulacionGasto.mestprogId">
+                        <CFormInput disabled v-model="formulacionGasto.estControl" id="formulacionGasto.mestprogId">
                         </CFormInput>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
@@ -392,8 +392,10 @@ const footerItems = ref([
 watchEffect(() => {
     props.formulacionGasto.mestprogId = `${props.formulacionGasto.pnap ?? ''}${props.formulacionGasto.programa ?? ''}${
         props.formulacionGasto.proyecto ?? ''}${props.formulacionGasto.actObra ?? ''}`;
-    props.formulacionGasto.estructuraProgramaticaControl = `${props.formulacionGasto.pnap ?? ''}${props.formulacionGasto.programa ?? ''}${
-            props.formulacionGasto.proyecto ?? ''}0000`;
+    props.formulacionGasto.estControl = `${props.formulacionGasto.pnap ?? ''}${props.formulacionGasto.programa ?? ''}${
+            props.formulacionGasto.proyecto ?? ''}`;
+    props.formulacionGasto.estControl = 
+        props.formulacionGasto.estControl ? `${props.formulacionGasto.estControl}0000` : '';
 
     if (props.isVisible && props.formulacionGasto.id) {
         Api.getDetalle(props.formulacionGasto.id).then((response) => {
@@ -407,7 +409,7 @@ watchEffect(() => {
         .then((response) => {
             props.formulacionGasto.nombre = response.data?.data?.nombre ?? props.formulacionGasto.nombre;
             props.formulacionGasto.unidadResp = response.data?.data?.unidadRespon ?? props.formulacionGasto.unidadResp;
-            props.formulacionGasto.estructuraProgramaticaControl = response.data?.data?.ccontrol ?? props.formulacionGasto.estructuraProgramaticaControl;
+            props.formulacionGasto.estControl = response.data?.data?.ccontrol ?? props.formulacionGasto.estControl;
         });
     }
 
@@ -501,6 +503,9 @@ const closeDialog = (data) => {
 const guardarFormulacionGasto = () => {
     isFormValidated.value = false;
     if (formulacionForm.value?.$el.checkValidity()) {
+        props.formulacionGasto.ayuntamientoId = getAyuntamientoId();
+        props.formulacionGasto.anioFiscalId = getFiscalYearId();
+
         closeDialog(props.formulacionGasto);
     } else {
         isFormValidated.value = true;
