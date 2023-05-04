@@ -35,7 +35,7 @@
 
   </CSmartTable>
   <ReclutamientoDialog :showModal="showReclutamientoModal" @closeModal="closeModal"
-    @post-reclutamiento="saveSolicitudEmpleo" :solicitudEmpleoId="reclutamientoId" />
+    @post-reclutamiento="saveSolicitudEmpleo" :solicitudEmpleoId="reclutamiento" />
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
@@ -169,7 +169,7 @@ export default {
     },
     getReclutamientoById(item) {
       this.solicitudEmpleoId = item.id
-      this.reclutamientoId = item
+      this.reclutamiento = item
       this.showReclutamientoModal = true
     },
 
