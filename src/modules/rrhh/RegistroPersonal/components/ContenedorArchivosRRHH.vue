@@ -29,7 +29,7 @@
         </CSmartTable>
       </CModalBody>
     </CModal>
-    <CModal backdrop="static" size="md" :visible="smDemo" @close="() => { smDemo = false }">
+    <CModal backdrop="static" size="md" :visible="smDemo" @close="CloseSecondModal">
       <CModalHeader>
         <CModalTitle>Agregar Documentos</CModalTitle>
       </CModalHeader>
@@ -51,6 +51,7 @@
         </CForm>
       </CModalBody>
       <CModalFooter>
+        <CButton color="info" @click="CloseSecondModal">Cerrar</CButton>
         <CButton color="info" @click="sendData">Guardar</CButton>
       </CModalFooter>
     </CModal>
@@ -66,6 +67,8 @@ import { CSmartTable, CButton, CCollapsePlugin, CForm } from '@coreui/vue-pro'
 import { CIcon } from '@coreui/icons-vue'
 import DropZone from "@/components/DropZone.vue"
 import { formatDate } from "@/utils/format";
+import { useToastStore } from '@/store/toast'
+import { mapActions } from 'pinia'
 
 export default {
   components: {
@@ -93,6 +96,17 @@ export default {
       typeDocument: '',
       fileName: '',
       fileDescription: '',
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
+      ],
       isFormEventTypeValidated: false,
       optionsSelect: [
         "Documento Personal",
@@ -129,8 +143,13 @@ export default {
     }
   },
   methods: {
+    ...mapActions(useToastStore, ['show']),
     CloseModal() {
       this.$emit('closeModal', false)
+    },
+    CloseSecondModal() {
+      this.smDemo = false;
+      this.clearForm();
     },
     sendData() {
       this.isFormEventTypeValidated = false
@@ -150,11 +169,21 @@ export default {
         Api.postFiles(formData).then(() => {
           this.getFileById(this.empleado.id)
           this.dropzoneFile = null;
+          this.show({
+            content: "Imagen Guardado con exito",
+            closable: true,
+          });
+          this.clearForm();
         }).catch((e) => console.log('error', e))
       }
     },
     onClick() {
       this.$emit('custom-event', false)
+    },
+    clearForm(){
+      this.fileName = '';
+      this.fileDescription = '';
+      this.dropzoneFile = null;
     },
     handleFileChange(event) {
       this.filedata = event.target.files[0]
@@ -165,14 +194,14 @@ export default {
     getFileById(id) {
       Api.getFileById(id).then((response) => {
         this.documentos = response.data.data
+        this.footerItem[0].label = `Total Items ${this.documentos.length}`
       })
     },
     seeImage(id){
       ApiFile.getFileById(id).then((response) => {
-        console.log(response);
         window.open(response, "_blank")
       })
-    }
+    },
   },
   setup() {
     let dropzoneFile = ref("");
