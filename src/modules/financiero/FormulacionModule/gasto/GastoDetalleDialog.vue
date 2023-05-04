@@ -317,7 +317,7 @@ import ClasificadorSelectorDialog from '../components/ClasificadorSelectorDialog
 import CurrencyInput from '@/utils/CurrencyInput.vue'
 import { CCol } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
-import { computed, ref } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import { formatPrice } from '@/utils/format';
 import { onlyDecimal } from '@/utils/validator';
 
@@ -364,7 +364,7 @@ export default {
 
     const guardarDetalleGasto = () => {
       isFormValidated.value = false;
-      if (detailForm.value?.$el.checkValidity()) {
+      if (detailForm.value?.$el?.checkValidity()) {
         if (props.detalle.presupuestoBco1 === '') {
           props.detalle.presupuestoBco1 = 0;
         }
@@ -390,6 +390,7 @@ export default {
         );
 
         closeDialog({ ...props.detalle });
+        detailForm.value?.$el?.querySelector("#clasificator")?.focus();
       } else {
         isFormValidated.value = true;
       }
@@ -412,6 +413,12 @@ export default {
     const toggleFields = () => {
       isFieldEditable.value = !isFieldEditable.value
     }
+
+    watchEffect(() => {
+      if (props.isVisible) {
+        detailForm.value?.$el?.querySelector("#clasificator")?.focus();
+      }
+    });
 
     return {
       setValueButtonGasto,

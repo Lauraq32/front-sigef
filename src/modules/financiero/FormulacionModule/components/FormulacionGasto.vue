@@ -329,10 +329,10 @@ export default {
               sumTotalVariacion: 0,
             })
           })
-          pregastoMasivo.map((item) => {
+          pregastoMasivo.forEach((item) => {
             Api.getEstruturaProgramaticaById(item.mestProgId).then(
               (response) => {
-                item.nombre = response.data.data.nombre
+                item.nombre = response.data.data?.nombre ?? '';
               },
             )
           })
@@ -340,11 +340,11 @@ export default {
           if (pregastoMasivo.length) {
             Api.postCargaMasivaDetalle(pregastoMasivo).then(() => {
               this.show({
-                content: 'Registro añadido correctamente',
+                content: 'Registros añadido correctamente',
                 closable: true,
               })
+              this.loadData();
             })
-            this.loadData();
           } else {
             this.show({
                 content: 'No se encontraron registros',
@@ -506,7 +506,6 @@ export default {
   },
   inject: ['LoginInfo'],
   mounted() {
-    console.log(this.LoginInfo)
     this.loadData();
   },
   watch: {

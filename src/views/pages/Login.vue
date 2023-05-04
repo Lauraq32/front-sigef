@@ -11,7 +11,7 @@
               <CCardBody>
                 <CCardTitle class="text-center">Iniciar Sesi&oacute;n</CCardTitle>
                 <CForm
-                  @submit="handleAuth"
+                  @submit.prevent="handleAuth"
                   class="mt-4"
                 >
                   <CInputGroup class="mb-3">
@@ -121,6 +121,8 @@ export default {
           this.isLoading = false;
           this.msg = error.response.data.message ?? error.response.data.data;
         });
+      
+      return false;
     },
     goHome() {
       this.AuthStore.setLoginInfo(this.loginInfo);

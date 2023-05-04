@@ -392,6 +392,8 @@ const footerItems = ref([
 watchEffect(() => {
     props.formulacionGasto.mestprogId = `${props.formulacionGasto.pnap ?? ''}${props.formulacionGasto.programa ?? ''}${
         props.formulacionGasto.proyecto ?? ''}${props.formulacionGasto.actObra ?? ''}`;
+    props.formulacionGasto.estructuraProgramaticaControl = `${props.formulacionGasto.pnap ?? ''}${props.formulacionGasto.programa ?? ''}${
+            props.formulacionGasto.proyecto ?? ''}0000`;
 
     if (props.isVisible && props.formulacionGasto.id) {
         Api.getDetalle(props.formulacionGasto.id).then((response) => {
@@ -403,9 +405,9 @@ watchEffect(() => {
     if (props.isVisible && props.formulacionGasto.mestprogId && props.formulacionGasto.mestprogId.length >= 10) {
         Api.getEstruturaProgramaticaById(props.formulacionGasto.mestprogId)
         .then((response) => {
-            props.formulacionGasto.nombre = response.data?.data?.nombre ?? '';
-            props.formulacionGasto.unidadResp = response.data?.data?.unidadRespon ?? '';
-            props.formulacionGasto.estructuraProgramaticaControl = response.data?.data?.ccontrol ?? '';
+            props.formulacionGasto.nombre = response.data?.data?.nombre ?? props.formulacionGasto.nombre;
+            props.formulacionGasto.unidadResp = response.data?.data?.unidadRespon ?? props.formulacionGasto.unidadResp;
+            props.formulacionGasto.estructuraProgramaticaControl = response.data?.data?.ccontrol ?? props.formulacionGasto.estructuraProgramaticaControl;
         });
     }
 
@@ -420,11 +422,10 @@ const onDetailDialogClose = (data) => {
     if (data) {
         const {editing, ...rest} = data;
         const index = props.formulacionGasto.detallePresGastos.findIndex(x => (
-            x.ctgClasificadorId === rest.ctgClasificadorId
-            && x.cControl === rest.cControl
-            && x.ctgFuenteId === rest.ctgFuenteId
-            && x.ctgFuenteEspecificaId === rest.ctgFuenteEspecificaId
-            && x.ctgOrganismoFinanciadorId === rest.ctgOrganismoFinanciadorId
+            Number(x.ctgClasificadorId) === Number(rest.ctgClasificadorId)
+            && Number(x.ctgFuenteId) === Number(rest.ctgFuenteId)
+            && Number(x.ctgFuenteEspecificaId) === Number(rest.ctgFuenteEspecificaId)
+            && Number(x.ctgOrganismoFinanciadorId) === Number(rest.ctgOrganismoFinanciadorId)
         ));
 
         if (editing) {
@@ -437,6 +438,7 @@ const onDetailDialogClose = (data) => {
                     time: 10_000,
                     color: 'danger',
                     class: 'text-white',
+                    closable: true
                 });
             }
             props.formulacionGasto.detallePresGastos.push(rest);
@@ -465,7 +467,7 @@ const onDeleteDetalle = (item) => {
         allowOutsideClick: false,
         title: 'Estás seguro que deseas eliminar este registro?',
         text: 'No podrás revertirlo',
-        icon: 'Confirmación',
+        icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
@@ -473,14 +475,18 @@ const onDeleteDetalle = (item) => {
     }).then((result) => {
         if (result.isConfirmed) {
             const index = props.formulacionGasto.detallePresGastos.findIndex(x => (
-                x.ctgClasificadorId === item.ctgClasificadorId
-                && x.cControl === item.cControl
-                && x.ctgFuenteId === item.ctgFuenteId
-                && x.ctgFuenteEspecificaId === item.ctgFuenteEspecificaId
-                && x.ctgOrganismoFinanciadorId === item.ctgOrganismoFinanciadorId
+                Number(x.ctgClasificadorId) === Number(item.ctgClasificadorId)
+                && Number(x.ctgFuenteId) === Number(item.ctgFuenteId)
+                && Number(x.ctgFuenteEspecificaId) === Number(item.ctgFuenteEspecificaId)
+                && Number(x.ctgOrganismoFinanciadorId) === Number(item.ctgOrganismoFinanciadorId)
             ));
 
-            props.formulacionGasto.detallePresGastos.splice(index, 1);
+            props.formulacionGasto.detallePresGastos =  props.formulacionGasto.detallePresGastos.filter(x => !(
+                Number(x.ctgClasificadorId) === Number(item.ctgClasificadorId)
+                && Number(x.ctgFuenteId) === Number(item.ctgFuenteId)
+                && Number(x.ctgFuenteEspecificaId) === Number(item.ctgFuenteEspecificaId)
+                && Number(x.ctgOrganismoFinanciadorId) === Number(item.ctgOrganismoFinanciadorId)
+            ));
             calculateTotals(props.formulacionGasto.detallePresGastos);
         }
     });
@@ -506,14 +512,14 @@ function calculateTotals(detalles) {
     const totalAmountGPersonal      = detalles.reduce((acc, detail) => acc + detail.presupuestoBco1, 0);
     const totalAmountServicio       = detalles.reduce((acc, detail) => acc + detail.presupuestoBco2, 0);
     const totalAmountInversion      = detalles.reduce((acc, detail) => acc + detail.presupuestoBco3, 0);
-    const totalAmountEdiGenero      = detalles.reduce((acc, detail) => acc + detail.presupuestoBco4, 0);
+    const totalAmountEduGenero      = detalles.reduce((acc, detail) => acc + detail.presupuestoBco4, 0);
 
     footerItems.value[0].label = `Total Items ${detalles.length}`;
     footerItems.value[2].label = formatPrice(totalAmountPresupuesto);
     footerItems.value[3].label = formatPrice(totalAmountGPersonal);
     footerItems.value[4].label = formatPrice(totalAmountServicio);
     footerItems.value[5].label = formatPrice(totalAmountInversion);
-    footerItems.value[6].label = formatPrice(totalAmountEdiGenero);
+    footerItems.value[6].label = formatPrice(totalAmountEduGenero);
 }
 
 </script>
