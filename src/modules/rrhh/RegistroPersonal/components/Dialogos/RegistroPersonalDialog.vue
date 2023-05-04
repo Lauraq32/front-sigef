@@ -52,7 +52,8 @@
                   </div>
                   <div class="col-9">
                     <CCol :md="12">
-                      <CFormInput ref="name" type="text" class="form-control" v-model="postEmpleado.codigo" id="codigo" :maxlength="9"/>
+                      <CFormInput ref="name" type="text" class="form-control" v-model="postEmpleado.codigo" id="codigo"
+                        :maxlength="9" />
                     </CCol>
                   </div>
                 </div>
@@ -258,12 +259,16 @@
 
                 <CCol>
                   <CFormLabel for="departamentoId">Departamento</CFormLabel>
-                  <CFormSelect v-model="postEmpleado.departamentoId" id="departamentoId">
+                  <!-- <CFormSelect v-model="postEmpleado.departamentoId" id="departamentoId">
                     <option value="" disabled selected>Seleccione</option>
                     <option v-for="departamento in departamentoList" :key="departamento.id" :value="departamento.id">
                       {{ departamento.nombre }}
                     </option>
-                  </CFormSelect>
+                  </CFormSelect> -->
+
+
+                  <v-select required id="validationCustom03" v-model="selectedDepartamento"
+                    :options="departamentoList"></v-select>
 
                 </CCol>
 
@@ -339,10 +344,16 @@
 
               </div>
 
-              <div class="col-2" style="margin-top: 9px; width: 264px; height: 500px">
-                <div class="border" style="height: 40%"></div>
-                <h4>Guardar Imagen</h4>
-                <h4>Abrir Carpeta</h4>
+              <div class="col-3">
+                <div class="position-relative flex justify-content-center border-2 border-dark" style="height: 200px">
+                  <label class="position-absolute top-50 start-50 translate-middle fs-5 upload-label" style="font-weight: bolder;" for="">Click aqui
+                    para agregar imagen</label>
+                  <img class="w-75" :src="imageUrl" alt="imagen de perfil del empleado" style="opacity: 0.5;">
+                  <input accept="image/png, image/jpeg" type="file" @change="saveFile"
+                    class="position-absolute top-50 start-50 translate-middle input-wrapper w-100 h-100 opacity-0" />
+
+                </div>
+
               </div>
             </div>
           </CTabPane>
@@ -509,7 +520,7 @@
           </CTabPane>
           <CTabPane role="tabpanel" aria-labelledby="profile-tab" :visible="tabPaneActiveKey === 5">
             <div class="row">
-              <CCol :md="8">
+              <CCol :md="12">
 
 
                 <CCol :md="6">
@@ -563,12 +574,7 @@
 
                 </CCol>
               </CCol>
-              <CCol :md="4">
-                <div class="border" style="width: 100%; height: 40%;">
 
-                </div>
-                <button class="btn btn-primary mt-3">Guardar imagen</button>
-              </CCol>
             </div>
           </CTabPane>
         </CTabContent>
@@ -593,17 +599,28 @@ import moment from 'moment'
 import Api from '../../services/RegistroPersonalServices'
 import apiSectores from '../../../../financiero/NominaModule/services/NominaServices'
 import configuraciones from '@/utils/configuraciones'
-import {onlyLetter,onlyNumber } from '@/utils/validator'
+import { onlyLetter, onlyNumber } from '@/utils/validator'
+import vSelect from 'vue-select'
+import fileApi from '../../services/Files'
+import 'vue-select/dist/vue-select.css'
+
+
 export default {
   name: 'RegistroPersonalDialog',
   components: {
     CModal,
     moment,
+    vSelect
   },
   data: function () {
     return {
+      profilePhoto: null,
+      imageUrl: null,
       discapacidadList: [],
-      departamentoList: [],
+      departamentoList: [{
+        code: 0,
+        label: 'Seleccionar',
+      }],
       nivelEscolarList: [],
       areaTematicaList: [],
       posicionCargo: [],
@@ -717,6 +734,29 @@ export default {
   },
 
   methods: {
+    saveFile(event) {
+      const file = event.target.files[0]
+      if (file) {
+        const reader = new FileReader();
+        this.profilePhoto = file;
+        reader.onload = (evt) => {
+          this.imageUrl = evt.target.result
+          const formData = new FormData()
+          formData.append('file', file)
+          formData.append('empleadoId', this.empleadoId)
+          formData.append('profileImage', 1)
+          fileApi.saveFile(formData).then(response => {
+
+          }).catch(console.log)
+
+
+
+        };
+        reader.readAsDataURL(file);
+
+      }
+    },
+
     checkDocument(e) {
       if (this.postEmpleado.tipoDocumento === 'cedula') {
         onlyNumber(e)
@@ -726,6 +766,21 @@ export default {
     changeDocument() {
       this.postEmpleado.codigoIdentidad = null
       this.cedulaMax = null
+    },
+
+    getListDepartamento() {
+      Api.listDepartamento().then(({ data: { data } }) => {
+        console.log(data)
+        this.departamentoList = data.map((elem) => ({
+          code: elem.id,
+          label: `(${elem.id})  ${elem.nombre}`,
+        }))
+        this.departamentoList.unshift({
+          code: 0,
+          label: 'Seleccionar',
+        })
+        console.log(this.departamentoList)
+      })
     },
 
     cargaInformacionRequerida() {
@@ -770,11 +825,18 @@ export default {
         this.areaTematicaList = response.data.data
 
       })
+
+      this.getListDepartamento()
+
       Api.listDepartamento().then(response => {
         this.departamentoList = response.data.data
 
       })
     },
+
+
+
+
     saveRegistroPersonal() {
       this.$emit('post-personal', {
         ...this.postEmpleado
@@ -784,6 +846,19 @@ export default {
       Api.getEmpleadoByID(id).then((response) => {
         this.postEmpleado = { ...response.data.data }
       })
+      fileApi.getEmployeeIdentityImage({
+        empleadoId: this.empleadoId,
+        profileImage: 1,
+        FileType: '.png',
+        FileType2: 'png',
+        FileType3: '.jpg',
+        FileType4: 'jpg',
+        FileType5: '.jpeg',
+        FileType6: 'jpeg',
+      }).then(response => {
+        console.log(response)
+        this.imageUrl = response
+      }).catch(console.log)
     },
 
     closeModal() {
@@ -900,10 +975,23 @@ export default {
     this.cargaInformacionRequerida()
   },
 
+  computed: {
+
+    selectedDepartamento: {
+      get() {
+        return this.departamentoList.find((x) => x.code == this.postEmpleado.departamentoId)
+      },
+      set(util) {
+        this.postEmpleado.departamentoId = Number(util.code)
+      },
+    },
+  },
+
   watch: {
     empleadoId(newId) {
       if (newId) {
         this.getRegistroPersonal(newId)
+
       }
     },
   },
@@ -914,3 +1002,33 @@ export default {
   }
 }
 </script>
+<style>
+input::file-selector-button {
+  font-weight: bold;
+  color: black;
+  padding: 0.5em;
+  border: thin solid grey;
+  border-radius: 6px;
+}
+
+input[type="file"]:focus+label {
+  outline: 2px solid;
+  /* example focus style */
+}
+
+input-wrapper {
+  opacity: 0;
+  font-size: 12px;
+  border: 1px solid rgb(0, 0, 0);
+  padding: 4px;
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 2;
+}
+
+upload-label {
+  text-shadow: 0 0 1px black;
+}
+</style>

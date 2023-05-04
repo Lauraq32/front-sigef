@@ -53,8 +53,8 @@ export default {
   },
   data: function () {
     return {
-      showEducacion:false,
-      employeeInfo:null,
+      showEducacion: false,
+      employeeInfo: null,
       showRegistroPersonalModal: false,
       id: null,
       actions: [],
@@ -281,7 +281,7 @@ export default {
 
     getEmpleadoByID(item) {
       this.showEducacion = true
-      this.employeeInfo = {...item}
+      this.employeeInfo = { ...item }
       this.employeeInfo.nombres = `${item.nombres} ${item.apellidos}`
 
     },
