@@ -23,11 +23,22 @@
           <CCol class="row">
             <CFormLabel for="validationCustom01">Útil Laboral</CFormLabel>
             <v-select
-              required
-              id="validationCustom01"
               v-model="selectedUtil"
+              placeholder="Seleccionar"
               :options="utils"
-            ></v-select>
+            >
+              <template #option="{ label, cantidad }">
+                <div class="d-flex justify-content-between p-1">
+                  <span> {{ label }} </span>
+
+                  <span>
+                    {{ `${formatNumber(cantidad)}` }}
+                  </span>
+                </div>
+              </template>
+              ></v-select
+            >
+
             <CFormFeedback
               invalid
               :style="{ display: !isFormValidatedInputUtil ? 'none' : 'flex' }"
@@ -39,6 +50,7 @@
           <CCol>
             <CFormLabel for="validationCustom02">Tipo</CFormLabel>
             <CFormSelect
+              @change="onTypeChange"
               required
               id="validationCustom02"
               v-model="postEvento.tipo"
@@ -58,6 +70,7 @@
           <CCol>
             <CFormLabel for="validationCustom03">Empleados</CFormLabel>
             <v-select
+              :disabled="postEvento.tipo == 'abastecimiento'"
               required
               id="validationCustom03"
               v-model="selectedEmpleado"
@@ -119,6 +132,7 @@
 <script>
 import { CModal } from '@coreui/vue'
 import { CFooter } from '@coreui/vue-pro'
+import { formatNumber } from '@/utils/format'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
 
@@ -131,8 +145,9 @@ export default {
 
   data: () => {
     return {
+      formatNumber,
       postEvento: {
-        utilId: 0,
+        utilId: '',
         fecha: new Date(),
         cantidad: 1,
         tipo: 'entregado',
@@ -183,6 +198,12 @@ export default {
     },
   },
   methods: {
+    onTypeChange($event) {
+      if ($event.target.value === 'abastecimiento') {
+        this.postEvento.empleadoId = 0
+      }
+    },
+
     closeModal() {
       this.$emit('closeModal', false)
     },

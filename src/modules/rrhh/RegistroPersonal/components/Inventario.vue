@@ -240,7 +240,7 @@ export default {
       Api.getAllEmpleado().then(({ data: { data } }) => {
         this.empleados = data.map((elem) => ({
           code: elem.id,
-          label: `(${elem.codigo})  ${elem.nombres}`,
+          label: `(${elem.codigo})  ${elem.nombres}  `,
         }))
         this.empleados.unshift({
           code: '',
@@ -254,12 +254,9 @@ export default {
         this.utilesInventatio = data
         this.utils = data.map((elem) => ({
           code: elem.id,
-          label: `(${elem.id})  ${elem.descripcion}`,
+          label: `(${elem.id})  ${elem.descripcion}  `,
+          cantidad: elem.cantidad,
         }))
-        this.utils.unshift({
-          code: '',
-          label: 'Seleccionar',
-        })
       })
     },
 
