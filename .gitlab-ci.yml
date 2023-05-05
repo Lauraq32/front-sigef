@@ -1,4 +1,4 @@
-# --- # ---
+--- # --- # ---
 workflow:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -7,7 +7,7 @@ variables:
   ENV: DEV
   IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA
   REGISTRY_URL: https://192.168.1.85:5050
-  PORT_SERVICE_URL:  http://192.168.1.44:3000
+  PORT_SERVICE_URL: http://192.168.1.44:3000
 
 stages:
   - build
@@ -23,6 +23,8 @@ build:
   before_script:
     - echo "VUE_APP_API_URL=$APP_API_URL" > .env.production.local
     - echo "NODE_ENV=$ENV" >> .env.production.local
+    - echo $CI_SERVER_URL
+    - echo $CI_SERVER_HOST
   script:
     - npm install
     - npm run build:prod
@@ -67,7 +69,7 @@ deploy:
     - echo "deploy"
     - PORT_AVAILABLE=$(cat port.txt)
     - docker run -d --label "env=$ENV" --label "jobId=$CI_JOB_ID" --label "pipelineId=$CI_PIPELINE_ID" --label "app=sigef-v1"
-      --label "commit=$CI_COMMIT_SHORT_SHA" --label "branch=$CI_COMMIT_REF_NAME" --label "user=$GITLAB_USER_LOGIN" --label "gUser=$GITLAB_USER_NAME" 
+      --label "commit=$CI_COMMIT_SHORT_SHA" --label "branch=$CI_COMMIT_REF_NAME" --label "user=$GITLAB_USER_LOGIN" --label "gUser=$GITLAB_USER_NAME"
       -e ENV=$ENV -p $PORT_AVAILABLE:443 --name "sigef-v1-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA" $IMAGE_TAG
   dependencies:
     - docker-image
