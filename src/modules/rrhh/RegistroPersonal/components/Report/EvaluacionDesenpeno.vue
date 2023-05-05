@@ -129,13 +129,17 @@
 					</td>
 					<td colspan="5" rowspan="3" class="xl103" style="border-right:.5pt solid black;
   border-bottom:.5pt solid black">Calificacion</td>
-					<td rowspan="7" class="xl110" style="border-bottom:.5pt solid black;border-top:
+					<td rowspan="7" class="xl110" style="border-bottom:.5pt solid black;writing-mode: vertical-rl;
+    text-orientation: mixed;border-top:
   none">Insatisfactorio</td>
-					<td rowspan="7" class="xl113" style="border-bottom:.5pt solid black;border-top:
+					<td rowspan="7" class="xl113" style="border-bottom:.5pt solid black; writing-mode: vertical-rl;
+    text-orientation: mixed;border-top:
   none">Bueno</td>
-					<td rowspan="7" class="xl113" style="border-bottom:.5pt solid black;border-top:
+					<td rowspan="7" class="xl113" style="border-bottom:.5pt solid black; writing-mode: vertical-rl;
+    text-orientation: mixed;border-top: 
   none">Muy Bueno</td>
-					<td colspan="2" rowspan="7" class="xl115" style="border-right:.5pt solid black;
+					<td colspan="2" rowspan="7" class="xl115" style="border-right:.5pt solid black; writing-mode: vertical-rl;
+    text-orientation: mixed;
   border-bottom:.5pt solid black">Excelente</td>
 					<td colspan="5" rowspan="8" class="xl121" style="border-right:.5pt solid black;
   border-bottom:.5pt solid black">11.Observaciones del Evaluador</td>
