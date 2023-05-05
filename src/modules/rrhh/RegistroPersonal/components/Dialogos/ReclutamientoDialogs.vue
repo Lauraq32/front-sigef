@@ -289,7 +289,10 @@ export default {
         entrevistado: this.solicitudEmpleo.entrevistado === 'Si',
         descalificado: this.solicitudEmpleo.descalificado === 'Si'
       })
-      this.closeModal()
+      if(this.displayNameProfesion != ""){
+        this.closeModal()
+      }
+      
       solicitudEmpleoId = null
     },
     clearForm() {
