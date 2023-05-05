@@ -6,7 +6,7 @@
       </CModalHeader>
       <CModalBody>
         <div class="d-flex justify-content-end">
-          <CButton type="button" color="info" class="btn btn-primary" @click="() => { ModalSaveDocument = true }">Agregar Documento</CButton>
+          <CButton type="button" color="info" class="btn btn-primary" @click="() => { showModalSaveDocument = true }">Agregar Documento</CButton>
         </div>
         <CSmartTable clickableRows :tableProps="{
             striped: true,
@@ -29,7 +29,7 @@
         </CSmartTable>
       </CModalBody>
     </CModal>
-    <CModal backdrop="static" size="md" :visible="ModalSaveDocument" @close="showModalSaveDocument">
+    <CModal backdrop="static" size="md" :visible="showModalSaveDocument" @close="closeModalSaveDocument">
       <CModalHeader>
         <CModalTitle>Agregar Documento</CModalTitle>
       </CModalHeader>
@@ -51,7 +51,7 @@
         </CForm>
       </CModalBody>
       <CModalFooter>
-        <CButton color="info" @click="showModalSaveDocument">Cerrar</CButton>
+        <CButton color="info" @click="closeModalSaveDocument">Cerrar</CButton>
         <CButton color="info" @click="sendData">Guardar</CButton>
       </CModalFooter>
     </CModal>
@@ -147,8 +147,8 @@ export default {
     closeModal() {
       this.$emit('closeModal', false)
     },
-    showModalSaveDocument() {
-      this.ModalSaveDocument = false;
+    closeModalSaveDocument() {
+      this.showModalSaveDocument = false;
       this.clearForm();
     },
     sendData() {
