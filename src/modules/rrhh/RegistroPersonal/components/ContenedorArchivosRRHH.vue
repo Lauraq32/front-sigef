@@ -6,7 +6,7 @@
       </CModalHeader>
       <CModalBody>
         <div class="d-flex justify-content-end">
-          <CButton type="button" color="info" class="btn btn-primary" @click="() => { smDemo = true }">Agregar Documento</CButton>
+          <CButton type="button" color="info" class="btn btn-primary" @click="() => { ModalSaveDocument = true }">Agregar Documento</CButton>
         </div>
         <CSmartTable clickableRows :tableProps="{
             striped: true,
@@ -29,7 +29,7 @@
         </CSmartTable>
       </CModalBody>
     </CModal>
-    <CModal backdrop="static" size="md" :visible="smDemo" @close="closeSecondModal">
+    <CModal backdrop="static" size="md" :visible="ModalSaveDocument" @close="showModalSaveDocument">
       <CModalHeader>
         <CModalTitle>Agregar Documento</CModalTitle>
       </CModalHeader>
@@ -51,7 +51,7 @@
         </CForm>
       </CModalBody>
       <CModalFooter>
-        <CButton color="info" @click="closeSecondModal">Cerrar</CButton>
+        <CButton color="info" @click="showModalSaveDocument">Cerrar</CButton>
         <CButton color="info" @click="sendData">Guardar</CButton>
       </CModalFooter>
     </CModal>
@@ -90,7 +90,7 @@ export default {
       fullscreenDemo: false,
       visible: false,
       file: null,
-      smDemo: false,
+      ModalSaveDocument: false,
       postEmpleado: {},
       documentos: [],
       typeDocument: '',
@@ -147,8 +147,8 @@ export default {
     closeModal() {
       this.$emit('closeModal', false)
     },
-    closeSecondModal() {
-      this.smDemo = false;
+    showModalSaveDocument() {
+      this.ModalSaveDocument = false;
       this.clearForm();
     },
     sendData() {
@@ -169,7 +169,7 @@ export default {
         Api.postFiles(formData).then(() => {
           this.getFileById(this.empleado.id)
           this.show({
-            content: "Imagen Guardado con exito",
+            content: "Imagen guardada correctamente",
             closable: true,
           });
           this.clearForm();
