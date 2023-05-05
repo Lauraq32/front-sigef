@@ -6,7 +6,12 @@ class ProfesionesServices {
   getProfesiones() {
     return http.get('profesiones')
   }
-
+  
+  getProfesionesById(id) {
+    return http.get(`profesiones/${id}`)
+  }
+  
+  
   getByIdSolicitudEmpleo(id){
     return http.get(`profesiones/${id}`)
   }
