@@ -306,7 +306,8 @@ export default {
     },
     getAnioFiscalAll() {
       Api.getAnioFiscal().then((response) => {
-        this.anioFiscal = response.data.data
+        this.anioFiscal = response.data.data;
+        this.footerItem[0].label = `Total de items: ${this.anioFiscal.length}`
       })
     },
     toggleDetails(item) {
@@ -362,7 +363,10 @@ export default {
             this.show({
               content: 'Registro actualizado correctamente',
               closable: true,
-            })
+            });
+            setTimeout(() => {
+              this.getAnioFiscalAll()
+            }, 200);
           })
           .catch(({ response }) => {
             this.show({
@@ -382,7 +386,10 @@ export default {
               closable: true,
             })
             this.clearModal1()
-            this.lgDemo = false
+            this.lgDemo = false;
+            setTimeout(() => {
+              this.getAnioFiscalAll()
+            }, 200);
           })
           .catch(({ response }) => {
             this.show({
@@ -391,8 +398,7 @@ export default {
               color: 'danger',
               class: 'text-white',
             })
-          }),
-          this.getAnioFiscalAll()
+          });
       }
     },
   },
@@ -440,10 +446,7 @@ export default {
   },
 
   mounted() {
-    Api.getAnioFiscal().then((response) => {
-      this.anioFiscal = response.data.data
-      this.footerItem[0].label = `Total de items: ${this.anioFiscal.length}`
-    })
+   this.getAnioFiscalAll();
   },
 }
 </script>
