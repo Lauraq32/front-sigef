@@ -5,14 +5,14 @@
         <CModalTitle>Captura de imagenes Asociadas al Documento</CModalTitle>
       </CModalHeader>
       <CModalBody>
-        <CButton type="button" color="info" class="btn btn-primary" @click="() => { smDemo = true }">Agregar Documentos
-        </CButton>
-        <hr>
+        <div class="d-flex justify-content-end">
+          <CButton type="button" color="info" class="btn btn-primary" @click="() => { smDemo = true }">Agregar Documento</CButton>
+        </div>
         <CSmartTable clickableRows :tableProps="{
             striped: true,
             hover: true,
           }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header :items="documentos" :columns="columns"
-          tableFilter itemsPerPageSelect :itemsPerPage="10" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
+          tableFilter :itemsPerPage="7" table-filter-label="Filtrar:" table-filter-placeholder="Nombre, fecha, tipo de imagen" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
           pagination>
           <template #createdAt="{ item, index }">
             <td class="py-2">
@@ -29,9 +29,9 @@
         </CSmartTable>
       </CModalBody>
     </CModal>
-    <CModal backdrop="static" size="md" :visible="smDemo" @close="CloseSecondModal">
+    <CModal backdrop="static" size="md" :visible="smDemo" @close="closeSecondModal">
       <CModalHeader>
-        <CModalTitle>Agregar Documentos</CModalTitle>
+        <CModalTitle>Agregar Documento</CModalTitle>
       </CModalHeader>
       <CModalBody>
         <CForm class="flex flex-column" novalidate :validated="isFormEventTypeValidated" ref="eventTypeForm">
@@ -51,7 +51,7 @@
         </CForm>
       </CModalBody>
       <CModalFooter>
-        <CButton color="info" @click="CloseSecondModal">Cerrar</CButton>
+        <CButton color="info" @click="closeSecondModal">Cerrar</CButton>
         <CButton color="info" @click="sendData">Guardar</CButton>
       </CModalFooter>
     </CModal>
@@ -118,23 +118,23 @@ export default {
         {
           key: 'name',
           label: 'Nombre',
-          _style: { width: '20%' },
+          _style: { width: '55%' },
         },
         {
           key: 'createdAt',
-          label: 'Fecha de Creación',
+          label: 'Fecha',
           sorter: false,
-          _style: { width: '35%' },
+          _style: { width: '20%' },
         },
         {
           key: 'contentType',
           label: 'Tipo',
-          _style: { width: '5%' },
+          _style: { width: '20%' },
         },
         {
           key: 'show_details',
           label: '',
-          _style: { width: '20%' },
+          _style: { width: '5%' },
           filter: false,
           sorter: false,
         },
@@ -144,10 +144,10 @@ export default {
   },
   methods: {
     ...mapActions(useToastStore, ['show']),
-    CloseModal() {
+    closeModal() {
       this.$emit('closeModal', false)
     },
-    CloseSecondModal() {
+    closeSecondModal() {
       this.smDemo = false;
       this.clearForm();
     },
@@ -168,7 +168,6 @@ export default {
         formData.append('file', this.dropzoneFile)
         Api.postFiles(formData).then(() => {
           this.getFileById(this.empleado.id)
-          this.dropzoneFile = null;
           this.show({
             content: "Imagen Guardado con exito",
             closable: true,
