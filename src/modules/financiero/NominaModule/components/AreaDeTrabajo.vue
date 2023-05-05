@@ -1,6 +1,6 @@
 <template>
       
-  <h3 class="text-center">Areas de Trabajo</h3>
+  <h3 class="text-center">Área de Trabajo</h3>
 
   <div class="table-headers">
     <div class="d-inline p-2">
@@ -87,7 +87,7 @@
           @submit="handleSubmitCustom01"
         >
           <CCol :md="4">
-            <CFormLabel for="validationCustom02">Area de Trabajo</CFormLabel>
+            <CFormLabel for="validationCustom02">Área de Trabajo</CFormLabel>
             <input
               ref="name"
               type="text"
@@ -156,7 +156,7 @@ export default {
         { key: 'id', label: 'Código', _style: { width: '40%' } },
         {
           key: 'area',
-          label: 'Area de Trabajo',
+          label: 'Área de Trabajo',
           _style: { width: '40%' },
         },
         {

@@ -34,7 +34,7 @@ export default {
         ),
     },
     {
-      path: 'programas',
+      path: 'Programas',
       name: 'programas',
       meta: { label: 'Programas' },
       component: () =>
@@ -43,7 +43,7 @@ export default {
         ),
     },
     {
-      path: 'departamentos',
+      path: 'Departamentos',
       name: 'departamentos',
       meta: { label: 'Departamentos' },
       component: () =>
@@ -52,8 +52,8 @@ export default {
         ),
     },
     {
-      path: 'areaDeTrabajo',
-      name: 'areaDeTrabajo',
+      path: 'AreaTrabajo',
+      name: 'AreaDeTrabajo',
       meta: { label: 'Área de Trabajo' },
       component: () =>
         import(
@@ -61,7 +61,7 @@ export default {
         ),
     },
     {
-      path: 'posicionesCargo',
+      path: 'PosicionesCargo',
       name: 'posicionesCargo',
       meta: { label: 'Posiciones de Cargo' },
       component: () =>
@@ -70,7 +70,7 @@ export default {
         ),
     },
     {
-      path: 'sectores',
+      path: 'Sectores',
       name: 'sectores',
       meta: { label: 'Sectores' },
       component: () =>
