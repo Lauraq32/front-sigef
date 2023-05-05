@@ -305,7 +305,7 @@ export default [
           {
             component: 'CNavItem',
             name: 'Grupo nóminas',
-            to: '/NominaModule/grupoNominass',
+            to: '/NominaModule/grupoNominas',
             icon: 'cilIdCard',
           },
           {

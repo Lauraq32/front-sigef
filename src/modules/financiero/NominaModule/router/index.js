@@ -15,8 +15,8 @@ export default {
         ),
     },
     {
-      path: 'grupoNominass',
-      name: 'grupoNominass',
+      path: 'grupoNominas',
+      name: 'grupoNominas',
       meta: { label: 'Grupo Nóminas' },
       component: () =>
         import(
@@ -26,7 +26,7 @@ export default {
 
     {
       path: 'nominaGeneral',
-      name: 'grupoNominas',
+      name: 'nominaGeneral',
       meta: { label: 'Nómina General' },
       component: () =>
         import(
