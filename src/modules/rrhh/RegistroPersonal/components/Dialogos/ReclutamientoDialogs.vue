@@ -302,7 +302,7 @@ export default {
         direccion2:null,
         telefono: null,
         celular: null,
-        edad: 0,
+        edad: null,
         profesionId: 0,
         posicionId: 0,
         remitidoA: null,
