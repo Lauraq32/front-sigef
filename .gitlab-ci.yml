@@ -6,7 +6,7 @@ workflow:
 variables:
   ENV: DEV
   IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA
-  REGISTRY_URL: https://192.168.1.85:5050
+  REGISTRY_URL: $CI_SERVER_URL:5050
   PORT_SERVICE_URL: http://192.168.1.44:3000
 
 stages:
@@ -16,6 +16,10 @@ stages:
   - deploy
 
 build:
+  rules:
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == 'main'
+      variables:
+        ENV: PROD
   tags:
     - docker-builder
   stage: build
@@ -23,8 +27,6 @@ build:
   before_script:
     - echo "VUE_APP_API_URL=$APP_API_URL" > .env.production.local
     - echo "NODE_ENV=$ENV" >> .env.production.local
-    - echo $CI_SERVER_URL
-    - echo $CI_SERVER_HOST
   script:
     - npm install
     - npm run build:prod
@@ -38,6 +40,10 @@ build:
     when: on_success
 
 docker-image:
+  rules:
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
+      variables:
+        ENV: DEV
   tags:
     - docker-builder
   stage: creating-docker-image
@@ -59,6 +65,10 @@ docker-image:
     - build
 
 deploy:
+  rules:
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
+      variables:
+        ENV: DEV
   tags:
     - docker-builder
   stage: deploy
