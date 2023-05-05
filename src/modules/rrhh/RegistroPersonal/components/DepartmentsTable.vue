@@ -118,7 +118,7 @@
               label: 'Programa',
               _style: { width: '20%' } },
               {key: 'grupoNomina',
-                label: 'Grupo de nomina',
+                label: 'Grupo nómina',
                 _style: { width: '12%' },
               },
               {key: 'estructura',
@@ -157,9 +157,6 @@
             ],
             details: [],
           }
-        },
-        mounted() {
-          // this.$store.dispatch('AdministrativoModule/getUsuarios')
         }
     }
 </script>

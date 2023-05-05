@@ -5,7 +5,7 @@
 
     <div class="d-inline-flex gap-3 align-items-center">
       <CFormLabel class="form-label col-auto col-form-label" >Filtro:</CFormLabel>
-      <CFormSelect id="fiscalYearSelect" @update:modelValue="handleStatusFilter"
+      <CFormSelect id="fiscalYearSelect" @update:modelValue="handleFilterDepartmentsByStatus"
           aria-label="Selecionar año fiscal"
           :options="[
             { label: 'Activo', value: true },
@@ -62,7 +62,7 @@ export default {
   methods: {
     ...mapActions(useToastStore, ['show'])
     ,
-    handleStatusFilter(value){
+    handleFilterDepartmentsByStatus(value){
       deparmentServices.getDepartments(value).then((response) => this.deparments = response.data.data);
     },
     handleModalClose(event){
@@ -84,12 +84,12 @@ export default {
         }
       }).catch(err => {
         this.show({content: err.response.data.message, color:'danger'})
-        console.log(err.response.data.message)
+
       });
     }
     ,
     handleSubmit(dept) {
-      console.log(dept)
+
       if(dept.id !== 0){
         if (dept.status) {
 
@@ -108,7 +108,7 @@ export default {
     },
   },
   mounted() {
-    deparmentServices.getDepartments(true).then((response) => this.deparments = response.data.data);
+    this.handleFilterDepartmentsByStatus(true);
   }
 }
 </script>

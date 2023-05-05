@@ -43,9 +43,9 @@
             </CCol>
 
             <CCol :md="6">
-              <CFormLabel >Grupo Nomina</CFormLabel>
+              <CFormLabel >Grupo Nómina</CFormLabel>
               <CFormSelect required  v-model="newDepartment.grupoNominaId">
-                <option>Selecionar Grupo Nomina</option>
+                <option>Selecionar Grupo Nómina</option>
                 <option v-for="grupo in gruposNomina" :value="grupo.id" :key="grupo.id">
                   {{ grupo.nombre }}
                 </option>
@@ -89,7 +89,7 @@
 
             <CRow>
               <CCol :md="4">
-                <CFormLabel >Fuente Especifica</CFormLabel>
+                <CFormLabel >Fuente Específica</CFormLabel>
                 <CFormInput   v-model="newDepartment.fuenteEspecificaId"></CFormInput>
               </CCol>
 
@@ -110,7 +110,7 @@
                   <CFormLabel >Casificador</CFormLabel>
                   <CFormInput required
                               v-model="newDepartment.clasificadorRegaliaId"
-                              feedbackInvalid="You must agree before submitting."
+                              feedbackInvalid="Seleccione un clasificador ."
                               id="invalidClasificador"></CFormInput>
                 </CCol>
 
@@ -120,7 +120,7 @@
                 </CCol>
 
                 <CCol :md="3">
-                  <CFormLabel >Fuente Especifica</CFormLabel>
+                  <CFormLabel >Fuente Específica</CFormLabel>
                   <CFormInput   v-model="newDepartment.fuenteEspecificaRegaliaId"></CFormInput>
                 </CCol>
 
@@ -152,9 +152,7 @@
 <script>
 import { CModal } from '@coreui/vue'
 import { CCol, CFormLabel, CRow } from '@coreui/vue-pro'
-import httpClient from '@/Api/http-common'
 import departmentService from '@/modules/rrhh/RegistroPersonal/services/DeparmentServices'
-import ClasificadorSelectorDialog from '@/modules/financiero/FormulacionModule/components/ClasificadorSelectorDialog.vue'
 
 export default {
   components: {
@@ -223,7 +221,6 @@ export default {
       if (form.checkValidity()) {
         event.preventDefault()
         event.stopPropagation()
-        console.log(this.newDepartment)
         this.$emit('OnSubmit', this.newDepartment)
 
       }else{
@@ -282,8 +279,6 @@ export default {
           fuenteRegaliaId: this.departamento.fuenteRegalia?.id,
           fuenteEspecificaRegaliaId: this.departamento.fuenteEspecificaRegalia?.id
         }
-
-        console.log(this.newDepartment.cuentaBancoId)
       }
     }
   }

@@ -1,5 +1,6 @@
 import httpClient from '@/Api/http-common'
 import { getAyuntamientoId } from '@/utils/logged-info'
+import FormulacionApi from '@/modules/financiero/FormulacionModule/services/FormulacionServices'
 
 class DeparmentServices {
 
@@ -32,11 +33,11 @@ class DeparmentServices {
   }
 
   getEstructurasProgramaticas(){
-    return httpClient.get("/CtgMestProg");
+    return FormulacionApi.getEstProgramatica();
   }
 
   getClasificadores(){
-    return  httpClient.get("/CtgClasificador")
+    return  FormulacionApi.getListarClasificadores();
   }
 }
 
