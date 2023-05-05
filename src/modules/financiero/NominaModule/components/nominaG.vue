@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Nomina general</h3>
+  <h3 class="text-center">Nómina General</h3>
   <hr />
 
   <div class="row">
