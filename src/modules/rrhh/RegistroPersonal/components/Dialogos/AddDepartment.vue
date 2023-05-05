@@ -25,6 +25,7 @@
             </CCol>
           </CRow>
 
+
           <div>
             <CFormLabel >Nombre Depto. ó Nómina</CFormLabel>
             <CFormInput required  v-model="newDepartment.nombre"> </CFormInput>
@@ -34,7 +35,7 @@
           <CRow>
             <CCol :md="6">
               <CFormLabel >Programa</CFormLabel>
-              <CFormSelect required  v-model="newDepartment.programaDivisionId">
+              <CFormSelect required  v-model="newDepartment.programaDivisionId" @update:modelValue="handleProgramaChange">
                 <option>Selecionar Programa</option>
                 <option v-for="programa in programas" :value="programa.id" :key="programa.id">
                   {{ programa.nombre }}
@@ -62,13 +63,18 @@
                 </option>
             </CFormSelect>
           </div>
-          <div>
+          <!-- Left code commented for when whe change to the array -->
+          <!-- <div>
             <CFormLabel >Estructura</CFormLabel>
             <CFormSelect required  v-model="newDepartment.estructura">
               <option v-for="estructura in estructurasProgramaticas" :value="estructura.numero" :key="estructura.id">
                 {{ estructura.nombre }}
               </option>
             </CFormSelect>
+          </div> -->
+          <div>
+            <CFormLabel >Estructura</CFormLabel>
+            <CFormInput required  v-model="newDepartment.estructura" disabled> </CFormInput>
           </div>
 
           <div v-if="isNomina">
@@ -77,7 +83,7 @@
               <CCol :md="4">
                 <CFormLabel >Clasificador</CFormLabel>
                 <CFormSelect required  v-model="newDepartment.clasificadorId" @update:modelValue="handleClasificadorChange"
-                  :options="['Seleccione Clasificador', ...clasificadores]">
+                  :options="[{label:'Seleccione Clasificador', value: 0, item:{}}, ...clasificadores]">
 
                 </CFormSelect>
               </CCol>
@@ -228,31 +234,40 @@ export default {
       }
     },
 
+    handleProgramaChange(idPrograma){
+      const programa = this.programas.find(x => x.id == idPrograma);
 
+      if(programa){
+        this.newDepartment.estructura = programa.estructura;
+      }
+    },
     handleClasificadorChange(clasificadorId) {
+
       const selected = this.clasificadores.find(x => x.value === clasificadorId);
+      if(selected){
+      this.newDepartment.fuenteId = selected.item?.ctgFuenteId;
+      this.newDepartment.fuenteEspecificaId = selected.item?.ctgFuenteEspecificaId;
+      this.newDepartment.organismoFinanciadorId = selected.item?.ctgOrganismoFinanciadorId
 
-      this.newDepartment.fuenteId = selected.item.ctgFuenteId;
-      this.newDepartment.fuenteEspecificaId = selected.item.ctgFuenteEspecificaId;
-      this.newDepartment.organismoFinanciadorId = selected.item.ctgOrganismoFinanciadorId;
-
-
-      this.newDepartment.clasificadorRegaliaId = selected.item.clasifica;
-      this.newDepartment.fuenteRegaliaId = selected.item.ctgFuenteId;
-      this.newDepartment.fuenteEspecificaRegaliaId = selected.item.ctgFuenteEspecificaId;
-      this.newDepartment.organismoFinanciadorRegaliaId = selected.item.ctgOrganismoFinanciadorId;
+      this.newDepartment.clasificadorRegaliaId = selected.item?.clasifica;
+      this.newDepartment.fuenteRegaliaId = selected.item?.ctgFuenteId;
+      this.newDepartment.fuenteEspecificaRegaliaId = selected.item?.ctgFuenteEspecificaId;
+      this.newDepartment.organismoFinanciadorRegaliaId = selected.item?.ctgOrganismoFinanciadorId;
+      }
     }
   },
   mounted() {
-    departmentService.getProgramasDivision().then((response) => this.programas = response.data.data),
+
+    const clasificadoresPermitidos = ['21101', '211201','211202','211204','211206','241201','241202'];
+
+    departmentService.getEstructurasProgramaticas().then((response) => this.estructurasProgramaticas = response.data.data);
+    departmentService.getProgramasDivision().then((response) => this.programas = response.data.data);
     departmentService.getGruposNomina().then((response) => this.gruposNomina = response.data.data)
     departmentService.getCuentasDeBancos().then((response) => this.cuentasBanco = response.data.data)
-    departmentService.getEstructurasProgramaticas().then((response) => this.estructurasProgramaticas = response.data.data)
     departmentService.getClasificadores().then((response) => {
-        this.clasificadores = response.data.data.filter(clasificator => clasificator.tipo === 'DETALLE' && clasificator.origen === 'INGRESO' && clasificator?.clasifica?.toString().match(/^(1|3)/g)
-        ).map((item) => {
+        this.clasificadores = response.data.data.filter(x => clasificadoresPermitidos.includes(x.clasifica)).map((item) => {
         return {
-          label: item.nombre,
+          label: `${item.clasifica} - ${item.nombre}`,
           value: item.clasifica,
           item
         }
