@@ -28,7 +28,12 @@
               v-model="selectedUtil"
               :options="utils"
             ></v-select>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+            <CFormFeedback
+              invalid
+              :style="{ display: !isFormValidatedInputUtil ? 'none' : 'flex' }"
+            >
+              Favor agregar el campo
+            </CFormFeedback>
           </CCol>
 
           <CCol>
@@ -39,7 +44,12 @@
               v-model="postEvento.tipo"
             >
               <option value="entregado">Entregado</option>
-              <option value="retornado">Retornado</option>
+              <option
+                v-if="inventario.tipo !== 'no-retornable'"
+                value="retornado"
+              >
+                Retornado
+              </option>
               <option value="abastecimiento">Abastecimiento</option>
             </CFormSelect>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -125,10 +135,11 @@ export default {
         utilId: 0,
         fecha: new Date(),
         cantidad: 1,
-        tipo: null,
+        tipo: 'entregado',
         empleadoId: 0,
       },
       isFormEventTypeValidated: false,
+      isFormValidatedInputUtil: false,
     }
   },
   computed: {
@@ -178,12 +189,15 @@ export default {
 
     submitEventos(data) {
       this.$emit('saveEvents', data)
-      this.clearEventos()
     },
 
     sendData() {
       this.isFormEventTypeValidated = false
-      if (this.$refs.eventTypeForm.$el.checkValidity()) {
+      this.isFormValidatedInputUtil = this.postEvento.utilId === 0
+      if (
+        this.$refs.eventTypeForm.$el.checkValidity() &&
+        this.postEvento.utilId !== 0
+      ) {
         return this.submitEventos({ ...this.postEvento })
       }
       this.isFormEventTypeValidated = true
@@ -205,6 +219,11 @@ export default {
     empleados: {
       type: Array,
       default: [],
+      required: true,
+    },
+
+    inventario: {
+      type: Object,
       required: true,
     },
 

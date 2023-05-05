@@ -101,7 +101,7 @@ export default {
     clearInventario() {
       this.postInventario = {
         descripcion: null,
-        tipo: 'Deducible',
+        tipo: 'deducible',
       }
     },
   },

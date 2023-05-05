@@ -51,7 +51,7 @@
             @click="
               () => {
                 showModalUtilsLaboral(item)
-                inventarioById = item
+                inventarioSeleccionado = item
               }
             "
             >Agregar Útiles</CDropdownItem
@@ -61,6 +61,7 @@
               () => {
                 showModalEvento(item)
                 getUtilInventario(item)
+                inventarioSeleccionado = item
               }
             "
             >Agregar Movimientos</CDropdownItem
@@ -79,12 +80,13 @@
   <UtilesLaboralesDialog
     :utilesInventatio="utilesInventatio"
     :showModal="showAgregarCantidad"
-    :inventario="inventarioById"
+    :inventario="inventarioSeleccionado"
     @closeModal="closeModal"
     @saveUtilesLaborales="saveUtilesLaborales"
   />
 
   <EventoInventarioDialog
+    :inventario="inventarioSeleccionado"
     :showModal="showEvento"
     :empleados="empleados"
     :utils="utils"
@@ -117,7 +119,7 @@ export default {
       empleados: [],
       inventario: [],
       utils: [],
-      inventarioById: {},
+      inventarioSeleccionado: {},
       utilesInventatio: [],
       validatedCustom01: null,
       showInventario: false,
@@ -175,7 +177,7 @@ export default {
     },
 
     saveUtilesLaborales(payload) {
-      Api.postInventarioById(this.id, payload)
+      Api.postinventarioSeleccionado(this.id, payload)
         .then((response) => {
           setTimeout(this.getInventario, 500)
           setTimeout(this.getUtilesInventario(this.id), 500)
@@ -197,6 +199,7 @@ export default {
     saveEventos(payload) {
       Api.postEventos(this.id, payload)
         .then(() => {
+          setTimeout(this.getInventario, 500)
           this.show({
             content: 'Registro añadido correctamente',
             closable: true,
@@ -240,7 +243,7 @@ export default {
           label: `(${elem.codigo})  ${elem.nombres}`,
         }))
         this.empleados.unshift({
-          code: 0,
+          code: '',
           label: 'Seleccionar',
         })
       })
@@ -254,7 +257,7 @@ export default {
           label: `(${elem.id})  ${elem.descripcion}`,
         }))
         this.utils.unshift({
-          code: 0,
+          code: '',
           label: 'Seleccionar',
         })
       })
