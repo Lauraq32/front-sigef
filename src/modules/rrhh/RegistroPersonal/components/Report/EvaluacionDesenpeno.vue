@@ -6,45 +6,8 @@
 				<col width="80" span="26" style="width:60pt">
 			</colgroup>
 			<tbody>
-				<tr height="20" style="height:15.0pt">
-					<td height="20" width="80" style="height:15.0pt;width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-					<td width="80" style="width:60pt"></td>
-				</tr>
-				<tr height="20" style="height:15.0pt">
-					<td height="20" colspan="26" style="height:15.0pt;mso-ignore:colspan"></td>
-				</tr>
-				<tr height="20" style="height:15.0pt">
-					<td height="20" style="height:15.0pt"></td>
-
-				</tr>
-				<tr height="20" style="height:15.0pt">
-					<td height="20" style="height:15.0pt"></td>
-
-				</tr>
+				
+				
 				<tr height="31" style="mso-height-source:userset;height:23.25pt">
 					<td height="31" style="height:23.25pt"></td>
 					<td colspan="9" rowspan="4" class="xl81" style="border-right:.5pt solid black;
