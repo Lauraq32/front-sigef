@@ -241,7 +241,7 @@
                   </CCol>
                   <CCol :md="12">
                     <CFormLabel for="programaDivisionId">Dirección o dependencia</CFormLabel>
-                    <CFormSelect v-model="postEmpleado.programaDivisionId" id="programaDivisionId" required>
+                    <CFormSelect v-model="postEmpleado.programaDivisionId" id="programaDivisionId" @change="getListDepartamento($event)" required>
                       <option value="" disabled selected>Seleccione</option>
                       <option v-for="programa in this.programaDivision" :key="programa.id" :value="programa.id">
                         {{ programa.nombre }}
@@ -750,8 +750,8 @@ export default {
       this.cedulaMax = null
     },
 
-    getListDepartamento() {
-      Api.listDepartamento().then(({ data: { data } }) => {
+    getListDepartamento(event) {
+      Api.listDepartamento(event.target.value).then(({ data: { data } }) => {
         this.departamentoList = data.map((elem) => ({
           code: elem.id,
           label: `(${elem.id})  ${elem.nombre}`,
@@ -806,7 +806,7 @@ export default {
 
       })
 
-      this.getListDepartamento()
+      // this.getListDepartamento()
     },
 
 
