@@ -5,7 +5,7 @@
                 Partida del presupuesto de ingresos
             </CModalTitle>
             <div class="font-weight-bold">
-                A&ntilde;o No. <strong>{{ anioFiscal }}</strong>
+                A&ntilde;o <strong>{{ anioFiscal }}</strong>
             </div>
         </CModalHeader>
 
@@ -16,8 +16,9 @@
                     <div class="position-relative">
                         <input ref="clasificatorField" required @keyup.enter.prevent="findClasificador" maxlength="6"
                             class="form-control padding-input" v-model="formulacionIngreso.ctgClasificadorId" type="number"
-                            id="clasifica" />
-                        <span class="position-absolute icon-input">
+                            id="clasifica"
+                            :disabled="notAllowEdit"/>
+                        <span class="position-absolute icon-input" v-if="!notAllowEdit">
                             <CIcon icon="cisSearch" size="xl" v-on:click="() => (showFindClasificadorModal = true)" />
                         </span>
                     </div>
@@ -35,7 +36,7 @@
                             aria-describedby="inputGroupPrepend" required />
                     </CInputGroup>
                 </CCol>
-                <CCol :md="3">
+                <CCol :md="4">
                     <CFormLabel for="validationCustom03">Fuente Financiamiento</CFormLabel>
                     <CFormInput
                         id="validationCustom03" required
@@ -45,7 +46,7 @@
                         pattern="[0-9]+"
                     />
                 </CCol>
-                <CCol :md="3">
+                <CCol :md="4">
                     <CFormLabel for="validationCustom04">Fuente Espec&iacute;fica</CFormLabel>
                     <CFormInput
                         id="validationCustom04" required
@@ -55,7 +56,7 @@
                         pattern="[0-9]+"
                     />
                 </CCol>
-                <CCol :md="3">
+                <CCol :md="4">
                     <CFormLabel for="validationCustom05">Organismo Financiador</CFormLabel>
                     <CFormInput
                         id="validationCustom05" required
@@ -65,15 +66,18 @@
                         pattern="[0-9]+"
                     />
                 </CCol>
-                <CCol :md="3">
+                <CCol :md="12">
                     <CFormLabel>Instituci&oacute;n Otorgante</CFormLabel>
-                    <CFormInput v-model="formulacionIngreso.instOtorga" type="number" step="any">
-                    </CFormInput>
+                    <v-select
+                        v-model="selectedInstitucionOtorgante"
+                        :options="institucionesOtorgantes"
+                        :disabled="notAllowEdit"></v-select>
                 </CCol>
                 <hr />
                 <CCol :md="4">
                     <CFormLabel>A&ntilde;o Anterior</CFormLabel>
                     <VueNumberFormat v-model:value="formulacionIngreso.anioAnt" type="text" class="form-control text-end"
+                        :disabled="notAllowAmount || notAllowEdit"
                         :options="{
                             precision: 2,
                             prefix: '',
@@ -85,6 +89,7 @@
                 <CCol :md="4">
                     <CFormLabel>A la Fecha</CFormLabel>
                     <VueNumberFormat v-model:value="formulacionIngreso.alaFecha" type="text" class="form-control text-end"
+                        :disabled="notAllowAmount || notAllowEdit"
                         :options="{
                             precision: 2,
                             prefix: '',
@@ -95,7 +100,9 @@
                 <CCol :md="4">
                     <CFormLabel>Presupuesto Formulado</CFormLabel>
                     <VueNumberFormat v-model:value="formulacionIngreso.presForm" type="text" step="any"
-                        class="form-control text-end" :options="{
+                        class="form-control text-end"
+                        :disabled="notAllowAmount || notAllowEdit"
+                        :options="{
                             precision: 2,
                             prefix: '',
                             decimal: '.',
@@ -106,9 +113,20 @@
         </CModalBody>
 
         <CModalFooter>
-            <CButton color="secondary" data-bs-dismiss="modal" @click="closeDialog()">Cancelar</CButton>
-            <CButton :disabled="formulacionIngreso.ingresos !== 0 || formulacionIngreso.variacion !== 0" color="primary"
-                @click="submitForm">Guardar</CButton>
+            <CButton
+                color="secondary"
+                data-bs-dismiss="modal"
+                @click="closeDialog()"
+            >
+                {{ (hasBugetOrExecution || notAllowEdit) ? 'Cerrar' : 'Cancelar' }}
+            </CButton>
+            <CButton
+                v-if="hasBugetOrExecution || !(formulacionIngreso.id && isFiscalYearApprovedOrClose)"
+                color="primary"
+                @click="submitForm"
+            >
+                Guardar
+            </CButton>
         </CModalFooter>
     </CModal>
 
@@ -120,9 +138,9 @@
 </template>
 <script setup>
 import { CModal } from '@coreui/vue'
-import { reactive, ref } from 'vue';
+import { reactive, ref, computed, watchEffect } from 'vue';
 import ClasificadorSelectorDialog from '../components/ClasificadorSelectorDialog.vue';
-import { getFiscalYearId } from '@/utils/logged-info';
+import { fiscalYearInfo } from '@/utils/logged-info';
 
 const emit = defineEmits(['close'])
 const props = defineProps({
@@ -132,8 +150,16 @@ const props = defineProps({
         default: {},
     },
     isVisible: Boolean,
+    isFiscalYearApprovedOrClose: Boolean,
+    institucionesOtorgantes: {
+        require: true,
+        type: Array,
+        default: [],
+    }
 });
-const anioFiscal = ref(getFiscalYearId());
+const selectedInstitucionOtorgante = ref({});
+const fiscalYearData = fiscalYearInfo();
+const anioFiscal = ref(fiscalYearData.anio);
 const formIsValidated = ref(null);
 const formulacionForm = ref(null);
 const showFindClasificadorModal = ref(false);
@@ -143,7 +169,9 @@ const enabledFields = reactive({
     ctgFuenteEspecificaId: false,
     ctgOrganismoFinanciadorId: false
 });
-
+const hasBugetOrExecution = computed(() => props.formulacionIngreso.ingresos !== 0 || props.formulacionIngreso.variacion !== 0);
+const notAllowEdit = computed(() => (hasBugetOrExecution.value || props.isFiscalYearApprovedOrClose) && Boolean(props.formulacionIngreso.id));
+const notAllowAmount = computed(() => props.isFiscalYearApprovedOrClose && !Boolean(props.formulacionIngreso.id));
 
 const closeDialog = (data) => {
     emit('close', data);
@@ -151,6 +179,8 @@ const closeDialog = (data) => {
     enabledFields.ctgFuenteEspecificaId = false;
     enabledFields.ctgOrganismoFinanciadorId = false;
     formIsValidated.value = false;
+    selectedInstitucionOtorgante.value = {};
+    props.formulacionIngreso.instOtorga = '0000';
 }
 
 const submitForm = () => {
@@ -168,6 +198,7 @@ const submitForm = () => {
             ctgFuenteEspecificaId: props.formulacionIngreso.ctgFuenteEspecificaId,
             ctgFuenteId: props.formulacionIngreso.ctgFuenteId,
             ctgOrganismoFinanciadorId: props.formulacionIngreso.ctgOrganismoFinanciadorId,
+            instOtorga: selectedInstitucionOtorgante.value.code
         });
     }
 
@@ -233,7 +264,16 @@ const validateInputctgOrganismoFinanciadorId = (clasificatorSelected) => {
     ) {
         enabledFields.ctgOrganismoFinanciadorId = true
     }
-}  
+}
+
+watchEffect(() => {
+    if (props.institucionesOtorgantes && !Number(selectedInstitucionOtorgante.value?.code)) {
+        selectedInstitucionOtorgante.value = props.institucionesOtorgantes.find(io => io.code === props.formulacionIngreso.instOtorga) ?? {}; 
+    }
+    if (props.isVisible && clasificatorField.value) {
+        clasificatorField.value.focus();
+    }
+});
 </script>
 <style scoped>
 .padding-input {

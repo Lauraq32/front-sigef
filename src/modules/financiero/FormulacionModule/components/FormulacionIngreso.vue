@@ -2,25 +2,9 @@
   <h3 class="text-center mb-4">Formulaci&oacute;n Ingreso</h3>
 
   <AppAccionHeader
-    :actions="[
-      {
-        label: 'Imprimir',
-        accionHandler: this.IngresoReport.bind(this),
-        icon: 'cilPrint'
-      },
-      {
-        label: 'Descargar',
-        accionHandler: this.downloadFile.bind(this),
-        icon: 'cilCloudDownload'
-      },
-      {
-        label: 'Importar Ingresos',
-        accionHandler: this.onFileChange.bind(this),
-        type: 'upload'
-      }
-    ]"
+    :actions="pageActions"
   >
-    <CButton color="info" @click="openModal">Agregar</CButton>
+    <CButton color="info" @click="openModal" v-if="!isFiscalYearClosed">Agregar</CButton>
     <CButton color="secondary" @click="goToGasto">Ir a Formulaci&oacute;n Gasto</CButton>
   </AppAccionHeader>
 
@@ -91,9 +75,16 @@
       <td class="py-2">
         <div class="d-flex justify-content-around">
           <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="editFormulacion(item)">
-            Editar
+            {{ (isFiscalYearApprovedOrClose || hasBugetOrExecution(item)) ? 'Detalle' : 'Editar' }}
           </CButton>
-          <CButton class="mt-1" color="danger" variant="outline" square size="sm" @click="deleteItem(item)">
+          <CButton
+            v-if="!isFiscalYearApprovedOrClose"
+            class="mt-1"
+            color="danger"
+            variant="outline"
+            square size="sm"
+            @click="deleteItem(item)"
+          >
             Eliminar
           </CButton>
         </div>
@@ -104,6 +95,8 @@
   <FormulacionIngresoDialog
     :isVisible="showPartidaPresupuestodeIngresoDialog"
     :formulacionIngreso="postIngreso"
+    :isFiscalYearApprovedOrClose="isFiscalYearApprovedOrClose"
+    :institucionesOtorgantes="institucionesOtorgantes"
     @close="onCloseFormulacionDialog"
   />
 
@@ -131,11 +124,12 @@ export default {
   data: function () {
     return {
       ingresos: [],
+      institucionesOtorgantes: [],
       postIngreso: {
         anioFiscalId: this.$fiscalYearId,
         ayuntamientoId: this.$ayuntamientoId,
         ctgClasificadorId: '',
-        instOtorga: '',
+        instOtorga: '0000',
         ctaControl: '',
         detalle: '',
         anioAnt: 0,
@@ -247,12 +241,13 @@ export default {
       formatPrice
     }
   },
+  inject: ['LoginInfo'],
   methods: {
     ...mapActions(useToastStore, ['show']),
     downloadFile() {
       Api.downloadIngreso(this.$ayuntamientoId, this.$fiscalYearId)
       .then((response) => {
-        const fileURL = window.URL.createObjectURL(new Blob([response.data]));
+        const fileURL = window.URL.createObjectURL(new Blob([response.data ?? response]));
         const fURL = document.createElement('a');
         const id =  `${this.$loggedInfo.user.ayuntamiento.codigo}-${new Date().toISOString()}`;
 
@@ -294,7 +289,7 @@ export default {
               ctgClasificadorId: `${Object.values(item)[2]}${Object.values(item)[3]
                 }${Object.values(item)[4]}${Object.values(item)[5]
                 }${Object.values(item)[6].toString().padStart(2, 0)}`,
-              instOtorga: Object.values(item)[10],
+              instOtorga: String(Object.values(item)[10]).padStart(4, '0'),
               control: '',
               detalle: Api.getClasificador(
                 `${Object.values(item)[2]}${Object.values(item)[3]}${Object.values(item)[4]
@@ -349,7 +344,7 @@ export default {
         anioFiscalId: this.authInfo.user.ayuntamiento.id,
         ayuntamientoId: this.authInfo.currentFiscalYearId,
         ctgClasificadorId: null,
-        instOtorga: '',
+        instOtorga: '0000',
         ctaControl: '',
         detalle: '',
         anioAnt: 0,
@@ -458,33 +453,67 @@ export default {
         color: 'danger',
         class: 'text-white',
       });
-    }
+    },
+    hasBugetOrExecution(item) {
+      let sumUp = 0;
+
+      for (let i = 1; i < 13; i++) {
+        sumUp += item[`variacion${i.toString().padStart(2, '0')}`];
+        sumUp += item[`ingreso${i.toString().padStart(2, '0')}`];
+      }
+      sumUp += item.variacion + item.ingreso;
+
+      return sumUp > 0;
+    },
+    getInstitucionOtorgante() {
+      Api.getListarInsOtorgante().then(({data: { data }}) => {
+        this.institucionesOtorgantes = data.map(elem => ({
+            code: elem.code,
+            label: `${elem.code}-${elem.detail}`
+          })
+        );
+      })
+    },
   },
   computed: {
     ...mapStores(useAuthStore),
     ...mapState(useAuthStore, ['authInfo']),
+    isFiscalYearApprovedOrClose() {
+      return this.LoginInfo.isFiscalYearCloseOrApproved;
+    },
+    isFiscalYearClosed() {
+      return this.LoginInfo.isFiscalYearClosed;
+    },
+    pageActions() {
+      const actions = [
+        {
+          label: 'Imprimir',
+          accionHandler: this.IngresoReport.bind(this),
+          icon: 'cilPrint'
+        },
+        {
+          label: 'Descargar',
+          accionHandler: this.downloadFile.bind(this),
+          icon: 'cilCloudDownload'
+        }
+      ];
+
+      if (!this.isFiscalYearApprovedOrClose) {
+        actions.push({
+          label: 'Importar Ingresos',
+          accionHandler: this.onFileChange.bind(this),
+          type: 'upload'
+        });
+      }
+
+      return actions;
+    }
   },
 
   mounted() {
-    this.loadData(0)
+    this.loadData(0);
+    this.getInstitucionOtorgante();
   },
 }
 </script>
-<style scoped>
-
-.file-select>.select-button {
-  padding: 0.5rem;
-  line-height: 1.5;
-  color: white;
-  background-color: #375b80;
-
-  border-radius: 0.3rem;
-  cursor: pointer;
-  text-align: center;
-}
-
-.file-select>input[type='file'] {
-  display: none;
-}
-</style>
 

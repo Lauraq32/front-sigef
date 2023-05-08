@@ -61,6 +61,7 @@ import Api from '../services/FormulacionServices'
 
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import { useToastStore } from '@/store/toast'
 
 const emit = defineEmits(['close'])
 const props = defineProps({
@@ -71,7 +72,9 @@ const props = defineProps({
   term: {
     default: '',
   },
-})
+});
+
+const toastStore = useToastStore();
 
 const isLoading = ref(true)
 const clasificadores = ref([])
@@ -131,6 +134,14 @@ function autoSelectClasificator(term) {
       )
       if (found) {
         closeDialog(found);
+      }
+      if (String(term).length >= 6 && !found) {
+        toastStore.show({
+          content: `Clasificador ${term} no encontrado`,
+          closable: false,
+          color: 'warning',
+          time: 5_000
+        })
       }
     }
 }

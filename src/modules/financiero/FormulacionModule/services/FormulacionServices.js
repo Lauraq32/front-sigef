@@ -1,10 +1,11 @@
 import http from '@/Api/http-common'
 import { getAyuntamientoId, getFiscalYearId } from '@/utils/logged-info'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-class   FormulacionApi {
-  downloadIngreso(ayuntamientoId, anioFiscalId) {
+
+class FormulacionApi {
+  downloadIngreso() {
     return http.get(
-      `ExportFile/IngresoFormulacion?ayuntamientoId=${ayuntamientoId}&anioFiscalId=${anioFiscalId}`,
+      `export-file/ingresos-formulacion`,
     )
   }
 
@@ -16,7 +17,10 @@ class   FormulacionApi {
   getListarOrganismo() {
     return http.get('/CtgOrganismoFinanciador')
   }
-
+  getListarInsOtorgante() {
+    return http.get('/instituciones-otorgantes')
+  }
+  
   getEstProgramatica() {
     return http.get('CtgMestProg')
   }

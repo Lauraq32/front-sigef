@@ -1,31 +1,10 @@
 <template>
-  <h3 class="text-center  mb-4">Formulaci&oacute;n Gastos</h3>
+  <h3 class="text-center mb-4">Formulaci&oacute;n Gastos</h3>
   
   <AppAccionHeader
-    :actions="[
-      {
-        label: 'Imprimir',
-        accionHandler: this.IngresoReport.bind(this),
-        icon: 'cilPrint'
-      },
-      {
-        label: 'Cargar Estructuras',
-        accionHandler: this.cargarEstructuras.bind(this),
-        icon: 'cilLayers'
-      },
-      {
-        label: 'Importar Proyectos',
-        accionHandler: this.onFileChangeProyectos.bind(this),
-        type: 'upload'
-      },
-      {
-        label: 'Importar Formulaci&oacute;n',
-        accionHandler: this.onFileChange.bind(this),
-        type: 'upload'
-      }
-    ]"
+    :actions="pageActions"
   >
-    <CButton color="info" @click="setNuevoFormulacionGasto">Agregar</CButton>
+    <CButton color="info" @click="setNuevoFormulacionGasto" v-if="!isFiscalYearClosed">Agregar</CButton>
     <CButton color="secondary" @click="goToIngreso">Ir a Formulaci&oacute;n Ingreso</CButton>
   </AppAccionHeader>
 
@@ -49,6 +28,7 @@
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
     :items-per-page-label="'Artículos por página:'"
+    :no-items-label="''"
   >
     <template #totalPresupuesto="{ item }">
       <td class="text-end">
@@ -69,7 +49,8 @@
           square
           size="sm"
           @click="toggleDetails(item)"
-        >Editar
+        >
+          {{ isFiscalYearApprovedOrClose ? 'Detalle' : 'Editar' }}
         </CButton>
       </td>
     </template>
@@ -78,6 +59,7 @@
   <FormulacionGastoDialog
     :isVisible="showFormulacionDialog"
     :formulacionGasto="formulacionGasto"
+    :isFiscalYearApprovedOrClose="isFiscalYearApprovedOrClose"
     @close="onFormulacionGastoDialogClose"
   />
 
@@ -227,13 +209,22 @@ export default {
           })
 
           if (proyectosList.length) {
-            Api.postCargaMasivaCabecera(proyectosList).then((response) => {
+            Api.postCargaMasivaCabecera(proyectosList).then(() => {
               this.show({
                 content: 'Registro añadido correctamente',
                 closable: true,
                 time: 15_000
               });
               this.loadData();
+            })
+            .catch(({response}) => {
+              this.show({
+                content: response.data,
+                closable: true,
+                time: 15_000,
+                color: 'danger',
+                class: 'text-white',
+              });
             })
           } else {
             this.show({
@@ -372,10 +363,10 @@ export default {
               sumTotalVariacion: 0,
             })
           })
-          pregastoMasivo.map((item) => {
+          pregastoMasivo.forEach((item) => {
             Api.getEstruturaProgramaticaById(item.mestProgId).then(
               (response) => {
-                item.nombre = response.data.data.nombre
+                item.nombre = response.data.data?.nombre ?? '';
               },
             )
           })
@@ -383,11 +374,20 @@ export default {
           if (pregastoMasivo.length) {
             Api.postCargaMasivaDetalle(pregastoMasivo).then(() => {
               this.show({
-                content: 'Registro añadido correctamente',
+                content: 'Registros añadido correctamente',
                 closable: true,
               })
+              this.loadData();
             })
-            this.loadData();
+            .catch(error => {
+              this.show({
+                content: error.response.data,
+                closable: true,
+                color: 'danger',
+                class: 'text-white',
+                time: 15_000
+              })
+            })
           } else {
             this.show({
                 content: 'No se encontraron registros',
@@ -509,8 +509,45 @@ export default {
       'gastoListCount',
       'totalBugetAmount',
     ]),
-  },
+    isFiscalYearApprovedOrClose() {
+      return this.LoginInfo.isFiscalYearCloseOrApproved;
+    },
+    isFiscalYearClosed() {
+      return this.LoginInfo.isFiscalYearClosed;
+    },
+    pageActions() {
+      const actions = [
+        {
+          label: 'Imprimir',
+          accionHandler: this.IngresoReport.bind(this),
+          icon: 'cilPrint'
+        }
+      ];
 
+      if (!this.isFiscalYearApprovedOrClose) {
+        actions.push(...[
+          {
+            label: 'Cargar Estructuras',
+            accionHandler: this.cargarEstructuras.bind(this),
+            icon: 'cilLayers'
+          },
+          {
+            label: 'Importar Proyectos',
+            accionHandler: this.onFileChangeProyectos.bind(this),
+            type: 'upload'
+          },
+          {
+            label: 'Importar Formulación',
+            accionHandler: this.onFileChange.bind(this),
+            type: 'upload'
+          }
+        ]);
+      }
+
+      return actions;
+    }
+  },
+  inject: ['LoginInfo'],
   mounted() {
     this.loadData();
   },
