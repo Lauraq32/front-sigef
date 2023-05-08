@@ -11,15 +11,13 @@
         })
     "
   >
-    <CSidebarBrand>
+    <CSidebarBrand style="height: 75px;">
       <img
         className="sidebar-brand-full"
         src="../../public/LogoTemp.png"
-        height="110"
-        width="140"
+        height="95"
       />
     </CSidebarBrand>
-    <hr />
     <AppSidebarNav />
     <CSidebarToggler
       class="d-none d-lg-flex"

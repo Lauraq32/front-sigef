@@ -21,7 +21,7 @@ import { isAuthenticated } from '@/utils/logged-info'
 
 const routes = [
   {
-    path: '/Home',
+    path: '/',
     name: 'home',
     meta: { label: 'SIGEF' },
     component: DefaultLayout,
