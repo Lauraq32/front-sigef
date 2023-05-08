@@ -90,7 +90,7 @@ export default {
       fullscreenDemo: false,
       visible: false,
       file: null,
-      ModalSaveDocument: false,
+      showModalSaveDocument: false,
       postEmpleado: {},
       documentos: [],
       typeDocument: '',
