@@ -211,10 +211,7 @@ export default {
           label: 'Diabético',
           key: 'emergenciaDiabetico',
         },
-        {
-          label: 'Insulino Dependiente',
-          key: 'emergenciaInsodepend',
-        },
+       
       ],
 
       datosPresionAlterial: [
@@ -240,10 +237,7 @@ export default {
           label: 'Diagnóstico',
           key: 'emergenciaDiagnostico',
         },
-        {
-          label: 'Lugar',
-          key: 'emergenciaDireccion',
-        },
+        
       ],
       datosGenerales: [
         {
@@ -259,7 +253,7 @@ export default {
           key: 'nombres',
         },
         {
-          label: 'Cédula',
+          label: 'Cédula_Pasaporte',
           key: 'codigoIdentidad',
         },
         {
