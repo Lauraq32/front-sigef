@@ -60,7 +60,7 @@
               class="btn btn-info btn-block mt-1"
               @click="
                 () => {
-                  showAgregarAccionPersonalDialog = true
+                  showModalAgregarAccionPersonal()
                 }
               "
             >
@@ -235,6 +235,11 @@ export default {
         })
         return response
       })
+    },
+
+    showModalAgregarAccionPersonal() {
+      this.showAgregarAccionPersonalDialog = true
+      this.clearAccionPersonal()
     },
 
     clearAccionPersonal() {

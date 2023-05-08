@@ -215,6 +215,10 @@ export default {
     saveDataAccionPersonal(data) {
       this.$emit('sendData', data)
       this.clearAccionPersonal()
+      this.isFormEventTypeValidated = false
+      this.isLowerSelectedInitDate = false
+      this.fechaHataValidation = false
+      this.isZeroEqualZero = false
     },
     sendData() {
       this.isFormEventTypeValidated = false
@@ -230,12 +234,16 @@ export default {
 
     validarFechaDesde() {
       const fechaDesde = new Date(this.postAccionPersonal.fechaDesde)
+      fechaDesde.setHours(0, 0, 0, 0)
       const fechaActual = new Date()
+      fechaActual.setHours(0, 0, 0, 0)
       if (fechaDesde < fechaActual) {
         this.isLowerSelectedInitDate = true
       } else {
         this.isLowerSelectedInitDate = false
       }
+
+      this.validarFechaHasta()
     },
 
     validarFechaHasta() {
