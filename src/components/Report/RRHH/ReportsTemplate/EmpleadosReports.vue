@@ -20,8 +20,8 @@
       </div>
 
       <div class="row mt-3">
-        <h6 class="col-6">Datos Generales:</h6>
-        <h6 class="col-6">Datos Laborales:</h6>
+        <h6 class="col-6 text-decoration-underline">Datos Generales:</h6>
+        <h6 class="col-6 text-decoration-underline">Datos Laborales:</h6>
       </div>
 
       <div class="gridy">
@@ -53,8 +53,12 @@
       </div>
 
       <div class="row mt-3">
-        <h6 class="col-6">En Caso de Emergencia Comunicarse con:</h6>
-        <h6 class="col-6">Niveles de Presión Alterial:</h6>
+        <h6 class="col-6 text-decoration-underline">
+          En Caso de Emergencia Comunicarse con:
+        </h6>
+        <h6 class="col-6 text-decoration-underline">
+          Niveles de Presión Alterial:
+        </h6>
       </div>
 
       <div class="gridy">
@@ -64,10 +68,18 @@
             v-for="(data, index) in datosEmergencia"
             :key="index"
           >
-            <div class="col-6 fw-bold">
+            <div
+              :class="{
+                title: data.key === '--',
+                'fw-bold': data.key !== '--',
+                'col-12': data.key === '--',
+                'col-6': data.key !== '--',
+              }"
+            >
               <label for="idCampos"> {{ data.label }}: </label>
             </div>
             <p
+              v-if="data.key !== '--'"
               class="col-6 text-truncate"
               id="idCampos"
               v-html="lookInfo(data.key)"
@@ -80,10 +92,18 @@
             v-for="(data, index) in datosPresionAlterial"
             :key="index"
           >
-            <div class="col-6 fw-bold">
+            <div
+              :class="{
+                title: data.key === '--',
+                'fw-bold': data.key !== '--',
+                'col-12': data.key === '--',
+                'col-6': data.key !== '--',
+              }"
+            >
               <label for="idCampos"> {{ data.label }}: </label>
             </div>
             <p
+              v-if="data.key !== '--'"
               class="col-6 text-truncate"
               id="idCampos"
               v-html="lookInfo(data.key)"
@@ -176,6 +196,10 @@ export default {
           key: 'emergenciaParentezco',
         },
         {
+          label: 'Información Médico del Empleado',
+          key: '--',
+        },
+        {
           label: 'Tipo de sangre',
           key: 'tipoSangre.nombre',
         },
@@ -206,21 +230,19 @@ export default {
           label: 'En tratamiento',
           key: 'emergenciaEnTratamiento',
         },
+
+        {
+          label: 'Intervención Quirúrgico (más reciente)',
+          key: '--',
+        },
+
         {
           label: 'Diagnóstico',
           key: 'emergenciaDiagnostico',
         },
         {
-          label: 'Fecha',
-          key: 'fechaIngreso',
-        },
-        {
           label: 'Lugar',
           key: 'emergenciaDireccion',
-        },
-        {
-          label: 'Otros',
-          key: 'codigo',
         },
       ],
       datosGenerales: [
@@ -342,5 +364,11 @@ img {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
+}
+.title label {
+  font-size: 18px;
+  margin-top: 20px;
+  font-weight: bold;
+  text-decoration: underline;
 }
 </style>
