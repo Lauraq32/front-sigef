@@ -58,11 +58,7 @@
           <div class="d-flex flex-row-reverse">
             <button
               class="btn btn-info btn-block mt-1"
-              @click="
-                () => {
-                  showModalAgregarAccionPersonal()
-                }
-              "
+              @click="showModalAgregarAccionPersonal()"
             >
               Nuevo
             </button>
