@@ -413,7 +413,7 @@
                     <CFormLabel for="tipoSangreId">Tipo Sangre</CFormLabel>
                     <CFormSelect v-model="postEmpleado.tipoSangreId" id="tipoSangreId" required>
                       <option value="" disabled selected>Seleccione</option>
-                      <option v-for="sangre in this.tipoSangre" :key="sangre.id" :value="sangre.id">
+                      <option v-for="sangre in this.tipoSangre" :key="sangre.id" :value="sangre.id">P
                         {{ sangre.nombre }}
                       </option>
                     </CFormSelect>
@@ -475,7 +475,7 @@
 
                   <CCol>
                     <CFormLabel for="diagnostico">Detalle diagnostico</CFormLabel>
-                    <CFormTextarea id="diagnostico" required />
+                    <CFormTextarea v-model="postEmpleado.emergenciaDiagnostico" id="diagnostico" required />
 
                   </CCol>
                 </div>
