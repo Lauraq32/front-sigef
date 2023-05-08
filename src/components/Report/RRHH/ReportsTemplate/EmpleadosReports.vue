@@ -9,7 +9,7 @@
     <div class="container-fluid flex-column">
       <div class="text-center justify-content-center">
         <h5>{{ ayuntamiento.descripcion }}</h5>
-        <p>Telefono {{ empleado.telefono }}</p>
+        <p>Teléfonos {{ empleado.telefono }}</p>
         <h5>Tarjeta del Empleado</h5>
       </div>
 
@@ -128,7 +128,7 @@ export default {
         },
 
         {
-          label: 'Area',
+          label: 'Área',
           key: 'areaTrabajo.descripcion',
         },
 
@@ -164,11 +164,11 @@ export default {
           key: 'emergenciaNombre',
         },
         {
-          label: 'Telefonos',
+          label: 'Teléfonos',
           key: 'emergenciaTelefono',
         },
         {
-          label: 'Direccion',
+          label: 'Dirección',
           key: 'emergenciaDireccion',
         },
         {
@@ -180,11 +180,11 @@ export default {
           key: 'tipoSangre.nombre',
         },
         {
-          label: 'Alergico a',
+          label: 'Alérgico a',
           key: 'emergenciaAlergico',
         },
         {
-          label: 'Diabetico',
+          label: 'Diabético',
           key: 'emergenciaDiabetico',
         },
         {
@@ -207,7 +207,7 @@ export default {
           key: 'emergenciaEnTratamiento',
         },
         {
-          label: 'Diagnostico',
+          label: 'Diagnóstico',
           key: 'emergenciaDiagnostico',
         },
         {
@@ -237,11 +237,11 @@ export default {
           key: 'nombres',
         },
         {
-          label: 'Cedula',
+          label: 'Cédula',
           key: 'codigoIdentidad',
         },
         {
-          label: 'Dirrecion',
+          label: 'Dirección',
           key: 'direccion',
         },
         {
@@ -250,7 +250,7 @@ export default {
         },
 
         {
-          label: 'Telefono',
+          label: 'Teléfonos',
           key: 'telefono',
         },
         {
