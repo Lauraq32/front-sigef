@@ -174,6 +174,7 @@ export default {
           sorter: false,
         },
       ],
+      imageUrl: ''
     }
   },
 
@@ -268,13 +269,7 @@ export default {
       })
 
       this.loadData()
-      ApiFiles.getEmployeeIdentityImage({
-        empleadoId: this.empleado.id,
-        FileType: '.png',
-        FileType2: 'png',
-      }).then((url) => {
-        this.imageUrl = url
-      })
+      this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${this.empleado.idImagePerfil}`
     },
   },
 

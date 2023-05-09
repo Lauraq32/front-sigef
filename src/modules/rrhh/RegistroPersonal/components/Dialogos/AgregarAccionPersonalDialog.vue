@@ -20,7 +20,6 @@
             </div>
             <div class="col-9 col-md-6">
               <CFormInput
-                v-on:change="validarFechaDesde"
                 required
                 id="validationCustom01"
                 v-model="fechaDesde"
@@ -164,6 +163,7 @@ export default {
   computed: {
     fechaDesde: {
       get() {
+        console.log(this.postAccionPersonal.fechaDesde)
         if (
           this.postAccionPersonal.fechaDesde !== null &&
           this.postAccionPersonal.fechaDesde?.toString() !== 'Invalid Date'
@@ -176,9 +176,10 @@ export default {
         }
       },
       set(value) {
-        return (this.postAccionPersonal.fechaDesde = new Date(
-          `${value}T00:00:00`,
-        ))
+        if (!value) return;
+        alert(value)
+        this.postAccionPersonal.fechaDesde = new Date(`${value}T00:00:00`);
+        this.validarFechaDesde();
       },
     },
 
