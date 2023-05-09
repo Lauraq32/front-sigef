@@ -200,7 +200,7 @@ export default {
   methods: {
     onTypeChange($event) {
       if ($event.target.value === 'abastecimiento') {
-        this.postEvento.empleadoId = 0
+        this.postEvento.empleadoId = undefined;
       }
     },
 
@@ -214,10 +214,10 @@ export default {
 
     sendData() {
       this.isFormEventTypeValidated = false
-      this.isFormValidatedInputUtil = this.postEvento.utilId === 0
+      this.isFormValidatedInputUtil = !this.postEvento.utilId
       if (
         this.$refs.eventTypeForm.$el.checkValidity() &&
-        this.postEvento.utilId !== 0
+        this.postEvento.utilId
       ) {
         return this.submitEventos({ ...this.postEvento })
       }
