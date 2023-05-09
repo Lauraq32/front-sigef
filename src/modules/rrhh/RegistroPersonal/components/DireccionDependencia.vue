@@ -18,24 +18,12 @@
     </div>
   </div>
   <hr />
-  <CSmartTable
-    class="sticky-top"
-    clickableRows
-    :tableProps="{
-      striped: true,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    header
-    :footer="footerItem"
-    :items="direccionDependecia"
+  <DireccionDepenciaTable
     :columns="columns"
-    columnFilter
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'nombre', state: 'asc' }"
-    pagination
+    :footerItems="footerItem"
+    :items="direccionDependecia"
+    :showButtons="true"
+    @edit="editDireccionDependecia"
   >
     <template #show_details="{ item }">
       <td class="py-2">
@@ -50,7 +38,7 @@
         >
       </td>
     </template>
-  </CSmartTable>
+  </DireccionDepenciaTable>
   <DireccionDependeciaDialogs
     :newDireccionDependeciaModal="newDireccionDependeciaModal"
     @close-modal="closeModal"
@@ -59,7 +47,7 @@
   />
 </template>
 <script>
-import { CSmartTable } from '@coreui/vue-pro'
+import DireccionDepenciaTable from '@/modules/rrhh/RegistroPersonal/components/DireccionDepenciaTable.vue'
 import { CModal } from '@coreui/vue'
 import { mapActions } from 'pinia'
 import { useToastStore } from '@/store/toast'
@@ -67,7 +55,7 @@ import DireccionDependeciaDialogs from '../Dialogos/DireccionDependenciaModal.vu
 import Api from '../services/RegistroPersonalServices'
 export default {
   components: {
-    CSmartTable,
+    DireccionDepenciaTable,
     CModal,
     DireccionDependeciaDialogs,
   },
@@ -78,7 +66,11 @@ export default {
       newDireccionDependeciaModal: false,
       columns: [
         { key: 'nombre', label: 'Nombre', _style: { width: '40%' } },
-        { key: 'estructura', label: 'Estructura Programática', _style: { width: '40%' } },
+        {
+          key: 'estructura',
+          label: 'Estructura Programática',
+          _style: { width: '40%' },
+        },
         {
           key: 'show_details',
           label: '',

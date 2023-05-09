@@ -298,7 +298,7 @@ export default [
 
           {
             component: 'CNavItem',
-            name: 'Clasificadores nómina',
+            name: 'Clasificadores nómina', 
             to: '/NominaModule/clasificadoresNomina',
             icon: 'cilBook',
           },
@@ -310,7 +310,7 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Direccion o Dependecias',
+            name: 'Dirección o dependencia',
             to: '/NominaModule/Programas',
             icon: 'cilChalkboardTeacher',
           },
@@ -328,7 +328,7 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Posiciones/Cargo',
+            name: 'Posiciones/ Cargos',
             to: '/NominaModule/PosicionesCargo',
             icon: 'cilAddressBook',
           },
