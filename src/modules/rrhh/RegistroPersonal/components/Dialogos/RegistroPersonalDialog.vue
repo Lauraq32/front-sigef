@@ -69,7 +69,7 @@
                           id="validationCtipoDocumentoustom05">
                           <option disabled selected value="">Seleccionar</option>
                           <option value="cedula">C&eacute;dula</option>
-                          <option value="pasaporte">Pasaporte</option>
+                          <option value="Pasaporte">Pasaporte</option>
                         </CFormSelect>
                       </CCol>
                     </div>
@@ -282,8 +282,8 @@
                       <CFormLabel for="tipoContrato">Tipo de contrato</CFormLabel>
                       <CFormSelect v-model="postEmpleado.tipoContrato" id="tipoContrato" required>
                         <option disabled selected value="">Seleccionar</option>
-                        <option>Tipo de contrato 1</option>
-                        <option>Tipo de contrato 2</option>
+                        <option>Temporal</option>
+                        <option>Fijo</option>
                       </CFormSelect>
 
                     </CCol>
@@ -413,7 +413,7 @@
                     <CFormLabel for="tipoSangreId">Tipo Sangre</CFormLabel>
                     <CFormSelect v-model="postEmpleado.tipoSangreId" id="tipoSangreId" required>
                       <option value="" disabled selected>Seleccione</option>
-                      <option v-for="sangre in this.tipoSangre" :key="sangre.id" :value="sangre.id">P
+                      <option v-for="sangre in this.tipoSangre" :key="sangre.id" :value="sangre.id">
                         {{ sangre.nombre }}
                       </option>
                     </CFormSelect>
@@ -834,6 +834,8 @@ export default {
         this.imageUrl = response
       }).catch(console.log)
     },
+
+    
 
     closeModal() {
       this.$emit('close-modal')
