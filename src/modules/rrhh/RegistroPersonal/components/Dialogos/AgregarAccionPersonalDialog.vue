@@ -20,6 +20,7 @@
             </div>
             <div class="col-9 col-md-6">
               <CFormInput
+                @change="validarFechaDesde"
                 required
                 id="validationCustom01"
                 v-model="fechaDesde"
@@ -163,38 +164,40 @@ export default {
   computed: {
     fechaDesde: {
       get() {
-        console.log(this.postAccionPersonal.fechaDesde)
+        let date = this.postAccionPersonal.fechaDesde
         if (
           this.postAccionPersonal.fechaDesde !== null &&
           this.postAccionPersonal.fechaDesde?.toString() !== 'Invalid Date'
         ) {
-          let date = this.postAccionPersonal.fechaDesde
           if (typeof this.postAccionPersonal.fechaDesde === 'string') {
-            date = new Date(this.postAccionPersonal.fechaDesde)
+            date =
+              typeof date === 'string'
+                ? new Date(this.postAccionPersonal.fechaDesde)
+                : date
             return date.toISOString().split('T')[0]
           }
         }
+        return date?.toISOString()?.split('T')?.[0]
       },
       set(value) {
-        if (!value) return;
-        alert(value)
-        this.postAccionPersonal.fechaDesde = new Date(`${value}T00:00:00`);
-        this.validarFechaDesde();
+        this.postAccionPersonal.fechaDesde = new Date(`${value}T00:00:00`)
+        this.validarFechaDesde()
       },
     },
 
     fechaHasta: {
       get() {
+        let date = this.postAccionPersonal.fechaHasta
         if (
           this.postAccionPersonal.fechaHasta !== null &&
           this.postAccionPersonal.fechaHasta?.toString() !== 'Invalid Date'
         ) {
-          let date = this.postAccionPersonal.fechaHasta
           if (typeof this.postAccionPersonal.fechaHasta === 'string') {
             date = new Date(this.postAccionPersonal.fechaHasta)
             return date.toISOString().split('T')[0]
           }
         }
+        return date?.toISOString()?.split('T')?.[0]
       },
       set(value) {
         return (this.postAccionPersonal.fechaHasta = new Date(
@@ -249,12 +252,10 @@ export default {
 
     validarFechaHasta() {
       const fechaDesde = new Date(this.postAccionPersonal.fechaHasta)
-      const fechaActual = this.postAccionPersonal.fechaDesde
-      if (fechaDesde < fechaActual) {
-        this.fechaHataValidation = true
-      } else {
-        this.fechaHataValidation = false
-      }
+      fechaDesde.setHours(0, 0, 0, 0)
+      const fechaActual = new Date(this.postAccionPersonal.fechaDesde)
+      fechaActual.setHours(0, 0, 0, 0)
+      this.fechaHataValidation = fechaDesde < fechaActual
     },
   },
 

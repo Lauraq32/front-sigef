@@ -135,7 +135,6 @@ import { CForm, CSmartTable } from '@coreui/vue-pro'
 import { formatDate } from '@/utils/format'
 import Api from '@/modules/rrhh/RegistroPersonal/services/RegistroPersonalServices'
 import AgregarAccionPersonalDialog from '@/modules/rrhh/RegistroPersonal/components/Dialogos/AgregarAccionPersonalDialog.vue'
-import ApiFiles from '@/modules/rrhh/RegistroPersonal/services/Files'
 import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
 
@@ -269,7 +268,7 @@ export default {
       })
 
       this.loadData()
-      this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${this.empleado.idImagePerfil}`
+      this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${this.empleado.idImagePerfil ?? -1}`
     },
   },
 
