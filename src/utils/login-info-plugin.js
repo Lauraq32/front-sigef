@@ -1,11 +1,19 @@
-import { reactive } from "vue";
-import { clearLoggedInfo,  getFiscalYearId, getLoggedInfo, getAyuntamientoId } from "./logged-info";
+import { inject, reactive } from "vue";
+import { clearLoggedInfo,  getFiscalYearId, getLoggedInfo, getAyuntamientoId, fiscalYearInfo } from "./logged-info";
 
 export function loggedInfo(app) {
     const info = reactive({
         fiscalYearId: getFiscalYearId(),
         ayuntamientoId: getAyuntamientoId(),
-        loggedInfo: getLoggedInfo()
+        loggedInfo: getLoggedInfo(),
+        get isFiscalYearCloseOrApproved() {
+            const data = fiscalYearInfo();
+            return /cerrado/i.test(data?.estatus) || data?.esAprobado;
+        },
+        get isFiscalYearClosed() {
+            const data = fiscalYearInfo();
+            return /cerrado/i.test(data?.estatus);
+        }
     });
 
     app.config.globalProperties.$fiscalYearId = info.fiscalYearId;
@@ -14,4 +22,10 @@ export function loggedInfo(app) {
 
     
     app.config.globalProperties.$logout = clearLoggedInfo;
+
+    app.provide('LoginInfo', info);
+}
+
+export function useLoginInfo() {
+   return inject('LoginInfo');
 }

@@ -5,10 +5,11 @@
         alignment="center"
         :visible="isVisible"
         :size="fiscalYearList.length < 5 ? 'lg' : 'xl'"
+        @close="closeDialog()"
     >
-        <CModalHeader :close-button="false">
+        <CModalHeader>
             <CModalTitle>
-                Selecciona el a&ntilde;o fiscal deseado
+                Selecciona el a&ntilde;o fiscal deseado para [{{ mayority?.descripcion }} ({{ mayority?.codigo }})]
             </CModalTitle>
         </CModalHeader>
         <CModalBody>
@@ -37,21 +38,18 @@
                     @click="closeDialog(fiscarYear)"
                 >
                     <header>
-                        <h3 class="display-3">{{ fiscarYear.anio }}</h3>
-                        <CBadge color="primary" position="top-start" shape="rounded-pill">
+                        <h3 class="display-6 fst-italic ls-2">{{ fiscarYear.anio }}</h3>
+                        <CBadge color="dark" position="top-start" shape="rounded-pill">
                             {{ fiscarYear.id }}
                         </CBadge>
                     </header>
-                    <small
-                        class="upper-case"
-                        :class="{
-                            'text-success': /actual/i.test(fiscarYear.estatus),
-                            'text-warning': /abierto/i.test(fiscarYear.estatus)
-                        }"
+                    <CBadge
+                        class="upper-case mb-1"
+                        :color="determineColor(fiscarYear.estatus)"
                     >
                         {{ fiscarYear.estatus }}
-                    </small>
-                    <small>{{ (fiscarYear.esAprobado && 'Aprobado') || '' }}</small>
+                    </CBadge>
+                    <CBadge color="danger">{{ (fiscarYear.esAprobado && 'Aprobado') || '' }}</CBadge>
                 </section>
             </div>
         </CModalBody>
@@ -72,7 +70,8 @@ const props = defineProps({
         type: Array,
         default: [],
         required: true
-    }
+    },
+    mayority: Object
 });
 
 const closeDialog = (fiscarYear) => {
@@ -89,6 +88,16 @@ const filterFiscalYearByAnioIdStatus = ({target: {value}}) => {
         return [`${fy.id}`, `${fy.anio}`, fy.esAprobado ? 'Aprobado' : ''].join(' ').includes(value) 
     });
 }
+const determineColor = (badgeText) => {
+    if (/cerrado|aprobado/i.test(badgeText)) {
+        return 'danger';
+    }
+    if (/actual/i.test(badgeText)) {
+        return 'success';
+    }
+
+    return 'dark';
+}
 
 watchEffect(() => {
     if (props.fiscalYearList.length) {
@@ -104,11 +113,12 @@ watchEffect(() => {
 .fy-card {
     background-color: #f5f5f5;
     cursor: pointer;
-    transition: all 250ms ease-in-out;
+    transition: all .2s ease-in-out;
 }
 .fy-card:hover {
-    transform: scale(1.1, 1.1);
+    transform: translateY(-10%) scale(1.1, 1.1);
     background-color: #fff;
+    z-index: 2;
 }
 .padding-input {
     padding-right: 2.5rem;
@@ -120,5 +130,8 @@ watchEffect(() => {
     transform: translateY(-50%);
     cursor: pointer;
     right: 2px;
+}
+.ls-2 {
+    letter-spacing: 2px;
 }
 </style>

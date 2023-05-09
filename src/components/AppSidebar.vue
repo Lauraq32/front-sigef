@@ -11,15 +11,13 @@
         })
     "
   >
-    <CSidebarBrand>
+    <CSidebarBrand style="height: 75px;">
       <img
         className="sidebar-brand-full"
         src="../../public/LogoTemp.png"
-        height="110"
-        width="140"
+        height="95"
       />
     </CSidebarBrand>
-    <hr />
     <AppSidebarNav />
     <CSidebarToggler
       class="d-none d-lg-flex"
@@ -40,8 +38,6 @@
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 import { AppSidebarNav } from './AppSidebarNav'
-import { logoNegative } from '@/assets/brand/logo-negative'
-import { sygnet } from '@/assets/brand/sygnet'
 export default {
   name: 'AppSidebar',
   components: {
@@ -50,8 +46,6 @@ export default {
   setup() {
     const store = useStore()
     return {
-      logoNegative,
-      sygnet,
       sidebarUnfoldable: computed(() => store.state.sidebarUnfoldable),
       sidebarVisible: computed(() => store.state.sidebarVisible),
     }
