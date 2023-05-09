@@ -177,7 +177,7 @@ export default {
     },
 
     saveUtilesLaborales(payload) {
-      Api.postinventarioSeleccionado(this.id, payload)
+      Api.postInventarioById(this.id, payload)
         .then((response) => {
           setTimeout(this.getInventario, 500)
           setTimeout(this.getUtilesInventario(this.id), 500)
