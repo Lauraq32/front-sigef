@@ -1,8 +1,8 @@
 <template>
   <div>
-    <CModal backdrop="static" @close="onClick" size="lg" :visible="showModal">
+    <CModal backdrop="static" size="lg" :visible="showModal">
       <CModalHeader>
-        <CModalTitle>Captura de imagenes Asociadas al Documento</CModalTitle>
+        <CModalTitle>Captura de Im&acute;genes Asociadas al Documento</CModalTitle>
       </CModalHeader>
       <CModalBody>
         <div class="d-flex justify-content-end">
@@ -28,6 +28,9 @@
           </template>
         </CSmartTable>
       </CModalBody>
+      <CModalFooter>
+        <CButton color="secondary" @click="onClick">Cerrar</CButton>
+      </CModalFooter>
     </CModal>
     <CModal backdrop="static" size="md" :visible="showModalSaveDocument" @close="closeModalSaveDocument">
       <CModalHeader>
@@ -51,7 +54,7 @@
         </CForm>
       </CModalBody>
       <CModalFooter>
-        <CButton color="info" @click="closeModalSaveDocument">Cerrar</CButton>
+        <CButton color="secondary" @click="closeModalSaveDocument">Cerrar</CButton>
         <CButton color="info" @click="sendData">Guardar</CButton>
       </CModalFooter>
     </CModal>
