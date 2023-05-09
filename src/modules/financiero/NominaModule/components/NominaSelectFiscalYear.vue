@@ -6,9 +6,6 @@
                 <CFormSelect id="fiscalYearSelect" v-model="selectedFiscalYear" @change="setFiscalYear"
                     aria-label="Selecionar año fiscal" :options="fiscalYearList">
                 </CFormSelect>
-                <div class="form-label col-auto col-form-label">
-                    <CBadge class="d-block mt-1" :color="determineColor(text)" v-for="text of selectedFiscalYearInfo">{{ text }}</CBadge>
-                </div>
             </div>
             <div class="d-flex gap-3 align-items-center">
                 <slot></slot>
@@ -44,11 +41,10 @@ import { useAuthStore } from '@/store/AuthStore';
 import FileSelector from '@/components/FileSelector.vue';
 
 export default {
-    name: 'AppActionHeader',
+    name: 'NominaSelectFiscalYear',
     components: {
         FileSelector,
     },
-
     props: {
         actions: {
             type: Array,
@@ -79,35 +75,16 @@ export default {
             })
             .sort((first, second) => second.info.anio - first.info.anio)
         },
-        selectedFiscalYearInfo() {
-            const fy = this.fiscalYearList.find(fy => fy.value === Number(this.selectedFiscalYear));
-            if (fy) {
-                return [fy.info.estatus, fy.info.esAprobado ? 'Aprobado' : null].filter(Boolean);
-            }
-
-            return [];
-        }
     },
     methods: {
         ...mapActions(useAuthStore, ['changeFiscalYear']),
 
         setFiscalYear({ target: { value } }) {
             this.changeFiscalYear(Number(value));
-            this.$router.go();
         },
         catchFileSelection(event, callback) {
             callback(event);
         },
-        determineColor(badgeText) {
-            if (/cerrado|aprobado/i.test(badgeText)) {
-                return 'danger';
-            }
-            if (/actual/i.test(badgeText)) {
-                return 'success';
-            }
-
-            return 'dark';
-        }
     },
     mounted() {
         this.selectedFiscalYear = `${this.authInfo.currentFiscalYearId}`;
