@@ -2,7 +2,7 @@
   <div>
     <CModal backdrop="static" size="lg" :visible="showModal">
       <CModalHeader>
-        <CModalTitle>Captura de Im&acute;genes Asociadas al Documento</CModalTitle>
+        <CModalTitle>Captura de Im&aacute;genes Asociadas al Documento</CModalTitle>
       </CModalHeader>
       <CModalBody>
         <div class="d-flex justify-content-end">
