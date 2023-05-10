@@ -241,7 +241,8 @@
                   </CCol>
                   <CCol :md="12">
                     <CFormLabel for="programaDivisionId">Dirección o dependencia</CFormLabel>
-                    <CFormSelect v-model="postEmpleado.programaDivisionId" id="programaDivisionId" @change="getListDepartamento($event)" required>
+                    <CFormSelect v-model="postEmpleado.programaDivisionId" id="programaDivisionId"
+                      @change="getListDepartamento($event)" required>
                       <option value="" disabled selected>Seleccione</option>
                       <option v-for="programa in this.programaDivision" :key="programa.id" :value="programa.id">
                         {{ programa.nombre }}
@@ -347,17 +348,17 @@
                 <div class="col-4 border">
                   <CCol>
                     <CFormLabel for="licenciaConducir">Licencia de conducir</CFormLabel>
-                    <CFormInput v-model="licenciaConducir" type="date" id="licenciaConducir"  />
+                    <CFormInput v-model="licenciaConducir" type="date" id="licenciaConducir" />
 
                   </CCol>
                   <CCol>
                     <CFormLabel for="fechaExpiracionLicencia">Fecha expiraci&oacute;n licencia de conducir</CFormLabel>
-                    <CFormInput v-model="fechaExpiracionLicencia" type="date" id="fechaExpiracionLicencia"  />
+                    <CFormInput v-model="fechaExpiracionLicencia" type="date" id="fechaExpiracionLicencia" />
 
                   </CCol>
                   <CCol>
                     <CFormLabel for="fechaExpitaTarjeta">Fecha expira tarjeta del banco:</CFormLabel>
-                    <CFormInput v-model="fechaExpitaTarjeta" type="date" id="fechaExpitaTarjeta"  />
+                    <CFormInput v-model="fechaExpitaTarjeta" type="date" id="fechaExpitaTarjeta" />
                   </CCol>
                 </div>
                 <div class="col-4 border p-3">
@@ -591,6 +592,7 @@ export default {
   data: function () {
 
     return {
+      imageId : null,
       isFormEventTypeValidated: false,
       onlyNumber,
       profilePhoto: null,
@@ -708,6 +710,7 @@ export default {
         correoElectronico: null,
         correoElectronico2: null,
         recomendadoPor: null,
+        idImagenPerfil: null
       },
     }
   },
@@ -735,7 +738,12 @@ export default {
           formData.append('file', file)
           formData.append('empleadoId', this.empleadoId)
           formData.append('profileImage', 1)
-          fileApi.saveFile(formData)
+          formData.append('public', true)
+          fileApi.saveFile(formData).then(response => {
+            this.postEmpleado.idImagenPerfil = response.data.data[0].id
+            this.imageId = response.data.data[0].id
+            console.log(response.data.data[0].id)
+          })
             .catch(console.log)
         };
         reader.readAsDataURL(file);
@@ -824,22 +832,25 @@ export default {
     getRegistroPersonal(id) {
       Api.getEmpleadoByID(id).then((response) => {
         this.postEmpleado = { ...response.data.data }
+        this.imageId = this.postEmpleado.idImagenPerfil
+        this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${this.imageId ?? -1}`
       })
-      fileApi.getEmployeeIdentityImage({
-        empleadoId: this.empleadoId,
-        profileImage: 1,
-        FileType: '.png',
-        FileType2: 'png',
-        FileType3: '.jpg',
-        FileType4: 'jpg',
-        FileType5: '.jpeg',
-        FileType6: 'jpeg',
-      }).then(response => {
-        this.imageUrl = response
-      }).catch(console.log)
+    
+      // fileApi.getEmployeeIdentityImage({
+      //   empleadoId: this.empleadoId,
+      //   profileImage: 1,
+      //   FileType: '.png',
+      //   FileType2: 'png',
+      //   FileType3: '.jpg',
+      //   FileType4: 'jpg',
+      //   FileType5: '.jpeg',
+      //   FileType6: 'jpeg',
+      // }).then(response => {
+      //   this.imageUrl = response
+      // }).catch(console.log)
     },
 
-    
+
 
     closeModal() {
       this.$emit('close-modal')
@@ -947,7 +958,7 @@ export default {
         recomendadoPor: null,
       }
     },
- 
+
   },
 
   mounted() {
@@ -970,12 +981,12 @@ export default {
             return date.toISOString().split('T')[0]
           }
         }
-        if(this.postEmpleado.fechaIngreso == null){
+        if (this.postEmpleado.fechaIngreso == null) {
           return null
-        }else{
+        } else {
           return date.toISOString().split('T')[0]
         }
-      
+
       },
       set(value) {
         return (this.postEmpleado.fechaIngreso = value == null ? null : new Date(`${value}T00:00:00`))
