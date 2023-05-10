@@ -25,6 +25,14 @@ class Files {
             return URL.createObjectURL(response.data);
         })
     }
+
+    getEmployeeIdentityImage(tags) {
+        return this.getFiles({
+          tag: tags,
+        }).then((files) => {
+          return this.getFileById(files.pop().id)
+        })
+    }
 }
 
 
