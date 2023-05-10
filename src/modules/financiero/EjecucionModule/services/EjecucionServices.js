@@ -89,15 +89,13 @@ class Ejecucion {
   }
 
   downloadGastoModificacion(value) {
-    console.log(value)
     return http.get(
-      `ExportFile/IngresoModificacion?ayuntamientoId=${getAyuntamientoId()}&anioFiscalId=${getFiscalYearId()}&mes=${value}`,
+      `export-file/ingresos-modificacion?mes=${value}`,
     )
   }
   downloadGastoEjecucion(value) {
-    console.log(value)
     return http.get(
-      `ExportFile/IngresoEjecucion?ayuntamientoId=${getAyuntamientoId()}&anioFiscalId=${getFiscalYearId()}&mes=${value}`,
+      `export-file/ingresos-ejecucion?mes=${value}`,
     )
   }
   //Get tipo retenciones
