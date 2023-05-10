@@ -224,6 +224,8 @@ export default {
     },
 
     clearUtilesLaborales() {
+      this.isFormEventTypeValidated = false
+      this.id = null
       this.postInventarioCantidad = {
         fecha: null,
         observacion: null,
@@ -256,6 +258,12 @@ export default {
           `${value}T00:00:00`,
         ))
       },
+    },
+  },
+
+  watch: {
+    showModal() {
+      this.clearUtilesLaborales()
     },
   },
 

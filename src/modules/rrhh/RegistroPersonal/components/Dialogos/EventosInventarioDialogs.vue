@@ -200,7 +200,7 @@ export default {
   methods: {
     onTypeChange($event) {
       if ($event.target.value === 'abastecimiento') {
-        this.postEvento.empleadoId = undefined;
+        this.postEvento.empleadoId = undefined
       }
     },
 
@@ -225,6 +225,9 @@ export default {
     },
 
     clearEventos() {
+      this.isFormEventTypeValidated = false
+      this.isFormValidatedInputUtil = false
+      this.id = null
       this.postEvento = {
         utilId: 0,
         fecha: new Date(),
@@ -232,6 +235,12 @@ export default {
         tipo: null,
         empleadoId: 0,
       }
+    },
+  },
+
+  watch: {
+    showModal() {
+      this.clearEventos()
     },
   },
 
