@@ -64,19 +64,9 @@ export default {
 
   watch: {
     empleado(obj) {
-      Api.getFiles({
-        tag: {
-          empleadoId: obj.id,
-          FileType: '.png',
-          FileType2: 'png',
-        },
-      })
-        .then((files) => {
-          return Api.getFileById(files.pop().id)
-        })
-        .then((blobUrl) => {
-          this.imageUrl = blobUrl
-        })
+      this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${
+        obj.idImagenPerfil ?? -1
+      }`
     },
   },
 

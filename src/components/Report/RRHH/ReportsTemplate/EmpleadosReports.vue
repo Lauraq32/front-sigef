@@ -211,7 +211,6 @@ export default {
           label: 'Diabético',
           key: 'emergenciaDiabetico',
         },
-       
       ],
 
       datosPresionAlterial: [
@@ -237,7 +236,6 @@ export default {
           label: 'Diagnóstico',
           key: 'emergenciaDiagnostico',
         },
-        
       ],
       datosGenerales: [
         {
@@ -310,6 +308,9 @@ export default {
         this.empleado.fechaNacimiento = this.formatDate(
           this.empleado.fechaNacimiento,
         )
+        this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${
+        this.empleado.idImagenPerfil ?? -1
+      }`
         this.getAyuntamientobyId(response.data.data.ayuntamientoId)
       })
     },
@@ -320,19 +321,9 @@ export default {
       )
     },
 
-    loadImage() {
-      ApiFiles.getEmployeeIdentityImage({
-        empleadoId: this.empleadoId,
-        FileType: '.png',
-        FileType2: 'png',
-      }).then((url) => {
-        this.imageUrl = url
-      })
-    },
   },
   mounted() {
     this.getEmpleadoById(this.empleadoId)
-    this.loadImage()
   },
 }
 </script>
