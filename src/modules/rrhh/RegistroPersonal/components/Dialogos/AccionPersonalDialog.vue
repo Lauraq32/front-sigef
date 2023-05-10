@@ -47,8 +47,8 @@
               </div>
             </div>
           </div>
-          <div class="col-5 border">
-            <div style="width: 100%">
+          <div class="col-5">
+            <div class="border" style="width: 80%">
               <img :src="imageUrl" alt="imagen Empleado" />
             </div>
           </div>
@@ -173,7 +173,7 @@ export default {
           sorter: false,
         },
       ],
-      imageUrl: ''
+      imageUrl: '',
     }
   },
 
@@ -268,7 +268,9 @@ export default {
       })
 
       this.loadData()
-      this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${this.empleado.idImagePerfil ?? -1}`
+      this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${
+        this.empleado.idImagenPerfil ?? -1
+      }`
     },
   },
 
