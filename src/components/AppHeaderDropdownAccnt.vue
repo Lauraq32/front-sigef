@@ -1,7 +1,6 @@
 <template>
   <CDropdown>
-    <CDropdownToggle style="background-color: #eee;" placement="bottom-end" class="py-0" :caret="false">
-      <CIcon icon="cilOptions"/>
+    <CDropdownToggle style="background-color: #eee;" placement="bottom-end" class="py-0 d-flex align-items-center">
       <span class="me-2"> {{ userName }}</span>
       <CAvatar :src="avatar" size="md" />
     </CDropdownToggle>

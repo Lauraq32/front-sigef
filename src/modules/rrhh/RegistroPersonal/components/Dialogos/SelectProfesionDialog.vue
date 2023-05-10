@@ -58,7 +58,7 @@ export default {
 
     getProfesion(item) {
       this.$emit('select-profesion', item)
-
+      this.closeModal()
     },
     listarProfesiones() {
       Api.getProfesiones().then(response => (

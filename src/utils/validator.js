@@ -1,5 +1,5 @@
 export function onlyLetter(event) {
-    if(!(/[a-z]+/i.test(event.key))) {
+    if(!(/[a-z\s]+/i.test(event.key))) {
         event.preventDefault();
         return false;
     }

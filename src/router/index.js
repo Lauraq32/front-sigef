@@ -21,7 +21,7 @@ import { isAuthenticated } from '@/utils/logged-info'
 
 const routes = [
   {
-    path: '/Home',
+    path: '/',
     name: 'home',
     meta: { label: 'SIGEF' },
     component: DefaultLayout,
@@ -152,7 +152,6 @@ const routes = [
             /* webpackChunkName: "dashboard" */ '@/components/Report/RRHH/ReportsTemplate/EmpleadosReports.vue'
           ),
       },
-
       {
         path: '/',
         name: 'Login',

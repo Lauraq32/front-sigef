@@ -138,14 +138,13 @@
                     <div class="row">
                       <h3>Cuenta</h3>
                       <div class="col-4">
-                        <CFormLabel for="oriBco1">Personal</CFormLabel>
-                        <CurrencyInput id="oriBco1" v-model="detalle.oriBco1" :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}" />
-                        <!-- <VueNumberFormat v-model:value="detalle.oriBco1" type="text" class="form-control" :options="{
-                          precision: 2,
-                          prefix: '',
-                          decimal: '.',
-                          thousand: ',',
-                        }" id="oriBco1" required /> -->
+                        <CFormLabel for="presupuestoBco1">Personal</CFormLabel>
+                        <CurrencyInput
+                          id="presupuestoBco1"
+                          v-model="detalle.presupuestoBco1"
+                          :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}"
+                          :disabled="isFiscalYearApprovedOrClose"
+                        />
                         <CFormFeedback invalid>
                           Favor agregar el campo
                         </CFormFeedback>
@@ -172,8 +171,13 @@
                   <div class="col-12">
                     <div class="row">
                       <div class="col-4">
-                        <CFormLabel for="validationCustom04">Servicios</CFormLabel>
-                        <CurrencyInput id="oriBco2" v-model="detalle.oriBco2" :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}" />
+                        <CFormLabel for="presupuestoBco2">Servicios</CFormLabel>
+                        <CurrencyInput
+                          id="presupuestoBco2"
+                          v-model="detalle.presupuestoBco2"
+                          :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}"
+                          :disabled="isFiscalYearApprovedOrClose"
+                        />
                         <CFormFeedback invalid>
                           Favor agregar el campo
                         </CFormFeedback>
@@ -200,8 +204,13 @@
                   <div class="col-12">
                     <div class="row">
                       <div class="col-4">
-                        <CFormLabel for="oriBco3">Inversión</CFormLabel>
-                        <CurrencyInput id="oriBco3" v-model="detalle.oriBco3" :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}" />
+                        <CFormLabel for="presupuestoBco3">Inversión</CFormLabel>
+                        <CurrencyInput
+                          id="presupuestoBco3"
+                          v-model="detalle.presupuestoBco3"
+                          :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}"
+                          :disabled="isFiscalYearApprovedOrClose"
+                        />
                         <CFormFeedback invalid>
                           Favor agregar el campo
                         </CFormFeedback>
@@ -237,8 +246,13 @@
                   <div class="col-12">
                     <div class="row">
                       <div class="col-4">
-                        <CFormLabel for="oriBco4">E/G Salud</CFormLabel>
-                        <CurrencyInput id="oriBco4" v-model="detalle.oriBco3" :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}" />
+                        <CFormLabel for="presupuestoBco4">E/G Salud</CFormLabel>
+                        <CurrencyInput
+                          id="presupuestoBco4"
+                          v-model="detalle.presupuestoBco4"
+                          :options="{ locale: 'en-US',currency: 'USD',precision: 2,currencyDisplay: 'hidden'}"
+                          :disabled="isFiscalYearApprovedOrClose"
+                        />
                         <CFormFeedback invalid>
                           Favor agregar el campo
                         </CFormFeedback>
@@ -285,19 +299,27 @@
       <CButton color="primary" @click="guardarDetalleGasto()">Guardar</CButton>
     </CModalFooter>
   </CModal>
-  <ClasificadorSelectorDialog :isVisible="showClasificatorDialog" :filtered="
-    (clasificator) =>
-    (clasificator.tipo ===
-      'DETALLE' && clasificator.origen === 'GASTO' && clasificator?.clasifica?.toString().match(/^(2|4)/g))
-  " :term="detalle.ctgClasificadorId" @close="onClasificatorDialogClose" />
+
+  <ClasificadorSelectorDialog
+    :isVisible="showClasificatorDialog" 
+    :filtered="
+      (clasificator) =>
+      (clasificator.tipo ===
+        'DETALLE' && clasificator.origen === 'GASTO' && clasificator?.clasifica?.toString().match(/^(2|4)/g))
+    " 
+    :term="detalle.ctgClasificadorId" 
+    @close="onClasificatorDialogClose"
+  />
+
 </template>
 <script>
 import ClasificadorSelectorDialog from '../components/ClasificadorSelectorDialog.vue'
 import CurrencyInput from '@/utils/CurrencyInput.vue'
 import { CCol } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
-import { computed, ref } from 'vue'
-import { formatPrice } from '@/utils/format'
+import { computed, ref, watchEffect } from 'vue'
+import { formatPrice } from '@/utils/format';
+import { onlyDecimal } from '@/utils/validator';
 
 export default {
 
@@ -310,6 +332,7 @@ export default {
       type: Boolean,
       default: false,
     },
+    isFiscalYearApprovedOrClose: Boolean,
   },
   emits: ['close'],
   setup(props, { emit }) {
@@ -322,10 +345,10 @@ export default {
     }
     const sumOfBalance = computed(() => {
       return formatPrice(
-        Number(props.detalle.oriBco1 || 0) +
-        Number(props.detalle.oriBco2 || 0) +
-        Number(props.detalle.oriBco3 || 0) +
-        Number(props.detalle.oriBco4 || 0)
+        Number((props.detalle.presupuestoBco1 || 0).toString().replace(',', '')) +
+        Number((props.detalle.presupuestoBco2 || 0).toString().replace(',', '')) +
+        Number((props.detalle.presupuestoBco3 || 0).toString().replace(',', '')) +
+        Number((props.detalle.presupuestoBco4 || 0).toString().replace(',', ''))
       )
     });
 
@@ -341,31 +364,33 @@ export default {
 
     const guardarDetalleGasto = () => {
       isFormValidated.value = false;
-      if (detailForm.value?.$el.checkValidity()) {
-        if (props.detalle.oriBco1 === '') {
-          props.detalle.oriBco1 = 0;
+      if (detailForm.value?.$el?.checkValidity()) {
+        if (props.detalle.presupuestoBco1 === '') {
+          props.detalle.presupuestoBco1 = 0;
         }
-        if (props.detalle.oriBco2 === '') {
-          props.detalle.oriBco2 = 0;
+        if (props.detalle.presupuestoBco2 === '') {
+          props.detalle.presupuestoBco2 = 0;
         }
-        if (props.detalle.oriBco3 === '') {
-          props.detalle.oriBco3 = 0;
+        if (props.detalle.presupuestoBco3 === '') {
+          props.detalle.presupuestoBco3 = 0;
         }
-        if (props.detalle.oriBco4 === '') {
-          props.detalle.oriBco4 = 0;
+        if (props.detalle.presupuestoBco4 === '') {
+          props.detalle.presupuestoBco4 = 0;
         }
-        props.detalle.presupuestoBco1 = props.detalle.oriBco1;
-        props.detalle.presupuestoBco2 = props.detalle.oriBco2;
-        props.detalle.presupuestoBco3 = props.detalle.oriBco3;
-        props.detalle.presupuestoBco4 = props.detalle.oriBco4;
+        props.detalle.presupuestoBco1 = Number((props.detalle.presupuestoBco1 || 0).toString().replace(',', ''));
+        props.detalle.presupuestoBco2 = Number((props.detalle.presupuestoBco2 || 0).toString().replace(',', ''));
+        props.detalle.presupuestoBco3 = Number((props.detalle.presupuestoBco3 || 0).toString().replace(',', ''));
+        props.detalle.presupuestoBco4 = Number((props.detalle.presupuestoBco4 || 0).toString().replace(',', ''));
+        
         props.detalle.totalOriginal = (
-          Number(props.detalle.oriBco1 || 0) +
-          Number(props.detalle.oriBco2 || 0) +
-          Number(props.detalle.oriBco3 || 0) +
-          Number(props.detalle.oriBco4 || 0)
+          props.detalle.presupuestoBco1 +
+          props.detalle.presupuestoBco2 +
+          props.detalle.presupuestoBco3 +
+          props.detalle.presupuestoBco4 
         );
 
         closeDialog({ ...props.detalle });
+        detailForm.value?.$el?.querySelector("#clasificator")?.focus();
       } else {
         isFormValidated.value = true;
       }
@@ -389,6 +414,12 @@ export default {
       isFieldEditable.value = !isFieldEditable.value
     }
 
+    watchEffect(() => {
+      if (props.isVisible) {
+        detailForm.value?.$el?.querySelector("#clasificator")?.focus();
+      }
+    });
+
     return {
       setValueButtonGasto,
       closeDialog,
@@ -400,7 +431,8 @@ export default {
       isFieldEditable,
       sumOfBalance,
       detailForm,
-      isFormValidated
+      isFormValidated,
+      onlyDecimal
     }
   },
   components: { ClasificadorSelectorDialog, CModal, CCol, CurrencyInput },
