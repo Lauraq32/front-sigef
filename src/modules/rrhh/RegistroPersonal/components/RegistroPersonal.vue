@@ -7,7 +7,8 @@
         color="info"
         @click="
           () => {
-            showModal()
+            openModal()
+            clearModal1()
           }
         "
         >Agregar</CButton
@@ -126,7 +127,6 @@
         </td>
       </template>
     </template>
-    
   </CSmartTable>
 
   <RegistroPersonalDialog
@@ -164,24 +164,26 @@ import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
 import Api from '../services/RegistroPersonalServices'
-import moment from 'moment'
+import EmpleadoReports from '@/components/Report/RRHH/ReportsTemplate/EmpleadosReports.vue'
 import { useToastStore } from '@/store/toast'
 import AccionPersonalDialog from './Dialogos/AccionPersonalDialog.vue'
 import TipoNovedadDialog from './TipoNovedades.vue'
 import RegistroPersonalDialog from '../components/Dialogos/RegistroPersonalDialog.vue'
 import TarjetaEmpleadoDialogs from '../components/Dialogos/TarjetaEmpleado.vue'
 import EducacionDialog from '../../RegistroPersonal/components/Dialogos/EducacionDialog.vue'
+import TarjetaEmpleado from './Dialogos/TarjetaEmpleado.vue'
 
 export default {
   components: {
     CSmartTable,
     CModal,
-    moment,
     AccionPersonalDialog,
     TipoNovedadDialog,
     RegistroPersonalDialog,
     TarjetaEmpleadoDialogs,
-    EducacionDialog
+    EmpleadoReports,
+    EducacionDialog,
+    TarjetaEmpleado,
   },
 
   data: function () {
@@ -194,6 +196,9 @@ export default {
       newTarjetaEmpleadoModal: false,
       showRegistroPersonalModal: false,
       id: null,
+      empleadoReporte: {},
+      showTarjeta: false,
+      showModalRepots: false,
       employeeInfo: {},
       showEducacion: false,
       lgDemo4: false,
@@ -282,7 +287,7 @@ export default {
     },
 
     closeTarjetaEmpleadoModal() {
-      this.newTarjetaEmpleadoModal = false
+      this.showTarjeta = false
     },
     showModal() {
       this.showRegistroPersonalModal = true
@@ -362,6 +367,17 @@ export default {
     closeTipoNovedad(close) {
       this.showTipoNovedad = close
     },
+
+    closeModalssss(payload) {
+      this.showModalRepots = payload
+    },
+
+    changePrograma(e) {
+      Api.getDepartamentoByProgramaId(e.target.value).then((response) => {
+        this.departamentos = response.data.data
+      })
+    },
+
     closeEducacion() {
       this.showEducacion = false
     },
@@ -400,13 +416,11 @@ export default {
 
     getEmpleadoByID(item) {
       this.showEducacion = true
-      this.employeeInfo = {...item}
+      this.employeeInfo = { ...item }
       this.employeeInfo.nombres = `${item.nombres} ${item.apellidos}`
-
     },
 
     toggleDetails(item) {
-
       if (item.empleados !== 0 || item.variacion !== 0) {
         this.empleadoValue = true
       } else {
@@ -467,6 +481,11 @@ export default {
       }
     },
 
+    imprimirEmpleado(empleado) {
+      window.open(`/#/pages/empleados/${empleado.id}`)
+      //router.push({ name: 'empleadosReports' })
+    },
+
     deleteEmp(item) {
       setTimeout(this.getRegistroPersonal, 500)
       Api.deleteEmpleado(item.id)
@@ -496,10 +515,6 @@ export default {
   },
 
   mounted() {
-    setInterval(() => {
-      this.horaActual = moment().format('HH:mm')
-    }, 1000)
-
     this.getRegistroPersonal()
     Api.getAllEmpleado().then((response) => {
       this.registroPersonal = response.data.data
