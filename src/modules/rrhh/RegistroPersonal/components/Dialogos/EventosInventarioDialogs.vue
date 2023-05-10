@@ -76,7 +76,12 @@
               v-model="selectedEmpleado"
               :options="empleados"
             ></v-select>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+            <CFormFeedback
+              invalid
+              :style="{ display: isEmployeeRequired ? 'flex': 'none' }"
+            >
+              Favor agregar el campo
+            </CFormFeedback>
           </CCol>
 
           <CCol>
@@ -196,12 +201,16 @@ export default {
         this.postEvento.empleadoId = Number(empleado.code)
       },
     },
+    isEmployeeRequired() {
+      return ['entregado', 'retornado'].includes(this.postEvento.tipo) && !this.postEvento.empleadoId
+    }
   },
   methods: {
     onTypeChange($event) {
       if ($event.target.value === 'abastecimiento') {
         this.postEvento.empleadoId = undefined
       }
+
     },
 
     closeModal() {
@@ -217,7 +226,8 @@ export default {
       this.isFormValidatedInputUtil = !this.postEvento.utilId
       if (
         this.$refs.eventTypeForm.$el.checkValidity() &&
-        this.postEvento.utilId
+        this.postEvento.utilId &&
+        !this.isEmployeeRequired
       ) {
         return this.submitEventos({ ...this.postEvento })
       }
