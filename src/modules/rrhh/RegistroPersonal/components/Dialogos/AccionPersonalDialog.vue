@@ -146,7 +146,7 @@ export default {
     CSmartTable,
     AgregarAccionPersonalDialog,
   },
-
+  emits: ['closeModal'],
   data: () => {
     return {
       formatDate,
@@ -174,6 +174,14 @@ export default {
         },
       ],
       imageUrl: '',
+      postAccionPersonal: {
+        fechaDesde: null,
+        tipoAccionId: null,
+        empleadoId: 0,
+        cantidad: 0,
+        fechaHasta: null,
+        detalle: null,
+      }
     }
   },
 

@@ -43,7 +43,7 @@
               <CFormSelect
                 required
                 id="validationCustom02"
-                v-model="postAccionPersonal.tipoAccionId"
+                v-model.number="postAccionPersonal.tipoAccionId"
               >
                 <option
                   v-for="acciones in tipoAcciones"
@@ -261,10 +261,10 @@ export default {
 
   watch: {
     accionPersonal() {
-      this.postAccionPersonal = { ...this.accionPersonal }
+      this.postAccionPersonal = { ...this.accionPersonal, tipoAccionId: `${this.accionPersonal.tipoAccionId}` }
     },
     tipoAcciones() {
-      this.postAccionPersonal.tipoAccionId = this.tipoAcciones?.[0].id
+      this.postAccionPersonal.tipoAccionId = `${this.tipoAcciones?.[0].id}`;
     },
   },
 

@@ -104,7 +104,8 @@
               "
               >Eventualidad</CDropdownItem
             >
-
+            <CDropdownItem @click="getEmpleadoByID(item)
+          ">Educaci&oacute;n</CDropdownItem>
             <CDropdownItem
               @click="
                 () => {
@@ -125,6 +126,7 @@
         </td>
       </template>
     </template>
+    
   </CSmartTable>
 
   <RegistroPersonalDialog
@@ -168,6 +170,7 @@ import AccionPersonalDialog from './Dialogos/AccionPersonalDialog.vue'
 import TipoNovedadDialog from './TipoNovedades.vue'
 import RegistroPersonalDialog from '../components/Dialogos/RegistroPersonalDialog.vue'
 import TarjetaEmpleadoDialogs from '../components/Dialogos/TarjetaEmpleado.vue'
+import EducacionDialog from '../../RegistroPersonal/components/Dialogos/EducacionDialog.vue'
 
 export default {
   components: {
@@ -178,6 +181,7 @@ export default {
     TipoNovedadDialog,
     RegistroPersonalDialog,
     TarjetaEmpleadoDialogs,
+    EducacionDialog
   },
 
   data: function () {
@@ -190,6 +194,8 @@ export default {
       newTarjetaEmpleadoModal: false,
       showRegistroPersonalModal: false,
       id: null,
+      employeeInfo: {},
+      showEducacion: false,
       lgDemo4: false,
       cambiar: false,
       registroPersonal: [],
@@ -213,7 +219,7 @@ export default {
         { key: 'codigo', label: 'Código', _style: { width: '15%' } },
         { key: 'apellidos', label: 'Apellido', _style: { width: '15%' } },
         { key: 'nombres', label: 'Nombre', _style: { width: '15%' } },
-        { key: 'cedula', label: 'Cédula', _style: { width: '10%' } },
+        { key: 'codigoIdentidad', label: 'Cédula', _style: { width: '10%' } },
         { key: 'codigo', label: 'Código', _style: { width: '10%' } },
         {
           key: 'programaDivision',
@@ -356,6 +362,9 @@ export default {
     closeTipoNovedad(close) {
       this.showTipoNovedad = close
     },
+    closeEducacion() {
+      this.showEducacion = false
+    },
 
     formatDate(fechaIngreso) {
       return new Date(fechaIngreso).toLocaleDateString('en-GB', {
@@ -365,10 +374,39 @@ export default {
       })
     },
 
+    handleSubmitCustom01(event) {
+      const form = event.currentTarget
+      if (form.checkValidity() === false) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      this.validatedCustom01 = true
+    },
+
+    getBadge(status) {
+      switch (status) {
+        case 'Active':
+          return 'success'
+        case 'Inactive':
+          return 'secondary'
+        case 'Pending':
+          return 'warning'
+        case 'Banned':
+          return 'danger'
+        default:
+          'primary'
+      }
+    },
+
+    getEmpleadoByID(item) {
+      this.showEducacion = true
+      this.employeeInfo = {...item}
+      this.employeeInfo.nombres = `${item.nombres} ${item.apellidos}`
+
+    },
+
     toggleDetails(item) {
-      console.log(item)
-      this.showRegistroPersonalModal = true
-      this.id = item.id
+
       if (item.empleados !== 0 || item.variacion !== 0) {
         this.empleadoValue = true
       } else {
