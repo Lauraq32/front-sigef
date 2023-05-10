@@ -49,10 +49,11 @@ class RegistroPersonal {
   getAllEmpleado() {
     return http.get(`empleados`)
   }
-
-  //CARGOS
-  getAllCargos() {
-    return http.get('cargos')
+  //get Archivos por el id del empleado
+  getFileById(id){
+    return http.get(
+      `files?tag=${id}`
+    )
   }
 
   getCargobyid(id) {
@@ -129,12 +130,21 @@ class RegistroPersonal {
     return http.get('Posicion')
   }
 
+  getAreaTrabajobyid(id) {
+    return http.get(`areas-trabajo/${id}`)
+  }
+  getImagenesById(fileId){
+    return http.get(`files/${fileId}`)
+  }
   //post
 
-  postEmpleado(data) {
+  postEmpleados(data) {
     return http.post('empleados', data)
   }
-
+  postFiles(formData){
+    return http.post(`files`, formData)
+  }
+  
   postTipoAcciones(data) {
     return http.post('tipo-acciones', data)
   }
