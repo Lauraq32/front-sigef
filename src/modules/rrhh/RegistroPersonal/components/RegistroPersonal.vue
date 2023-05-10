@@ -309,8 +309,8 @@ export default {
             content: 'Registro actualizado correctamente',
             closable: true,
           })
-          this.closeRegistroPersonalModal()
           this.id = null
+          this.closeRegistroPersonalModal()
           setTimeout(this.getRegistroPersonal, 500)
         })
       } else {
@@ -322,8 +322,9 @@ export default {
               content: 'Registro añadido correctamente',
               closable: true,
             })
-            this.closeRegistroPersonalModal()
             this.id = null
+            this.closeRegistroPersonalModal()
+          
             setTimeout(this.getRegistroPersonal, 500)
           })
           .catch((error) => {

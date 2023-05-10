@@ -142,7 +142,8 @@
                     </div>
                     <div class="col-9">
                       <CCol :md="12">
-                        <CFormInput v-model="postEmpleado.telefono" id="telefono" type="number" required />
+                        <CFormInput v-on:keypress="onlyNumber($event)" v-model="postEmpleado.telefono" id="telefono" maxlength="13"
+                          type="text" required />
                       </CCol>
                     </div>
                   </div>
@@ -232,7 +233,13 @@
                   <h3>Datos laborales</h3>
                   <CCol :md="12">
                     <CFormLabel for="fechaIngreso">Fecha ingreso</CFormLabel>
-                    <CFormInput v-model="fechaIngreso" type="date" id="fechaIngreso" />
+                    <CFormInput @change="validarFechaDesde" v-model="fechaIngreso" type="date" id="fechaIngreso"
+                      required />
+                    <CFormFeedback invalid :style="{ display: isLowerSelectedInitDate ? 'flex' : 'none' }">
+
+                      La fecha no puede ser mayor a la fecha actual
+
+                    </CFormFeedback>
                   </CCol>
                   <CCol :md="12">
                     <CFormLabel for="Recomendado">Recomendado por</CFormLabel>
@@ -383,7 +390,7 @@
                   </CCol>
                   <CCol>
                     <CFormLabel for="emergenciaTelefono">Tel&eacute;fono</CFormLabel>
-                    <CFormInput v-model="postEmpleado.emergenciaTelefono" id="emergenciaTelefono" type="number"
+                    <CFormInput v-on:keypress="onlyNumber($event)" v-model="postEmpleado.emergenciaTelefono" id="emergenciaTelefono" type="number" maxlength="13"
                       required />
 
                   </CCol>
@@ -476,7 +483,7 @@
 
                   <CCol>
                     <CFormLabel for="diagnostico">Detalle diagnostico</CFormLabel>
-                    <CFormTextarea v-model="postEmpleado.emergenciaDiagnostico" id="diagnostico" required />
+                    <CFormTextarea v-model="postEmpleado.emergenciaDiagnostico" id="diagnostico" />
 
                   </CCol>
                 </div>
@@ -491,7 +498,8 @@
 
                     <CCol :md="6">
                       <CFormLabel for="nivelEscolar">Nivel Escolar</CFormLabel>
-                      <CFormSelect v-model="postEmpleado.nivelEscolar" id="nivelEscolar" required>
+                      <CFormSelect @change="validateNivelEscolar($event)" v-model="postEmpleado.nivelEscolar"
+                        id="nivelEscolar" required>
                         <option value="" disabled selected>Seleccione</option>
                         <option v-for="nivelEscolar in this.nivelEscolarList" :key="nivelEscolar.id"
                           :value="nivelEscolar.id">
@@ -502,7 +510,7 @@
                     </CCol>
                     <CCol :md="6">
                       <CFormLabel for="areaTematica">&Aacute;rea Tem&aacute;tica</CFormLabel>
-                      <CFormSelect v-model="postEmpleado.areaTematica" id="areaTematica" required>
+                      <CFormSelect :disabled="areaTematicaField" v-model="postEmpleado.areaTematica" id="areaTematica">
                         <option value="" disabled selected>Seleccione</option>
                         <option v-for="areaTematica in this.areaTematicaList" :key="areaTematica.id"
                           :value="areaTematica.id">
@@ -514,7 +522,7 @@
                   </div>
                   <CCol :md="12">
                     <CFormLabel for="tituloObtenido">T&iacute;tulo Obtenido</CFormLabel>
-                    <CFormInput postEmpleado.tituloObtenido id="tituloObtenido" required />
+                    <CFormInput :disabled="tituloField" postEmpleado.tituloObtenido id="tituloObtenido" />
 
                   </CCol>
 
@@ -531,23 +539,6 @@
 
                       </CCol>
                     </div>
-                  </CCol>
-
-                  <h5>Datos de Evaluaci&oacute;n de Desempe&ntilde;o</h5>
-                  <CCol :md="12">
-                    <CFormLabel for="FechaInicial">Fecha Inicial Evaluaci&oacute;n</CFormLabel>
-                    <CFormInput id="FechaInicial" type="date" />
-
-                  </CCol>
-                  <CCol :md="12">
-                    <CFormLabel for="fechaFinal">Fecha Final Evaluaci&oacute;n</CFormLabel>
-                    <CFormInput id="fechaFinal" type="date" />
-
-                  </CCol>
-                  <CCol :md="12">
-                    <CFormLabel for="notaFinal">Nota Final</CFormLabel>
-                    <CFormInput v-on:keypress="onlyNumber($event)" id="notaFinal" />
-
                   </CCol>
                 </CCol>
 
@@ -592,7 +583,10 @@ export default {
   data: function () {
 
     return {
-      imageId : null,
+      isLowerSelectedInitDate:false,
+      areaTematicaField: true,
+      tituloField: true,
+      imageId: null,
       isFormEventTypeValidated: false,
       onlyNumber,
       profilePhoto: null,
@@ -710,7 +704,7 @@ export default {
         correoElectronico: null,
         correoElectronico2: null,
         recomendadoPor: null,
-        idImagenPerfil: null
+        idImagenPerfil: undefined
       },
     }
   },
@@ -718,6 +712,20 @@ export default {
   methods: {
 
     ...mapActions(useToastStore, ['show']),
+
+    validarFechaDesde() {
+
+      const fechaDesde = new Date(this.postEmpleado.fechaIngreso)
+      fechaDesde.setHours(0, 0, 0, 0)
+      const fechaActual = new Date()
+      fechaActual.setHours(0, 0, 0, 0)
+      if (fechaDesde > fechaActual) {
+        this.isLowerSelectedInitDate = true
+        this.fechaIngreso = new Date(Date.now())
+      } else {
+        this.isLowerSelectedInitDate = false
+      }
+    },
 
     sendData() {
       this.isFormEventTypeValidated = false
@@ -773,6 +781,18 @@ export default {
           label: 'Seleccionar',
         })
       })
+    },
+
+    validateNivelEscolar(event) {
+      const educationLevels = [8, 9, 10, 11, 12]
+      this.areaTematicaField = false
+      this.tituloField = false
+      if (educationLevels.includes(Number(event.target.value))) {
+        this.areaTematicaField = true
+        this.tituloField = true
+      }
+
+
     },
 
     cargaInformacionRequerida() {
@@ -943,9 +963,15 @@ export default {
         correoElectronico: null,
         correoElectronico2: null,
         recomendadoPor: null,
+        idImagenPerfil: undefined
       }
     },
 
+    validateDate(event) {
+      if (new Date(event.target.value) > new Date(Date.now())) {
+        return true
+      }
+    }
   },
 
   mounted() {
