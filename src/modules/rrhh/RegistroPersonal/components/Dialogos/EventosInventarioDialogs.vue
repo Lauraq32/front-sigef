@@ -232,7 +232,7 @@ export default {
         utilId: 0,
         fecha: new Date(),
         cantidad: 1,
-        tipo: null,
+        tipo: 'entregado',
         empleadoId: 0,
       }
     },

@@ -227,7 +227,7 @@ export default {
       this.isFormEventTypeValidated = false
       this.id = null
       this.postInventarioCantidad = {
-        fecha: null,
+        fecha: new Date(),
         observacion: null,
         autorizadoPor: null,
         cantidad: 1,
