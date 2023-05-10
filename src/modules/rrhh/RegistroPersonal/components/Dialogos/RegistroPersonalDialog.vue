@@ -835,19 +835,6 @@ export default {
         this.imageId = this.postEmpleado.idImagenPerfil
         this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${this.imageId ?? -1}`
       })
-    
-      // fileApi.getEmployeeIdentityImage({
-      //   empleadoId: this.empleadoId,
-      //   profileImage: 1,
-      //   FileType: '.png',
-      //   FileType2: 'png',
-      //   FileType3: '.jpg',
-      //   FileType4: 'jpg',
-      //   FileType5: '.jpeg',
-      //   FileType6: 'jpeg',
-      // }).then(response => {
-      //   this.imageUrl = response
-      // }).catch(console.log)
     },
 
 
