@@ -14,31 +14,16 @@
       >
     </div>
     <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info"
-        >Imprimir</CButton
-      >
+      <CButton style="font-weight: bold" color="info">Imprimir</CButton>
     </div>
   </div>
   <hr />
-  <CSmartTable
-    class="sticky-top"
-    clickableRows
-    :tableProps="{
-      striped: true,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    :footer="footerItem"
-    header
-    :items="AreasTrabajos"
+  <AreaTrabajoTable
     :columns="columns"
-    columnFilter
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'descripcion', state: 'asc' }"
-    pagination
+    :footerItems="footerItem"
+    :items="AreasTrabajos"
+    :showButtons="true"
+    @edit="editAreaTrabajo"
   >
     <template #show_details="{ item }">
       <td class="py-2">
@@ -53,7 +38,7 @@
         >
       </td>
     </template>
-  </CSmartTable>
+  </AreaTrabajoTable>
   <AreaTrabajoModal
     :newAreaTrabajoModal="newAreaTrabajoModal"
     @close-modal="closeModal"
@@ -64,7 +49,7 @@
 
 <script>
 import AreaTrabajoModal from '../Dialogos/AreaTrabajoModal.vue'
-import { CSmartTable } from '@coreui/vue-pro'
+import AreaTrabajoTable from '@/modules/rrhh/RegistroPersonal/components/AreaTrabajoTable.vue'
 import { CModal } from '@coreui/vue'
 import Api from '../services/RegistroPersonalServices'
 import { useToastStore } from '@/store/toast'
@@ -72,7 +57,7 @@ import { mapActions } from 'pinia'
 
 export default {
   components: {
-    CSmartTable,
+    AreaTrabajoTable,
     CModal,
     AreaTrabajoModal,
   },
