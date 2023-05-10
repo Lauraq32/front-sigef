@@ -1,6 +1,7 @@
 import http from '@/Api/http-common'
 import { getAyuntamientoId, getFiscalYearId } from '@/utils/logged-info'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
+
 class FormulacionApi {
   downloadIngreso() {
     return http.get(
@@ -121,6 +122,9 @@ class FormulacionApi {
   getListarGastosById(id) {
     return http.get(`PresGasto/${id}?anio=${ getFiscalYearId() }&ayuntamientoId=${ getAyuntamientoId() }`,
     )
+  }
+  getFileById(id){
+     return http.get(`file/${id}`)
   }
 
   postGastos(post) {
