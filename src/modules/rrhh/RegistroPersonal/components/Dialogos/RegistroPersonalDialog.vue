@@ -347,17 +347,17 @@
                 <div class="col-4 border">
                   <CCol>
                     <CFormLabel for="licenciaConducir">Licencia de conducir</CFormLabel>
-                    <CFormInput v-model="licenciaConducir" type="date" id="licenciaConducir" required />
+                    <CFormInput v-model="licenciaConducir" type="date" id="licenciaConducir"  />
 
                   </CCol>
                   <CCol>
                     <CFormLabel for="fechaExpiracionLicencia">Fecha expiraci&oacute;n licencia de conducir</CFormLabel>
-                    <CFormInput v-model="fechaExpiracionLicencia" type="date" id="fechaExpiracionLicencia" required />
+                    <CFormInput v-model="fechaExpiracionLicencia" type="date" id="fechaExpiracionLicencia"  />
 
                   </CCol>
                   <CCol>
                     <CFormLabel for="fechaExpitaTarjeta">Fecha expira tarjeta del banco:</CFormLabel>
-                    <CFormInput v-model="fechaExpitaTarjeta" type="date" id="fechaExpitaTarjeta" required />
+                    <CFormInput v-model="fechaExpitaTarjeta" type="date" id="fechaExpitaTarjeta"  />
                   </CCol>
                 </div>
                 <div class="col-4 border p-3">
@@ -578,7 +578,8 @@ import { onlyLetter, onlyNumber } from '@/utils/validator'
 import vSelect from 'vue-select'
 import fileApi from '../../services/Files'
 import 'vue-select/dist/vue-select.css'
-
+import { useToastStore } from '@/store/toast'
+import { mapActions, mapStores } from 'pinia'
 
 export default {
   name: 'RegistroPersonalDialog',
@@ -624,7 +625,7 @@ export default {
         estadoCivil: '',
         sexo: '',
         dependientes: 0,
-        fechaIngreso: new Date(),
+        fechaIngreso: null,
         fechaSalida: new Date(Date.now()),
         razonSalida: null,
         reemplear: true,
@@ -712,6 +713,9 @@ export default {
   },
 
   methods: {
+
+    ...mapActions(useToastStore, ['show']),
+
     sendData() {
       this.isFormEventTypeValidated = false
       if (this.$refs.eventTypeForm.$el.checkValidity()) {
@@ -858,7 +862,7 @@ export default {
         estadoCivil: '',
         sexo: 'M',
         dependientes: 0,
-        fechaIngreso: new Date(Date.now()),
+        fechaIngreso: null,
         fechaSalida: new Date(Date.now()),
         razonSalida: null,
         reemplear: true,
@@ -942,8 +946,8 @@ export default {
         correoElectronico2: null,
         recomendadoPor: null,
       }
-    }
-
+    },
+ 
   },
 
   mounted() {
@@ -951,65 +955,7 @@ export default {
   },
 
   computed: {
-    licenciaConducir: {
-      get() {
-        let date = new Date()
-        if (
-          this.postEmpleado.licenciaConducir !== null &&
-          this.postEmpleado.licenciaConducir?.toString() !== 'Invalid Date'
-        ) {
-          date = this.postEmpleado.licenciaConducir
-          if (typeof this.postEmpleado.licenciaConducir === 'string') {
-            date = new Date(this.postEmpleado.licenciaConducir)
-            return date.toISOString().split('T')[0]
-          }
-        }
-        return date.toISOString().split('T')[0]
-      },
-      set(value) {
-        return (this.postEmpleado.licenciaConducir = new Date(`${value}T00:00:00`))
-      },
-    },
-
-    fechaExpitaTarjeta: {
-      get() {
-        let date = new Date()
-        if (
-          this.postEmpleado.fechaExpitaTarjeta !== null &&
-          this.postEmpleado.fechaExpitaTarjeta?.toString() !== 'Invalid Date'
-        ) {
-          date = this.postEmpleado.fechaExpitaTarjeta
-          if (typeof this.postEmpleado.fechaExpitaTarjeta === 'string') {
-            date = new Date(this.postEmpleado.fechaExpitaTarjeta)
-            return date.toISOString().split('T')[0]
-          }
-        }
-        return date.toISOString().split('T')[0]
-      },
-      set(value) {
-        return (this.postEmpleado.fechaExpitaTarjeta = new Date(`${value}T00:00:00`))
-      },
-    },
-
-    fechaExpiracionLicencia: {
-      get() {
-        let date = new Date()
-        if (
-          this.postEmpleado.fechaExpiracionLicencia !== null &&
-          this.postEmpleado.fechaExpiracionLicencia?.toString() !== 'Invalid Date'
-        ) {
-          date = this.postEmpleado.fechaExpiracionLicencia
-          if (typeof this.postEmpleado.fechaExpiracionLicencia === 'string') {
-            date = new Date(this.postEmpleado.fechaExpiracionLicencia)
-            return date.toISOString().split('T')[0]
-          }
-        }
-        return date.toISOString().split('T')[0]
-      },
-      set(value) {
-        return (this.postEmpleado.fechaExpiracionLicencia = new Date(`${value}T00:00:00`))
-      },
-    },
+    ...mapStores(useToastStore),
 
     fechaIngreso: {
       get() {
@@ -1024,10 +970,15 @@ export default {
             return date.toISOString().split('T')[0]
           }
         }
-        return date.toISOString().split('T')[0]
+        if(this.postEmpleado.fechaIngreso == null){
+          return null
+        }else{
+          return date.toISOString().split('T')[0]
+        }
+      
       },
       set(value) {
-        return (this.postEmpleado.fechaIngreso = new Date(`${value}T00:00:00`))
+        return (this.postEmpleado.fechaIngreso = value == null ? null : new Date(`${value}T00:00:00`))
       },
     },
 
