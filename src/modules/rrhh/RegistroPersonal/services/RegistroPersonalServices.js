@@ -60,6 +60,18 @@ class RegistroPersonal {
     return http.get(`cargos/${id}`)
   }
 
+  getInventarioById(id) {
+    return http.get(`inventarios/${id}/utiles-laborales`)
+  }
+
+  postInventarioById(id, data) {
+    return http.post(`inventarios/${id}/utiles-laborales`, data)
+  }
+
+  postEventos(id, data) {
+    return http.post(`inventarios/${id}/eventos`, data)
+  }
+
   updateCargo(id, data) {
     return http.put(`cargos/${id}`, data)
   }
@@ -91,6 +103,10 @@ class RegistroPersonal {
   //sectores
   getAllSector() {
     return http.get('sectores')
+  }
+
+  getAllInventario() {
+    return http.get('inventarios')
   }
 
   //AREA TRABAJO
@@ -141,6 +157,11 @@ class RegistroPersonal {
   postEmpleados(data) {
     return http.post('empleados', data)
   }
+
+  postInventario(data) {
+    return http.post('inventarios', data)
+  }
+
   postFiles(formData){
     return http.post(`files`, formData)
   }
@@ -181,6 +202,10 @@ class RegistroPersonal {
   //put
   putEmpleado(id, data) {
     return http.put(`empleados/${id}`, data)
+  }
+
+  putInventario(id, data) {
+    return http.put(`inventarios/${id}`, data)
   }
 
   putTipoAcciones(id, data) {
