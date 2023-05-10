@@ -7,6 +7,14 @@ class RegistroPersonal {
     return http.get('tipos-sangre')
   }
 
+  getAllTipoAcciones() {
+    return http.get('tipo-acciones')
+  }
+
+  getAllAccionPersonal() {
+    return http.get('acciones-personal')
+  }
+
   getTipoSangreByID(id) {
     return http.get(`tipos-sangre/${id}`)
   }
@@ -19,8 +27,12 @@ class RegistroPersonal {
     return http.get('profesiones')
   }
 
+  getAccionesPersonalById(id) {
+    return http.get(`acciones-personal/${id}`)
+  }
+
   addProfesion(data) {
-    return http.post('profesiones',data)
+    return http.post('profesiones', data)
   }
   updateProfesion(id, data) {
     return http.put(`profesiones/${id}`, data)
@@ -28,6 +40,10 @@ class RegistroPersonal {
 
   getProfesionById(id) {
     return http.get(`profesiones/${id}`)
+  }
+
+  getAyuntamientoById(id){
+    return http.get(`Ayuntamiento/${id}`)
   }
 
   getAllEmpleado() {
@@ -40,12 +56,32 @@ class RegistroPersonal {
     )
   }
 
+  getCargobyid(id) {
+    return http.get(`cargos/${id}`)
+  }
+
+  updateCargo(id, data) {
+    return http.put(`cargos/${id}`, data)
+  }
+
+  addCargos(data) {
+    return http.post('cargos', data)
+  }
+
   getProgramaDivision() {
     return http.get(`programas-division`)
   }
 
   getEmpleadoByID(id) {
     return http.get(`empleados/${id}`)
+  }
+
+  getAccionPersonalByID(id) {
+    return http.get(`acciones-personal/empleado/${id}`)
+  }
+
+  getTipoAccionByID(id) {
+    return http.get(`tipo-acciones/${id}`)
   }
 
   getDepartamentoByProgramaId(id) {
@@ -72,7 +108,6 @@ class RegistroPersonal {
 
   updateAreaTrabajo(id, data) {
     return http.put(`areas-trabajo/${id}`, data)
-
   }
   getSectorById(id) {
     return http.get(`sectores/${id}`)
@@ -85,7 +120,6 @@ class RegistroPersonal {
   updateSector(id, data) {
     return http.put(`sectores/${id}`, data)
   }
-
 
   getAreaTrabajo() {
     return http.get('areas-trabajo')
@@ -109,13 +143,18 @@ class RegistroPersonal {
   }
   postFiles(formData){
     return http.post(`files`, formData)
-
   }
-  getImagenesById(id){
-
+  
+  postTipoAcciones(data) {
+    return http.post('tipo-acciones', data)
   }
+
   postSectores(data) {
     return http.post('sectores', data)
+  }
+
+  postAccionesPersonal(data) {
+    return http.post('acciones-personal', data)
   }
 
   postAreaTrabajo(data) {
@@ -144,6 +183,14 @@ class RegistroPersonal {
     return http.put(`empleados/${id}`, data)
   }
 
+  putTipoAcciones(id, data) {
+    return http.put(`tipo-acciones/${id}`, data)
+  }
+
+  putAccionesPersonales(id, data) {
+    return http.put(`acciones-personal/${id}`, data)
+  }
+
   putArea(id) {
     return http.put(`Area/${id}`)
   }
@@ -163,7 +210,7 @@ class RegistroPersonal {
   deleteSector(id) {
     return http.delete(`sectores/${id}?ayuntamiento=${getAyuntamientoId()}`)
   }
-  listDepartamento(){
+  listDepartamento() {
     return http.get('departamentos/lista')
   }
 }
