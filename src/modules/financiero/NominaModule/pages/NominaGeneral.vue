@@ -1,99 +1,134 @@
 <template>
     <h3 class="text-center">Nomina General</h3>
-
-    <NominaSelectFiscalYear>
+    <NominaSelectFiscalYear @sendDataFilter="filterByDate">
         <CButton style="font-weight: bold" color="info" @click="">Imprimir Todos</CButton>
-        <CButton style="font-weight: bold" class="ml-5" color="info">Generar Nomina</CButton>
+        <CButton style="font-weight: bold" class="ml-5" color="info" @click ="() => showModal = true">Generar Nomina</CButton>
     </NominaSelectFiscalYear>
-    <div class="row my-5">
-        <div class="col-9">
-            <div class="row">
-                <div class="col-3">
-                    <div class="row">
-                        <div class="col-6">
-                            <CCol :md="9">
-                                <CFormLabel for="anio">Año</CFormLabel>
-                                <CFormInput type="number" v-model="nominaGeneral.anio" id="anio" />
-                                <CFormFeedback valid> Exito! </CFormFeedback>
-                                <CFormFeedback invalid>
-                                    Favor agregar el campo
-                                </CFormFeedback>
-                            </CCol>
-                        </div>
-                        <div class="col-6" style=" position: relative; left: -42px;">
-                            <CCol :md="9">
-                                <CFormLabel for="mes">Mes</CFormLabel>
-                                <CFormSelect v-model="nominaGeneral.mes" id="mes">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    <option>6</option>
-                                    <option>7</option>
-                                    <option>8</option>
-                                    <option>9</option>
-                                    <option>10</option>
-                                    <option>11</option>
-                                    <option>12</option>
-                                </CFormSelect>
-                            </CCol>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3" style=" position: relative; left: -84px;">
-                    <CCol :md="9">
-                        <CFormLabel for="tipoContrato">Tipo de contracto</CFormLabel>
-                        <CFormSelect v-model="nominaGeneral.tipoContrato" id="tipoContrato">
-                            <option>Tipo de contrato 1</option>
-                            <option>Tipo de contrato 2</option>
-                        </CFormSelect>
-                    </CCol>
-                </div>
-                <div class="col-3" style="position: relative; left: -175px;">
-                    <CCol :md="9">
-                        <CFormLabel for="formaPago">Forma de pago</CFormLabel>
-                        <CFormSelect v-model="nominaGeneral.formaPago" id="formaPago">
-                            <option>BANCO</option>
-                            <option>CHEQUE</option>
-                        </CFormSelect>
-                    </CCol>
-                </div>
-                <div class="col-3">
-                    <CButton style="font-weight: bold; position: relative; top: 31px; left: -265px;" color="info"
-                        @click="() => { getNominaGeneral() }">Filtrar</CButton>
-                </div>
-            </div>
-        </div>
+    <div>
+        <CSmartTable class="sticky-top" clickableRows :tableProps="{
+            striped: true,
+            hover: true,
+
+        }" :tableHeadProps="{}" :activePage="1" header :items="dataNominaGeneral" :columns="tableNominaGeneral"
+            columnFilter itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
+            pagination>
+            <template #posicion="{ item }">
+                <td>
+                    {{ item.posicion.nombre }}
+                </td>
+            </template>
+            <template #departamento="{ item }">
+                <td>
+                    {{ item.departamento.nombre }}
+                </td>
+            </template>
+            <template #programaDivision="{ item }">
+                <td>
+                    {{ item.departamento.programaDivision.nombre }}
+                </td>
+            </template>
+            <template #fecha="{ item }">
+                <td>
+                    {{ formatDate(item.fecha) }}
+                </td>
+            </template>
+        </CSmartTable>
     </div>
+    <ModalGenerarNomina :modalGenerarNomina="showModal" @changeValueModal="getCloseModalValue"></ModalGenerarNomina>
 </template>
 <script>
 import { useAuthStore } from '@/store/AuthStore';
+import { CSmartTable } from '@coreui/vue-pro'
 import { mapState } from 'pinia';
 import NominaSelectFiscalYear from '../components/NominaSelectFiscalYear.vue';
+import ModalGenerarNomina from '../components/dialogos/ModalGenerarNomina.vue';
+import ApiNomina from '../services/NominaServices'
 
 
 export default {
     components: {
-        NominaSelectFiscalYear
+        CSmartTable,
+        NominaSelectFiscalYear,
+        ModalGenerarNomina
     },
     mounted() {
     },
     setup() {
-        const authStore = useAuthStore();
-        const { user, currentFiscalYearId } = authStore.authInfo;
-        console.log("anio", currentFiscalYearId);
-        const nominaGeneral = {
-            ayuntamientoId: user.ayuntamiento.id,
-            anio: currentFiscalYearId,
-            mes: new Date().getMonth(),
-            tipoContrato: '',
-            formaPago: '',
-        };
-        return { nominaGeneral }
     },
     computed: {
         ...mapState(useAuthStore, ['authInfo']),
+    },
+    methods: {
+        filterByDate(value) {
+            ApiNomina.getNominaGeneral(value).then((response) => {
+                this.dataNominaGeneral = response.data.data;
+            })
+        },
+        getCloseModalValue(value) {
+            this.showModal = value;
+        },
+    },
+    data: function () {
+        return {
+            showModal: false,
+            dataNominaGeneral: [],
+            tableNominaGeneral: [
+                {
+                    key: 'fecha',
+                    label: 'Fecha',
+                    _style: { width: '8%' }
+                },
+                {
+                    key: 'programaDivision',
+                    label: 'Programa División',
+                    _style: { width: '12%' },
+                },
+
+                {
+                    key: 'departamento',
+                    label: 'Departamento',
+                    _style: { width: '10%' },
+                },
+                {
+                    key: 'estProgram',
+                    label: 'Est/Program',
+                    _style: { width: '10%' },
+                },
+                {
+                    key: 'clasificador',
+                    label: 'Clasificador',
+                    _style: { width: '10%' },
+                },
+
+                {
+                    key: 'cantidadEmpleados',
+                    label: 'Cantidad Empleados',
+                    _style: { width: '13%' },
+                },
+                {
+                    key: 'totalAPagar',
+                    label: 'T/Pagar',
+                    _style: { width: '7%' },
+                },
+
+                {
+                    key: 'formaPago',
+                    label: 'F/Pago',
+                    _style: { width: '10%' },
+                },
+                {
+                    key: 'comprobante',
+                    label: 'Comprobante',
+                    _style: { width: '10%' }
+                },
+                {
+                    key: 'show_details',
+                    label: '',
+                    _style: { width: '10%' },
+                    sorter: false,
+                },
+            ]
+        }
     }
 }
 </script>

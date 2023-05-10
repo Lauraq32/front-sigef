@@ -2471,7 +2471,7 @@ export default {
 
     },
     klk() {
-      Api.getDepartamentoById(this.departamentos[0].id).then((response) => {
+      Api.getDepartamentoById(2).then((response) => {
         this.clasificador = response.data.data.ctgClasificadorId
         this.programid1 = response.data.data.programaDivisionId
         this.estructuras = response.data.data.estructura
