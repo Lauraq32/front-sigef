@@ -151,7 +151,7 @@ export default {
         fecha: new Date(),
         cantidad: 1,
         tipo: 'entregado',
-        empleadoId: 0,
+        empleadoId: null,
       },
       isFormEventTypeValidated: false,
       isFormValidatedInputUtil: false,
@@ -233,7 +233,7 @@ export default {
         fecha: new Date(),
         cantidad: 1,
         tipo: 'entregado',
-        empleadoId: 0,
+        empleadoId: null,
       }
     },
   },
