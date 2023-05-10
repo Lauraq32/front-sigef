@@ -14,38 +14,31 @@
       >
     </div>
     <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info"
-        >Imprimir</CButton
-      >
+      <CButton style="font-weight: bold" color="info">Imprimir</CButton>
     </div>
   </div>
   <hr />
-  <CSmartTable
-    class="sticky-top"
-    clickableRows
-    :tableProps="{
-      striped: true,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    header
-    :items="cargos"
+  <CargosTable
     :columns="columns"
-    :footer="footerItem"
-    columnFilter
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'posicion', state: 'asc' }"
-    pagination
+    :footerItems="footerItem"
+    :items="cargos"
+    :showButtons="true"
+    @edit="getCargosById"
   >
-  <template #show_details="{ item }">
+    <template #show_details="{ item }">
       <td class="py-2">
-        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="getCargosById(item)">Editar</CButton>
+        <CButton
+          class="mt-1"
+          color="primary"
+          variant="outline"
+          square
+          size="sm"
+          @click="getCargosById(item)"
+          >Editar</CButton
+        >
       </td>
     </template>
-  </CSmartTable>
+  </CargosTable>
   <CargosModal
     :cargoModal="cargoModal"
     @close-modal="closeModal"
@@ -54,7 +47,7 @@
   />
 </template>
 <script>
-import { CSmartTable } from '@coreui/vue-pro'
+import  CargosTable  from '@/modules/rrhh/RegistroPersonal/components/CargosTable.vue'
 import { CModal } from '@coreui/vue'
 import CargosModal from '../Dialogos/CargosModal.vue'
 import { mapActions } from 'pinia'
@@ -62,9 +55,9 @@ import Api from '../services/RegistroPersonalServices'
 import { useToastStore } from '@/store/toast'
 export default {
   components: {
-    CSmartTable,
     CModal,
     CargosModal,
+    CargosTable,
   },
   data: () => {
     return {
