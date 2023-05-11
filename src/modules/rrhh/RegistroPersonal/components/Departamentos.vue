@@ -83,7 +83,7 @@ export default {
           this.deparments = this.deparments.filter(x => x.id != item.id);
         }
       }).catch(err => {
-        this.show({content: err.response.data.message, color:'danger'})
+        this.show({content: err.response.data, color:'danger'})
 
       });
     }
@@ -103,7 +103,7 @@ export default {
         deparmentServices.createDepartment(dept).then((response) => {
           this.deparments = [response.data.data ,...this.deparments];
           this.handleModalClose();
-        }).catch((error) => this.show({content: err.response.data, color:'danger'}))
+        }).catch((error) => this.show({content: error.response.data, color:'danger'}))
       }
     },
   },
