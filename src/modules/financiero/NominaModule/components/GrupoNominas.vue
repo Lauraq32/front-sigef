@@ -1,5 +1,4 @@
 <template>
-      
   <h3 class="text-center">Grupo nomina</h3>
 
   <div class="table-headers">
@@ -8,7 +7,7 @@
         color="info"
         @click="
           () => {
-            lgDemo = true
+            showGrupoNomina = true
           }
         "
         >Agregar</CButton
@@ -16,7 +15,8 @@
     </div>
   </div>
 
-  <CSmartTable class="sticky-top"
+  <CSmartTable
+    class="sticky-top"
     clickableRows
     :tableProps="{
       striped: true,
@@ -69,10 +69,10 @@
   </CSmartTable>
   <CModal
     size="md"
-    :visible="lgDemo"
+    :visible="showGrupoNomina"
     @close="
       () => {
-        lgDemo = false
+        showGrupoNomina = false
       }
     "
   >
@@ -85,7 +85,6 @@
           class="row g-3 needs-validation"
           novalidate
           :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
         >
           <div class="row">
             <div class="col-6">
@@ -163,7 +162,7 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
- 
+
 import { useToastStore } from '@/store/toast'
 import Api from '../services/NominaServices'
 
@@ -171,7 +170,6 @@ export default {
   components: {
     CSmartTable,
     CModal,
-      
   },
 
   data: function () {
@@ -184,6 +182,11 @@ export default {
 
       columns: [
         { key: 'id', label: 'Código', _style: { width: '40%' } },
+        {
+          key: 'nombre',
+          label: 'Grupo Nomina',
+          _style: { width: '40%' },
+        },
         {
           key: 'nombre',
           label: 'Grupo Nomina',
@@ -206,13 +209,12 @@ export default {
             style: 'font-weight:bold;',
           },
         },
-
       ],
 
       details: [],
 
       validatedCustom01: null,
-      lgDemo: false,
+      showGrupoNomina: false,
     }
   },
 
@@ -228,7 +230,7 @@ export default {
     submitForm() {
       if (this.id) {
         Api.putGrupoNomina(this.id, this.postGrupoNominas).then((response) => {
-          this.lgDemo = false
+          this.showGrupoNomina = false
           this.show({
             content: response.data.message,
             closable: true,
@@ -246,12 +248,12 @@ export default {
         setTimeout(this.getGNomina, 500)
         Api.postGrupoNomina(this.postGrupoNominas)
           .then((response) => {
-                 this.show({
+            this.show({
               content: 'Registro añadido correctamente',
               closable: true,
             })
           })
-           .catch((error) => {
+          .catch((error) => {
             this.show({
               content: 'Error al enviar el formulario',
               closable: true,
@@ -259,7 +261,7 @@ export default {
               class: 'text-white',
             })
           })
-        this.lgDemo = true
+        this.showGrupoNomina = true
         setTimeout(this.getGNomina, 500)
         ;(this.postGrupoNominas = {
           nombre: null,
@@ -274,47 +276,23 @@ export default {
     },
 
     close() {
-      this.lgDemo = false
+      this.showGrupoNomina = false
     },
 
-    toggleDetails(item) {
+    editarGrupoNomina(item) {
       if (item.grupoNomina !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
       } else {
         this.formuladoValue = false
       }
       this.edit = true
-      this.lgDemo = true
+      this.showGrupoNomina = true
       console.log(item.id)
       Api.getGrupoNominaById(item.id).then((response) => {
         this.postGrupoNominas = response.data.data
 
         this.id = item.id
       })
-    },
-
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
-
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
     },
   },
 
