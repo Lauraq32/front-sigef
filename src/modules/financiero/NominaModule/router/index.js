@@ -30,7 +30,7 @@ export default {
       meta: { label: 'Nómina General' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/nominaG.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/pages/NominaGeneral.vue'
         ),
     },
     {

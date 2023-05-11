@@ -123,16 +123,8 @@ class NominaApi {
     )
   }
 
-  getnominaGeneral(Nomina) {
-    return http.get(
-      `Nomina/NominaGeneral?AyuntamientoId=${
-        Nomina.AyuntamientoId ? Nomina.AyuntamientoId : null
-      }&TipoContrato=${
-        Nomina.TipoContrato ? Nomina.TipoContrato : null
-      }&FormaPago=${Nomina.FormaPago ? Nomina.FormaPago : null}&Mes=${
-        Nomina.Mes
-      }&Anio=${Nomina.Anio}`,
-    )
+  getNominaGeneral(nomina) {
+    return http.get(`Nomina/NominaGeneral?AyuntamientoId=${nomina.ayuntamientoId}${nomina.tipoContrato ? `&TipoContrato=${nomina.tipoContrato}` : ''}${nomina.formaPago ? `&FormaPago=${nomina.formaPago}` : ''}${nomina.mes ? `&Mes=${nomina.mes}` : ''}&Anio=${nomina.anio}`)
   }
 
   getNominaPorEmpleado(id) {
