@@ -371,8 +371,8 @@
                 <div class="col-4 border p-3">
                   <h3>Otros</h3>
                   <CCol>
-                    <CFormLabel for="emergenciaTelefono">Otros</CFormLabel>
-                    <CFormInput id="emergenciaTelefono" type="text" />
+                    <CFormLabel for="emergenciaTelefono" >Otros</CFormLabel>
+                    <CFormInput id="emergenciaTelefono" type="text" v-model="postEmpleado.observacion"/>
                   </CCol>
                 </div>
               </div>
@@ -522,7 +522,7 @@
                   </div>
                   <CCol :md="12">
                     <CFormLabel for="tituloObtenido">T&iacute;tulo Obtenido</CFormLabel>
-                    <CFormInput :disabled="tituloField" postEmpleado.tituloObtenido id="tituloObtenido" />
+                    <CFormInput :disabled="tituloField" v-model="postEmpleado.tituloObtenido" id="tituloObtenido" />
 
                   </CCol>
 

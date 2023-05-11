@@ -81,7 +81,7 @@ export default {
         { key: 'codigo', label: 'Código', _style: { width: '15%' } },
         { key: 'apellidos', label: 'Apellido', _style: { width: '15%' } },
         { key: 'nombres', label: 'Nombre', _style: { width: '15%' } },
-        { key: 'codigoIdentidad', label: 'Cédula', _style: { width: '10%' } },
+        { key: 'codigoIdentidad', label: 'Cédula/Pasaporte', _style: { width: '15%' } },
         {
           key: 'programaDivision',
           label: 'Programa',
