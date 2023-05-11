@@ -275,6 +275,14 @@ export default {
     })
   },
   watch:{
+
+    newDepartmen:{
+      deep: true,
+      handler(newValue, oldValue) {
+        console.log(newValue)
+      }
+    },
+
     departamento(){
       if(this.departamento){
           this.newDepartment = {

@@ -34,7 +34,7 @@
 
 
   <DepartmentsTable @onUpdate="handleUpdate" @handleDelete="handleDelete" :deparments="deparments"/>
-  <AddDepartment  :modal-title="this.deparmentModalTitle" :departamento="this.departamento" @OnSubmit="handleSubmit" @onClose="handleModalClose" :showModal="showAddDeptModal" :is-nomina="false"/>
+  <AddDepartment is-nomina="true" :modal-title="this.deparmentModalTitle" :departamento="this.departamento" @OnSubmit="handleSubmit" @onClose="handleModalClose" :showModal="showAddDeptModal" :is-nomina="false"/>
 
 </template>
 <script>
