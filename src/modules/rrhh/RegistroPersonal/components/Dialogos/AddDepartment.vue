@@ -1,8 +1,9 @@
 <template>
   <CModal
+    backdrop="static"
     size="lg"
     :visible="showModal"
-    @close="$emit('onClose')"
+    @close="$emit('close')"
     novalidate
     :validated="formIsValid"
   >
@@ -18,124 +19,126 @@
           :validated="formIsValid"
           @submit="hanldeSubmitForm"
         >
-          <CRow>
-            <CCol :md="4">
-              <CFormLabel for="validationCustom01">Codigo SASP</CFormLabel>
-              <CFormInput
-                required
-                type="Number"
-                v-model="newDepartment.saspId"
-                feedbackInvalid="Inserte Codigo SASP"
-                id="invalidSasp"
-              >
-              </CFormInput>
-            </CCol>
-          </CRow>
+          <CContainer>
+            <CRow>
+              <CCol :md="4">
+                <CFormLabel for="validationCustom01"
+                  >C&oacute;digo SASP</CFormLabel
+                >
+                <CFormInput
+                  required
+                  type="Number"
+                  v-model="newDepartment.saspId"
+                  feedbackInvalid="Inserte Codigo SASP"
+                  id="invalidSasp"
+                >
+                </CFormInput>
+              </CCol>
+            </CRow>
+          </CContainer>
 
           <div>
-            <CFormLabel>Nombre Depto. ó Nómina</CFormLabel>
+            <CFormLabel>Nombre Depto. &oacute; N&oacute;mina</CFormLabel>
             <CFormInput required v-model="newDepartment.nombre"> </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </div>
 
-          <CRow>
-            <CCol :md="6">
-              <CFormLabel>Programa</CFormLabel>
-              <CFormSelect
-                required
-                v-model="newDepartment.programaDivisionId"
-                @update:modelValue="handleProgramaChange"
-              >
-                <option>Selecionar Programa</option>
-                <option
-                  v-for="programa in programas"
-                  :value="programa.id"
-                  :key="programa.id"
+          <CContainer>
+            <CRow>
+              <CCol :md="6">
+                <CFormLabel>Programa</CFormLabel>
+                <CFormSelect
+                  required
+                  v-model="newDepartment.programaDivisionId"
+                  @update:modelValue="handleProgramaChange"
                 >
-                  {{ programa.nombre }}
-                </option>
-              </CFormSelect>
-            </CCol>
+                  <option>Selecionar Programa</option>
+                  <option
+                    v-for="programa in programas"
+                    :value="`${programa.id}`"
+                    :key="programa.id"
+                  >
+                    {{ programa.nombre }}
+                  </option>
+                </CFormSelect>
+              </CCol>
 
-            <CCol :md="6">
-              <CFormLabel>Grupo Nómina</CFormLabel>
-              <CFormSelect required v-model="newDepartment.grupoNominaId">
-                <option>Selecionar Grupo Nómina</option>
-                <option
-                  v-for="grupo in gruposNomina"
-                  :value="grupo.id"
-                  :key="grupo.id"
-                >
-                  {{ grupo.nombre }}
-                </option>
-              </CFormSelect>
-            </CCol>
-          </CRow>
-
+              <CCol :md="6">
+                <CFormLabel>Grupo N&oacute;mina</CFormLabel>
+                <CFormSelect required v-model="newDepartment.grupoNominaId">
+                  <option>Selecionar Grupo N&oacute;mina</option>
+                  <option
+                    v-for="grupo in gruposNomina"
+                    :value="`${grupo.id}`"
+                    :key="grupo.id"
+                  >
+                    {{ grupo.nombre }}
+                  </option>
+                </CFormSelect>
+              </CCol>
+            </CRow>
+          </CContainer>
           <div>
-            <CFormLabel>Cuenta de banco</CFormLabel>
+            <CFormLabel>Cuenta de Banco</CFormLabel>
             <CFormSelect required v-model="newDepartment.cuentaBancoId">
               <option :key="0">Selecionar Cuenta de banco</option>
               <option
                 v-for="cuenta in cuentasBanco"
-                :value="cuenta.bancoId"
+                :value="`${cuenta.bancoId}`"
                 :key="cuenta.bancoId"
               >
                 {{ cuenta.nombreCuenta }}
               </option>
             </CFormSelect>
           </div>
-          <!-- Left code commented for when whe change to the array -->
-          <!-- <div>
-            <CFormLabel >Estructura</CFormLabel>
-            <CFormSelect required  v-model="newDepartment.estructura">
-              <option v-for="estructura in estructurasProgramaticas" :value="estructura.numero" :key="estructura.id">
-                {{ estructura.nombre }}
-              </option>
-            </CFormSelect>
-          </div> -->
           <div>
             <CFormLabel>Estructura</CFormLabel>
             <CFormInput required v-model="newDepartment.estructura" disabled>
             </CFormInput>
           </div>
 
-          <div v-if="isNomina">
-            <CRow>
-              <CCol :md="3">
-                <CFormLabel>Clasificador</CFormLabel>
-                <CFormSelect
-                  required
-                  v-model="newDepartment.clasificadorId"
-                  @update:modelValue="handleClasificadorChange"
-                  :options="[
-                    { label: 'Seleccione Clasificador', value: 0, item: {} },
-                    ...clasificadores,
-                  ]"
-                >
-                </CFormSelect>
-              </CCol>
-              <CCol :md="3">
-                <CFormLabel>Fuente Financiamineto</CFormLabel>
-                <CFormInput v-model="newDepartment.fuenteId"></CFormInput>
-              </CCol>
+          <section v-if="isNomina" class="mt-4">
+            <CContainer>
+              <CRow>
+                <CCol :md="3">
+                  <CFormLabel>Clasificador</CFormLabel>
+                  <CFormSelect
+                    required
+                    v-model="newDepartment.clasificadorId"
+                    @update:modelValue="handleClasificadorChange"
+                    :options="[
+                      {
+                        label: 'Seleccione Clasificador',
+                        value: '0',
+                        item: {},
+                      },
+                      ...clasificadores,
+                    ]"
+                  >
+                  </CFormSelect>
+                </CCol>
+                <CCol :md="3">
+                  <CFormLabel>Fuente Financiamineto</CFormLabel>
+                  <CFormInput v-model="newDepartment.fuenteId"></CFormInput>
+                </CCol>
 
-              <CCol :md="3">
-                <CFormLabel>Fuente Específica</CFormLabel>
-                <CFormInput
-                  v-model="newDepartment.fuenteEspecificaId"
-                ></CFormInput>
-              </CCol>
+                <CCol :md="3">
+                  <CFormLabel>Fuente Espec&iacute;fica</CFormLabel>
+                  <CFormInput
+                    v-model="newDepartment.fuenteEspecificaId"
+                  ></CFormInput>
+                </CCol>
 
-              <CCol :md="3">
-                <CFormLabel>Organismo Financiero</CFormLabel>
-                <CFormInput v-model="newDepartment.organismoFinanciadorId">
-                </CFormInput>
-              </CCol>
-            </CRow>
+                <CCol :md="3">
+                  <CFormLabel>Organismo Financiero</CFormLabel>
+                  <CFormInput v-model="newDepartment.organismoFinanciadorId">
+                  </CFormInput>
+                </CCol>
+              </CRow>
+            </CContainer>
 
-            <div class="mt-4">
-              <h5>Regalias</h5>
+            <CContainer class="mt-4">
+              <h5>Regal&iacute;as</h5>
 
               <CRow>
                 <CCol :md="3">
@@ -156,7 +159,7 @@
                 </CCol>
 
                 <CCol :md="3">
-                  <CFormLabel>Fuente Específica</CFormLabel>
+                  <CFormLabel>Fuente Espec&iacute;fica</CFormLabel>
                   <CFormInput
                     v-model="newDepartment.fuenteEspecificaRegaliaId"
                   ></CFormInput>
@@ -170,19 +173,18 @@
                   </CFormInput>
                 </CCol>
               </CRow>
-            </div>
-          </div>
-
+            </CContainer>
+          </section>
           <div class="modal-footer">
             <button
-              @click="$emit('onClose')"
+              @click="$emit('close')"
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
             >
               Cerrar
             </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+            <button class="btn btn-info btn-block mt-1">
               Guardar
             </button>
           </div>
@@ -204,6 +206,7 @@ export default {
     CCol,
     CFormLabel,
   },
+  emits: ['close', 'submit'],
   props: {
     showModal: {
       type: Boolean,
@@ -265,7 +268,7 @@ export default {
       if (form.checkValidity()) {
         event.preventDefault()
         event.stopPropagation()
-        this.$emit('OnSubmit', this.newDepartment)
+        this.$emit('submit', this.newDepartment)
       } else {
         this.formIsValid = true
       }
@@ -300,7 +303,7 @@ export default {
   },
   mounted() {
     const clasificadoresPermitidos = [
-      '21101',
+      '211101',
       '211201',
       '211202',
       '211204',
@@ -333,8 +336,21 @@ export default {
         })
     })
   },
-
+  computed: {
+    paymentStructureInfo() {
+      return (
+        this.newDepartment.estructura &&
+        this.newDepartment.clasificadorId &&
+        this.newDepartment.fuenteId &&
+        this.newDepartment.fuenteEspecificaId &&
+        this.newDepartment.organismoFinanciadorId
+      )
+    },
+  },
   watch: {
+    paymentStructureInfo(newValue) {
+      console.log({ newValue })
+    },
     newDepartment: {
       deep: true,
       handler(newValue) {

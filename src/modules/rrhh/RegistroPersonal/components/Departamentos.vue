@@ -1,6 +1,5 @@
 <template>
-  <h3 class="text-center">Departamentos</h3>
-  <hr />
+  <h3 class="text-center mb-4">Departamentos</h3>
   <div class="table-headers justify-content-between">
 
     <div class="d-inline-flex gap-3 align-items-center">
@@ -10,9 +9,8 @@
           :options="[
             { label: 'Activo', value: true },
             { label: 'Inactivo', value: 'false' }
-            ]">
-
-      </CFormSelect>
+          ]"
+      />
     </div>
 
     <div>
@@ -24,7 +22,7 @@
       </div>
 
       <div class="d-inline p-2">
-        <CButton style="font-weight: bold" color="info" @click="IngresoReport"
+        <CButton style="font-weight: bold" color="info"
           >Imprimir</CButton
         >
       </div>
@@ -33,8 +31,20 @@
   <hr />
 
 
-  <DepartmentsTable @onUpdate="handleUpdate" @handleDelete="handleDelete" :deparments="deparments"/>
-  <AddDepartment is-nomina="true" :modal-title="this.deparmentModalTitle" :departamento="this.departamento" @OnSubmit="handleSubmit" @onClose="handleModalClose" :showModal="showAddDeptModal" :is-nomina="false"/>
+  <DepartmentsTable
+    @onUpdate="handleUpdate"
+    @handleDelete="handleDelete"
+    :deparments="deparments"
+  />
+
+  <AddDepartment
+    :is-nomina="true"
+    :modal-title="this.deparmentModalTitle"
+    :departamento="this.departamento"
+    :showModal="showAddDeptModal"
+    @submit="handleSubmit"
+    @close="handleModalClose"
+  />
 
 </template>
 <script>
