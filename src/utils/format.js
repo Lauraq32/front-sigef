@@ -10,4 +10,11 @@ const formatDate = (fechaIngreso) =>  {
     })
   }
 
-export { formatPrice,formatDate }
+  const formatNumber = (value) => {
+    let val = Math.round(value)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    return val
+  }
+
+export { formatPrice,formatDate, formatNumber }
