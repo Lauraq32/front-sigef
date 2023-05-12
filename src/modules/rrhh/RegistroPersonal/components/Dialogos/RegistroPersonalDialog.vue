@@ -343,9 +343,7 @@
                     <img class="w-75" :src="imageUrl" alt="imagen de perfil del empleado" style="opacity: 0.5;">
                     <input accept="image/png, image/jpeg" type="file" @change="saveFile"
                       class="position-absolute top-50 start-50 translate-middle input-wrapper w-100 h-100 opacity-0" />
-
                   </div>
-
                 </div>
               </div>
             </CTabPane>
@@ -552,7 +550,6 @@
           Close
         </button>
         <input type="submit" value="Guardar" class="btn btn-primary" />
-
       </div>
     </CForm>
 
@@ -581,7 +578,6 @@ export default {
     vSelect
   },
   data: function () {
-
     return {
       isLowerSelectedInitDate:false,
       areaTematicaField: true,
@@ -616,36 +612,36 @@ export default {
         sectorId: '',
         telefono: null,
         celular: null,
-        fechaNacimiento: new Date(Date.now()),
+        fechaNacimiento: new Date(),
         lugarNacimiento: null,
         estadoCivil: '',
         sexo: '',
         dependientes: 0,
         fechaIngreso: null,
-        fechaSalida: new Date(Date.now()),
+        fechaSalida: new Date(),
         razonSalida: null,
         reemplear: true,
-        fechaReingreso: new Date(Date.now()),
+        fechaReingreso: new Date(),
         programaDivisionId: 0,
         departamentoId: 0,
         areaTrabajoId: 0,
         posicionId: 0,
         grupoOcupacional: null,
         tipoContrato: null,
-        fechaInicioContrato: new Date(Date.now()),
-        fechaFinContrato: new Date(Date.now()),
+        fechaInicioContrato: new Date(),
+        fechaFinContrato: new Date(),
         turno: null,
         periodoPago: null,
         formaPago: null,
         numeroCuenta: null,
-        fechaExpitaTarjeta: new Date(Date.now()),
+        fechaExpitaTarjeta: new Date(),
         estatus: true,
         sueldo: 0.0,
         sueldoAnterior: 0.0,
-        fechaSueldoAnterior: new Date(Date.now()),
-        fechaUltimaNomina: new Date(Date.now()),
-        inicioVacaciones: new Date(Date.now()),
-        finVacaciones: new Date(Date.now()),
+        fechaSueldoAnterior: new Date(),
+        fechaUltimaNomina: new Date(),
+        inicioVacaciones: new Date(),
+        finVacaciones: new Date(),
         activoNomina: true,
         ingreso2: 0.0,
         ingreso3: 0.0,
@@ -696,7 +692,7 @@ export default {
         emergenciaEnTratamiento: 'Si',
         emergenciaDiagnostico: null,
         licenciaConducir: null,
-        fechaExpiracionLicencia: new Date(Date.now()),
+        fechaExpiracionLicencia: new Date(),
         aplicaSasp: true,
         nivelEscolar: null,
         areaTematica: null,
@@ -710,23 +706,19 @@ export default {
   },
 
   methods: {
-
     ...mapActions(useToastStore, ['show']),
-
     validarFechaDesde() {
-
       const fechaDesde = new Date(this.postEmpleado.fechaIngreso)
       fechaDesde.setHours(0, 0, 0, 0)
       const fechaActual = new Date()
       fechaActual.setHours(0, 0, 0, 0)
       if (fechaDesde > fechaActual) {
         this.isLowerSelectedInitDate = true
-        this.fechaIngreso = new Date(Date.now())
+        this.fechaIngreso = new Date()
       } else {
         this.isLowerSelectedInitDate = false
       }
     },
-
     sendData() {
       this.isFormEventTypeValidated = false
       if (this.$refs.eventTypeForm.$el.checkValidity()) {
@@ -749,13 +741,10 @@ export default {
           formData.append('public', true)
           fileApi.saveFile(formData).then(response => {
             this.postEmpleado.idImagenPerfil = response.data.data[0].id
-            this.imageId = response.data.data[0].id
-            console.log(response.data.data[0].id)
-          })
-            .catch(console.log)
+            this.imageId = response.data.data[0].id;
+          }).catch(console.log)
         };
         reader.readAsDataURL(file);
-
       }
     },
 
@@ -791,64 +780,49 @@ export default {
         this.areaTematicaField = true
         this.tituloField = true
       }
-
-
     },
 
     cargaInformacionRequerida() {
       Api.getProgramaDivision().then((response) => {
         this.programaDivision = response.data.data
-
       })
 
       Api.getPosicion().then((response) => {
         this.posicionCargo = response.data.data
-
       })
 
       Api.getAreaTrabajo().then((response) => {
         this.areaTrabajo = response.data.data
-
       })
 
       apiSectores.getSectores().then((response) => {
         this.sector = response.data.data
-
       })
 
       Api.tipoSangreList().then((response) => {
         this.tipoSangre = response.data.data
-
       })
 
       Api.getProgramaDivision().then((response) => {
         this.programaDivision = response.data.data
-
       })
       configuraciones.getGroupConfiguration(configuraciones.grupos.Discapacidad).then(response => {
         this.discapacidadList = response.data.data
-
       })
       configuraciones.getGroupConfiguration(configuraciones.grupos.nivelEscolar).then(response => {
         this.nivelEscolarList = response.data.data
-
       })
       configuraciones.getGroupConfiguration(configuraciones.grupos.areaTematica).then(response => {
         this.areaTematicaList = response.data.data
-
       })
-
-      // this.getListDepartamento()
     },
-
-
-
 
     saveRegistroPersonal() {
       this.$emit('post-personal', {
         ...this.postEmpleado
       })
     },
+
     getRegistroPersonal(id) {
       Api.getEmpleadoByID(id).then((response) => {
         this.postEmpleado = { ...response.data.data }
@@ -857,12 +831,11 @@ export default {
       })
     },
 
-
-
     closeModal() {
       this.$emit('close-modal')
       this.clearModal()
     },
+
     clearModal() {
       this.postEmpleado = {
         ayuntamientoId: this.$ayuntamientoId,
@@ -875,36 +848,36 @@ export default {
         sectorId: 0,
         telefono: null,
         celular: null,
-        fechaNacimiento: new Date(Date.now()),
+        fechaNacimiento: new Date(),
         lugarNacimiento: null,
         estadoCivil: '',
         sexo: 'M',
         dependientes: 0,
         fechaIngreso: null,
-        fechaSalida: new Date(Date.now()),
+        fechaSalida: new Date(),
         razonSalida: null,
         reemplear: true,
-        fechaReingreso: new Date(Date.now()),
+        fechaReingreso: new Date(),
         programaDivisionId: 0,
         departamentoId: 0,
         areaTrabajoId: 0,
         posicionId: 0,
         grupoOcupacional: null,
         tipoContrato: null,
-        fechaInicioContrato: new Date(Date.now()),
-        fechaFinContrato: new Date(Date.now()),
+        fechaInicioContrato: new Date(),
+        fechaFinContrato: new Date(),
         turno: null,
         periodoPago: null,
         formaPago: null,
         numeroCuenta: null,
-        fechaExpitaTarjeta: new Date(Date.now()),
+        fechaExpitaTarjeta: new Date(),
         estatus: true,
         sueldo: 0.0,
         sueldoAnterior: 0.0,
-        fechaSueldoAnterior: new Date(Date.now()),
-        fechaUltimaNomina: new Date(Date.now()),
-        inicioVacaciones: new Date(Date.now()),
-        finVacaciones: new Date(Date.now()),
+        fechaSueldoAnterior: new Date(),
+        fechaUltimaNomina: new Date(),
+        inicioVacaciones: new Date(),
+        finVacaciones: new Date(),
         activoNomina: true,
         ingreso2: 0.0,
         ingreso3: 0.0,
@@ -955,7 +928,7 @@ export default {
         emergenciaEnTratamiento: 'Si',
         emergenciaDiagnostico: null,
         licenciaConducir: null,
-        fechaExpiracionLicencia: new Date(Date.now()),
+        fechaExpiracionLicencia: new Date(),
         aplicaSasp: true,
         nivelEscolar: null,
         areaTematica: null,
@@ -968,7 +941,7 @@ export default {
     },
 
     validateDate(event) {
-      if (new Date(event.target.value) > new Date(Date.now())) {
+      if (new Date(event.target.value) > new Date()) {
         return true
       }
     }

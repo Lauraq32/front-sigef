@@ -63,7 +63,7 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { mapActions } from 'pinia'
 import { useToastStore } from '@/store/toast'
-import DireccionDependeciaDialogs from '../Dialogos/DireccionDependenciaModal.vue'
+import DireccionDependeciaDialogs from './Dialogos/DireccionDependenciaModal.vue'
 import Api from '../services/RegistroPersonalServices'
 export default {
   components: {
@@ -91,7 +91,7 @@ export default {
         {
           label: 'Total Items',
           _props: {
-            colspan: 1,
+            colspan: 2,
             style: 'font-weight:bold;',
           },
         },

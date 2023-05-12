@@ -7,6 +7,14 @@ class RegistroPersonal {
     return http.get('tipos-sangre')
   }
 
+  getAllTipoAcciones() {
+    return http.get('tipo-acciones')
+  }
+
+  getAllAccionPersonal() {
+    return http.get('acciones-personal')
+  }
+
   getTipoSangreByID(id) {
     return http.get(`tipos-sangre/${id}`)
   }
@@ -19,8 +27,12 @@ class RegistroPersonal {
     return http.get('profesiones')
   }
 
+  getAccionesPersonalById(id) {
+    return http.get(`acciones-personal/${id}`)
+  }
+
   addProfesion(data) {
-    return http.post('profesiones',data)
+    return http.post('profesiones', data)
   }
   updateProfesion(id, data) {
     return http.put(`profesiones/${id}`, data)
@@ -30,17 +42,38 @@ class RegistroPersonal {
     return http.get(`profesiones/${id}`)
   }
 
+  getAyuntamientoById(id){
+    return http.get(`Ayuntamiento/${id}`)
+  }
+
   getAllEmpleado() {
     return http.get(`empleados`)
   }
-
-  //CARGOS
-  getAllCargos() {
-    return http.get('cargos')
+  //get Archivos por el id del empleado
+  getFileById(id){
+    return http.get(
+      `files?tag=${id}`
+    )
   }
 
   getCargobyid(id) {
     return http.get(`cargos/${id}`)
+  }
+
+  getAllCargos() {
+    return http.get(`cargos`)
+  }
+
+  getInventarioById(id) {
+    return http.get(`inventarios/${id}/utiles-laborales`)
+  }
+
+  postInventarioById(id, data) {
+    return http.post(`inventarios/${id}/utiles-laborales`, data)
+  }
+
+  postEventos(id, data) {
+    return http.post(`inventarios/${id}/eventos`, data)
   }
 
   updateCargo(id, data) {
@@ -51,13 +84,20 @@ class RegistroPersonal {
     return http.post('cargos', data)
   }
 
-
   getProgramaDivision() {
     return http.get(`programas-division`)
   }
 
   getEmpleadoByID(id) {
     return http.get(`empleados/${id}`)
+  }
+
+  getAccionPersonalByID(id) {
+    return http.get(`acciones-personal/empleado/${id}`)
+  }
+
+  getTipoAccionByID(id) {
+    return http.get(`tipo-acciones/${id}`)
   }
 
   getDepartamentoByProgramaId(id) {
@@ -67,6 +107,10 @@ class RegistroPersonal {
   //sectores
   getAllSector() {
     return http.get('sectores')
+  }
+
+  getAllInventario() {
+    return http.get('inventarios')
   }
 
   //AREA TRABAJO
@@ -84,7 +128,6 @@ class RegistroPersonal {
 
   updateAreaTrabajo(id, data) {
     return http.put(`areas-trabajo/${id}`, data)
-
   }
   getSectorById(id) {
     return http.get(`sectores/${id}`)
@@ -98,7 +141,6 @@ class RegistroPersonal {
     return http.put(`sectores/${id}`, data)
   }
 
-
   getAreaTrabajo() {
     return http.get('areas-trabajo')
   }
@@ -108,14 +150,36 @@ class RegistroPersonal {
     return http.get('Posicion')
   }
 
+  getAreaTrabajobyid(id) {
+    return http.get(`areas-trabajo/${id}`)
+  }
+  getImagenesById(fileId){
+    return http.get(`files/${fileId}`)
+  }
   //post
 
-  postEmpleado(data) {
+  postEmpleados(data) {
     return http.post('empleados', data)
+  }
+
+  postInventario(data) {
+    return http.post('inventarios', data)
+  }
+
+  postFiles(formData){
+    return http.post(`files`, formData)
+  }
+  
+  postTipoAcciones(data) {
+    return http.post('tipo-acciones', data)
   }
 
   postSectores(data) {
     return http.post('sectores', data)
+  }
+
+  postAccionesPersonal(data) {
+    return http.post('acciones-personal', data)
   }
 
   postAreaTrabajo(data) {
@@ -142,6 +206,18 @@ class RegistroPersonal {
   //put
   putEmpleado(id, data) {
     return http.put(`empleados/${id}`, data)
+  }
+
+  putInventario(id, data) {
+    return http.put(`inventarios/${id}`, data)
+  }
+
+  putTipoAcciones(id, data) {
+    return http.put(`tipo-acciones/${id}`, data)
+  }
+
+  putAccionesPersonales(id, data) {
+    return http.put(`acciones-personal/${id}`, data)
   }
 
   putArea(id) {

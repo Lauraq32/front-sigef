@@ -28,15 +28,17 @@ class Files {
   }
 
   getEmployeeIdentityImage(tags) {
-    return this.getFiles({ tag: tags }).then((files) => {
-      return this.getFileById(files[0].id)
+    return this.getFiles({
+      tag: tags,
+    }).then((files) => {
+      return this.getFileById(files.pop().id)
     })
   }
 
   saveFile(formData) {
     return http.post(`files`, formData).then((response) => {
       return response
-    })
+    });
   }
 }
 
