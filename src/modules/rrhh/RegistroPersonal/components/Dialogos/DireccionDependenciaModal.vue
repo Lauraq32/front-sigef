@@ -53,18 +53,16 @@
   </CModal>
 </template>
 <script>
-import { CModalFooter, CSmartTable } from '@coreui/vue-pro'
+import { CModalFooter } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
-import Api from '../services/RegistroPersonalServices'
+import Api from '../../services/RegistroPersonalServices'
 import {onlyNumber} from '@/utils/validator'
 
 export default {
   name: 'DireccionDependeciaDialogs',
   components: {
-    CSmartTable,
     CModal,
     CModalFooter,
-    
   },
 
   data: function () {

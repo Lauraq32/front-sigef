@@ -143,7 +143,7 @@ export default {
         {
           label: 'Total Items',
           _props: {
-            colspan: 1,
+            colspan: 3,
             style: 'font-weight:bold;',
           },
         },

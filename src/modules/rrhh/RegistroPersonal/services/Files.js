@@ -34,7 +34,12 @@ class Files {
       return this.getFileById(files.pop().id)
     })
   }
+
+  saveFile(formData) {
+    return http.post(`files`, formData).then((response) => {
+      return response
+    });
+  }
 }
 
-
-export default new Files();
+export default new Files()

@@ -180,7 +180,7 @@
 
 <script>
 import { CModal } from '@coreui/vue'
-import { CCol, CSmartTable } from '@coreui/vue-pro'
+import { CCol } from '@coreui/vue-pro'
 import { CIcon } from '@coreui/icons-vue'
 import ProfessionDialog from './SelectProfesionDialog.vue'
 import Api from '../../services/SolicitudEmpleo'
@@ -192,7 +192,6 @@ import { format } from "date-fns";
 export default {
   name: 'ReclutamientoDialog',
   components: {
-    CSmartTable,
     CModal,
     CIcon,
     ProfessionDialog,
