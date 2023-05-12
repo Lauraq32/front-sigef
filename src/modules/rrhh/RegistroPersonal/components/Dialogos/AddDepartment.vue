@@ -49,10 +49,10 @@
                 <CFormLabel>Programa</CFormLabel>
                 <CFormSelect
                   required
-                  v-model="newDepartment.programaDivisionId"
+                  :modelValue="`${newDepartment.programaDivisionId}`"
                   @update:modelValue="handleProgramaChange"
                 >
-                  <option>Selecionar Programa</option>
+                  <option :value="'0'">Selecionar Programa</option>
                   <option
                     v-for="programa in programas"
                     :value="`${programa.id}`"
@@ -66,7 +66,7 @@
               <CCol :md="6">
                 <CFormLabel>Grupo N&oacute;mina</CFormLabel>
                 <CFormSelect required v-model="newDepartment.grupoNominaId">
-                  <option>Selecionar Grupo N&oacute;mina</option>
+                  <option value="0">Selecionar Grupo N&oacute;mina</option>
                   <option
                     v-for="grupo in gruposNomina"
                     :value="`${grupo.id}`"
@@ -119,19 +119,31 @@
                 </CCol>
                 <CCol :md="3">
                   <CFormLabel>Fuente Financiamineto</CFormLabel>
-                  <CFormInput v-model="newDepartment.fuenteId"></CFormInput>
+                  <CFormInput
+                    v-model="newDepartment.fuenteId"
+                    required
+                    maxlength="2"
+                    @keypress="onlyNumber"
+                  ></CFormInput>
                 </CCol>
 
                 <CCol :md="3">
                   <CFormLabel>Fuente Espec&iacute;fica</CFormLabel>
                   <CFormInput
                     v-model="newDepartment.fuenteEspecificaId"
+                    required
+                    maxlength="4"
+                    @keypress="onlyNumber"
                   ></CFormInput>
                 </CCol>
 
                 <CCol :md="3">
                   <CFormLabel>Organismo Financiero</CFormLabel>
-                  <CFormInput v-model="newDepartment.organismoFinanciadorId">
+                  <CFormInput
+                    v-model="newDepartment.organismoFinanciadorId"
+                    required
+                    maxlength="4"
+                    @keypress="onlyNumber">
                   </CFormInput>
                 </CCol>
               </CRow>
@@ -148,6 +160,8 @@
                     v-model="newDepartment.clasificadorRegaliaId"
                     feedbackInvalid="Seleccione un clasificador ."
                     id="invalidClasificador"
+                    maxlength="6"
+                    @keypress="onlyNumber"
                   ></CFormInput>
                 </CCol>
 
@@ -155,6 +169,9 @@
                   <CFormLabel>Fuente Financiamineto</CFormLabel>
                   <CFormInput
                     v-model="newDepartment.fuenteRegaliaId"
+                    required
+                    maxlength="2"
+                    @keypress="onlyNumber"
                   ></CFormInput>
                 </CCol>
 
@@ -162,6 +179,9 @@
                   <CFormLabel>Fuente Espec&iacute;fica</CFormLabel>
                   <CFormInput
                     v-model="newDepartment.fuenteEspecificaRegaliaId"
+                    required
+                    maxlength="4"
+                    @keypress="onlyNumber"
                   ></CFormInput>
                 </CCol>
 
@@ -169,6 +189,9 @@
                   <CFormLabel> Organismo Financiero</CFormLabel>
                   <CFormInput
                     v-model="newDepartment.organismoFinanciadorRegaliaId"
+                    required
+                    maxlength="4"
+                    @keypress="onlyNumber"
                   >
                   </CFormInput>
                 </CCol>
@@ -199,6 +222,8 @@ import { CCol, CFormLabel, CRow } from '@coreui/vue-pro'
 import departmentService from '@/modules/rrhh/RegistroPersonal/services/DeparmentServices'
 import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
+import { onlyNumber } from '@/utils/validator';
+
 export default {
   components: {
     CModal,
@@ -228,6 +253,7 @@ export default {
 
   data: () => {
     return {
+      onlyNumber,
       showclasificardorSelector: false,
       formIsValid: null,
       programas: [],
@@ -275,7 +301,8 @@ export default {
     },
 
     handleProgramaChange(idPrograma) {
-      const programa = this.programas.find((x) => x.id == idPrograma)
+      this.newDepartment.programaDivisionId = Number(idPrograma);
+      const programa = this.programas.find((x) => x.id === this.newDepartment.programaDivisionId )
 
       if (programa) {
         this.newDepartment.estructura = programa.estructura
@@ -326,6 +353,7 @@ export default {
       .then((response) => (this.cuentasBanco = response.data.data))
     departmentService.getClasificadores().then((response) => {
       this.clasificadores = response.data.data
+        .filter((clasificator => clasificator.tipo === 'DETALLE' && clasificator.origen === 'GASTO' && clasificator?.clasifica?.toString().match(/^(2)/g)))
         .filter((x) => clasificadoresPermitidos.includes(x.clasifica))
         .map((item) => {
           return {
@@ -400,6 +428,7 @@ export default {
 
     departamento() {
       if (this.departamento) {
+        console.log("enter here")
         this.newDepartment = {
           id: this.departamento?.id,
           programaDivisionId: this.departamento.programaDivision?.id,
