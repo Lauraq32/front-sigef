@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import AreaTrabajoModal from '../Dialogos/AreaTrabajoModal.vue'
+import AreaTrabajoModal from './Dialogos/AreaTrabajoModal.vue'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/RegistroPersonalServices'
@@ -95,7 +95,7 @@ export default {
         {
           label: 'Total Items',
           _props: {
-            colspan: 1,
+            colspan: 8,
             style: 'font-weight:bold;',
           },
         },

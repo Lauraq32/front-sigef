@@ -54,7 +54,7 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { mapActions } from 'pinia'
 import { useToastStore } from '@/store/toast'
-import SectoresModal from '../Dialogos/SectoresModal.vue'
+import SectoresModal from './Dialogos/SectoresModal.vue'
 import Api from '../services/RegistroPersonalServices'
 export default {
   components: {

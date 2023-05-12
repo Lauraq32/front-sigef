@@ -23,7 +23,7 @@
           </CCol>
 
           <CCol :md="12">
-            <CFormLabel for="courseTime">Duraci&oacute;n del Curso</CFormLabel>
+            <CFormLabel for="courseTime">Duraci&oacute;n del Curso en Horas</CFormLabel>
             <CFormInput v-model="education.courseTime" required id="courseTime"> </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -100,6 +100,7 @@ export default {
     CModal,
     CIcon
   },
+  emits: ['closeModal'],
   data: function () {
 
     return {
@@ -109,8 +110,8 @@ export default {
         employeeId: 0,
         courseName: "",
         courseTime: 0,
-        startDate: new Date(Date.now()),
-        finishDate: new Date(Date.now()),
+        startDate: new Date(),
+        finishDate: new Date(),
         courseRecord: ""
       },
       profesionFormValidated: false,
@@ -147,7 +148,6 @@ export default {
     },
 
     closeModal() {
-      
       this.$emit('closeModal')
       this.clearModal()
     },
@@ -261,11 +261,7 @@ export default {
   },
   props: {
     showModal: Boolean,
-
     employeeInfo: {}
-  },
-  mounted() {
-
   }
 }
 </script>

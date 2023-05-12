@@ -32,7 +32,7 @@
         <CButton color="secondary" @click="onClick">Cerrar</CButton>
       </CModalFooter>
     </CModal>
-    <CModal backdrop="static" size="md" :visible="showModalSaveDocument" @close="closeModalSaveDocument">
+    <CModal backdrop="static" size="lg" :visible="showModalSaveDocument" @close="closeModalSaveDocument">
       <CModalHeader>
         <CModalTitle>Agregar Documento</CModalTitle>
       </CModalHeader>
@@ -103,8 +103,7 @@ export default {
         {
           label: 'Total Items',
           _props: {
-            color: '',
-            colspan: 1,
+            colspan: 4,
             style: 'font-weight:bold;',
           },
         },

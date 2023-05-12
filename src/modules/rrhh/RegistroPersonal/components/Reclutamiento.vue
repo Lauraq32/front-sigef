@@ -90,8 +90,7 @@ export default {
         {
           label: 'Total Item',
           _props: {
-            color: '',
-            colspan: 1,
+            colspan: 6,
             style: 'font-weight:bold;',
           },
         }

@@ -63,7 +63,7 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { mapActions } from 'pinia'
 import Api from '../services/RegistroPersonalServices'
-import ProfesionesDialogs from '../Dialogos/ProfesionesModal.vue'
+import ProfesionesDialogs from './Dialogos/ProfesionesModal.vue'
 import { useToastStore } from '@/store/toast'
 export default {
   components: {

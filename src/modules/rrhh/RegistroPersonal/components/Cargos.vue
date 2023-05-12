@@ -56,7 +56,7 @@
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
-import CargosModal from '../Dialogos/CargosModal.vue'
+import CargosModal from './Dialogos/CargosModal.vue'
 import { mapActions } from 'pinia'
 import Api from '../services/RegistroPersonalServices'
 import { useToastStore } from '@/store/toast'

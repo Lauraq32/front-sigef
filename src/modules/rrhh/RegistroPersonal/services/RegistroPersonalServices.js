@@ -60,6 +60,10 @@ class RegistroPersonal {
     return http.get(`cargos/${id}`)
   }
 
+  getAllCargos() {
+    return http.get(`cargos`)
+  }
+
   getInventarioById(id) {
     return http.get(`inventarios/${id}/utiles-laborales`)
   }
@@ -235,8 +239,8 @@ class RegistroPersonal {
   deleteSector(id) {
     return http.delete(`sectores/${id}?ayuntamiento=${getAyuntamientoId()}`)
   }
-  listDepartamento() {
-    return http.get('departamentos/lista')
+  listDepartamento(programaId){
+    return http.get(`departamentos?compat=true&ProgramaDivisionId=${programaId}`)
   }
 }
 

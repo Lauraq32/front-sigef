@@ -1,152 +1,37 @@
 <template>
-  <h3 class="text-center">Mantenimientos Empleados</h3>
+  <h3 class="text-center mb-4">Mantenimientos Empleados</h3>
 
   <div class="table-headers">
-    <div class="d-inline p-2">
-      <CButton
-        color="info"
-        @click="
-          () => {
-            openModal()
-            clearModal1()
-          }
-        "
-        >Agregar</CButton
-      >
-
-      <div class="d-inline p-2">
-        <CButton
-          color="info"
-          @click="
-            () => {
-              reportes = true
-            }
-          "
-          >Imprimir Reporte</CButton
-        >
-      </div>
+    <div class="d-flex gap-1 mb-2">
+      <CButton color="info" @click="showModal">Agregar</CButton>
+      <CButton color="secondary" @click="() => { reportes = true }">Imprimir Reporte</CButton>
     </div>
   </div>
 
-  <CSmartTable
-    class="sticky-top"
-    clickableRows
-    :tableProps="{
-      striped: true,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    header
-    :items="registroPersonal"
-    :columns="columns"
-    columnFilter
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination
-  >
-    <template #sexo="{ item }">
-      <td>
-        {{ item.sexo == 'M' ? 'Masculino' : 'Femenino' }}
-      </td>
-    </template>
-    <template #posicion="{ item }">
-      <td>
-        {{ item.posicion.nombre }}
-      </td>
-    </template>
-    <template #programaDivision="{ item }">
-      <td>
-        {{ item.programaDivision.nombre }}
-      </td>
-    </template>
-
-    <template #fechaIngreso="{ item }">
-      <td>
-        {{ formatDate(item.fechaIngreso) }}
-      </td>
-    </template>
-    <template #fechaNacimiento="{ item }">
-      <td>
-        {{ formatDate(item.fechaNacimiento) }}
-      </td>
-    </template>
-
-    <template #formaPago="{ item }">
-      <td>
-        {{ formatDate(item.formaPago) }}
-      </td>
-    </template>
-    <template #show_details="{ item }">
-      <template v-if="item.estatus !== false">
-        <CDropdown>
-          <CDropdownToggle color="primary" variant="outline"
-            >Acciones</CDropdownToggle
-          >
-          <CDropdownMenu>
-            <CDropdownItem @click="toggleDetails(item)">Editar</CDropdownItem>
-            <CDropdownItem @click="deleteEmp(item)">Eliminar</CDropdownItem>
-            <CDropdownItem
-              @click="
-                () => {
-                  showAccionPersonal = true
-                  accionEmpleado = item
-                }
-              "
-              >Evaluación</CDropdownItem
-            >
-            <CDropdownItem
-              @click="
-                () => {
-                  showTipoNovedad = true
-                }
-              "
-              >Eventualidad</CDropdownItem
-            >
-            <CDropdownItem @click="getEmpleadoByID(item)
-          ">Educaci&oacute;n</CDropdownItem>
-            <CDropdownItem
-              @click="
-                () => {
-                  empleado = item
-                  newTarjetaEmpleadoModal = true
-                }
-              "
-              >Tarjeta</CDropdownItem
-            >
-            <CDropdownItem @click="selectedEmployee = item; showModalDoc = true">Ver Documentos</CDropdownItem>
-          </CDropdownMenu>
-        </CDropdown>
-      </template>
-      <template v-if="item.estatus == false">
-        <td>
-          <CBadge color="danger" shape="rounded-pill">{{
-            item.estatus ? 'Activo' : 'Inactivo'
-          }}</CBadge>
-        </td>
-      </template>
-    </template>
-  </CSmartTable>
-
+  <RegistroPersonalTable
+    :tableData="registroPersonal"
+    :tableColumns="columns"
+    :actions="buttonActions"
+    :footer="footerItem"
+  />
+  
   <RegistroPersonalDialog
     :showModal="showRegistroPersonalModal"
     @post-personal="submitForm"
     @close-modal="closeRegistroPersonalModal"
-    :empleadoId="id"
+    :empleadoId="selectedEmployee?.id"
   />
 
   <TarjetaEmpleadoDialogs
     :newTarjetaEmpleadoModal="newTarjetaEmpleadoModal"
     @close-modal="closeTarjetaEmpleadoModal"
-    :empleado="empleado"
+    :empleado="selectedEmployee"
   />
 
   <AccionPersonalDialog
     :showModal="showAccionPersonal"
     @closeModal="closeAccionPersonal"
-    :empleado="accionEmpleado"
+    :empleado="selectedEmployee"
   />
 
   <TipoNovedadDialog
@@ -157,15 +42,18 @@
   <ContenedorArchivosRRHH
     :showModal="showModalDoc"
     :empleado="selectedEmployee"
-    @custom-event="closeModal"
+    @custom-event="closeContenedorModal"
   />
 
+  <EducacionDialog
+    :showModal="showEducacion"
+    :employeeInfo="selectedEmployee"
+    @closeModal="() => showEducacion = false"
+  />
 </template>
 
 <script>
 import { useAuthStore } from '@/store/AuthStore'
-import { useRegistroStore } from '../store/RegistroPersonal/Empleados'
-import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
@@ -173,18 +61,20 @@ import { mapActions } from 'pinia'
 import Api from '../services/RegistroPersonalServices'
 import EmpleadoReports from '@/components/Report/RRHH/ReportsTemplate/EmpleadosReports.vue'
 import { useToastStore } from '@/store/toast'
+import RegistroPersonalDialog from '../components/Dialogos/RegistroPersonalDialog.vue'
+import RegistroPersonalTable from '../components/tables/RegistroPersonalTable.vue'
+import EducacionDialog from './Dialogos/EducacionDialog.vue'
 import ContenedorArchivosRRHH from './ContenedorArchivosRRHH.vue'
 import AccionPersonalDialog from './Dialogos/AccionPersonalDialog.vue'
 import TipoNovedadDialog from './TipoNovedades.vue'
-import RegistroPersonalDialog from '../components/Dialogos/RegistroPersonalDialog.vue'
 import TarjetaEmpleadoDialogs from '../components/Dialogos/TarjetaEmpleado.vue'
-import EducacionDialog from '../../RegistroPersonal/components/Dialogos/EducacionDialog.vue'
-import TarjetaEmpleado from './Dialogos/TarjetaEmpleado.vue'
 
 export default {
   components: {
-    CSmartTable,
+    RegistroPersonalTable,
     CModal,
+    RegistroPersonalDialog,
+    AccionPersonalDialog,
     AccionPersonalDialog,
     ContenedorArchivosRRHH,
     TipoNovedadDialog,
@@ -192,7 +82,6 @@ export default {
     TarjetaEmpleadoDialogs,
     EmpleadoReports,
     EducacionDialog,
-    TarjetaEmpleado,
   },
 
   data: function () {
@@ -215,6 +104,10 @@ export default {
       showModalRepots: false,
       employeeInfo: {},
       showEducacion: false,
+      employeeInfo: null,
+      showRegistroPersonalModal: false,
+      id: null,
+      actions: [],
       lgDemo4: false,
       cambiar: false,
       registroPersonal: [],
@@ -337,13 +230,11 @@ export default {
         recomendadoPor: null,
       },
 
-      tabPaneActiveKey: 1,
       columns: [
         { key: 'codigo', label: 'Código', _style: { width: '15%' } },
         { key: 'apellidos', label: 'Apellido', _style: { width: '15%' } },
         { key: 'nombres', label: 'Nombre', _style: { width: '15%' } },
-        { key: 'codigoIdentidad', label: 'Cédula', _style: { width: '10%' } },
-        { key: 'codigo', label: 'Código', _style: { width: '10%' } },
+        { key: 'codigoIdentidad', label: 'Cédula/Pasaporte', _style: { width: '15%' } },
         {
           key: 'programaDivision',
           label: 'Programa',
@@ -356,56 +247,107 @@ export default {
           _style: { width: '15%' },
         },
 
-        { key: 'sexo', label: 'Sexo', _style: { width: '2%' } },
+        { key: 'sexo', label: 'Sexo', _style: { width: '20%' } },
+
 
         {
           key: 'show_details',
           label: '',
-          _style: { width: '20%' },
           filter: false,
           sorter: false,
         },
       ],
+
       footerItem: [
         {
           label: 'Total Items',
           _props: {
             color: '',
-            colspan: 1,
+            colspan: 9,
             style: 'font-weight:bold;',
           },
         },
       ],
-      validatedCustom01: null,
-      lgDemo: false,
+
+      buttonActions: [
+        {
+          label: 'Editar',
+          clickHandler: (value) => {
+            this.toggleDetails(value)
+          }
+        },
+        {
+          label: 'Eliminar',
+          clickHandler: (value) => {
+            this.deleteEmp(value)
+          }
+        },
+        {
+          label: 'Evaluación',
+          clickHandler: (value) => {
+            this.showAccionPersonal = true
+            this.selectedEmployee = value
+          }
+        },
+        {
+          label: 'Eventualidad',
+          clickHandler: (value) => {
+            this.showTipoNovedad = true
+            this.selectedEmployee = value
+          }
+        },
+        {
+          label: 'Educación',
+          clickHandler: (item) => {
+            this.showEducacion = true
+            this.selectedEmployee = { ...item }
+            this.selectedEmployee.nombres = `${item.nombres} ${item.apellidos}`
+          }
+        },
+        {
+          label: 'Tarjeta',
+          clickHandler: (item) => {
+            this.selectedEmployee = item
+            this.newTarjetaEmpleadoModal = true
+          }
+        },
+        {
+          label: 'Ver Documentos',
+          clickHandler: (item) => {
+            this.selectedEmployee = item;
+            this.showModalDoc = true
+          }
+        },
+      ],
     }
   },
 
-  computed: {
-    ...mapStores(useRegistroStore, useToastStore),
-    ...mapState(useRegistroStore, ['registroPersonal', 'posicionCargo']),
-  },
-
   methods: {
-    ...mapActions(useRegistroStore, [
-      'getRegistroPersonal',
-      'addRegistroPersonal',
-      'getPosicion',
-    ]),
     ...mapActions(useToastStore, ['show']),
 
-    getAccionPersonal() {
-      Api.getAllAccionPersonal().then((response) => {
-        this.accionPersonal = response.data.data
+    getRegistroPersonal() {
+      Api.getAllEmpleado().then((response) => {
+        this.registroPersonal = response.data.data
       })
     },
+
+    // closeRegistroPersonalModal() {
+    //   this.showRegistroPersonalModal = false
+    //   this.getRegistroPersonal()
+    // }
+    // ,
+    // getAccionPersonal() {
+    //   Api.getAllAccionPersonal().then((response) => {
+    //     this.accionPersonal = response.data.data
+    //   })
+    // },
 
     closeRegistroPersonalModal() {
       this.showRegistroPersonalModal = false
     },
 
     closeTarjetaEmpleadoModal() {
-      this.showTarjeta = false
+      this.newTarjetaEmpleadoModal = false
     },
     showModal() {
       this.showRegistroPersonalModal = true
@@ -443,37 +385,37 @@ export default {
       }
     },
 
-    validateAge() {
-      if (this.calcularEdad(this.postEmpleado.fechaNacimiento) < 18) {
-        this.$swal({
-          title: 'Información',
-          text: 'La fecha de nacimiento seleccionada no cumple la mayoria de edad',
-          icon: 'Atención',
-          allowOutsideClick: false,
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'De acuerdo',
-        }).then((result) => {
-          this.lgDemo = false
-        })
-      }
-    },
+    // validateAge() {
+    //   if (this.calcularEdad(this.postEmpleado.fechaNacimiento) < 18) {
+    //     this.$swal({
+    //       title: 'Información',
+    //       text: 'La fecha de nacimiento seleccionada no cumple la mayoria de edad',
+    //       icon: 'Atención',
+    //       allowOutsideClick: false,
+    //       showCancelButton: true,
+    //       confirmButtonColor: '#3085d6',
+    //       cancelButtonColor: '#d33',
+    //       confirmButtonText: 'De acuerdo',
+    //     }).then((result) => {
+    //       this.lgDemo = false
+    //     })
+    //   }
+    // },
 
-    calcularEdad(fechaNacimiento) {
-      var hoy = new Date()
-      var cumpleanos = new Date(fechaNacimiento)
-      var edad = hoy.getFullYear() - cumpleanos.getFullYear()
-      var mes = hoy.getMonth() - cumpleanos.getMonth()
-      if (mes < 0 || (mes === 0 && hoy.getDate() < cumpleanos.getDate())) {
-        edad--
-      }
-      return edad
-    },
-    openModal() {
-      this.lgDemo = true
-    },
-    closeModal(payload) {
+    // calcularEdad(fechaNacimiento) {
+    //   var hoy = new Date()
+    //   var cumpleanos = new Date(fechaNacimiento)
+    //   var edad = hoy.getFullYear() - cumpleanos.getFullYear()
+    //   var mes = hoy.getMonth() - cumpleanos.getMonth()
+    //   if (mes < 0 || (mes === 0 && hoy.getDate() < cumpleanos.getDate())) {
+    //     edad--
+    //   }
+    //   return edad
+    // },
+    // openModal() {
+    //   this.lgDemo = true
+    // },
+    closeContenedorModal(payload) {
       this.showModalDoc = payload
     },
     closeAccionPersonal(close) {
@@ -484,133 +426,124 @@ export default {
       this.showTipoNovedad = close
     },
 
-    closeModalssss(payload) {
-      this.showModalRepots = payload
-    },
+    // closeModalssss(payload) {
+    //   this.showModalRepots = payload
+    // },
 
-    changePrograma(e) {
-      Api.getDepartamentoByProgramaId(e.target.value).then((response) => {
-        this.departamentos = response.data.data
-      })
-    },
+    // changePrograma(e) {
+    //   Api.getDepartamentoByProgramaId(e.target.value).then((response) => {
+    //     this.departamentos = response.data.data
+    //   })
+    // },
 
-    closeEducacion() {
-      this.showEducacion = false
-    },
+    // closeEducacion() {
+    //   this.showEducacion = false
+    // },
 
-    formatDate(fechaIngreso) {
-      return new Date(fechaIngreso).toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-      })
-    },
+    // formatDate(fechaIngreso) {
+    //   return new Date(fechaIngreso).toLocaleDateString('en-GB', {
+    //     day: '2-digit',
+    //     month: '2-digit',
+    //     year: 'numeric',
+    //   })
+    // },
 
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
-    },
+    // handleSubmitCustom01(event) {
+    //   const form = event.currentTarget
+    //   if (form.checkValidity() === false) {
+    //     event.preventDefault()
+    //     event.stopPropagation()
+    //   }
+    //   this.validatedCustom01 = true
+    // },
 
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
+    // getBadge(status) {
+    //   switch (status) {
+    //     case 'Active':
+    //       return 'success'
+    //     case 'Inactive':
+    //       return 'secondary'
+    //     case 'Pending':
+    //       return 'warning'
+    //     case 'Banned':
+    //       return 'danger'
+    //     default:
+    //       'primary'
+    //   }
+    // },
 
-    getEmpleadoByID(item) {
-      this.showEducacion = true
-      this.employeeInfo = { ...item }
-      this.employeeInfo.nombres = `${item.nombres} ${item.apellidos}`
-    },
+    // getEmpleadoByID(item) {
+    //   this.showEducacion = true
+    //   this.employeeInfo = { ...item }
+    //   this.employeeInfo.nombres = `${item.nombres} ${item.apellidos}`
+    // },
 
     toggleDetails(item) {
-      if (item.empleados !== 0 || item.variacion !== 0) {
-        this.empleadoValue = true
-      } else {
-        this.empleadoValue = false
-      }
-      this.edit = true
-      this.lgDemo = true
-      Api.getEmpleadoByID(item.id).then((response) => {
-        this.id = item.id
-        this.postEmpleado = response.data.data
-      })
+      this.showModal();
+      this.selectedEmployee = item;
+      // if (item.empleados !== 0 || item.variacion !== 0) {
+      //   this.empleadoValue = true
+      // } else {
+      //   this.empleadoValue = false
+      // }
+      // Api.getEmpleadoByID(item.id).then((response) => {
+      //   this.id = item.id
+      //   this.postEmpleado = response.data.data
+      // })
     },
 
     submitForm(payload) {
-      if (this.id != null) {
-        Api.putEmpleado(this.id, payload).then((response) => {
-          this.lgDemo = false
+      if (payload.id != null) {
+        Api.putEmpleado(payload.id, payload).then(() => {
           this.show({
             content: 'Registro actualizado correctamente',
             closable: true,
           })
-          this.id = null
+          this.closeRegistroPersonalModal()
           setTimeout(this.getRegistroPersonal, 500)
-        })
-      } else {
-        this.postEmpleados()
-        this.lgDemo = true
-        setTimeout(this.getRegistroPersonal, 500)
-        ;(this.postEmpleado = {
-          id: 0,
-          ayuntamientoId: this.$ayuntamientoId,
-          nombre: null,
-        }),
-          (this.validatedCustom01 = false)
-        event.preventDefault()
-        event.stopPropagation()
-        setTimeout(this.getRegistroPersonal, 500)
-      }
-    },
-    postEmpleados() {
-      Api.postEmpleado(this.postEmpleado).then((response) => {
-        if(response.status == 200){
-
-          const formData = new FormData();
-          formData.append('userid', 1);
-          formData.append('file', this.filedata);
-
-
-          Api.postFiles(formData)
-        }
-
-        this.show({
-          content: 'Registro añadido correctamente',
-          closable: true,
-
-        })
-      }).catch((error) => {
+        }).catch((error) => {
           this.show({
-            content: 'Error al enviar el formulario',
+            content: error.response.data,
             closable: true,
             color: 'danger',
             class: 'text-white',
           })
         })
+      } else {
+        Api.postEmpleado(payload)
+          .then(() => {
+            this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
+            })
+            setTimeout(this.getRegistroPersonal, 500)
+            this.closeRegistroPersonalModal()
+          }).catch((error) => {
+            this.show({
+              content: error.response.data,
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+            })
+          })
 
-    },
+        // setTimeout(this.getRegistroPersonal, 500)
 
-    imprimirEmpleado(empleado) {
-      window.open(`/#/pages/empleados/${empleado.id}`)
-      //router.push({ name: 'empleadosReports' })
+        // this.lgDemo = true
+        // setTimeout(this.getRegistroPersonal, 500)
+        // ;(this.postEmpleado = {
+        //   id: 0,
+        //   ayuntamientoId: this.$ayuntamientoId,
+        //   nombre: null,
+        // }),
+        //   (this.validatedCustom01 = false)
+        // event.preventDefault()
+        // event.stopPropagation()
+        // setTimeout(this.getRegistroPersonal, 500)
+      }
     },
 
     deleteEmp(item) {
-      setTimeout(this.getRegistroPersonal, 500)
       Api.deleteEmpleado(item.id)
         .then((response) => {
           this.show({
@@ -621,12 +554,11 @@ export default {
           setTimeout(this.getRegistroPersonal, 500)
         })
         .catch((error) => {
-          this.$swal({
-            position: 'top-end',
-            icon: 'error',
-            title: error.errors,
-            showConfirmButton: false,
-            timer: 1500,
+          this.show({
+            content: error.response.data,
+            closable: true,
+            color: 'danger',
+            class: 'text-white',
           })
         })
     },
@@ -641,28 +573,13 @@ export default {
     this.getRegistroPersonal()
     Api.getAllEmpleado().then((response) => {
       this.registroPersonal = response.data.data
+      this.footerItem[0].label = `Total Items: ${response.data.data.length}`
     })
   },
   watch: {
     showRegistroPersonalModal() {
       this.getRegistroPersonal()
-    },
+    }
   },
 }
 </script>
-<style scoped>
-.file-select>.select-button {
-  padding: 0.5rem;
-  line-height: 1.5;
-  color: white;
-  background-color: #375b80;
-
-  border-radius: 0.3rem;
-  cursor: pointer;
-  text-align: center;
-}
-
-.file-select>input[type='file'] {
-  display: none;
-}
-</style>

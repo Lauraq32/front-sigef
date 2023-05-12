@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     getAllSangre() {
-      Api.getAllTipoSangre().then((response) => {
+      Api.tipoSangreList().then((response) => {
         this.sangres = response.data.data
       })
     }
