@@ -25,7 +25,7 @@
     :activePage="1"
     :footer="footerItem"
     header
-    :items="grupoNomina"
+    :items="grupoNominas"
     :columns="columns"
     itemsPerPageSelect
     columnFilter
@@ -52,7 +52,7 @@
 
   <ModalGrupoNomina
     :showModal="showGrupoNomina"
-    :grupoNominaId="grupoNominaId"
+    :grupoNomina="grupoNomina"
     @close-modal="closeGrupoNomina"
     @postGrupoNomina="guardarGrupoNomina"
     @editarGrupoNomina="editarGrupoNomina"
@@ -60,13 +60,9 @@
 </template>
 
 <script>
-import { useRegistroStore } from '../store/Nomina/grupoNomina'
 import { CSmartTable } from '@coreui/vue-pro'
-import { mapStores } from 'pinia'
-import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
 import ModalGrupoNomina from './dialogos/ModalGrupoNomina.vue'
-
 import { useToastStore } from '@/store/toast'
 import Api from '../services/NominaServices'
 
@@ -78,8 +74,8 @@ export default {
 
   data: function () {
     return {
-      grupoNominaId: 0,
-      grupoNomina: [],
+      grupoNominas: [],
+      grupoNomina: {},
       columns: [
         { key: 'id', label: 'Código', _style: { width: '20%' } },
         {
@@ -100,7 +96,6 @@ export default {
         {
           label: 'Total Items',
           _props: {
-            color: '',
             colspan: 1,
             style: 'font-weight:bold;',
           },
@@ -110,13 +105,7 @@ export default {
     }
   },
 
-  computed: {
-    ...mapStores(useRegistroStore),
-    ...mapState(useRegistroStore, ['grupoNomina']),
-  },
-
   methods: {
-    ...mapActions(useRegistroStore, ['getGNomina', 'addGrupoNomina']),
     ...mapActions(useToastStore, ['show']),
 
     closeGrupoNomina() {
@@ -124,34 +113,44 @@ export default {
     },
 
     guardarGrupoNomina(payload) {
-      if (this.id !== null) {
-        Api.putGrupoNomina(payload.id, payload).then((response) => {
-          this.showGrupoNomina = false
-          setTimeout(this.getGNomina, 500)
-          this.show({
-            content: response.data.message,
-            closable: true,
-            color: 'success',
-          })
-        })
-      } else {
-        Api.postGrupoNomina(payload)
-          .then(() => {
-            setTimeout(this.getGNomina, 500)
+      if (payload.id) {
+        Api.putGrupoNomina(payload.id, payload)
+          .then((response) => {
+            this.showGrupoNomina = false
+            setTimeout(this.getGrupoNomina, 500)
+            this.showGrupoNomina = false
             this.show({
-              content: 'Registro añadido correctamente',
+              content: response.data.message,
               closable: true,
+              color: 'success',
             })
           })
-          .catch(() => {
+          .catch((error) => {
             this.show({
-              content: 'Error al enviar el formulario',
+              content: error.response.data,
               closable: true,
               color: 'danger',
               class: 'text-white',
             })
           })
-        setTimeout(this.getGNomina, 500)
+      } else {
+        Api.postGrupoNomina(payload)
+          .then(() => {
+            setTimeout(this.getGrupoNomina, 500)
+            this.showGrupoNomina = false
+            this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
+            })
+          })
+          .catch((error) => {
+            this.show({
+              content: error.response.data,
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+            })
+          })
       }
     },
 
@@ -161,14 +160,19 @@ export default {
 
     editarGrupoNomina(item) {
       this.showGrupoNomina = true
-      this.grupoNominaId = item.id
+      this.grupoNomina = item
+    },
+
+    getGrupoNomina() {
+      Api.getGrupoNomina().then((response) => {
+        this.grupoNominas = response.data.data
+        this.footerItem[0].label = `Total Items: ${response.data.data.length}`
+      })
     },
   },
 
   mounted() {
-    Api.getGrupoNomina().then((response) => {
-      this.grupoNomina = response.data.data
-    })
+    this.getGrupoNomina()
   },
 }
 </script>
