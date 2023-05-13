@@ -146,6 +146,10 @@
                     @keypress="onlyNumber">
                   </CFormInput>
                 </CCol>
+
+                <CCol :md="12" v-if="paymentClasificatorMessage" class="mt-2">
+                  <CAlert color="danger">{{ paymentClasificatorMessage }}</CAlert>
+                </CCol>
               </CRow>
             </CContainer>
 
@@ -155,14 +159,19 @@
               <CRow>
                 <CCol :md="3">
                   <CFormLabel>Clasificador</CFormLabel>
-                  <CFormInput
-                    required
-                    v-model="newDepartment.clasificadorRegaliaId"
-                    feedbackInvalid="Seleccione un clasificador ."
-                    id="invalidClasificador"
-                    maxlength="6"
-                    @keypress="onlyNumber"
-                  ></CFormInput>
+                  <div class="position-relative">
+                    <CFormInput
+                      required
+                      v-model="newDepartment.clasificadorRegaliaId"
+                      feedbackInvalid="Seleccione un clasificador ."
+                      id="invalidClasificador"
+                      maxlength="6"
+                      @keypress="onlyNumber"
+                    ></CFormInput>
+                    <span class="position-absolute icon-input">
+                      <CIcon icon="cisSearch" size="xl" />
+                    </span>
+                  </div>
                 </CCol>
 
                 <CCol :md="3">
@@ -194,6 +203,10 @@
                     @keypress="onlyNumber"
                   >
                   </CFormInput>
+                </CCol>
+                
+                <CCol :md="12" v-if="regaliaClasificatorMessage" class="mt-2">
+                  <CAlert color="danger">{{ regaliaClasificatorMessage }}</CAlert>
                 </CCol>
               </CRow>
             </CContainer>
@@ -254,6 +267,8 @@ export default {
   data: () => {
     return {
       onlyNumber,
+      paymentClasificatorMessage: "",
+      regaliaClasificatorMessage: "",
       showclasificardorSelector: false,
       formIsValid: null,
       programas: [],
@@ -353,7 +368,7 @@ export default {
       .then((response) => (this.cuentasBanco = response.data.data))
     departmentService.getClasificadores().then((response) => {
       this.clasificadores = response.data.data
-        .filter((clasificator => clasificator.tipo === 'DETALLE' && clasificator.origen === 'GASTO' && clasificator?.clasifica?.toString().match(/^(2)/g)))
+        .filter((clasificator => clasificator?.clasifica?.toString().match(/^(2)/g)))
         .filter((x) => clasificadoresPermitidos.includes(x.clasifica))
         .map((item) => {
           return {
@@ -365,70 +380,66 @@ export default {
     })
   },
   computed: {
-    paymentStructureInfo() {
-      return (
-        this.newDepartment.estructura &&
-        this.newDepartment.clasificadorId &&
-        this.newDepartment.fuenteId &&
-        this.newDepartment.fuenteEspecificaId &&
-        this.newDepartment.organismoFinanciadorId
-      )
+    validPaymentStructureInfo() {
+      return ([
+        this.newDepartment.estructura.length > 1,
+        this.newDepartment.clasificadorId.length > 5,
+        this.newDepartment.fuenteId.length > 1,
+        this.newDepartment.fuenteEspecificaId.length > 3,
+        this.newDepartment.organismoFinanciadorId.length > 2
+      ].reduce((a, b) => a && b,  true));
+    },
+    validChristmasPaymentStructureInfo() {
+      return ([
+        this.newDepartment.estructura.length > 1,
+        this.newDepartment.clasificadorRegaliaId.length > 5,
+        this.newDepartment.fuenteEspecificaId.length > 1,
+        this.newDepartment.fuenteEspecificaRegaliaId.length > 3,
+        this.newDepartment.organismoFinanciadorRegaliaId.length > 2
+      ].reduce((a, b) => a && b,  true));
     },
   },
   watch: {
-    paymentStructureInfo(newValue) {
-      console.log({ newValue })
+    validPaymentStructureInfo(newValue) {
+      if (newValue) {
+        departmentService
+            .validarEstructuraPresupuestada(
+              this.newDepartment.estructura,
+              this.newDepartment.clasificadorId,
+              this.newDepartment.fuenteId,
+              this.newDepartment.fuenteEspecificaId,
+              this.newDepartment.organismoFinanciadorId,
+            )
+            .then(() => {
+              this.paymentClasificatorMessage = "";
+            })
+            .catch((error) => {
+              this.paymentClasificatorMessage = error.response.data.message;
+            })
+      }
     },
-    newDepartment: {
-      deep: true,
-      handler(newValue) {
-        if (
-          newValue.estructura &&
-          newValue.clasificadorId &&
-          newValue.fuenteId &&
-          newValue.fuenteEspecificaId &&
-          newValue.organismoFinanciadorId
-        ) {
-          departmentService
+    
+    validChristmasPaymentStructureInfo(newValue) {
+      if (newValue) {
+        departmentService
             .validarEstructuraPresupuestada(
-              newValue.estructura,
-              newValue.clasificadorId,
-              newValue.fuenteId,
-              newValue.fuenteEspecificaId,
-              newValue.organismoFinanciadorId,
+              this.newDepartment.estructura,
+              this.newDepartment.clasificadorRegaliaId,
+              this.newDepartment.fuenteRegaliaId,
+              this.newDepartment.fuenteEspecificaRegaliaId,
+              this.newDepartment.organismoFinanciadorRegaliaId,
             )
-            .catch((error) => {
-              this.show({ content: error.response.data, color: 'danger' })
+            .then(() => {
+              this.regaliaClasificatorMessage = "";
             })
-        }
-
-        // Estructura de pago de regalia
-
-        if (
-          newValue.estructura &&
-          newValue.clasificadorRegaliaId &&
-          newValue.fuenteRegaliaId &&
-          newValue.fuenteEspecificaRegaliaId &&
-          newValue.organismoFinanciadorRegaliaId
-        ) {
-          departmentService
-            .validarEstructuraPresupuestada(
-              newValue.estructura,
-              newValue.clasificadorRegaliaId,
-              newValue.fuenteRegaliaId,
-              newValue.fuenteEspecificaRegaliaId,
-              newValue.organismoFinanciadorRegaliaId,
-            )
             .catch((error) => {
-              this.show({ content: error.response.data, color: 'danger' })
+              this.regaliaClasificatorMessage = error.response.data.message;
             })
-        }
-      },
+      }
     },
 
     departamento() {
       if (this.departamento) {
-        console.log("enter here")
         this.newDepartment = {
           id: this.departamento?.id,
           programaDivisionId: this.departamento.programaDivision?.id,
@@ -453,3 +464,12 @@ export default {
   },
 }
 </script>
+<style>
+.icon-input {
+    padding: 0.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    right: 2px;
+}
+</style>

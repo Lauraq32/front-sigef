@@ -36,7 +36,7 @@ class DeparmentServices {
   }
 
   getClasificadores() {
-    return FormulacionApi.getListarClasificadores()
+    return httpClient.get('/CtgClasificador/presupuesto-gastos')
   }
 
   validarEstructuraPresupuestada(
