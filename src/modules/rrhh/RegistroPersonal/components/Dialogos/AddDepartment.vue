@@ -457,7 +457,8 @@ export default {
           ctgFuenteEspecificaId: this.departamento.fuenteEspecifica?.id,
           ctgFuenteRegaliaId: this.departamento.fuenteRegalia?.id,
           ctgFuenteEspecificaRegaliaId:
-            this.departamento.fuenteEspecificaRegalia?.id,
+          this.departamento.fuenteEspecificaRegalia?.id,
+          status : this.departamento.status
         }
       }
     },

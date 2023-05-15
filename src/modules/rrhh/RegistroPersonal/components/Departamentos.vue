@@ -102,9 +102,9 @@ export default {
     },
     handleSubmit(dept) {
       if (dept.id && dept.id !== 0) {
-        console.log(dept);
         if (dept.status) {
           deparmentServices.updateDepartment(dept).then((response) => {
+            console.log(dept.status);
             const deptIndex = this.deparments.findIndex((x) => x.id === dept.id)
             this.deparments[deptIndex] = response.data.data
             this.handleModalClose()
