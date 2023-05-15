@@ -101,7 +101,8 @@ export default {
         })
     },
     handleSubmit(dept) {
-      if (dept.id !== 0) {
+      if (dept.id && dept.id !== 0) {
+        console.log(dept);
         if (dept.status) {
           deparmentServices.updateDepartment(dept).then((response) => {
             const deptIndex = this.deparments.findIndex((x) => x.id === dept.id)

@@ -104,7 +104,7 @@
                   <CFormLabel>Clasificador</CFormLabel>
                   <CFormSelect
                     required
-                    v-model="newDepartment.clasificadorId"
+                    v-model="newDepartment.ctgClasificadorId"
                     @update:modelValue="handleClasificadorChange"
                     :options="[
                       {
@@ -120,7 +120,7 @@
                 <CCol :md="3">
                   <CFormLabel>Fuente Financiamineto</CFormLabel>
                   <CFormInput
-                    v-model="newDepartment.fuenteId"
+                    v-model="newDepartment.ctgFuenteId"
                     required
                     maxlength="2"
                     @keypress="onlyNumber"
@@ -130,7 +130,7 @@
                 <CCol :md="3">
                   <CFormLabel>Fuente Espec&iacute;fica</CFormLabel>
                   <CFormInput
-                    v-model="newDepartment.fuenteEspecificaId"
+                    v-model="newDepartment.ctgFuenteEspecificaId"
                     required
                     maxlength="4"
                     @keypress="onlyNumber"
@@ -140,7 +140,7 @@
                 <CCol :md="3">
                   <CFormLabel>Organismo Financiero</CFormLabel>
                   <CFormInput
-                    v-model="newDepartment.organismoFinanciadorId"
+                    v-model="newDepartment.ctgOrganismoFinanciadorId"
                     required
                     maxlength="4"
                     @keypress="onlyNumber">
@@ -162,7 +162,7 @@
                   <div class="position-relative">
                     <CFormInput
                       required
-                      v-model="newDepartment.clasificadorRegaliaId"
+                      v-model="newDepartment.ctgClasificadorRegaliaId"
                       feedbackInvalid="Seleccione un clasificador ."
                       id="invalidClasificador"
                       maxlength="6"
@@ -177,7 +177,7 @@
                 <CCol :md="3">
                   <CFormLabel>Fuente Financiamineto</CFormLabel>
                   <CFormInput
-                    v-model="newDepartment.fuenteRegaliaId"
+                    v-model="newDepartment.ctgFuenteRegaliaId"
                     required
                     maxlength="2"
                     @keypress="onlyNumber"
@@ -187,7 +187,7 @@
                 <CCol :md="3">
                   <CFormLabel>Fuente Espec&iacute;fica</CFormLabel>
                   <CFormInput
-                    v-model="newDepartment.fuenteEspecificaRegaliaId"
+                    v-model="newDepartment.ctgFuenteEspecificaRegaliaId"
                     required
                     maxlength="4"
                     @keypress="onlyNumber"
@@ -197,14 +197,14 @@
                 <CCol :md="3">
                   <CFormLabel> Organismo Financiero</CFormLabel>
                   <CFormInput
-                    v-model="newDepartment.organismoFinanciadorRegaliaId"
+                    v-model="newDepartment.ctgOrganismoFinanciadorRegaliaId"
                     required
                     maxlength="4"
                     @keypress="onlyNumber"
                   >
                   </CFormInput>
                 </CCol>
-                
+
                 <CCol :md="12" v-if="regaliaClasificatorMessage" class="mt-2">
                   <CAlert color="danger">{{ regaliaClasificatorMessage }}</CAlert>
                 </CCol>
@@ -288,14 +288,14 @@ export default {
         saspId: 0,
         cuentaBancoId: 0,
         estructura: '',
-        clasificadorId: '',
-        organismoFinanciadorId: '',
-        clasificadorRegaliaId: '',
-        organismoFinanciadorRegaliaId: '',
-        fuenteId: '',
-        fuenteEspecificaId: '',
-        fuenteRegaliaId: '',
-        fuenteEspecificaRegaliaId: '',
+        ctgClasificadorId: '',
+        ctgOrganismoFinanciadorId: '',
+        ctgClasificadorRegaliaId: '',
+        ctgOrganismoFinanciadorRegaliaId: '',
+        ctgFuenteId: '',
+        ctgFuenteEspecificaId: '',
+        ctgFuenteRegaliaId: '',
+        ctgFuenteEspecificaRegaliaId: '',
       },
     }
   },
@@ -328,17 +328,17 @@ export default {
         (x) => x.value === clasificadorId,
       )
       if (selected) {
-        this.newDepartment.fuenteId = selected.item?.ctgFuenteId
-        this.newDepartment.fuenteEspecificaId =
+        this.newDepartment.ctgFuenteId = selected.item?.ctgFuenteId
+        this.newDepartment.ctgFuenteEspecificaId =
           selected.item?.ctgFuenteEspecificaId
-        this.newDepartment.organismoFinanciadorId =
+        this.newDepartment.ctgOrganismoFinanciadorId =
           selected.item?.ctgOrganismoFinanciadorId
 
-        this.newDepartment.clasificadorRegaliaId = selected.item?.clasifica
-        this.newDepartment.fuenteRegaliaId = selected.item?.ctgFuenteId
-        this.newDepartment.fuenteEspecificaRegaliaId =
+        this.newDepartment.ctgClasificadorRegaliaId = selected.item?.clasifica
+        this.newDepartment.ctgFuenteRegaliaId = selected.item?.ctgFuenteId
+        this.newDepartment.ctgFuenteEspecificaRegaliaId =
           selected.item?.ctgFuenteEspecificaId
-        this.newDepartment.organismoFinanciadorRegaliaId =
+        this.newDepartment.ctgOrganismoFinanciadorRegaliaId =
           selected.item?.ctgOrganismoFinanciadorId
       }
     },
@@ -382,20 +382,20 @@ export default {
   computed: {
     validPaymentStructureInfo() {
       return ([
-        this.newDepartment.estructura.length > 1,
-        this.newDepartment.clasificadorId.length > 5,
-        this.newDepartment.fuenteId.length > 1,
-        this.newDepartment.fuenteEspecificaId.length > 3,
-        this.newDepartment.organismoFinanciadorId.length > 2
+        this.newDepartment.estructura?.length > 1,
+        this.newDepartment.ctgClasificadorId?.length > 5,
+        this.newDepartment.ctgFuenteId?.length > 1,
+        this.newDepartment.ctgFuenteEspecificaId?.length > 3,
+        this.newDepartment.ctgOrganismoFinanciadorId?.length > 2
       ].reduce((a, b) => a && b,  true));
     },
     validChristmasPaymentStructureInfo() {
       return ([
-        this.newDepartment.estructura.length > 1,
-        this.newDepartment.clasificadorRegaliaId.length > 5,
-        this.newDepartment.fuenteEspecificaId.length > 1,
-        this.newDepartment.fuenteEspecificaRegaliaId.length > 3,
-        this.newDepartment.organismoFinanciadorRegaliaId.length > 2
+        this.newDepartment.estructura?.length > 1,
+        this.newDepartment.ctgClasificadorRegaliaId?.length > 5,
+        this.newDepartment.ctgFuenteEspecificaId?.length > 1,
+        this.newDepartment.ctgFuenteEspecificaRegaliaId?.length > 3,
+        this.newDepartment.ctgOrganismoFinanciadorRegaliaId?.length > 2
       ].reduce((a, b) => a && b,  true));
     },
   },
@@ -405,10 +405,10 @@ export default {
         departmentService
             .validarEstructuraPresupuestada(
               this.newDepartment.estructura,
-              this.newDepartment.clasificadorId,
-              this.newDepartment.fuenteId,
-              this.newDepartment.fuenteEspecificaId,
-              this.newDepartment.organismoFinanciadorId,
+              this.newDepartment.ctgClasificadorId,
+              this.newDepartment.ctgFuenteId,
+              this.newDepartment.ctgFuenteEspecificaId,
+              this.newDepartment.ctgOrganismoFinanciadorId,
             )
             .then(() => {
               this.paymentClasificatorMessage = "";
@@ -418,16 +418,16 @@ export default {
             })
       }
     },
-    
+
     validChristmasPaymentStructureInfo(newValue) {
       if (newValue) {
         departmentService
             .validarEstructuraPresupuestada(
               this.newDepartment.estructura,
-              this.newDepartment.clasificadorRegaliaId,
-              this.newDepartment.fuenteRegaliaId,
-              this.newDepartment.fuenteEspecificaRegaliaId,
-              this.newDepartment.organismoFinanciadorRegaliaId,
+              this.newDepartment.ctgClasificadorRegaliaId,
+              this.newDepartment.ctgFuenteRegaliaId,
+              this.newDepartment.ctgFuenteEspecificaRegaliaId,
+              this.newDepartment.ctgOrganismoFinanciadorRegaliaId,
             )
             .then(() => {
               this.regaliaClasificatorMessage = "";
@@ -448,15 +448,15 @@ export default {
           saspId: this.departamento.saspId,
           cuentaBancoId: +this.departamento.cuentaBanco?.id,
           estructura: this.departamento.estructura,
-          clasificadorId: this.departamento.clasificador?.id,
-          organismoFinanciadorId: this.departamento.organismoFinanciador?.id,
-          clasificadorRegaliaId: this.departamento.clasificadorRegalia?.id,
-          organismoFinanciadorRegaliaId:
+          ctgClasificadorId: this.departamento.clasificador?.id,
+          ctgOrganismoFinanciadorId: this.departamento.organismoFinanciador?.id,
+          ctgClasificadorRegaliaId: this.departamento.clasificadorRegalia?.id,
+          ctgOrganismoFinanciadorRegaliaId:
             this.departamento.organismoFinanciadorRegalia?.id,
-          fuenteId: this.departamento.fuente?.id,
-          fuenteEspecificaId: this.departamento.fuenteEspecifica?.id,
-          fuenteRegaliaId: this.departamento.fuenteRegalia?.id,
-          fuenteEspecificaRegaliaId:
+          ctgFuenteId: this.departamento.fuente?.id,
+          ctgFuenteEspecificaId: this.departamento.fuenteEspecifica?.id,
+          ctgFuenteRegaliaId: this.departamento.fuenteRegalia?.id,
+          ctgFuenteEspecificaRegaliaId:
             this.departamento.fuenteEspecificaRegalia?.id,
         }
       }
