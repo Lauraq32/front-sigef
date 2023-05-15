@@ -36,7 +36,7 @@ export default {
     {
       path: 'Programas',
       name: 'programas',
-      meta: { label: 'Programas' },
+      meta: { label: 'Dirección o Dependencias' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/Programas.vue'
@@ -63,7 +63,7 @@ export default {
     {
       path: 'PosicionesCargo',
       name: 'posicionesCargo',
-      meta: { label: 'Posiciones de Cargo' },
+      meta: { label: 'Posiciones o Cargos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/PosicionesCargo.vue'
