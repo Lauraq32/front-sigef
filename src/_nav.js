@@ -9,7 +9,6 @@ export default [
     name: 'Financiero',
     to: '/financiero',
     icon: 'cilBank',
-
   },
 
   {
@@ -52,7 +51,6 @@ export default [
         to: '/financiero',
         icon: 'cilChartLine',
         items: [
-
           {
             component: 'CNavItem',
             name: 'Clasificadores',
@@ -119,7 +117,6 @@ export default [
         to: '/Ejecucion',
         icon: 'cilChartPie',
         items: [
-
           {
             component: 'CNavItem',
             name: 'Año fiscal',
@@ -202,7 +199,6 @@ export default [
             icon: 'cilChartPie',
           },
 
-
           {
             component: 'CNavTitle',
             name: 'Reportes',
@@ -219,7 +215,6 @@ export default [
         to: '/ActivoFijoModule',
         icon: 'cilCouch',
         items: [
-
           {
             component: 'CNavItem',
             name: 'Categorías',
@@ -295,7 +290,6 @@ export default [
         to: '/NominaModule',
         icon: 'cilMoney',
         items: [
-
           {
             component: 'CNavItem',
             name: 'Clasificadores nómina',
@@ -325,6 +319,12 @@ export default [
             name: 'Área de trabajo',
             to: '/NominaModule/AreaDeTrabajo',
             icon: 'cilIdBadge',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Tipo de sangre',
+            to: '/NominaModule/TipoSangre',
+            icon: 'cilHealing',
           },
           {
             component: 'CNavItem',
@@ -382,7 +382,6 @@ export default [
         to: '/ContabilidadModule',
         icon: 'cilDollar',
         items: [
-
           {
             component: 'CNavItem',
             name: 'Cuentas contables',
@@ -443,7 +442,6 @@ export default [
         to: '/ConciliacionBancaria',
         icon: 'cilBank',
         items: [
-
           {
             component: 'CNavItem',
             name: 'Cuentas de bancos ',
@@ -545,7 +543,6 @@ export default [
         to: '/FacturacionCobrosModule',
         icon: 'cilCreditCard',
         items: [
-
           {
             component: 'CNavItem',
             name: 'Arbitrios-Impustos-Tazas',
@@ -625,10 +622,8 @@ export default [
             to: '/FacturacionCobrosModule/FacturasPorLote',
             icon: 'cilList',
           },
-
-        ]
+        ],
       },
-
 
       {
         component: 'CNavItem',
@@ -636,7 +631,6 @@ export default [
         to: '/CuentasPorPagarModule',
         icon: 'cilNotes',
         items: [
-
           {
             component: 'CNavItem',
             name: 'Suplidores',
@@ -651,7 +645,7 @@ export default [
           },
           {
             component: 'CNavTitle',
-            name: 'Procesos'
+            name: 'Procesos',
           },
           {
             component: 'CNavItem',
@@ -667,11 +661,11 @@ export default [
           },
           {
             component: 'CNavTitle',
-            name: 'Consultas'
+            name: 'Consultas',
           },
           {
             component: 'CNavTitle',
-            name: 'Reportes'
+            name: 'Reportes',
           },
           {
             component: 'CNavItem',
@@ -685,7 +679,7 @@ export default [
             to: '/CuentasPorPagarModule/condensado',
             icon: 'cilList',
           },
-        ]
+        ],
       },
     ],
   },
@@ -707,7 +701,6 @@ export default [
         to: '/PlanAnual/planAnual',
         icon: 'cil-notes',
       },
-
     ],
   },
   {
