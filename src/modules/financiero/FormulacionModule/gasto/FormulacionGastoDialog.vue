@@ -429,7 +429,13 @@ const onDetailDialogClose = (data) => {
             props.formulacionGasto.detallePresGastos[index] = rest;
             showDetailDialog.value = false
         } else {
-            if (index >= 0) {
+            const found = props.formulacionGasto.detallePresGastos.findIndex(x => (
+                Number(x.ctgClasificadorId) === Number(editing.ctgClasificadorId)
+                && Number(x.ctgFuenteId) === Number(editing.ctgFuenteId)
+                && Number(x.ctgFuenteEspecificaId) === Number(editing.ctgFuenteEspecificaId)
+                && Number(x.ctgOrganismoFinanciadorId) === Number(editing.ctgOrganismoFinanciadorId)
+            ));
+            if (found >= 0) {
                 return toastStore.show({
                     content: `Ya el clasificador ${rest.ctgClasificadorId} existe con el mismo origen de financiamiento`,
                     time: 10_000,

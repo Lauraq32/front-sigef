@@ -63,7 +63,7 @@
                     <div class="col-3">
                       <CFormLabel for="tipoDocumento">Documento</CFormLabel>
                     </div>
-                    <div class="col-5">
+                    <div class="col-3">
                       <CFormSelect v-model="postEmpleado.tipoDocumento" v-on:change="changeDocument()" required
                           id="validationCtipoDocumentoustom05">
                           <option disabled selected value="">Seleccionar</option>
@@ -71,7 +71,7 @@
                           <option value="Pasaporte">Pasaporte</option>
                         </CFormSelect>
                     </div>
-                    <div class="col-4">
+                    <div class="col-6">
                       <CFormInput v-model="postEmpleado.codigoIdentidad" :maxlength="cedulaMax" id="codigoIdentidad"
                           v-on:keypress="checkDocument($event)" required />
                     </div>
@@ -127,7 +127,7 @@
 
                   <div class="row mt-3">
                     <div class="col-3">
-                      <CFormLabel for="sectorId">Sectores</CFormLabel>
+                      <CFormLabel for="sectorId">Sector</CFormLabel>
                     </div>
                     <div class="col-9">
                       <CCol :md="12">
@@ -147,7 +147,11 @@
                     </div>
                     <div class="col-9">
                       <CCol :md="12">
-                        <CFormInput v-on:keypress="onlyNumber($event)" v-model="postEmpleado.telefono" id="telefono" maxlength="13"
+                        <CFormInput
+                          v-on:keypress="onlyNumber($event)"
+                          v-model="postEmpleado.telefono"
+                          id="telefono"
+                          maxlength="13"
                           type="text" required />
                       </CCol>
                     </div>
@@ -307,7 +311,7 @@
                     </CCol>
                     <CCol :md="6">
                       <CFormLabel for="formaPago">Tipo de pago</CFormLabel>
-                      <CFormSelect required v-model="postEmpleado.formaPago" id="formaPago">
+                      <CFormSelect required v-model="postEmpleado.formaPago" id="formaPago" @change="() => postEmpleado.formaPago === 'BANCO' ? (postEmpleado.numeroCuenta = '') : ''">
                         <option disabled selected value="">Seleccionar</option>
                         <option>BANCO</option>
                         <option>CHEQUE</option>
@@ -350,7 +354,12 @@
                 <div class="col-4 border">
                   <CCol>
                     <CFormLabel for="licenciaConducir">Licencia de conducir</CFormLabel>
-                    <CFormInput v-model="postEmpleado.licenciaConducir" type="date" id="licenciaConducir" />
+                    <CFormInput
+                      v-model="postEmpleado.licenciaConducir"
+                      maxlength="12"
+                      id="licenciaConducir"
+                      v-on:keypress="onlyNumber($event)"
+                    />
 
                   </CCol>
                   <CCol>
@@ -757,7 +766,8 @@ export default {
     checkDocument(e) {
       if (this.postEmpleado.tipoDocumento === 'cedula') {
         onlyNumber(e)
-        this.cedulaMax = 11
+        this.cedulaMax = 11;
+        this.postEmpleado.licenciaConducir = this.postEmpleado.codigoIdentidad;
       }
     },
     changeDocument() {
