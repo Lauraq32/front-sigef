@@ -19,7 +19,7 @@
     :showModal="showRegistroPersonalModal"
     @post-personal="submitForm"
     @close-modal="closeRegistroPersonalModal"
-    :empleadoId="selectedEmployee?.id"
+    :empleado="selectedEmployee"
   />
 
   <TarjetaEmpleadoDialogs
@@ -50,6 +50,27 @@
     :employeeInfo="selectedEmployee"
     @closeModal="() => showEducacion = false"
   />
+
+  <!-- Reportes -->
+  <CModal :backdrop="true" :keyboard="false" :visible="reportes">
+    <CModalHeader :close-button="false">
+      <CModalTitle>Reportes</CModalTitle>
+    </CModalHeader>
+    <CModalBody>
+      <label for="typeReport">Seleccione el reporte</label>
+      <CFormSelect v-model="reporteDepto" id="typeReport">
+        <option :value="1">Empleados por nombre</option>
+        <option :value="2">Empleados por apellido</option>
+        <option :value="3">Empleados por cargo</option>
+        <option :value="4">Empleados por departamento</option>
+      </CFormSelect>
+    </CModalBody>
+    <CModalFooter>
+      <CButton color="secondary" @click="() => { reportes = false }">Cerrar</CButton>
+      <CButton color="primary" @click="imprimirReporte">Ver</CButton>
+    </CModalFooter>
+  </CModal>
+
 </template>
 
 <script>
@@ -113,7 +134,7 @@ export default {
       code: null,
       noEnviado: false,
       Error: '',
-      reporteDepto: 1,
+      reporteDepto: '1',
       reportes: false,
       posicionCargo: [{}],
       tipoSangre: [{}],
@@ -157,7 +178,6 @@ export default {
         {
           label: 'Total Items',
           _props: {
-            color: '',
             colspan: 9,
             style: 'font-weight:bold;',
           },
@@ -227,7 +247,8 @@ export default {
     },
 
     closeRegistroPersonalModal() {
-      this.showRegistroPersonalModal = false
+      this.showRegistroPersonalModal = false;
+      this.selectedEmployee = {};
     },
 
     closeTarjetaEmpleadoModal() {
@@ -238,28 +259,32 @@ export default {
     },
 
     imprimirReporte() {
-      if (this.reporteDepto.split('-')[0] == 1) {
+      if (this.reporteDepto === '1') {
         window
           .open(
             `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Nombre&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
             '_blank',
           )
           .focus()
-      } else if (this.reporteDepto.split('-')[0] == 2) {
+      }
+      
+      if (this.reporteDepto === '2') {
         window
           .open(
             `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Apellidos&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
             '_blank',
           )
           .focus()
-      } else if (this.reporteDepto.split('-')[0] == 3) {
+      }
+      if (this.reporteDepto === '3') {
         window
           .open(
             `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Cargo&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
             '_blank',
           )
           .focus()
-      } else if (this.reporteDepto.split('-')[0] == 4) {
+      }
+      if (this.reporteDepto === '4') {
         window
           .open(
             `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Departamentos&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
@@ -267,6 +292,8 @@ export default {
           )
           .focus()
       }
+
+      this.reportes = false;
     },
 
     closeContenedorModal(payload) {

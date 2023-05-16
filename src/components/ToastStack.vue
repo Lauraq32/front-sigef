@@ -1,5 +1,5 @@
 <template>
-  <CToaster placement="top-end">
+  <CToaster placement="top-end" visible>
     <CToast
       v-for="toast in messages"
       :color="toast.color"
