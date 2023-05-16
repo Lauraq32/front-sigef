@@ -837,6 +837,9 @@ export default {
       if (!this.postEmpleado.idImagenPerfil) {
         delete this.postEmpleado.idImagenPerfil;
       }
+      if (!this.postEmpleado.tipoSangreId) {
+        delete this.postEmpleado.tipoSangreId;
+      }
 
       this.$emit('post-personal', {
         ...this.postEmpleado
