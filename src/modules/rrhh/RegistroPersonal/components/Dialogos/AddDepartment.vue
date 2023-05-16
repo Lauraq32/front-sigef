@@ -8,7 +8,7 @@
     :validated="formIsValid"
   >
     <CModalHeader>
-      <CModalTitle>{{ this.modalTitle ?? 'Agregar Departamento' }}</CModalTitle>
+      <CModalTitle>Formulario Captura Departamento</CModalTitle>
     </CModalHeader>
 
     <CModalBody>

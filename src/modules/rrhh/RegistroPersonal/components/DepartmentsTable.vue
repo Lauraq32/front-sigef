@@ -36,6 +36,7 @@
             color="primary"
             variant="outline"
             size="sm"
+            v-bind:disabled="!item.status"
             @click="this.$emit('OnUpdate', item)"
           >
             Modificar

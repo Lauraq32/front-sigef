@@ -87,7 +87,7 @@ export default {
     },
     handleUpdate(dept) {
       this.showAddDeptModal = true
-      this.deparmentModalTitle = 'Modificar Departamento'
+      this.deparmentModalTitle = 'Formulario Captura Departamento'
       this.departamento = dept
     },
     handleDelete(item) {
