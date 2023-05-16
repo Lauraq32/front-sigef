@@ -28,6 +28,7 @@
                 <CFormInput
                   required
                   type="Number"
+                  oninput="this.value = this.valueAsNumber"
                   v-model="newDepartment.saspId"
                   feedbackInvalid="Inserte Codigo SASP"
                   id="invalidSasp"
