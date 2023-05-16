@@ -7,18 +7,37 @@
         color="info"
         @click="
           () => {
+            showModalImpuestoRentaAndFactorDivision = true
           }
         "
-        >Agregar</CButton
+        >Configuración de Impuesto Sobre la Renta/ Factor de División.</CButton
       >
     </div>
   </div>
+
+  <ModalImpuestoRentaAndFactorDivision
+    :showModal="showModalImpuestoRentaAndFactorDivision"
+    @close-modal="closeModal"
+  />
 </template>
+
 <script>
+import ModalImpuestoRentaAndFactorDivision from './dialogos/ModalSRentaAndFactorDivision.vue'
+
 export default {
-  components: {},
+  components: {
+    ModalImpuestoRentaAndFactorDivision,
+  },
   data: function () {
-    return {}
+    return {
+      showModalImpuestoRentaAndFactorDivision: false,
+    }
+  },
+
+  methods: {
+    closeModal() {
+      this.showModalImpuestoRentaAndFactorDivision = false
+    },
   },
 }
 </script>
