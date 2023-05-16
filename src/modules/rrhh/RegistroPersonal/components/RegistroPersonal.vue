@@ -74,10 +74,7 @@
 </template>
 
 <script>
-import { useAuthStore } from '@/store/AuthStore'
 import { CModal } from '@coreui/vue'
-import { mapStores } from 'pinia'
-import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
 import Api from '../services/RegistroPersonalServices'
 import EmpleadoReports from '@/components/Report/RRHH/ReportsTemplate/EmpleadosReports.vue'
@@ -108,44 +105,20 @@ export default {
   data: function () {
     return {
       selectedEmployee:{},
-      filedata: {},
-      userid: null,
-      status: false,
       showModalDoc: false,
-      accionEmpleado: {},
       accionPersonal: [],
       showAccionPersonal: false,
       showTipoNovedad: false,
-      empleado: null,
       newTarjetaEmpleadoModal: false,
-      showRegistroPersonalModal: false,
-      id: null,
-      empleadoReporte: {},
       showTarjeta: false,
       showModalRepots: false,
       employeeInfo: {},
       showEducacion: false,
       employeeInfo: null,
       showRegistroPersonalModal: false,
-      actions: [],
       registroPersonal: [],
-      horaActual: '',
-      toasts: [],
-      code: null,
-      noEnviado: false,
-      Error: '',
       reporteDepto: '1',
       reportes: false,
-      posicionCargo: [{}],
-      tipoSangre: [{}],
-      areaTrabajo: [{}],
-      programaDivision: [{}],
-      sector: [{}],
-      departamentos: [],
-      postFile: {
-
-      },
-
       columns: [
         { key: 'codigo', label: 'Código', _style: { width: '15%' } },
         { key: 'apellidos', label: 'Apellido', _style: { width: '15%' } },
@@ -162,10 +135,7 @@ export default {
           label: 'Fecha ingreso',
           _style: { width: '15%' },
         },
-
         { key: 'sexo', label: 'Sexo', _style: { width: '20%' } },
-
-
         {
           key: 'show_details',
           label: '',
@@ -173,7 +143,6 @@ export default {
           sorter: false,
         },
       ],
-
       footerItem: [
         {
           label: 'Total Items',
@@ -183,7 +152,6 @@ export default {
           },
         },
       ],
-
       buttonActions: [
         {
           label: 'Editar',
@@ -242,8 +210,9 @@ export default {
 
     getRegistroPersonal() {
       Api.getAllEmpleado().then((response) => {
-        this.registroPersonal = response.data.data
-      })
+        this.registroPersonal = response.data.data;
+        this.footerItem[0].label = `Total Items: ${response.data.data.length}`;
+      });
     },
 
     closeRegistroPersonalModal() {
@@ -369,23 +338,8 @@ export default {
         })
     },
   },
-
-  computed: {
-    ...mapStores(useAuthStore),
-    ...mapState(useAuthStore, ['authInfo']),
-  },
-
   mounted() {
     this.getRegistroPersonal()
-    Api.getAllEmpleado().then((response) => {
-      this.registroPersonal = response.data.data
-      this.footerItem[0].label = `Total Items: ${response.data.data.length}`
-    })
-  },
-  watch: {
-    showRegistroPersonalModal() {
-      this.getRegistroPersonal()
-    }
-  },
+  }
 }
 </script>
