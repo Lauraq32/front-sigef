@@ -423,7 +423,8 @@ watchEffect(() => {
 const onDetailDialogClose = (data) => {
     if (data) {
         const {index, editing, ...rest} = data;
-        rest.tipo = "DETALLE";
+        rest.tipo = props.formulacionGasto.tipo;
+        rest.mestprogId = props.formulacionGasto.mestprogId;
 
         if (editing) {
             props.formulacionGasto.detallePresGastos[index] = rest;
