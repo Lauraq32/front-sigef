@@ -1,10 +1,12 @@
 <template>
-  <CToaster placement="top-end" visible>
+  <CToaster placement="top-end">
     <CToast
       v-for="toast in messages"
       :color="toast.color"
       :key="toast.id"
+      :index="toast.id"
       :delay="toast.time ?? 15_000"
+      :visible="true"
       @close="toastStore.removeMessage(toast.id)"
     >
       <div class="d-flex flex-row justify-content-center">
@@ -43,7 +45,7 @@ export default {
   setup() {
     const toastStore = useToastStore()
     const messages = computed(() => {
-      console.log("changed")
+      console.log("changed", toastStore.messages)
       return toastStore.messages;
     })
 
