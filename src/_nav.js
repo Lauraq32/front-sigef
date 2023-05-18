@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 export default [
+  /*
   {
     component: 'CNavTitle',
     name: 'Áreas',
@@ -30,10 +31,12 @@ export default [
     to: '/administrativo',
     icon: 'cilContact',
   },
+  */
   {
     component: 'CNavTitle',
     name: 'Módulos',
   },
+
   {
     component: 'CNavItem',
     name: 'Financiero',
@@ -807,14 +810,14 @@ export default [
       {
         component: 'CNavItem',
         name: 'Home',
-        to: '/administrativo',
+        to: '/modulos/administrativo',
         icon: 'cilHome',
       },
       {
         component: 'CNavItem',
-        name: 'Manejo usuarios',
-        to: '/AdministrativoModule/manejoUsuarios',
-        icon: 'cilPeoplePlus',
+        name: 'Usuarios',
+        to: '/modulos/administrativo/usuarios',
+        icon: 'cilUser',
       },
     ],
   },

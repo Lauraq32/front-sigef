@@ -126,7 +126,7 @@ export default {
     },
     goHome() {
       this.AuthStore.setLoginInfo(this.loginInfo);
-      this.$router.push({ name: 'financiero' })
+      this.$router.push({ name: 'home' })
     },
     filterFiscalYears(data) {
       this.loginInfo = data;

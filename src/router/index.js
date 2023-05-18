@@ -6,7 +6,7 @@ import DefaultLayout from '@/layouts/DefaultLayout'
 
 //prueba router
 import testModuleRouter from '../modules/financiero/FormulacionModule/router'
-import AdministrativoModule from '../modules/administrativo/Usuario/router'
+import AdministrativoModule from '../modules/administrativo/router'
 import RRHHModule from '../modules/rrhh/RegistroPersonal/router'
 import EjecucionModule from '../modules/financiero/EjecucionModule/router'
 import ActivoFijoModule from '../modules/financiero/ActivoFijoModule/router'
@@ -22,7 +22,7 @@ import { isAuthenticated } from '@/utils/logged-info'
 const routes = [
   {
     path: '/',
-    name: 'home',
+    // name: 'home',
     meta: { label: 'SIGEF' },
     component: DefaultLayout,
     children: [
@@ -66,18 +66,18 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "dashboard" */ '@/views/RRHH.vue'),
       },
-      {
-        path: '/administrativo',
-        name: 'Administrativo',
-        meta: { label: 'Administrativo' },
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () =>
-          import(
-            /* webpackChunkName: "dashboard" */ '@/views/Administrativo.vue'
-          ),
-      },
+      // {
+      //   path: '/administrativo',
+      //   name: 'Administrativo',
+      //   meta: { label: 'Administrativo' },
+      //   // route level code-splitting
+      //   // this generates a separate chunk (about.[hash].js) for this route
+      //   // which is lazy-loaded when the route is visited.
+      //   component: () =>
+      //     import(
+      //       /* webpackChunkName: "dashboard" */ '@/views/Administrativo.vue'
+      //     ),
+      // },
 
       {
         path: '/FinancieroModule',
@@ -89,7 +89,7 @@ const routes = [
       },
 
       {
-        path: '/AdministrativoModule',
+        path: '/modulos/administrativo',
         ...AdministrativoModule,
       },
       {

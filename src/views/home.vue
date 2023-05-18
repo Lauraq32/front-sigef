@@ -1,8 +1,8 @@
 <template lang="">
   <CContainer lg>
+    <span>sdafsd</span>
     <div class="main-menu-cards-container">
       <CRow>
-        <CCol :md="2"></CCol>
         <CCol :md="2" class="mt-4" style="font-weight: bolder">
           <CWidgetStatsD
             @click="gotToPrueba"
