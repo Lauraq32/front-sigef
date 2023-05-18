@@ -45,6 +45,11 @@
         {{ formatDate(item.fechaNacimiento) }}
       </td>
     </template>
+    <template #estado="{ item }">
+      <td :colspan="item.estatus ? 1 : 2">
+        <CBadge class="text-uppercase" :color="determineColor(item.estado)">{{ item.estado }}</CBadge>
+      </td>
+    </template>
 
     <template #formaPago="{ item }">
       <td>
@@ -59,9 +64,6 @@
             <CDropdownItem v-for="action in actions" @click="action.clickHandler && action.clickHandler(item)">{{ action.label }}</CDropdownItem>
           </CDropdownMenu>
         </CDropdown>
-      </td>
-      <td v-else>
-        <CBadge color="danger">Inactivo</CBadge>
       </td>
     </template> 
   </CSmartTable>
@@ -79,6 +81,19 @@ export default {
   data: () => {
     return {
       formatDate
+    }
+  },
+
+  methods: {
+    determineColor(badgeText) {
+        if (/inactivo/i.test(badgeText)) {
+            return 'danger';
+        }
+        if (/activo/i.test(badgeText)) {
+            return 'success';
+        }
+
+        return 'warning';
     }
   },
 

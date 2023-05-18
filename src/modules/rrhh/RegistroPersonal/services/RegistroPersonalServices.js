@@ -46,8 +46,9 @@ class RegistroPersonal {
     return http.get(`Ayuntamiento/${id}`)
   }
 
-  getAllEmpleado() {
-    return http.get(`empleados`)
+  getAllEmpleado(filter = {}) {
+    const params = Object.keys(filter).map(key => `${key}=${filter[key]}`);
+    return http.get(`empleados${params.length ? '?' + params.join('&'): ''}`)
   }
   //get Archivos por el id del empleado
   getFileById(id){

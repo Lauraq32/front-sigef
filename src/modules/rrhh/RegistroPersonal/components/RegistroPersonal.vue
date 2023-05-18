@@ -1,12 +1,32 @@
 <template>
   <h3 class="text-center mb-4">Mantenimientos Empleados</h3>
 
-  <div class="table-headers">
-    <div class="d-flex gap-1 mb-2">
-      <CButton color="info" @click="showModal">Agregar</CButton>
-      <CButton color="secondary" @click="() => { reportes = true }">Imprimir Reporte</CButton>
-    </div>
-  </div>
+  <CCard class="mb-4">
+    <CCardBody class="table-headers justify-content-between">
+      <div class="d-inline-flex gap-3 align-items-center">
+        <CFormLabel class="form-label col-auto col-form-label"
+          >Filtro:</CFormLabel
+        >
+        <CFormSelect
+          id="empleoyeeStatusSelect"
+          @change="handleFilterEmployeeByStatus"
+          aria-label="Selecionar estatus del empleado"
+          :options="[
+            { label: 'Activo', value: 'activo' },
+            { label: 'Inactivo', value: 'inactivo' },
+            { label: 'Vacaciones', value: 'vacaciones' },
+          ]"
+        />
+      </div>
+
+      <div>
+        <div class="d-flex gap-1">
+          <CButton color="info" @click="showModal">Agregar</CButton>
+          <CButton color="secondary" @click="() => { reportes = true }">Reporte</CButton>
+        </div>
+      </div>
+    </CCardBody>
+  </CCard>
 
   <RegistroPersonalTable
     :tableData="registroPersonal"
@@ -135,7 +155,14 @@ export default {
           label: 'Fecha Ingreso',
           _style: { width: '10%' },
         },
-        { key: 'sexo', label: 'Sexo', _style: { width: '12%' } },
+        { key: 'sexo', label: 'Sexo', _style: { width: '5%' } },
+        {
+          key: 'estado',
+          label: 'Estado',
+          _style: { width: '7%' },
+          filter: false,
+          sorter: false,
+        },
         {
           key: 'show_details',
           label: '',
@@ -148,7 +175,7 @@ export default {
         {
           label: 'Total Items',
           _props: {
-            colspan: 9,
+            colspan: 10,
             style: 'font-weight:bold;',
           },
         },
@@ -209,8 +236,8 @@ export default {
   methods: {
     ...mapActions(useToastStore, ['show']),
 
-    getRegistroPersonal() {
-      Api.getAllEmpleado().then((response) => {
+    getRegistroPersonal(filter) {
+      Api.getAllEmpleado(filter).then((response) => {
         this.registroPersonal = response.data.data;
         this.footerItem[0].label = `Total Items: ${response.data.data.length}`;
       });
@@ -338,6 +365,12 @@ export default {
           })
         })
     },
+
+    handleFilterEmployeeByStatus({ target }) {
+      this.getRegistroPersonal({
+        status: target.value
+      });
+    }
   },
   mounted() {
     this.getRegistroPersonal()

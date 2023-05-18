@@ -9,7 +9,7 @@
         <CFormSelect
           id="fiscalYearSelect"
           @update:modelValue="handleFilterDepartmentsByStatus"
-          aria-label="Selecionar año fiscal"
+          aria-label="Selecionar estatus de departamento"
           :options="[
             { label: 'Activo', value: true },
             { label: 'Inactivo', value: 'false' },

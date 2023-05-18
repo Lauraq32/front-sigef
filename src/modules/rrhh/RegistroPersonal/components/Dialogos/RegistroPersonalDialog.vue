@@ -152,7 +152,7 @@
                           v-model="postEmpleado.telefono"
                           id="telefono"
                           maxlength="13"
-                          type="text" required />
+                          type="text" />
                       </CCol>
                     </div>
                   </div>
@@ -274,8 +274,6 @@
                     </CFormSelect>
                   </CCol>
 
-
-
                   <div class="row">
                     <CCol :md="6">
                       <CFormLabel for="tipoContrato">Tipo de contrato</CFormLabel>
@@ -284,7 +282,6 @@
                         <option>Temporal</option>
                         <option>Fijo</option>
                       </CFormSelect>
-
                     </CCol>
                     <CCol :md="6">
                       <CFormLabel for="turno">Turno</CFormLabel>
@@ -294,7 +291,6 @@
                         <option>NOCTURNO</option>
                         <option>ROTATIVO</option>
                       </CFormSelect>
-
                     </CCol>
                   </div>
 
@@ -306,7 +302,6 @@
                         <option>MENSUAL</option>
                         <option>QUINCENAL</option>
                       </CFormSelect>
-
                     </CCol>
                     <CCol :md="6">
                       <CFormLabel for="formaPago">Tipo de pago</CFormLabel>
@@ -334,12 +329,11 @@
                   <CCol>
                     <CFormLabel for="estado">Estatus</CFormLabel>
                     <CFormSelect required v-model="postEmpleado.estado" id="estado" :disabled="!postEmpleado.id">
-                      <option>Activo</option>
-                      <option>Inactivo</option>
-                      <option>Vacaciones</option>
+                      <option value="activo">Activo</option>
+                      <option value="inactivo">Inactivo</option>
+                      <option value="vacaciones">Vacaciones</option>
                     </CFormSelect>
                   </CCol>
-
                 </div>
 
                 <div class="col-3">
@@ -407,7 +401,6 @@
                       id="emergenciaTelefono"
                       type="number" maxlength="13"
                     />
-
                   </CCol>
                   <CCol>
                     <CFormLabel for="emergenciaDireccion">Dirección</CFormLabel>
@@ -424,7 +417,6 @@
                       <option>Esposo/a</option>
                       <option>Amigo/a</option>
                     </CFormSelect>
-
                   </CCol>
 
                 </div>
@@ -476,7 +468,6 @@
                       <option>Alta</option>
                       <option>Baja</option>
                     </CFormSelect>
-
                   </CCol>
 
 
@@ -486,18 +477,13 @@
                       <option value="" disabled selected>Seleccione</option>
                       <option>Si</option>
                       <option>No</option>
-
                     </CFormSelect>
-
-
-
                   </CCol>
                   <h3>Intervención quir&uacute;rgica(m&aacute;s reciente)</h3>
 
                   <CCol>
                     <CFormLabel for="diagnostico">Detalle diagnostico</CFormLabel>
                     <CFormTextarea v-model="postEmpleado.emergenciaDiagnostico" id="diagnostico" />
-
                   </CCol>
                 </div>
 
@@ -606,10 +592,7 @@ export default {
       profilePhoto: null,
       imageUrl: null,
       discapacidadList: [],
-      departamentoList: [{
-        code: 0,
-        label: 'Seleccionar',
-      }],
+      departamentoList: [],
       nivelEscolarList: [],
       areaTematicaList: [],
       posicionCargo: [],
@@ -648,9 +631,9 @@ export default {
         tipoContrato: null,
         fechaInicioContrato: new Date(),
         fechaFinContrato: new Date(),
-        turno: null,
-        periodoPago: null,
-        formaPago: null,
+        turno: 'DIURNO',
+        periodoPago: 'MENSUAL',
+        formaPago: 'BANCO',
         numeroCuenta: null,
         fechaExpitaTarjeta: new Date(),
         estatus: true,
@@ -712,7 +695,7 @@ export default {
         licenciaConducir: null,
         fechaExpiracionLicencia: new Date(),
         aplicaSasp: true,
-        nivelEscolar: null,
+        nivelEscolar: '8',
         areaTematica: null,
         tituloObtenido: null,
         correoElectronico: null,
@@ -784,15 +767,22 @@ export default {
     },
 
     getListDepartamento(event) {
-      Api.listDepartamento(event.target.value).then(({ data: { data } }) => {
+      if (!event.target.value) {
+        return;
+      }
+
+      return Api.listDepartamento(event.target.value)
+      .then(({ data: { data } }) => {
         this.departamentoList = data.map((elem) => ({
           code: elem.id,
           label: `(${elem.id})  ${elem.nombre}`,
-        }))
+        }));
         this.departamentoList.unshift({
-          code: 0,
-          label: 'Seleccionar',
-        })
+          code: '',
+          label: 'Seleccione',
+        });
+
+        return true
       })
     },
 
@@ -897,9 +887,9 @@ export default {
         tipoContrato: null,
         fechaInicioContrato: new Date(),
         fechaFinContrato: new Date(),
-        turno: null,
-        periodoPago: null,
-        formaPago: null,
+        turno: 'DIURNO',
+        periodoPago: 'MENSUAL',
+        formaPago: 'BANCO',
         numeroCuenta: null,
         fechaExpitaTarjeta: new Date(),
         estatus: true,
@@ -961,7 +951,7 @@ export default {
         licenciaConducir: null,
         fechaExpiracionLicencia: new Date(),
         aplicaSasp: true,
-        nivelEscolar: null,
+        nivelEscolar: '8',
         areaTematica: null,
         tituloObtenido: null,
         correoElectronico: null,
@@ -1032,7 +1022,7 @@ export default {
 
     selectedDepartamento: {
       get() {
-        return this.departamentoList.find((x) => x.code == this.postEmpleado.departamentoId)
+        return this.departamentoList.find((x) => x.code === this.postEmpleado.departamentoId)
       },
       set(util) {
         this.postEmpleado.departamentoId = Number(util.code)
@@ -1047,8 +1037,15 @@ export default {
   watch: {
     empleado(newData) {
       if (newData) {
-        this.postEmpleado = { ...newData };
         this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${newData.idImagenPerfil ?? -1}`;
+        this.getListDepartamento({
+          target: {
+            value: newData.programaDivisionId
+          }
+        })
+        .then(() => {
+          this.postEmpleado = { ...newData };
+        });
       }
     },
     showModal(newValue) {
