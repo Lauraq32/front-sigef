@@ -38,14 +38,12 @@
   </CModal>
 </template>
 <script>
-import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
-import Api from '../services/RegistroPersonalServices'
+import Api from '../../services/RegistroPersonalServices'
 
 export default {
   name: 'CargosModal',
   components: {
-    CSmartTable,
     CModal,
   },
 
