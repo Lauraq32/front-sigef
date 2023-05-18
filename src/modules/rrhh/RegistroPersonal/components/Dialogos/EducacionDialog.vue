@@ -5,7 +5,7 @@
     </CModalHeader>
     <CModalBody>
       <CCardBody>
-        <CForm class="row g-3 needs-validation" novalidate :validated="profesionFormValidated" @submit="saveEducation">
+        <CForm class="row g-3 needs-validation" novalidate :validated="profesionFormValidated" @submit.prevent="saveEducation">
           <CCol :md="4">
             <CFormLabel for="employeeInfoId">C&oacute;digo Empleado</CFormLabel>
             <CFormInput required id="employeeInfoId" v-model="employeeInfo.id" disabled> </CFormInput>
@@ -24,7 +24,7 @@
 
           <CCol :md="12">
             <CFormLabel for="courseTime">Duraci&oacute;n del Curso en Horas</CFormLabel>
-            <CFormInput v-model="education.courseTime" required id="courseTime"> </CFormInput>
+            <CFormInput v-model="education.courseTime" required id="courseTime" @keypress="onlyNumber"> </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol :md="6">
@@ -54,7 +54,7 @@
             striped: true,
             hover: true,
           }" :tableHeadProps="{}" :activePage="1" header :items="educationList" :columns="columns" itemsPerPageSelect
-          :itemsPerPage="5" :sorterValue="{ column: 'status', state: 'asc' }" pagination>
+          :itemsPerPage="5" :sorterValue="{ column: 'courseName', state: 'asc' }" pagination>
 
           <template #startDate="{ item, index }">
             <td class="py-2">
@@ -89,7 +89,8 @@ import { CIcon } from '@coreui/icons-vue'
 import Api from '../../services/EducationServices'
 import { useToastStore } from '@/store/toast'
 
-import { formatDate } from '@/utils/format'
+import { formatDate } from '@/utils/format';
+import { onlyNumber } from '@/utils/validator';
 import { mapStores,mapActions } from 'pinia'
 
 
@@ -105,6 +106,7 @@ export default {
 
     return {
       formatDate,
+      onlyNumber,
       educationId: null,
       education: {
         employeeId: 0,
@@ -141,8 +143,8 @@ export default {
         employeeId: this.employeeInfo.id,
         courseName: "",
         courseTime: 0,
-        startDate: new Date(Date.now()),
-        finishDate: new Date(Date.now()),
+        startDate: new Date(),
+        finishDate: new Date(),
         courseRecord: "",
       }
     },
@@ -163,13 +165,14 @@ export default {
               closable: true,
             })
             this.profesionFormValidated = false
-            setTimeout(this.listarEducation(this.employeeInfo.id), 500)
+            setTimeout(() => this.listarEducation(this.employeeInfo.id), 500)
             this.clearModal()
           }).catch(error => {
             this.show({
               content: error.response.data.errors,
               closable: true,
-              color: 'danger'
+              color: 'danger',
+              class: 'text-white'
             })
             
           })
@@ -214,7 +217,9 @@ export default {
 
   watch: {
     employeeInfo(employeeInfo) {
-      this.listarEducation(employeeInfo.id)
+      if (employeeInfo.id) {
+        this.listarEducation(employeeInfo.id)
+      }
     },
   },
 
@@ -253,9 +258,7 @@ export default {
         }
       },
       set(value) {
-        return (this.education.finishDate = new Date(
-          `${value}T00:00:00`,
-        ))
+        return (this.education.finishDate = new Date(`${value}T00:00:00`))
       },
     },
   },

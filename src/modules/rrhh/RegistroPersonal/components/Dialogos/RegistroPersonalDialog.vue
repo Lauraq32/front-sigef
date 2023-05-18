@@ -51,10 +51,10 @@
                     <div class="col-3">
                       <CFormLabel for="codigo">C&oacute;digo</CFormLabel>
                     </div>
-                    <div class="col-9">
+                    <div class="col-4">
                       <CCol :md="12">
                         <CFormInput required ref="name" type="text" class="form-control" v-model="postEmpleado.codigo"
-                          id="codigo" :maxlength="9" />
+                          id="codigo" :maxlength="9" :disabled="postEmpleado.id"/>
                       </CCol>
                     </div>
                   </div>
@@ -63,7 +63,7 @@
                     <div class="col-3">
                       <CFormLabel for="tipoDocumento">Documento</CFormLabel>
                     </div>
-                    <div class="col-3">
+                    <div class="col-4">
                       <CFormSelect v-model="postEmpleado.tipoDocumento" v-on:change="changeDocument()" required
                           id="validationCtipoDocumentoustom05">
                           <option disabled selected value="">Seleccionar</option>
@@ -71,7 +71,7 @@
                           <option value="Pasaporte">Pasaporte</option>
                         </CFormSelect>
                     </div>
-                    <div class="col-6">
+                    <div class="col-5">
                       <CFormInput v-model="postEmpleado.codigoIdentidad" :maxlength="cedulaMax" id="codigoIdentidad"
                           v-on:keypress="checkDocument($event)" required />
                     </div>
@@ -235,7 +235,7 @@
                   </CCol>
                   <CCol :md="12">
                     <CFormLabel for="Recomendado">Recomendado por</CFormLabel>
-                    <CFormInput v-model="postEmpleado.recomendadoPor" required type="text" id="Recomendado"
+                    <CFormInput v-model="postEmpleado.recomendadoPor" type="text" id="Recomendado"
                       v-on:keypress="onlyLetter($event)" />
                   </CCol>
                   <CCol :md="12">
@@ -331,6 +331,14 @@
                   <CCol :md="12">
                     <CFormLabel for="sueldo">Sueldo actual</CFormLabel>
                     <CFormInput type="number" v-model="postEmpleado.sueldo" id="sueldo" required />
+                  </CCol>
+                  <CCol>
+                    <CFormLabel for="estado">Estatus</CFormLabel>
+                    <CFormSelect required v-model="postEmpleado.estado" id="estado" :disabled="!postEmpleado.id">
+                      <option>Activo</option>
+                      <option>Inactivo</option>
+                      <option>Vacaciones</option>
+                    </CFormSelect>
                   </CCol>
 
                 </div>
@@ -573,14 +581,16 @@ import fileApi from '../../services/Files'
 import 'vue-select/dist/vue-select.css'
 import { useToastStore } from '@/store/toast'
 import { mapActions, mapStores } from 'pinia'
+import { CCol } from '@coreui/vue-pro'
 
 export default {
   name: 'RegistroPersonalDialog',
   components: {
     CModal,
     moment,
-    vSelect
-  },
+    vSelect,
+    CCol
+},
   emits: ['close-modal', 'post-personal'],
   data: function () {
     const currentDate = new Date();
@@ -686,7 +696,7 @@ export default {
         noviembreIngreso: 0.0,
         diciembreIngreso: 0.0,
         observacion: null,
-        discapacidad: null,
+        discapacidad: '30',
         emergenciaNombre: null,
         emergenciaTelefono: null,
         emergenciaTelefono2: null,
@@ -735,7 +745,7 @@ export default {
       }
       this.isFormEventTypeValidated = true;
       this.show({
-        content: "Informaci&oacute;n esta incorrecta. Por favor revisar la informaci&oacute;n en el formulario",
+        content: "Informaci&oacute;n incorrecta. Por favor revisar la informaci&oacute;n del formulario",
         closable: true,
         color: 'danger',
         class: 'text-white',
@@ -767,7 +777,6 @@ export default {
       if (this.postEmpleado.tipoDocumento === 'cedula') {
         onlyNumber(e)
         this.cedulaMax = 11;
-        this.postEmpleado.licenciaConducir = this.postEmpleado.codigoIdentidad;
       }
     },
     changeDocument() {
@@ -840,6 +849,11 @@ export default {
       if (!this.postEmpleado.tipoSangreId) {
         delete this.postEmpleado.tipoSangreId;
       }
+      
+      if (!this.postEmpleado.diasTrabajado) {
+        delete this.postEmpleado.diasTrabajado;
+      }
+      
 
       this.$emit('post-personal', {
         ...this.postEmpleado
@@ -931,7 +945,7 @@ export default {
         noviembreIngreso: 0.0,
         diciembreIngreso: 0.0,
         observacion: null,
-        discapacidad: null,
+        discapacidad: '30',
         emergenciaNombre: null,
         emergenciaTelefono: null,
         emergenciaTelefono2: null,

@@ -147,7 +147,7 @@ class RegistroPersonal {
 
   //Combobox cargo
   getPosicion() {
-    return http.get('Posicion')
+    return http.get('cargos')
   }
 
   getAreaTrabajobyid(id) {

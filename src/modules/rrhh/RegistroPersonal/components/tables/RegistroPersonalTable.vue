@@ -29,9 +29,9 @@
         {{ item.posicion.nombre }}
       </td>
     </template>
-    <template #programaDivision="{ item }">
+    <template #departamenteName="{ item }">
       <td>
-        {{ item.programaDivision.nombre }}
+        {{ item.departamento.nombre }}
       </td>
     </template>
 

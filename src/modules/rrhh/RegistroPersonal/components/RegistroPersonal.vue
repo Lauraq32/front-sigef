@@ -120,27 +120,28 @@ export default {
       reporteDepto: '1',
       reportes: false,
       columns: [
-        { key: 'codigo', label: 'Código', _style: { width: '15%' } },
+        { key: 'codigo', label: 'Código', _style: { width: '5%' } },
         { key: 'apellidos', label: 'Apellido', _style: { width: '15%' } },
         { key: 'nombres', label: 'Nombre', _style: { width: '15%' } },
-        { key: 'codigoIdentidad', label: 'Cédula/Pasaporte', _style: { width: '15%' } },
+        { key: 'codigoIdentidad', label: 'Cédula/Pasaporte', _style: { width: '10%' } },
         {
-          key: 'programaDivision',
-          label: 'Programa',
+          key: 'departamenteName',
+          label: 'Departamento',
           _style: { width: '20%' },
         },
         { key: 'posicion', label: 'Cargo', _style: { width: '10%' } },
         {
           key: 'fechaIngreso',
-          label: 'Fecha ingreso',
-          _style: { width: '15%' },
+          label: 'Fecha Ingreso',
+          _style: { width: '10%' },
         },
-        { key: 'sexo', label: 'Sexo', _style: { width: '20%' } },
+        { key: 'sexo', label: 'Sexo', _style: { width: '12%' } },
         {
           key: 'show_details',
           label: '',
           filter: false,
           sorter: false,
+          _style: { width: '3%'}
         },
       ],
       footerItem: [
@@ -166,7 +167,7 @@ export default {
           }
         },
         {
-          label: 'Evaluación',
+          label: 'Acción personal',
           clickHandler: (value) => {
             this.showAccionPersonal = true
             this.selectedEmployee = value
