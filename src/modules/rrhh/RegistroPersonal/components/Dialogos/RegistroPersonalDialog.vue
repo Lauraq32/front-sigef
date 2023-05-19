@@ -575,7 +575,7 @@ export default {
     moment,
     vSelect,
     CCol
-},
+  },
   emits: ['close-modal', 'post-personal'],
   data: function () {
     const currentDate = new Date();
@@ -607,7 +607,7 @@ export default {
         codigo: null,
         nombres: null,
         apellidos: null,
-        tipoDocumento: '',
+        tipoDocumento: 'cedula',
         codigoIdentidad: null,
         direccion: null,
         sectorId: '',
@@ -633,7 +633,7 @@ export default {
         fechaFinContrato: new Date(),
         turno: 'DIURNO',
         periodoPago: 'MENSUAL',
-        formaPago: 'BANCO',
+        formaPago: 'CHEQUE',
         numeroCuenta: null,
         fechaExpitaTarjeta: new Date(),
         estatus: true,
@@ -761,6 +761,7 @@ export default {
         this.cedulaMax = 11;
       }
     },
+
     changeDocument() {
       this.postEmpleado.codigoIdentidad = null
       this.cedulaMax = null
@@ -771,7 +772,7 @@ export default {
         return;
       }
 
-      return Api.listDepartamento(event.target.value)
+      Api.listDepartamento(event.target.value)
       .then(({ data: { data } }) => {
         this.departamentoList = data.map((elem) => ({
           code: elem.id,
@@ -781,8 +782,6 @@ export default {
           code: '',
           label: 'Seleccione',
         });
-
-        return true
       })
     },
 
@@ -851,25 +850,24 @@ export default {
 
     closeModal() {
       this.$emit('close-modal')
-      this.clearModal()
     },
 
     clearModal() {
-    const currentDate = new Date();
-    currentDate.setFullYear(currentDate.getFullYear() - 19);
+      const currentDate = new Date();
+      currentDate.setFullYear(currentDate.getFullYear() - 19);
 
       this.postEmpleado = {
         ayuntamientoId: this.$ayuntamientoId,
         codigo: null,
         nombres: null,
         apellidos: null,
-        tipoDocumento: 'Cédula',
+        tipoDocumento: 'cedula',
         codigoIdentidad: null,
         direccion: null,
         sectorId: 0,
         telefono: null,
         celular: null,
-        fechaNacimiento: new Date(currentDate),
+        fechaNacimiento: currentDate,
         lugarNacimiento: null,
         estadoCivil: '',
         sexo: 'M',
@@ -889,7 +887,7 @@ export default {
         fechaFinContrato: new Date(),
         turno: 'DIURNO',
         periodoPago: 'MENSUAL',
-        formaPago: 'BANCO',
+        formaPago: 'CHEQUE',
         numeroCuenta: null,
         fechaExpitaTarjeta: new Date(),
         estatus: true,
@@ -1013,7 +1011,7 @@ export default {
             return date.toISOString().split('T')[0]
           }
         }
-        return date.toISOString().split('T')[0]
+        return date?.toISOString()?.split('T')?.[0]
       },
       set(value) {
         return (this.postEmpleado.fechaNacimiento = new Date(`${value}T00:00:00`))
@@ -1037,20 +1035,18 @@ export default {
   watch: {
     empleado(newData) {
       if (newData) {
+        this.postEmpleado = { ...newData };
         this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${newData.idImagenPerfil ?? -1}`;
         this.getListDepartamento({
           target: {
             value: newData.programaDivisionId
           }
         })
-        .then(() => {
-          this.postEmpleado = { ...newData };
-        });
       }
     },
     showModal(newValue) {
-      if (!newValue) {
-        this.clearModal()
+      if (newValue) {
+        this.clearModal();
       }
     }
   },
