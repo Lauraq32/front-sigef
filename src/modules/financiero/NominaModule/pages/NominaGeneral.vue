@@ -1,8 +1,8 @@
 <template>
-    <h3 class="text-center">Nomina General</h3>
+    <h3 class="text-center">N&oacute;mina General</h3>
     <NominaSelectFiscalYear @sendDataFilter="filterByDate">
         <CButton style="font-weight: bold" color="info" @click="">Imprimir Todos</CButton>
-        <CButton style="font-weight: bold" class="ml-5" color="info" @click ="() => showModal = true">Generar Nomina</CButton>
+        <CButton style="font-weight: bold" class="ml-5" color="info" @click ="() => showModal = true">Generar N&oacute;mina</CButton>
     </NominaSelectFiscalYear>
     <div>
         <CSmartTable class="sticky-top" clickableRows :tableProps="{
@@ -66,7 +66,7 @@ export default {
         },
         getCloseModalValue(value) {
             this.showModal = value;
-        },
+        }
     },
     data: function () {
         return {

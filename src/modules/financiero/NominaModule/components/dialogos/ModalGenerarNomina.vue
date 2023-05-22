@@ -1,118 +1,73 @@
 <template>
     <CModal @close="closeModalGenerarNomina" size="xl" :visible="modalGenerarNomina">
         <CModalHeader>
-            <CModalTitle>Acción de Personal</CModalTitle>
+            <CModalTitle>Generar N&oacute;mina</CModalTitle>
         </CModalHeader>
         <CModalBody>
             <CRow>
                 <CCol xs="7" class="d-flex flex-column gap-3">
                     <div class="d-flex gap-1">
-                        <label class="form-label col-auto col-form-label" for="programa">Programa:</label>
-                        <CFormSelect id="programa">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                            <option>7</option>
-                            <option>8</option>
-                            <option>9</option>
-                            <option>10</option>
-                            <option>11</option>
-                            <option>12</option>
-                        </CFormSelect>
+                        <label class="form-label col-auto col-form-label fw-bolder" for="programa">Programa:</label>
+                        <v-select required id="programa" class="w-100" v-model="selectedProgramasDivision"
+                            :options="programasDivision" @change="getDepartamentos($event)"></v-select>
                     </div>
                     <div class="d-flex gap-1">
-                        <label class="form-label col-auto col-form-label" for="departamento">Departamento:</label>
-                        <CFormSelect id="departamento">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                            <option>7</option>
-                            <option>8</option>
-                            <option>9</option>
-                            <option>10</option>
-                            <option>11</option>
-                            <option>12</option>
-                        </CFormSelect>
+                        <label class="form-label col-auto col-form-label fw-bolder" for="departamento">Departamento:</label>
+                        <v-select required id="departamento" class="w-100" v-model="selectedDepartamentos"
+                            :options="departamentos"></v-select>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <span class="form-label col-auto col-form-label">PNAP:</span>
-                        <span class="form-label col-auto col-form-label">C&oacute;digo del Departamento:</span>
+                        <span class="form-label col-auto col-form-label">PNAP: {{ selectedDepartamentoInfo?.estructura?.pnap
+                        }}</span>
+                        <span class="form-label col-auto col-form-label">C&oacute;digo del Departamento: {{
+                            selectedDepartamentoInfo.code }}</span>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <span class="form-label col-auto col-form-label">Programa:</span>
-                        <span class="form-label col-auto col-form-label">Sub-Programa:</span>
+                        <span class="form-label col-auto col-form-label">Programa: {{
+                            selectedDepartamentoInfo?.estructura?.programa }}</span>
+                        <span class="form-label col-auto col-form-label">Sub-Programa: {{
+                            selectedDepartamentoInfo?.estructura?.programa }}</span>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <span class="form-label col-auto col-form-label">Proyecto:</span>
-                        <span class="form-label col-auto col-form-label">Actividad/obra:</span>
+                        <span class="form-label col-auto col-form-label">Proyecto: {{
+                            selectedDepartamentoInfo?.estructura?.proyecto }}</span>
+                        <span class="form-label col-auto col-form-label">Actividad/obra: {{
+                            selectedDepartamentoInfo?.estructura?.actObra }}</span>
                     </div>
                     <div>
-                        <span class="form-label col-auto col-form-label">Clasificado:</span>
+                        <span class="form-label col-auto col-form-label">Clasificador: {{
+                            selectedDepartamentoInfo?.clasificador?.id }}</span>
                     </div>
                     <div class="d-flex gap-1">
-                        <label class="form-label col-auto col-form-label" for="descClasificador">Desc. Clasificador:</label>
-                        <CFormSelect id="descClasificador">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                            <option>7</option>
-                            <option>8</option>
-                            <option>9</option>
-                            <option>10</option>
-                            <option>11</option>
-                            <option>12</option>
-                        </CFormSelect>
+                        <span class="form-label col-auto col-form-label">Desc. Clasificador: {{
+                            selectedDepartamentoInfo?.clasificador?.descripcion }}</span>
                     </div>
                     <div class="d-flex gap-1">
-                        <label class="form-label col-auto col-form-label" for="descClasificador">Fecha de la nomina:</label>
+                        <label class="form-label col-auto col-form-label fw-bolder" for="descClasificador">Fecha de la
+                            n&oacute;mina:</label>
                         <CFormInput type="date" v-model="fechaNomina" />
                     </div>
                     <div class="d-flex gap-1">
-                        <label class="form-label col-auto col-form-label" for="tipoPago">Tipo de Pago:</label>
-                        <CFormSelect id="tipoPago">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                            <option>7</option>
-                            <option>8</option>
-                            <option>9</option>
-                            <option>10</option>
-                            <option>11</option>
-                            <option>12</option>
+                        <label class="form-label col-auto col-form-label fw-bolder" for="formaPago">Forma de Pago:</label>
+                        <CFormSelect id="formaPago" v-model="generateNomina.formaPago">
+                            <option selected value="">Selecciona</option>
+                            <option>EFECTIVO</option>
+                            <option>BANCO</option>
+                            <option>CHEQUE</option>
                         </CFormSelect>
                     </div>
                     <div class="d-flex gap-3">
-                        <CFormCheck label="Nomina Regal&iacute;a?" />
-                        <CFormCheck label="Permitir Duplicada en Nomina?" />
+                        <CFormCheck label="Nomina Regal&iacute;a?" v-model="generateNomina.nominaRegalia" />
+                        <CFormCheck label="Permitir Duplicada en Nomina?" v-model="generateNomina.duplicidadNomina" />
                     </div>
                     <div class="d-flex flex-column gap-1">
-                        <label class="form-label col-auto col-form-label" for="nota">Nota (Encabezado Nomina)</label>
-                        <CFormTextarea id="nota" />
+                        <label class="form-label col-auto col-form-label fw-bolder" for="nota">Nota (Encabezado
+                            N&oacute;mina)</label>
+                        <CFormTextarea id="nota" v-model="generateNomina.nota" />
                     </div>
-                    <div class="d-flex gap-3 align-items-center">
-                        <CButton color="light">Generar Nomina</CButton>
-                        <CFormCheck label="(Todas x Tipo de Pago)" />
-                    </div>
-                    <div class="d-flex">
-                        <CButton color="light">Imprimir Nomina</CButton>
-                    </div>
-                    <div class="d-flex">
-                        <CButton color="light">Emp. con descuentos Mayor a % del sueldo, seg&uacute;n ley</CButton>
-                    </div>
+
                 </CCol>
-                <CCol xs="5">
+                <CCol xs="5" class="border p-2">
                     <CNav variant="tabs" role="tablist">
                         <CNavItem>
                             <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 1"
@@ -128,40 +83,70 @@
                         </CNavItem>
                     </CNav>
                     <CTabContent>
-                        <CTabPane role="tabpanel" aria-labelledby="home-tab" :visible="tabPaneActiveKey === 1">
-                            Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown
-                            aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan
-                            helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh
-                            mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan
-                            aliquip quis cardigan american apparel, butcher voluptate nisi qui.
+                        <CTabPane role="tabpanel" aria-labelledby="retenciones-tab" :visible="tabPaneActiveKey === 1">
+                            <CSmartTable clickableRows :tableProps="{
+                                striped: true,
+                                hover: true,
+
+                            }" :tableHeadProps="{}" :activePage="1" header :items="dataConfiguracionNomina?.filter(x => x.type == 'retencion')"
+                                :columns="tableConfiguracionNominaRetencion" :sorterValue="{ column: 'status', state: 'asc' }"
+                                pagination>
+                            </CSmartTable>
+                            <CFormCheck label="Nomina con Retenciones?" />
                         </CTabPane>
-                        <CTabPane role="tabpanel" aria-labelledby="profile-tab" :visible="tabPaneActiveKey === 2">
-                            Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.
-                            Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan
-                            four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft
-                            beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic,
-                            assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero
-                            magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit,
-                            sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party
-                            scenester stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.
+                        <CTabPane role="tabpanel" aria-labelledby="ingresos-tab" :visible="tabPaneActiveKey === 2">
+                            <CSmartTable clickableRows :tableProps="{
+                                striped: true,
+                                hover: true,
+
+                            }" :tableHeadProps="{}" :activePage="1" header :items="dataConfiguracionNomina?.filter(x => x.type == 'ingreso')"
+                                :columns="tableConfiguracionNominaIngreso" :sorterValue="{ column: 'status', state: 'asc' }"
+                                pagination>
+                            </CSmartTable>
                         </CTabPane>
                     </CTabContent>
                 </CCol>
             </CRow>
         </CModalBody>
-        <CModalFooter></CModalFooter>
+        <CModalFooter class="d-flex flex-column justify-content-start align-items-start">
+            <div class="d-flex gap-3 align-items-center">
+                <CButton color="info" @click="createNomina">
+                    <CIcon icon="cilNotes" size="md" /> Generar N&oacute;mina
+                </CButton>
+                <CFormCheck label="(Todas x Tipo de Pago)" />
+            </div>
+            <div class="d-flex gap-2">
+                <CButton color="light" class="shadow-sm border">
+                    <CIcon icon="cilPrint" size="md" /> Imprimir N&oacute;mina
+                </CButton>
+                <CButton color="light" class="shadow-sm border">
+                    <CIcon icon="cilPrint" size="md" /> Emp. con descuentos Mayor a % del sueldo,
+                    seg&uacute;n ley
+                </CButton>
+            </div>
+        </CModalFooter>
     </CModal>
 </template>
 <script>
+import { useAuthStore } from '@/store/AuthStore';
 import { CModal } from '@coreui/vue'
-import { CFormInput, CModalFooter, CRow } from '@coreui/vue-pro';
+import { CFormInput, CModalFooter, CRow, CSmartTable } from '@coreui/vue-pro';
+import vSelect from 'vue-select'
+import { mapState } from 'pinia';
+import ApiNomina from '../../services/NominaServices'
+import { estructura, getConfiguracionNomina } from '@/utils/format'
+import CIcon from '@coreui/icons-vue';
+
 export default {
     name: 'ModalGenerarNomina',
     components: {
         CModal,
         CModalFooter,
         CRow,
-        CFormInput
+        CFormInput,
+        vSelect,
+        CSmartTable,
+        CIcon
     },
     props: {
         modalGenerarNomina: Boolean,
@@ -169,21 +154,84 @@ export default {
     methods: {
         closeModalGenerarNomina() {
             this.$emit('changeValueModal', false);
-        }
-    },
-    data: function () {
-        return {
-            fechaNomina: null,
-            tabPaneActiveKey: 1
+            this.clearAllData();
+        },
+        getProgramasDivision() {
+            ApiNomina.getProgramaDivision().then((response) => {
+                this.programasDivision = response.data.data.map((elem) => ({
+                    code: elem.id,
+                    label: `(${elem.id}) ${elem.nombre}`,
+                }));
+                this.programasDivision.unshift({
+                    code: 0,
+                    label: 'Seleccionar',
+                });
+            });
+        },
+        getDepartamentos(ProgramaDivisionId) {
+            ApiNomina.getDepartamento({ ProgramaDivisionId }).then((response) => {
+                this.departamentos = response.data.data.map((elem) => ({
+                    code: elem.id,
+                    label: `(${elem.id}) ${elem.nombre}`,
+                    clasificador: {
+                        id: elem.clasificador.id,
+                        descripcion: elem.clasificador.descripcion
+                    },
+                    estructura: elem.estructura,
+                }));
+                this.departamentos.unshift({
+                    code: 0,
+                    label: 'Seleccionar',
+                    clasificador: {
+                        id: '',
+                        descripcion: ''
+                    },
+                    estructura: ''
+                });
+            });
+        },
+        createNomina() {
+            this.generateNomina.departamentoId = this.selectedDepartamentos;
+            this.generateNomina.programaDivision = this.selectedProgramasDivisionId;
+            this.generateNomina.fecha = this.fechaNomina;
+            //this.clearAllData();
+        },
+        clearAllData() {
+            this.fechaNomina = null;
+            this.selectedProgramasDivisionId = 0;
+            this.departamentos = [{
+                code: 0,
+                label: 'Seleccionar',
+                clasificador: {
+                    id: '',
+                    descripcion: ''
+                },
+                estructura: ''
+            }];
+            this.selectedDepartamentos = 0;
+            this.selectedDepartamentoInfo = {};
+            this.dataConfiguracionNominaRetencion = [];
+            this.generateNomina = {
+                fecha: '',
+                tipoContrato: '',
+                programaDivision: '',
+                departamentoId: 0,
+                formaPago: '',
+                nominaRegalia: false,
+                duplicidadNomina: false,
+                nota: ''
+            };
+        },
+        getConfiguracionNominaApi() {
+            ApiNomina.getConfiguracionNomina().then((response) => {
+                this.dataConfiguracionNomina = this.getConfiguracionNomina(response.data.data);
+            })
         }
     },
     computed: {
         fechaNomina: {
             get() {
-                if (
-                    this.fechaNomina !== null &&
-                    this.fechaNomina?.toString() !== 'Invalid Date'
-                ) {
+                if (this.fechaNomina !== null && this.fechaNomina?.toString() !== 'Invalid Date') {
                     let date = this.fechaNomina
                     if (typeof this.fechaNomina === 'string') {
                         date = new Date(this.fechaNomina)
@@ -196,7 +244,104 @@ export default {
                     `${value}T00:00:00`,
                 ))
             },
+        },
+        selectedProgramasDivision: {
+            get() {
+                return this.programasDivision.find((x) => x.code == this.selectedProgramasDivisionId)
+            },
+            set(util) {
+                this.selectedProgramasDivisionId = Number(util.code)
+                this.getDepartamentos(this.selectedProgramasDivisionId)
+            },
+        },
+        selectedDepartamentos: {
+            get() {
+                return this.departamentos.find((x) => x.code == this.selectedDepartamentos)
+            },
+            set(util) {
+                this.selectedDepartamentos = Number(util.code)
+                this.selectedDepartamentoInfo = this.departamentos.find((x) => x.code == this.selectedDepartamentos);
+                this.selectedDepartamentoInfo.estructura = this.estructura(this.selectedDepartamentoInfo.estructura);
+            },
+        },
+        ...mapState(useAuthStore, ['authInfo'])
+    },
+    data: function () {
+        return {
+            fechaNomina: null,
+            tabPaneActiveKey: 1,
+            programasDivision: [{
+                code: 0,
+                label: 'Seleccionar'
+            }],
+            selectedProgramasDivisionId: 0,
+            departamentos: [{
+                code: 0,
+                label: 'Seleccionar',
+                clasificador: {
+                    id: '',
+                    descripcion: ''
+                },
+                estructura: ''
+            }],
+            selectedDepartamentos: 0,
+            selectedDepartamentoInfo: {},
+            dataConfiguracionNomina: [],
+            generateNomina: {
+                fecha: '',
+                tipoContrato: '',
+                programaDivision: '',
+                departamentoId: 0,
+                formaPago: '',
+                nominaRegalia: false,
+                duplicidadNomina: false,
+                nota: ''
+            },
+            tableConfiguracionNominaRetencion: [
+                {
+                    key: 'index',
+                    label: '',
+                    _style: { width: '10%' }
+                },
+                {
+                    key: 'value',
+                    label: 'Retenciones',
+                    _style: { width: '30%' }
+                },
+                {
+                    key: 'divide',
+                    label: 'Dividir',
+                    _style: { width: '20%' }
+                },
+                {
+                    key: 'retention',
+                    label: 'Cod. Ejec/Pres',
+                    _style: { width: '40%' }
+                }
+            ],
+            dataConfiguracionNominaIngreso: [],
+            tableConfiguracionNominaIngreso: [
+                {
+                    key: 'index',
+                    label: '',
+                    _style: { width: '10%' }
+                }, {
+                    key: 'value',
+                    label: 'Ingreso',
+                    _style: { width: '45%' }
+                }, {
+                    key: 'divide',
+                    label: 'dividir',
+                    _style: { width: '45%' }
+                },
+            ],
+            estructura,
+            getConfiguracionNomina
         }
+    },
+    mounted() {
+        this.getProgramasDivision();
+        this.getConfiguracionNominaApi();
     }
 }
 </script>

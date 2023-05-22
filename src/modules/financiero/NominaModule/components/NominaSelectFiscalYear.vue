@@ -37,6 +37,7 @@
                     <label class="form-label col-auto col-form-label" for="formaPago">Forma de pago</label>
                     <CFormSelect v-model="nominaGeneral.formaPago" id="formaPago">
                         <option selected value="">--Selecciona--</option>
+                        <option>EFECTIVO</option>
                         <option>BANCO</option>
                         <option>CHEQUE</option>
                     </CFormSelect>
