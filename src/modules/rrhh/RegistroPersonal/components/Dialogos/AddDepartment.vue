@@ -26,8 +26,7 @@
                   >C&oacute;digo SASP</CFormLabel
                 >
                 <CFormInput
-                  required
-                  type="Number"
+                  type="number"
                   oninput="this.value = this.valueAsNumber"
                   v-model="newDepartment.saspId"
                   feedbackInvalid="Inserte Codigo SASP"

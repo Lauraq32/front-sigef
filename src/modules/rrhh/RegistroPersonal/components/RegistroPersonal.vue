@@ -201,7 +201,7 @@ export default {
           }
         },
         {
-          label: 'Eventualidad',
+          label: 'Tabla de acciones',
           clickHandler: (value) => {
             this.showTipoNovedad = true
             this.selectedEmployee = value
