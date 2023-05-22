@@ -1,19 +1,27 @@
 <template>
+  <AppActionHeader>
+    <CButton
+      style="font-weight: bold"
+      color="info"
+      @click="
+        () => {
+          lgDemo = true
+        }
+      "
+      >Agregar</CButton
+    >
+    <div class="p-2">
+      <CButton
+        style="font-weight: bold"
+        color="info"
+        @click="goToComprobanteGasto"
+        >Comprobante Gasto</CButton
+      >
+    </div>
+  </AppActionHeader>
   <h3 class="text-center">Comprobantes de ingresos</h3>
-  <div>
-    <div class="table-headers">
-      <div class="p-2">
-        <CButton
-          style="font-weight: bold"
-          color="info"
-          @click="
-            () => {
-              lgDemo = true
-            }
-          "
-          >Agregar</CButton
-        >
-      </div>
+  <!-- <div> -->
+  <!-- <div class="table-headers">
       <div class="p-2">
         <CButton
           color="info"
@@ -48,7 +56,7 @@
         >
       </div>
     </div>
-  </div>
+  </div> -->
 
   <CModal :backdrop="false" :keyboard="false" :visible="reportes">
     <CModalHeader>
@@ -131,7 +139,8 @@
       <CButton color="primary" @click="exportarReporte">Imprimir</CButton>
     </CModalFooter>
   </CModal>
-  <CSmartTable class="sticky-top"
+  <CSmartTable
+    class="sticky-top"
     clickableRows
     :tableProps="{
       striped: true,
@@ -467,7 +476,8 @@
           </CCol>
           <div class="modal-footer"></div>
         </CForm>
-        <CSmartTable class="sticky-top"
+        <CSmartTable
+          class="sticky-top"
           clickableRows
           :tableProps="{
             striped: true,
@@ -533,25 +543,24 @@
 </template>
 
 <script>
-import { useRegistroStore } from '../store/Ejecucion/registroIngreso'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { useEjecucionIngresoStore } from '../store/Ejecucion/ejecucionIngresos'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-import axios from 'axios'
 import Api from '../services/EjecucionServices'
 import { mapStores, mapActions, mapState } from 'pinia'
-
 import { useToastStore } from '@/store/toast'
 import SimpleTypeahead from 'vue3-simple-typeahead'
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
 import router from '@/router'
+import AppActionHeader from '@/components/AppActionHeader.vue'
 
 export default {
   components: {
     CSmartTable,
     CModal,
     SimpleTypeahead,
+    AppActionHeader,
   },
 
   data: function () {
@@ -687,11 +696,16 @@ export default {
     volver() {
       router.push({ name: 'Contribuyentes' })
     },
+    goToComprobanteGasto() {
+      router.push({ name: 'comprobanteGasto' })
+    },
 
     imprimirReporte() {
       window
         .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Ejecucion&rs:Command=Render&CAPITULO_AYTO=${this.$ayuntamientoId}&ANO=2022&PERIODO=${this.mesReporte.split('-')[0]}`,
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Ejecucion&rs:Command=Render&CAPITULO_AYTO=${
+            this.$ayuntamientoId
+          }&ANO=2022&PERIODO=${this.mesReporte.split('-')[0]}`,
           '_blank',
         )
         .focus()
@@ -902,20 +916,18 @@ export default {
       this.id = id
       this.getTotalIngreso(this.id)
       this.getDetalle(id)
-      Api.getIngresoById(
-        id,
-        this.$fiscalYearId,
-        this.$ayuntamientoId,
-      ).then((response) => {
-        Api.getContribuyenteById(response.data.data.contribuyenteId).then(
-          (response) => {
-            this.ingresoPost.contribuyenteId = response.data.data.id
-          },
-        )
-        this.ingresoPost = response.data.data
-        this.detalleRegistroPost.transaccionId =
-          response.data.data.transaccionId
-      }),
+      Api.getIngresoById(id, this.$fiscalYearId, this.$ayuntamientoId).then(
+        (response) => {
+          Api.getContribuyenteById(response.data.data.contribuyenteId).then(
+            (response) => {
+              this.ingresoPost.contribuyenteId = response.data.data.id
+            },
+          )
+          this.ingresoPost = response.data.data
+          this.detalleRegistroPost.transaccionId =
+            response.data.data.transaccionId
+        },
+      ),
         (this.lgDemo = true)
     },
     toggleDetails2(item) {
