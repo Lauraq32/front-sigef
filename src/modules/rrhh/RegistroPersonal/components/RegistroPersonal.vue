@@ -305,8 +305,8 @@ export default {
     },
 
     toggleDetails(item) {
-      this.showModal();
       this.selectedEmployee = item;
+      this.showModal();
     },
 
     submitForm(payload) {

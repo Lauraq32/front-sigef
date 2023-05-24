@@ -194,7 +194,7 @@
                     </div>
                     <div class="col-9">
                       <CCol :md="12">
-                        <CFormInput v-model="postEmpleado.lugarNacimiento" id="lugarNacimiento" required
+                        <CFormInput v-model="postEmpleado.lugarNacimiento" id="lugarNacimiento"
                           v-on:keypress="onlyLetter($event)" />
                       </CCol>
                     </div>
@@ -1034,9 +1034,10 @@ export default {
 
   watch: {
     empleado(newData) {
+      console.log(newData);
       if (newData) {
         this.postEmpleado = { ...newData };
-        this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${newData.idImagenPerfil ?? -1}`;
+        this.imageUrl = newData.idImagenPerfil ? `${process.env.VUE_APP_API_URL}/api/files/public/${newData.idImagenPerfil ?? -1}`: '';
         this.getListDepartamento({
           target: {
             value: newData.programaDivisionId

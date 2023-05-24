@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
-import http from '@/Api/http-common'
-import { getAyuntamientoId } from '@/utils/logged-info'
+import http from '@/Api/http-common';
+import { getAyuntamientoId } from '@/utils/logged-info';
+import FileApi from './Files';
 class RegistroPersonal {
   //get
   tipoSangreList() {
@@ -50,29 +51,23 @@ class RegistroPersonal {
     const params = Object.keys(filter).map(key => `${key}=${filter[key]}`);
     return http.get(`empleados${params.length ? '?' + params.join('&'): ''}`)
   }
-  //get Archivos por el id del empleado
-  getFileById(id){
-    return http.get(
-      `files?tag=${id}`
-    )
-  }
-
+  
   getCargobyid(id) {
     return http.get(`cargos/${id}`)
   }
-
+  
   getAllCargos() {
     return http.get(`cargos`)
   }
-
+  
   getInventarioById(id) {
     return http.get(`inventarios/${id}/utiles-laborales`)
   }
-
+  
   postInventarioById(id, data) {
     return http.post(`inventarios/${id}/utiles-laborales`, data)
   }
-
+  
   postEventos(id, data) {
     return http.post(`inventarios/${id}/eventos`, data)
   }
@@ -80,19 +75,19 @@ class RegistroPersonal {
   updateCargo(id, data) {
     return http.put(`cargos/${id}`, data)
   }
-
+  
   addCargos(data) {
     return http.post('cargos', data)
   }
-
+  
   getProgramaDivision() {
     return http.get(`programas-division`)
   }
-
+  
   getEmpleadoByID(id) {
     return http.get(`empleados/${id}`)
   }
-
+  
   getAccionPersonalByID(id) {
     return http.get(`acciones-personal/empleado/${id}`)
   }
@@ -100,16 +95,16 @@ class RegistroPersonal {
   getTipoAccionByID(id) {
     return http.get(`tipo-acciones/${id}`)
   }
-
+  
   getDepartamentoByProgramaId(id) {
     return http.get(`Departamento/Programa/${id}`)
   }
-
+  
   //sectores
   getAllSector() {
     return http.get('sectores')
   }
-
+  
   getAllInventario() {
     return http.get('inventarios')
   }
@@ -118,11 +113,11 @@ class RegistroPersonal {
   getAreaTrabajos() {
     return http.get('areas-trabajo')
   }
-
+  
   getAreaTrabajoById(id) {
     return http.get(`areas-trabajo/${id}`)
   }
-
+  
   addAreaTrabajo(data) {
     return http.post('areas-trabajo', data)
   }
@@ -133,7 +128,7 @@ class RegistroPersonal {
   getSectorById(id) {
     return http.get(`sectores/${id}`)
   }
-
+  
   addSector(data) {
     return http.post('sectores', data)
   }
@@ -141,21 +136,31 @@ class RegistroPersonal {
   updateSector(id, data) {
     return http.put(`sectores/${id}`, data)
   }
-
+  
   getAreaTrabajo() {
     return http.get('areas-trabajo')
   }
-
+  
   //Combobox cargo
   getPosicion() {
     return http.get('cargos')
   }
-
+  
   getAreaTrabajobyid(id) {
     return http.get(`areas-trabajo/${id}`)
   }
-  getImagenesById(fileId){
+  getImagenesById(fileId) {
     return http.get(`files/${fileId}`)
+  }
+  
+  postFiles(formData) {
+    return FileApi.saveFile(formData);
+  }
+  //get Archivos por el id del empleado
+  getFilesByEmployeeId(id) {
+    return FileApi.getFiles({
+      tag: { empleadoId: id }
+    });
   }
   //post
 
@@ -165,10 +170,6 @@ class RegistroPersonal {
 
   postInventario(data) {
     return http.post('inventarios', data)
-  }
-
-  postFiles(formData){
-    return http.post(`files`, formData)
   }
   
   postTipoAcciones(data) {

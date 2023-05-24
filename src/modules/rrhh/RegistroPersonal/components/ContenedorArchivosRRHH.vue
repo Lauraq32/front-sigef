@@ -169,7 +169,7 @@ export default {
         formData.append('fileCustomtype', this.typeDocument)
         formData.append('file', this.dropzoneFile)
         Api.postFiles(formData).then(() => {
-          this.getFileById(this.empleado.id)
+          this.getFilesByEmployeeId(this.empleado.id)
           this.show({
             content: "Imagen guardada correctamente",
             closable: true,
@@ -192,8 +192,8 @@ export default {
     toggle(index) {
       this.documentos[index].visible = !this.documentos[index].visible
     },
-    getFileById(id) {
-      Api.getFileById(id).then((response) => {
+    getFilesByEmployeeId(id) {
+      Api.getFilesByEmployeeId(id).then((response) => {
         this.documentos = response.data.data
         this.footerItem[0].label = `Total Items ${this.documentos.length}`
       })
@@ -213,7 +213,9 @@ export default {
   },
   watch: {
     empleado() {
-      this.getFileById(this.empleado.id)
+      if (this.empleado?.id) {
+        this.getFilesByEmployeeId(this.empleado.id)
+      }
     },
   },
   props: {
