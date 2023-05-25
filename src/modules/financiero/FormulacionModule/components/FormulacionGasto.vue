@@ -241,31 +241,6 @@ export default {
       }
     },
 
-    // // Api.getFileById()=>{
-
-    // // }
-
-    // focusInput() {
-    //   this.$refs.name.focus()
-    // },
-
-    // focusInputs() {
-    //   this.$refs.klk.focus()
-    // },
-
-    // unaVez() {
-    //   this.focusInput()
-    // },
-
-    // unaVezs() {
-    //   this.focusInputs()
-    // },
-
-    // openModal() {
-    //   this.lgDemo = true
-    //   setTimeout(this.unaVez, 200)
-    // },
-
     onFileChange(event) {
       this.file = event.target.files ? event.target.files[0] : null
       if (this.file) {

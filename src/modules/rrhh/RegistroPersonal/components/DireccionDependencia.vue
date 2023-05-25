@@ -1,23 +1,11 @@
 <template>
-  <h3 class="text-center">Direcci&oacute;n Dependencia</h3>
-  <hr />
-  <div class="table-headers">
-    <div class="d-inline p-2">
+  <h3 class="text-center mb-4">Direcci&oacute;n Dependencia</h3>
+  <div class="table-headers mb-4">
       <CButton
         color="info"
-        @click="
-          () => {
-            newDireccionDependeciaModal = true
-          }
-        "
-        >Agregar</CButton
-      >
-    </div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info">Imprimir</CButton>
-    </div>
+        @click=" () => { newDireccionDependeciaModal = true }">Agregar</CButton>
+      <CButton color="secondary">Imprimir</CButton>
   </div>
-  <hr />
   <CSmartTable
     class="sticky-top"
     clickableRows

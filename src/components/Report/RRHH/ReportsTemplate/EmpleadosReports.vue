@@ -14,8 +14,8 @@
       </div>
 
       <div class="d-flex justify-content-end">
-        <div class="border border-2 border-dark" style="width: 15%">
-          <img :src="imageUrl" alt="imagen Empleado" />
+        <div class="position-relative flex justify-content-center border border-dark" style="height: 150px">
+          <img class="h-100" :src="imageUrl" alt="imagen de perfil del empleado" />
         </div>
       </div>
 

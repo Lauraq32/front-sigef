@@ -64,7 +64,7 @@ export default {
   watch: {
     empleado(obj) {
       this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${
-        obj.idImagenPerfil ?? -1
+        obj?.idImagenPerfil ?? -1
       }`
     },
   },

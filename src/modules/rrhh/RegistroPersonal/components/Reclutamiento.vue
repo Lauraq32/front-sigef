@@ -1,12 +1,9 @@
 <template>
-  <h3 class="text-center">Reclutamiento y/o Solicitudes</h3>
+  <h3 class="text-center mb-4">Reclutamiento y/o Solicitudes</h3>
 
   <div class="table-headers">
     <div class="d-inline p-2">
-      <CButton color="info" @click="() => {
-          showReclutamientoModal = true
-        }
-        ">Agregar</CButton>
+      <CButton color="info" @click="() => { showReclutamientoModal = true }">Agregar</CButton>
     </div>
   </div>
   <CSmartTable class="sticky-top" clickableRows :tableProps="{
@@ -15,20 +12,25 @@
     }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header :items="solicitudItem" :columns="columns"
     columnFilter itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
     pagination>
-    <template #show_details="{ item, index }">
+    <template #show_details="{ item }">
       <td>
         <CButton @click="getReclutamientoById(item)" color="primary" variant="outline">Editar</CButton>
       </td>
 
     </template>
-    <template #entrevistado="{ item, index }">
+    <template #entrevistado="{ item }">
       <td class="py-2">
         {{ item.entrevistado ? 'Si' : 'No' }}
       </td>
     </template>
-    <template #evaluado="{ item, index }">
+    <template #evaluado="{ item }">
       <td class="py-2">
         {{ item.evaluado ? 'Si' : 'No' }}
+      </td>
+    </template>
+    <template #celular="{ item }">
+      <td class="py-2">
+        {{ item.celular ?? '' }}
       </td>
     </template>
 
@@ -52,10 +54,7 @@ export default {
   },
   data: () => {
     return {
-
-      validatedCustom01: null,
       showReclutamientoModal: false,
-      solicitudEmpleoId: null,
       columns: [
         {
           key: 'id',
@@ -67,7 +66,7 @@ export default {
           label: 'Nombre Solicitante',
           _style: { width: '30%' },
         },
-        { key: 'telefono', label: 'Teléfono', _style: { width: '10%' } },
+        { key: 'celular', label: 'Celular', _style: { width: '10%' } },
         { key: 'edad', label: 'Edad', _style: { width: '10%' } },
         {
           key: 'entrevistado',
@@ -82,7 +81,6 @@ export default {
           _style: { width: '1%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
       solicitudItem: [],
@@ -96,7 +94,7 @@ export default {
         }
 
       ],
-      details: [],
+      reclutamiento: {},
     }
   },
   watch: {
@@ -114,19 +112,20 @@ export default {
     },
     saveSolicitudEmpleo(payload) {
 
-      if (this.solicitudEmpleoId != null) {
-        Api.putSolicitudEmpleo(this.solicitudEmpleoId, payload).then((response) => {
+      if (payload.id) {
+        Api.putSolicitudEmpleo(payload.id, payload).then((response) => {
           this.show({
             content: 'Registro actualizado correctamente',
             closable: true,
           })
-          this.getAll()
+          this.getAll();
+          this.closeModal();
         }
         ).catch(error => {
           this.show({
             content: error.response.data,
             closable: true,
-            color: 'danger'
+            color: 'danger',
           })
         })
 
@@ -137,21 +136,21 @@ export default {
             closable: true,
           })
           this.getAll()
-          this.showReclutamientoModal = false
+          this.closeModal();
         }).catch((error) => {
           this.show({
             content: error.response.data,
             closable: true,
-            color: 'danger'
+            color: 'danger',
+            class: 'text-white'
           })
         })
       }
-      this.solicitudEmpleoId = null
 
     },
     closeModal() {
       this.showReclutamientoModal = false;
-      this.solicitudEmpleoId = null
+      this.reclutamiento = {};
     },
     getBadge(status) {
       switch (status) {
@@ -168,7 +167,6 @@ export default {
       }
     },
     getReclutamientoById(item) {
-      this.solicitudEmpleoId = item.id
       this.reclutamiento = item
       this.showReclutamientoModal = true
     },
