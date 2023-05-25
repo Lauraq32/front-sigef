@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center mb-4">Mantenimientos Empleados</h3>
+  <h3 class="text-center mb-4">Registro de Empleados</h3>
 
   <CCard class="mb-4">
     <CCardBody class="table-headers justify-content-between">
@@ -62,7 +62,7 @@
   <ContenedorArchivosRRHH
     :showModal="showModalDoc"
     :empleado="selectedEmployee"
-    @custom-event="closeContenedorModal"
+    @closeModal="closeContenedorModal"
   />
 
   <EducacionDialog
@@ -106,6 +106,7 @@ import ContenedorArchivosRRHH from './ContenedorArchivosRRHH.vue'
 import AccionPersonalDialog from './Dialogos/AccionPersonalDialog.vue'
 import TipoNovedadDialog from './TipoNovedades.vue'
 import TarjetaEmpleadoDialogs from '../components/Dialogos/TarjetaEmpleado.vue'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 export default {
   components: {
@@ -347,23 +348,38 @@ export default {
     },
 
     deleteEmp(item) {
-      Api.deleteEmpleado(item.id)
-        .then((response) => {
-          this.show({
-            content: response.data.message,
-            closable: true,
-            color: 'inherit',
+      Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: `Estás usted seguro que quieres eliminar este empleado?`,
+        showConfirmButton: true,
+        confirmButtonText: 'Si',
+        cancelButtonText: 'No',
+        showCancelButton: true,
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        customClass: 'btns',
+      }).then((answer) => {
+        if (answer.isConfirmed) {
+          Api.deleteEmpleado(item.id)
+          .then((response) => {
+            this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'inherit',
+            })
+            setTimeout(this.getRegistroPersonal, 500)
           })
-          setTimeout(this.getRegistroPersonal, 500)
-        })
-        .catch((error) => {
-          this.show({
-            content: error.response.data,
-            closable: true,
-            color: 'danger',
-            class: 'text-white',
+          .catch((error) => {
+            this.show({
+              content: error.response.data,
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+            })
           })
-        })
+        }
+      })
     },
 
     handleFilterEmployeeByStatus({ target }) {

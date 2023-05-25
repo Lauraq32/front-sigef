@@ -217,7 +217,7 @@ export default {
 
   watch: {
     employeeInfo(employeeInfo) {
-      if (employeeInfo.id) {
+      if (employeeInfo.id && this.showModal) {
         this.listarEducation(employeeInfo.id)
       }
     },

@@ -601,7 +601,7 @@ export default {
       areaTrabajo: [],
       programaDivision: [],
       sector: [],
-      cedulaMax: null,
+      cedulaMax: 11,
       tabPaneActiveKey: 1,
       postEmpleado: {
         codigo: null,
@@ -619,30 +619,30 @@ export default {
         sexo: '',
         dependientes: 0,
         fechaIngreso: null,
-        fechaSalida: new Date(),
+        fechaSalida: '1970-01-01T00:00:00',
         razonSalida: null,
         reemplear: true,
-        fechaReingreso: new Date(),
+        fechaReingreso: '1970-01-01T00:00:00',
         programaDivisionId: 0,
         departamentoId: 0,
         areaTrabajoId: 0,
         posicionId: 0,
         grupoOcupacional: null,
         tipoContrato: null,
-        fechaInicioContrato: new Date(),
-        fechaFinContrato: new Date(),
+        fechaInicioContrato: '1970-01-01T00:00:00',
+        fechaFinContrato: '1970-01-01T00:00:00',
         turno: 'DIURNO',
         periodoPago: 'MENSUAL',
         formaPago: 'CHEQUE',
         numeroCuenta: null,
-        fechaExpitaTarjeta: new Date(),
+        fechaExpitaTarjeta: '1970-01-01T00:00:00',
         estatus: true,
         sueldo: 0.0,
         sueldoAnterior: 0.0,
-        fechaSueldoAnterior: new Date(),
-        fechaUltimaNomina: new Date(),
-        inicioVacaciones: new Date(),
-        finVacaciones: new Date(),
+        fechaSueldoAnterior: '1970-01-01T00:00:00',
+        fechaUltimaNomina: '1970-01-01T00:00:00',
+        inicioVacaciones: '1970-01-01T00:00:00',
+        finVacaciones: '1970-01-01T00:00:00',
         activoNomina: true,
         ingreso2: 0.0,
         ingreso3: 0.0,
@@ -693,7 +693,7 @@ export default {
         emergenciaEnTratamiento: '',
         emergenciaDiagnostico: null,
         licenciaConducir: null,
-        fechaExpiracionLicencia: new Date(),
+        fechaExpiracionLicencia: '1970-01-01T00:00:00',
         aplicaSasp: true,
         nivelEscolar: '8',
         areaTematica: null,
@@ -711,11 +711,11 @@ export default {
     validarFechaDesde() {
       const fechaDesde = new Date(this.postEmpleado.fechaIngreso)
       fechaDesde.setHours(0, 0, 0, 0)
-      const fechaActual = new Date()
+      const fechaActual = new Date();
       fechaActual.setHours(0, 0, 0, 0)
       if (fechaDesde > fechaActual) {
         this.isLowerSelectedInitDate = true
-        this.fechaIngreso = new Date()
+        this.fechaIngreso = null
       } else {
         this.isLowerSelectedInitDate = false
       }
@@ -745,7 +745,7 @@ export default {
           formData.append('file', file)
           formData.append('empleadoId', this.empleado.id)
           formData.append('profileImage', 1)
-          formData.append('uploaded', new Date().toISOString())
+          formData.append('uploaded', (new Date()).toISOString())
           formData.append('public', true)
           fileApi.saveFile(formData).then(response => {
             this.postEmpleado.idImagenPerfil = response.data.data[0].id;
@@ -763,8 +763,7 @@ export default {
     },
 
     changeDocument() {
-      this.postEmpleado.codigoIdentidad = null
-      this.cedulaMax = null
+      this.cedulaMax = this.postEmpleado.tipoDocumento === 'cedula' ? 11 : 15
     },
 
     getListDepartamento(event) {
@@ -873,30 +872,30 @@ export default {
         sexo: 'M',
         dependientes: 0,
         fechaIngreso: null,
-        fechaSalida: new Date(),
+        fechaSalida: '1970-01-01T00:00:00',
         razonSalida: null,
         reemplear: true,
-        fechaReingreso: new Date(),
+        fechaReingreso: '1970-01-01T00:00:00',
         programaDivisionId: 0,
         departamentoId: 0,
         areaTrabajoId: 0,
         posicionId: 0,
         grupoOcupacional: null,
         tipoContrato: null,
-        fechaInicioContrato: new Date(),
-        fechaFinContrato: new Date(),
+        fechaInicioContrato: '1970-01-01T00:00:00',
+        fechaFinContrato: '1970-01-01T00:00:00',
         turno: 'DIURNO',
         periodoPago: 'MENSUAL',
         formaPago: 'CHEQUE',
         numeroCuenta: null,
-        fechaExpitaTarjeta: new Date(),
+        fechaExpitaTarjeta: '1970-01-01T00:00:00',
         estatus: true,
         sueldo: 0.0,
         sueldoAnterior: 0.0,
-        fechaSueldoAnterior: new Date(),
-        fechaUltimaNomina: new Date(),
-        inicioVacaciones: new Date(),
-        finVacaciones: new Date(),
+        fechaSueldoAnterior: '1970-01-01T00:00:00',
+        fechaUltimaNomina: '1970-01-01T00:00:00',
+        inicioVacaciones: '1970-01-01T00:00:00',
+        finVacaciones: '1970-01-01T00:00:00',
         activoNomina: true,
         ingreso2: 0.0,
         ingreso3: 0.0,
@@ -947,7 +946,7 @@ export default {
         emergenciaEnTratamiento: '',
         emergenciaDiagnostico: null,
         licenciaConducir: null,
-        fechaExpiracionLicencia: new Date(),
+        fechaExpiracionLicencia: '1970-01-01T00:00:00',
         aplicaSasp: true,
         nivelEscolar: '8',
         areaTematica: null,
@@ -960,7 +959,7 @@ export default {
     },
 
     validateDate(event) {
-      if (new Date(event.target.value) > new Date()) {
+      if (new Date(event.target.value) > null) {
         return true
       }
     }
@@ -975,7 +974,7 @@ export default {
 
     fechaIngreso: {
       get() {
-        let date = new Date()
+        let date = null
         if (
           this.postEmpleado.fechaIngreso !== null &&
           this.postEmpleado.fechaIngreso?.toString() !== 'Invalid Date'
@@ -1000,7 +999,7 @@ export default {
 
     fechaNacimiento: {
       get() {
-        let date = new Date()
+        let date = null
         if (
           this.postEmpleado.fechaNacimiento !== null &&
           this.postEmpleado.fechaNacimiento?.toString() !== 'Invalid Date'
@@ -1034,20 +1033,18 @@ export default {
 
   watch: {
     empleado(newData) {
-      console.log(newData);
-      if (newData) {
+      this.clearModal();
+      if (newData && this.showModal) {
         this.postEmpleado = { ...newData };
         this.imageUrl = newData.idImagenPerfil ? `${process.env.VUE_APP_API_URL}/api/files/public/${newData.idImagenPerfil ?? -1}`: '';
-        this.getListDepartamento({
-          target: {
-            value: newData.programaDivisionId
-          }
-        })
-      }
-    },
-    showModal(newValue) {
-      if (newValue) {
-        this.clearModal();
+        
+        if (newData.programaDivisionId) {
+          this.getListDepartamento({
+            target: {
+              value: newData.programaDivisionId
+            }
+          });
+        }
       }
     }
   },

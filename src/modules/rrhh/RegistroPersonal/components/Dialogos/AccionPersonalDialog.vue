@@ -273,14 +273,16 @@ export default {
 
   watch: {
     empleado() {
-      Api.getAllTipoAcciones().then((response) => {
-        this.tipoAcciones = response.data.data
-      })
+      if (this.showModal) {
+        Api.getAllTipoAcciones().then((response) => {
+          this.tipoAcciones = response.data.data
+        })
 
-      this.loadData()
-      this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${
-        this.empleado.idImagenPerfil ?? -1
-      }`
+        this.loadData()
+        this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${
+          this.empleado.idImagenPerfil ?? -1
+        }`;
+      }
     },
   },
 
