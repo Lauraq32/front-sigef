@@ -1,33 +1,68 @@
 <template>
+   <CCard class="mb-4">
+    <CCardBody class="table-headers justify-content-between">
+      <div class="d-inline-flex gap-3 align-items-center">
+        <CFormLabel class="form-label col-auto col-form-label"
+          >Filtro:</CFormLabel
+        >
+        <CFormSelect
+          id="empleoyeeStatusSelect"
+          @change="handleFilterEmployeeByStatus"
+          aria-label="Selecionar estatus del empleado"
+          :options="[
+            { label: 'Activo', value: 'activo' },
+            { label: 'Inactivo', value: 'inactivo' },
+            { label: 'Vacaciones', value: 'vacaciones' },
+          ]"
+        />
+      </div>
+
+      <div>
+        <div class="d-flex gap-1">
+          <CButton class="justify-content-end" color="info" @click="showResgistroPersonal">Agregar</CButton>
+          <CButton color="secondary" @click="() => { reportes = true }">Reporte</CButton>
+        </div>
+      </div>
+    </CCardBody>
+  </CCard>
+
   <RegistroPersonalTable
     :tableData="registroPersonal"
     :tableColumns="columns"
     :actions="buttonActions"
     :footer="footerItem"
   />
-  
-  <!-- <RegistroPersonalDialog
+
+  <RegistroPersonalDialog
     :showModal="showRegistroPersonalModal"
     @post-personal="submitForm"
     @close-modal="closeRegistroPersonalModal"
     :empleado="selectedEmployee"
-  /> -->
-
+    :isNomina="true"
+  />
+  
 </template>
 
 <script>
 
 import RegistroPersonalTable from '@/modules/rrhh/RegistroPersonal/components/tables/RegistroPersonalTable.vue'
 import RegistroPersonalDialog from '@/modules/rrhh/RegistroPersonal/components/Dialogos/RegistroPersonalDialog.vue'
+import Api from '@/modules/rrhh/RegistroPersonal/services/RegistroPersonalServices'
+import AppActionHeader from '@/components/AppActionHeader.vue'
+import { useToastStore } from '@/store/toast'
 
 export default {
   components: {
-
-  },
+    RegistroPersonalTable,
+    RegistroPersonalDialog,
+    AppActionHeader
+},
 
   data: function () {
     return {
-
+      selectedEmployee:{},
+      showRegistroPersonalModal:false,
+      registroPersonal:[],
       tabPaneActiveKey: 1,
       columns: [
         { key: 'codigo', label: 'Código', _style: { width: '5%' } },
@@ -40,12 +75,9 @@ export default {
           _style: { width: '20%' },
         },
         { key: 'posicion', label: 'Cargo', _style: { width: '10%' } },
-        {
-          key: 'fechaIngreso',
-          label: 'Fecha Ingreso',
-          _style: { width: '10%' },
-        },
-        { key: 'sexo', label: 'Sexo', _style: { width: '5%' } },
+        { key: 'sueldo', label: 'Sueldo', _style: { width: '10%' } },
+        { key: 'formaPago', label: 'Forma pago', _style: { width: '10%' } },
+       
         {
           key: 'estado',
           label: 'Estado',
@@ -133,11 +165,94 @@ export default {
 
   },
 
-  methods: {}
+  methods: {
+    closeRegistroPersonalModal() {
+      this.showRegistroPersonalModal = false;
+      this.selectedEmployee = {};
+    },
+
+    getRegistroPersonal(filter) {
+      Api.getAllEmpleado(filter).then((response) => {
+        this.registroPersonal = response.data.data;
+        this.footerItem[0].label = `Total Items: ${response.data.data.length}`;
+      });
+    },
+
+    submitForm(payload) {
+      if (payload.id != null) {
+        Api.putEmpleado(payload.id, payload).then(() => {
+          this.show({
+            content: 'Registro actualizado correctamente',
+            closable: true,
+          })
+          this.closeRegistroPersonalModal()
+          setTimeout(this.getRegistroPersonal, 500)
+        }).catch((error) => {
+          this.show({
+            content: error.response.data,
+            closable: true,
+            color: 'danger',
+            class: 'text-white',
+          })
+        })
+      } else {
+        Api.postEmpleados(payload)
+          .then(() => {
+            this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
+            })
+            setTimeout(this.getRegistroPersonal, 500)
+            this.closeRegistroPersonalModal()
+          }).catch((error) => {
+            this.show({
+              content: error.response.data,
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+            })
+          })
+      }
+    },
+
+    deleteEmp(item) {
+      Api.deleteEmpleado(item.id)
+        .then((response) => {
+          this.show({
+            content: response.data.message,
+            closable: true,
+            color: 'inherit',
+          })
+          setTimeout(this.getRegistroPersonal, 500)
+        })
+        .catch((error) => {
+          this.show({
+            content: error.response.data,
+            closable: true,
+            color: 'danger',
+            class: 'text-white',
+          })
+        })
+    },
+    showResgistroPersonal(){
+      this.showRegistroPersonalModal = true
+    },
+    getRegistroPersonal(filter) {
+      Api.getAllEmpleado(filter).then((response) => {
+        this.registroPersonal = response.data.data;
+        this.footerItem[0].label = `Total Items: ${response.data.data.length}`;
+      });
+    },
+    handleFilterEmployeeByStatus({ target }) {
+      this.getRegistroPersonal({
+        status: target.value
+      });
+    }
+  },
+  mounted(){
+    this.getRegistroPersonal()
+  }
 }
-
-
-
 
 </script>
 
