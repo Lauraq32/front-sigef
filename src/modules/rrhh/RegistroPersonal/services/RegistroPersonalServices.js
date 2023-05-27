@@ -59,18 +59,6 @@ class RegistroPersonal {
   getAllCargos() {
     return http.get(`cargos`)
   }
-  
-  getInventarioById(id) {
-    return http.get(`inventarios/${id}/utiles-laborales`)
-  }
-  
-  postInventarioById(id, data) {
-    return http.post(`inventarios/${id}/utiles-laborales`, data)
-  }
-  
-  postEventos(id, data) {
-    return http.post(`inventarios/${id}/eventos`, data)
-  }
 
   updateCargo(id, data) {
     return http.put(`cargos/${id}`, data)
@@ -107,6 +95,30 @@ class RegistroPersonal {
   
   getAllInventario() {
     return http.get('inventarios')
+  }
+
+  postInventario(data) {
+    return http.post('inventarios', data)
+  }
+
+  putInventario(id, data) {
+    return http.put(`inventarios/${id}`, data)
+  }
+  
+  getUtilesLaborales() {
+    return http.get(`utiles-laborales`)
+  }
+  
+  postUtilLaboral(data) {
+    return http.post(`utiles-laborales`, data)
+  }
+  
+  putUtilLaboral(id, data) {
+    return http.post(`utiles-laborales/${id}`, data)
+  }
+  
+  postEventos(id, data) {
+    return http.post(`utiles-laborales/${id}/eventos`, data)
   }
 
   //AREA TRABAJO
@@ -167,10 +179,6 @@ class RegistroPersonal {
   postEmpleados(data) {
     return http.post('empleados', data)
   }
-
-  postInventario(data) {
-    return http.post('inventarios', data)
-  }
   
   postTipoAcciones(data) {
     return http.post('tipo-acciones', data)
@@ -208,10 +216,6 @@ class RegistroPersonal {
   //put
   putEmpleado(id, data) {
     return http.put(`empleados/${id}`, data)
-  }
-
-  putInventario(id, data) {
-    return http.put(`inventarios/${id}`, data)
   }
 
   putTipoAcciones(id, data) {

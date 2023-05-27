@@ -2,46 +2,14 @@
   <CModal
     backdrop="static"
     :visible="showModal"
-    size="lg"
-    @close="
-      () => {
-        closeModal()
-      }
-    "
+    size="md"
+    @close="() => { closeModal() }"
   >
     <CModalHeader>
       <CModalTitle>Útil Laboral</CModalTitle>
     </CModalHeader>
     <CModalBody>
-      <div class="d-flex justify-content-center align-items-center">
-        <CCard class="w-75">
-          <CCardBody>
-            <div class="mb-4 mx-4 d-flex justify-content-center">
-              <h4>Inventario</h4>
-            </div>
-
-            <div class="row mx-3">
-              <div class="col-6">
-                <h5>Descripción:</h5>
-              </div>
-              <div class="col-6">
-                <h6>{{ inventario.descripcion }}</h6>
-              </div>
-            </div>
-
-            <div class="row mx-3">
-              <div class="col-6">
-                <h5>Tipo:</h5>
-              </div>
-              <div class="col-6">
-                <h6>{{ inventario.tipo }}</h6>
-              </div>
-            </div>
-          </CCardBody>
-        </CCard>
-      </div>
-
-      <CCardBody class="m-5">
+      <CCardBody>
         <CForm
           novalidate
           :validated="isFormEventTypeValidated"
@@ -49,14 +17,28 @@
         >
           <CCol>
             <CFormLabel for="validationCustom01" class="form-label"
-              >Descripción</CFormLabel
-            >
+              >Descripción</CFormLabel >
             <CFormInput
               required
-              v-model="postInventarioCantidad.descripcion"
+              v-model="utilLaboral.descripcion"
               id="validationCustom01"
             >
             </CFormInput>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol>
+            <CFormLabel for="validationCustom06" class="form-label">
+              Tipo
+            </CFormLabel>
+            <CFormSelect
+              required
+              v-model="utilLaboral.tipo"
+              id="validationCustom06"
+            >
+              <option value="deducible">Deducible</option>
+              <option value="no-retornable">No-retornable</option>
+              <option value="retornable">Retornable</option>
+            </CFormSelect>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
 
@@ -66,7 +48,7 @@
             >
             <CFormInput
               required
-              v-model="postInventarioCantidad.autorizadoPor"
+              v-model="utilLaboral.autorizadoPor"
               id="validationCustom02"
               v-on:keypress="onlyLetter($event)"
             >
@@ -79,7 +61,7 @@
             <VueNumberFormat
               id="validationCustom03"
               required
-              v-model:value="postInventarioCantidad.cantidad"
+              v-model:value="utilLaboral.cantidad"
               class="form-control"
               :options="{
                 precision: 0,
@@ -108,7 +90,7 @@
             <textarea
               required
               id="validationCustom05"
-              v-model="postInventarioCantidad.observacion"
+              v-model="utilLaboral.observacion"
               rows="4"
               class="w-100"
             ></textarea>
@@ -116,54 +98,16 @@
           </CCol>
         </CForm>
       </CCardBody>
-
-      <CSmartTable
-        class="sticky-tops"
-        clickableRows
-        :tableProps="{
-          striped: true,
-          hover: true,
-        }"
-        :tableHeadProps="{}"
-        :activePage="1"
-        :footer="footerItem"
-        header
-        :items="utilesInventatio"
-        :columns="columns"
-        columnFilter
-        itemsPerPageSelect
-        :itemsPerPage="5"
-        columnSorter
-        :sorterValue="{ column: 'descripcion', state: 'asc' }"
-        pagination
-      >
-        <template #fecha="{ item }">
-          <td>
-            {{ formatDate(item.fecha) }}
-          </td>
-        </template>
-
-        <template #cantidad="{ item }">
-          <td class="text-end">
-            {{ formatNumber(item.cantidad) }}
-          </td>
-        </template>
-      </CSmartTable>
     </CModalBody>
-
     <CModalFooter>
       <CButton
         type="button"
         class="btn btn-secondary mx-2"
-        @click="
-          () => {
-            closeModal()
-          }
-        "
+        @click="() => { closeModal() }"
       >
         Cerrar
       </CButton>
-      <CButton type="submit" class="btn btn-info btn-block" @click="sendData">
+      <CButton class="btn btn-info btn-block" @click="sendData">
         Guardar
       </CButton>
     </CModalFooter>
@@ -188,51 +132,33 @@ export default {
       formatDate,
       formatNumber,
       onlyLetter,
-      postInventarioCantidad: {
+      isFormEventTypeValidated: false,
+      utilLaboral: {
         fecha: new Date(),
         observacion: null,
         autorizadoPor: null,
+        tipo: 'deducible',
         cantidad: 1,
-        Descripción: null,
-      },
-      isFormEventTypeValidated: false,
-
-      columns: [
-        { key: 'id', label: 'Código', _style: { width: '40%' } },
-        { key: 'descripcion', label: 'Descripción', _style: { width: '40%' } },
-        { key: 'cantidad', label: 'Cantidad', _style: { width: '20%' } },
-      ],
+        descripción: null,
+      }
     }
   },
-
+  emits: ['closeModal', 'saveUtilesLaborales'],
   methods: {
     closeModal() {
       this.$emit('closeModal', false)
     },
 
     submitUtilesLaborales(data) {
-      this.$emit('saveUtilesLaborales', data)
-      this.clearUtilesLaborales()
+      this.$emit('saveUtilesLaborales', data);
     },
 
     sendData() {
       this.isFormEventTypeValidated = false
       if (this.$refs.eventTypeForm.$el.checkValidity()) {
-        return this.submitUtilesLaborales({ ...this.postInventarioCantidad })
+        return this.submitUtilesLaborales({ ...this.utilLaboral })
       }
       this.isFormEventTypeValidated = true
-    },
-
-    clearUtilesLaborales() {
-      this.isFormEventTypeValidated = false
-      this.id = null
-      this.postInventarioCantidad = {
-        fecha: new Date(),
-        observacion: null,
-        autorizadoPor: null,
-        cantidad: 1,
-        Descripción: null,
-      }
     },
   },
 
@@ -241,12 +167,12 @@ export default {
       get() {
         let date = new Date()
         if (
-          this.postInventarioCantidad.fecha !== null &&
-          this.postInventarioCantidad.fecha?.toString() !== 'Invalid Date'
+          this.utilLaboral.fecha !== null &&
+          this.utilLaboral.fecha?.toString() !== 'Invalid Date'
         ) {
-          date = this.postInventarioCantidad.fecha
-          if (typeof this.postInventarioCantidad.fecha === 'string') {
-            date = new Date(this.postInventarioCantidad.fecha)
+          date = this.utilLaboral.fecha
+          if (typeof this.utilLaboral.fecha === 'string') {
+            date = new Date(this.utilLaboral.fecha)
             return date.toISOString().split('T')[0]
           }
         }
@@ -254,39 +180,32 @@ export default {
         return date.toISOString().split('T')[0]
       },
       set(value) {
-        return (this.postInventarioCantidad.fecha = new Date(
+        return (this.utilLaboral.fecha = new Date(
           `${value}T00:00:00`,
         ))
       },
     },
   },
-
   watch: {
-    showModal() {
-      this.clearUtilesLaborales()
-    },
+    utilLaboralSelected() {
+      this.utilLaboral = this.utilLaboralSelected;
+    }
   },
 
   props: {
     showModal: Boolean,
-    inventario: {
+    utilLaboralSelected: {
       type: Object,
-      default: {},
       required: true,
-    },
-    utilesInventatio: {
-      type: Array,
-      default: [],
-      required: true,
+      default: () => ({
+        fecha: new Date(),
+        observacion: null,
+        autorizadoPor: null,
+        tipo: 'deducible',
+        cantidad: 1,
+        descripción: null,
+      })
     },
   },
 }
 </script>
-
-<style>
-.sticky-tops thead {
-  position: sticky;
-  top: 0px;
-  background-color: white;
-}
-</style>

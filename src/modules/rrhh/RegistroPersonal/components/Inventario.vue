@@ -1,22 +1,17 @@
 <template>
-  <h3 class="text-center mb-3">Inventario</h3>
+  <h3 class="text-center mb-3">Inventario de &uacute;tiles</h3>
 
   <div class="table-headers">
-    <div class="d-inline p-2">
-      <CButton
+    <CButton
         color="info"
-        @click="
-          () => {
-            showInventario = true
-          }
-        "
-        >Agregar</CButton
-      >
-    </div>
+        @click="() => { showModalUtilsLaboral() }"
+    >
+      Agregar
+    </CButton>
   </div>
 
   <CSmartTable
-    class="sticky-top"
+    class="sticky-tops"
     clickableRows
     :tableProps="{
       striped: true,
@@ -26,7 +21,7 @@
     :activePage="1"
     :footer="footerItem"
     header
-    :items="inventario"
+    :items="utilLaboralList"
     :columns="columns"
     columnFilter
     itemsPerPageSelect
@@ -35,61 +30,53 @@
     :sorterValue="{ column: 'descripcion', state: 'asc' }"
     pagination
   >
+    <template #fecha="{ item }">
+      <td>
+        {{ formatDate(item.fecha) }}
+      </td>
+    </template>
+
     <template #cantidad="{ item }">
       <td class="text-end">
         {{ formatNumber(item.cantidad) }}
       </td>
     </template>
 
-    <template #show_details="{ item }">
-      <CDropdown>
-        <CDropdownToggle color="primary" variant="outline"
-          >Acciones</CDropdownToggle
-        >
-        <CDropdownMenu>
-          <CDropdownItem
-            @click="
-              () => {
-                showModalUtilsLaboral(item)
-                inventarioSeleccionado = item
-              }
-            "
-            >Agregar Útiles</CDropdownItem
-          >
-          <CDropdownItem
-            @click="
-              () => {
-                showModalEvento(item)
-                getUtilInventario(item)
-                inventarioSeleccionado = item
-              }
-            "
-            >Agregar Movimientos</CDropdownItem
-          >
-        </CDropdownMenu>
-      </CDropdown>
+    <template #controllers="{ item }">
+      <td>
+        <CDropdown>
+          <CDropdownToggle color="primary" variant="outline">
+            Acciones
+          </CDropdownToggle>
+          <CDropdownMenu>
+            <CDropdownItem
+              @click="() => { showModalUtilsLaboral(item) }"
+            >
+              Modificar
+            </CDropdownItem>
+            <CDropdownItem
+              @click="() => { showModalEvento(item) }"
+            >
+              Agregar Movimientos
+            </CDropdownItem>
+          </CDropdownMenu>
+        </CDropdown>
+      </td>
     </template>
   </CSmartTable>
 
-  <InventarioDialog
-    :showModal="showInventario"
-    @closeModal="closeModal"
-    @saveInventario="saveInventario"
-  />
-
   <UtilesLaboralesDialog
-    :utilesInventatio="utilesInventatio"
-    :showModal="showAgregarCantidad"
-    :inventario="inventarioSeleccionado"
+    :showModal="showUtilLaboralModal"
+    :utilLaboralSelected="utilSeleccionado"
     @closeModal="closeModal"
     @saveUtilesLaborales="saveUtilesLaborales"
   />
 
   <EventoInventarioDialog
-    :inventario="inventarioSeleccionado"
-    :showModal="showEvento"
+    :utilLaboralSelected="utilSeleccionado"
+    :utils="utilLaboralMappedList"
+    :showModal="showEventDialog"
     :empleados="empleados"
-    :utils="utils"
     @closeModal="closeModal"
     @saveEvents="saveEventos"
   />
@@ -100,10 +87,9 @@ import { CModal } from '@coreui/vue'
 import Api from '../services/RegistroPersonalServices'
 import UtilesLaboralesDialog from './Dialogos/UtilesLaboralesDialogs.vue'
 import EventoInventarioDialog from './Dialogos/EventosInventarioDialogs.vue'
-import InventarioDialog from './Dialogos/InventarioDialogs.vue'
 import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
-import { formatNumber } from '@/utils/format'
+import { formatNumber, formatDate } from '@/utils/format'
 
 export default {
   components: {
@@ -111,100 +97,126 @@ export default {
     CModal,
     UtilesLaboralesDialog,
     EventoInventarioDialog,
-    InventarioDialog,
   },
   data: () => {
     return {
+      formatDate,
       formatNumber,
       empleados: [],
-      inventario: [],
       utils: [],
-      inventarioSeleccionado: {},
-      utilesInventatio: [],
+      utilSeleccionado: {},
+      utilLaboralList: [],
       validatedCustom01: null,
-      showInventario: false,
-      showAgregarCantidad: false,
-      showInventario: false,
-      showEvento: false,
-
-      columns: [
-        { key: 'descripcion', label: 'Descripción', _style: { width: '60%' } },
-        { key: 'tipo', label: 'Tipo', _style: { width: '20%' } },
-        { key: 'cantidad', label: 'Existencia', _style: { width: '15%' } },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '5%' },
-          filter: false,
-          sorter: false,
-        },
-      ],
+      showAddUtilLaboralDialog: false,
+      showUtilLaboralModal: false,
+      showAddUtilLaboralDialog: false,
+      showEventDialog: false,
       footerItem: [
         {
           label: 'Total Items',
           _props: {
-            colspan: 3,
+            colspan: 5,
             style: 'font-weight:bold;',
           },
         },
+      ],
+      columns: [
+        { key: 'id', label: 'Código', _style: { width: '10%' } },
+        { key: 'descripcion', label: 'Descripción', _style: { width: '35%' } },
+        { key: 'tipo', label: 'Tipo', _style: { width: '20%' } },
+        { key: 'cantidad', label: 'Cantidad', _style: { width: '15%' } },
+        {
+          key: 'controllers',
+          label: '',
+          _style: { width: '10%' },
+          filter: false,
+          sorter: false,
+        }
       ],
     }
   },
 
   methods: {
     ...mapActions(useToastStore, ['show']),
-    getInventario() {
-      Api.getAllInventario().then((response) => {
-        this.inventario = response.data.data
+    getUtilesLaborales() {
+      Api.getUtilesLaborales().then((response) => {
+        this.utilLaboralList = response.data.data;
+        this.footerItem[0].label = `Total items: ${this.utilLaboralList.length}`;
       })
     },
 
-    closeModal(close) {
-      this.showAgregarCantidad = close
-      this.showEvento = close
-      this.showInventario = close
+    closeModal() {
+      this.showUtilLaboralModal = false;
+      this.showEventDialog = false;
     },
 
     showModalEvento(item) {
-      this.showEvento = true
-      this.id = item.id
+      this.showEventDialog = true;
+      this.utilSeleccionado = item;
     },
 
     showModalUtilsLaboral(item) {
-      this.showAgregarCantidad = true
-      this.id = item.id
-      this.getUtilesInventario(this.id)
+      this.utilSeleccionado = (item && item) || ({
+        fecha: new Date(),
+        observacion: null,
+        autorizadoPor: null,
+        tipo: 'deducible',
+        cantidad: 1,
+        descripción: null,
+      });
+      this.showUtilLaboralModal = true;
     },
 
     saveUtilesLaborales(payload) {
-      Api.postInventarioById(this.id, payload)
+      if (payload.id) {
+        Api.putUtilLaboral(payload.id, payload)
         .then((response) => {
-          setTimeout(this.getInventario, 500)
-          setTimeout(this.getUtilesInventario(this.id), 500)
           this.show({
             content: response.data,
             closable: true,
-          })
+          });
+          this.showUtilLaboralModal = false;
+          setTimeout(this.getUtilesLaborales, 200);
         })
         .catch((error) => {
           this.show({
-            content: error.data,
+            content: error.response.data,
+            closable: true,
+            color: 'danger',
+            class: 'text-white',
+          });
+        });
+        return;
+      }
+
+      Api.postUtilLaboral(payload)
+        .then((response) => {
+          this.show({
+            content: response.data,
+            closable: true,
+          });
+          this.showUtilLaboralModal = false;
+          setTimeout(this.getUtilesLaborales, 200);
+        })
+        .catch((error) => {
+          this.show({
+            content: error.response.data,
             closable: true,
             color: 'danger',
             class: 'text-white',
           })
-        })
+        });
     },
 
     saveEventos(payload) {
-      Api.postEventos(this.id, payload)
+      Api.postEventos(payload.utilId, payload)
         .then(() => {
           setTimeout(this.getInventario, 500)
           this.show({
             content: 'Registro añadido correctamente',
             closable: true,
           })
-          this.showEvento = false
+          this.showEventDialog = false
         })
         .catch((error) => {
           this.show({
@@ -216,25 +228,6 @@ export default {
         })
     },
 
-    saveInventario(payload) {
-      Api.postInventario(payload)
-        .then(() => {
-          setTimeout(this.getInventario, 500)
-          this.show({
-            content: 'Registro Agregado',
-            closable: true,
-            time: 30000,
-          })
-        })
-        .catch((error) => {
-          this.show({
-            content: error.data,
-            closable: true,
-            color: 'danger',
-            class: 'text-white',
-          })
-        })
-    },
 
     getEmpleados() {
       Api.getAllEmpleado().then(({ data: { data } }) => {
@@ -251,7 +244,7 @@ export default {
 
     getUtilInventario(item) {
       Api.getInventarioById(item.id).then(({ data: { data } }) => {
-        this.utilesInventatio = data
+        this.utilLaboralList = data
         this.utils = data.map((elem) => ({
           code: elem.id,
           label: `(${elem.id})  ${elem.descripcion}  `,
@@ -262,12 +255,21 @@ export default {
 
     getUtilesInventario(item) {
       Api.getInventarioById(item).then(({ data: { data } }) => {
-        this.utilesInventatio = data
+        this.utilLaboralList = data
       })
     },
   },
+  computed: {
+    utilLaboralMappedList() {
+      return this.utilLaboralList.map(u => ({
+        code: u.id.toString(),
+        label: u.descripcion,
+        cantidad: u.cantidad
+      }))
+    }
+  },
   mounted() {
-    this.getInventario()
+    this.getUtilesLaborales()
     this.getEmpleados()
   },
 }

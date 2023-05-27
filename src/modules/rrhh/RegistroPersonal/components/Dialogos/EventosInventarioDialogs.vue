@@ -3,15 +3,11 @@
     backdrop="static"
     size="lg"
     :visible="showModal"
-    @close="
-      () => {
-        closeModal()
-      }
-    "
+    @close="() => { closeModal() }"
     style="width: 25%"
   >
     <CModalHeader>
-      <CModalTitle>Movimiento de Inventario</CModalTitle>
+      <CModalTitle>Movimiento de &Uacute;tiles laborales</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CForm
@@ -26,6 +22,7 @@
               v-model="selectedUtil"
               placeholder="Seleccionar"
               :options="utils"
+              :disabled="utilLaboralSelected?.id"
             >
               <template #option="{ label, cantidad }">
                 <div class="d-flex justify-content-between p-1">
@@ -57,7 +54,7 @@
             >
               <option value="entregado">Entregado</option>
               <option
-                v-if="inventario.tipo !== 'no-retornable'"
+                v-if="utilLaboralSelected.tipo !== 'no-retornable'"
                 value="retornado"
               >
                 Retornado
@@ -68,7 +65,7 @@
           </CCol>
 
           <CCol>
-            <CFormLabel for="validationCustom03">Empleados</CFormLabel>
+            <CFormLabel for="validationCustom03">Empleado</CFormLabel>
             <v-select
               :disabled="postEvento.tipo == 'abastecimiento'"
               required
@@ -119,11 +116,7 @@
       <CButton
         type="button"
         class="btn btn-secondary mx-2"
-        @click="
-          () => {
-            showModal = false
-          }
-        "
+        @click="() => { showModal = false }"
       >
         Cerrar
       </CButton>
@@ -210,7 +203,6 @@ export default {
       if ($event.target.value === 'abastecimiento') {
         this.postEvento.empleadoId = undefined
       }
-
     },
 
     closeModal() {
@@ -252,6 +244,11 @@ export default {
     showModal() {
       this.clearEventos()
     },
+    utilLaboralSelected(value) {
+      if (value) {
+        this.selectedUtil = { code: value.id}
+      }
+    }
   },
 
   props: {
@@ -262,7 +259,7 @@ export default {
       required: true,
     },
 
-    inventario: {
+    utilLaboralSelected: {
       type: Object,
       required: true,
     },
