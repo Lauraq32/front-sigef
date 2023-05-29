@@ -1,6 +1,6 @@
 <template>
   <h3 class="text-center mb-4">Profesiones</h3>
-  <div class="table-headers">
+  <div class="table-headers mb-4 gap-1">
       <CButton
         color="info"
         @click="() => { newProfesionesModal = true }">Agregar</CButton>
@@ -79,7 +79,7 @@ export default {
         {
           label: 'Total Items',
           _props: {
-            colspan: 1,
+            colspan: 2,
             style: 'font-weight:bold;',
           },
         },

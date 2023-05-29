@@ -379,7 +379,7 @@ export default {
     },
     IngresoReport() {
       window.open(
-        `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Gastos_Formulacion_FP08&rs:Command=Render&ANO=${this.$fiscalYearId}&CAPITULO_AYTO=${this.$ayuntamientoId}&FONDO=P`,
+        `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?/Reportes/Rep_Gastos_Formulacion_FP08&rs:Command=Render&ANO=${this.$fiscalYearId}&CAPITULO_AYTO=${this.$ayuntamientoId}&FONDO=P`,
         '_blank',
       )
     },

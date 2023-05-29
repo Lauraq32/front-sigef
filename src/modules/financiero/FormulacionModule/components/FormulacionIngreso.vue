@@ -408,7 +408,7 @@ export default {
     IngresoReport() {
       window
         .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Formulacion&rs:Command=Render&CAPITULO_AYTO=${this.$ayuntamientoId}&ANO=2022`,
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?/Reportes/Rep_Ingresos_Formulacion&rs:Command=Render&CAPITULO_AYTO=${this.$ayuntamientoId}&ANO=${this.$fiscalYearId}`,
           '_blank',
         )
         .focus()
