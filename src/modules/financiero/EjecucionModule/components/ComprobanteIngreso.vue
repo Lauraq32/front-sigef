@@ -209,18 +209,6 @@ export default {
       this.mesReporte = 1
     },
 
-    getContribuyentes() {
-      Api.getContribuyente().then((response) => {
-        this.contribuyentesList = response.data.data
-
-        this.contribuyentesList.map((contribuyente) => {
-          this.contribuyentesName.push(
-            `${contribuyente.id}-${contribuyente.nombre}`,
-          )
-        })
-      })
-    },
-
     addComprobanteIngreso(payload) {
       if (payload.id) {
         Api.putIngresoCabecera(payload.id, payload)
@@ -270,7 +258,6 @@ export default {
 
   mounted() {
     this.getIngresos()
-    this.getContribuyentes()
   },
 }
 </script>

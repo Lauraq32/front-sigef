@@ -27,11 +27,11 @@ class Ejecucion {
   }
 
   getContribuyente() {
-    return http.get(`Contribuyente/?ayuntamientoId=${getAyuntamientoId()}`)
+    return http.get('contribuyentes')
   }
 
   getContribuyenteById(id) {
-    return http.get(`Contribuyente/${id}`)
+    return http.get(`contribuyentes/${id}`)
   }
 
   getSectorbyid(id) {
@@ -89,14 +89,10 @@ class Ejecucion {
   }
 
   downloadGastoModificacion(value) {
-    return http.get(
-      `export-file/ingresos-modificacion?mes=${value}`,
-    )
+    return http.get(`export-file/ingresos-modificacion?mes=${value}`)
   }
   downloadGastoEjecucion(value) {
-    return http.get(
-      `export-file/ingresos-ejecucion?mes=${value}`,
-    )
+    return http.get(`export-file/ingresos-ejecucion?mes=${value}`)
   }
   //Get tipo retenciones
   getTipoRetencion(id) {

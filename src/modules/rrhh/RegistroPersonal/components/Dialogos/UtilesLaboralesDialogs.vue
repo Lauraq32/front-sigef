@@ -82,10 +82,10 @@
               v-model:value="postInventarioCantidad.cantidad"
               class="form-control"
               :options="{
-                precision: 0,
+                precision: 2,
                 prefix: '',
-                decimal: '',
-                thousand: '',
+                decimal: '.',
+                thousand: ',',
               }"
             >
             </VueNumberFormat>

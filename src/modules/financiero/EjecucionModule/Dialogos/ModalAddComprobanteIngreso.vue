@@ -13,37 +13,24 @@
         >
           <div class="row">
             <div class="col-6">
-              <div class="col-md-4">
-                <CFormLabel for="validationCustom04"
-                  >Comprobante No.:</CFormLabel
-                >
-                <CFormInput
-                  required
-                  v-model="ingresoPost.compIngresosId"
-                  id="validationCustom04"
-                >
-                </CFormInput>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </div>
-
               <div>
-                <CFormLabel for="validationCustom04">No. de recibo:</CFormLabel>
+                <CFormLabel for="compIngresosId">No. de recibo:</CFormLabel>
                 <CFormInput
+                  id="compIngresosId"
                   required
                   v-model="ingresoPost.compIngresosId"
-                  id="validationCustom04"
                 >
                 </CFormInput>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+                <CFormFeedback invalid> Campo requerido</CFormFeedback>
               </div>
 
               <div class="row">
                 <div class="col-6">
-                  <CFormLabel for="validationCustom02">Fecha</CFormLabel>
+                  <CFormLabel for="fecha">Fecha</CFormLabel>
                   <CFormInput
                     v-model="ingresoPost.fecha"
                     type="date"
-                    id="validationCustom02"
+                    id="fecha"
                     required
                   />
                   <CFormFeedback invalid>
@@ -52,14 +39,10 @@
                 </div>
 
                 <div class="col-6">
-                  <CFormLabel for="validationCustom04">Etapa</CFormLabel>
-                  <CFormSelect
-                    required
-                    v-model="ingresoPost.etapa"
-                    id="validationCustom05"
-                  >
-                    <option>INGRESO</option>
-                    <option>Variación</option>
+                  <CFormLabel for="etapa">Etapa</CFormLabel>
+                  <CFormSelect required v-model="ingresoPost.etapa" id="etapa">
+                    <option value="Ingreso">INGRESO</option>
+                    <option value="Variacion">Variación</option>
                   </CFormSelect>
                   <CFormFeedback invalid>
                     Favor agregar el campo
@@ -70,48 +53,58 @@
 
             <div class="col-6">
               <div>
-                <CFormLabel for="validationCustom04">Contribuyente</CFormLabel>
+                <CFormLabel for="displayNameContribuyentes"
+                  >Contribuyente</CFormLabel
+                >
                 <div class="position-relative">
                   <vue3-simple-typeahead
+                    type="text"
                     required
-                    class="form-control"
-                    v-model="ingresoPost.contribuyenteId"
-                    id="validationCustom04"
+                    class="form-control padding-input"
+                    v-model="ingresoPost.contribuyente.nombre"
+                    id="displayNameContribuyentes"
                     placeholder="Escriba Aqui..."
-                    :items="contribuyentesName"
+                    :items="contribuyenteNameList"
                     :minInputLength="1"
                     @selectItem="selectItemEventHandler"
+                    :itemProjection="mapContribuyenteItem"
                   >
                   </vue3-simple-typeahead>
                   <span
                     class="position-absolute icon-input"
                     v-if="!notAllowEdit"
                   >
-                    <CIcon icon="cisSearch" size="xl" />
+                    <CIcon
+                      icon="cisSearch"
+                      size="xl"
+                      v-on:click="() => (showContribuyentesModal = true)"
+                    />
                   </span>
                 </div>
               </div>
 
               <div class="row">
                 <div class="col-6">
-                  <CFormLabel for="validationCustom04"
-                    >Tipo de Documento:</CFormLabel
+                  <CFormLabel for="tipoDcto">Tipo de Documento:</CFormLabel>
+                  <CFormSelect
+                    required
+                    v-model="ingresoPost.contribuyente.tipoDcto"
+                    id="tipoDcto"
                   >
-                  <CFormSelect required id="validationCustom05">
-                    <option>RNC</option>
-                    <option>Cédula</option>
-                    <option>Pasaporte</option>
+                    <option value="Rnc">RNC</option>
+                    <option value="Cedula">Cédula</option>
+                    <option value="Pasaporte">Pasaporte</option>
                   </CFormSelect>
                   <CFormFeedback invalid>
                     Favor agregar el campo
                   </CFormFeedback>
                 </div>
                 <div class="col-6">
-                  <CFormLabel for="validationCustom04">Documento:</CFormLabel>
+                  <CFormLabel for="rncCedPas">Documento:</CFormLabel>
                   <CFormInput
                     required
-                    v-model="ingresoPost.compIngresosId"
-                    id="validationCustom04"
+                    v-model="ingresoPost.contribuyente.rncCedPas"
+                    id="rncCedPas"
                   >
                   </CFormInput>
                   <CFormFeedback invalid>
@@ -121,26 +114,31 @@
               </div>
               <div class="row">
                 <div class="col-6">
-                  <CFormLabel for="validationCustom04">Dirección:</CFormLabel>
-                  <CFormTextarea
-                    style="resize: none"
-                    row="1"
-                    required
-                    v-model="ingresoPost.detalle"
-                    id="validationCustom04"
-                  ></CFormTextarea>
+                  <CFormLabel for="direccion">Dirección:</CFormLabel>
+                  <CFormInput
+                    v-model="ingresoPost.contribuyente.direccion"
+                    id="direccion"
+                  >
+                  </CFormInput>
                   <CFormFeedback invalid>
                     Favor agregar el campo
                   </CFormFeedback>
                 </div>
                 <div class="col-6">
-                  <CFormLabel for="validationCustom04">Teléfono:</CFormLabel>
-                  <CFormInput
+                  <CFormLabel for="Teléfono">Teléfono:</CFormLabel>
+                  <VueNumberFormat
+                    id="Teléfono"
                     required
-                    v-model="ingresoPost.compIngresosId"
-                    id="validationCustom04"
+                    v-model:value="ingresoPost.contribuyente.telefono"
+                    class="form-control"
+                    :options="{
+                      precision: 0,
+                      prefix: '',
+                      decimal: '',
+                      thousand: '',
+                    }"
                   >
-                  </CFormInput>
+                  </VueNumberFormat>
                   <CFormFeedback invalid>
                     Favor agregar el campo
                   </CFormFeedback>
@@ -151,33 +149,41 @@
 
           <div class="mb-4">
             <CCol :md="12">
-              <CFormLabel for="validationCustom04">Detalle</CFormLabel>
+              <CFormLabel for="Detalle">Detalle</CFormLabel>
               <CFormTextarea
                 style="resize: none"
                 required
                 v-model="ingresoPost.detalle"
-                id="validationCustom04"
+                id="Detalle"
               ></CFormTextarea>
-              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              <CFormFeedback invalid> Campo requerido</CFormFeedback>
             </CCol>
           </div>
+        </CForm>
 
+        <CForm
+          class="needs-validation"
+          novalidate
+          :validated="isFormEventTypeValidatedDetalle"
+          ref="eventTypeFormDetalle"
+        >
           <div class="border-top pt-3">
             <div class="row">
               <div class="col-12 row align-items-center my-2">
-                <CFormLabel class="col-1 col-form-label"
+                <CFormLabel for="ctgClasificadorId" class="col-1 col-form-label"
                   >Clasificador:</CFormLabel
                 >
                 <div class="col-2">
                   <div class="position-relative">
                     <input
+                      v-model="detallePost.ctgClasificadorId"
                       ref="clasificatorField"
                       required
                       @keyup.enter.prevent="findClasificador"
                       maxlength="6"
                       class="form-control padding-input"
                       type="number"
-                      id="clasifica"
+                      id="ctgClasificadorId"
                       :disabled="notAllowEdit"
                     />
                     <span
@@ -194,34 +200,72 @@
                 </div>
               </div>
             </div>
-            <div class="row border-bottom mb-3">
-              <div class="col-12 row align-items-center my-2">
-                <CFormLabel class="col-1 col-form-label">Monto:</CFormLabel>
-                <div class="col-2">
-                  <input class="form-control" />
-                </div>
+          </div>
 
-                <CFormLabel class="col-1 col-form-label">Cantidad:</CFormLabel>
-                <div class="col-1">
-                  <div class="col-md-12">
-                    <input class="form-control" />
-                  </div>
-                </div>
+          <div class="row border-bottom mb-3">
+            <div class="col-12 row align-items-center my-2">
+              <CFormLabel for="Monto" class="col-1 col-form-label"
+                >Monto:</CFormLabel
+              >
+              <div class="col-2">
+                <VueNumberFormat
+                  id="Monto"
+                  required
+                  v-model:value="detallePost.valor"
+                  class="form-control text-end"
+                  :options="{
+                    precision: 2,
+                    prefix: '',
+                    decimal: '.',
+                    thousand: ',',
+                  }"
+                >
+                </VueNumberFormat>
 
-                <div class="col-3">
-                  <span class="col-form-label"
-                    >Sub total: {{ 'romulo kelokapopo' }}</span
+                <CFormFeedback invalid> Campo requerido</CFormFeedback>
+              </div>
+
+              <CFormLabel for="Cantidad" class="col-1 col-form-label"
+                >Cantidad:</CFormLabel
+              >
+              <div class="col-1">
+                <div class="col-md-12">
+                  <VueNumberFormat
+                    id="Cantidad"
+                    required
+                    v-model:value="detallePost.cantidad"
+                    class="form-control text-end"
+                    :options="{
+                      precision: 0,
+                      prefix: '',
+                      decimal: '',
+                      thousand: '',
+                    }"
                   >
+                  </VueNumberFormat>
+                  <CFormFeedback invalid>
+                    Favor agregar el campo
+                  </CFormFeedback>
                 </div>
+              </div>
 
-                <div class="col-3 d-flex justify-content-end">
-                  <CButton
-                    class="btn btn-info btn-block mt-1"
-                    @click="sendData"
-                  >
-                    Agregar
-                  </CButton>
-                </div>
+              <div
+                class="col-3 d-flex justify-content-center align-items-center"
+              >
+                <span class="col-form-label fw-bold p-2">Sub total:</span>
+                {{ subTotal }}
+              </div>
+
+              <div class="col-3 d-flex justify-content-end">
+                <CButton
+                  type="button"
+                  class="mt-1"
+                  color="info"
+                  variant="outline"
+                  @click="addDetalle"
+                >
+                  Agregar
+                </CButton>
               </div>
             </div>
           </div>
@@ -229,7 +273,6 @@
       </CCardBody>
 
       <CSmartTable
-        class="sticky-top"
         clickableRows
         :tableProps="{
           striped: true,
@@ -238,20 +281,48 @@
         :tableHeadProps="{}"
         :activePage="1"
         header
-        :items="ingresosList"
+        :items="ingresoPost.detalleRegistroIngresos"
         :columns="columns"
         :footer="footerItem"
-        itemsPerPageSelect
         columnFilter
         :itemsPerPage="5"
         columnSorter
         :sorterValue="{ column: 'status', state: 'asc' }"
         pagination
       >
+        <template #finOrigin="{ item }">
+          <td class="text-center">
+            {{ item.ctgFuenteId }}/{{ item.ctgFuenteEspecificaId }}/{{
+              item.ctgOrganismoFinanciadorId
+            }}
+          </td>
+        </template>
+
+        <template #subTotal="{ item }">
+          <td class="text-end">
+            {{ formatPrice(item.valor * item.cantidad) }}
+          </td>
+        </template>
+
+        <template #cantidad="{ item }">
+          <td class="text-end">
+            {{ item.cantidad }}
+          </td>
+        </template>
+
+        <template #valor="{ item }">
+          <td class="text-end">
+            {{ formatPrice(item.valor) }}
+          </td>
+        </template>
       </CSmartTable>
     </CModalBody>
 
     <CModalFooter>
+      <CButton class="btn btn-secondary btn-block mt-1" @click="closeModal">
+        Cancelar
+      </CButton>
+
       <CButton class="btn btn-info btn-block mt-1" @click="sendData">
         Guardar
       </CButton>
@@ -259,14 +330,15 @@
   </CModal>
 
   <ClasificadorSelectorDialog
+    :origin="'ingresos'"
     :isVisible="showFindClasificadorModal"
-    :filtered="
-      (clasificator) =>
-        clasificator.tipo === 'DETALLE' &&
-        clasificator.origen === 'INGRESO' &&
-        clasificator?.clasifica?.toString().match(/^(1|3)/g)
-    "
     @close="selectClasificator"
+  />
+
+  <contribuyentesDialog
+    :showModal="showContribuyentesModal"
+    @contribuyenteSeleccionado="setContribuyente"
+    @closeModal="closeModalContribuyentes"
   />
 </template>
 
@@ -276,6 +348,9 @@ import { CSmartTable } from '@coreui/vue-pro'
 import router from '@/router'
 import { CModalFooter } from '@coreui/vue-pro'
 import ClasificadorSelectorDialog from '@/modules/financiero/FormulacionModule/components/ClasificadorSelectorDialog.vue'
+import contribuyentesDialog from '../Dialogos/ModalSelectContribuyentes.vue'
+import Api from '../services/EjecucionServices'
+import { formatPrice } from '@/utils/format'
 
 export default {
   name: 'ModalAddComprobanteIngreso',
@@ -284,47 +359,82 @@ export default {
     CModalFooter,
     CSmartTable,
     ClasificadorSelectorDialog,
+    contribuyentesDialog,
   },
 
   data: function () {
     return {
+      formatPrice,
+      showContribuyentesModal: false,
+      contribuyenteNameList: [],
       isFormEventTypeValidated: false,
+      isFormEventTypeValidatedDetalle: false,
       showFindClasificadorModal: false,
+      direccion: null,
+      detallePost: {
+        ctgClasificadorId: null,
+        ctgFuenteId: null,
+        ctgFuenteEspecificaId: null,
+        ctgOrganismoFinanciadorId: null,
+        fecha: new Date().toISOString(),
+        etapa: null,
+        institucionOrtongate: null,
+        valor: 0,
+        nombre: null,
+        cantidad: 1,
+      },
       ingresoPost: {
-        compIngresosId: '2',
-        etapa: 'Ingreso',
-        contribuyenteId: 4,
-        detalle: 'hola',
-        fecha: '2023-05-22',
-        detalleRegistroIngresos: [
-          {
-            ctgClasificadorId: '151312',
-            ctgFuenteId: '20',
-            ctgFuenteEspecificaId: '0332',
-            ctgOrganismoFinanciadorId: '100',
-            fecha: '2023-05-22',
-            etapa: 'INGRESO',
-            institucionOrtongate: '0',
-            valor: 2500,
-          },
-        ],
+        compIngresosId: null,
+        etapa: null,
+        contribuyenteId: 0,
+        contribuyente: {
+          nombre: null,
+          tipoDcto: null,
+          rncCedPas: null,
+          telefono: null,
+          direccion: null,
+        },
+        detalle: null,
+        fecha: new Date().toISOString(),
+        detalleRegistroIngresos: [],
       },
       columns: [
         {
-          key: '',
+          key: 'ctgClasificadorId',
           label: 'Clasificador',
           _style: { width: '7%' },
         },
 
-        { key: '', label: 'Denominación', _style: { width: '10%' } },
-        { key: '', label: 'Fuente Financiera', _style: { width: '10%' } },
-        { key: '', label: 'Fuente Específico', _style: { width: '10%' } },
+        { key: 'nombre', label: 'Denominación', _style: { width: '10%' } },
         {
-          key: '',
-          label: 'Origen Financiador',
-          _style: { width: '18%' },
+          key: 'finOrigin',
+          label: 'O/Fin',
+          _style: { width: '10%' },
         },
-        { key: '', label: 'Monto', _style: { width: '10%' } },
+
+        {
+          key: 'valor',
+          label: 'Monto',
+          _style: { width: '10%' },
+          filter: false,
+          sorter: false,
+        },
+
+        {
+          key: 'cantidad',
+          label: 'Cantidad',
+          _style: { width: '10%' },
+          filter: false,
+          sorter: false,
+        },
+
+        {
+          key: 'subTotal',
+          label: 'Sub Total',
+          _style: { width: '10%' },
+          filter: false,
+          sorter: false,
+        },
       ],
     }
   },
@@ -333,6 +443,21 @@ export default {
     closeModal() {
       this.$emit('close-modal', false)
       this.clearModaComprobanteIngreso()
+    },
+
+    closeModalContribuyentes() {
+      this.showContribuyentesModal = false
+    },
+
+    addDetalle() {
+      this.isFormEventTypeValidatedDetalle = false
+      if (this.$refs.eventTypeFormDetalle.$el.checkValidity()) {
+        this.ingresoPost.detalleRegistroIngresos = [
+          { ...this.detallePost },
+          ...this.ingresoPost.detalleRegistroIngresos,
+        ]
+      }
+      this.isFormEventTypeValidatedDetalle = true
     },
 
     addComprobanteIngreso() {
@@ -352,24 +477,69 @@ export default {
       router.push({ name: 'Contribuyentes' })
     },
 
-    selectItemEventHandler(id) {
-      this.ingresoPost.contribuyenteId = id.split('-')[0]
+    selectItemEventHandler(payload) {
+      this.ingresoPost.contribuyente = payload
+    },
+
+    mapContribuyenteItem(contribuyente) {
+      return `${contribuyente.id}-${contribuyente.nombre} (${contribuyente.tipoDcto}:${contribuyente.rncCedPas})`
     },
 
     clearModaComprobanteIngreso() {
       this.id = null
+      this.isFormEventTypeValidated = false
+      this.isFormEventTypeValidatedDetalle = false
       this.ingresoPost = {
-        transaccionId: 0,
-        ayuntamientoId: this.$ayuntamientoId,
-        anioFiscalId: this.$fiscalYearId,
-        numeroComprobante: 0,
-        compIngresosId: '',
-        etapa: 'INGRESOS',
+        compIngresosId: null,
+        etapa: null,
         contribuyenteId: 0,
-        detalle: '',
-        fecha: new Date(Date.now()),
-        totalValor: 0,
-        estatus: 'A',
+        contribuyente: {
+          nombre: null,
+          tipoDcto: null,
+          rncCedPas: null,
+          telefono: null,
+          direccion: null,
+        },
+        detalle: null,
+        fecha: null,
+        detalleRegistroIngresos: [],
+      }
+      this.detallePost = {
+        ctgClasificadorId: null,
+        ctgFuenteId: 0,
+        ctgFuenteEspecificaId: 0,
+        ctgOrganismoFinanciadorId: 0,
+        fecha: new Date().toISOString(),
+        etapa: null,
+        institucionOrtongate: 0,
+        valor: 0,
+        nombre: null,
+        cantidad: 1,
+      }
+    },
+
+    setContribuyente(payload) {
+      this.selectItemEventHandler(payload)
+      this.showContribuyentesModal = false
+    },
+  },
+  computed: {
+    subTotal() {
+      if (
+        Number.isNaN(this.detallePost.cantidad) ||
+        Number.isNaN(this.detallePost.valor)
+      ) {
+        return ''
+      }
+      return formatPrice(this.detallePost.cantidad * this.detallePost.valor)
+    },
+  },
+  watch: {
+    showModal() {
+      if (this.showModal) {
+        Api.getContribuyente().then((response) => {
+          this.contribuyenteNameList = response.data.data
+        })
       }
     },
   },
@@ -377,6 +547,7 @@ export default {
   props: {
     showModal: Boolean,
     contribuyentesName: Array,
+    contribuyentes: null,
   },
 }
 </script>
