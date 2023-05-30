@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Catalogo de Funciones</h3>
+  <h3 class="text-center">Cat&aacute;logo de funciones</h3>
   <CSmartTable
     clickableRows
     :tableProps="{
@@ -45,9 +45,9 @@ export default {
       ],
       columns: [
         { key: 'grupo', label: 'Finalidad' },
-        { key: 'sGrupo', label: 'Funcion' },
-        { key: 'funcion', label: 'Sub-Funcion', _style: { width: '25%' } },
-        { key: 'detalle', label: 'Denominacion' },
+        { key: 'sGrupo', label: 'Función' },
+        { key: 'funcion', label: 'Sub-Función', _style: { width: '25%' } },
+        { key: 'detalle', label: 'Denominación' },
       ],
       details: [],
       items: [],
