@@ -14,25 +14,20 @@
           <div class="row">
             <div class="col-6">
               <div>
-                <CFormLabel for="compIngresosId">No. de recibo:</CFormLabel>
+                <CFormLabel for="codigoIngresoTalonario"
+                  >No. de recibo:</CFormLabel
+                >
                 <CFormInput
-                  id="compIngresosId"
-                  required
-                  v-model="ingresoPost.compIngresosId"
+                  id="codigoIngresoTalonario"
+                  v-model="ingresoPost.codigoIngresoTalonario"
                 >
                 </CFormInput>
-                <CFormFeedback invalid> Campo requerido</CFormFeedback>
               </div>
 
               <div class="row">
                 <div class="col-6">
                   <CFormLabel for="fecha">Fecha</CFormLabel>
-                  <CFormInput
-                    v-model="ingresoPost.fecha"
-                    type="date"
-                    id="fecha"
-                    required
-                  />
+                  <CFormInput v-model="fecha" type="date" id="fecha" required />
                   <CFormFeedback invalid>
                     Favor agregar el campo
                   </CFormFeedback>
@@ -85,11 +80,13 @@
 
               <div class="row">
                 <div class="col-6">
-                  <CFormLabel for="tipoDcto">Tipo de Documento:</CFormLabel>
+                  <CFormLabel for="tipoDocumento"
+                    >Tipo de Documento:</CFormLabel
+                  >
                   <CFormSelect
                     required
-                    v-model="ingresoPost.contribuyente.tipoDcto"
-                    id="tipoDcto"
+                    v-model="ingresoPost.contribuyente.tipoDocumento"
+                    id="tipoDocumento"
                   >
                     <option value="Rnc">RNC</option>
                     <option value="Cedula">Cédula</option>
@@ -100,11 +97,11 @@
                   </CFormFeedback>
                 </div>
                 <div class="col-6">
-                  <CFormLabel for="rncCedPas">Documento:</CFormLabel>
+                  <CFormLabel for="documento">Documento:</CFormLabel>
                   <CFormInput
                     required
-                    v-model="ingresoPost.contribuyente.rncCedPas"
-                    id="rncCedPas"
+                    v-model="ingresoPost.contribuyente.documento"
+                    id="documento"
                   >
                   </CFormInput>
                   <CFormFeedback invalid>
@@ -126,19 +123,13 @@
                 </div>
                 <div class="col-6">
                   <CFormLabel for="Teléfono">Teléfono:</CFormLabel>
-                  <VueNumberFormat
+                  <CFormInput
+                    class="form-control"
+                    v-model="ingresoPost.contribuyente.telefono"
                     id="Teléfono"
                     required
-                    v-model:value="ingresoPost.contribuyente.telefono"
-                    class="form-control"
-                    :options="{
-                      precision: 0,
-                      prefix: '',
-                      decimal: '',
-                      thousand: '',
-                    }"
-                  >
-                  </VueNumberFormat>
+                    @keypress="onlyNumber"
+                  />
                   <CFormFeedback invalid>
                     Favor agregar el campo
                   </CFormFeedback>
@@ -287,6 +278,7 @@
         columnFilter
         :itemsPerPage="5"
         columnSorter
+        no-items-label="No hay registros"
         :sorterValue="{ column: 'status', state: 'asc' }"
         pagination
       >
@@ -346,11 +338,14 @@
 import { CModal } from '@coreui/vue'
 import { CSmartTable } from '@coreui/vue-pro'
 import router from '@/router'
+import { onlyNumber } from '@/utils/validator'
+import { mapActions } from 'pinia'
 import { CModalFooter } from '@coreui/vue-pro'
 import ClasificadorSelectorDialog from '@/modules/financiero/FormulacionModule/components/ClasificadorSelectorDialog.vue'
 import contribuyentesDialog from '../Dialogos/ModalSelectContribuyentes.vue'
 import Api from '../services/EjecucionServices'
-import { formatPrice } from '@/utils/format'
+import { formatPrice, formatDate } from '@/utils/format'
+import { useToastStore } from '@/store/toast'
 
 export default {
   name: 'ModalAddComprobanteIngreso',
@@ -365,6 +360,8 @@ export default {
   data: function () {
     return {
       formatPrice,
+      onlyNumber,
+      formatDate,
       showContribuyentesModal: false,
       contribuyenteNameList: [],
       isFormEventTypeValidated: false,
@@ -377,24 +374,24 @@ export default {
         ctgFuenteEspecificaId: null,
         ctgOrganismoFinanciadorId: null,
         fecha: new Date().toISOString(),
-        etapa: null,
+        etapa: '',
         institucionOrtongate: null,
         valor: 0,
         nombre: null,
         cantidad: 1,
       },
       ingresoPost: {
-        compIngresosId: null,
+        codigoIngresoTalonario: null,
         etapa: null,
         contribuyenteId: 0,
         contribuyente: {
           nombre: null,
-          tipoDcto: null,
-          rncCedPas: null,
+          tipoDocumento: null,
+          documento: null,
           telefono: null,
           direccion: null,
         },
-        detalle: null,
+        detalle: `RESUMEN DE INGRESO ${formatDate(new Date())}`,
         fecha: new Date().toISOString(),
         detalleRegistroIngresos: [],
       },
@@ -440,6 +437,8 @@ export default {
   },
 
   methods: {
+    ...mapActions(useToastStore, ['show']),
+
     closeModal() {
       this.$emit('close-modal', false)
       this.clearModaComprobanteIngreso()
@@ -456,20 +455,30 @@ export default {
           { ...this.detallePost },
           ...this.ingresoPost.detalleRegistroIngresos,
         ]
+        this.clearDetalle()
+        return
       }
       this.isFormEventTypeValidatedDetalle = true
     },
 
     addComprobanteIngreso() {
       this.$emit('addComprobanteIngreso', this.ingresoPost)
-      this.clearModaComprobanteIngreso()
     },
 
     sendData() {
       this.isFormEventTypeValidated = false
+      if (!this.ingresoPost.detalleRegistroIngresos.length) {
+        return this.show({
+          content: 'Debe agregar el detalle',
+          closable: true,
+          color: 'warning',
+          time: 7_000,
+        })
+      }
       if (this.$refs.eventTypeForm.$el.checkValidity()) {
         return this.addComprobanteIngreso({ ...this.ingresoPost })
       }
+
       this.isFormEventTypeValidated = true
     },
 
@@ -482,28 +491,11 @@ export default {
     },
 
     mapContribuyenteItem(contribuyente) {
-      return `${contribuyente.id}-${contribuyente.nombre} (${contribuyente.tipoDcto}:${contribuyente.rncCedPas})`
+      return `${contribuyente.id}-${contribuyente.nombre}`
     },
 
-    clearModaComprobanteIngreso() {
-      this.id = null
-      this.isFormEventTypeValidated = false
+    clearDetalle() {
       this.isFormEventTypeValidatedDetalle = false
-      this.ingresoPost = {
-        compIngresosId: null,
-        etapa: null,
-        contribuyenteId: 0,
-        contribuyente: {
-          nombre: null,
-          tipoDcto: null,
-          rncCedPas: null,
-          telefono: null,
-          direccion: null,
-        },
-        detalle: null,
-        fecha: null,
-        detalleRegistroIngresos: [],
-      }
       this.detallePost = {
         ctgClasificadorId: null,
         ctgFuenteId: 0,
@@ -518,9 +510,44 @@ export default {
       }
     },
 
+    clearModaComprobanteIngreso() {
+      this.id = null
+      this.sendDetalle = false
+      this.isFormEventTypeValidated = false
+      this.isFormEventTypeValidatedDetalle = false
+      this.ingresoPost = {
+        codigoIngresoTalonario: null,
+        etapa: null,
+        contribuyenteId: 0,
+        contribuyente: {
+          nombre: null,
+          tipoDocumento: null,
+          documento: null,
+          telefono: null,
+          direccion: null,
+        },
+        detalle: `RESUMEN DE INGRESO ${formatDate(new Date())}`,
+        fecha: new Date(),
+        detalleRegistroIngresos: [],
+      }
+    },
+
     setContribuyente(payload) {
       this.selectItemEventHandler(payload)
       this.showContribuyentesModal = false
+    },
+
+    selectClasificator(infoClasificador) {
+      if (infoClasificador) {
+        this.detallePost.ctgClasificadorId = infoClasificador.clasifica
+        this.detallePost.ctgFuenteEspecificaId =
+          infoClasificador.ctgFuenteEspecificaId
+        this.detallePost.ctgFuenteId = infoClasificador.ctgFuenteId
+        this.detallePost.ctgOrganismoFinanciadorId =
+          infoClasificador.ctgOrganismoFinanciadorId
+        this.detallePost.nombre = infoClasificador.nombre
+      }
+      this.showFindClasificadorModal = false
     },
   },
   computed: {
@@ -533,7 +560,29 @@ export default {
       }
       return formatPrice(this.detallePost.cantidad * this.detallePost.valor)
     },
+
+    fecha: {
+      get() {
+        let date = this.ingresoPost.fecha
+        if (
+          this.ingresoPost.fecha !== null &&
+          this.ingresoPost.fecha?.toString() !== 'Invalid Date'
+        ) {
+          if (typeof this.ingresoPost.fecha === 'string') {
+            date = new Date(this.ingresoPost.fecha)
+            return date.toISOString().split('T')[0]
+          }
+        }
+        return date?.toISOString()?.split('T')?.[0]
+      },
+      set(value) {
+        return (this.ingresoPost.fecha = new Date(
+          `${value}T00:00:00`,
+        ))
+      },
+    },
   },
+
   watch: {
     showModal() {
       if (this.showModal) {

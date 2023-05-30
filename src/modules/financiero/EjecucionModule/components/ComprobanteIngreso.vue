@@ -38,6 +38,7 @@
     columnFilter
     :itemsPerPage="5"
     columnSorter
+    no-items-label="No hay registros"
     :sorterValue="{ column: 'status', state: 'asc' }"
     pagination
   >
@@ -142,8 +143,7 @@ export default {
         {
           label: 'Total items',
           _props: {
-            color: '',
-            colspan: 2,
+            colspan: 7,
             style: 'font-weight:bold;',
           },
         },
@@ -213,6 +213,7 @@ export default {
       if (payload.id) {
         Api.putIngresoCabecera(payload.id, payload)
           .then(() => {
+            this.clearModaComprobanteIngreso()
             setTimeout(this.getIngresos, 500)
             this.show({
               content: 'Registro añadido correctamente',
@@ -230,6 +231,7 @@ export default {
       } else {
         Api.postIngresos(payload)
           .then((response) => {
+            this.clearModaComprobanteIngreso()
             setTimeout(this.getIngresos, 500)
             this.show({
               content: response.data,
@@ -248,11 +250,32 @@ export default {
     },
 
     getIngresos() {
-      Api.getIngresoAll().then((response) => {
+      Api.getRegistroIngreso().then((response) => {
         this.ingresosList = response.data.data
         this.itemsCount = this.ingresosList.length
         this.footerItem[0].label = `Total items: ${this.itemsCount}`
       })
+    },
+
+    clearModaComprobanteIngreso() {
+      this.sendDetalle = false
+      this.isFormEventTypeValidated = false
+      this.isFormEventTypeValidatedDetalle = false
+      this.ingresoPost = {
+        codigoIngresoTalonario: null,
+        etapa: null,
+        contribuyenteId: 0,
+        contribuyente: {
+          nombre: null,
+          tipoDocumento: null,
+          documento: null,
+          telefono: null,
+          direccion: null,
+        },
+        detalle: null,
+        fecha: null,
+        detalleRegistroIngresos: [],
+      }
     },
   },
 

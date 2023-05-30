@@ -42,16 +42,8 @@ class Ejecucion {
     return http.get(`RegistroGasto/${id}`)
   }
 
-  getIngresoAll() {
-    return http.get(
-      `RegistroIngreso?anio=${getFiscalYearId()}&ayuntamientoId=${getAyuntamientoId()}`,
-    )
-  }
-
-  getIngresoById(id, anioFiscalId, ayuntamientoId) {
-    return http.get(
-      `/RegistroIngreso/${id}?anio=${anioFiscalId}&ayuntamientoId=${ayuntamientoId}`,
-    )
+  getIngresoById(id) {
+    return http.get(`/registros-ingreso/${id}`)
   }
 
   getIngresoByIdAndDetalle(id) {
@@ -73,7 +65,7 @@ class Ejecucion {
   }
 
   getRegistroIngreso() {
-    return http.get('RegistroIngreso/Detalle/Clasificador/')
+    return http.get('registros-ingreso')
   }
 
   getRegistroIngresoDetalle(id) {
@@ -120,7 +112,7 @@ class Ejecucion {
   }
 
   postIngresos(data) {
-    return http.post('RegistroIngreso', data)
+    return http.post('registros-ingreso', data)
   }
 
   postIngresoDetalle(data) {
