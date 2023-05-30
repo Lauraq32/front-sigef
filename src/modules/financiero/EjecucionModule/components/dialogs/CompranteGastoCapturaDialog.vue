@@ -1,0 +1,180 @@
+<template>
+  <CModal size="xl" :visible="showModal" @close="closeModal">
+    <CModalHeader>
+      <CModalTitle>Documento del Gasto</CModalTitle>
+    </CModalHeader>
+    <CModalBody>
+      <CCardBody>
+        <CForm>
+          <div class="row">
+            <div class="col-12">
+              <div class="row">
+
+                <div class="col-6">
+                  <CCol :md="12">
+                    <div class="row">
+                      <CCol :md="6">
+                        <CFormLabel for="nombre">fecha</CFormLabel>
+                        <CFormInput type="date" id="nombre" required />
+
+
+                      </CCol>
+                      <CCol :md="6">
+                        <CFormLabel for="nombre">Estatus</CFormLabel>
+                        <CFormInput id="nombre" required />
+
+
+                      </CCol>
+                      <CCol :md="6">
+                        <CFormLabel for="nombre">Etapa</CFormLabel>
+                        <CFormSelect  id="validationCustom05">
+                          <option>Activo</option>
+                          <option>Inactivo</option>
+                        </CFormSelect>
+
+
+                      </CCol>
+                      <CCol :md="6">
+                        <CFormLabel for="nombre">Comp Modifica</CFormLabel>
+                        <CFormInput id="nombre" required />
+
+
+                      </CCol>
+                      <CCol :md="6">
+                        <CFormLabel for="nombre">Resolucion No.</CFormLabel>
+                        <CFormInput id="nombre" required />
+
+
+                      </CCol>
+                      <CCol :md="6">
+                        <CFormLabel for="nombre">Fecha Resolucion</CFormLabel>
+                        <CFormInput type="date" id="nombre" required />
+
+
+                      </CCol>
+                      <CCol :md="12">
+                        <CFormLabel for="nombre">Forma de Pago</CFormLabel>
+                        <div class="row">
+                          <div class="col-6">
+                            <CFormCheck type="radio" name="flexRadioDefault" id="flexRadioDefault1"
+                              label="Default radio" />
+                            <CFormCheck type="radio" name="flexRadioDefault" id="flexRadioDefault2" label="Checked radio"
+                              checked />
+                          </div>
+                          <div class="col-6">
+                            <CFormCheck type="radio" name="flexRadioDefault" id="flexRadioDefault1"
+                              label="Default radio" />
+                            <CFormCheck type="radio" name="flexRadioDefault" id="flexRadioDefault2" label="Checked radio"
+                              checked />
+                          </div>
+                        </div>
+                      </CCol>
+                    </div>
+                  </CCol>
+                </div>
+                <div class="col-6">
+                  <CCol :md="12">
+                    <div class="row">
+
+                      <CCol :md="12">
+                        <CFormLabel for="nombre">Beneficiario</CFormLabel>
+                        <div class="position-relative">
+                      <input ref="name" disabled required class="form-control padding-input"
+                        type="text" id="displayNameProfesion" />
+                      <span class="position-absolute icon-input">
+                        <CIcon icon="cisSearch" size="xl" v-on:click="openBeneficiarioModal" />
+                      </span>
+                    </div>
+
+                      </CCol>
+                      <CCol :md="12">
+                        <CFormLabel for="nombre">Por Concepto de</CFormLabel>
+                        <CFormInput id="nombre" required />
+
+
+                      </CCol>
+                      <CCol :md="12">
+                        <CFormLabel for="nombre">Cta Bancaria</CFormLabel>
+                        <CFormInput id="nombre" required />
+
+
+                      </CCol>
+
+                    </div>
+                  </CCol>
+                </div>
+                <div class="col-12">
+                  <label for="">Detalle</label>
+                  <textarea name="" id="" style="width: 100%;">
+
+                  </textarea>
+                </div>
+              </div>
+
+
+
+
+            </div>
+          </div>
+        </CForm>
+        <h1>Tabla</h1>
+      </CCardBody>
+    </CModalBody>
+  </CModal>
+</template>
+  
+<script>
+import { CModal } from '@coreui/vue'
+import { CSmartTable } from '@coreui/vue-pro'
+import { CIcon } from '@coreui/icons-vue'
+
+
+export default {
+  name: 'CompranteGastoCapturaDialog',
+  components: {
+    CSmartTable,
+    CModal,
+    CIcon
+  },
+
+  data: function () {
+    return {
+      profesionesList: [],
+      tabPaneActiveKey: 1,
+      reclutamientoObject: {},
+
+    }
+  },
+
+  methods: {
+    openBeneficiarioModal(){
+
+    },
+
+    closeModal() {
+      this.$emit('closeModal')
+    },
+  },
+
+  props: {
+    showModal: Boolean,
+  },
+  mounted() {
+
+  }
+}
+</script>
+<style>
+.padding-input {
+  padding-right: 2.5rem;
+}
+
+.icon-input {
+  padding: 0.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  right: 2px;
+}
+</style>
+  
