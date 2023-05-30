@@ -64,21 +64,22 @@ export default {
         {
           key: 'nombre',
           label: 'Nombre Solicitante',
-          _style: { width: '30%' },
+          _style: { width: '35%' },
         },
+        { key: 'codigoIdentidad', label: 'Documento', _style: { width: '15%' } },
         { key: 'celular', label: 'Celular', _style: { width: '10%' } },
         { key: 'edad', label: 'Edad', _style: { width: '10%' } },
         {
           key: 'entrevistado',
           label: 'Entrevistado',
-          _style: { width: '10%' },
+          _style: { width: '5%' },
         },
-        { key: 'evaluado', label: 'Evaluado', _style: { width: '10%' } },
+        { key: 'evaluado', label: 'Evaluado', _style: { width: '5%' } },
 
         {
           key: 'show_details',
           label: '',
-          _style: { width: '1%' },
+          _style: { width: '5%' },
           filter: false,
           sorter: false,
         },
@@ -88,7 +89,7 @@ export default {
         {
           label: 'Total Item',
           _props: {
-            colspan: 6,
+            colspan: 7,
             style: 'font-weight:bold;',
           },
         }

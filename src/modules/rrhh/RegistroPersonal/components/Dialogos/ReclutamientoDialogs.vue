@@ -23,9 +23,25 @@
               <div class="row">
                 <CCol :md="6">
                   <CCol :md="12">
-                    <CFormLabel for="cedula">C&eacute;dula</CFormLabel>
-                    <CFormInput v-model="solicitudEmpleo.cedula" id="cedula" maxlength="11" required
-                      v-on:keypress="onlyNumber($event)" />
+                    <CFormLabel for="cedula">Documento de identidad</CFormLabel>
+                    <section class="row">
+                      <CCol :md="5">
+                        <CFormSelect
+                          v-model="solicitudEmpleo.tipoDocumento"
+                          @change="changeDocument()"
+                          required
+                        >
+                          <option value="cedula">C&eacute;dula</option>
+                          <option value="pasaporte">Pasaporte</option>
+                        </CFormSelect>
+                      </CCol>
+                      <CCol>
+                        <CFormInput
+                          v-model="solicitudEmpleo.codigoIdentidad"
+                          id="cedula" minlength="9" required
+                        />
+                      </CCol>
+                    </section>
                   </CCol>
                   <CCol :md="12">
                     <CFormLabel for="fecha">Fecha solicitud</CFormLabel>
@@ -176,7 +192,8 @@ export default {
       showProfessionModal: false,
       posicionesList: [],
       solicitudEmpleo: {
-        cedula: null,
+        tipoDocumento: 'cedula',
+        codigoIdentidad: null,
         fecha: (new Date().toISOString()),
         nombre: null,
         direccion1: null,
@@ -207,7 +224,6 @@ export default {
         return false;
       }
     },
-
     olderThan(e){
       if( e.target.value >= 18){
         e.preventDefault();
@@ -268,7 +284,8 @@ export default {
     clearForm() {
       this.displayNameProfesion = ''
       this.solicitudEmpleo = {
-        cedula: null,
+        tipoDocumento: 'cedula',
+        codigoIdentidad: null,
         fecha: (new Date().toISOString()),
         nombre: null,
         direccion1: null,
@@ -302,6 +319,16 @@ export default {
         })
         this.getPosicion()
       })
+    },
+    checkDocument(e) {
+      if (this.solicitudEmpleo.tipoDocumento === 'cedula') {
+        onlyNumber(e)
+        this.cedulaMax = 11;
+      }
+    },
+
+    changeDocument() {
+      this.cedulaMax = this.solicitudEmpleo.tipoDocumento === 'cedula' ? 11 : 15
     },
   },
   watch: {
