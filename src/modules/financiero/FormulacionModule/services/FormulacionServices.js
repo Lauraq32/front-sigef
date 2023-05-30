@@ -25,6 +25,10 @@ class FormulacionApi {
     return http.get('CtgMestProg')
   }
 
+  getCatalogosFuncion() {
+    return http.get('catalogos-funcion')
+  }
+
   deleteIngreso(id) {
     return http.delete(`PresIngreso/${id}`)
   }

@@ -51,6 +51,15 @@ export default {
         ),
     },
     {
+      path: 'catalogo',
+      name: 'Catalogo de Funciones',
+      meta: { label: 'Catalogo de Funciones' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FormulacionModule/components/CatalogosFunciones.vue'
+        ),
+    },
+    {
       path: 'proyectos',
       name: 'Proyectos',
       meta: { label: 'Proyectos' },

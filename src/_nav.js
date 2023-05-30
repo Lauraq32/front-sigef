@@ -52,37 +52,6 @@ export default [
         to: '/financiero',
         icon: 'cilChartLine',
         items: [
-
-          {
-            component: 'CNavItem',
-            name: 'Clasificadores',
-            to: '/FinancieroModule/clasificadores',
-            icon: 'cilList',
-          },
-          {
-            component: 'CNavItem',
-            name: 'Estructura programática',
-            to: '/FinancieroModule/estructuraProgramatica',
-            icon: 'cilNotes',
-          },
-          {
-            component: 'CNavItem',
-            name: 'Fuente específica',
-            to: '/FinancieroModule/fuenteEspecifica',
-            icon: 'cilWallet',
-          },
-          {
-            component: 'CNavItem',
-            name: 'Fuentes financiamiento',
-            to: '/FinancieroModule/fuenteFinanciamiento',
-            icon: 'cilLibraryBuilding',
-          },
-          {
-            component: 'CNavItem',
-            name: 'Organismos',
-            to: '/FinancieroModule/organismos',
-            icon: 'cilBuilding',
-          },
           {
             component: 'CNavTitle',
             name: 'Procesos',
@@ -102,6 +71,42 @@ export default [
           {
             component: 'CNavTitle',
             name: 'Consultas',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Clasificadores',
+            to: '/FinancieroModule/clasificadores',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Estructura programática',
+            to: '/FinancieroModule/estructuraProgramatica',
+            icon: 'cilNotes',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Catalogo de Funciones',
+            to: '/FinancieroModule/catalogo',
+            icon: 'cilList',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Fuente específica',
+            to: '/FinancieroModule/fuenteEspecifica',
+            icon: 'cilWallet',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Fuentes financiamiento',
+            to: '/FinancieroModule/fuenteFinanciamiento',
+            icon: 'cilLibraryBuilding',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Organismos',
+            to: '/FinancieroModule/organismos',
+            icon: 'cilBuilding',
           },
           {
             component: 'CNavTitle',
