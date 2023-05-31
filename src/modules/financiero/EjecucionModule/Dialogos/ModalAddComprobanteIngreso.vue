@@ -36,7 +36,7 @@
                 <div class="col-6">
                   <CFormLabel for="etapa">Etapa</CFormLabel>
                   <CFormSelect required v-model="ingresoPost.etapa" id="etapa">
-                    <option value="Ingreso">INGRESO</option>
+                    <option value="Ingreso">Ingreso</option>
                     <option value="Variacion">Variación</option>
                   </CFormSelect>
                   <CFormFeedback invalid>
@@ -52,19 +52,13 @@
                   >Contribuyente</CFormLabel
                 >
                 <div class="position-relative">
-                  <vue3-simple-typeahead
-                    type="text"
+                  <CFormInput
                     required
                     class="form-control padding-input"
                     v-model="ingresoPost.contribuyente.nombre"
                     id="displayNameContribuyentes"
-                    placeholder="Escriba Aqui..."
-                    :items="contribuyenteNameList"
-                    :minInputLength="1"
-                    @selectItem="selectItemEventHandler"
-                    :itemProjection="mapContribuyenteItem"
                   >
-                  </vue3-simple-typeahead>
+                  </CFormInput>
                   <span
                     class="position-absolute icon-input"
                     v-if="!notAllowEdit"
@@ -199,20 +193,18 @@
                 >Monto:</CFormLabel
               >
               <div class="col-2">
-                <VueNumberFormat
-                  id="Monto"
-                  required
-                  v-model:value="detallePost.valor"
+                <CurrencyInput
                   class="form-control text-end"
+                  required
+                  id="presupuestoBco1"
+                  v-model="detallePost.valor"
                   :options="{
+                    locale: 'en-US',
+                    currency: 'USD',
                     precision: 2,
-                    prefix: '',
-                    decimal: '.',
-                    thousand: ',',
+                    currencyDisplay: 'hidden',
                   }"
-                >
-                </VueNumberFormat>
-
+                />
                 <CFormFeedback invalid> Campo requerido</CFormFeedback>
               </div>
 
@@ -292,7 +284,12 @@
 
         <template #subTotal="{ item }">
           <td class="text-end">
-            {{ formatPrice(item.valor * item.cantidad) }}
+            {{
+              formatPrice(
+                Number(item.valor.toString().replace(',', '') ?? 0) *
+                  item.cantidad,
+              )
+            }}
           </td>
         </template>
 
@@ -304,7 +301,9 @@
 
         <template #valor="{ item }">
           <td class="text-end">
-            {{ formatPrice(item.valor) }}
+            {{
+              formatPrice(Number(item.valor.toString().replace(',', '') ?? 0))
+            }}
           </td>
         </template>
       </CSmartTable>
@@ -346,6 +345,7 @@ import contribuyentesDialog from '../Dialogos/ModalSelectContribuyentes.vue'
 import Api from '../services/EjecucionServices'
 import { formatPrice, formatDate } from '@/utils/format'
 import { useToastStore } from '@/store/toast'
+import CurrencyInput from '@/utils/CurrencyInput.vue'
 
 export default {
   name: 'ModalAddComprobanteIngreso',
@@ -355,6 +355,7 @@ export default {
     CSmartTable,
     ClasificadorSelectorDialog,
     contribuyentesDialog,
+    CurrencyInput,
   },
 
   data: function () {
@@ -374,7 +375,7 @@ export default {
         ctgFuenteEspecificaId: null,
         ctgOrganismoFinanciadorId: null,
         fecha: new Date().toISOString(),
-        etapa: '',
+        etapa: 'Ingreso',
         institucionOrtongate: null,
         valor: 0,
         nombre: null,
@@ -382,7 +383,7 @@ export default {
       },
       ingresoPost: {
         codigoIngresoTalonario: null,
-        etapa: null,
+        etapa: 'Ingreso',
         contribuyenteId: 0,
         contribuyente: {
           nombre: null,
@@ -476,7 +477,12 @@ export default {
         })
       }
       if (this.$refs.eventTypeForm.$el.checkValidity()) {
-        return this.addComprobanteIngreso({ ...this.ingresoPost })
+        return this.addComprobanteIngreso({
+          ...this.ingresoPost,
+          valor: Number(
+            this.detallePost.valor.toString().replace(',', '') ?? 0,
+          ),
+        })
       }
 
       this.isFormEventTypeValidated = true
@@ -490,10 +496,6 @@ export default {
       this.ingresoPost.contribuyente = payload
     },
 
-    mapContribuyenteItem(contribuyente) {
-      return `${contribuyente.id}-${contribuyente.nombre}`
-    },
-
     clearDetalle() {
       this.isFormEventTypeValidatedDetalle = false
       this.detallePost = {
@@ -502,7 +504,7 @@ export default {
         ctgFuenteEspecificaId: 0,
         ctgOrganismoFinanciadorId: 0,
         fecha: new Date().toISOString(),
-        etapa: null,
+        etapa: 'Ingreso',
         institucionOrtongate: 0,
         valor: 0,
         nombre: null,
@@ -517,7 +519,7 @@ export default {
       this.isFormEventTypeValidatedDetalle = false
       this.ingresoPost = {
         codigoIngresoTalonario: null,
-        etapa: null,
+        etapa: 'Ingreso',
         contribuyenteId: 0,
         contribuyente: {
           nombre: null,
@@ -554,11 +556,14 @@ export default {
     subTotal() {
       if (
         Number.isNaN(this.detallePost.cantidad) ||
-        Number.isNaN(this.detallePost.valor)
+        Number.isNaN(this.detallePost.valor.toString().replace(',', '') ?? 0)
       ) {
         return ''
       }
-      return formatPrice(this.detallePost.cantidad * this.detallePost.valor)
+      return formatPrice(
+        this.detallePost.cantidad *
+          Number(this.detallePost.valor.toString().replace(',', '') ?? 0),
+      )
     },
 
     fecha: {
@@ -576,9 +581,7 @@ export default {
         return date?.toISOString()?.split('T')?.[0]
       },
       set(value) {
-        return (this.ingresoPost.fecha = new Date(
-          `${value}T00:00:00`,
-        ))
+        return (this.ingresoPost.fecha = new Date(`${value}T00:00:00`))
       },
     },
   },

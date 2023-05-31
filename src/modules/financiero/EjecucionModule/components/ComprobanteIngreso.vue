@@ -230,7 +230,7 @@ export default {
           })
       } else {
         Api.postIngresos(payload)
-          .then((response) => {
+          .then(({ response: { ...response } }) => {
             this.clearModaComprobanteIngreso()
             setTimeout(this.getIngresos, 500)
             this.show({
@@ -238,9 +238,9 @@ export default {
               closable: true,
             })
           })
-          .catch((error) => {
+          .catch(({ response: { ...response } }) => {
             this.show({
-              content: error.data,
+              content: response.data,
               closable: true,
               color: 'danger',
               class: 'text-white',

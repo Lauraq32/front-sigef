@@ -112,7 +112,7 @@ class Ejecucion {
   }
 
   postIngresos(data) {
-    return http.post('registros-ingreso', data)
+    return http.post('registros-ingreso                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ', data)
   }
 
   postIngresoDetalle(data) {
