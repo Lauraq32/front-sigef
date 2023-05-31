@@ -191,15 +191,21 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Ejecución ingreso',
+            name: 'Presupuesto de Ingresos',
             to: '/Ejecucion/ejecucionIngreso',
             icon: 'cilChartPie',
           },
           {
             component: 'CNavItem',
-            name: 'Ejecución gasto',
+            name: 'Presupuesto de Gastos',
             to: '/Ejecucion/ejecucionGastos',
             icon: 'cilChartPie',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Cuenta de Banco',
+            to: '/Ejecucion/Cuentas',
+            icon: 'cilBalanceScale',
           },
 
 

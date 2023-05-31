@@ -103,7 +103,16 @@ export default {
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/EjecucionIngreso.vue'
         ),
-    },
+      },
+      {
+        path: 'cuentas',
+        name: 'Cuentas',
+        meta: { label: 'Cuentas de banco' },
+        component: () =>
+          import(
+            /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/CuentasDebanco.vue'
+          ),
+      },
     {
       path: 'ejecucionGastos',
       name: 'ejecucionGastos',

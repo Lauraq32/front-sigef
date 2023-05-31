@@ -1,8 +1,8 @@
 {
   "name": "sigef",
-	"version": "1.0.0",
-	"description": "Sistema de Gestion Financiera Municipal",
-	"author": "Liga Municipal Dominicana",
+  "version": "1.0.0",
+  "description": "Sistema de Gestion Financiera Municipal",
+  "author": "Liga Municipal Dominicana",
   "scripts": {
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
@@ -29,7 +29,7 @@
     "axios": "^0.27.2",
     "bootstrap-vue": "^2.23.1",
     "core-js": "^3.19.0",
-    "date-fns": "^2.29.3",
+    "date-fns": "^2.30.0",
     "firebase": "^9.15.0",
     "moment": "^2.29.4",
     "pinia": "^2.0.23",

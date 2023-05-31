@@ -21,77 +21,12 @@
     >
   </div>
   <hr />
-  <CSmartTable class="sticky-top"
-    clickableRows
-    :tableProps="{
-      striped: true,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    
-    header
-    columnFilter
-    :items="Bancos"
+  <CuentasDebancoTable
     :columns="columns"
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination
-  >
-    <template #fechaFinConciliacion="{ item }">
-      <td>
-        {{ formatDate(item.fechaFinConciliacion) }}
-      </td>
-    </template>
-    <template #balanceLibro="{ item }">
-      <td class="text-end">
-        {{ formatPrice(item.balanceLibro) }}
-      </td>
-    </template>
-    <template #balanceBanco="{ item }">
-      <td class="text-end">
-        {{ formatPrice(item.balanceBanco) }}
-      </td>
-    </template>
-    <template #show_details="{ item }">
-      <td class="py-2">
-        <CButton
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="setBancoId(item.bancoId, item.nombreCuenta)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Conciliacion' }}
-        </CButton>
-      </td>
-      <td class="py-2">
-        <CButton
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item.bancoId)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
-        </CButton>
-      </td>
-    </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
-    </template>
-  </CSmartTable>
+    :footerItems="footerItem"
+    :items="Bancos"
+    :showButtons="true"
+  />
   <CModal
     size="lg"
     :visible="lgDemo"
@@ -524,7 +459,7 @@
   </CModal>
 </template>
 <script>
-import { CSmartTable } from '@coreui/vue-pro'
+import CuentasDebancoTable from './CuentasDebancoTable.vue'
 import { CModal } from '@coreui/vue'
 import Api from '../services/ConciliacionServices'
 import { mapActions } from 'pinia'
@@ -533,7 +468,7 @@ import { useToastStore } from '@/store/toast'
 import { thisTypeAnnotation } from '@babel/types'
 export default {
   components: {
-    CSmartTable,
+    CuentasDebancoTable,
     CModal,
       
   },
