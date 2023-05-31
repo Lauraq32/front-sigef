@@ -1,5 +1,5 @@
 <template>
-  <CModal size="xl" :visible="showModal" @close="closeModal">
+  <CModal size="xl" :visible="showModal" @close="closeModal" backdrop="static" >
     <CModalHeader>
       <CModalTitle>Documento del Gasto</CModalTitle>
     </CModalHeader>
@@ -27,7 +27,7 @@
                       </CCol>
                       <CCol :md="6">
                         <CFormLabel for="nombre">Etapa</CFormLabel>
-                        <CFormSelect  id="validationCustom05">
+                        <CFormSelect id="validationCustom05">
                           <option>Activo</option>
                           <option>Inactivo</option>
                         </CFormSelect>
@@ -79,12 +79,12 @@
                       <CCol :md="12">
                         <CFormLabel for="nombre">Beneficiario</CFormLabel>
                         <div class="position-relative">
-                      <input ref="name" disabled required class="form-control padding-input"
-                        type="text" id="displayNameProfesion" />
-                      <span class="position-absolute icon-input">
-                        <CIcon icon="cisSearch" size="xl" v-on:click="openBeneficiarioModal" />
-                      </span>
-                    </div>
+                          <input ref="name" disabled required class="form-control padding-input" type="text"
+                            id="displayNameProfesion" />
+                          <span class="position-absolute icon-input">
+                            <CIcon icon="cisSearch" size="xl" v-on:click="openBeneficiarioModal" />
+                          </span>
+                        </div>
 
                       </CCol>
                       <CCol :md="12">
@@ -121,24 +121,27 @@
       </CCardBody>
     </CModalBody>
   </CModal>
+  <SelectBeneficiario :isVisible="showBeneficiarioModal"   @close="selectClasificator" />
 </template>
   
 <script>
 import { CModal } from '@coreui/vue'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CIcon } from '@coreui/icons-vue'
-
+import SelectBeneficiario from './SelectBeneficiario.vue'
 
 export default {
   name: 'CompranteGastoCapturaDialog',
   components: {
     CSmartTable,
     CModal,
-    CIcon
+    CIcon,
+    SelectBeneficiario
   },
 
   data: function () {
     return {
+      showBeneficiarioModal: false,
       profesionesList: [],
       tabPaneActiveKey: 1,
       reclutamientoObject: {},
@@ -147,12 +150,47 @@ export default {
   },
 
   methods: {
-    openBeneficiarioModal(){
+    // selectClasificator(clasificador) {
+    //   if (clasificador) {
+    //     props.formulacionIngreso.ctgClasificadorId = clasificador.clasifica
+    //     props.formulacionIngreso.ctaControl = clasificador.cControl;
+    //     props.formulacionIngreso.detalle = clasificador.nombre;
+    //     props.formulacionIngreso.ctgFuenteId = clasificador.ctgFuenteId || props.formulacionIngreso.ctgFuenteId;
+    //     props.formulacionIngreso.ctgFuenteEspecificaId = clasificador.ctgFuenteEspecificaId || props.formulacionIngreso.ctgFuenteEspecificaId;
+    //     props.formulacionIngreso.ctgOrganismoFinanciadorId = clasificador.ctgOrganismoFinanciadorId || props.formulacionIngreso.ctgOrganismoFinanciadorId;
 
-    },
+    //     validateInputctgFuente(clasificador);
+    //     validateInputctgFuenteEspecificaId(clasificador);
+    //     validateInputctgOrganismoFinanciadorId(clasificador);
+    //   }
+    //   showFindClasificadorModal.value = false;
+    // },
 
     closeModal() {
       this.$emit('closeModal')
+    },
+
+    openBeneficiarioModal() {
+      console.log('gol')
+      this.showBeneficiarioModal = true;
+    },
+
+    sendData() {
+      this.isFormEventTypeValidated = false
+      if (this.$refs.eventTypeForm.$el.checkValidity()) {
+        return this.saveGasto()
+      }
+      this.isFormEventTypeValidated = true
+    },
+
+    saveGasto() {
+      this.$emit('post-gasto', {
+        ...this.postEmpleado
+      })
+    },
+
+    closeModal() {
+      this.$emit('close-modal')
     },
   },
 
