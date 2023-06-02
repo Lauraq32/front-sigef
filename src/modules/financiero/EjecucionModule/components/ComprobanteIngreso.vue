@@ -52,6 +52,29 @@
         {{ formatPrice(item.totalValor) }}
       </td>
     </template>
+
+    <template #contribuyente="{ item }">
+      <td>
+        {{ ite }}
+      </td>
+    </template>
+
+    <template #show_details="{ item }">
+      <td v-if="item.estatus">
+        <CDropdown>
+          <CDropdownToggle color="primary" variant="outline"
+            >Acciones</CDropdownToggle
+          >
+          <CDropdownMenu>
+            <CDropdownItem
+              v-for="action in buttonActions"
+              @click="action.clickHandler && action.clickHandler(item)"
+              >{{ action.label }}</CDropdownItem
+            >
+          </CDropdownMenu>
+        </CDropdown>
+      </td>
+    </template>
   </CSmartTable>
 
   <ModalAddComprobanteIngreso
@@ -59,6 +82,13 @@
     @addComprobanteIngreso="addComprobanteIngreso"
     :showModal="showAddComprobanteIngreso"
     :contribuyentesName="contribuyentesName"
+    :payloadRegistroIngreso="ingresoPost"
+  />
+
+  <ContenedorArchivosRRHH
+    :showModal="showModalDoc"
+    :empleado="selectedEmployee"
+    @closeModal="closeContenedorModal"
   />
 </template>
 
@@ -74,6 +104,7 @@ import router from '@/router'
 import AppActionHeader from '@/components/AppActionHeader.vue'
 import ModalAddComprobanteIngreso from '../Dialogos/ModalAddComprobanteIngreso.vue'
 import { formatDate, formatPrice } from '@/utils/format'
+import ContenedorArchivosRRHH from '@/modules/rrhh/RegistroPersonal/components/ContenedorArchivosRRHH.vue'
 
 export default {
   components: {
@@ -82,6 +113,7 @@ export default {
     SimpleTypeahead,
     AppActionHeader,
     ModalAddComprobanteIngreso,
+    ContenedorArchivosRRHH,
   },
 
   data: function () {
@@ -89,6 +121,7 @@ export default {
       formatDate,
       formatPrice,
       showAddComprobanteIngreso: false,
+      showModalDoc: false,
       itemsCount: null,
       mesReporte: 1,
       parametroReporte: '',
@@ -101,25 +134,6 @@ export default {
       totales: null,
       id: null,
       validatedCustom01: null,
-      lgDemo: false,
-      lgDemo1: false,
-      detalle: '',
-      detalleRegistroIngresos: [],
-
-      detalleRegistroPost: {
-        ayuntamientoId: this.$ayuntamientoId,
-        anioFiscalId: this.$fiscalYearId,
-        transaccionId: 0,
-        ctgClasificadorId: '',
-        ctgFuenteId: '',
-        ctgFuenteEspecificaId: '',
-        ctgOrganismoFinanciadorId: '',
-        fecha: new Date(Date.now()),
-        etapa: '',
-        institucionOrtongate: '',
-        valor: 0,
-        estatus: 'A',
-      },
 
       columns: [
         {
@@ -130,7 +144,11 @@ export default {
 
         { key: 'fecha', label: 'Fecha', _style: { width: '10%' } },
         { key: 'etapa', label: 'Etapa', _style: { width: '10%' } },
-        { key: 'compIngresosId', label: 'Recibo', _style: { width: '10%' } },
+        {
+          key: 'codigoIngresoTalonario',
+          label: 'Recibo',
+          _style: { width: '10%' },
+        },
         {
           key: 'contribuyenteId',
           label: 'Contribuyente',
@@ -138,6 +156,13 @@ export default {
         },
         { key: 'detalle', label: 'Detalle', _style: { width: '35%' } },
         { key: 'totalValor', label: 'Valor', _style: { width: '10%' } },
+        {
+          key: 'show_details',
+          label: '',
+          _style: { width: '1%' },
+          filter: false,
+          sorter: false,
+        },
       ],
       footerItem: [
         {
@@ -146,6 +171,32 @@ export default {
             colspan: 7,
             style: 'font-weight:bold;',
           },
+        },
+      ],
+
+      buttonActions: [
+        {
+          label: 'Eliminar',
+          clickHandler: (value) => {
+            this.cancelarRegistroIngreso(value)
+          },
+        },
+
+        {
+          label: 'Asociar documentos',
+          clickHandler: (value) => {
+            this.showModalDoc = value
+          },
+        },
+
+        {
+          label: 'Imprimir 8 1/2 x 11',
+          clickHandler: (value) => {},
+        },
+
+        {
+          label: 'Imprimir 8 1/2 x 5.5',
+          clickHandler: (value) => {},
         },
       ],
     }
@@ -209,46 +260,6 @@ export default {
       this.mesReporte = 1
     },
 
-    addComprobanteIngreso(payload) {
-      if (payload.id) {
-        Api.putIngresoCabecera(payload.id, payload)
-          .then(() => {
-            this.clearModaComprobanteIngreso()
-            setTimeout(this.getIngresos, 500)
-            this.show({
-              content: 'Registro añadido correctamente',
-              closable: true,
-            })
-          })
-          .catch(() => {
-            this.show({
-              content: 'Error al enviar el formulario',
-              closable: true,
-              color: 'danger',
-              class: 'text-white',
-            })
-          })
-      } else {
-        Api.postIngresos(payload)
-          .then(({ response: { ...response } }) => {
-            this.clearModaComprobanteIngreso()
-            setTimeout(this.getIngresos, 500)
-            this.show({
-              content: response.data,
-              closable: true,
-            })
-          })
-          .catch(({ response: { ...response } }) => {
-            this.show({
-              content: response.data,
-              closable: true,
-              color: 'danger',
-              class: 'text-white',
-            })
-          })
-      }
-    },
-
     getIngresos() {
       Api.getRegistroIngreso().then((response) => {
         this.ingresosList = response.data.data
@@ -257,25 +268,32 @@ export default {
       })
     },
 
-    clearModaComprobanteIngreso() {
-      this.sendDetalle = false
-      this.isFormEventTypeValidated = false
-      this.isFormEventTypeValidatedDetalle = false
-      this.ingresoPost = {
-        codigoIngresoTalonario: null,
-        etapa: null,
-        contribuyenteId: 0,
-        contribuyente: {
-          nombre: null,
-          tipoDocumento: null,
-          documento: null,
-          telefono: null,
-          direccion: null,
-        },
-        detalle: null,
-        fecha: null,
-        detalleRegistroIngresos: [],
-      }
+    cancelarRegistroIngreso(item) {
+      this.$swal({
+        title: 'Estás seguro que quieres eliminar este registro?',
+        text: 'No podrás revertirlo',
+        icon: 'Confirmación',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar!',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Api.deleteRegistroIngreso(item.id).then((response) => {
+            setTimeout(this.getIngresos, 500)
+            this.show({
+              content: response.data,
+              closable: true,
+              color: 'danger',
+              time: 7_000,
+            })
+          })
+        }
+      })
+    },
+
+    closeContenedorModal(payload) {
+      this.showModalDoc = payload
     },
   },
 

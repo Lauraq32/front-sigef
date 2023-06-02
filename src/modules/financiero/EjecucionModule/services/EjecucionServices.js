@@ -112,7 +112,10 @@ class Ejecucion {
   }
 
   postIngresos(data) {
-    return http.post('registros-ingreso                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ', data)
+    return http.post(
+      'registros-ingreso                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ',
+      data,
+    )
   }
 
   postIngresoDetalle(data) {
@@ -182,6 +185,10 @@ class Ejecucion {
 
   getTipoGastoById(id) {
     return http.get(`TipoGasto/${id}?Ayuntamiento=${getAyuntamientoId()}`)
+  }
+
+  deleteRegistroIngreso(id) {
+    return http.delete(`registros-ingreso/${id}`)
   }
 }
 

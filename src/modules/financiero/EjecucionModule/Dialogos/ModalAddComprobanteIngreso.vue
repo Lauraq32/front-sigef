@@ -306,6 +306,8 @@
             }}
           </td>
         </template>
+
+        
       </CSmartTable>
     </CModalBody>
 
@@ -376,10 +378,10 @@ export default {
         ctgOrganismoFinanciadorId: null,
         fecha: new Date().toISOString(),
         etapa: 'Ingreso',
-        institucionOrtongate: null,
         valor: 0,
         nombre: null,
         cantidad: 1,
+        institucionOrtongate: '0000',
       },
       ingresoPost: {
         codigoIngresoTalonario: null,
@@ -433,6 +435,8 @@ export default {
           filter: false,
           sorter: false,
         },
+
+        
       ],
     }
   },
@@ -462,8 +466,24 @@ export default {
       this.isFormEventTypeValidatedDetalle = true
     },
 
-    addComprobanteIngreso() {
-      this.$emit('addComprobanteIngreso', this.ingresoPost)
+    addComprobanteIngreso(payload) {
+      Api.postIngresos(payload)
+        .then((response) => {
+          this.clearModaComprobanteIngreso()
+          setTimeout(this.getIngresos, 500)
+          this.show({
+            content: response.data,
+            closable: true,
+          })
+        })
+        .catch(({ response }) => {
+          this.show({
+            content: response.data,
+            closable: true,
+            color: 'danger',
+            class: 'text-white',
+          })
+        })
     },
 
     sendData() {
@@ -600,6 +620,7 @@ export default {
     showModal: Boolean,
     contribuyentesName: Array,
     contribuyentes: null,
+    payloadRegistroIngreso: Object,
   },
 }
 </script>
