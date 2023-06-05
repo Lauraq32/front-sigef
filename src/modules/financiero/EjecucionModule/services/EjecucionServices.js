@@ -12,6 +12,10 @@ class Ejecucion {
     return http.get(`Beneficiarios/${id}`)
   }
 
+  deleteBeneficiario(id) {
+    return http.delete(`Beneficiarios/${id}`)
+  }
+
   getAnioFiscal() {
     return http.get('anios-fiscales')
   }

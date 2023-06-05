@@ -7,7 +7,7 @@
         color="info"
         @click="
           () => {
-            lgDemo = true
+            beneficiarioModal = true
           }
         "
         >Agregar</CButton
@@ -38,6 +38,11 @@
         {{ formatDate(item.ingreso) }}
       </td>
     </template>
+    <template #estatus="{ item }">
+      <td>
+        {{ item.estatus ? 'Activo' : 'Inactivo' }}
+      </td>
+    </template>
     <template #show_details="{ item }">
       <td class="py-1">
         <CButton
@@ -46,7 +51,7 @@
           variant="outline"
           square
           size="sm"
-          @click="toggleDetails(item)"
+          @click="getBeneficiarioById(item)"
         >
           {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
@@ -58,7 +63,7 @@
           variant="outline"
           square
           size="sm"
-          @click="deleteItem(item)"
+          @click="deleteBeneficiario(item)"
         >
           {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
         </CButton>
@@ -77,230 +82,32 @@
       </CCollapse>
     </template>
   </CSmartTable>
-  <CModal
-    size="lg"
-    :visible="lgDemo"
-    @close="
-      () => {
-        lgDemo = false
-      }
-    "
-  >
-    <CModalHeader>
-      <CModalTitle>Beneficiarios</CModalTitle>
-    </CModalHeader>
-    <CModalBody>
-      <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
-          <div class="row">
-            <div class="col-6 mt-2">
-              <CCol :md="7">
-                <CFormLabel for="validationCustom02">
-                  Tipo de Documento</CFormLabel
-                >
-                <CFormSelect
-                  v-model="postBeneficiario.tipoDcto"
-                  id="validationCustom05"
-                >
-                  <option>Cedula</option>
-                  <option>Pasaporte</option>
-                </CFormSelect>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-
-              <CCol :md="7">
-                <CFormLabel for="validationCustom04">Documento</CFormLabel>
-                <CFormInput
-                  v-model="postBeneficiario.rncCedPas"
-                  id="validationCustom04"
-                >
-                </CFormInput>
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-              <CCol :md="15">
-                <CFormLabel for="validationCustom04">Nombre</CFormLabel>
-                <CFormInput
-                  v-model="postBeneficiario.nombre"
-                  id="validationCustom04"
-                >
-                </CFormInput>
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-              <CCol :md="15">
-                <CFormLabel for="validationCustom04">Direccion</CFormLabel>
-                <CFormInput
-                  v-model="postBeneficiario.direccion"
-                  id="validationCustom04"
-                >
-                </CFormInput>
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-
-              <div class="row">
-                <div class="col-6">
-                  <CCol :md="15">
-                    <CFormLabel for="validationCustom04">Teléfono 1</CFormLabel>
-                    <CFormInput
-                      v-model="postBeneficiario.telefono"
-                      id="validationCustom04"
-                    >
-                    </CFormInput>
-                    <CFormFeedback valid> Exito! </CFormFeedback>
-                    <CFormFeedback invalid>
-                      Favor agregar el campo
-                    </CFormFeedback>
-                  </CCol>
-                </div>
-                <div class="col-6">
-                  <CCol :md="15">
-                    <CFormLabel for="validationCustom04">Teléfono 1</CFormLabel>
-                    <CFormInput
-                      v-model="postBeneficiario.celular"
-                      id="validationCustom04"
-                    >
-                    </CFormInput>
-                    <CFormFeedback valid> Exito! </CFormFeedback>
-                    <CFormFeedback invalid>
-                      Favor agregar el campo
-                    </CFormFeedback>
-                  </CCol>
-                </div>
-              </div>
-              <CCol :md="6">
-                <CFormLabel for="validationCustom04">Contacto</CFormLabel>
-                <CFormInput
-                  v-model="postBeneficiario.contacto"
-                  id="validationCustom04"
-                >
-                </CFormInput>
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-              <CCol :md="15">
-                <CFormLabel for="validationCustom04">Email</CFormLabel>
-                <CFormInput
-                  v-model="postBeneficiario.email"
-                  id="validationCustom04"
-                >
-                </CFormInput>
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-            </div>
-
-            <div class="col-6 mt-2" style="position: relative; left: 57px">
-              <CCol :md="7" class="mb-5">
-                <CFormLabel for="validationCustom04"
-                  >Fecha de ingreso</CFormLabel
-                >
-                <CFormInput
-                  v-model="postBeneficiario.ingreso"
-                  type="date"
-                  id="validationCustom04"
-                >
-                </CFormInput>
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-
-              <CCol :md="7" class="mb-5">
-                <CFormLabel for="validationCustom04"
-                  >Tipo de Beneficiario</CFormLabel
-                >
-                <CFormSelect
-                  v-model="postBeneficiario.tipo"
-                  id="validationCustom05"
-                >
-                  <option>Ayudas</option>
-                  <option>Empleado</option>
-                  <option>Empresa</option>
-                  <option>Institucional</option>
-                  <option>Pensionado</option>
-                  <option>Personal</option>
-                  <option>Subvencion</option>
-                  <option>Comercial</option>
-                  <option>otros</option>
-                </CFormSelect>
-              </CCol>
-
-              <CCol :md="7">
-                <CFormLabel for="validationCustom05">Estatus</CFormLabel>
-                <CFormSelect
-                  v-model="postBeneficiario.estatus"
-                  id="validationCustom05"
-                >
-                  <option>A</option>
-                  <option>I</option>
-                </CFormSelect>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-              v-on:click="close"
-            >
-              Close
-            </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="submitForm">
-              Guardar
-            </button>
-          </div>
-        </CForm>
-      </CCardBody>
-    </CModalBody>
-  </CModal>
+  <BeneficiarioModal
+    :beneficiarioModal="beneficiarioModal"
+    @close-modal="closeModal"
+    @post-beneficiario="saveBeneficiario"
+    :beneficiario="beneficiario"
+  />
 </template>
 
 <script>
-import { useRegistroStore } from '../store/Ejecucion/Beneficiarios'
 import { CSmartTable } from '@coreui/vue-pro'
-import { CModal } from '@coreui/vue'
-import { mapActions, mapState } from 'pinia'
-import { mapStores } from 'pinia'
-
+import { mapActions } from 'pinia'
+import BeneficiarioModal from './Dialogos/BeneficiarioModal.vue'
 import { useToastStore } from '@/store/toast'
 import Api from '../services/EjecucionServices'
 
 export default {
   components: {
     CSmartTable,
-    CModal,
+    BeneficiarioModal,
   },
 
   data: function () {
     return {
+      beneficiario: null,
       Beneficiarios: [],
-      postBeneficiario: {
-        id: 0,
-        nombre: null,
-        tipoDcto: null,
-        rncCedPas: null,
-        ingreso: new Date(Date.now()),
-        tipo: null,
-        direccion: null,
-        ciudad: null,
-        contacto: null,
-        telefono: null,
-        celular: null,
-        email: null,
-        estatus: null,
-        mensual: 0,
-        recomienda: 0,
-        ayuntamientoId: this.$ayuntamientoId,
-      },
-
+      beneficiarioModal: false,
       columns: [
         { key: 'id', label: 'Código', _style: { width: '10%' } },
         {
@@ -343,19 +150,14 @@ export default {
           },
         },
       ],
-
       details: [],
-
-      validatedCustom01: null,
-      lgDemo: false,
     }
   },
-
-  computed: {
-    ...mapStores(useRegistroStore),
-    ...mapState(useRegistroStore, ['Beneficiarios']),
-  },
   methods: {
+    ...mapActions(useToastStore, ['show']),
+    closeModal() {
+      this.beneficiarioModal = false
+    },
     formatDate(ingreso) {
       return new Date(ingreso).toLocaleDateString('en-GB', {
         day: '2-digit',
@@ -363,158 +165,82 @@ export default {
         year: 'numeric',
       })
     },
-    ...mapActions(useRegistroStore, ['getBeneficiarios', 'addBeneficiarios']),
-    ...mapActions(useToastStore, ['show']),
-
-    close() {
-      this.lgDemo = false
+    getBeneficiarioById(item) {
+      this.beneficiario = item
+      this.beneficiarioModal = true
     },
 
-    focusInput() {
-      this.$refs.name.focus()
-    },
-
-    unaVez() {
-      this.focusInput()
-    },
-
-    openModal() {
-      this.lgDemo = true
-      setTimeout(this.unaVez, 200)
-    },
-
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
-    },
-
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
-
-    toggleDetails(item) {
-      if (item.Beneficiarios !== 0 || item.variacion !== 0) {
-        this.formuladoValue = true
+    saveBeneficiario(payload) {
+      if (this.beneficiario.id != null) {
+        Api.putBeneficiarios(this.beneficiario.id, payload)
+          .then(() => {
+            this.show({
+              content: 'Registro actualizado correctamente',
+              closable: true,
+              life: 15000,
+            })
+            setTimeout(() => this.getAllBeneficiario(), 200)
+          })
+          .catch((error) => {
+            return this.show({
+              content: error.response.data,
+              closable: true,
+              color: 'danger',
+            })
+          })
       } else {
-        this.formuladoValue = false
+        Api.postBeneficiarios(payload)
+          .then(() => {
+            this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
+              life: 15000,
+            })
+            setTimeout(() => this.getAllBeneficiario(), 200)
+          })
+          .catch((error) => {
+            return this.show({
+              content: error.response.data,
+              closable: true,
+              color: 'danger',
+            })
+          })
       }
-      this.edit = true
-      this.lgDemo = true
-      Api.getBeneficiariosById(item.id).then((response) => {
-        this.postBeneficiario = response.data.data
+    },
 
-        this.id = item.id
+    deleteBeneficiario(item) {
+      this.$swal({
+        title: 'Estás seguro que quieres eliminar este registro?',
+        text: 'No podrás revertirlo',
+        icon: 'Confirmación',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar!',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Api.deleteBeneficiario(item.id).then(() => {
+            this.show({
+              content: 'Eliminado correctamente',
+              closable: true,
+            })
+            setTimeout(() => this.getAllBeneficiario(), 200)
+          })
+        }
       })
     },
 
-    submitForm() {
-      if (this.id) {
-        Api.putBeneficiarios(this.id, this.postBeneficiario).then(
-          (response) => {
-            this.lgDemo = false
-            this.show({
-              content: 'Registro añadido correctamente',
-              closable: true,
-            })
-            setTimeout(this.getBeneficiarios, 500)
-            this.postBeneficiario = {
-              id: 0,
-              nombre: null,
-              tipoDcto: null,
-              rncCedPas: null,
-              ingreso: new Date(Date.now()),
-              tipo: null,
-              direccion: null,
-              ciudad: null,
-              contacto: null,
-              telefono: null,
-              celular: null,
-              email: null,
-              estatus: null,
-              mensual: 0,
-              recomienda: 0,
-              ayuntamientoId: this.$ayuntamientoId,
-              variacion: 0,
-            }
-          },
-        )
-        setTimeout(this.getBeneficiarios, 500)
-      } else {
-        this.getBeneficiarios()
-        Api.postBeneficiarios(this.postBeneficiario)
-          .then((response) => {
-            this.show({
-              content: 'Registro añadido correctamente',
-              closable: true,
-            })
-          })
-          .catch((error) => {
-            this.show({
-              content: 'Error al enviar el formulario',
-              closable: true,
-              color: 'danger',
-              class: 'text-white',
-            })
-          })
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          text: 'Datos agregados con exito',
-          title: 'Agregado',
-          showConfirmButton: false,
-          timer: 1500,
-        })
-        //const form = event.currentTarget
-        this.lgDemo = true
-        setTimeout(this.getBeneficiarios, 500)
-        ;(this.postBeneficiario = {
-          id: 0,
-          nombre: null,
-          tipoDcto: null,
-          rncCedPas: null,
-          ingreso: new Date(Date.now()),
-          tipo: null,
-          direccion: null,
-          ciudad: null,
-          contacto: null,
-          telefono: null,
-          celular: null,
-          email: null,
-          estatus: null,
-          mensual: 0,
-          recomienda: 0,
-          ayuntamientoId: this.$ayuntamientoId,
-          variacion: 0,
-        }),
-          (this.validatedCustom01 = false)
-        event.preventDefault()
-        event.stopPropagation()
-        setTimeout(this.getBeneficiarios, 500)
-      }
+    getAllBeneficiario() {
+      Api.getBeneficiarios().then((response) => {
+        this.Beneficiarios = response.data.data
+        this.itemsCount = this.Beneficiarios.length
+        this.footerItem[0].label = `Total items: ${this.itemsCount}`
+      })
     },
   },
 
   mounted() {
-    Api.getBeneficiarios().then((response) => {
-      this.Beneficiarios = response.data.data
-      this.itemsCount = this.Beneficiarios.length
-      this.footerItem[0].label = `Total items: ${this.itemsCount}`
-    })
+    this.getAllBeneficiario()
   },
 }
 </script>
