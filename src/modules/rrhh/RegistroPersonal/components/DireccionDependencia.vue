@@ -1,23 +1,11 @@
 <template>
-  <h3 class="text-center">Direcci&oacute;n dependencia</h3>
-  <hr />
-  <div class="table-headers">
-    <div class="d-inline p-2">
+  <h3 class="text-center mb-4">Direcci&oacute;n Dependencia</h3>
+  <div class="table-headers mb-4">
       <CButton
         color="info"
-        @click="
-          () => {
-            newDireccionDependeciaModal = true
-          }
-        "
-        >Agregar</CButton
-      >
-    </div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info">Imprimir</CButton>
-    </div>
+        @click=" () => { newDireccionDependeciaModal = true }">Agregar</CButton>
+      <CButton color="secondary">Imprimir</CButton>
   </div>
-  <hr />
   <CSmartTable
     class="sticky-top"
     clickableRows
@@ -63,7 +51,7 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { mapActions } from 'pinia'
 import { useToastStore } from '@/store/toast'
-import DireccionDependeciaDialogs from '../Dialogos/DireccionDependenciaModal.vue'
+import DireccionDependeciaDialogs from './Dialogos/DireccionDependenciaModal.vue'
 import Api from '../services/RegistroPersonalServices'
 export default {
   components: {
@@ -91,7 +79,7 @@ export default {
         {
           label: 'Total Items',
           _props: {
-            colspan: 1,
+            colspan: 2,
             style: 'font-weight:bold;',
           },
         },

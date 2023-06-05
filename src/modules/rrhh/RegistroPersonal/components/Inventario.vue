@@ -1,220 +1,276 @@
 <template>
-  <h3 class="text-center">Inventario útiles de trabajo</h3>
-  <hr />
+  <h3 class="text-center mb-3">Inventario de &uacute;tiles</h3>
+
   <div class="table-headers">
-    <div class="d-inline p-2">
-      <CButton
+    <CButton
         color="info"
-        @click="
-          () => {
-            lgDemo = true
-          }
-        "
-        >Agregar</CButton
-      >
-    </div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-        >Imprimir</CButton
-      >
-    </div>
+        @click="() => { showModalUtilsLaboral() }"
+    >
+      Agregar
+    </CButton>
   </div>
-  <hr />
-  <CSmartTable class="sticky-top"
+
+  <CSmartTable
+    class="sticky-tops"
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
     :activePage="1"
     :footer="footerItem"
     header
-    :items="this.$store.state.RRHHModule.inventario"
+    :items="utilLaboralList"
     :columns="columns"
     columnFilter
     itemsPerPageSelect
     :itemsPerPage="5"
     columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
+    :sorterValue="{ column: 'descripcion', state: 'asc' }"
     pagination
   >
-    <template #status="{ item }">
+    <template #fecha="{ item }">
       <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+        {{ formatDate(item.fecha) }}
       </td>
     </template>
-    <template #show_details="{ item, index }">
-      <td class="py-2">
-        <CButton
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item, index)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
-        </CButton>
+
+    <template #cantidad="{ item }">
+      <td class="text-end">
+        {{ formatNumber(item.cantidad) }}
       </td>
     </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
+
+    <template #controllers="{ item }">
+      <td>
+        <CDropdown>
+          <CDropdownToggle color="primary" variant="outline">
+            Acciones
+          </CDropdownToggle>
+          <CDropdownMenu>
+            <CDropdownItem
+              @click="() => { showModalUtilsLaboral(item) }"
+            >
+              Modificar
+            </CDropdownItem>
+            <CDropdownItem
+              @click="() => { showModalEvento(item) }"
+            >
+              Agregar Movimientos
+            </CDropdownItem>
+          </CDropdownMenu>
+        </CDropdown>
+      </td>
     </template>
   </CSmartTable>
-  <CModal
-    size="lg"
-    :visible="lgDemo"
-    @close="
-      () => {
-        lgDemo = false
-      }
-    "
-  >
-    <CModalHeader>
-      <CModalTitle>Inventario útiles de trabajo</CModalTitle>
-    </CModalHeader>
-    <CModalBody>
-      <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
-          <CCol :md="2">
-            <CFormLabel for="validationCustom01">Código</CFormLabel>
-            <CFormInput disabled id="validationCustom01" />
 
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustomUsername">Descripción</CFormLabel>
-            <CInputGroup class="has-validation">
-              <CFormInput
-                id="validationCustomUsername"
-                value=""
-                aria-describedby="inputGroupPrepend"
-                required
-              />
-              <CFormFeedback valid> Exito! </CFormFeedback>
-              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-            </CInputGroup>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom04">Tipo</CFormLabel>
-            <CFormSelect id="validationCustom04">
-              <option>TIPO 1</option>
-              <option>TIPO 2</option>
-            </CFormSelect>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom04">Cantidad</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
-              Guardar
-            </button>
-          </div>
-        </CForm>
-      </CCardBody>
-    </CModalBody>
-  </CModal>
+  <UtilesLaboralesDialog
+    :showModal="showUtilLaboralModal"
+    :utilLaboralSelected="utilSeleccionado"
+    @closeModal="closeModal"
+    @saveUtilesLaborales="saveUtilesLaborales"
+  />
+
+  <EventoInventarioDialog
+    :utilLaboralSelected="utilSeleccionado"
+    :utils="utilLaboralMappedList"
+    :showModal="showEventDialog"
+    :empleados="empleados"
+    @closeModal="closeModal"
+    @saveEvents="saveEventos"
+  />
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import Api from '../services/RegistroPersonalServices'
+import UtilesLaboralesDialog from './Dialogos/UtilesLaboralesDialogs.vue'
+import EventoInventarioDialog from './Dialogos/EventosInventarioDialogs.vue'
+import { useToastStore } from '@/store/toast'
+import { mapActions } from 'pinia'
+import { formatNumber, formatDate } from '@/utils/format'
+
 export default {
   components: {
     CSmartTable,
     CModal,
+    UtilesLaboralesDialog,
+    EventoInventarioDialog,
   },
   data: () => {
     return {
+      formatDate,
+      formatNumber,
+      empleados: [],
+      utils: [],
+      utilSeleccionado: {},
+      utilLaboralList: [],
       validatedCustom01: null,
-      lgDemo: false,
-      columns: [
-        { key: 'Código', label: 'Código', _style: { width: '40%' } },
-        { key: 'Descripción', label: 'Descripción', _style: { width: '40%' } },
-        { key: 'Tipo', label: 'Tipo', _style: { width: '40%' } },
-        { key: 'Existencia', label: 'Existencia', _style: { width: '40%' } },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
-        },
-      ],
+      showAddUtilLaboralDialog: false,
+      showUtilLaboralModal: false,
+      showAddUtilLaboralDialog: false,
+      showEventDialog: false,
       footerItem: [
         {
           label: 'Total Items',
           _props: {
-            color: '',
-            colspan: 1,
+            colspan: 5,
             style: 'font-weight:bold;',
           },
         },
-
       ],
-      details: [],
+      columns: [
+        { key: 'id', label: 'Código', _style: { width: '10%' } },
+        { key: 'descripcion', label: 'Descripción', _style: { width: '35%' } },
+        { key: 'tipo', label: 'Tipo', _style: { width: '20%' } },
+        { key: 'cantidad', label: 'Cantidad', _style: { width: '15%' } },
+        {
+          key: 'controllers',
+          label: '',
+          _style: { width: '10%' },
+          filter: false,
+          sorter: false,
+        }
+      ],
     }
   },
+
   methods: {
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
+    ...mapActions(useToastStore, ['show']),
+    getUtilesLaborales() {
+      Api.getUtilesLaborales().then((response) => {
+        this.utilLaboralList = response.data.data;
+        this.footerItem[0].label = `Total items: ${this.utilLaboralList.length}`;
+      })
     },
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
+
+    closeModal() {
+      this.showUtilLaboralModal = false;
+      this.showEventDialog = false;
     },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
+
+    showModalEvento(item) {
+      this.showEventDialog = true;
+      this.utilSeleccionado = item;
+    },
+
+    showModalUtilsLaboral(item) {
+      this.utilSeleccionado = (item && item) || ({
+        fecha: new Date(),
+        observacion: null,
+        autorizadoPor: null,
+        tipo: 'deducible',
+        cantidad: 1,
+        descripción: null,
+      });
+      this.showUtilLaboralModal = true;
+    },
+
+    saveUtilesLaborales(payload) {
+      if (payload.id) {
+        Api.putUtilLaboral(payload.id, payload)
+        .then((response) => {
+          this.show({
+            content: response.data,
+            closable: true,
+          });
+          this.showUtilLaboralModal = false;
+          setTimeout(this.getUtilesLaborales, 200);
+        })
+        .catch((error) => {
+          this.show({
+            content: error.response.data,
+            closable: true,
+            color: 'danger',
+            class: 'text-white',
+          });
+        });
+        return;
       }
-      this.details.push(item._id)
+
+      Api.postUtilLaboral(payload)
+        .then((response) => {
+          this.show({
+            content: response.data,
+            closable: true,
+          });
+          this.showUtilLaboralModal = false;
+          setTimeout(this.getUtilesLaborales, 200);
+        })
+        .catch((error) => {
+          this.show({
+            content: error.response.data,
+            closable: true,
+            color: 'danger',
+            class: 'text-white',
+          })
+        });
+    },
+
+    saveEventos(payload) {
+      Api.postEventos(payload.utilId, payload)
+        .then(() => {
+          setTimeout(this.getInventario, 500)
+          this.show({
+            content: 'Registro añadido correctamente',
+            closable: true,
+          })
+          this.showEventDialog = false
+        })
+        .catch((error) => {
+          this.show({
+            content: error.data,
+            closable: true,
+            color: 'danger',
+            class: 'text-white',
+          })
+        })
+    },
+
+
+    getEmpleados() {
+      Api.getAllEmpleado().then(({ data: { data } }) => {
+        this.empleados = data.map((elem) => ({
+          code: elem.id,
+          label: `(${elem.codigo})  ${elem.nombres}  `,
+        }))
+        this.empleados.unshift({
+          code: '',
+          label: 'Seleccionar',
+        })
+      })
+    },
+
+    getUtilInventario(item) {
+      Api.getInventarioById(item.id).then(({ data: { data } }) => {
+        this.utilLaboralList = data
+        this.utils = data.map((elem) => ({
+          code: elem.id,
+          label: `(${elem.id})  ${elem.descripcion}  `,
+          cantidad: elem.cantidad,
+        }))
+      })
+    },
+
+    getUtilesInventario(item) {
+      Api.getInventarioById(item).then(({ data: { data } }) => {
+        this.utilLaboralList = data
+      })
     },
   },
+  computed: {
+    utilLaboralMappedList() {
+      return this.utilLaboralList.map(u => ({
+        code: u.id.toString(),
+        label: u.descripcion,
+        cantidad: u.cantidad
+      }))
+    }
+  },
   mounted() {
-    this.$store.dispatch('AdministrativoModule/getUsuarios')
+    this.getUtilesLaborales()
+    this.getEmpleados()
   },
 }
 </script>

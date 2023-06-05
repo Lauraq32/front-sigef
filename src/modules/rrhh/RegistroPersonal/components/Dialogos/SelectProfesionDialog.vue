@@ -1,5 +1,5 @@
 <template>
-  <CModal size="md" :visible="showModal" @close="closeModal">
+  <CModal :visible="showModal" @close="closeModal">
     <CModalHeader>
       <CModalTitle>Profesiones</CModalTitle>
     </CModalHeader>
@@ -34,7 +34,7 @@ export default {
     CModal,
     CIcon
   },
-
+  emits: ['closeModal', 'select-profesion'],
   data: function () {
     return {
       profesionesList: [],
@@ -58,7 +58,7 @@ export default {
 
     getProfesion(item) {
       this.$emit('select-profesion', item)
-
+      this.closeModal()
     },
     listarProfesiones() {
       Api.getProfesiones().then(response => (

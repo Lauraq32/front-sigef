@@ -1,25 +1,9 @@
 <template>
-  <h3 class="text-center">Cargos</h3>
-  <hr />
-  <div class="table-headers">
-    <div class="d-inline p-2">
-      <CButton
-        color="info"
-        @click="
-          () => {
-            cargoModal = true
-          }
-        "
-        >Agregar</CButton
-      >
-    </div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info"
-        >Imprimir</CButton
-      >
-    </div>
+  <h3 class="text-center mb-4">Cargos</h3>
+  <div class="table-headers mb-4 gap-1">
+    <CButton color="info" @click="() => { cargoModal = true }">Agregar</CButton>
+    <CButton color="secondary">Imprimir</CButton>
   </div>
-  <hr />
   <CSmartTable
     class="sticky-top"
     clickableRows
@@ -37,7 +21,7 @@
     itemsPerPageSelect
     :itemsPerPage="5"
     columnSorter
-    :sorterValue="{ column: 'posicion', state: 'asc' }"
+    :sorterValue="{ column: 'nombre', state: 'asc' }"
     pagination
   >
   <template #show_details="{ item }">
@@ -50,13 +34,13 @@
     :cargoModal="cargoModal"
     @close-modal="closeModal"
     @post-cargo="saveCargo"
-    :cargoId="cargoId"
+    :cargoToUpdate="cargo"
   />
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
-import CargosModal from '../Dialogos/CargosModal.vue'
+import CargosModal from './Dialogos/CargosModal.vue'
 import { mapActions } from 'pinia'
 import Api from '../services/RegistroPersonalServices'
 import { useToastStore } from '@/store/toast'
@@ -68,12 +52,17 @@ export default {
   },
   data: () => {
     return {
-      cargoId: null,
+      cargo: null,
       cargos: [],
       cargoModal: false,
       columns: [
         {
-          key: 'posicion',
+          key: 'id',
+          label: 'ID',
+          _style: { width: '5%' },
+        },
+        {
+          key: 'nombre',
           label: 'Posición o cargo',
           _style: { width: '40%' },
         },
@@ -89,7 +78,7 @@ export default {
         {
           label: 'Total Items',
           _props: {
-            colspan: 1,
+            colspan: 3,
             style: 'font-weight:bold;',
           },
         },
@@ -102,12 +91,12 @@ export default {
       this.cargoModal = payload
     },
     getCargosById(item) {
-      this.cargoId = item.id
+      this.cargo = item;
       this.cargoModal = true
     },
     saveCargo(payload) {
-      if (this.cargoId != null) {
-        Api.updateCargo(this.cargoId, payload)
+      if (payload.id != null) {
+        Api.updateCargo(payload.id, payload)
           .then(() => {
             this.show({
               content: 'Registro actualizado correctamente',

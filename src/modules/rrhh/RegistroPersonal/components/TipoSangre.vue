@@ -1,14 +1,9 @@
 <template>
-  <h3 class="text-center">Tipo de sangre</h3>
+  <h3 class="text-center mb-4">Tipo de Sangre</h3>
   
-  <div class="table-headers">
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-        >Imprimir</CButton
-      >
-    </div>
+  <div class="table-headers mb-4">
+    <CButton color="secondary">Imprimir</CButton>
   </div>
-  <hr />
   <CSmartTable class="sticky-top"
     clickableRows
     :tableProps="{
@@ -48,7 +43,7 @@ export default {
   },
   methods: {
     getAllSangre() {
-      Api.getAllTipoSangre().then((response) => {
+      Api.tipoSangreList().then((response) => {
         this.sangres = response.data.data
       })
     }
