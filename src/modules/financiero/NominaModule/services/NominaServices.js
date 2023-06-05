@@ -213,6 +213,10 @@ class NominaApi {
   deleteSector(id) {
     return http.delete(`Sector/${id}?ayuntamiento=${getAyuntamientoId()}`)
   }
+
+  createNomina(data) {
+    return http.post('nominas', data)
+  }
 }
 
 export default new NominaApi()

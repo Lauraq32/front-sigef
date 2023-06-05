@@ -57,15 +57,14 @@
                         </CFormSelect>
                     </div>
                     <div class="d-flex gap-3">
-                        <CFormCheck label="Nomina Regal&iacute;a?" v-model="generateNomina.nominaRegalia" />
-                        <CFormCheck label="Permitir Duplicada en Nomina?" v-model="generateNomina.duplicidadNomina" />
+                        <CFormCheck label="Nomina Regal&iacute;a?" v-model="generateNomina.isRegalia" />
+                        <CFormCheck label="Permitir Duplicada en Nomina?" v-model="generateNomina.allowsDuplicate" />
                     </div>
                     <div class="d-flex flex-column gap-1">
                         <label class="form-label col-auto col-form-label fw-bolder" for="nota">Nota (Encabezado
                             N&oacute;mina)</label>
                         <CFormTextarea id="nota" v-model="generateNomina.nota" />
                     </div>
-
                 </CCol>
                 <CCol xs="5" class="border p-2">
                     <CNav variant="tabs" role="tablist">
@@ -88,18 +87,20 @@
                                 striped: true,
                                 hover: true,
 
-                            }" :tableHeadProps="{}" :activePage="1" header :items="dataConfiguracionNomina?.filter(x => x.type == 'retencion')"
-                                :columns="tableConfiguracionNominaRetencion" :sorterValue="{ column: 'status', state: 'asc' }"
-                                pagination>
+                            }" :tableHeadProps="{}" :activePage="1" header
+                                :items="dataConfiguracionNomina?.filter(x => x.type == 'retencion')"
+                                :columns="tableConfiguracionNominaRetencion"
+                                :sorterValue="{ column: 'status', state: 'asc' }" pagination>
                             </CSmartTable>
-                            <CFormCheck label="Nomina con Retenciones?" />
+                            <CFormCheck label="Nomina con Retenciones?" v-model="generateNomina.retenciones" />
                         </CTabPane>
                         <CTabPane role="tabpanel" aria-labelledby="ingresos-tab" :visible="tabPaneActiveKey === 2">
                             <CSmartTable clickableRows :tableProps="{
                                 striped: true,
                                 hover: true,
 
-                            }" :tableHeadProps="{}" :activePage="1" header :items="dataConfiguracionNomina?.filter(x => x.type == 'ingreso')"
+                            }" :tableHeadProps="{}" :activePage="1" header
+                                :items="dataConfiguracionNomina?.filter(x => x.type == 'ingreso')"
                                 :columns="tableConfiguracionNominaIngreso" :sorterValue="{ column: 'status', state: 'asc' }"
                                 pagination>
                             </CSmartTable>
@@ -129,13 +130,14 @@
 </template>
 <script>
 import { useAuthStore } from '@/store/AuthStore';
-import { CModal } from '@coreui/vue'
+import { CModal } from '@coreui/vue';
 import { CFormInput, CModalFooter, CRow, CSmartTable } from '@coreui/vue-pro';
-import vSelect from 'vue-select'
-import { mapState } from 'pinia';
-import ApiNomina from '../../services/NominaServices'
-import { estructura, getConfiguracionNomina } from '@/utils/format'
+import vSelect from 'vue-select';
+import { mapState, mapActions } from 'pinia';
+import ApiNomina from '../../services/NominaServices';
+import { estructura, getConfiguracionNomina } from '@/utils/format';
 import CIcon from '@coreui/icons-vue';
+import { useToastStore } from '@/store/toast';
 
 export default {
     name: 'ModalGenerarNomina',
@@ -192,9 +194,24 @@ export default {
         },
         createNomina() {
             this.generateNomina.departamentoId = this.selectedDepartamentos;
-            this.generateNomina.programaDivision = this.selectedProgramasDivisionId;
+            if (this.generateNomina.departamentoId === 0) {
+            }
             this.generateNomina.fecha = this.fechaNomina;
-            //this.clearAllData();
+            ApiNomina.createNomina(this.generateNomina).then((data) => {
+                this.clearAllData();
+                this.show({
+                    content: 'La nomina ha sido generada',
+                    closable: true,
+                    color: 'success'
+                });
+            }).catch((e) => {
+                const { message } = e.response.data;
+                this.show({
+                    content: message,
+                    closable: true,
+                    color: 'danger'
+                });
+            })
         },
         clearAllData() {
             this.fechaNomina = null;
@@ -217,16 +234,18 @@ export default {
                 programaDivision: '',
                 departamentoId: 0,
                 formaPago: '',
-                nominaRegalia: false,
-                duplicidadNomina: false,
-                nota: ''
+                isRegalia: false,
+                allowsDuplicate: false,
+                retenciones: false,
+                nota: '',
             };
         },
         getConfiguracionNominaApi() {
             ApiNomina.getConfiguracionNomina().then((response) => {
                 this.dataConfiguracionNomina = this.getConfiguracionNomina(response.data.data);
             })
-        }
+        },
+        ...mapActions(useToastStore, ['show']),
     },
     computed: {
         fechaNomina: {
@@ -293,8 +312,8 @@ export default {
                 programaDivision: '',
                 departamentoId: 0,
                 formaPago: '',
-                nominaRegalia: false,
-                duplicidadNomina: false,
+                isRegalia: false,
+                allowsDuplicate: false,
                 nota: ''
             },
             tableConfiguracionNominaRetencion: [
