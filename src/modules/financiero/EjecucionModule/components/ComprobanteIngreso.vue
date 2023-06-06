@@ -48,13 +48,13 @@
       </td>
     </template>
     <template #etapa="{ item }">
-      <td class="text-center">
-        <CBadge class="text-bg-warning">{{ item.etapa }}</CBadge>
+      <td class="text-center text-uppercase">
+        <CBadge color="warning">{{ item.etapa }}</CBadge>
       </td>
     </template>
 
     <template #estatus="{ item }">
-      <td class="text-center">
+      <td class="text-center text-uppercase">
         <CBadge :color="item.estatus ? 'success' : 'danger'">{{ item.estatus ? 'ACTIVO' : 'CANCELADO' }}</CBadge>
       </td>
     </template>
