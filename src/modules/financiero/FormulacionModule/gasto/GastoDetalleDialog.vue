@@ -113,7 +113,7 @@
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="3">
-                <CFormLabel for="ctgFuenteEspecificaId">Fuente Especifica</CFormLabel>
+                <CFormLabel for="ctgFuenteEspecificaId">Fuente Espec&iacute;fica</CFormLabel>
                 <CFormInput v-model="detalle.ctgFuenteEspecificaId" :disabled="isFieldEditable" id="ctgFuenteEspecificaId"
                   type="number" pattern="[0-9]+">
                 </CFormInput>

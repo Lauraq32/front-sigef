@@ -8,7 +8,7 @@ class Files {
     }
     if (tag) {
       const tags = Object.keys(tag).reduce((list, key) => {
-        list.push(`tag=${tag[key]}`)
+        list.push(`${key}=${tag[key]}`)
         return list
       }, [])
 

@@ -1,8 +1,6 @@
 <template>
-  <h3 class="text-center">Sectores</h3>
-  <hr />
+  <h3 class="text-center mb-4">Sectores</h3>
   <div class="table-headers">
-    <div class="d-inline p-2">
       <CButton
         color="info"
         @click="
@@ -12,9 +10,8 @@
         "
         >Agregar</CButton
       >
-    </div>
   </div>
-  <hr />
+  
   <CSmartTable
     class="sticky-top"
     clickableRows

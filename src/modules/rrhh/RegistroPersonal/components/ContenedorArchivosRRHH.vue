@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CModal backdrop="static" size="lg" :visible="showModal">
+    <CModal backdrop="static" size="lg" :visible="showModal" @close="closeModal()">
       <CModalHeader>
         <CModalTitle>Captura de Im&aacute;genes Asociadas al Documento</CModalTitle>
       </CModalHeader>
@@ -29,7 +29,7 @@
         </CSmartTable>
       </CModalBody>
       <CModalFooter>
-        <CButton color="secondary" @click="onClick">Cerrar</CButton>
+        <CButton color="secondary" @click="closeModal()">Cerrar</CButton>
       </CModalFooter>
     </CModal>
     <CModal backdrop="static" size="lg" :visible="showModalSaveDocument" @close="closeModalSaveDocument">
@@ -114,6 +114,7 @@ export default {
         "Documento Personal",
         "Certificado",
         "Documento Estudio",
+        "Contrato",
         "Otros"
       ],
       columns: [
@@ -169,7 +170,7 @@ export default {
         formData.append('fileCustomtype', this.typeDocument)
         formData.append('file', this.dropzoneFile)
         Api.postFiles(formData).then(() => {
-          this.getFileById(this.empleado.id)
+          this.getFilesByEmployeeId(this.empleado.id)
           this.show({
             content: "Imagen guardada correctamente",
             closable: true,
@@ -177,9 +178,6 @@ export default {
           this.clearForm();
         }).catch((e) => console.log('error', e))
       }
-    },
-    onClick() {
-      this.$emit('custom-event', false)
     },
     clearForm(){
       this.fileName = '';
@@ -192,8 +190,8 @@ export default {
     toggle(index) {
       this.documentos[index].visible = !this.documentos[index].visible
     },
-    getFileById(id) {
-      Api.getFileById(id).then((response) => {
+    getFilesByEmployeeId(id) {
+      Api.getFilesByEmployeeId(id).then((response) => {
         this.documentos = response.data.data
         this.footerItem[0].label = `Total Items ${this.documentos.length}`
       })
@@ -213,7 +211,9 @@ export default {
   },
   watch: {
     empleado() {
-      this.getFileById(this.empleado.id)
+      if (this.showModal) {
+        this.getFilesByEmployeeId(this.empleado.id)
+      }
     },
   },
   props: {
