@@ -38,7 +38,8 @@
                       <CCol>
                         <CFormInput
                           v-model="solicitudEmpleo.codigoIdentidad"
-                          id="cedula" minlength="9" required
+                          id="cedula" minlength="9" required :maxlength="IdCodMaxLen"
+                          @keypress="checkDocument"
                         />
                       </CCol>
                     </section>
@@ -322,13 +323,13 @@ export default {
     },
     checkDocument(e) {
       if (this.solicitudEmpleo.tipoDocumento === 'cedula') {
-        onlyNumber(e)
-        this.cedulaMax = 11;
+        this.IdCodMaxLen = 11;
+        return onlyNumber(e);
       }
     },
 
     changeDocument() {
-      this.cedulaMax = this.solicitudEmpleo.tipoDocumento === 'cedula' ? 11 : 15
+      this.IdCodMaxLen = this.solicitudEmpleo.tipoDocumento === 'cedula' ? 11 : 15
     },
   },
   watch: {
