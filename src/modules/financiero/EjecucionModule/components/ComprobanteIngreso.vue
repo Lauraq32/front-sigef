@@ -52,6 +52,13 @@
         <CBadge class="text-bg-warning">{{ item.etapa }}</CBadge>
       </td>
     </template>
+
+    <template #estatus="{ item }">
+      <td class="text-center">
+        <CBadge :color="item.estatus ? 'success' : 'danger'">{{ item.estatus ? 'ACTIVO' : 'CANCELADO' }}</CBadge>
+      </td>
+    </template>
+
     <template #totalValor="{ item }">
       <td class="text-end">
         {{ formatPrice(item.totalValor) }}
@@ -65,8 +72,8 @@
     </template>
 
     <template #show_details="{ item }">
-      <td v-if="item.estatus">
-        <CDropdown>
+      <td>
+        <CDropdown v-if="item.estatus">
           <CDropdownToggle color="primary" variant="outline"
             >Acciones</CDropdownToggle
           >
@@ -162,6 +169,7 @@ export default {
         },
         { key: 'detalle', label: 'Detalle', _style: { width: '25%' } },
         { key: 'totalValor', label: 'Valor', _style: { width: '10%' } },
+        { key: 'estatus', label: 'Estatus', _style: { width: '10%' } },
         {
           key: 'show_details',
           label: '',
