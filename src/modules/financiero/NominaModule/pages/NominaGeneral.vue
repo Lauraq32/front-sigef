@@ -52,6 +52,7 @@ export default {
         ModalGenerarNomina
     },
     mounted() {
+        this.filterByDate({});
     },
     setup() {
     },
@@ -60,7 +61,7 @@ export default {
     },
     methods: {
         filterByDate(value) {
-            ApiNomina.getNominaGeneral(value).then((response) => {
+            ApiNomina.getNominasGeneral(value).then((response) => {
                 this.dataNominaGeneral = response.data.data;
             })
         },

@@ -125,9 +125,9 @@ class NominaApi {
     )
   }
 
-  getNominaGeneral(params) {
+  getNominasGeneral(params) {
     params = CreateQueryParam(params);
-    return http.get(`Nomina/NominaGeneral?${params}`)
+    return http.get(`nominas/?${params}`)
   }
 
   getNominaPorEmpleado(id) {
