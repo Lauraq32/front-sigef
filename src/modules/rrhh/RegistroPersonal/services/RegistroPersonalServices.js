@@ -2,6 +2,14 @@
 import http from '@/Api/http-common'
 import { getAyuntamientoId } from '@/utils/logged-info'
 class RegistroPersonal {
+  //Empleado a Beneficiario
+  setAllEmpleadosToBeneficiario(){
+    return http.put('empleados/beneficiarios')
+  }
+  setEmpleadoToBeneficiario(id){
+    return http.put(`empleados/${id}/beneficiarios`)
+  }
+
   //get
   tipoSangreList() {
     return http.get('tipos-sangre')

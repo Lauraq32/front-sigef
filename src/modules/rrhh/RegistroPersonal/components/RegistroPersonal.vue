@@ -5,51 +5,27 @@
     <div class="d-flex gap-1 mb-2">
       <CButton color="info" @click="showModal">Agregar</CButton>
       <CButton color="secondary">Imprimir Reporte</CButton>
+      <CButton color="info" @click="setEmpleadosToBeneficiarios">Pasar a Beneficiarios</CButton>
     </div>
   </div>
 
-  <RegistroPersonalTable
-    :tableData="registroPersonal"
-    :tableColumns="columns"
-    :actions="buttonActions"
-    :footer="footerItem"
-  />
+  <RegistroPersonalTable :tableData="registroPersonal" :tableColumns="columns" :actions="buttonActions"
+    :footer="footerItem" />
 
-  <RegistroPersonalDialog
-    :showModal="showRegistroPersonalModal"
-    @post-personal="submitForm"
-    @close-modal="closeRegistroPersonalModal"
-    :empleadoId="selectedEmployee?.id"
-  />
+  <RegistroPersonalDialog :showModal="showRegistroPersonalModal" @post-personal="submitForm"
+    @close-modal="closeRegistroPersonalModal" :empleadoId="selectedEmployee?.id" />
 
-  <TarjetaEmpleadoDialogs
-    :newTarjetaEmpleadoModal="newTarjetaEmpleadoModal"
-    @close-modal="closeTarjetaEmpleadoModal"
-    :empleado="selectedEmployee"
-  />
+  <TarjetaEmpleadoDialogs :newTarjetaEmpleadoModal="newTarjetaEmpleadoModal" @close-modal="closeTarjetaEmpleadoModal"
+    :empleado="selectedEmployee" />
 
-  <AccionPersonalDialog
-    :showModal="showAccionPersonal"
-    @closeModal="closeAccionPersonal"
-    :empleado="selectedEmployee"
-  />
+  <AccionPersonalDialog :showModal="showAccionPersonal" @closeModal="closeAccionPersonal" :empleado="selectedEmployee" />
 
-  <TipoNovedadDialog
-    :showModal="showTipoNovedad"
-    @closeModal="closeTipoNovedad"
-  />
+  <TipoNovedadDialog :showModal="showTipoNovedad" @closeModal="closeTipoNovedad" />
 
-  <ContenedorArchivosRRHH
-    :showModal="showModalDoc"
-    :empleado="selectedEmployee"
-    @custom-event="closeContenedorModal"
-  />
+  <ContenedorArchivosRRHH :showModal="showModalDoc" :empleado="selectedEmployee" @custom-event="closeContenedorModal" />
 
-  <EducacionDialog
-    :showModal="showEducacion"
-    :employeeInfo="selectedEmployee"
-    @closeModal="() => (showEducacion = false)"
-  />
+  <EducacionDialog :showModal="showEducacion" :employeeInfo="selectedEmployee"
+    @closeModal="() => (showEducacion = false)" />
 </template>
 
 <script>
@@ -186,12 +162,49 @@ export default {
             this.showModalDoc = true
           },
         },
+        {
+          label: 'Pasar a Beneficiario',
+          clickHandler: (item) => {
+            Api.setEmpleadoToBeneficiario(item.id).then(response => {
+              this.show({
+                content: 'Datos procesados correctamente',
+                closable: true,
+              })
+            }).catch(e => {
+              this.show({
+                content: e.response.data.message,
+                closable: true,
+                color:'danger'
+              })
+            })
+
+
+
+            // this.selectedEmployee = item
+            // this.showModalDoc = true
+          },
+        },
       ],
     }
   },
 
   methods: {
     ...mapActions(useToastStore, ['show']),
+
+    setEmpleadosToBeneficiarios() {
+      Api.setAllEmpleadosToBeneficiario().then(response => {
+        this.show({
+          content: 'Datos procesados correctamente',
+          closable: true,
+        })
+      }).catch(e=>{
+        this.show({
+          content: e.response.data.message,
+          closable: true,
+          color:'danger'
+        })
+      })
+    },
 
     getRegistroPersonal() {
       Api.getAllEmpleado().then((response) => {
