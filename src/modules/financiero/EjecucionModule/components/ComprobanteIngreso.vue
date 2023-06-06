@@ -302,7 +302,7 @@ export default {
           Api.deleteRegistroIngreso(item.id).then((response) => {
             setTimeout(this.getIngresos, 500)
             this.show({
-              content: response.data,
+              content: 'Registro cancelado correctamente',
               closable: true,
               color: 'danger',
               time: 7_000,
