@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Comprobantes de ingresos</h3>
+  <h3 class="text-center">Comprobantes de Ingresos</h3>
   <AppActionHeader>
     <CButton
       style="font-weight: bold"
@@ -47,6 +47,11 @@
         {{ formatDate(item.fecha) }}
       </td>
     </template>
+    <template #etapa="{ item }">
+      <td class="text-center">
+        <CBadge class="text-bg-warning">{{ item.etapa }}</CBadge>
+      </td>
+    </template>
     <template #totalValor="{ item }">
       <td class="text-end">
         {{ formatPrice(item.totalValor) }}
@@ -55,7 +60,7 @@
 
     <template #contribuyente="{ item }">
       <td>
-        {{ ite }}
+        {{ item.contribuyente.descripcion }}
       </td>
     </template>
 
@@ -83,6 +88,7 @@
     :showModal="showAddComprobanteIngreso"
     :contribuyentesName="contribuyentesName"
     :payloadRegistroIngreso="ingresoPost"
+    @actualizar-table="getIngresos"
   />
 
   <ContenedorArchivosRRHH
@@ -139,7 +145,7 @@ export default {
         {
           key: 'numeroComprobante',
           label: '#Comp',
-          _style: { width: '7%' },
+          _style: { width: '10%' },
         },
 
         { key: 'fecha', label: 'Fecha', _style: { width: '10%' } },
@@ -150,11 +156,11 @@ export default {
           _style: { width: '10%' },
         },
         {
-          key: 'contribuyenteId',
+          key: 'contribuyente',
           label: 'Contribuyente',
-          _style: { width: '18%' },
+          _style: { width: '25%' },
         },
-        { key: 'detalle', label: 'Detalle', _style: { width: '35%' } },
+        { key: 'detalle', label: 'Detalle', _style: { width: '25%' } },
         { key: 'totalValor', label: 'Valor', _style: { width: '10%' } },
         {
           key: 'show_details',
@@ -168,15 +174,23 @@ export default {
         {
           label: 'Total items',
           _props: {
-            colspan: 7,
+            colspan: 6,
             style: 'font-weight:bold;',
+          },
+        },
+
+        {
+          label: '',
+          _props: {
+            colspan: 1,
+            style: 'font-weight:bold; text-align:right',
           },
         },
       ],
 
       buttonActions: [
         {
-          label: 'Eliminar',
+          label: 'Cancelar',
           clickHandler: (value) => {
             this.cancelarRegistroIngreso(value)
           },
@@ -265,6 +279,12 @@ export default {
         this.ingresosList = response.data.data
         this.itemsCount = this.ingresosList.length
         this.footerItem[0].label = `Total items: ${this.itemsCount}`
+        this.footerItem[1].label = formatPrice(
+          this.ingresosList.reduce(
+            (acc, item) => acc + Number(item.totalValor),
+            0,
+          ),
+        )
       })
     },
 

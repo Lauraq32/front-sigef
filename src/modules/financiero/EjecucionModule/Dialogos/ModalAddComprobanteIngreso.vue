@@ -1,7 +1,7 @@
 <template>
   <CModal backdrop="static" size="xl" :visible="showModal" @close="closeModal">
     <CModalHeader>
-      <CModalTitle>Comprobantes de ingresos</CModalTitle>
+      <CModalTitle>Comprobantes de Ingresos</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -13,15 +13,17 @@
         >
           <div class="row">
             <div class="col-6">
-              <div>
-                <CFormLabel for="codigoIngresoTalonario"
-                  >No. de recibo:</CFormLabel
-                >
-                <CFormInput
-                  id="codigoIngresoTalonario"
-                  v-model="ingresoPost.codigoIngresoTalonario"
-                >
-                </CFormInput>
+              <div class="row">
+                <div class="col-6">
+                  <CFormLabel for="codigoIngresoTalonario"
+                    >No. de Recibo:</CFormLabel
+                  >
+                  <CFormInput
+                    id="codigoIngresoTalonario"
+                    v-model="ingresoPost.codigoIngresoTalonario"
+                  >
+                  </CFormInput>
+                </div>
               </div>
 
               <div class="row">
@@ -93,6 +95,7 @@
                 <div class="col-6">
                   <CFormLabel for="documento">Documento:</CFormLabel>
                   <CFormInput
+                    v-on:keypress="checkDocument($event)"
                     required
                     v-model="ingresoPost.contribuyente.documento"
                     id="documento"
@@ -306,8 +309,6 @@
             }}
           </td>
         </template>
-
-        
       </CSmartTable>
     </CModalBody>
 
@@ -365,6 +366,7 @@ export default {
       formatPrice,
       onlyNumber,
       formatDate,
+      ingresosList: [],
       showContribuyentesModal: false,
       contribuyenteNameList: [],
       isFormEventTypeValidated: false,
@@ -405,17 +407,17 @@ export default {
           _style: { width: '7%' },
         },
 
-        { key: 'nombre', label: 'Denominación', _style: { width: '10%' } },
+        { key: 'nombre', label: 'Denominación', _style: { width: '37%' } },
         {
           key: 'finOrigin',
           label: 'O/Fin',
-          _style: { width: '10%' },
+          _style: { width: '20%' },
         },
 
         {
           key: 'valor',
           label: 'Monto',
-          _style: { width: '10%' },
+          _style: { width: '12%' },
           filter: false,
           sorter: false,
         },
@@ -423,7 +425,7 @@ export default {
         {
           key: 'cantidad',
           label: 'Cantidad',
-          _style: { width: '10%' },
+          _style: { width: '12%' },
           filter: false,
           sorter: false,
         },
@@ -431,12 +433,10 @@ export default {
         {
           key: 'subTotal',
           label: 'Sub Total',
-          _style: { width: '10%' },
+          _style: { width: '12%' },
           filter: false,
           sorter: false,
         },
-
-        
       ],
     }
   },
@@ -466,11 +466,11 @@ export default {
       this.isFormEventTypeValidatedDetalle = true
     },
 
-    addComprobanteIngreso(payload) {
-      Api.postIngresos(payload)
+    addComprobanteIngreso() {
+      Api.postIngresos(this.ingresoPost)
         .then((response) => {
           this.clearModaComprobanteIngreso()
-          setTimeout(this.getIngresos, 500)
+          this.$emit('actualizar-table')
           this.show({
             content: response.data,
             closable: true,
@@ -489,6 +489,7 @@ export default {
     sendData() {
       this.isFormEventTypeValidated = false
       if (!this.ingresoPost.detalleRegistroIngresos.length) {
+        this.isFormEventTypeValidated = true
         return this.show({
           content: 'Debe agregar el detalle',
           closable: true,
@@ -557,6 +558,12 @@ export default {
     setContribuyente(payload) {
       this.selectItemEventHandler(payload)
       this.showContribuyentesModal = false
+    },
+
+    checkDocument(e) {
+      if (this.ingresoPost.contribuyente.tipoDocumento === 'Cedula') {
+        onlyNumber(e)
+      }
     },
 
     selectClasificator(infoClasificador) {
