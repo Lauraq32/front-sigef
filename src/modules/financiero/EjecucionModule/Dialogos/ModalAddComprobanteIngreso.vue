@@ -95,6 +95,7 @@
                 <div class="col-6">
                   <CFormLabel for="documento">Documento:</CFormLabel>
                   <CFormInput
+                    :maxlength="cedulaMax"
                     v-on:keypress="checkDocument($event)"
                     required
                     v-model="ingresoPost.contribuyente.documento"
@@ -367,6 +368,7 @@ export default {
       onlyNumber,
       formatDate,
       ingresosList: [],
+      cedulaMax: 11,
       showContribuyentesModal: false,
       contribuyenteNameList: [],
       isFormEventTypeValidated: false,
@@ -563,6 +565,7 @@ export default {
     checkDocument(e) {
       if (this.ingresoPost.contribuyente.tipoDocumento === 'Cedula') {
         onlyNumber(e)
+        this.cedulaMax = 11
       }
     },
 

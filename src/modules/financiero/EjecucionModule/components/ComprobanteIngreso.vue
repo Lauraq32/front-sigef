@@ -290,13 +290,14 @@ export default {
 
     cancelarRegistroIngreso(item) {
       this.$swal({
-        title: 'Estás seguro que quieres eliminar este registro?',
+        title: 'Estás seguro de realizar esta acción? ',
         text: 'No podrás revertirlo',
         icon: 'Confirmación',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, Eliminar!',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Aceptar',
       }).then((result) => {
         if (result.isConfirmed) {
           Api.deleteRegistroIngreso(item.id).then((response) => {
@@ -304,7 +305,6 @@ export default {
             this.show({
               content: 'Registro cancelado correctamente',
               closable: true,
-              color: 'danger',
               time: 7_000,
             })
           })
