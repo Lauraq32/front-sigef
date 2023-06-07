@@ -83,7 +83,9 @@
                     </div>
                     <div class="col-9">
                       <CCol :md="12">
-                        <CFormInput v-model="postEmpleado.nombre" id="nombres" required />
+                        <CFormInput v-model="postEmpleado.nombre" id="nombres" required
+                          v-on:keypress="onlyLetter($event)"
+                        />
                       </CCol>
                     </div>
                   </div>
@@ -94,7 +96,9 @@
                     </div>
                     <div class="col-9">
                       <CCol :md="12">
-                        <CFormInput required v-model="postEmpleado.apellido" id="apellidos" />
+                        <CFormInput required v-model="postEmpleado.apellido" id="apellidos"
+                          v-on:keypress="onlyLetter($event)"
+                        />
                       </CCol>
                     </div>
                   </div>
@@ -332,6 +336,7 @@
                       <option value="activo">Activo</option>
                       <option value="inactivo">Inactivo</option>
                       <option value="vacaciones">Vacaciones</option>
+                      <option value="liquidado">Liquidado</option>
                     </CFormSelect>
                   </CCol>
                 </div>
@@ -628,7 +633,7 @@ export default {
         areaTrabajoId: 0,
         posicionId: 0,
         grupoOcupacional: null,
-        tipoContrato: null,
+        tipoContrato: 'Fijo',
         fechaInicioContrato: '1970-01-01T00:00:00',
         fechaFinContrato: '1970-01-01T00:00:00',
         turno: 'DIURNO',
@@ -881,7 +886,7 @@ export default {
         areaTrabajoId: 0,
         posicionId: 0,
         grupoOcupacional: null,
-        tipoContrato: null,
+        tipoContrato: 'Fijo',
         fechaInicioContrato: '1970-01-01T00:00:00',
         fechaFinContrato: '1970-01-01T00:00:00',
         turno: 'DIURNO',
