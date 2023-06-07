@@ -41,7 +41,7 @@ class NominaApi {
   }
 
   getGrupoNomina() {
-    return http.get('GrupoNomina')
+    return http.get('grupo-nomina')
   }
 
   getAreaTrabajo() {
@@ -61,7 +61,7 @@ class NominaApi {
   }
 
   getGrupoNominaById(value) {
-    return http.get(`GrupoNomina/${value}`)
+    return http.get(`grupo-nomina/${value}`)
   }
 
   getSalarioById(id) {
@@ -152,7 +152,7 @@ class NominaApi {
   }
 
   postGrupoNomina(data) {
-    return http.post('GrupoNomina', data)
+    return http.post('grupo-nomina', data)
   }
 
   postAreaTrabajo(data) {
@@ -182,7 +182,7 @@ class NominaApi {
   }
 
   putGrupoNomina(id, data) {
-    return http.put(`GrupoNomina/${id}`, data)
+    return http.put(`grupo-nomina/${id}`, data)
   }
 
   putDepartamento(id, data) {
