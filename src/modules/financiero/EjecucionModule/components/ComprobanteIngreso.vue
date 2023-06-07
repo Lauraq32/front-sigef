@@ -55,7 +55,9 @@
 
     <template #estatus="{ item }">
       <td class="text-center text-uppercase">
-        <CBadge :color="item.estatus ? 'success' : 'danger'">{{ item.estatus ? 'ACTIVO' : 'CANCELADO' }}</CBadge>
+        <CBadge :color="item.estatus ? 'success' : 'danger'">{{
+          item.estatus ? 'ACTIVO' : 'CANCELADO'
+        }}</CBadge>
       </td>
     </template>
 
@@ -213,7 +215,9 @@ export default {
 
         {
           label: 'Imprimir 8 1/2 x 11',
-          clickHandler: (value) => {},
+          clickHandler: (value) => {
+            this.printReportComprobanteIngreso(value)
+          },
         },
 
         {
@@ -280,6 +284,15 @@ export default {
         },
       )
       this.mesReporte = 1
+    },
+
+    printReportComprobanteIngreso(item) {
+      window
+        .open(
+          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?/FormulacionEjecucionP/Rep_Recibo_Ingresos_A1&rs:Command=Render&CAPITULO_AYTO=${this.$loggedInfo.user.ayuntamiento.id}&ID_TRANSACCION=${item.id}`,
+          '_blank',
+        )
+        .focus()
     },
 
     getIngresos() {
