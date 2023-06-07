@@ -82,7 +82,7 @@ class NominaApi {
   }
 
   getConfiguracionNominabyid(id) {
-    return http.get(`ConfiguracionNomina/${id}`)
+    return http.get(`configuracion-nomina/${id}`)
   }
 
   getNominabyid(id) {
@@ -163,7 +163,7 @@ class NominaApi {
   }
 
   postConfiguracionNomina(data) {
-    return http.post('ConfiguracionNomina', data)
+    return http.post('configuracion-nomina', data)
   }
 
   postProgramaDivision(data) {
@@ -197,7 +197,7 @@ class NominaApi {
   }
 
   putConfiguracionNomina(id, data) {
-    return http.put(`ConfiguracionNomina/${id}`, data)
+    return http.put(`configuracion-nomina/${id}`, data)
   }
 
   putEmpleado(id, data) {

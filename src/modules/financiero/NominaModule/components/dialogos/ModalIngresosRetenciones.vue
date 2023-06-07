@@ -9,24 +9,86 @@
         <CForm>
           <div class="row">
             <div class="col-7">
-              <CSmartTable
-                clickableRows
-                :tableProps="{
-                  striped: true,
-                  hover: true,
-                }"
-                :tableHeadProps="{}"
-                :activePage="1"
-                header
-                :items="
-                  dataConfiguracionNomina?.filter((x) => x.type == 'retencion')
-                "
-                :columns="tableConfiguracionNominaRetencion"
-                :sorterValue="{ column: 'status', state: 'asc' }"
-                pagination
-              >
-              </CSmartTable>
-
+              <CNav variant="tabs" role="tablist">
+                <CNavItem>
+                  <CNavLink
+                    href="javascript:void(0);"
+                    :active="tabPaneActiveKey === 1"
+                    @click="
+                      () => {
+                        tabPaneActiveKey = 1
+                      }
+                    "
+                  >
+                    Retenciones
+                  </CNavLink>
+                </CNavItem>
+                <CNavItem>
+                  <CNavLink
+                    href="javascript:void(0);"
+                    :active="tabPaneActiveKey === 2"
+                    @click="
+                      () => {
+                        tabPaneActiveKey = 2
+                      }
+                    "
+                  >
+                    Ingresos
+                  </CNavLink>
+                </CNavItem>
+              </CNav>
+              <CTabContent>
+                <CTabPane
+                  role="tabpanel"
+                  aria-labelledby="retenciones-tab"
+                  :visible="tabPaneActiveKey === 1"
+                >
+                  <CSmartTable
+                    clickableRows
+                    :tableProps="{
+                      striped: true,
+                      hover: true,
+                    }"
+                    :tableHeadProps="{}"
+                    :activePage="1"
+                    header
+                    :items="
+                      dataConfiguracionNomina?.filter(
+                        (x) => x.type == 'retencion',
+                      )
+                    "
+                    :columns="tableConfiguracionNominaRetencion"
+                    :sorterValue="{ column: 'status', state: 'asc' }"
+                    pagination
+                  >
+                  </CSmartTable>
+                </CTabPane>
+                <CTabPane
+                  role="tabpanel"
+                  aria-labelledby="ingresos-tab"
+                  :visible="tabPaneActiveKey === 2"
+                >
+                  <CSmartTable
+                    clickableRows
+                    :tableProps="{
+                      striped: true,
+                      hover: true,
+                    }"
+                    :tableHeadProps="{}"
+                    :activePage="1"
+                    header
+                    :items="
+                      dataConfiguracionNomina?.filter(
+                        (x) => x.type == 'ingreso',
+                      )
+                    "
+                    :columns="tableConfiguracionNominaIngreso"
+                    :sorterValue="{ column: 'status', state: 'asc' }"
+                    pagination
+                  >
+                  </CSmartTable>
+                </CTabPane>
+              </CTabContent>
               <h6><u>Nota</u></h6>
 
               <p>
@@ -168,11 +230,6 @@ export default {
           label: 'Retenciones',
           _style: { width: '40%' },
         },
-        {
-          key: 'divide',
-          label: 'Factor Division',
-          _style: { width: '40%' },
-        },
       ],
     }
   },
@@ -188,6 +245,7 @@ export default {
           response.data.data,
         )
       })
+      console.log(this.dataConfiguracionNomina)
     },
   },
 
