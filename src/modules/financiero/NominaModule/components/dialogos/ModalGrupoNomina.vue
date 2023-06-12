@@ -1,9 +1,5 @@
 <template>
-  <CModal
-    backdrop="static"
-    :visible="showModal"
-    @close="closeGrupoNomina"
-  >
+  <CModal backdrop="static" :visible="showModal" @close="closeGrupoNomina">
     <CModalHeader>
       <CModalTitle>Grupo nómina</CModalTitle>
     </CModalHeader>
@@ -16,7 +12,61 @@
           ref="eventTypeForm"
         >
           <div>
-            <CFormLabel for="validationCustom01">Nombre</CFormLabel>
+            <CFormLabel for="validationCustom01">Grupo Nómina</CFormLabel>
+            <CFormInput
+              v-model="postGrupoNominas.nombre"
+              id="validationCustom01"
+              required
+            />
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </div>
+          <div>
+            <CFormLabel for="validationCustom01">Descripción</CFormLabel>
+            <CFormInput
+              v-model="postGrupoNominas.nombre"
+              id="validationCustom01"
+              required
+            />
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </div>
+          <div>
+            <CFormLabel for="validationCustom01"
+              >Estructura Programático</CFormLabel
+            >
+            <CFormInput
+              v-model="postGrupoNominas.nombre"
+              id="validationCustom01"
+              required
+            />
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </div>
+          <div>
+            <CFormLabel for="validationCustom01">Banco</CFormLabel>
+            <CFormSelect id="validationCustom05">
+              <option>BHD</option>
+              <option>RESERVAS</option>
+              <option>POPULAR</option>
+              <option>GLOBAL</option>
+              <option>PROGRESO</option>
+            </CFormSelect>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </div>
+          <div>
+            <CFormLabel for="validationCustom01"
+              >Cuenta Corriente No.</CFormLabel
+            >
+            <CFormInput
+              v-model="postGrupoNominas.nombre"
+              id="validationCustom01"
+              required
+            />
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </div>
+
+          <div>
+            <CFormLabel for="validationCustom01"
+              >Codigo de la Nómina en el Banco
+            </CFormLabel>
             <CFormInput
               v-model="postGrupoNominas.nombre"
               id="validationCustom01"
