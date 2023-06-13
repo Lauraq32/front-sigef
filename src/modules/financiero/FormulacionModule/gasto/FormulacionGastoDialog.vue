@@ -125,9 +125,9 @@
                     columnFilter 
                     :footer="footerItems"
                     columnSorter
-                    :sorterValue="{ column: 'status', state: 'asc' }"
+                    :sorterValue="{ column: 'ctgClasificadorId', state: 'asc' }"
                     pagination
-                    :itemsPerPage="6"
+                    :itemsPerPage="5"
                     :no-items-label="''"
                 >
                     <template #totalOriginal="{ item }">
@@ -422,19 +422,22 @@ watchEffect(() => {
 
 const onDetailDialogClose = (data) => {
     if (data) {
-        const {editing, ...rest} = data;
-        const index = props.formulacionGasto.detallePresGastos.findIndex(x => (
-            Number(x.ctgClasificadorId) === Number(rest.ctgClasificadorId)
-            && Number(x.ctgFuenteId) === Number(rest.ctgFuenteId)
-            && Number(x.ctgFuenteEspecificaId) === Number(rest.ctgFuenteEspecificaId)
-            && Number(x.ctgOrganismoFinanciadorId) === Number(rest.ctgOrganismoFinanciadorId)
-        ));
+        const {index, editing, ...rest} = data;
+        rest.tipo = props.formulacionGasto.tipo;
+        rest.mestprogId = props.formulacionGasto.mestprogId;
 
         if (editing) {
             props.formulacionGasto.detallePresGastos[index] = rest;
             showDetailDialog.value = false
         } else {
-            if (index >= 0) {
+            const found = props.formulacionGasto.detallePresGastos.findIndex(x => (
+                Number(x.ctgClasificadorId) === Number(rest.ctgClasificadorId)
+                && Number(x.ctgFuenteId) === Number(rest.ctgFuenteId)
+                && Number(x.ctgFuenteEspecificaId) === Number(rest.ctgFuenteEspecificaId)
+                && Number(x.ctgOrganismoFinanciadorId) === Number(rest.ctgOrganismoFinanciadorId)
+            ));
+
+            if (found >= 0) {
                 return toastStore.show({
                     content: `Ya el clasificador ${rest.ctgClasificadorId} existe con el mismo origen de financiamiento`,
                     time: 10_000,
@@ -458,7 +461,13 @@ const onDetailDialogClose = (data) => {
 }
 
 const onEditDetalle = (item) => {
-    detalle.value = {...item, editing: true};
+    const index = props.formulacionGasto.detallePresGastos.findIndex(x => (
+        Number(x.ctgClasificadorId) === Number(item.ctgClasificadorId)
+        && Number(x.ctgFuenteId) === Number(item.ctgFuenteId)
+        && Number(x.ctgFuenteEspecificaId) === Number(item.ctgFuenteEspecificaId)
+        && Number(x.ctgOrganismoFinanciadorId) === Number(item.ctgOrganismoFinanciadorId)
+    ));
+    detalle.value = {...item, editing: true, index};
     showDetailDialog.value = true;
 }
 

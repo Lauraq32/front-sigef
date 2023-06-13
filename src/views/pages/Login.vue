@@ -119,7 +119,11 @@ export default {
         .then(this.filterFiscalYears)
         .catch(error => {
           this.isLoading = false;
-          this.msg = error.response.data.message ?? error.response.data.data;
+          this.msg = (
+            error?.response?.data?.message
+            ?? error?.response?.data?.data
+            ?? "Ha ocurrido un error, por favor tratar m&aacute;s tarde o contacte el administrador"
+          );
         });
       
       return false;

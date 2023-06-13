@@ -8,7 +8,7 @@ class SolicitudEmpleo {
   }
 
   getPosiciones(){
-    return http.get('Posicion')
+    return http.get('cargos')
   }
 
   getByIdSolicitudEmpleo(id){
