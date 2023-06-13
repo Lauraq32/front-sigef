@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import http from '@/Api/http-common'
 import { getAyuntamientoId } from '@/utils/logged-info'
-import { CreateQueryParam } from '@/utils/params-query';
+import { CreateQueryParam } from '@/utils/params-query'
 class NominaApi {
   //-----------------------------CLASIFICADORES---------------------------------------//
   //get
@@ -22,7 +22,7 @@ class NominaApi {
   }
 
   getProgramaDivision() {
-    return http.get("programas-division")
+    return http.get('programas-division')
   }
 
   getEmpleadoById(value) {
@@ -38,7 +38,7 @@ class NominaApi {
   }
 
   getDepartamento(params = {}) {
-    params = CreateQueryParam(params);
+    params = CreateQueryParam(params)
     return http.get(`departamentos?${params}`)
   }
 
@@ -126,7 +126,7 @@ class NominaApi {
   }
 
   getNominaGeneral(params) {
-    params = CreateQueryParam(params);
+    params = CreateQueryParam(params)
     return http.get(`Nomina/NominaGeneral?${params}`)
   }
 
@@ -212,6 +212,10 @@ class NominaApi {
 
   deleteSector(id) {
     return http.delete(`Sector/${id}?ayuntamiento=${getAyuntamientoId()}`)
+  }
+
+  deleteConfiguracionNomina() {
+    return http.delete('configuracion-nomina')
   }
 }
 

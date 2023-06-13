@@ -1,5 +1,10 @@
 <template>
-  <CModal backdrop="static" size="lg" :visible="showModal" @close="closeModal">
+  <CModal
+    backdrop="static"
+    size="lg"
+    :visible="showModal"
+    @close="closeModalIngresosRetencion"
+  >
     <CModalHeader>
       <CModalTitle>Conceptos de Ingresos y Retenciones</CModalTitle>
     </CModalHeader>
@@ -52,16 +57,50 @@
                     :tableHeadProps="{}"
                     :activePage="1"
                     header
-                    :items="
-                      dataConfiguracionNomina?.filter(
-                        (x) => x.type == 'retencion',
-                      )
-                    "
+                    :items="dataConfiguracionNomina"
                     :columns="tableConfiguracionNominaRetencion"
                     :sorterValue="{ column: 'status', state: 'asc' }"
                     pagination
                   >
+                    <template #nombre="{ item }">
+                      <td>
+                        <CFormInput
+                          :disabled="item.categoriaRetencion == 'LEY'"
+                          v-model="item.nombre"
+                        />
+                      </td>
+                    </template>
+
+                    <template #codigoEjecucionPresupuestoGasto="{ item }">
+                      <td>
+                        <CFormInput
+                          v-model="item.codigoEjecucionPresupuestoGasto"
+                        />
+                      </td>
+                    </template>
+
+                    <template #show_details="{ item }">
+                      <td class="py-1">
+                        <CButton
+                          v-if="item.categoriaRetencion !== 'LEY'"
+                          class="mt-1"
+                          variant="outline"
+                          square
+                          size="sm"
+                          @click="deleteConfiguracionNominaApi(item)"
+                        >
+                          <CIcon style="color: red" icon="cilTrash" size="lg" />
+                        </CButton>
+                      </td>
+                    </template>
                   </CSmartTable>
+
+                  <CButton
+                    class="mb-3"
+                    color="primary"
+                    @click="showAgregarIngresosRetencion = true"
+                    >Agregar</CButton
+                  >
                 </CTabPane>
                 <CTabPane
                   role="tabpanel"
@@ -77,18 +116,41 @@
                     :tableHeadProps="{}"
                     :activePage="1"
                     header
-                    :items="
-                      dataConfiguracionNomina?.filter(
-                        (x) => x.type == 'ingreso',
-                      )
-                    "
-                    :columns="tableConfiguracionNominaIngreso"
+                    :items="dataConfiguracionNominaIngresos"
+                    :columns="tableConfiguracionNominaIngresos"
                     :sorterValue="{ column: 'status', state: 'asc' }"
                     pagination
                   >
+                    <template #nombre="{ item }">
+                      <td>
+                        <CFormInput v-model="item.nombre" />
+                      </td>
+                    </template>
+
+                    <template #show_details="{ item }">
+                      <td class="py-1">
+                        <CButton
+                          class="mt-1"
+                          variant="outline"
+                          square
+                          size="sm"
+                          @click="deleteConfiguracionNominaApi(item)"
+                        >
+                          <CIcon style="color: red" icon="cilTrash" size="lg" />
+                        </CButton>
+                      </td>
+                    </template>
                   </CSmartTable>
+
+                  <CButton
+                    class="mb-3"
+                    color="primary"
+                    @click="showAgregarIngresos = true"
+                    >Agregar</CButton
+                  >
                 </CTabPane>
               </CTabContent>
+
               <h6><u>Nota</u></h6>
 
               <p>
@@ -190,12 +252,30 @@
             </div>
           </div>
         </CForm>
+
+        <AddDialogRetencion
+          :showModal="showAgregarIngresosRetencion"
+          :payload="postIngresoRetencion"
+          @close-modal="closeModal"
+          @addRetencion="addRetencion"
+        />
+
+        <AddDialogIngresos
+          :showModal="showAgregarIngresos"
+          :payload="postIngresoRetencion"
+          @close-modal="closeModal"
+          @addIngreso="addIngreso"
+        />
       </CCardBody>
     </CModalBody>
 
     <CModalFooter>
-      <CButton color="secondary" @click="closeModal">Cerrar</CButton>
-      <CButton color="primary">Guardar</CButton>
+      <CButton color="secondary" @click="closeModalIngresosRetencion"
+        >Cerrar</CButton
+      >
+      <CButton color="primary" @click="postConfiguracionNominaApi"
+        >Guardar</CButton
+      >
     </CModalFooter>
   </CModal>
 </template>
@@ -205,10 +285,16 @@ import { CModal } from '@coreui/vue'
 import { CFormInput, CFormLabel, CSmartTable } from '@coreui/vue-pro'
 import ApiNomina from '../../services/NominaServices'
 import { getConfiguracionNomina } from '@/utils/format'
+import AddDialogRetencion from './ModalAgregarIngresosRetencion.vue'
+import AddDialogIngresos from './ModalAgregarIngresos.vue'
+import { mapActions } from 'pinia'
+import { useToastStore } from '@/store/toast'
 
 export default {
   name: 'IngresosAndRetenciones',
   components: {
+    AddDialogIngresos,
+    AddDialogRetencion,
     CModal,
     CFormLabel,
     CFormInput,
@@ -217,35 +303,151 @@ export default {
 
   data: function () {
     return {
+      showAgregarIngresosRetencion: false,
+      clonedArray: [],
+      showAgregarIngresos: false,
       sinNombrePorAhora: '60%',
       sinNombrePorAhora1: 5,
       tabPaneActiveKey: 1,
       dataConfiguracionNomina: [],
+      dataConfiguracionNominaIngresos: [],
+      prueba: [],
+      postIngresoRetencion: {
+        retencion: {
+          tipo: 'Institucional',
+          esPorcentage: true,
+          monto: 0,
+          tipoRetencionId: 1,
+          categoriaRetencion: 'Institucional',
+          nombre: null,
+          codigoEjecucionPresupuestoGasto: 0,
+        },
+        tipoIngreso: {
+          nombre: null,
+          esNovedad: true,
+        },
+      },
       getConfiguracionNomina,
 
       tableConfiguracionNominaRetencion: [
-        { key: 'type', label: 'Ingresos', _style: { width: '40%' } },
         {
-          key: 'retention',
+          key: 'nombre',
           label: 'Retenciones',
-          _style: { width: '40%' },
+          _style: { width: '30%' },
+        },
+        {
+          key: 'codigoEjecucionPresupuestoGasto',
+          label: 'Cod. en Ejec/Pres',
+          _style: { width: '20%' },
+        },
+
+        {
+          key: 'show_details',
+          label: '',
+          _style: { width: '1%' },
+          filter: false,
+          sorter: false,
+        },
+      ],
+
+      tableConfiguracionNominaIngresos: [
+        {
+          key: 'nombre',
+          label: 'Nombre',
+          _style: { width: '30%' },
+        },
+
+        {
+          key: 'show_details',
+          label: '',
+          _style: { width: '1%' },
+          filter: false,
+          sorter: false,
         },
       ],
     }
   },
 
   methods: {
-    closeModal() {
+    ...mapActions(useToastStore, ['show']),
+    closeModalIngresosRetencion() {
       this.$emit('close-modal', false)
+    },
+
+    closeModal() {
+      this.showAgregarIngresosRetencion = false
+      this.showAgregarIngresos = false
+    },
+
+    addRetencion(payload) {
+      this.dataConfiguracionNomina = [...this.dataConfiguracionNomina, payload]
+      this.show({
+        content: 'Registro añadido correctamente',
+        closable: true,
+      })
+    },
+
+    addIngreso(payload) {
+      this.dataConfiguracionNominaIngresos = [
+        ...this.dataConfiguracionNominaIngresos,
+        payload,
+      ]
+    },
+
+    postConfiguracionNominaApi() {
+      ApiNomina.postConfiguracionNomina(this.postIngresoRetencion).then(() => {
+        this.clearModal()
+        setTimeout(this.getConfiguracionNominaApi, 500)
+        this.show({
+          content: 'Registro añadido correctamente',
+          closable: true,
+        })
+      })
+    },
+
+    ordenarDatosTabla() {
+      this.dataConfiguracionNomina = this.dataConfiguracionNomina.slice()
+      const order = { ARS: 1, AFP: 2, IRS: 3 }
+      this.dataConfiguracionNomina.sort((a, b) => {
+        const orderA = order[a.nombre] || Infinity
+        const orderB = order[b.nombre] || Infinity
+
+        if (orderA !== orderB) {
+          return orderA - orderB
+        }
+      })
+
+      return this.dataConfiguracionNomina
     },
 
     getConfiguracionNominaApi() {
       ApiNomina.getConfiguracionNomina().then((response) => {
-        this.dataConfiguracionNomina = this.getConfiguracionNomina(
-          response.data.data,
-        )
+        this.dataConfiguracionNomina = response.data.data.retencion
+        this.dataConfiguracionNominaIngresos = response.data.data.tipoIngreso
+        this.ordenarDatosTabla()
       })
-      console.log(this.dataConfiguracionNomina)
+    },
+
+    deleteConfiguracionNominaApi(item) {
+      ApiNomina.deleteConfiguracionNomina(item).then((response) => {})
+    },
+
+    clearModal() {
+      this.postIngresoRetencion = {
+        retencion: {
+          tipo: 'Institucional',
+          esPorcentage: false,
+          monto: 0,
+          tipoRetencionId: 1,
+          categoriaRetencion: 'Institucional',
+          nombre: null,
+          codigoEjecucionPresupuestoGasto: 0,
+        },
+        tipoIngreso: {
+          nombre: null,
+          esNovedad: true,
+        },
+      }
     },
   },
 
