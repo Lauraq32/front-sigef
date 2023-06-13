@@ -1,220 +1,180 @@
 <template>
-  <h3 class="text-center">Inventario útiles de trabajo</h3>
-  <hr />
+  <h3 class="text-center mb-3">Inventario de &Uacute;tiles</h3>
+
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
         color="info"
         @click="
           () => {
-            lgDemo = true
+            showInventario = true
           }
         "
         >Agregar</CButton
       >
     </div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-        >Imprimir</CButton
-      >
-    </div>
   </div>
-  <hr />
-  <CSmartTable class="sticky-top"
+
+  <CSmartTable
+    class="sticky-top"
     clickableRows
     :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
     }"
     :tableHeadProps="{}"
     :activePage="1"
     :footer="footerItem"
     header
-    :items="this.$store.state.RRHHModule.inventario"
+    :items="inventario"
     :columns="columns"
     columnFilter
     itemsPerPageSelect
     :itemsPerPage="5"
     columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
+    :sorterValue="{ column: 'descripcion', state: 'asc' }"
     pagination
+    no-items-label="No hay útiles registrados"
   >
-    <template #status="{ item }">
-      <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+    <template #cantidad="{ item }">
+      <td class="text-end">
+        {{ formatNumber(item.cantidad) }}
       </td>
     </template>
-    <template #show_details="{ item, index }">
-      <td class="py-2">
+
+    <template #show_details="{ item }">
+      <td>
         <CButton
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item, index)"
+          color="info" variant="outline"
+          @click="
+            () => {
+              inventarioSeleccionado = item;
+              showInventario = true;
+            }"
         >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
+          Editar
         </CButton>
       </td>
     </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
-    </template>
   </CSmartTable>
-  <CModal
-    size="lg"
-    :visible="lgDemo"
-    @close="
-      () => {
-        lgDemo = false
-      }
-    "
-  >
-    <CModalHeader>
-      <CModalTitle>Inventario útiles de trabajo</CModalTitle>
-    </CModalHeader>
-    <CModalBody>
-      <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
-          <CCol :md="2">
-            <CFormLabel for="validationCustom01">Código</CFormLabel>
-            <CFormInput disabled id="validationCustom01" />
 
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustomUsername">Descripción</CFormLabel>
-            <CInputGroup class="has-validation">
-              <CFormInput
-                id="validationCustomUsername"
-                value=""
-                aria-describedby="inputGroupPrepend"
-                required
-              />
-              <CFormFeedback valid> Exito! </CFormFeedback>
-              <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-            </CInputGroup>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom04">Tipo</CFormLabel>
-            <CFormSelect id="validationCustom04">
-              <option>TIPO 1</option>
-              <option>TIPO 2</option>
-            </CFormSelect>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="4">
-            <CFormLabel for="validationCustom04">Cantidad</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
-              Guardar
-            </button>
-          </div>
-        </CForm>
-      </CCardBody>
-    </CModalBody>
-  </CModal>
+  <InventarioDialog
+    :inventario="inventarioSeleccionado"
+    :showModal="showInventario"
+    @closeModal="closeModal"
+    @saveInventario="saveInventario"
+  />
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import Api from '../services/RegistroPersonalServices'
+import InventarioDialog from './Dialogos/InventarioDialog.vue'
+import { useToastStore } from '@/store/toast'
+import { mapActions } from 'pinia'
+import { formatNumber } from '@/utils/format'
+
 export default {
   components: {
     CSmartTable,
     CModal,
+    InventarioDialog,
   },
   data: () => {
     return {
-      validatedCustom01: null,
-      lgDemo: false,
+      formatNumber,
+      inventario: [],
+      inventarioSeleccionado: {
+        descripcion: null,
+        tipo: 'deducible',
+        cantidad: 1
+      },
+      showInventario: false,
+
       columns: [
-        { key: 'Código', label: 'Código', _style: { width: '40%' } },
-        { key: 'Descripción', label: 'Descripción', _style: { width: '40%' } },
-        { key: 'Tipo', label: 'Tipo', _style: { width: '40%' } },
-        { key: 'Existencia', label: 'Existencia', _style: { width: '40%' } },
+        { key: 'descripcion', label: 'Descripción', _style: { width: '60%' } },
+        { key: 'tipo', label: 'Tipo', _style: { width: '20%' } },
+        { key: 'cantidad', label: 'Existencia', _style: { width: '15%' } },
         {
           key: 'show_details',
           label: '',
-          _style: { width: '1%' },
+          _style: { width: '5%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
       footerItem: [
         {
           label: 'Total Items',
           _props: {
-            color: '',
-            colspan: 1,
+            colspan: 3,
             style: 'font-weight:bold;',
           },
         },
-
       ],
-      details: [],
     }
   },
+
   methods: {
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
+    ...mapActions(useToastStore, ['show']),
+    getInventario() {
+      Api.getAllInventario().then((response) => {
+        this.inventario = response.data.data
+      })
     },
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
+
+    closeModal(close) {
+      this.showInventario = close;
+      this.inventarioSeleccionado = {
+        descripcion: null,
+        tipo: 'deducible',
+        cantidad: 1
+      };
     },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
+
+    saveInventario(payload) {
+      if (payload.id) {
+        return void (Api.putInventario(payload.id, payload)
+        .then(() => {
+          setTimeout(this.getInventario, 500)
+          this.show({
+            content: 'Registro modificado',
+            closable: true,
+            time: 3000,
+          });
+          this.closeModal(false);
+        })
+        .catch((error) => {
+          this.show({
+            content: error.data,
+            closable: true,
+            color: 'danger',
+            class: 'text-white',
+          })
+        }));
       }
-      this.details.push(item._id)
-    },
+
+      Api.postInventario(payload)
+        .then(() => {
+          setTimeout(this.getInventario, 500)
+          this.show({
+            content: 'Registro agregado',
+            closable: true,
+            time: 3000,
+          })
+        })
+        .catch((error) => {
+          this.show({
+            content: error.data,
+            closable: true,
+            color: 'danger',
+            class: 'text-white',
+          })
+        });
+    }
   },
   mounted() {
-    this.$store.dispatch('AdministrativoModule/getUsuarios')
+    this.getInventario()
   },
 }
 </script>

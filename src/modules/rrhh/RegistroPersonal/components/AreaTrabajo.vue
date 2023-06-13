@@ -1,8 +1,7 @@
 <template>
-  <h3 class="text-center">Áreas de trabajo</h3>
-  <hr />
-  <div class="table-headers">
-    <div class="d-inline p-2">
+  <h3 class="text-center mb-4">Áreas de trabajo</h3>
+  <div class="table-headers mb-4">
+    <div class="d-flex p-2 gap-1">
       <CButton
         color="info"
         @click="
@@ -17,28 +16,13 @@
       <CButton style="font-weight: bold" color="info">Imprimir</CButton>
     </div>
   </div>
-  <hr />
   <AreaTrabajoTable
     :columns="columns"
     :footerItems="footerItem"
     :items="AreasTrabajos"
     :showButtons="true"
     @edit="editAreaTrabajo"
-  >
-    <template #show_details="{ item }">
-      <td class="py-2">
-        <CButton
-          class="mt-1"
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="editAreaTrabajo(item)"
-          >Editar</CButton
-        >
-      </td>
-    </template>
-  </AreaTrabajoTable>
+  />
   <AreaTrabajoModal
     :newAreaTrabajoModal="newAreaTrabajoModal"
     @close-modal="closeModal"
@@ -80,7 +64,7 @@ export default {
         {
           label: 'Total Items',
           _props: {
-            colspan: 1,
+            colspan: 8,
             style: 'font-weight:bold;',
           },
         },

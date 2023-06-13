@@ -1,28 +1,19 @@
 <template>
-  <CModal
-    :visible="newSectorModal"
-    backdrop="static"
-    style="width: 25%"
-  >
+  <CModal :visible="newProfesionesModal" backdrop="static" style="width: 25%">
     <CModalHeader>
-      <CModalTitle>Sector</CModalTitle>
+      <CModalTitle>Profesiones</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
         <CForm
           class="row g-3 needs-validation"
           novalidate
-          :validated="sectorFormValidated"
+          :validated="profesionFormValidated"
           ref="formRef"
         >
           <CCol :md="12">
-            <CFormLabel for="validationCustom02">Sector</CFormLabel>
-            <CFormInput
-            type="text"
-              v-model="sectorObject.nombre"
-              id="validationCustom02"
-              required
-            />
+            <CFormLabel for="validationCustom04">Profesión</CFormLabel>
+            <CFormInput required v-model="profesionObject.name" id="validationCustom04"> </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
         </CForm>
@@ -37,30 +28,29 @@
         Cerrar
       </CButton>
       <CButton 
-        color="primary" @click="saveSector">
+        color="primary" @click="saveProfesion">
         Guardar
       </CButton>
     </CModalFooter>
   </CModal>
 </template>
 <script>
-import { CModalFooter, CSmartTable } from '@coreui/vue-pro'
+import { CModalFooter } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
-import Api from '../services/RegistroPersonalServices'
+import Api from '../../services/RegistroPersonalServices'
 
 export default {
-  name: 'SectoresModal',
+  name: 'ProfesionesDialogs',
   components: {
-    CSmartTable,
     CModal,
-    CModalFooter,
-  },
+    CModalFooter
+},
 
   data: function () {
     return {
-      sectorFormValidated: false,
-      sectorObject: {
-        nombre: '',
+      profesionFormValidated: false,
+      profesionObject: {
+        name: '',
       },
     }
   },
@@ -69,36 +59,36 @@ export default {
     closeModal() {
       this.$emit('close-modal');
     },
-    saveSector() {
-      this.sectorFormValidated = false;
+    saveProfesion() {
+      this.profesionFormValidated = false;
       if (this.$refs.formRef.$el.checkValidity()) {
-        this.$emit('post-sector', { ...this.sectorObject })
+        this.$emit('post-profesiones', { ...this.profesionObject })
         this.clearForm()
         return;
       }
-      this.sectorFormValidated = true;
+      this.profesionFormValidated = true;
     },
     clearForm() {
-      this.sectorObject = {
-        nombre: '',
+      this.profesionObject = {
+        name: '',
       }
     },
   },
 
   watch: {
-    sectorId(newId) {
+    profesionId(newId) {
       if (newId) {
-        Api.getSectorById(newId)
+        Api.getProfesionById(newId)
         .then((response) => {
-          this.sectorObject = response.data.data
+          this.profesionObject = response.data.data
         });
       }
     },
   },
 
   props: {
-    newSectorModal: Boolean,
-    sectorId: Number,
+    newProfesionesModal: Boolean,
+    profesionId: Number
   },
 }
 </script>

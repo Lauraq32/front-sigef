@@ -53,18 +53,15 @@
   </CModal>
 </template>
 <script>
-import { CModalFooter, CSmartTable } from '@coreui/vue-pro'
+import { CModalFooter } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
-import Api from '../services/RegistroPersonalServices'
 import {onlyNumber} from '@/utils/validator'
 
 export default {
   name: 'DireccionDependeciaDialogs',
   components: {
-    CSmartTable,
     CModal,
     CModalFooter,
-    
   },
 
   data: function () {
@@ -89,31 +86,21 @@ export default {
         this.$emit('post-direccionDependecia', {
           ...this.direccionDependeciaObject,
         })
-        this.clearForm()
         return
       }
       this.direccionDependeciaFormValidated = true
     },
-    clearForm() {
-      this.direccionDependeciaObject = {
-        name: '',
-      }
-    },
   },
 
   watch: {
-    direccionDependeciaId(newId) {
-      if (newId) {
-        Api.getDireccionDependeciaById(newId).then((response) => {
-          this.direccionDependeciaObject = response.data.data
-        })
-      }
+    direccionDependecia(newValue) {
+      this.direccionDependeciaObject = { ...newValue }
     },
   },
 
   props: {
     newDireccionDependeciaModal: Boolean,
-    direccionDependeciaId: Number,
+    direccionDependecia: Number,
   },
 }
 </script>
