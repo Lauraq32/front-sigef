@@ -14,12 +14,12 @@
           }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header :items="documentos" :columns="columns"
           tableFilter :itemsPerPage="7" table-filter-label="Filtrar:" table-filter-placeholder="Nombre, fecha, tipo de imagen" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
           pagination>
-          <template #createdAt="{ item, index }">
+          <template #createdAt="{ item }">
             <td class="py-2">
                 {{ formatDate(item.createdAt) }}
               </td>
           </template>
-          <template #show_details="{ item, index }">
+          <template #show_details="{ item }">
               <td class="py-2">
                 <CButton color="primary" variant="outline" square size="sm" @click="seeImage(item.id)">
                   Ver
@@ -113,7 +113,7 @@ export default {
       optionsSelect: [
         "Documento Personal",
         "Certificado",
-        "Documento Estudio",
+        "Documento de Estudio",
         "Contrato",
         "Otros"
       ],
@@ -176,7 +176,15 @@ export default {
             closable: true,
           });
           this.clearForm();
-        }).catch((e) => console.log('error', e))
+        }).catch((e) => {
+          console.log(e)
+          this.show({
+            content: e.response.data,
+            closable: true,
+            color: 'danger',
+            class: 'text-white',
+          });
+        });
       }
     },
     clearForm(){
@@ -197,9 +205,18 @@ export default {
       })
     },
     seeImage(id){
-      ApiFile.getFileById(id).then((response) => {
+      ApiFile.getFileById(id)
+      .then((response) => {
         window.open(response, "_blank")
       })
+      .catch(err => {
+        this.show({
+          content: "No se pudo leer el documento",
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        });
+      });
     },
   },
   setup() {

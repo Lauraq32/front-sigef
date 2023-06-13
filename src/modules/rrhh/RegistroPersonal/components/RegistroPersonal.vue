@@ -206,8 +206,8 @@ export default {
         {
           label: 'Acción personal',
           clickHandler: (value) => {
-            this.showAccionPersonal = true
             this.selectedEmployee = value
+            this.showAccionPersonal = true
           }
         },
         {

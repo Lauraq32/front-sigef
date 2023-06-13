@@ -335,8 +335,8 @@
                     <CFormSelect required v-model="postEmpleado.estado" id="estado" :disabled="!postEmpleado.id">
                       <option value="activo">Activo</option>
                       <option value="inactivo">Inactivo</option>
-                      <option value="vacaciones">Vacaciones</option>
                       <option value="liquidado">Liquidado</option>
+                      <option value="vacaciones">Vacaciones</option>
                     </CFormSelect>
                   </CCol>
                 </div>
