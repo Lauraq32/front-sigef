@@ -19,7 +19,7 @@ export const useAuthStore = defineStore('Auth', () => {
   }
 
   function setLoginInfo(loginInfo) {
-    authInfo.value = { sessionTimeLimit: 300, ...loginInfo };
+    authInfo.value = { ...loginInfo };
     setLoggedInfo(authInfo.value);
   }
 
