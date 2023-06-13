@@ -1,25 +1,13 @@
 <template>
-  <h3 class="text-center">Áreas de trabajo</h3>
-  <hr />
-  <div class="table-headers">
-    <div class="d-inline p-2">
+  <h3 class="text-center mb-4">Áreas de trabajo</h3>
+  <div class="table-headers mb-4">
+    <div class="d-flex p-2 gap-1">
       <CButton
         color="info"
-        @click="
-          () => {
-            newAreaTrabajoModal = true
-          }
-        "
-        >Agregar</CButton
-      >
-    </div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info"
-        >Imprimir</CButton
-      >
+        @click="() => { newAreaTrabajoModal = true }">Agregar</CButton>
+      <CButton color="secondary">Imprimir</CButton>
     </div>
   </div>
-  <hr />
   <CSmartTable
     class="sticky-top"
     clickableRows
@@ -63,7 +51,7 @@
 </template>
 
 <script>
-import AreaTrabajoModal from '../Dialogos/AreaTrabajoModal.vue'
+import AreaTrabajoModal from './Dialogos/AreaTrabajoModal.vue'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/RegistroPersonalServices'
@@ -95,7 +83,7 @@ export default {
         {
           label: 'Total Items',
           _props: {
-            colspan: 1,
+            colspan: 8,
             style: 'font-weight:bold;',
           },
         },

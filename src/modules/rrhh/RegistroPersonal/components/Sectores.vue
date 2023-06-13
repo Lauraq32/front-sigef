@@ -1,8 +1,6 @@
 <template>
-  <h3 class="text-center">Sectores</h3>
-  <hr />
+  <h3 class="text-center mb-4">Sectores</h3>
   <div class="table-headers">
-    <div class="d-inline p-2">
       <CButton
         color="info"
         @click="
@@ -12,9 +10,7 @@
         "
         >Agregar</CButton
       >
-    </div>
   </div>
-  <hr />
   <SectorTable
     :columns="columns"
     :footerItems="footerItem"
@@ -35,7 +31,7 @@ import { CModal } from '@coreui/vue'
 import { mapActions } from 'pinia'
 import SectorTable from '@/modules/rrhh/RegistroPersonal/components/SectoresTable.vue'
 import { useToastStore } from '@/store/toast'
-import SectoresModal from '../Dialogos/SectoresModal.vue'
+import SectoresModal from './Dialogos/SectoresModal.vue'
 import Api from '../services/RegistroPersonalServices'
 export default {
   components: {
