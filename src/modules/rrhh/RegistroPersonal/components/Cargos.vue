@@ -97,10 +97,17 @@ export default {
         this.show({
               content: 'Registro eliminado correctamente',
               closable: true,
-              life: 15000,
+              
+            })
+      }).catch((error) => {
+        this.show({
+              content: error.response.data.message,
+              closable: true,
+
               color:'danger'
             })
       })
+      setTimeout(() => this.getAllCargo(), 200)
     },
     getCargosById(item) {
       this.cargo = item;
