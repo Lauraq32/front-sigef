@@ -25,8 +25,10 @@
     pagination
   >
   <template #show_details="{ item }">
-      <td class="py-2">
+   
+      <td class="px-4">
         <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="getCargosById(item)">Editar</CButton>
+        <CButton class="mt-1" color="danger" variant="outline" square size="sm" @click="deleteCargo(item.id)">Eliminar</CButton>
       </td>
     </template>
   </CSmartTable>
@@ -59,17 +61,17 @@ export default {
         {
           key: 'id',
           label: 'ID',
-          _style: { width: '5%' },
+          _style: { width: '10%' },
         },
         {
           key: 'nombre',
           label: 'Posición o cargo',
-          _style: { width: '40%' },
+          _style: { width: '70%' },
         },
         {
           key: 'show_details',
           label: '',
-          _style: { width: '1%' },
+          _style: { width: '10%' },
           filter: false,
           sorter: false,
         },
@@ -89,6 +91,16 @@ export default {
     ...mapActions(useToastStore, ['show']),
     closeModal(payload) {
       this.cargoModal = payload
+    },
+    deleteCargo(id){
+      Api.deleteCargo(id).then(() => {
+        this.show({
+              content: 'Registro eliminado correctamente',
+              closable: true,
+              life: 15000,
+              color:'danger'
+            })
+      })
     },
     getCargosById(item) {
       this.cargo = item;

@@ -63,6 +63,7 @@
               <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
               <CDropdownMenu>
                 <CDropdownItem @click="() => handlerAccion(item, 'print')" v-if="item.estatus !== 'Cancelado'">Imprimir</CDropdownItem>
+                <CDropdownItem @click="() => handlerAccion(item, 'editar')" v-if="item.estatus == 'Registrado'">Editar</CDropdownItem>
                 <CDropdownItem @click="() => handlerAccion(item, 'detail')">Ver Detalle</CDropdownItem>
                 <CDropdownItem @click="() => handlerAccion(item, 'cancel')" v-if="!['Cancelado', 'Entregado'].includes(item.estatus)">Cancelar</CDropdownItem>
                 <CDropdownItem @click="() => handlerAccion(item, 'approved')" v-if="!['Cancelado', 'Entregado'].includes(item.estatus)">Marcar como entregado</CDropdownItem>
@@ -76,10 +77,12 @@
     <EventoInventarioDialog
       :inventarioList="utilLaboralList"
       :utilLaboral="inventarioDeUtilLaboral"
+      :util="util"
       :showModal="showEventoInventarioDialog"
       :empleado="employeeInfo"
       @closeModal="closeEventoInventarioDialog"
       @save="saveUtil"
+      @editar="editarUtil"
     />
 
     <MovimientoInventarioDetailView
@@ -116,6 +119,7 @@ export default {
       formatDate,
       formatNumber,
       onlyLetter,
+      util:{},
       utilLaboralList: [],
       showEventoInventarioDialog: false,
       inventarioDeUtilLaboral: {
@@ -172,6 +176,30 @@ export default {
             })
           })
     },
+    editarUtil(util,id){
+      Api.putUtils(util,id).then(
+        (response) => {
+          this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'success',
+              class: 'text-white',
+              time: 7_000
+            })
+            setTimeout(this.loadUtilsByEmployeeId, 200);
+            this.clearUtilesLaborales();
+        }
+      ).catch((error) => {
+        this.show({
+              content: error.response.data,
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+            })
+      })
+      //this.clearUtilesLaborales();
+      this.closeEventoInventarioDialog();
+    },
     getAllInventario() {
       Api.getAllInventario().then((response) => {
         this.utilLaboralList = response.data.data.map((elem) => ({
@@ -187,6 +215,9 @@ export default {
       switch (accion) {
         case "cancel":
           this.cancelUtilDelivery(item);
+          break;
+        case "editar":
+          this.loadModal(item);
           break;
         case "approved":
           this.approveUtilDelivery(item);
@@ -311,6 +342,11 @@ export default {
         .then(({ data: { data } }) => {
           this.utilDetailsView = data;
         });
+    },
+    loadModal(util) {
+          this.util = util
+          this.showEventoInventarioDialog = true
+          // this.utilDetailsView = data;
     }
   },
 

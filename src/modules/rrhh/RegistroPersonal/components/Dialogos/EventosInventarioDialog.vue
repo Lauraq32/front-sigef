@@ -1,20 +1,10 @@
 <template>
-  <CModal
-    backdrop="static"
-    size="lg"
-    :visible="showModal"
-    @close="() => { closeModal() }"
-    style="width: 25%"
-  >
+  <CModal backdrop="static" size="lg" :visible="showModal" @close="() => { closeModal() }" style="width: 25%">
     <CModalHeader>
       <CModalTitle>Movimiento de &Uacute;tiles laborales</CModalTitle>
     </CModalHeader>
     <CModalBody>
-      <CForm
-        novalidate
-        :validated="isFormEventTypeValidated"
-        ref="eventTypeForm"
-      >
+      <CForm novalidate :validated="isFormEventTypeValidated" ref="eventTypeForm">
         <CCardBody class="mx-4">
           <CCol class="row">
             <CFormLabel for="codigoEmpleado" class="form-label col-3">C&oacute;digo Empleado</CFormLabel>
@@ -24,67 +14,44 @@
             <CFormLabel for="empleadoNombre" class="form-label col-3">Nombre Empleado</CFormLabel>
             <strong class="col-9">{{ empleado?.nombre }} {{ empleado?.apellido }}</strong>
           </CCol>
-          <hr/>
+          <hr />
           <CCol>
             <CFormLabel for="postEvento.autorizadoPor" class="form-label">Autorizado Por</CFormLabel>
-            <CFormInput
-              v-model="postEvento.autorizadoPor"
-              id="postEvento.autorizadoPor"
-              v-on:keypress="onlyLetter($event)"
-            >
+            <CFormInput v-model="postEvento.autorizadoPor" id="postEvento.autorizadoPor"
+              v-on:keypress="onlyLetter($event)">
             </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol>
             <CFormLabel for="initialDate">Fecha</CFormLabel>
-            <CFormInput
-              id="initialDate"
-              required
-              type="date"
-              v-model="initialDate"
-            />
+            <CFormInput id="initialDate" required type="date" v-model="initialDate" />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol>
             <CFormLabel for="postEvento.observacion">Observaci&oacute;n</CFormLabel>
-            <textarea
-              required
-              id="postEvento.observacion"
-              v-model="postEvento.observacion"
-              rows="4"
-              class="w-100" style="resize: none;"></textarea>
+            <textarea required id="postEvento.observacion" v-model="postEvento.observacion" rows="4" class="w-100"
+              style="resize: none;"></textarea>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <br />
-          
+
 
         </CCardBody>
       </CForm>
 
       <div class="table-headers">
         <div class="d-inline p-2">
-          <CButton
-            color="info"
-            @click="() => { showMovimientoModal = true } "
-          >
+          <CButton color="info" @click="() => { showMovimientoModal = true }">
             Agregar &Uacute;til Laboral
           </CButton>
         </div>
       </div>
 
-      <MovimientoUtilTable
-        :utiles="postEvento.utiles"
-        :show-delete-button="true"
-        @remove="removeUtil"
-      />
+      <MovimientoUtilTable :utiles="postEvento.utiles" :show-delete-button="true" @remove="removeUtil" />
 
     </CModalBody>
     <CModalFooter>
-      <CButton
-        type="button"
-        class="btn btn-secondary mx-2"
-        @click="() => { showModal = false }"
-      >
+      <CButton type="button" class="btn btn-secondary mx-2" @click="() => closeModal()">
         Cerrar
       </CButton>
       <CButton class="btn btn-info btn-block" @click="sendData">
@@ -92,15 +59,9 @@
       </CButton>
     </CModalFooter>
 
-    <MovimientoInventarioModal
-      :showMovimientoModal="showMovimientoModal"
-      :inventarioList="inventarioList"
-      :postEvento="utilLaboralItem"
-      @close-modal="onMovimientoModalClose"
-      @save="onMovimientoSave"
-    />
+    <MovimientoInventarioModal :showMovimientoModal="showMovimientoModal" :inventarioList="inventarioList"
+      :postEvento="utilLaboralItem" @close-modal="onMovimientoModalClose" @save="onMovimientoSave" />
   </CModal>
-
 </template>
 
 <script>
@@ -113,6 +74,7 @@ import MovimientoUtilTable from '../tables/MovimientoUtilTable.vue'
 import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
 import { onlyLetter } from '@/utils/validator'
+import { utils } from 'xlsx/xlsx.mjs'
 
 export default {
   name: 'EventoInventario',
@@ -123,8 +85,8 @@ export default {
     CSmartTable,
     MovimientoInventarioModal,
     MovimientoUtilTable
-},
-  emits: ["closeModal", "save"],
+  },
+  emits: ["closeModal", "save", "editar"],
   data: () => {
     return {
       onlyLetter,
@@ -174,6 +136,10 @@ export default {
     submitEventos(data) {
       this.$emit('save', data)
     },
+
+    editarEvent(data, id) {
+      this.$emit('editar', data, id)
+    },
     removeUtil(util) {
       this.postEvento.utiles = this.postEvento.utiles.filter(u => u.inventarioId !== util.inventarioId);
     },
@@ -185,10 +151,10 @@ export default {
       const foundSimilar = this.postEvento.utiles.filter(u => u.inventarioId === movement.inventarioId);
       if (foundSimilar.length) {
         return this.show({
-            content: `Ya el útil ${movement.inventario.descripcion} está agregado a la lista.`,
-            closable: true,
-            time: 7_000,
-            color:"warning"
+          content: `Ya el útil ${movement.inventario.descripcion} está agregado a la lista.`,
+          closable: true,
+          time: 7_000,
+          color: "warning"
         });
       }
       this.postEvento.utiles = [movement, ...this.postEvento.utiles];
@@ -200,22 +166,32 @@ export default {
 
     sendData() {
       this.isFormEventTypeValidated = false
-      if (
-        this.$refs.eventTypeForm.$el.checkValidity() &&
-        this.postEvento.utiles.length
-      ) {
-        return this.submitEventos({ ...this.postEvento, empleadoId: this.empleado.id })
-      }
-      this.isFormEventTypeValidated = true;
+      if (this.util.id) {
+        if (this.$refs.eventTypeForm.$el.checkValidity() &&
+          this.postEvento.utiles.length) {
+          return this.editarEvent({ ...this.postEvento }, this.util.id)
+        }
+        this.isFormEventTypeValidated = true;
+      } else {
+        if (
+          this.$refs.eventTypeForm.$el.checkValidity() &&
+          this.postEvento.utiles.length
+        ) {
+          return this.submitEventos({ ...this.postEvento, empleadoId: this.empleado.id })
+        }
+        this.isFormEventTypeValidated = true;
 
-      if (this.postEvento.utiles.length === 0) {
-        this.show({
+        if (this.postEvento.utiles.length === 0) {
+          this.show({
             content: 'Debes agregar al menos un útil laboral',
             closable: true,
             time: 7_000,
-            color:"info"
-        });
+            color: "info"
+          });
+        }
       }
+
+
     },
 
     clearEventos() {
@@ -240,11 +216,26 @@ export default {
       if (this.showModal) {
         this.postEvento = { ...newValue };
       }
+    },
+    util(value) {
+      if (this.showModal) {
+        this.postEvento = { ...value }
+        this.postEvento.uitles = this.postEvento.utiles.forEach(function (utiles) {
+          var inventarioId = utiles.inventario.id;
+          return utiles.inventarioId = inventarioId;
+        });
+      }
     }
   },
 
   props: {
     showModal: Boolean,
+
+    util: {
+      type: Object,
+      required: true,
+    },
+
     empleado: {
       type: Object,
       required: true,
