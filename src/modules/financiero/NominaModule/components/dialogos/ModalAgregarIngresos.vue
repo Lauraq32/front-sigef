@@ -14,6 +14,7 @@
           <CCol :md="12">
             <CFormLabel for="validationCustomUsername">Nombre</CFormLabel>
             <CFormInput
+              v-on:keypress="onlyLetter"
               v-model="payload.tipoIngreso.nombre"
               type="text"
               required
@@ -47,6 +48,7 @@
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
+import { onlyLetter } from '@/utils/validator'
 
 export default {
   name: 'AddIngresos',
@@ -57,6 +59,7 @@ export default {
 
   data: function () {
     return {
+      onlyLetter,
       ingresoRetencionFormValidated: false,
     }
   },
@@ -66,7 +69,6 @@ export default {
       this.ingresoRetencionFormValidated = false
       if (this.$refs.formRef.$el.checkValidity()) {
         this.$emit('addIngreso', { ...this.payload.tipoIngreso })
-
         return
       }
       this.ingresoRetencionFormValidated = true
@@ -74,6 +76,10 @@ export default {
 
     closeModal() {
       this.$emit('close-modal', false)
+      this.clearModal()
+    },
+    clearModal() {
+      this.ingresoRetencionFormValidated = false
     },
   },
 

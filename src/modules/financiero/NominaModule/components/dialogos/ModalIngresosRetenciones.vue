@@ -13,7 +13,7 @@
       <CCardBody>
         <CForm>
           <div class="row">
-            <div class="col-7">
+            <div class="col-6">
               <CNav variant="tabs" role="tablist">
                 <CNavItem>
                   <CNavLink
@@ -65,6 +65,7 @@
                     <template #nombre="{ item }">
                       <td>
                         <CFormInput
+                          v-on:keypress="onlyLetter"
                           :disabled="item.categoriaRetencion == 'LEY'"
                           v-model="item.nombre"
                         />
@@ -74,6 +75,7 @@
                     <template #codigoEjecucionPresupuestoGasto="{ item }">
                       <td>
                         <CFormInput
+                          v-on:keypress="onlyNumber"
                           v-model="item.codigoEjecucionPresupuestoGasto"
                         />
                       </td>
@@ -123,18 +125,22 @@
                   >
                     <template #nombre="{ item }">
                       <td>
-                        <CFormInput v-model="item.nombre" />
+                        <CFormInput
+                          v-on:keypress="onlyLetter"
+                          v-model="item.nombre"
+                        />
                       </td>
                     </template>
 
                     <template #show_details="{ item }">
                       <td class="py-1">
                         <CButton
+                          v-if="item.categoriaRetencion !== 'LEY'"
                           class="mt-1"
                           variant="outline"
                           square
                           size="sm"
-                          @click="deleteConfiguracionNominaApi(item)"
+                          @click="deleteIngreso(item)"
                         >
                           <CIcon style="color: red" icon="cilTrash" size="lg" />
                         </CButton>
@@ -160,7 +166,7 @@
               </p>
             </div>
 
-            <div class="col-5 border border-bottom-dark p-2">
+            <div class="col-6 border border-bottom-dark p-2">
               <div class="row mt-3">
                 <div class="col-9">
                   <CFormLabel for="sueldoMensual" class="col-form-label"
@@ -225,7 +231,7 @@
                 </div>
               </div>
               <div class="border box-tall">
-                <p class="mt-2">
+                <p class="mt-2 mx-2">
                   Segun la ley, las retenciones a los empleados, no deben pasar
                   de un
                   <CFormInput
@@ -289,6 +295,7 @@ import AddDialogRetencion from './ModalAgregarIngresosRetencion.vue'
 import AddDialogIngresos from './ModalAgregarIngresos.vue'
 import { mapActions } from 'pinia'
 import { useToastStore } from '@/store/toast'
+import { onlyLetter, onlyNumber } from '@/utils/validator'
 
 export default {
   name: 'IngresosAndRetenciones',
@@ -303,6 +310,8 @@ export default {
 
   data: function () {
     return {
+      onlyLetter,
+      onlyNumber,
       showAgregarIngresosRetencion: false,
       clonedArray: [],
       showAgregarIngresos: false,
@@ -377,14 +386,18 @@ export default {
     closeModal() {
       this.showAgregarIngresosRetencion = false
       this.showAgregarIngresos = false
+      this.clearModal()
     },
 
     addRetencion(payload) {
       this.dataConfiguracionNomina = [...this.dataConfiguracionNomina, payload]
+      this.showAgregarIngresosRetencion = false
       this.show({
-        content: 'Registro añadido correctamente',
+        content: 'Registro cancelado correctamente',
         closable: true,
+        time: 7_000,
       })
+      this.clearModal()
     },
 
     addIngreso(payload) {
@@ -392,10 +405,19 @@ export default {
         ...this.dataConfiguracionNominaIngresos,
         payload,
       ]
+      this.showAgregarIngresos = false
+      this.show({
+        content: 'Registro añadido correctamente',
+        closable: true,
+      })
+      this.clearModal()
     },
 
     postConfiguracionNominaApi() {
-      ApiNomina.postConfiguracionNomina(this.postIngresoRetencion).then(() => {
+      ApiNomina.putConfiguracionNomina({
+        retencion: this.dataConfiguracionNomina,
+        tipoIngreso: this.dataConfiguracionNominaIngresos,
+      }).then(() => {
         this.clearModal()
         setTimeout(this.getConfiguracionNominaApi, 500)
         this.show({
@@ -429,7 +451,47 @@ export default {
     },
 
     deleteConfiguracionNominaApi(item) {
-      ApiNomina.deleteConfiguracionNomina(item).then((response) => {})
+      this.$swal({
+        title: 'Estás seguro de realizar esta acción? ',
+        text: 'No podrás revertirlo',
+        icon: 'Confirmación',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Aceptar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          ApiNomina.deleteConfiguracionNomina({
+            retencionIds: [item.id],
+            tipoIngresoIds: [],
+          }).then((response) => {
+            setTimeout(this.getConfiguracionNominaApi, 500)
+          })
+        }
+      })
+    },
+
+    deleteIngreso(item) {
+      this.$swal({
+        title: 'Estás seguro de realizar esta acción? ',
+        text: 'No podrás revertirlo',
+        icon: 'Confirmación',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Aceptar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          ApiNomina.deleteConfiguracionNomina({
+            retencionIds: [],
+            tipoIngresoIds: [item.id],
+          }).then((response) => {
+            setTimeout(this.getConfiguracionNominaApi, 500)
+          })
+        }
+      })
     },
 
     clearModal() {

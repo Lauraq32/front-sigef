@@ -14,6 +14,7 @@
           <CCol :md="12">
             <CFormLabel for="validationCustomUsername">Nombre</CFormLabel>
             <CFormInput
+              v-on:keypress="onlyLetter"
               v-model="payload.retencion.nombre"
               type="text"
               required
@@ -28,6 +29,7 @@
               >Categoria de Retención</CFormLabel
             >
             <CFormSelect
+              v-on:keypress="onlyLetter"
               required
               v-model="payload.retencion.categoriaRetencion"
             >
@@ -43,6 +45,7 @@
               >Codigo Ejecucion Presupuesto Gasto</CFormLabel
             >
             <CFormInput
+              v-on:keypress="onlyNumber"
               v-model="payload.retencion.codigoEjecucionPresupuestoGasto"
               type="text"
               required
@@ -76,7 +79,7 @@
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
-
+import { onlyLetter, onlyNumber } from '@/utils/validator'
 
 export default {
   name: 'AddIngresosRetencion',
@@ -87,6 +90,8 @@ export default {
 
   data: function () {
     return {
+      onlyLetter,
+      onlyNumber,
       ingresoRetencionFormValidated: false,
     }
   },

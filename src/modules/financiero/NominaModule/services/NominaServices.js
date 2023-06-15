@@ -196,8 +196,8 @@ class NominaApi {
     return http.put(`AreaTrabajo/${id}`, data)
   }
 
-  putConfiguracionNomina(id, data) {
-    return http.put(`configuracion-nomina/${id}`, data)
+  putConfiguracionNomina(data) {
+    return http.put(`configuracion-nomina`, data)
   }
 
   putEmpleado(id, data) {
@@ -214,8 +214,8 @@ class NominaApi {
     return http.delete(`Sector/${id}?ayuntamiento=${getAyuntamientoId()}`)
   }
 
-  deleteConfiguracionNomina() {
-    return http.delete('configuracion-nomina')
+  deleteConfiguracionNomina(data) {
+    return http.put('configuracion-nomina/cancelado',data)
   }
 }
 
