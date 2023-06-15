@@ -378,8 +378,9 @@ export default {
       return this.addGasto(data)
     },
     IngresoReport() {
+      console.log(this.$loggedInfo);
       window.open(
-        `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Gastos_Formulacion_FP08&rs:Command=Render&ANO=${this.$fiscalYearId}&CAPITULO_AYTO=${this.$ayuntamientoId}&FONDO=P`,
+        `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?/FormulacionEjecucionP/Rep_Formulacion_Gastos_FP08&rs:Command=Render&CAPITULO_AYTO=${this.$loggedInfo.user.ayuntamiento.id}&ANO=${this.$loggedInfo.currentFiscalYearId}`,
         '_blank',
       )
     },

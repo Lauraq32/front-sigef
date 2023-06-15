@@ -1,6 +1,6 @@
 <template>
   <h3 class="text-center mb-4">Direcci&oacute;n Dependencia</h3>
-  <div class="table-headers mb-4">
+  <div class="table-headers mb-4 gap-1">
       <CButton
         color="info"
         @click=" () => { newDireccionDependeciaModal = true }">Agregar</CButton>
@@ -43,7 +43,7 @@
     :newDireccionDependeciaModal="newDireccionDependeciaModal"
     @close-modal="closeModal"
     @post-direccionDependecia="saveDireccionDependecia"
-    :direccionDependeciaId="direccionDependeciaId"
+    :direccionDependecia="direccionDependeciaObject"
   />
 </template>
 <script>
@@ -62,8 +62,11 @@ export default {
   data: () => {
     return {
       direccionDependecia: [],
-      direccionDependeciaId: null,
       newDireccionDependeciaModal: false,
+      direccionDependeciaObject: {
+        nombre: '',
+        estructura: '',
+      },
       columns: [
         { key: 'nombre', label: 'Nombre', _style: { width: '40%' } },
         { key: 'estructura', label: 'Estructura Programática', _style: { width: '40%' } },
@@ -94,15 +97,19 @@ export default {
   methods: {
     ...mapActions(useToastStore, ['show']),
     closeModal() {
-      this.newDireccionDependeciaModal = false
+      this.newDireccionDependeciaModal = false;
+      this.direccionDependeciaObject= {
+        nombre: '',
+        estructura: '',
+      }
     },
     editDireccionDependecia(item) {
-      this.direccionDependeciaId = item.id
+      this.direccionDependeciaObject = item;
       this.newDireccionDependeciaModal = true
     },
     saveDireccionDependecia(payload) {
-      if (this.direccionDependeciaId != null) {
-        Api.putDireccionDependecia(this.direccionDependeciaId, payload)
+      if (payload.id) {
+        Api.putDireccionDependecia(payload.id, payload)
           .then(() => {
             this.show({
               content: 'Registro actualizado correctamente',

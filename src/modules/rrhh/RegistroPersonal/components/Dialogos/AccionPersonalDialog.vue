@@ -19,31 +19,31 @@
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Nombre:</div>
               <div class="col-8">
-                <h6>{{ empleado.nombres }}</h6>
+                <h6>{{ empleado.nombre }}</h6>
               </div>
             </div>
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Apellido:</div>
               <div class="col-8">
-                <h6>{{ empleado.apellidos }}</h6>
+                <h6>{{ empleado.apellido }}</h6>
               </div>
             </div>
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Programa:</div>
               <div class="col-8">
-                <h6>{{ empleado.programaDivision.nombre }}</h6>
+                <h6>{{ empleado.programaDivision?.nombre }}</h6>
               </div>
             </div>
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Departamento:</div>
               <div class="col-8">
-                <h6>{{ empleado.departamento.nombre }}</h6>
+                <h6>{{ empleado.departamento?.nombre }}</h6>
               </div>
             </div>
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Cargo:</div>
               <div class="col-8">
-                <h6>{{ empleado.posicion.nombre }}</h6>
+                <h6>{{ empleado.posicion?.nombre }}</h6>
               </div>
             </div>
           </div>
@@ -274,6 +274,7 @@ export default {
   watch: {
     empleado() {
       if (this.showModal) {
+        console.log(this.empleado)
         Api.getAllTipoAcciones().then((response) => {
           this.tipoAcciones = response.data.data
         })
