@@ -4,40 +4,22 @@
     <CButton color="info" @click="() => { cargoModal = true }">Agregar</CButton>
     <CButton color="secondary">Imprimir</CButton>
   </div>
-  <CSmartTable
-    class="sticky-top"
-    clickableRows
-    :tableProps="{
-      striped: true,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    header
-    :items="cargos"
-    :columns="columns"
-    :footer="footerItem"
-    columnFilter
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'nombre', state: 'asc' }"
-    pagination
-  >
-  <template #show_details="{ item }">
-   
+  <CSmartTable class="sticky-top" clickableRows :tableProps="{
+    striped: true,
+    hover: true,
+  }" :tableHeadProps="{}" :activePage="1" header :items="cargos" :columns="columns" :footer="footerItem" columnFilter
+    itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'nombre', state: 'asc' }" pagination>
+    <template #show_details="{ item }">
+
       <td class="px-4">
-        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="getCargosById(item)">Editar</CButton>
-        <CButton class="mt-1" color="danger" variant="outline" square size="sm" @click="deleteCargo(item.id)">Eliminar</CButton>
+        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="getCargosById(item)">Editar
+        </CButton>
+        <CButton class="mt-1" color="danger" variant="outline" square size="sm" @click="deleteCargo(item.id)">Eliminar
+        </CButton>
       </td>
     </template>
   </CSmartTable>
-  <CargosModal
-    :cargoModal="cargoModal"
-    @close-modal="closeModal"
-    @post-cargo="saveCargo"
-    :cargoToUpdate="cargo"
-  />
+  <CargosModal :cargoModal="cargoModal" @close-modal="closeModal" @post-cargo="saveCargo" :cargoToUpdate="cargo" />
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
@@ -92,22 +74,38 @@ export default {
     closeModal(payload) {
       this.cargoModal = payload
     },
-    deleteCargo(id){
-      Api.deleteCargo(id).then(() => {
-        this.show({
+    deleteCargo(id) {
+
+      this.$swal({
+        title: 'Estás seguro de realizar esta acción? ',
+        text: 'No podrás revertirlo',
+        icon: 'Confirmación',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Aceptar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Api.deleteCargo(id).then(() => {
+            this.show({
               content: 'Registro eliminado correctamente',
               closable: true,
-              
+
             })
-      }).catch((error) => {
-        this.show({
+          }).catch((error) => {
+            this.show({
               content: error.response.data.message,
               closable: true,
 
-              color:'danger'
+              color: 'danger'
             })
-      })
-      setTimeout(() => this.getAllCargo(), 200)
+          })
+          setTimeout(() => this.getAllCargo(), 200)
+        }
+
+      });
+      
     },
     getCargosById(item) {
       this.cargo = item;
