@@ -93,6 +93,7 @@ export default {
               closable: true,
 
             })
+            setTimeout(() => this.getAllCargo(), 200)
           }).catch((error) => {
             this.show({
               content: error.response.data.message,
@@ -101,7 +102,7 @@ export default {
               color: 'danger'
             })
           })
-          setTimeout(() => this.getAllCargo(), 200)
+         
         }
 
       });
