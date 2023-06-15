@@ -464,6 +464,18 @@
                       </option>
                     </CFormSelect>
                   </CCol>
+                  <CCol>
+                    <CFormLabel for="tipoSangreId">Insulino Dependiente</CFormLabel>
+                    <CFormSelect v-model="postEmpleado.emergenciaInsodepend" id="emergenciaInsodepend">
+                      <option value="" disabled selected>Seleccione</option>
+                      <option>
+                        Si
+                      </option>
+                      <option>
+                        No
+                      </option>
+                    </CFormSelect>
+                  </CCol>
 
                   <CCol>
                     <CFormLabel for="presión">Nivel de presi&oacute;n</CFormLabel>
