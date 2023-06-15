@@ -59,9 +59,10 @@
     @closeModal="closeTipoNovedad"
   />
   
-  <ContenedorArchivosRRHH
+  <ContenedorArchivosModel
     :showModal="showModalDoc"
-    :empleado="selectedEmployee"
+    :tagKeyName="'empleadoId'"
+    :tagValueName="selectedEmployee?.id"
     @closeModal="closeContenedorModal"
   />
 
@@ -108,7 +109,7 @@ import { useToastStore } from '@/store/toast'
 import RegistroPersonalDialog from '../components/Dialogos/RegistroPersonalDialog.vue'
 import RegistroPersonalTable from '../components/tables/RegistroPersonalTable.vue'
 import EducacionDialog from './Dialogos/EducacionDialog.vue'
-import ContenedorArchivosRRHH from './ContenedorArchivosRRHH.vue'
+import ContenedorArchivosModel from '@/components/ContenedorArchivosModel.vue'
 import AccionPersonalDialog from './Dialogos/AccionPersonalDialog.vue'
 import UtilesLaboralesDialog from './Dialogos/UtilesLaboralesDialog.vue'
 import TipoNovedadDialog from './TipoNovedades.vue'
@@ -122,7 +123,7 @@ export default {
     RegistroPersonalDialog,
     AccionPersonalDialog,
     AccionPersonalDialog,
-    ContenedorArchivosRRHH,
+    ContenedorArchivosModel,
     TipoNovedadDialog,
     RegistroPersonalDialog,
     TarjetaEmpleadoDialogs,

@@ -64,8 +64,7 @@
 <script>
 import { ref } from "vue";
 import { CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter } from '@coreui/vue'
-import Api from '../services/RegistroPersonalServices'
-import ApiFile from '../services/Files'
+import ApiFile from '../modules/rrhh/RegistroPersonal/services/Files'
 import { CSmartTable, CButton, CCollapsePlugin, CForm } from '@coreui/vue-pro'
 import { CIcon } from '@coreui/icons-vue'
 import DropZone from "@/components/DropZone.vue"
@@ -162,15 +161,15 @@ export default {
       this.isFormEventTypeValidated = true
     },
     postDocumentos() {
-      if (this.empleado.id && this.dropzoneFile) {
+      if (this.tagKeyName && this.tagValueName && this.dropzoneFile) {
         const formData = new FormData()
-        formData.append('empleadoId', this.empleado.id)
+        formData.append(this.tagKeyName, this.tagValueName)
         formData.append('fileCustomName', this.fileName)
         formData.append('fileCustomDescription', this.fileDescription)
         formData.append('fileCustomtype', this.typeDocument)
         formData.append('file', this.dropzoneFile)
-        Api.postFiles(formData).then(() => {
-          this.getFilesByEmployeeId(this.empleado.id)
+        ApiFile.saveFile(formData).then(() => {
+          this.getFilesByRelationKey(this.tagKeyName, this.tagValueName)
           this.show({
             content: "Imagen guardada correctamente",
             closable: true,
@@ -198,8 +197,10 @@ export default {
     toggle(index) {
       this.documentos[index].visible = !this.documentos[index].visible
     },
-    getFilesByEmployeeId(id) {
-      Api.getFilesByEmployeeId(id).then((response) => {
+    getFilesByRelationKey(key, id) {
+      ApiFile.getFiles({
+        tag: { [key]: id }
+      }).then((response) => {
         this.documentos = response.data.data
         this.footerItem[0].label = `Total Items ${this.documentos.length}`
       })
@@ -227,15 +228,16 @@ export default {
     return { dropzoneFile, selectedFile };
   },
   watch: {
-    empleado() {
-      if (this.showModal) {
-        this.getFilesByEmployeeId(this.empleado.id)
+    showModal() {
+      if (this.showModal && this.tagValueName && this.tagKeyName) {
+        this.getFilesByRelationKey(this.tagKeyName, this.tagValueName)
       }
-    },
+    }
   },
   props: {
     showModal: Boolean,
-    empleado: Object,
+    tagKeyName: String,
+    tagValueName: 0
   },
 }
 </script>
