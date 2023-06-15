@@ -100,9 +100,10 @@
     @actualizar-table="getIngresos"
   />
 
-  <ContenedorArchivosRRHH
+  <ContenedorArchivos
     :showModal="showModalDoc"
-    :empleado="selectedEmployee"
+    :tagKeyName="'ejecucionIngresosId'"
+    :tagValueName="`${selectedIngreso?.id}-${selectedIngreso?.numeroComprobante}`"
     @closeModal="closeContenedorModal"
   />
 </template>
@@ -119,7 +120,7 @@ import router from '@/router'
 import AppActionHeader from '@/components/AppActionHeader.vue'
 import ModalAddComprobanteIngreso from '../Dialogos/ModalAddComprobanteIngreso.vue'
 import { formatDate, formatPrice } from '@/utils/format'
-import ContenedorArchivosRRHH from '@/modules/rrhh/RegistroPersonal/components/ContenedorArchivosRRHH.vue'
+import ContenedorArchivos from '@/components/ContenedorArchivosModel.vue'
 
 export default {
   components: {
@@ -128,11 +129,12 @@ export default {
     SimpleTypeahead,
     AppActionHeader,
     ModalAddComprobanteIngreso,
-    ContenedorArchivosRRHH,
+    ContenedorArchivos,
   },
 
   data: function () {
     return {
+      selectedIngreso: {},
       formatDate,
       formatPrice,
       showAddComprobanteIngreso: false,
@@ -208,8 +210,9 @@ export default {
 
         {
           label: 'Asociar documentos',
-          clickHandler: (value) => {
-            this.showModalDoc = value
+          clickHandler: (item) => {
+            this.showModalDoc = true
+            this.selectedIngreso = { ...item }
           },
         },
 
