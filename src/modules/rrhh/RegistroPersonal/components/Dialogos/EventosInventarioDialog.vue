@@ -166,30 +166,17 @@ export default {
 
     sendData() {
       this.isFormEventTypeValidated = false
-      if (this.util.id) {
-        if (this.$refs.eventTypeForm.$el.checkValidity() &&
-          this.postEvento.utiles.length) {
-          return this.editarEvent({ ...this.postEvento }, this.util.id)
-        }
-        this.isFormEventTypeValidated = true;
-      } else {
-        if (
-          this.$refs.eventTypeForm.$el.checkValidity() &&
-          this.postEvento.utiles.length
-        ) {
-          return this.submitEventos({ ...this.postEvento, empleadoId: this.empleado.id })
-        }
-        this.isFormEventTypeValidated = true;
-
-        if (this.postEvento.utiles.length === 0) {
-          this.show({
-            content: 'Debes agregar al menos un útil laboral',
-            closable: true,
-            time: 7_000,
-            color: "info"
-          });
-        }
+      if (
+        this.$refs.eventTypeForm.$el.checkValidity() &&
+        this.postEvento.utiles.length
+      ) {
+        this.util.id ? this.editarEvent({ ...this.postEvento }, this.util.id) :
+          this.submitEventos({ ...this.postEvento, empleadoId: this.empleado.id })
+        return;
       }
+
+
+
 
 
     },

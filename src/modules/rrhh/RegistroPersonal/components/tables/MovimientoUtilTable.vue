@@ -69,11 +69,6 @@ export default {
         };
     },
     emits: ['remove'],
-    watch:{
-      utiles(oldUtils){
-        console.log(oldUtils)
-      }
-    },
     props: {
         utiles: {
             type: Array,

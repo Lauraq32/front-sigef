@@ -197,7 +197,6 @@ export default {
               class: 'text-white',
             })
       })
-      //this.clearUtilesLaborales();
       this.closeEventoInventarioDialog();
     },
     getAllInventario() {
@@ -346,7 +345,6 @@ export default {
     loadModal(util) {
           this.util = util
           this.showEventoInventarioDialog = true
-          // this.utilDetailsView = data;
     }
   },
 
