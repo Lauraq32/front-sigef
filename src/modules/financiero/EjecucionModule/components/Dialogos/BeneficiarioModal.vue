@@ -57,7 +57,9 @@
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="15">
-                <CFormLabel for="validationCustom04">Direccion</CFormLabel>
+                <CFormLabel for="validationCustom04"
+                  >Direcci&oacute;n</CFormLabel
+                >
                 <CFormInput
                   v-model="beneficiarioForm.direccion"
                   id="validationCustom04"
@@ -125,7 +127,7 @@
                   >Fecha de ingreso</CFormLabel
                 >
                 <CFormInput
-                  v-model="beneficiarioForm.ingreso"
+                  v-model="ingresoDate"
                   type="date"
                   id="validationCustom04"
                 >
@@ -205,7 +207,7 @@ export default {
       beneficiarioFormValidated: false,
       cedulaMax: 11,
       beneficiarioForm: {
-        id: 0,
+        id: null,
         nombre: '',
         tipoDcto: 'cedula',
         rncCedPas: '',
@@ -230,7 +232,6 @@ export default {
       this.beneficiarioFormValidated = false
       if (this.$refs.formRef.$el.checkValidity()) {
         this.$emit('post-beneficiario', { ...this.beneficiarioForm })
-        this.clearForm()
         return
       }
       this.beneficiarioFormValidated = true
@@ -249,7 +250,7 @@ export default {
 
     clearForm() {
       this.beneficiarioForm = {
-        id: 0,
+        id: null,
         nombre: '',
         tipoDcto: 'cedula',
         rncCedPas: '',
@@ -280,9 +281,32 @@ export default {
     },
   },
 
+  computed: {
+    ingresoDate: {
+      // eslint-disable-next-line vue/return-in-computed-property
+      get() {
+        if (
+          this.beneficiarioForm.ingreso !== null &&
+          this.beneficiarioForm.ingreso?.toString() !== 'Invalid Date'
+        ) {
+          let date = this.beneficiarioForm.ingreso
+
+          if (typeof this.beneficiarioForm.ingreso === 'string') {
+            date = new Date(this.beneficiarioForm.ingreso)
+            return date.toISOString().split('T')[0]
+          }
+        }
+      },
+
+      set(value) {
+        return (this.beneficiarioForm.ingreso = new Date(`${value}T00:00:00`))
+      },
+    },
+  },
+
   watch: {
     beneficiario(newValue) {
-      if (this.beneficiarioFormModal && newValue) {
+      if (this.beneficiarioModal && newValue) {
         this.beneficiarioForm = { ...newValue }
       }
     },

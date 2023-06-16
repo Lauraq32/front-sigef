@@ -171,8 +171,8 @@ export default {
     },
 
     saveBeneficiario(payload) {
-      if (this.beneficiario.id != null) {
-        Api.putBeneficiarios(this.beneficiario.id, payload)
+      if (payload.id) {
+        Api.putBeneficiarios(payload.id, payload)
           .then(() => {
             this.show({
               content: 'Registro actualizado correctamente',
