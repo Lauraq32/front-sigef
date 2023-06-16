@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Posición o Cargo</h3>
+  <h3 class="text-center">Posiciones o Cargos</h3>
 
   <CargosTable
     :columns="columns"
@@ -9,7 +9,7 @@
   />
 </template>
 <script>
-import  CargosTable  from '@/modules/rrhh/RegistroPersonal/components/CargosTable.vue'
+import CargosTable from '@/modules/rrhh/RegistroPersonal/components/CargosTable.vue'
 import { mapActions } from 'pinia'
 
 import { useToastStore } from '@/store/toast'
@@ -24,7 +24,7 @@ export default {
       cargos: [],
       columns: [
         {
-          key: 'posicion',
+          key: 'nombre',
           label: 'Posición o cargo',
           _style: { width: '40%' },
         },

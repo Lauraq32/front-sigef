@@ -34,7 +34,7 @@
   </CSmartTable>
 </template>
 <script>
-import  {CSmartTable}  from '@coreui/vue-pro'
+import { CSmartTable } from '@coreui/vue-pro'
 export default {
   components: {
     CSmartTable,

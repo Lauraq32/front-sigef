@@ -1,7 +1,15 @@
 <template>
- <h3 class="text-center mb-4">Cargos</h3>
+  <h3 class="text-center mb-4">Cargos</h3>
   <div class="table-headers mb-4 gap-1">
-    <CButton color="info" @click="() => { cargoModal = true }">Agregar</CButton>
+    <CButton
+      color="info"
+      @click="
+        () => {
+          cargoModal = true
+        }
+      "
+      >Agregar</CButton
+    >
     <CButton color="secondary">Imprimir</CButton>
   </div>
   <CargosTable
@@ -19,15 +27,13 @@
   />
 </template>
 <script>
-import  CargosTable  from '@/modules/rrhh/RegistroPersonal/components/CargosTable.vue'
-import { CModal } from '@coreui/vue'
+import CargosTable from '@/modules/rrhh/RegistroPersonal/components/CargosTable.vue'
 import CargosModal from './Dialogos/CargosModal.vue'
 import { mapActions } from 'pinia'
 import Api from '../services/RegistroPersonalServices'
 import { useToastStore } from '@/store/toast'
 export default {
   components: {
-    CModal,
     CargosModal,
     CargosTable,
   },
@@ -37,11 +43,6 @@ export default {
       cargos: [],
       cargoModal: false,
       columns: [
-        {
-          key: 'id',
-          label: 'ID',
-          _style: { width: '5%' },
-        },
         {
           key: 'nombre',
           label: 'Posición o cargo',
@@ -72,7 +73,7 @@ export default {
       this.cargoModal = payload
     },
     getCargosById(item) {
-      this.cargo = item;
+      this.cargo = item
       this.cargoModal = true
     },
     saveCargo(payload) {
