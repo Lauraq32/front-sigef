@@ -2,7 +2,33 @@
 import http from '@/Api/http-common'
 import { getAyuntamientoId, getFiscalYearId } from '@/utils/logged-info'
 class Ejecucion {
-  //-----------------------------CLASIFICADORES---------------------------------------//
+  //Comprobante Gasto
+  getRegistroGasto(){
+    return http.get('registros-gasto')
+  }
+  postRegistroGasto(data){
+    return http.post('registros-gasto',data)
+  }
+  putRegistroGastoPagado(data,id){
+    return http.put(`registros-gasto/${id}/pagado`,data)
+  }
+  putRegistroGastoDevengado(data,id){
+    return http.put(`registros-gasto/${id}/devengado`,data)
+  }
+  getRegistroGastoById(id){
+    return http.get(`registros-gasto/${id}
+    `)
+  }
+  getRegistroGastoDetalles(expeseRecordId){
+    return http.get(`registros-gasto/${expeseRecordId}/detalles`)
+  }
+  getRegistroGastoClasificador(){
+    return http.get('registros-gasto/Clasifica')
+  }
+  getRegistroGastoMesProg(){
+    return http.get('registros-gasto/MesProg')
+  }
+
   //get
   getBeneficiarios() {
     return http.get('Beneficiarios')
@@ -36,10 +62,6 @@ class Ejecucion {
 
   getSectorbyid(id) {
     return http.get(`Sector/${id}`)
-  }
-
-  getRegistroGastobyid(id) {
-    return http.get(`RegistroGasto/${id}`)
   }
 
   getIngresoAll() {
@@ -82,11 +104,6 @@ class Ejecucion {
     )
   }
 
-  getRegistroGastoDetalle(id) {
-    return http.get(
-      `RegistroGasto/Detalle?anio=${user?.currentFiscalYearId}&AyuntamientoId=${user?.user.ayuntamiento.id}&id=${id}`,
-    )
-  }
 
   downloadGastoModificacion(value) {
     return http.get(
@@ -106,11 +123,6 @@ class Ejecucion {
   }
   getTipoRetencionById(id) {
     return http.get(`TipoRetencion/${id}?Ayuntamiento=${getAyuntamientoId()}`)
-  }
-  getRegistroGastoDetalleMesprog(id) {
-    return http.get(
-      `RegistroGasto/Mesprog?anio=${getFiscalYearId()}&AyuntamientoId=${getAyuntamientoId()}&Mesprog=${id}`,
-    )
   }
 
   //post
@@ -158,11 +170,6 @@ class Ejecucion {
     return http.put(`RegistroGasto/${id}`, data)
   }
 
-  getRegistroGasto() {
-    return http.get(
-      `RegistroGasto?anio=${getFiscalYearId()}&AyuntamientoId=${getAyuntamientoId()}`,
-    )
-  }
   postRegistroGasto(post) {
     return http.post(`RegistroGasto`, post)
   }

@@ -41,7 +41,7 @@ const props = defineProps({
     //   default: () => true,
     // },
     term: {
-      default: '',
+        default: '',
     },
 });
 
@@ -49,7 +49,6 @@ const toastStore = useToastStore();
 
 const isLoading = ref(true)
 const clasificadores = ref([])
-const allClasificator = ref([])
 const columns = [
     { key: 'id', label: 'Id' },
     { key: 'nombre', label: 'Nombre' },
@@ -68,20 +67,16 @@ const closeDialog = (data) => {
 }
 
 watchEffect(() => {
-    // if (allClasificator.value.length === 0) {
-        Api.getBeneficiarios()
-            .then((response) => {
-                //clasificadores.value = response.data.data
-                clasificadores.value = response.data.data
-                isLoading.value = false
-                // clasificadores.value = allClasificator.value.filter(props.filtered)
-                isLoading.value = false;
-                autoSelectClasificator(props.term);
-            })
-            .catch(() => {
-                isLoading.value = false
-            })
-    //}
+    Api.getBeneficiarios()
+        .then((response) => {
+            clasificadores.value = response.data.data
+            isLoading.value = false
+            isLoading.value = false;
+            autoSelectClasificator(props.term);
+        })
+        .catch(() => {
+            isLoading.value = false
+        })
 });
 
 let termPropValue = props.term;
@@ -91,25 +86,5 @@ watchEffect(() => {
         termPropValue = props.term;
     }
 }, { flush: 'post' });
-
-//if the typed clasificator is found is auto filled and the dialog is closed
-// function autoSelectClasificator(term) {
-//     if (allClasificator.value.length && term) {
-//         const found = clasificadores.value.find(
-//             (clasificador) => clasificador.clasifica == term,
-//         )
-//         if (found) {
-//             closeDialog(found);
-//         }
-//         if (String(term).length >= 6 && !found) {
-//             toastStore.show({
-//                 content: `Clasificador ${term} no encontrado`,
-//                 closable: false,
-//                 color: 'warning',
-//                 time: 5_000
-//             })
-//         }
-//     }
-// }
 </script>
   
