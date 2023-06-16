@@ -25,9 +25,10 @@
                 <CFormSelect
                   v-model="beneficiarioForm.tipoDcto"
                   id="validationCustom05"
+                  v-on:change="changeDocument()"
                 >
-                  <option>Cedula</option>
-                  <option>Pasaporte</option>
+                  <option value="cedula">C&eacute;dula</option>
+                  <option value="Pasaporte">Pasaporte</option>
                 </CFormSelect>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
@@ -36,10 +37,13 @@
                 <CFormLabel for="validationCustom04">Documento</CFormLabel>
                 <CFormInput
                   v-model="beneficiarioForm.rncCedPas"
+                  :maxlength="cedulaMax"
+                  v-on:keypress="checkDocument($event)"
+                  required
                   id="validationCustom04"
                 >
                 </CFormInput>
-                <CFormFeedback valid> Exito! </CFormFeedback>
+
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="15">
@@ -49,7 +53,7 @@
                   id="validationCustom04"
                 >
                 </CFormInput>
-                <CFormFeedback valid> Exito! </CFormFeedback>
+
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="15">
@@ -59,7 +63,7 @@
                   id="validationCustom04"
                 >
                 </CFormInput>
-                <CFormFeedback valid> Exito! </CFormFeedback>
+
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
 
@@ -72,7 +76,7 @@
                       id="validationCustom04"
                     >
                     </CFormInput>
-                    <CFormFeedback valid> Exito! </CFormFeedback>
+
                     <CFormFeedback invalid>
                       Favor agregar el campo
                     </CFormFeedback>
@@ -86,7 +90,7 @@
                       id="validationCustom04"
                     >
                     </CFormInput>
-                    <CFormFeedback valid> Exito! </CFormFeedback>
+
                     <CFormFeedback invalid>
                       Favor agregar el campo
                     </CFormFeedback>
@@ -100,7 +104,7 @@
                   id="validationCustom04"
                 >
                 </CFormInput>
-                <CFormFeedback valid> Exito! </CFormFeedback>
+
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="15">
@@ -110,7 +114,7 @@
                   id="validationCustom04"
                 >
                 </CFormInput>
-                <CFormFeedback valid> Exito! </CFormFeedback>
+
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
             </div>
@@ -126,7 +130,7 @@
                   id="validationCustom04"
                 >
                 </CFormInput>
-                <CFormFeedback valid> Exito! </CFormFeedback>
+
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
 
@@ -172,7 +176,10 @@
             >
               Cerrar
             </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="saveBeneficiario">
+            <button
+              class="btn btn-info btn-block mt-1"
+              v-on:click="saveBeneficiario"
+            >
               Guardar
             </button>
           </div>
@@ -184,6 +191,7 @@
 <script>
 import { CModal } from '@coreui/vue'
 import Api from '../../services/EjecucionServices'
+import { onlyNumber } from '@/utils/validator'
 
 export default {
   name: 'BeneficiarioModal',
@@ -193,7 +201,9 @@ export default {
 
   data: function () {
     return {
+      onlyNumber,
       beneficiarioFormValidated: false,
+      cedulaMax: 11,
       beneficiarioForm: {
         id: 0,
         nombre: '',
@@ -224,6 +234,17 @@ export default {
         return
       }
       this.beneficiarioFormValidated = true
+    },
+
+    checkDocument(e) {
+      if (this.beneficiarioForm.tipoDcto === 'cedula') {
+        onlyNumber(e)
+        this.cedulaMax = 11
+      }
+    },
+
+    changeDocument() {
+      this.cedulaMax = this.beneficiarioForm.tipoDcto === 'cedula' ? 11 : 15
     },
 
     clearForm() {
@@ -261,16 +282,15 @@ export default {
 
   watch: {
     beneficiario(newValue) {
-
-        if(this.beneficiarioFormModal && newValue){
-            this.beneficiarioForm = {...newValue}
-        }
-    }
+      if (this.beneficiarioFormModal && newValue) {
+        this.beneficiarioForm = { ...newValue }
+      }
+    },
   },
   props: {
-    beneficiarioFormModal: Boolean,
+    beneficiarioModal: Boolean,
     beneficiario: {
-        type: Object
+      type: Object,
     },
   },
 }
