@@ -124,11 +124,7 @@
                     </div>
                     <div class="col-9">
                       <CCol :md="12">
-                        <CFormInput
-                          v-model="postEmpleado.nombres"
-                          id="nombres"
-                          required
-                        />
+                        <CFormInput v-model="postEmpleado.nombre" id="nombres" required />
                       </CCol>
                     </div>
                   </div>
@@ -139,11 +135,7 @@
                     </div>
                     <div class="col-9">
                       <CCol :md="12">
-                        <CFormInput
-                          required
-                          v-model="postEmpleado.apellidos"
-                          id="apellidos"
-                        />
+                        <CFormInput required v-model="postEmpleado.apellido" id="apellidos" />
                       </CCol>
                     </div>
                   </div>
@@ -893,8 +885,8 @@ export default {
       tabPaneActiveKey: 1,
       postEmpleado: {
         codigo: null,
-        nombres: null,
-        apellidos: null,
+        nombre: null,
+        apellido: null,
         tipoDocumento: 'cedula',
         codigoIdentidad: null,
         direccion: null,
@@ -1053,8 +1045,8 @@ export default {
 
     checkDocument(e) {
       if (this.postEmpleado.tipoDocumento === 'cedula') {
-        onlyNumber(e)
-        this.cedulaMax = 11
+        this.cedulaMax = 11;
+        return onlyNumber(e);
       }
     },
 
@@ -1158,8 +1150,8 @@ export default {
       this.postEmpleado = {
         ayuntamientoId: this.$ayuntamientoId,
         codigo: null,
-        nombres: null,
-        apellidos: null,
+        nombre: null,
+        apellido: null,
         tipoDocumento: 'cedula',
         codigoIdentidad: null,
         direccion: null,

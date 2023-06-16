@@ -5,7 +5,7 @@
     style="width: 25%"
   >
     <CModalHeader :close-button="false">
-      <CModalTitle>{{ empleado?.nombres }}</CModalTitle>
+      <CModalTitle>{{ empleado?.nombre }}</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>

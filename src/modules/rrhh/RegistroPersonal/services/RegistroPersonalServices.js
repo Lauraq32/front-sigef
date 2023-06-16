@@ -105,8 +105,8 @@ class RegistroPersonal {
     return http.put(`inventarios/${id}`, data)
   }
   
-  getUtilesLaborales() {
-    return http.get(`utiles-laborales`)
+  getUtilesLaborales(empleadoId) {
+    return http.get(`utiles-laborales/empleado/${empleadoId}`);
   }
   
   postUtilLaboral(data) {
@@ -117,8 +117,16 @@ class RegistroPersonal {
     return http.post(`utiles-laborales/${id}`, data)
   }
   
-  postEventos(id, data) {
-    return http.post(`utiles-laborales/${id}/eventos`, data)
+  cancelUtilLaboral(id) {
+    return http.patch(`utiles-laborales/${id}/canceled`)
+  }
+  
+  deliverUtilLaboral(id) {
+    return http.patch(`utiles-laborales/${id}/delivered`)
+  }
+  
+  getUtilLaboralEventos(id) {
+    return http.get(`utiles-laborales/${id}/eventos`);
   }
 
   //AREA TRABAJO

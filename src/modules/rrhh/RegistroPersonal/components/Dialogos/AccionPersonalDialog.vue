@@ -19,13 +19,13 @@
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Nombre:</div>
               <div class="col-8">
-                <h6>{{ empleado.nombres }}</h6>
+                <h6>{{ empleado.nombre }}</h6>
               </div>
             </div>
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Apellido:</div>
               <div class="col-8">
-                <h6>{{ empleado.apellidos }}</h6>
+                <h6>{{ empleado.apellido }}</h6>
               </div>
             </div>
             <div class="row mt-4 mx-3">

@@ -71,6 +71,12 @@
     @closeModal="() => showEducacion = false"
   />
 
+  <UtilesLaboralesDialog
+    :showModal="showUtilesLaboralesDialog"
+    :employeeInfo="selectedEmployee"
+    @closeModal="() => showUtilesLaboralesDialog = false"
+  />
+
   <!-- Reportes -->
   <CModal :backdrop="true" :keyboard="false" :visible="reportes">
     <CModalHeader :close-button="false">
@@ -104,6 +110,7 @@ import RegistroPersonalTable from '../components/tables/RegistroPersonalTable.vu
 import EducacionDialog from './Dialogos/EducacionDialog.vue'
 import ContenedorArchivosRRHH from './ContenedorArchivosRRHH.vue'
 import AccionPersonalDialog from './Dialogos/AccionPersonalDialog.vue'
+import UtilesLaboralesDialog from './Dialogos/UtilesLaboralesDialog.vue'
 import TipoNovedadDialog from './TipoNovedades.vue'
 import TarjetaEmpleadoDialogs from '../components/Dialogos/TarjetaEmpleado.vue'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
@@ -121,6 +128,7 @@ export default {
     TarjetaEmpleadoDialogs,
     EmpleadoReports,
     EducacionDialog,
+    UtilesLaboralesDialog,
   },
 
   data: function () {
@@ -137,13 +145,14 @@ export default {
       showEducacion: false,
       employeeInfo: null,
       showRegistroPersonalModal: false,
+      showUtilesLaboralesDialog: false,
       registroPersonal: [],
       reporteDepto: '1',
       reportes: false,
       columns: [
         { key: 'codigo', label: 'Código', _style: { width: '5%' } },
-        { key: 'apellidos', label: 'Apellido', _style: { width: '15%' } },
-        { key: 'nombres', label: 'Nombre', _style: { width: '15%' } },
+        { key: 'apellido', label: 'Apellido', _style: { width: '15%' } },
+        { key: 'nombre', label: 'Nombre', _style: { width: '15%' } },
         { key: 'codigoIdentidad', label: 'Cédula/Pasaporte', _style: { width: '10%' } },
         {
           key: 'departamenteName',
@@ -205,6 +214,13 @@ export default {
           label: 'Tabla de acciones',
           clickHandler: (value) => {
             this.showTipoNovedad = true
+            this.selectedEmployee = value
+          }
+        },
+        {
+          label: 'Útiles laborales',
+          clickHandler: (value) => {
+            this.showUtilesLaboralesDialog = true
             this.selectedEmployee = value
           }
         },

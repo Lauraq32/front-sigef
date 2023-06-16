@@ -42,6 +42,15 @@
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </div>
             </div>
+            <div class="row mt-4 mx-2">
+              <div class="col-4 col-label">Cantidad</div>
+              <div class="col-8">
+                <CFormInput required
+                  v-model="postInventario.cantidad"
+                  v-on:keypress="onlyNumber($event)"/>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+              </div>
+            </div>
           </div>
         </CCardBody>
       </CForm>
@@ -67,14 +76,17 @@
 </template>
 
 <script>
+import { onlyNumber } from '@/utils/validator';
 export default {
   name: 'Invetario',
 
   data: () => {
     return {
+      onlyNumber,
       postInventario: {
         descripcion: null,
         tipo: 'deducible',
+        cantidad: 1
       },
       isFormEventTypeValidated: false,
     }
@@ -102,11 +114,23 @@ export default {
       this.postInventario = {
         descripcion: null,
         tipo: 'deducible',
+        cantidad: 1
       }
     },
   },
-
+  watch: {
+    inventario(newData) {
+      if (this.showModal) {
+        this.postInventario = { ...newData };
+      } else {
+        this.clearInventario();
+      }
+    }
+  },
   props: {
+    inventario: {
+      type: Object
+    },
     showModal: Boolean,
   },
 }

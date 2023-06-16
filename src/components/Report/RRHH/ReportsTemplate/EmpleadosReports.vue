@@ -244,11 +244,11 @@ export default {
         },
         {
           label: 'Apellidos',
-          key: 'apellidos',
+          key: 'apellido',
         },
         {
           label: 'Nombres',
-          key: 'nombres',
+          key: 'nombre',
         },
         {
           label: 'Cédula_Pasaporte',
