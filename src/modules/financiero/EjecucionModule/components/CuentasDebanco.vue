@@ -66,7 +66,6 @@ export default {
     getAllBancos() {
       Api.getAllCuentaBanco().then((response) => {
         this.Bancos = response.data.data
-        console.log(response)
       })
     },
   },
