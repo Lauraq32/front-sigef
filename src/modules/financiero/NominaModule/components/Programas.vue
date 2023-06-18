@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Direccion o Dependencias</h3>
+  <h3 class="text-center">Dirección o Dependencia</h3>
   <DireccionDepenciaTable
     :columns="columns"
     :footerItems="footerItem"
@@ -8,8 +8,6 @@
   />
 </template>
 <script>
-import { CSmartTable } from '@coreui/vue-pro'
-import { CModal } from '@coreui/vue'
 import { mapActions } from 'pinia'
 
 import { useToastStore } from '@/store/toast'
@@ -17,17 +15,18 @@ import Api from '@/modules/rrhh/RegistroPersonal/services/RegistroPersonalServic
 import DireccionDepenciaTable from '@/modules/rrhh/RegistroPersonal/components/DireccionDepenciaTable.vue'
 export default {
   components: {
-    CSmartTable,
-    CModal,
     DireccionDepenciaTable,
   },
   data: function () {
     return {
       items: [],
       columns: [
-      { key: 'nombre', label: 'Nombre', _style: { width: '40%' } },
-        { key: 'estructura', label: 'Estructura Programática', _style: { width: '40%' } },
-        
+        { key: 'nombre', label: 'Nombre', _style: { width: '40%' } },
+        {
+          key: 'estructura',
+          label: 'Estructura Programática',
+          _style: { width: '40%' },
+        },
       ],
       footerItem: [
         {
