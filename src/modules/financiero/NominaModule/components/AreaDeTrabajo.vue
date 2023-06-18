@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Areas de Trabajo</h3>
+  <h3 class="text-center">Áreas de Trabajo</h3>
 
   <AreaTrabajoTable
     :columns="columns"
