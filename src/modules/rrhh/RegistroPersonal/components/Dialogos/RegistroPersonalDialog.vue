@@ -281,8 +281,8 @@
                     <CFormLabel for="posicionId">Grupo Ocupaci&oacute;n</CFormLabel>
                     <CFormSelect v-model="postEmpleado.grupoOcupacional" id="posicionId" required>
                       <option value="" disabled selected>Seleccione</option>
-                      <option v-for="cargo in this.posicionCargo" :key="cargo.id" :value="cargo.id">
-                        {{ cargo.nombre }}
+                      <option v-for="ocupacion in this.grupoOcupacion" :key="ocupacion.configKey" :value="ocupacion.configKey">
+                        {{ ocupacion.configValue }}
                       </option>
                     </CFormSelect>
                   </CCol>
@@ -622,6 +622,7 @@ export default {
       nivelEscolarList: [],
       areaTematicaList: [],
       posicionCargo: [],
+      grupoOcupacion:[],
       tipoSangre: [],
       registroEmpleadoId: null,
       areaTrabajo: [],
@@ -821,6 +822,11 @@ export default {
     },
 
     cargaInformacionRequerida() {
+      Api.getOcupacion().then(response => {
+        console.log(response.data.data)
+        this.grupoOcupacion = response.data.data
+      })
+
       Api.getProgramaDivision().then((response) => {
         this.programaDivision = response.data.data
       })
@@ -1074,6 +1080,8 @@ export default {
       }
     }
   },
+
+  
 
   props: {
     showModal: Boolean,
