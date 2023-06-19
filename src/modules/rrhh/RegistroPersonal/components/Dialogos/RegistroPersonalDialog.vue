@@ -277,6 +277,15 @@
                       </option>
                     </CFormSelect>
                   </CCol>
+                  <CCol :md="12">
+                    <CFormLabel for="posicionId">Grupo Ocupaci&oacute;n</CFormLabel>
+                    <CFormSelect v-model="postEmpleado.grupoOcupacional" id="posicionId" required>
+                      <option value="" disabled selected>Seleccione</option>
+                      <option v-for="cargo in this.posicionCargo" :key="cargo.id" :value="cargo.id">
+                        {{ cargo.nombre }}
+                      </option>
+                    </CFormSelect>
+                  </CCol>
 
                   <div class="row">
                     <CCol :md="6">
