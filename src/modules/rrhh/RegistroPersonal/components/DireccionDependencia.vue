@@ -1,23 +1,11 @@
 <template>
-  <h3 class="text-center">Direcci&oacute;n dependencia</h3>
-  <hr />
-  <div class="table-headers">
-    <div class="d-inline p-2">
+  <h3 class="text-center mb-4">Direcci&oacute;n Dependencia</h3>
+  <div class="table-headers mb-4 gap-1">
       <CButton
         color="info"
-        @click="
-          () => {
-            newDireccionDependeciaModal = true
-          }
-        "
-        >Agregar</CButton
-      >
-    </div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info">Imprimir</CButton>
-    </div>
+        @click=" () => { newDireccionDependeciaModal = true }">Agregar</CButton>
+      <CButton color="secondary">Imprimir</CButton>
   </div>
-  <hr />
   <CSmartTable
     class="sticky-top"
     clickableRows
@@ -55,7 +43,7 @@
     :newDireccionDependeciaModal="newDireccionDependeciaModal"
     @close-modal="closeModal"
     @post-direccionDependecia="saveDireccionDependecia"
-    :direccionDependeciaId="direccionDependeciaId"
+    :direccionDependecia="direccionDependeciaObject"
   />
 </template>
 <script>
@@ -63,7 +51,7 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { mapActions } from 'pinia'
 import { useToastStore } from '@/store/toast'
-import DireccionDependeciaDialogs from '../Dialogos/DireccionDependenciaModal.vue'
+import DireccionDependeciaDialogs from './Dialogos/DireccionDependenciaModal.vue'
 import Api from '../services/RegistroPersonalServices'
 export default {
   components: {
@@ -74,8 +62,11 @@ export default {
   data: () => {
     return {
       direccionDependecia: [],
-      direccionDependeciaId: null,
       newDireccionDependeciaModal: false,
+      direccionDependeciaObject: {
+        nombre: '',
+        estructura: '',
+      },
       columns: [
         { key: 'nombre', label: 'Nombre', _style: { width: '40%' } },
         { key: 'estructura', label: 'Estructura Programática', _style: { width: '40%' } },
@@ -91,7 +82,7 @@ export default {
         {
           label: 'Total Items',
           _props: {
-            colspan: 1,
+            colspan: 2,
             style: 'font-weight:bold;',
           },
         },
@@ -106,15 +97,19 @@ export default {
   methods: {
     ...mapActions(useToastStore, ['show']),
     closeModal() {
-      this.newDireccionDependeciaModal = false
+      this.newDireccionDependeciaModal = false;
+      this.direccionDependeciaObject= {
+        nombre: '',
+        estructura: '',
+      }
     },
     editDireccionDependecia(item) {
-      this.direccionDependeciaId = item.id
+      this.direccionDependeciaObject = item;
       this.newDireccionDependeciaModal = true
     },
     saveDireccionDependecia(payload) {
-      if (this.direccionDependeciaId != null) {
-        Api.putDireccionDependecia(this.direccionDependeciaId, payload)
+      if (payload.id) {
+        Api.putDireccionDependecia(payload.id, payload)
           .then(() => {
             this.show({
               content: 'Registro actualizado correctamente',

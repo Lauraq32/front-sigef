@@ -1,5 +1,5 @@
 export function onlyLetter(event) {
-    if(!(/[a-z]+/i.test(event.key))) {
+    if(!(/[a-z\s]+/i.test(event.key))) {
         event.preventDefault();
         return false;
     }
@@ -28,4 +28,17 @@ export function maxLength(maxLen, callback) {
 
         return callback(event);
     };
+}
+
+export function calculateAge(fechaNacimiento) {
+    const current = new Date();
+    const BOD = new Date(fechaNacimiento);
+    let edad = current.getFullYear() - BOD.getFullYear();
+    const mes = current.getMonth() - BOD.getMonth();
+
+    if (mes < 0 || (mes === 0 && current.getDate() < BOD.getDate())) {
+      edad--;
+    }
+
+    return edad;
 }
