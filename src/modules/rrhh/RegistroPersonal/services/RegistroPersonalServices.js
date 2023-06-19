@@ -4,6 +4,9 @@ import { getAyuntamientoId } from '@/utils/logged-info';
 import FileApi from './Files';
 class RegistroPersonal {
 
+  getOcupacion(){
+    return http.get('grupos/10/configuraciones')
+  }
   //delete Cargo
   deleteCargo(id){
     return http.delete(`cargos/${id}`)
