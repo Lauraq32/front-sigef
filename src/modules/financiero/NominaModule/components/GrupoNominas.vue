@@ -169,6 +169,9 @@ export default {
         this.footerItem[0].label = `Total Items: ${response.data.data.length}`
       })
     },
+
+    get
+
   },
 
   mounted() {

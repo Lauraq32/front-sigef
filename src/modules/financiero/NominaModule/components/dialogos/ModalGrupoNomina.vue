@@ -12,18 +12,9 @@
           ref="eventTypeForm"
         >
           <div>
-            <CFormLabel for="validationCustom01">Grupo Nómina</CFormLabel>
-            <CFormInput
-              v-model="postGrupoNominas.nombre"
-              id="validationCustom01"
-              required
-            />
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </div>
-          <div>
             <CFormLabel for="validationCustom01">Descripción</CFormLabel>
             <CFormInput
-              v-model="postGrupoNominas.nombre"
+              v-model="postGrupoNominas.descripcion"
               id="validationCustom01"
               required
             />
@@ -31,23 +22,21 @@
           </div>
           <div>
             <CFormLabel for="validationCustom01"
-              >Estructura Programático</CFormLabel
+              >Estructura Programática</CFormLabel
             >
             <CFormInput
-              v-model="postGrupoNominas.nombre"
+              v-model="postGrupoNominas.estructuraProgramaticaId"
               id="validationCustom01"
-              required
             />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </div>
           <div>
             <CFormLabel for="validationCustom01">Banco</CFormLabel>
-            <CFormSelect id="validationCustom05">
+            <CFormSelect
+              v-model="postGrupoNominas.bancoId"
+              id="validationCustom05"
+            >
               <option>BHD</option>
-              <option>RESERVAS</option>
-              <option>POPULAR</option>
-              <option>GLOBAL</option>
-              <option>PROGRESO</option>
             </CFormSelect>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </div>
@@ -56,9 +45,8 @@
               >Cuenta Corriente No.</CFormLabel
             >
             <CFormInput
-              v-model="postGrupoNominas.nombre"
+              v-model="postGrupoNominas.cuentaCorrienteNumero"
               id="validationCustom01"
-              required
             />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </div>
@@ -68,9 +56,8 @@
               >Codigo de la Nómina en el Banco
             </CFormLabel>
             <CFormInput
-              v-model="postGrupoNominas.nombre"
+              v-model="postGrupoNominas.codigoNominaBanco"
               id="validationCustom01"
-              required
             />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </div>
@@ -106,8 +93,11 @@ export default {
   data: function () {
     return {
       postGrupoNominas: {
-        nombre: null,
-        ayuntamientoId: this.$ayuntamientoId,
+        descripcion: 'string',
+        estructuraProgramaticaId: 'string',
+        bancoId: 0,
+        cuentaCorrienteNumero: 'string',
+        codigoNominaBanco: 'string',
       },
       isFormEventTypeValidated: false,
     }
