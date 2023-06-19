@@ -823,7 +823,6 @@ export default {
 
     cargaInformacionRequerida() {
       Api.getOcupacion().then(response => {
-        console.log(response.data.data)
         this.grupoOcupacion = response.data.data
       })
 
