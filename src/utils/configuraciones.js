@@ -4,6 +4,7 @@ class configuraciones {
     nivelEscolar:3,
     areaTematica:4,
     Discapacidad:5,
+    Ocupacion:10
   }
   
 
