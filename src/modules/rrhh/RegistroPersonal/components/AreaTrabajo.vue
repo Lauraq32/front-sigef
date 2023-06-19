@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import AreaTrabajoModal from '../Dialogos/AreaTrabajoModal.vue'
+import AreaTrabajoModal from './Dialogos/AreaTrabajoModal.vue'
 import AreaTrabajoTable from '@/modules/rrhh/RegistroPersonal/components/AreaTrabajoTable.vue'
 import { CModal } from '@coreui/vue'
 import Api from '../services/RegistroPersonalServices'

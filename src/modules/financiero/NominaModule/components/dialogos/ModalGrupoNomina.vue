@@ -36,7 +36,13 @@
               v-model="postGrupoNominas.bancoId"
               id="validationCustom05"
             >
-              <option>BHD</option>
+              <option
+                v-for="bancos in this.grupoBancos"
+                :key="bancos.id"
+                :value="bancos.configKey"
+              >
+                {{ bancos.configValue }}
+              </option>
             </CFormSelect>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </div>
@@ -82,6 +88,7 @@
 
 <script>
 import { CModal } from '@coreui/vue'
+import configuraciones from '@/utils/configuraciones'
 
 export default {
   name: 'ModalGrupoNomina',
@@ -92,18 +99,27 @@ export default {
 
   data: function () {
     return {
+      grupoBancos: [],
       postGrupoNominas: {
-        descripcion: 'string',
-        estructuraProgramaticaId: 'string',
+        descripcion: null,
+        estructuraProgramaticaId: null,
         bancoId: 0,
-        cuentaCorrienteNumero: 'string',
-        codigoNominaBanco: 'string',
+        cuentaCorrienteNumero: null,
+        codigoNominaBanco: null,
       },
       isFormEventTypeValidated: false,
     }
   },
 
   methods: {
+    getGrupoNomina() {
+      configuraciones
+        .getGroupConfiguration(configuraciones.grupos.gruponomina)
+        .then((response) => {
+          this.grupoBancos = response.data.data
+        })
+    },
+
     closeGrupoNomina() {
       this.$emit('close-modal', false)
       this.clearModalGrupoNomina()
@@ -144,6 +160,10 @@ export default {
   props: {
     showModal: Boolean,
     grupoNomina: Object,
+  },
+
+  mounted() {
+    this.getGrupoNomina()
   },
 }
 </script>

@@ -34,6 +34,12 @@
     :sorterValue="{ state: 'asc' }"
     pagination
   >
+    <template #estructuraProgramatica="{ item }">
+      <td>
+        {{ item.estructuraProgramatica?.id }}
+      </td>
+    </template>
+
     <template #show_details="{ item }">
       <td class="py-1">
         <CButton
@@ -79,9 +85,14 @@ export default {
       columns: [
         { key: 'id', label: 'Código', _style: { width: '20%' } },
         {
-          key: 'nombre',
+          key: 'descripcion',
           label: 'Grupo Nómina',
-          _style: { width: '75%' },
+          _style: { width: '65%' },
+        },
+        {
+          key: 'estructuraProgramatica',
+          label: 'Estructura Programática',
+          _style: { width: '15%' },
         },
 
         {
@@ -96,7 +107,7 @@ export default {
         {
           label: 'Total Items',
           _props: {
-            colspan: 1,
+            colspan: 4,
             style: 'font-weight:bold;',
           },
         },
@@ -122,7 +133,6 @@ export default {
             this.show({
               content: response.data.message,
               closable: true,
-              color: 'success',
             })
           })
           .catch((error) => {
@@ -169,9 +179,6 @@ export default {
         this.footerItem[0].label = `Total Items: ${response.data.data.length}`
       })
     },
-
-    get
-
   },
 
   mounted() {
