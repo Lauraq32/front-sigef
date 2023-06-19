@@ -144,7 +144,10 @@ export default {
             })
           })
       } else {
-        Api.postGrupoNomina(payload)
+        Api.postGrupoNomina({
+          ...payload,
+          estructuraProgramaticaId: payload.estructuraProgramatica.id,
+        })
           .then(() => {
             setTimeout(this.getGrupoNomina, 500)
             this.showGrupoNomina = false

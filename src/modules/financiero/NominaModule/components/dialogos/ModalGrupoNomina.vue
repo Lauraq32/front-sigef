@@ -14,7 +14,7 @@
           <div>
             <CFormLabel for="validationCustom01">Descripción</CFormLabel>
             <CFormInput
-              v-model="postGrupoNominas.descripcion"
+              v-model="postGrupoNomina.descripcion"
               id="validationCustom01"
               required
             />
@@ -25,7 +25,7 @@
               >Estructura Programática</CFormLabel
             >
             <CFormInput
-              v-model="postGrupoNominas.estructuraProgramaticaId"
+              v-model="postGrupoNomina.estructuraProgramaticaId"
               id="validationCustom01"
             />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -33,7 +33,7 @@
           <div>
             <CFormLabel for="validationCustom01">Banco</CFormLabel>
             <CFormSelect
-              v-model="postGrupoNominas.bancoId"
+              v-model="postGrupoNomina.bancoId"
               id="validationCustom05"
             >
               <option
@@ -51,7 +51,7 @@
               >Cuenta Corriente No.</CFormLabel
             >
             <CFormInput
-              v-model="postGrupoNominas.cuentaCorrienteNumero"
+              v-model="postGrupoNomina.cuentaCorrienteNumero"
               id="validationCustom01"
             />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -59,10 +59,10 @@
 
           <div>
             <CFormLabel for="validationCustom01"
-              >Codigo de la Nómina en el Banco
+              >Código de la Nómina en el Banco
             </CFormLabel>
             <CFormInput
-              v-model="postGrupoNominas.codigoNominaBanco"
+              v-model="postGrupoNomina.codigoNominaBanco"
               id="validationCustom01"
             />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -100,7 +100,7 @@ export default {
   data: function () {
     return {
       grupoBancos: [],
-      postGrupoNominas: {
+      postGrupoNomina: {
         descripcion: null,
         estructuraProgramaticaId: null,
         bancoId: 0,
@@ -126,14 +126,14 @@ export default {
     },
 
     saveGrupoNomina() {
-      this.$emit('postGrupoNomina', this.postGrupoNominas)
+      this.$emit('postGrupoNomina', this.postGrupoNomina)
       this.clearModalGrupoNomina()
     },
 
     sendData() {
       this.isFormEventTypeValidated = false
       if (this.$refs.eventTypeForm.$el.checkValidity()) {
-        return this.saveGrupoNomina({ ...this.postGrupoNominas })
+        return this.saveGrupoNomina({ ...this.postGrupoNomina })
       }
       this.isFormEventTypeValidated = true
     },
@@ -141,7 +141,7 @@ export default {
     clearModalGrupoNomina() {
       this.id = null
       this.isFormEventTypeValidated = false
-      this.postGrupoNominas = {
+      this.postGrupoNomina = {
         nombre: null,
         ayuntamientoId: this.$ayuntamientoId,
       }
@@ -149,10 +149,10 @@ export default {
   },
 
   watch: {
-    grupoNomina() {
-      this.postGrupoNominas = {
-        ...this.postGrupoNominas,
-        ...this.grupoNomina,
+    grupoNomina(newValue) {
+      this.postGrupoNomina = {
+        ...newValue,
+        estructuraProgramaticaId: newValue.estructuraProgramatica?.id,
       }
     },
   },
