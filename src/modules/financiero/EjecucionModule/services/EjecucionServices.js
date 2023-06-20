@@ -195,6 +195,19 @@ class Ejecucion {
   getTipoGastoById(id) {
     return http.get(`TipoGasto/${id}?Ayuntamiento=${getAyuntamientoId()}`)
   }
+
+  //Servicios de Grupo Pago
+  getGrupoPagoList(){
+    return http.get('grupos-compensacion')
+  }
+
+  putGrupoPago(id,data){
+    return http.put(`grupos-compensacion/${id}`,data)
+  }
+
+  postGrupoPago(data){
+    return http.post('grupos-compensacion',data)
+  }
 }
 
 export default new Ejecucion()
