@@ -12,29 +12,31 @@
           ref="eventTypeForm"
         >
           <div>
-            <CFormLabel for="validationCustom01">Descripción</CFormLabel>
+            <CFormLabel for="postGrupoNomina.descripcion"
+              >Descripción</CFormLabel
+            >
             <CFormInput
               v-model="postGrupoNomina.descripcion"
-              id="validationCustom01"
+              id="postGrupoNomina.descripcion"
               required
             />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </div>
           <div>
-            <CFormLabel for="validationCustom01"
+            <CFormLabel for="postGrupoNomina.estructuraProgramaticaId"
               >Estructura Programática</CFormLabel
             >
             <CFormInput
               v-model="postGrupoNomina.estructuraProgramaticaId"
-              id="validationCustom01"
+              id="postGrupoNomina.estructuraProgramaticaId"
             />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </div>
           <div>
-            <CFormLabel for="validationCustom01">Banco</CFormLabel>
+            <CFormLabel for="postGrupoNomina.bancoId">Banco</CFormLabel>
             <CFormSelect
               v-model="postGrupoNomina.bancoId"
-              id="validationCustom05"
+              id="postGrupoNomina.bancoId"
             >
               <option
                 v-for="bancos in this.grupoBancos"
@@ -47,23 +49,23 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </div>
           <div>
-            <CFormLabel for="validationCustom01"
+            <CFormLabel for="postGrupoNomina.cuentaCorrienteNumero"
               >Cuenta Corriente No.</CFormLabel
             >
             <CFormInput
               v-model="postGrupoNomina.cuentaCorrienteNumero"
-              id="validationCustom01"
+              id="postGrupoNomina.cuentaCorrienteNumero"
             />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </div>
 
           <div>
-            <CFormLabel for="validationCustom01"
+            <CFormLabel for="postGrupoNomina.codigoNominaBanco"
               >Código de la Nómina en el Banco
             </CFormLabel>
             <CFormInput
               v-model="postGrupoNomina.codigoNominaBanco"
-              id="validationCustom01"
+              id="postGrupoNomina.codigoNominaBanco"
             />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </div>
@@ -96,7 +98,7 @@ export default {
   components: {
     CModal,
   },
-
+  emits: ['postGrupoNomina', 'close-modal'],
   data: function () {
     return {
       grupoBancos: [],

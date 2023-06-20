@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Grupo nómina</h3>
+  <h3 class="text-center">Grupos de nómina</h3>
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
@@ -52,7 +52,6 @@
         >
           Editar
         </CButton>
-  
 
         <CButton
           class="mt-1"
@@ -95,11 +94,11 @@ export default {
       grupoNominas: [],
       grupoNomina: {},
       columns: [
-        { key: 'id', label: 'Código', _style: { width: '20%' } },
+        { key: 'id', label: 'Código', _style: { width: '15%' } },
         {
           key: 'descripcion',
           label: 'Grupo Nómina',
-          _style: { width: '45%' },
+          _style: { width: '50%' },
         },
         {
           key: 'estructuraProgramatica',
@@ -138,13 +137,13 @@ export default {
       if (payload.id) {
         Api.putGrupoNomina(payload.id, payload)
           .then((response) => {
-            this.showGrupoNomina = false
             setTimeout(this.getGrupoNomina, 500)
-            this.showGrupoNomina = false
             this.show({
               content: response.data.message,
               closable: true,
+              time: 7_000,
             })
+            this.closeGrupoNomina()
           })
           .catch((error) => {
             this.show({
@@ -152,6 +151,7 @@ export default {
               closable: true,
               color: 'danger',
               class: 'text-white',
+              time: 7_000,
             })
           })
       } else {
@@ -161,10 +161,10 @@ export default {
         })
           .then(() => {
             setTimeout(this.getGrupoNomina, 500)
-            this.showGrupoNomina = false
             this.show({
               content: 'Registro añadido correctamente',
               closable: true,
+              time: 7_000,
             })
           })
           .catch((error) => {
@@ -173,13 +173,10 @@ export default {
               closable: true,
               color: 'danger',
               class: 'text-white',
+              time: 7_000,
             })
           })
       }
-    },
-
-    close() {
-      this.showGrupoNomina = false
     },
 
     editarGrupoNomina(item) {
@@ -196,7 +193,7 @@ export default {
 
     cancelarGrupoNomina(item) {
       this.$swal({
-        title: 'Estás seguro de realizar esta acción? ',
+        title: 'Estás seguro que quieres realizar esta acción? ',
         text: 'No podrás revertirlo',
         icon: 'Confirmación',
         showCancelButton: true,
@@ -207,12 +204,12 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           Api.deleteGrupoNomina(item.id).then(() => {
-            setTimeout(this.getGrupoNomina, 500)
             this.show({
               content: 'Registro cancelado correctamente',
               closable: true,
               time: 7_000,
             })
+            setTimeout(this.getGrupoNomina, 500)
           })
         }
       })
