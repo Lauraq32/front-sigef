@@ -124,7 +124,13 @@ class NominaApi {
   }
 
   getNominaGeneral(nomina) {
-    return http.get(`Nomina/NominaGeneral?AyuntamientoId=${nomina.ayuntamientoId}${nomina.tipoContrato ? `&TipoContrato=${nomina.tipoContrato}` : ''}${nomina.formaPago ? `&FormaPago=${nomina.formaPago}` : ''}${nomina.mes ? `&Mes=${nomina.mes}` : ''}&Anio=${nomina.anio}`)
+    return http.get(
+      `Nomina/NominaGeneral?AyuntamientoId=${nomina.ayuntamientoId}${
+        nomina.tipoContrato ? `&TipoContrato=${nomina.tipoContrato}` : ''
+      }${nomina.formaPago ? `&FormaPago=${nomina.formaPago}` : ''}${
+        nomina.mes ? `&Mes=${nomina.mes}` : ''
+      }&Anio=${nomina.anio}`,
+    )
   }
 
   getNominaPorEmpleado(id) {
@@ -209,6 +215,10 @@ class NominaApi {
 
   deleteSector(id) {
     return http.delete(`Sector/${id}?ayuntamiento=${getAyuntamientoId()}`)
+  }
+
+  deleteGrupoNomina(id) {
+    return http.delete(`grupo-nomina/${id}`)
   }
 }
 
