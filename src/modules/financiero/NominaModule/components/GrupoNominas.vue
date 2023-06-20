@@ -41,7 +41,7 @@
     </template>
 
     <template #show_details="{ item }">
-      <td class="py-1">
+      <td class="py-1 d-flex gap-1">
         <CButton
           class="mt-1"
           color="primary"
@@ -51,6 +51,18 @@
           @click="editarGrupoNomina(item)"
         >
           Editar
+        </CButton>
+  
+
+        <CButton
+          class="mt-1"
+          color="danger"
+          variant="outline"
+          square
+          size="sm"
+          @click="cancelarGrupoNomina(item)"
+        >
+          Eliminar
         </CButton>
       </td>
     </template>
@@ -87,18 +99,17 @@ export default {
         {
           key: 'descripcion',
           label: 'Grupo Nómina',
-          _style: { width: '65%' },
+          _style: { width: '45%' },
         },
         {
           key: 'estructuraProgramatica',
           label: 'Estructura Programática',
-          _style: { width: '15%' },
+          _style: { width: '25%' },
         },
-
         {
           key: 'show_details',
           label: '',
-          _style: { width: '5' },
+          _style: { width: '10' },
           filter: false,
           sorter: false,
         },
@@ -107,7 +118,7 @@ export default {
         {
           label: 'Total Items',
           _props: {
-            colspan: 4,
+            colspan: 5,
             style: 'font-weight:bold;',
           },
         },
@@ -146,7 +157,7 @@ export default {
       } else {
         Api.postGrupoNomina({
           ...payload,
-          estructuraProgramaticaId: payload.estructuraProgramatica.id,
+          estructuraProgramaticaId: payload.estructuraProgramatica?.id,
         })
           .then(() => {
             setTimeout(this.getGrupoNomina, 500)
@@ -180,6 +191,30 @@ export default {
       Api.getGrupoNomina().then((response) => {
         this.grupoNominas = response.data.data
         this.footerItem[0].label = `Total Items: ${response.data.data.length}`
+      })
+    },
+
+    cancelarGrupoNomina(item) {
+      this.$swal({
+        title: 'Estás seguro de realizar esta acción? ',
+        text: 'No podrás revertirlo',
+        icon: 'Confirmación',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Aceptar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Api.deleteGrupoNomina(item.id).then(() => {
+            setTimeout(this.getGrupoNomina, 500)
+            this.show({
+              content: 'Registro cancelado correctamente',
+              closable: true,
+              time: 7_000,
+            })
+          })
+        }
       })
     },
   },
