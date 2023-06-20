@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import http from '@/Api/http-common'
 import { getAyuntamientoId, getFiscalYearId } from '@/utils/logged-info'
+import { filter } from '@/utils/validator'
 class Ejecucion {
   //-----------------------------CLASIFICADORES---------------------------------------//
   //get
@@ -64,8 +65,8 @@ class Ejecucion {
     )
   }
 
-  getRegistroIngreso() {
-    return http.get('registros-ingreso')
+  getRegistroIngreso(params) {
+    return http.get(`registros-ingreso${filter(params)}`)
   }
 
   getRegistroIngresoDetalle(id) {

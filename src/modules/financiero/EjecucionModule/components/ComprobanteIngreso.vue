@@ -1,6 +1,18 @@
 <template>
   <h3 class="text-center">Comprobantes de Ingresos</h3>
+
   <AppActionHeader>
+    <CButton
+      style="font-weight: bold"
+      color="info"
+      @click="
+        () => {
+          showFiltro = true
+        }
+      "
+      >filtrar</CButton
+    >
+
     <CButton
       style="font-weight: bold"
       color="info"
@@ -106,6 +118,8 @@
     :tagValueName="`${selectedIngreso?.id}-${selectedIngreso?.numeroComprobante}`"
     @closeModal="closeContenedorModal"
   />
+
+  <filtroRegistroIngreso :showFiltro="showFiltro" @close="closeFiltro" />
 </template>
 
 <script>
@@ -121,6 +135,8 @@ import AppActionHeader from '@/components/AppActionHeader.vue'
 import ModalAddComprobanteIngreso from '../Dialogos/ModalAddComprobanteIngreso.vue'
 import { formatDate, formatPrice } from '@/utils/format'
 import ContenedorArchivos from '@/components/ContenedorArchivosModel.vue'
+import { filter } from '@/utils/validator'
+import filtroRegistroIngreso from './filtroRegistroIngreso.vue'
 
 export default {
   components: {
@@ -130,13 +146,16 @@ export default {
     AppActionHeader,
     ModalAddComprobanteIngreso,
     ContenedorArchivos,
+    filtroRegistroIngreso,
   },
 
   data: function () {
     return {
       selectedIngreso: {},
+      filter,
       formatDate,
       formatPrice,
+      showFiltro: false,
       showAddComprobanteIngreso: false,
       showModalDoc: false,
       itemsCount: null,
@@ -238,6 +257,10 @@ export default {
       this.showAddComprobanteIngreso = false
     },
 
+    closeFiltro() {
+      this.showFiltro = false
+    },
+
     goToComprobanteGasto() {
       router.push({ name: 'comprobanteGasto' })
     },
@@ -298,8 +321,16 @@ export default {
         .focus()
     },
 
-    getIngresos() {
-      Api.getRegistroIngreso().then((response) => {
+    cambiarEstatus(e) {
+      this.getIngresos({ estatus: e.target.value !== 'cancelado' })
+    },
+
+    filterEtapa(e) {
+      this.getIngresos({ Etapa: e.target.value })
+    },
+
+    getIngresos(params = { estatus: true }) {
+      Api.getRegistroIngreso(params).then((response) => {
         this.ingresosList = response.data.data
         this.itemsCount = this.ingresosList.length
         this.footerItem[0].label = `Total items: ${this.itemsCount}`
