@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Grupos de Nómina</h3>
+  <h3 class="text-center">Grupos Nómina</h3>
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
