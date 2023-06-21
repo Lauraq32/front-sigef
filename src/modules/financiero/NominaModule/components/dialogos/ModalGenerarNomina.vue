@@ -86,23 +86,42 @@
                             <CSmartTable clickableRows :tableProps="{
                                 striped: true,
                                 hover: true,
-
-                            }" :tableHeadProps="{}" :activePage="1" header
-                                :items="dataConfiguracionNomina?.filter(x => x.type == 'retencion')"
+                            }" :tableHeadProps="{}" :activePage="1" header :items="this.generateNomina.configuracion.retenciones"
                                 :columns="tableConfiguracionNominaRetencion"
                                 :sorterValue="{ column: 'status', state: 'asc' }" pagination>
+                                <template #nombre="{ item }">
+                                    <td>
+                                        <CFormInput v-on:keypress="onlyLetter" :disabled="true" v-model="item.nombre" />
+                                    </td>
+                                </template>
+                                <template #codigoEjecucionPresupuestoGasto="{ item }">
+                                    <td>
+                                        <CFormInput v-on:keypress="onlyLetter"
+                                            v-model="item.codigoEjecucionPresupuestoGasto" />
+                                    </td>
+                                </template>
+                                <template #check="{ item }">
+                                    <td>
+                                        <CFormCheck @change="changeValueCheckById(item.id)" v-model="item.check" />
+                                    </td>
+                                </template>
                             </CSmartTable>
-                            <CFormCheck label="Nomina con Retenciones?" v-model="generateNomina.retenciones" />
+                            <CFormCheck label="Nomina con Retenciones?" v-model="generateNomina.calcularRetenciones"
+                                @change="changeAllValuesCheck(!generateNomina.calcularRetenciones)" />
                         </CTabPane>
                         <CTabPane role="tabpanel" aria-labelledby="ingresos-tab" :visible="tabPaneActiveKey === 2">
                             <CSmartTable clickableRows :tableProps="{
                                 striped: true,
                                 hover: true,
 
-                            }" :tableHeadProps="{}" :activePage="1" header
-                                :items="dataConfiguracionNomina?.filter(x => x.type == 'ingreso')"
-                                :columns="tableConfiguracionNominaIngreso" :sorterValue="{ column: 'status', state: 'asc' }"
-                                pagination>
+                            }" :tableHeadProps="{}" :activePage="1" header :items="this.generateNomina.configuracion.ingresos"
+                                :columns="tableConfiguracionNominaIngreso"
+                                :sorterValue="{ column: 'status', state: 'asc' }" pagination>
+                                <template #nombre="{ item }">
+                                    <td>
+                                        <CFormInput v-on:keypress="onlyLetter" v-model="item.nombre" :disabled="true" />
+                                    </td>
+                                </template>
                             </CSmartTable>
                         </CTabPane>
                     </CTabContent>
@@ -197,21 +216,23 @@ export default {
             if (this.generateNomina.departamentoId === 0) {
             }
             this.generateNomina.fecha = this.fechaNomina;
-            ApiNomina.createNomina(this.generateNomina).then((data) => {
-                this.clearAllData();
-                this.show({
-                    content: 'La nomina ha sido generada',
-                    closable: true,
-                    color: 'success'
-                });
-            }).catch((e) => {
-                const { message } = e.response.data;
-                this.show({
-                    content: message,
-                    closable: true,
-                    color: 'danger'
-                });
-            })
+            this.generateNomina.configuracion.retenciones = this.generateNomina.configuracion.retenciones.filter((e) => e.check)
+            console.log(this.generateNomina);
+            // ApiNomina.createNomina(this.generateNomina).then((_) => {
+            //     this.clearAllData();
+            //     this.show({
+            //         content: 'La nomina ha sido generada',
+            //         closable: true,
+            //         color: 'success'
+            //     });
+            // }).catch((e) => {
+            //     const { message } = e.response.data;
+            //     this.show({
+            //         content: message,
+            //         closable: true,
+            //         color: 'danger'
+            //     });
+            // })
         },
         clearAllData() {
             this.fechaNomina = null;
@@ -227,7 +248,6 @@ export default {
             }];
             this.selectedDepartamentos = 0;
             this.selectedDepartamentoInfo = {};
-            this.dataConfiguracionNominaRetencion = [];
             this.generateNomina = {
                 fecha: '',
                 tipoContrato: '',
@@ -236,14 +256,23 @@ export default {
                 formaPago: '',
                 isRegalia: false,
                 allowsDuplicate: false,
-                retenciones: false,
+                calcularRetenciones: true,
                 nota: '',
+                configuracion: {}
             };
         },
         getConfiguracionNominaApi() {
             ApiNomina.getConfiguracionNomina().then((response) => {
-                this.dataConfiguracionNomina = this.getConfiguracionNomina(response.data.data);
+                this.generateNomina.configuracion.retenciones = response.data.data.retencion.map((e) => ({ ...e, check: true }));
+                this.generateNomina.configuracion.ingresos = response.data.data.tipoIngreso;
             })
+        },
+        changeAllValuesCheck(check) {
+            this.generateNomina.configuracion.retenciones = this.generateNomina.configuracion.retenciones.map((e) => ({ ...e, check }));
+        },
+        changeValueCheckById(id) {
+            const retencion = this.generateNomina.configuracion.retenciones.find((e) => e.id === id);
+            retencion.check = !retencion.check;
         },
         ...mapActions(useToastStore, ['show']),
     },
@@ -305,7 +334,6 @@ export default {
             }],
             selectedDepartamentos: 0,
             selectedDepartamentoInfo: {},
-            dataConfiguracionNomina: [],
             generateNomina: {
                 fecha: '',
                 tipoContrato: '',
@@ -314,45 +342,35 @@ export default {
                 formaPago: '',
                 isRegalia: false,
                 allowsDuplicate: false,
-                nota: ''
+                calcularRetenciones: true,
+                nota: '',
+                configuracion: {
+                    retenciones: [],
+                    ingresos: []
+                }
             },
             tableConfiguracionNominaRetencion: [
                 {
-                    key: 'index',
+                    key: 'check',
                     label: '',
-                    _style: { width: '10%' }
-                },
-                {
-                    key: 'value',
+                    _style: { width: '5%' }
+                }, {
+                    key: 'nombre',
                     label: 'Retenciones',
-                    _style: { width: '30%' }
+                    _style: { width: '80%' },
                 },
                 {
-                    key: 'divide',
-                    label: 'Dividir',
-                    _style: { width: '20%' }
+                    key: 'codigoEjecucionPresupuestoGasto',
+                    label: 'Cod. en Ejec/Pres',
+                    _style: { width: '15%' },
                 },
-                {
-                    key: 'retention',
-                    label: 'Cod. Ejec/Pres',
-                    _style: { width: '40%' }
-                }
             ],
-            dataConfiguracionNominaIngreso: [],
             tableConfiguracionNominaIngreso: [
                 {
-                    key: 'index',
-                    label: '',
-                    _style: { width: '10%' }
-                }, {
-                    key: 'value',
-                    label: 'Ingreso',
-                    _style: { width: '45%' }
-                }, {
-                    key: 'divide',
-                    label: 'dividir',
-                    _style: { width: '45%' }
-                },
+                    key: 'nombre',
+                    label: 'Nombre',
+                    _style: { width: '95%' },
+                }
             ],
             estructura,
             getConfiguracionNomina

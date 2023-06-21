@@ -63,11 +63,12 @@ export default {
         filterByDate(value) {
             ApiNomina.getNominasGeneral(value).then((response) => {
                 this.dataNominaGeneral = response.data.data;
+                console.log(response.data.data);
             })
         },
         getCloseModalValue(value) {
             this.showModal = value;
-        }
+        },
     },
     data: function () {
         return {
