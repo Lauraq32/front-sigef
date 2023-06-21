@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Grupos de nómina</h3>
+  <h3 class="text-center">Grupos de Nómina</h3>
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
@@ -157,7 +157,9 @@ export default {
       } else {
         Api.postGrupoNomina({
           ...payload,
-          estructuraProgramaticaId: payload.estructuraProgramatica?.id,
+          estructuraProgramaticaId:
+            payload.estructuraProgramatica?.id ??
+            payload.estructuraProgramaticaId,
         })
           .then(() => {
             setTimeout(this.getGrupoNomina, 500)

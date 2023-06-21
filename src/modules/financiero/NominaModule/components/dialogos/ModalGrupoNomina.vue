@@ -1,7 +1,7 @@
 <template>
   <CModal backdrop="static" :visible="showModal" @close="closeGrupoNomina">
     <CModalHeader>
-      <CModalTitle>Grupo nómina</CModalTitle>
+      <CModalTitle>Grupo Nómina</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -135,6 +135,7 @@ export default {
     sendData() {
       this.isFormEventTypeValidated = false
       if (this.$refs.eventTypeForm.$el.checkValidity()) {
+        console.log(this.postGrupoNomina)
         return this.saveGrupoNomina({ ...this.postGrupoNomina })
       }
       this.isFormEventTypeValidated = true
@@ -144,8 +145,11 @@ export default {
       this.id = null
       this.isFormEventTypeValidated = false
       this.postGrupoNomina = {
-        nombre: null,
-        ayuntamientoId: this.$ayuntamientoId,
+        descripcion: null,
+        estructuraProgramaticaId: null,
+        bancoId: 0,
+        cuentaCorrienteNumero: null,
+        codigoNominaBanco: null,
       }
     },
   },
