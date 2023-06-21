@@ -3,15 +3,25 @@
 
   <AppActionHeader>
     <CButton
+      v-if="!paramsFiltro"
       style="font-weight: bold"
-      color="info"
       @click="
         () => {
           showFiltro = true
         }
       "
-      >filtrar</CButton
     >
+      <span> <CIcon icon="cilFilter" size="lg" /> Filtrar </span>
+    </CButton>
+    <CButton
+      v-else
+      @click="() => ((paramsFiltro = null), getIngresos())"
+    >
+      <span>
+        <CIcon icon="cilFilterX" style="color: red" size="lg" /> Resultados
+        filtrados</span
+      >
+    </CButton>
 
     <CButton
       style="font-weight: bold"
@@ -156,20 +166,12 @@ export default {
       formatDate,
       formatPrice,
       showFiltro: false,
+      paramsFiltro: null,
       showAddComprobanteIngreso: false,
       showModalDoc: false,
-      itemsCount: null,
-      mesReporte: 1,
-      parametroReporte: '',
-      reportes: false,
-      reportesExportarModal: false,
-      reportesExportarModalEjecucion: false,
       ingresosList: [],
       contribuyentesList: [],
       contribuyentesName: [],
-      totales: null,
-      id: null,
-      validatedCustom01: null,
 
       columns: [
         {
@@ -257,7 +259,11 @@ export default {
       this.showAddComprobanteIngreso = false
     },
 
-    closeFiltro() {
+    closeFiltro(params) {
+      if (params) {
+        this.getIngresos(params)
+        this.paramsFiltro = params
+      }
       this.showFiltro = false
     },
 
@@ -321,19 +327,10 @@ export default {
         .focus()
     },
 
-    cambiarEstatus(e) {
-      this.getIngresos({ estatus: e.target.value !== 'cancelado' })
-    },
-
-    filterEtapa(e) {
-      this.getIngresos({ Etapa: e.target.value })
-    },
-
     getIngresos(params = { estatus: true }) {
       Api.getRegistroIngreso(params).then((response) => {
         this.ingresosList = response.data.data
-        this.itemsCount = this.ingresosList.length
-        this.footerItem[0].label = `Total items: ${this.itemsCount}`
+        this.footerItem[0].label = `Total items: ${this.ingresosList.length}`
         this.footerItem[1].label = formatPrice(
           this.ingresosList.reduce(
             (acc, item) => acc + Number(item.totalValor),
