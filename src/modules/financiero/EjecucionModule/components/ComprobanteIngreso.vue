@@ -13,10 +13,7 @@
     >
       <span> <CIcon icon="cilFilter" size="lg" /> Filtrar </span>
     </CButton>
-    <CButton
-      v-else
-      @click="() => ((paramsFiltro = null), getIngresos())"
-    >
+    <CButton v-else @click="() => ((paramsFiltro = null), getIngresos())">
       <span>
         <CIcon icon="cilFilterX" style="color: red" size="lg" /> Resultados
         filtrados</span
@@ -147,6 +144,7 @@ import { formatDate, formatPrice } from '@/utils/format'
 import ContenedorArchivos from '@/components/ContenedorArchivosModel.vue'
 import { filter } from '@/utils/validator'
 import filtroRegistroIngreso from './filtroRegistroIngreso.vue'
+import { showReport } from '@/utils/util'
 
 export default {
   components: {
@@ -240,13 +238,15 @@ export default {
         {
           label: 'Imprimir 8 1/2 x 11',
           clickHandler: (value) => {
-            this.printReportComprobanteIngreso(value)
+            this.printReportReciboIngreso(value)
           },
         },
 
         {
           label: 'Imprimir 8 1/2 x 5.5',
-          clickHandler: (value) => {},
+          clickHandler: (value) => {
+            this.printReportComprobanteIngreso(value)
+          },
         },
       ],
     }
@@ -318,13 +318,56 @@ export default {
       this.mesReporte = 1
     },
 
-    printReportComprobanteIngreso(item) {
-      window
-        .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?/FormulacionEjecucionP/Rep_Recibo_Ingresos_A1&rs:Command=Render&CAPITULO_AYTO=${this.$loggedInfo.user.ayuntamiento.id}&ID_TRANSACCION=${item.id}`,
-          '_blank',
-        )
-        .focus()
+    async printReportReciboIngreso(item) {
+      try {
+        await showReport({
+          folderName: 'fep',
+          reportName: 'Rep_Recibo_Ingresos_A1',
+          params: [
+            {
+              name: 'ID_TRANSACCION',
+              value: item.id,
+            },
+            {
+              name: 'CAPITULO_AYTO',
+              value: 'majorityId',
+            },
+          ],
+        })
+      } catch (error) {
+        this.show({
+          content: error,
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        })
+      }
+    },
+
+    async printReportComprobanteIngreso(item) {
+      try {
+        await showReport({
+          folderName: 'fep',
+          reportName: 'Rep_Comprobante_Ingresos_A1',
+          params: [
+            {
+              name: 'ID_TRANSACCION',
+              value: item.id,
+            },
+            {
+              name: 'CAPITULO_AYTO',
+              value: 'majorityId',
+            },
+          ],
+        })
+      } catch (error) {
+        this.show({
+          content: error,
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        })
+      }
     },
 
     getIngresos(params = { estatus: true }) {
