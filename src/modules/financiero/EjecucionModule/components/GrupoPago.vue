@@ -99,7 +99,6 @@ export default {
     getAllGrupoPago() {
       Api.getGrupoPagoList().then((response) => {
         this.grupoPago = response.data.data
-        console.log(this.grupoPago)
       })
     },
 

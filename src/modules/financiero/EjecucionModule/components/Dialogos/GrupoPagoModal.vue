@@ -123,7 +123,6 @@ export default {
             const fechaInicial = new Date(`${this.fechaInicio}T00:00:00`).getTime()
             const fechaFinal = new Date(`${this.fechaFin}T00:00:00`).getTime()
             this.fechaHataValidation = fechaFinal < fechaInicial 
-            console.log('ddd',fechaFinal > fechaInicial , fechaInicial, fechaFinal)
         },
 
         clearForm() {
