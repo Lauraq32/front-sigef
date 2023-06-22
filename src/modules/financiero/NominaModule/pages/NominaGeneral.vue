@@ -80,17 +80,19 @@ export default {
                     label: 'Fecha',
                     _style: { width: '8%' }
                 },
-                {
-                    key: 'programaDivision',
-                    label: 'Programa División',
-                    _style: { width: '12%' },
-                },
 
                 {
                     key: 'departamento',
                     label: 'Departamento',
                     _style: { width: '10%' },
                 },
+
+                {
+                    key: 'programaDivision',
+                    label: 'Programa División',
+                    _style: { width: '12%' },
+                },
+                
                 {
                     key: 'estProgram',
                     label: 'Est/Program',
