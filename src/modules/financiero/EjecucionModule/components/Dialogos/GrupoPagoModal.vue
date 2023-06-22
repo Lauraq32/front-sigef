@@ -6,9 +6,7 @@
         </CModalHeader>
         <CModalBody>
             <CCardBody>
-                <CForm class="needs-validation" novalidate :validated="grupoFormValidated" ref="formRef"
-                    @submit="handleSubmitCustom01">
-
+                <CForm class="needs-validation" novalidate :validated="grupoFormValidated" ref="formRef">
                     <CCol>
                         <CFormLabel for="postGrupo.descripcion">Descripcion</CFormLabel>
                         <CFormInput id="postGrupo.descripcion" v-model="postGrupo.descripcion" required />
@@ -24,7 +22,7 @@
                         <CFormInput type="date" id="postGrupo.fechaFin" v-model="fechaFin" @change="validarFechaHasta"
                             required />
                         <CFormFeedback invalid :style="{ display: fechaHataValidation ? 'flex' : 'none' }">
-                            La fecha no puede ser menor a la fecha actual
+                            La fecha no puede ser menor a la fecha inicio
                         </CFormFeedback>
                     </CCol>
                 </CForm>
@@ -55,7 +53,7 @@ export default {
                 descripcion: "",
                 fechaInicio: new Date(),
                 fechaFin: new Date()
-                
+
             },
             isLowerSelectedInitDate: false,
             fechaHataValidation: false,
@@ -122,7 +120,7 @@ export default {
         validarFechaHasta() {
             const fechaInicial = new Date(`${this.fechaInicio}T00:00:00`).getTime()
             const fechaFinal = new Date(`${this.fechaFin}T00:00:00`).getTime()
-            this.fechaHataValidation = fechaFinal < fechaInicial 
+            this.fechaHataValidation = fechaFinal < fechaInicial
         },
 
         clearForm() {
