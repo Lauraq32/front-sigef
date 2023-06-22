@@ -1,7 +1,11 @@
 /* eslint-disable prettier/prettier */
 import http from '@/Api/http-common'
 import { getAyuntamientoId, getFiscalYearId } from '@/utils/logged-info'
+
 class Ejecucion {
+  getTipoRetenciones(){
+    return http.get('tipos-retenciones')
+  }
   //Comprobante Gasto
   getRegistroGasto(){
     return http.get('registros-gasto')
@@ -9,11 +13,11 @@ class Ejecucion {
   postRegistroGasto(data){
     return http.post('registros-gasto',data)
   }
-  putRegistroGastoPagado(data,id){
-    return http.put(`registros-gasto/${id}/pagado`,data)
+  putRegistroGastoPagado(id){
+    return http.put(`registros-gasto/${id}/pagado`)
   }
-  putRegistroGastoDevengado(data,id){
-    return http.put(`registros-gasto/${id}/devengado`,data)
+  putRegistroGastoDevengado(id){
+    return http.put(`registros-gasto/${id}/devengado`)
   }
   getRegistroGastoById(id){
     return http.get(`registros-gasto/${id}
@@ -25,8 +29,8 @@ class Ejecucion {
   getRegistroGastoClasificador(){
     return http.get('registros-gasto/Clasifica')
   }
-  getRegistroGastoMesProg(){
-    return http.get('registros-gasto/MesProg')
+  getRegistroGastoMesProg(mestProg){
+    return http.get(`registros-gasto/MesProg?anio=${getFiscalYearId()}&AyuntamientoId=${getAyuntamientoId()}&Mesprog=${mestProg}`)
   }
 
   //get
@@ -116,9 +120,9 @@ class Ejecucion {
     )
   }
   //Get tipo retenciones
-  getTipoRetencion(id) {
+  getTipoRetencion() {
     return http.get(
-      `TipoRetencion?Ayuntamiento=${getAyuntamientoId()}&id=${id}`,
+      `tipos-retenciones`,
     )
   }
   getTipoRetencionById(id) {
@@ -170,9 +174,6 @@ class Ejecucion {
     return http.put(`RegistroGasto/${id}`, data)
   }
 
-  postRegistroGasto(post) {
-    return http.post(`RegistroGasto`, post)
-  }
   getClasificador(Clasificador) {
     return http.get(`PresIngreso/GetClasificadorById/${Clasificador}`)
   }

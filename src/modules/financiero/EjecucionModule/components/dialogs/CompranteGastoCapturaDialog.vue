@@ -5,7 +5,7 @@
     </CModalHeader>
     <CModalBody>
       <CCardBody>
-        <CForm>
+        <CForm :validated="isFormEventTypeValidated" ref="eventTypeForm">
           <div class="row">
             <div class="col-12">
               <div class="row">
@@ -28,8 +28,8 @@
                       <CCol :md="6">
                         <CFormLabel for="nombre">Etapa</CFormLabel>
                         <CFormSelect v-model="postRegistroGasto.etapa" id="validationCustom05">
-                          <option>Activo</option>
-                          <option>Inactivo</option>
+                          <option value="1">Activo</option>
+                          <option value="2">Inactivo</option>
                         </CFormSelect>
 
 
@@ -56,16 +56,36 @@
                         <CFormLabel for="nombre">Forma de Pago</CFormLabel>
                         <div class="row">
                           <div class="col-6">
-                            <CFormCheck type="radio" name="flexRadioDefault" id="flexRadioDefault1"
-                              label="Default radio" />
-                            <CFormCheck type="radio" name="flexRadioDefault" id="flexRadioDefault2" label="Checked radio"
-                              checked />
+                            <div class="form-check">
+                              <input v-model="postRegistroGasto.formaPago" class="form-check-input" type="radio" value="Cheque" name="flexRadioDefault"
+                                id="flexRadioDefault1">
+                              <label class="form-check-label" for="flexRadioDefault1">
+                                Cheque
+                              </label>
+                            </div>
+                            <div class="form-check">
+                              <input v-model="postRegistroGasto.formaPago" class="form-check-input" type="radio" value="Banco" name="flexRadioDefault"
+                                id="flexRadioDefault1">
+                              <label class="form-check-label" for="flexRadioDefault1">
+                                Cargo Banco
+                              </label>
+                            </div>
                           </div>
                           <div class="col-6">
-                            <CFormCheck type="radio" name="flexRadioDefault" id="flexRadioDefault1"
-                              label="Default radio" />
-                            <CFormCheck type="radio" name="flexRadioDefault" id="flexRadioDefault2" label="Checked radio"
-                              checked />
+                            <div class="form-check">
+                              <input v-model="postRegistroGasto.formaPago" class="form-check-input" type="radio" value="Transferencia" name="flexRadioDefault"
+                                id="flexRadioDefault1">
+                              <label class="form-check-label" for="flexRadioDefault1">
+                                Transferencia
+                              </label>
+                            </div>
+                            <div class="form-check">
+                              <input v-model="postRegistroGasto.formaPago" class="form-check-input" type="radio" value="Reversar" name="flexRadioDefault"
+                                id="flexRadioDefault1">
+                              <label class="form-check-label" for="flexRadioDefault1">
+                                Reversar
+                              </label>
+                            </div>
                           </div>
                         </div>
                       </CCol>
@@ -94,10 +114,13 @@
 
                       </CCol>
                       <CCol :md="12">
-                        <CFormLabel for="nombre">Cta Bancaria</CFormLabel>
-                        <CFormInput v-model="postRegistroGasto.bancoId" id="nombre" required />
-
-
+                        <CFormLabel for="nombre">Por Concepto de</CFormLabel>
+                        <CFormSelect required v-model="postRegistroGasto.bancoId">
+                          <option :key="0">Selecionar Cuenta de banco</option>
+                          <option v-for="cuenta in cuentasBanco" :value="`${cuenta.bancoId}`" :key="cuenta.bancoId">
+                            {{ cuenta.nombreCuenta }}
+                          </option>
+                        </CFormSelect>
                       </CCol>
 
                     </div>
@@ -116,16 +139,8 @@
 
             </div>
           </div>
-          <CButton
-          style="font-weight: bold"
-          color="info"
-          @click="
-            () => {
-              lgDemo = true
-            }
-          "
-          >Agregar</CButton
-        >
+          <CButton style="font-weight: bold" color="info" @click="sendData">Agregar</CButton>
+          <CButton style="font-weight: bold" color="info" @click="openCodificacionGasto">Agregar detalle</CButton>
         </CForm>
         <CSmartTable class="sticky-top" clickableRows :tableProps="{
           striped: true,
@@ -147,9 +162,11 @@
         </CSmartTable>
       </CCardBody>
     </CModalBody>
-   
+
   </CModal>
-  <SelectBeneficiario :isVisible="showBeneficiarioModal" @close="close" />
+  <SelectBeneficiario :isVisible="showBeneficiarioModal" @close="closeBeneficiarioModal" />
+  <FormularioCodificacionGastoDialog @saveDetalle="saveDetalle" :registroGasto="postRegistroGasto"
+    :showModal="ShowCodificacionGastoModal" @close="closeCodificacionGasto" />
 </template>
   
 <script>
@@ -157,91 +174,91 @@ import { CModal } from '@coreui/vue'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CIcon } from '@coreui/icons-vue'
 import SelectBeneficiario from './SelectBeneficiario.vue'
+import FormularioCodificacionGastoDialog from './FormularioCodificacionGastoDialog.vue'
+import CuentaService from '@/modules/rrhh/RegistroPersonal/services/DeparmentServices'
+import { useToastStore } from '@/store/toast'
 
+import Api from '../../services/EjecucionServices'
+import { props } from 'vue-number-format'
 export default {
   name: 'CompranteGastoCapturaDialog',
   components: {
     CSmartTable,
     CModal,
     CIcon,
-    SelectBeneficiario
+    SelectBeneficiario,
+    FormularioCodificacionGastoDialog
   },
 
   data: function () {
     return {
+      cuentasBanco: [],
+      isFormEventTypeValidated: false,
       detalleGasto: [],
       displayBeneficiario: null,
-      postRegistroGasto: {
-        formaPago: "Cheque",
-        detalle: "string",
-        fecha: "'2023-06-16T14:22:57.408Z'",
-        etapa: "Ingreso",
-        beneficiarioId: 0,
-        conceptoGastoId: 0,
-        bancoId: 0,
-        numeroCheque: "string",
-        totalBruto: 0,
-        montoNeto: 0,
-        fechaResolucion: "'2023-06-16T14:22:57.408Z'",
-        numeroResolucion: 'string',
-        cantidadFacturaCXP: 0,
-        totalCXP: 0,
-        cantidadPagoXGrupo: 0,
-        totalPagoXGrupo: 0,
-        cantidadRetencion: 0,
-        totalRetenciones: 0,
-        documentoInicial: 0,
-        documentoFinal: 0,
-        cantidadDocumento: 0,
-        estatus: true,
-        tipoGastoId: 0,
-        detalleRegistroGastos: [
-          {
-            fecha: "2023-06-16T14:22:57.408Z",
-            bancoId: 0,
-            estructuraProgramatica: 'string',
-            clasificadorId: 'string',
-            fuenteId: 'string',
-            fuenteEspecificaId: 'string',
-            organismoFinanciadorId: 'string',
-            funcionId: 'string',
-            montoBruto: 0,
-            baseImponible: 0,
-            montoRetenciones: 0,
-            neto: 0,
-            detalleRetencion: [
-              {
-                fecha: '2023-06-16T14:22:57.408Z',
-                beneficiarioId: 0,
-                tipoRetencionId: 0,
-                montoAplica: 0,
-                montoAplicado: 0,
-                detalleRegistroGastoId: 0
-              }
-            ]
-          }
-        ]
-      },
       showBeneficiarioModal: false,
+      ShowCodificacionGastoModal: false,
       profesionesList: [],
       tabPaneActiveKey: 1,
       reclutamientoObject: {},
+      postRegistroGasto: {
+        detalle: "",
+        fecha: null,
+        etapa: 1,
+        beneficiarioId: null,
+        conceptoGastoId: 5,
+        bancoId: null,
+        numeroCheque: "1",
+        totalBruto: 0,
+        montoNeto: 0,
+        fechaResolucion: null,
+        numeroResolucion: "1",
+        cantidadFacturaCXP: 1,
+        totalCXP: 1,
+        cantidadPagoXGrupo: 1,
+        totalPagoXGrupo: 1,
+        cantRetenci: 1,
+        totalRetenciones: 1,
+        documentoInicial: 1,
+        documentoFinal: 1,
+        cantidadDocumento: 1,
+        estatus: true,
+        formaPago: "Cheque",
+        tipoGastoId: 1,
+        detalleRegistroGastos: []
+      },
       detalleGastoColumns: [
         { key: 'estructuraProgramatica', label: 'Estructura Programatica', _style: { width: '40%' } },
-        { key: 'clasificadorId', label: 'Clasificador'},
-        { key: 'fuenteEspecificaId', label: 'Fuente especifica'},
-        { key: 'organismoFinanciadorId', label: 'Organismo Financiador'},
-        { key: 'montoBruto', label: 'Monto'},
+        { key: 'clasificadorId', label: 'Clasificador' },
+        { key: 'fuenteEspecificaId', label: 'Fuente especifica' },
+        { key: 'organismoFinanciadorId', label: 'Organismo Financiador' },
+        { key: 'montoBruto', label: 'Monto' },
       ]
     }
   },
 
   methods: {
-    close(payload) {
-      console.log('se cerro', payload);
+    saveDetalle(payload) {
+      this.postRegistroGasto.detalleRegistroGastos = [payload, ...this.postRegistroGasto.detalleRegistroGastos]
+    },
+
+    getServiciosRequeridos() {
+      CuentaService.getCuentasDeBancos().then(response => {
+        this.cuentasBanco = response.data.data
+      })
+    },
+
+
+
+    closeBeneficiarioModal(payload) {
+      console.log('se cerro', payload.id);
       this.displayBeneficiario = payload.nombre
-      this.postRegistroGasto.beneficiarioId = payload.beneficiarioId
+      this.postRegistroGasto.beneficiarioId = payload.id
       this.showBeneficiarioModal = false;
+    },
+
+    closeCodificacionGasto() {
+      this.ShowCodificacionGastoModal = false;
     },
 
     closeModal() {
@@ -250,6 +267,9 @@ export default {
 
     openBeneficiarioModal() {
       this.showBeneficiarioModal = true;
+    },
+    openCodificacionGasto() {
+      this.ShowCodificacionGastoModal = true
     },
 
     sendData() {
@@ -262,8 +282,9 @@ export default {
 
     saveGasto() {
       this.$emit('post-gasto', {
-        ...this.postEmpleado
+        ...this.postRegistroGasto
       })
+      console.log('se mando')
     },
 
     closeModal() {
@@ -275,7 +296,7 @@ export default {
     showModal: Boolean,
   },
   mounted() {
-
+    this.getServiciosRequeridos()
   }
 }
 </script>
@@ -290,6 +311,5 @@ export default {
   transform: translateY(-50%);
   cursor: pointer;
   right: 2px;
-}
-</style>
+}</style>
   

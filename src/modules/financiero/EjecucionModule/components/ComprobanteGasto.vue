@@ -21,10 +21,40 @@
         </CDropdown>
       </td>
     </template>
+
+    <template #fecha="{ item }">
+      <td>
+        {{ this.formatDate(item.fecha) }}
+      </td>
+    </template>
+    <template #conceptoGasto="{ item, index }">
+      <td>
+        {{ item.conceptoGasto.descripcion }}
+      </td>
+    </template>
+    <template #beneficiario="{ item, index }">
+      <td>
+        {{ item.beneficiario.descripcion }}
+      </td>
+    </template>
+    <template #estatus="{ item }">
+      <td class="">
+
+        <CBadge :color="item.estatus ? 'success' : 'danger'">{{
+
+          item.estatus ? 'ACTIVO' : 'CANCELADO'
+
+        }}</CBadge>
+
+      </td>
+
+    </template>
+
   </CSmartTable>
 
 
-  <CompranteGastoCapturaDialog :showModal="ComprobanteoDialog" @post-gasto="submitForm" @close-modal="closeComprobanteDialog" />
+  <CompranteGastoCapturaDialog :showModal="ComprobanteoDialog" @post-gasto="submitForm"
+    @close-modal="closeComprobanteDialog" />
   <FormularioCodificacionGastoDialog :showModal="FormularioCodificacionGastoDialog" />
 </template>
 <script>
@@ -38,8 +68,9 @@ import AppActionHeader from '@/components/AppActionHeader.vue'
 import ComprobanteGastoTable from '../components/tables/ComprobanteGastoTable.vue'
 import { CSmartTable } from '@coreui/vue-pro'
 import Api from '../services/EjecucionServices'
-
+import { formatDate } from '@/utils/format'
 import router from '@/router'
+import BancoIdServices from '@/modules/financiero/ConciliacionBancaria/services/ConciliacionServices'
 export default {
   components: {
     CompranteGastoCapturaDialog,
@@ -50,35 +81,83 @@ export default {
   },
   data: function () {
     return {
-      comprobante:{
-
+      comprobante: {
       },
+      formatDate,
+      gasto: {},
       tableData: [],
-      tableColumns: [{ key: 'detalle', label: 'Test' }, {
-        key: 'show_details',
-        label: '',
-        filter: false,
-        sorter: false,
-      },],
+
+      tableColumns: [
+        { key: 'numeroComprobante', label: 'Numero Comprobante' },
+        { key: 'formaPago', label: 'Forma de pago' },
+        { key: 'fecha', label: 'Fecha' },
+        { key: 'etapa', label: 'Etapa' },
+        { key: 'conceptoGasto', label: 'Concepto Gasto' },
+        { key: 'beneficiario', label: 'Beneficiario' },
+        { key: 'totalBruto', label: 'Total' },
+        { key: 'montoNeto', label: 'Monto Neto' },
+        { key: 'estatus', label: 'Estatus' },
+        { key: 'bancoId', label: 'Banco' },
+        {
+          key: 'show_details',
+          label: '',
+          filter: false,
+          sorter: false,
+        },],
       actions: [
         {
-          label: 'Editar',
-          clickHandler: () => {
-           this.showComprobanteDialog()
+          label: 'Cancelar',
+          clickHandler: (item) => {
+            //this.editarGasto(item)
           }
         },
         {
-          label: 'Cancelar Comprobante',
-          clickHandler: () => {
-            console.log('hola')
+          label: 'Duplicar Pagado',
+          clickHandler: (item) => {
+            Api.putRegistroGastoPagado(item.id).then( () => {
+              this.show({
+                content: 'Registro Duplicado con exito',
+                closable: true,
+              })
+              this.getRegistroGasto()
+            }).catch(error => {
+
+            })
+            //this.editarGasto(item)
           }
         },
         {
-          label: 'Documentos Asociados al 815',
-          clickHandler: () => {
-            this.showFormularioCodificacionGastoDialog()
+          label: 'Duplicar Devengado',
+          clickHandler: (item) => {
+            Api.putRegistroGastoDevengado(item.id).then( () => {
+              this.show({
+                content: 'Registro Duplicado con exito',
+                closable: true,
+              })
+              this.getRegistroGasto()
+            }).catch(error => {
+
+            })
           }
         },
+        {
+          label: 'Imprimir',
+          clickHandler: (item) => {
+            //this.editarGasto(item)
+          }
+        },
+        // {
+        //   label: 'Cancelar Comprobante',
+        //   clickHandler: () => {
+        //     console.log('hola')
+        //   }
+        // },
+        // {
+        //   label: 'Documentos Asociados al 815',
+        //   clickHandler: () => {
+        //     this.showFormularioCodificacionGastoDialog()
+        //   }
+        // },
       ]
 
       ,
@@ -89,20 +168,23 @@ export default {
   methods: {
     ...mapActions(useToastStore, ['show']),
 
-    closeComprobanteDialog(){
+    closeComprobanteDialog() {
       this.ComprobanteoDialog = false
     },
-
+    // editarGasto(item) {
+    //   this.ComprobanteoDialog = true;
+    //   this.postRegistroGasto = item
+    // },
     submitForm(payload) {
       if (payload.id != null) {
-        Api.putEmpleado(payload.id, payload)
+        Api.putRegistroGasto(payload.id, payload)
           .then(() => {
             this.show({
               content: 'Registro actualizado correctamente',
               closable: true,
             })
-            this.closeRegistroPersonalModal()
-            setTimeout(this.getRegistroPersonal, 500)
+            this.closeComprobanteDialog()
+            setTimeout(this.getRegistroGasto, 500)
           })
           .catch((error) => {
             this.show({
@@ -113,14 +195,15 @@ export default {
             })
           })
       } else {
-        Api.postEmpleado(payload)
-          .then(() => {
+        Api.postRegistroGasto(payload)
+          .then((response) => {
+            console.log(response)
             this.show({
               content: 'Registro añadido correctamente',
               closable: true,
             })
-            setTimeout(this.getRegistroPersonal, 500)
-            this.closeRegistroPersonalModal()
+            setTimeout(this.getRegistroGasto, 500)
+            this.closeComprobanteDialog()
           })
           .catch((error) => {
             this.show({
@@ -140,8 +223,8 @@ export default {
       this.FormularioCodificacionGastoDialog = true
     },
 
-    getRegistroGasto(){
-      Api.getRegistroGasto().then((response)=>{
+    getRegistroGasto() {
+      Api.getRegistroGasto().then((response) => {
         this.tableData = response.data.data
       })
     },
@@ -170,7 +253,7 @@ export default {
       return actions;
     }
   },
-  mounted(){
+  mounted() {
     this.getRegistroGasto()
   }
 }
