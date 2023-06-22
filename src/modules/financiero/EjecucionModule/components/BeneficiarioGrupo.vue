@@ -65,7 +65,7 @@ export default {
 
         { key: 'id', label: 'Id', _style: { width: '4%' } },
         { key: 'beneficiario', label: 'Beneficiario', _style: { width: '10%' } },
-        { key: 'grupoCompensacion', label: 'Grupo compensación', _style: { width: '20%' } },
+        { key: 'grupoCompensacion', label: 'Grupo Compensación', _style: { width: '20%' } },
         { key: 'cargoBeneficiario', label: 'Cargo', _style: { width: '14%' } },
         { key: 'monto', label: 'Valor', _style: { width: '8%' } },
         {
@@ -129,6 +129,13 @@ export default {
               life: 15000,
             })
             setTimeout(() => this.getAllBeneficiarioGrupo(), 200)
+          })
+          .catch((error) => {
+            return this.show({
+              content: error.response.data,
+              closable: true,
+              color: 'danger',
+            })
           })
       }
     },

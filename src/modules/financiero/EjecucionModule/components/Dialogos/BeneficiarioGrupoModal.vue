@@ -28,13 +28,11 @@
                         <CFormLabel for="validationCustom04">Cargo beneficiaro</CFormLabel>
                         <CFormInput id="validationCustom04" required v-model="postBeneficiarioGrupo.cargoBeneficiario">
                         </CFormInput>
-                        <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <CCol>
                         <CFormLabel for="validationCustom04"> Valor del pago</CFormLabel>
                         <CFormInput id="validationCustom04" required v-model="postBeneficiarioGrupo.monto"> </CFormInput>
-                        <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <div class="modal-footer">
@@ -103,7 +101,6 @@ export default {
         saveBeneficiarioGrupo() {
             this.grupoFormValidated = false
             if (this.$refs.formRef.$el.checkValidity() && this.postBeneficiarioGrupo.grupoCompensacionId) {
-                console.log(this.postBeneficiarioGrupo)
                 this.$emit('post-Beneficiariogrupo', { ...this.postBeneficiarioGrupo })
                 this.clearForm()
                 return
