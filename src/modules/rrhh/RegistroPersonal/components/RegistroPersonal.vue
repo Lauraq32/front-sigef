@@ -115,6 +115,7 @@ import UtilesLaboralesDialog from './Dialogos/UtilesLaboralesDialog.vue'
 import TipoNovedadDialog from './TipoNovedades.vue'
 import TarjetaEmpleadoDialogs from '../components/Dialogos/TarjetaEmpleado.vue'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
+import { showReport } from '@/utils/util'
 
 export default {
   components: {
@@ -273,42 +274,42 @@ export default {
       this.showRegistroPersonalModal = true
     },
 
-    imprimirReporte() {
-      if (this.reporteDepto === '1') {
-        window
-          .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Nombre&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
-            '_blank',
-          )
-          .focus()
-      }
-      
-      if (this.reporteDepto === '2') {
-        window
-          .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Apellidos&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
-            '_blank',
-          )
-          .focus()
-      }
-      if (this.reporteDepto === '3') {
-        window
-          .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Cargo&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
-            '_blank',
-          )
-          .focus()
-      }
-      if (this.reporteDepto === '4') {
-        window
-          .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Departamentos&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
-            '_blank',
-          )
-          .focus()
-      }
+    async imprimirReporte() {
+      const reportParam = {
+        folderName: 'rrhh',
+        params: [{
+          name: "ID_AYUNTAMIENTO",
+          value: "majorityId"
+        }]
+      };
 
-      this.reportes = false;
+      try {
+        if (this.reporteDepto === '1') {
+          reportParam.reportName = 'Rep_Empleados_por_Nombre';
+          await showReport(reportParam);
+        }
+        if (this.reporteDepto === '2') {
+          reportParam.reportName = 'Rep_Empleados_por_Apellidos';
+          await showReport(reportParam);
+        }
+        if (this.reporteDepto === '3') {
+          reportParam.reportName = 'Rep_Empleados_por_Cargo';
+          await showReport(reportParam);
+        }
+        if (this.reporteDepto === '4') {
+          reportParam.reportName = 'Rep_Empleados_por_Departamento';
+          await showReport(reportParam);
+        }
+
+        this.reportes = false;
+      } catch (error) {
+        this.show({
+          content: error,
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        })
+      }
     },
 
     closeContenedorModal(payload) {
