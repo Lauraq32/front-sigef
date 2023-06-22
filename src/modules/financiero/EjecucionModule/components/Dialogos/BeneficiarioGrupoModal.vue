@@ -1,50 +1,47 @@
 <template>
-    <CModal size="lg" :visible="lgDemo" @close="() => {
-        lgDemo = false
-    }
-        ">
+    <CModal size="sm" :visible="beneficiarioxGrupoModal" @close="closeModalGrupo" backdrop="static">
         <CModalHeader>
-            <CModalTitle>Beneficiario</CModalTitle>
+            <CModalTitle>Beneficiario por grupo</CModalTitle>
         </CModalHeader>
         <CModalBody>
             <CCardBody>
-                <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01"
-                    @submit="handleSubmitCustom01">
-                    <CCol :md="3">
+                <CForm class="needs-validation" novalidate :validated="grupoFormValidated" ref="formRef">
+                    <CCol>
                         <CFormLabel for="validationCustom05">Grupo de pago</CFormLabel>
-                        <CFormSelect id="validationCustom05">
-                            <option>OPCION 1</option>
-                            <option>OPCION 2</option>
-                            <option>OPCION 3</option>
-                        </CFormSelect>
-                        <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+                        <v-select name="grupoCompensacionData" v-model="selectGrupoCompensancion"
+                            :options="grupoCompensacionList" required></v-select>
+                        <CFormFeedback invalid
+                            :style="{ display: !postBeneficiarioGrupo.grupoCompensacionId ? 'flex' : 'none' }"> Favor agregar
+                            el
+                            campo </CFormFeedback>
                     </CCol>
-                    <CCol :md="3">
+                    <CCol>
                         <CFormLabel for="validationCustom05">Beneficiario</CFormLabel>
-                        <CFormSelect id="validationCustom05">
-                            <option>OPCION 1</option>
-                            <option>OPCION 2</option>
-                            <option>OPCION 3</option>
-                        </CFormSelect>
-                        <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+                        <v-select v-model="selectBeneficiario" required
+                            :options="beneficiarioList"></v-select>
+                            <CFormFeedback invalid
+                            :style="{ display: !postBeneficiarioGrupo.beneficiarioId ? 'flex' : 'none' }"> Favor agregar
+                            el
+                            campo </CFormFeedback>
                     </CCol>
-                    <CCol :md="3">
+                    <CCol>
                         <CFormLabel for="validationCustom04">Cargo beneficiaro</CFormLabel>
-                        <CFormInput id="validationCustom04"> </CFormInput>
+                        <CFormInput id="validationCustom04" required v-model="postBeneficiarioGrupo.cargoBeneficiario">
+                        </CFormInput>
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
-                    <CCol :md="3">
+                    <CCol>
                         <CFormLabel for="validationCustom04"> Valor del pago</CFormLabel>
-                        <CFormInput id="validationCustom04"> </CFormInput>
+                        <CFormInput id="validationCustom04" required v-model="postBeneficiarioGrupo.monto"> </CFormInput>
                         <CFormFeedback valid> Exito! </CFormFeedback>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="closeModalGrupo">
                             Close
                         </button>
-                        <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
+                        <button class="btn btn-info btn-block mt-1" v-on:click="saveBeneficiarioGrupo">
                             Guardar
                         </button>
                     </div>
@@ -56,6 +53,7 @@
 
 <script>
 import { CModal } from '@coreui/vue';
+import Api from '../../services/EjecucionServices';
 
 export default {
     name: 'BeneficiarioGrupoModal',
@@ -66,10 +64,12 @@ export default {
     data: function () {
         return {
             grupoFormValidated: false,
+            grupoCompensacionList: [],
+            beneficiarioList: [],
             postBeneficiarioGrupo: {
                 grupoCompensacionId: 0,
                 beneficiarioId: 0,
-                cargoBeneficiario: "string",
+                cargoBeneficiario: null,
                 monto: 0
 
             },
@@ -78,10 +78,32 @@ export default {
         }
     },
 
+    computed: {
+        selectBeneficiario: {
+            get() {
+                return this.beneficiarioList.find((x) => x.code == this.postBeneficiarioGrupo.beneficiarioId)
+            },
+            set(util) {
+                this.postBeneficiarioGrupo.beneficiarioId = Number(util.code)
+            },
+        },
+
+        selectGrupoCompensancion:{
+            get() {
+                return this.grupoCompensacionList.find((x) => x.code == this.postBeneficiarioGrupo.grupoCompensacionId)
+            },
+            set(util) {
+                this.postBeneficiarioGrupo.grupoCompensacionId = Number(util.code)
+            },
+        }
+
+    },
+
     methods: {
         saveBeneficiarioGrupo() {
             this.grupoFormValidated = false
-            if (this.$refs.formRef.$el.checkValidity() ) {
+            if (this.$refs.formRef.$el.checkValidity() && this.postBeneficiarioGrupo.grupoCompensacionId) {
+                console.log(this.postBeneficiarioGrupo)
                 this.$emit('post-Beneficiariogrupo', { ...this.postBeneficiarioGrupo })
                 this.clearForm()
                 return
@@ -96,7 +118,7 @@ export default {
                 this.postBeneficiarioGrupo = {
                     grupoCompensacionId: 0,
                     beneficiarioId: 0,
-                    cargoBeneficiario: "string",
+                    cargoBeneficiario: null,
                     monto: 0
                 }
         },
@@ -105,19 +127,49 @@ export default {
             this.$emit('close-modal', false)
             this.clearForm()
         },
+
+        getAllCompensacion() {
+            Api.getGrupoCompensacionList().then(({ data: { data } }) => {
+                this.grupoCompensacionList = data.map(elem => ({
+                    code: elem.id,
+                    label: `${elem.id}-${elem.descripcion}`
+                })
+                );
+            })
+        },
+
+        getAllBeneficiarios() {
+            Api.getBeneficiarios().then(({ data: { data } }) => {
+                this.beneficiarioList = data.map(elem => ({
+                    code: elem.id,
+                    label: `${elem.id}-${elem.nombre}`
+                })
+                );
+            })
+        }
+    },
+
+    mounted() {
+        this.getAllCompensacion()
+        this.getAllBeneficiarios()
+        this.$refs.formRef?.$el?.checkValidity()
     },
 
     watch: {
-        groupBeneficiaryToUpdate(newGroup) {
+        beneficiarioGroupToUpdate(newGroup) {
             if (newGroup) {
-                this.postBeneficiarioGrupo = { ...this.groupBeneficiaryToUpdate };
+                this.postBeneficiarioGrupo = { ...newGroup,
+                grupoCompensacionId: newGroup.grupoCompensacion?.id,
+                beneficiarioId: newGroup.beneficiario?.id
+                };
+                
             }
         },
     },
 
     props: {
-        grupoModal: Boolean,
-        groupBeneficiaryToUpdate: null,
+        beneficiarioxGrupoModal: Boolean,
+        beneficiarioGroupToUpdate: null,
     },
 }
 </script>
