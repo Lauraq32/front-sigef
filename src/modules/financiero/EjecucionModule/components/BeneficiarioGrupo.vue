@@ -114,7 +114,7 @@ export default {
         })
           .catch((error) => {
             return this.show({
-              content: "Ha ocurrido un error",
+              content: error.response.data,
               closable: true,
               color: 'danger',
             })
