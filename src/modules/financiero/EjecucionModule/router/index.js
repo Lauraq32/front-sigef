@@ -125,7 +125,7 @@ export default {
     {
       path: 'conceptoGasto',
       name: 'conceptoGasto',
-      meta: { label: 'Retenciones' },
+      meta: { label: 'Conceptos de gastos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/ConceptoGasto.vue'

@@ -7,7 +7,7 @@
             <CModalBody>
                 <div class="row">
                     <CCol :md="12">
-                        <CFormLabel for="fechaIngreso">Descripcion</CFormLabel>
+                        <CFormLabel for="fechaIngreso">Descripci&oacute;n</CFormLabel>
                         <CFormInput v-model="conceptoGasto.descripcion" id="Descripcion" required />
                     </CCol>
                     <CCol :md="12">
@@ -48,7 +48,6 @@ export default {
             }
         }
     },
-    inject: ['LoginInfo'],
     methods: {
         ...mapActions(useToastStore, ['show']),
         openModal() {
@@ -107,8 +106,6 @@ export default {
 
     },
 
-    mounted() {
-    },
 
     props: {
         showModal: Boolean,

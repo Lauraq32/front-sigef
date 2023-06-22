@@ -1,5 +1,5 @@
 <template>
-    <h3 class="text-center mb-4">Concepto Gasto</h3>
+    <h3 class="text-center mb-4">Conceptos de gastos</h3>
 
     <AppAccionHeader :actions="pageActions">
         <CButton color="info" @click="openGastoModal">Agregar</CButton>
@@ -12,7 +12,7 @@
     }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header key="ingreso.id" :items="cenceptoGastos"
         :columns="columns" itemsPerPageSelect columnFilter :itemsPerPage="10"
         :items-per-page-label="'Artículos por página:'" :items-per-page-options="[10, 20, 50, 100, 150]" columnSorter
-        :sorterValue="{ column: 'status', state: 'asc' }" pagination>
+        :sorterValue="{ column: 'descripcion', state: 'asc' }" pagination>
 
 
         <template #show_details="{ item }">
@@ -20,7 +20,7 @@
                 <div class="d-flex justify-content-around">
 
                     <CButton class="mt-1" color="primary" variant="outline" square size="sm"
-                        @click="getConceptoGastoById(item)">
+                        @click="setConceptoGastoAndShowModal(item)">
                         Editar
                     </CButton>
                     <CButton class="mt-1" color="danger" variant="outline" square size="sm"
@@ -58,22 +58,19 @@ export default {
     },
     data: function () {
         return {
-            conceptoGastoId: null,
             conceptoGastoItem: null,
             cenceptoGastos: [],
-            institucionesOtorgantes: [],
             showConceptoGastoModal: false,
             footerItem: [
             ],
             columns: [
-                { key: 'descripcion', label: 'Descripcion' },
+                { key: 'descripcion', label: 'Descripción' },
                 { key: 'detalle', label: 'detalle' },
                 { key: 'show_details', label: 'Acciones', _style: { width: '10%' } }
             ],
             formatPrice
         }
     },
-    inject: ['LoginInfo'],
     methods: {
         ...mapActions(useToastStore, ['show']),
 
@@ -87,7 +84,7 @@ export default {
         },
 
         submitConceptoGasto(payload) {
-            if (this.conceptoGastoId == null) {
+            if (payload.id == null) {
                 Api.postConceptoGasto(payload).then((response) => {
                     this.show({
                         content: response.data.message,
@@ -95,7 +92,7 @@ export default {
                     })
                 })
             } else {
-                Api.putConceptoGasto(this.conceptoGastoId, payload).then(response => {
+                Api.putConceptoGasto(payload.id, payload).then(response => {
                     this.show({
                         content: response.data.message,
                         closable: true,
@@ -107,24 +104,22 @@ export default {
         getConceptoGasto() {
             Api.getConceptoGasto().then((response) => {
                 this.cenceptoGastos = response.data.data
+                this.footerItem = response.data.data.length
             })
         },
 
         closeModal() {
             this.showConceptoGastoModal = false;
             this.getConceptoGasto()
-            this.conceptoGastoId = null
         },
 
-        getConceptoGastoById(item) {
-            this.conceptoGastoId = item.id
+        setConceptoGastoAndShowModal(item) {
             this.conceptoGastoItem = { ...item }
             this.showConceptoGastoModal = true
         },
 
         deleteConceptoGasto(id) {
             Api.deleteConceptoGasto(id).then(response => {
-                console.log(response.data)
                 this.show({
                     content: response.data.message,
                     closable: true,
