@@ -84,7 +84,7 @@ export default {
         },
 
         submitConceptoGasto(payload) {
-            if (payload.id == null) {
+            if (payload.id) {
                 Api.postConceptoGasto(payload).then((response) => {
                     this.show({
                         content: response.data.message,
