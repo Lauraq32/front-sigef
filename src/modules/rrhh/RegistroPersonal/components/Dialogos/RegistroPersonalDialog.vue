@@ -577,7 +577,6 @@ import apiSectores from '../../../../financiero/NominaModule/services/NominaServ
 import configuraciones from '@/utils/configuraciones'
 import { onlyLetter, onlyNumber, calculateAge } from '@/utils/validator'
 import vSelect from 'vue-select'
-import fileApi from '../../services/Files'
 import 'vue-select/dist/vue-select.css'
 import { useToastStore } from '@/store/toast'
 import { mapActions, mapStores } from 'pinia'
@@ -756,16 +755,7 @@ export default {
         const reader = new FileReader();
         this.profilePhoto = file;
         reader.onload = (evt) => {
-          this.imageUrl = evt.target.result
-          const formData = new FormData()
-          formData.append('file', file)
-          formData.append('empleadoId', this.empleado.id)
-          formData.append('profileImage', 1)
-          formData.append('uploaded', (new Date()).toISOString())
-          formData.append('public', true)
-          fileApi.saveFile(formData).then(response => {
-            this.postEmpleado.idImagenPerfil = response.data.data[0].id;
-          }).catch(console.log)
+          this.imageUrl = evt.target.result;
         };
         reader.readAsDataURL(file);
       }
@@ -863,7 +853,8 @@ export default {
 
 
       this.$emit('post-personal', {
-        ...this.postEmpleado
+        payload: { ...this.postEmpleado },
+        profilePhoto: this.profilePhoto
       })
     },
 

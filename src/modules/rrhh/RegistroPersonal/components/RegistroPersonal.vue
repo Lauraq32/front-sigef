@@ -104,6 +104,7 @@
 import { CModal } from '@coreui/vue'
 import { mapActions } from 'pinia'
 import Api from '../services/RegistroPersonalServices'
+import fileApi from '../services/Files'
 import EmpleadoReports from '@/components/Report/RRHH/ReportsTemplate/EmpleadosReports.vue'
 import { useToastStore } from '@/store/toast'
 import RegistroPersonalDialog from '../components/Dialogos/RegistroPersonalDialog.vue'
@@ -286,20 +287,17 @@ export default {
       try {
         if (this.reporteDepto === '1') {
           reportParam.reportName = 'Rep_Empleados_por_Nombre';
-          await showReport(reportParam);
         }
         if (this.reporteDepto === '2') {
           reportParam.reportName = 'Rep_Empleados_por_Apellidos';
-          await showReport(reportParam);
         }
         if (this.reporteDepto === '3') {
           reportParam.reportName = 'Rep_Empleados_por_Cargo';
-          await showReport(reportParam);
         }
         if (this.reporteDepto === '4') {
           reportParam.reportName = 'Rep_Empleados_por_Departamento';
-          await showReport(reportParam);
         }
+        await showReport(reportParam);
 
         this.reportes = false;
       } catch (error) {
@@ -328,16 +326,25 @@ export default {
       this.showModal();
     },
 
-    submitForm(payload) {
-      if (payload.id != null) {
-        Api.putEmpleado(payload.id, payload).then(() => {
-          this.show({
-            content: 'Registro actualizado correctamente',
-            closable: true,
+    async submitForm({ payload, profilePhoto }) {
+      if (payload.id) {
+        this.saveProfilePhoto(profilePhoto, payload.idImagenPerfil, payload.id)
+        .then(imageId => {
+          if (imageId) {
+            payload.idImagenPerfil = imageId;
+          }
+
+          return Api.putEmpleado(payload.id, payload)
+          .then(() => {
+            this.show({
+              content: 'Registro actualizado correctamente',
+              closable: true,
+            })
+            this.closeRegistroPersonalModal()
+            setTimeout(this.getRegistroPersonal, 200)
           })
-          this.closeRegistroPersonalModal()
-          setTimeout(this.getRegistroPersonal, 500)
         }).catch((error) => {
+          console.log(error);
           this.show({
             content: error.response.data,
             closable: true,
@@ -403,6 +410,24 @@ export default {
     handleFilterEmployeeByStatus({ target }) {
       this.getRegistroPersonal({
         status: target.value
+      });
+    },
+    saveProfilePhoto(file, fallback, empleadoId) {
+      if (!file || fallback) {
+        return Promise.resolve(fallback ?? 0);
+      }
+
+      return new Promise((res, rej) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('empleadoId', empleadoId);
+        formData.append('profileImage', 1)
+        formData.append('uploaded', (new Date()).toISOString());
+        formData.append('public', true);
+
+        fileApi.saveFile(formData)
+        .then(response => res(response.data.data[0].id))
+        .catch(rej);
       });
     }
   },
