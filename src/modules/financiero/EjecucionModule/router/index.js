@@ -122,6 +122,15 @@ export default {
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/Retenciones.vue'
         ),
     },
+    {
+      path: 'conciliacion-presupuestaria',
+      name: 'conciliacionPresupuestaria',
+      meta: { label: 'Conciliacion Presupuestaria' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/pages/ConciliacionPresupuestaria.vue'
+        ),
+    },
 
     //  {
     //     path: '',

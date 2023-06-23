@@ -98,6 +98,11 @@ class Ejecucion {
       `export-file/ingresos-ejecucion?mes=${value}`,
     )
   }
+
+  getConciliacionPresupuestariaByMes(mes) {
+    return http.get(`registros-gasto/${mes}/conciliacion-presupuestaria`)
+  }
+
   //Get tipo retenciones
   getTipoRetencion(id) {
     return http.get(
