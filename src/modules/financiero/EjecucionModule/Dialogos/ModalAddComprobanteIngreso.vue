@@ -82,6 +82,7 @@
                   <CFormSelect
                     required
                     v-model="ingresoPost.contribuyente.tipoDocumento"
+                    @change="changeDocument"
                     id="tipoDocumento"
                   >
                     <option value="Rnc">RNC</option>
@@ -209,7 +210,12 @@
                     currencyDisplay: 'hidden',
                   }"
                 />
-                <CFormFeedback invalid> Campo requerido</CFormFeedback>
+                <CFormFeedback
+                  invalid
+                  :style="{ display: validacionMonto ? 'flex' : 'none' }"
+                >
+                  El monto no puede ser igual a 0
+                </CFormFeedback>
               </div>
 
               <CFormLabel for="Cantidad" class="col-1 col-form-label"
@@ -310,6 +316,14 @@
             }}
           </td>
         </template>
+
+        <template #show_details="{ item }">
+          <td>
+            <CButton @click="eliminarObjeto(item)">
+              <CIcon icon="cilTrash" size="xl" style="color: red"/>
+            </CButton>
+          </td>
+        </template>
       </CSmartTable>
     </CModalBody>
 
@@ -369,6 +383,8 @@ export default {
       formatDate,
       ingresosList: [],
       cedulaMax: 11,
+      validacionMonto: false,
+      validarEnviarMonto: false,
       showContribuyentesModal: false,
       contribuyenteNameList: [],
       isFormEventTypeValidated: false,
@@ -376,6 +392,7 @@ export default {
       showFindClasificadorModal: false,
       direccion: null,
       detallePost: {
+        id: 0,
         ctgClasificadorId: null,
         ctgFuenteId: null,
         ctgFuenteEspecificaId: null,
@@ -439,6 +456,14 @@ export default {
           filter: false,
           sorter: false,
         },
+
+        {
+          key: 'show_details',
+          label: '',
+          _style: { width: '1%' },
+          filter: false,
+          sorter: false,
+        },
       ],
     }
   },
@@ -457,7 +482,12 @@ export default {
 
     addDetalle() {
       this.isFormEventTypeValidatedDetalle = false
-      if (this.$refs.eventTypeFormDetalle.$el.checkValidity()) {
+      this.validarEnviarMonto = true
+      this.validarMonto()
+      if (
+        this.$refs.eventTypeFormDetalle.$el.checkValidity() &&
+        !this.validacionMonto
+      ) {
         this.ingresoPost.detalleRegistroIngresos = [
           { ...this.detallePost },
           ...this.ingresoPost.detalleRegistroIngresos,
@@ -562,6 +592,12 @@ export default {
       this.showContribuyentesModal = false
     },
 
+    changeDocument() {
+      this.cedulaMax =
+        this.ingresoPost.contribuyente.tipoDocumento === 'cedula' ? 11 : 15
+      this.ingresoPost.contribuyente.documento = null
+    },
+
     checkDocument(e) {
       if (this.ingresoPost.contribuyente.tipoDocumento === 'Cedula') {
         onlyNumber(e)
@@ -580,6 +616,32 @@ export default {
         this.detallePost.nombre = infoClasificador.nombre
       }
       this.showFindClasificadorModal = false
+    },
+
+    validarMonto() {
+      this.validacionMonto =
+        this.detallePost.valor === 0 && this.validarEnviarMonto
+    },
+
+    eliminarObjeto(detalle) {
+      this.$swal({
+        title: 'Estás seguro que quieres eliminar este registro?',
+        text: 'No podrás revertirlo',
+        icon: 'Confirmación',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar!',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (this.ingresoPost.detalleRegistroIngresos) {
+            this.ingresoPost.detalleRegistroIngresos =
+              this.ingresoPost.detalleRegistroIngresos.filter(
+                (d) => d.id !== detalle.id,
+              )
+          }
+        }
+      })
     },
   },
   computed: {

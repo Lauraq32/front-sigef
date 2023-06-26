@@ -25,6 +25,18 @@
       color="info"
       @click="
         () => {
+          this.showModalReporte = true
+        }
+      "
+    >
+      Reportes
+    </CButton>
+
+    <CButton
+      style="font-weight: bold"
+      color="info"
+      @click="
+        () => {
           showAddComprobanteIngreso = true
         }
       "
@@ -127,6 +139,10 @@
   />
 
   <filtroRegistroIngreso :showFiltro="showFiltro" @close="closeFiltro" />
+  <reporteRegistroIngreso
+    :showModalReporte="showModalReporte"
+    @closeModalReporte="closeModalReporte"
+  />
 </template>
 
 <script>
@@ -144,6 +160,7 @@ import { formatDate, formatPrice } from '@/utils/format'
 import ContenedorArchivos from '@/components/ContenedorArchivosModel.vue'
 import { filter } from '@/utils/validator'
 import filtroRegistroIngreso from './filtroRegistroIngreso.vue'
+import reporteRegistroIngreso from './reportesRegistroIngreso.vue'
 import { showReport } from '@/utils/util'
 
 export default {
@@ -155,6 +172,7 @@ export default {
     ModalAddComprobanteIngreso,
     ContenedorArchivos,
     filtroRegistroIngreso,
+    reporteRegistroIngreso,
   },
 
   data: function () {
@@ -164,6 +182,7 @@ export default {
       formatDate,
       formatPrice,
       showFiltro: false,
+      showModalReporte: false,
       paramsFiltro: null,
       showAddComprobanteIngreso: false,
       showModalDoc: false,
@@ -265,6 +284,10 @@ export default {
         this.paramsFiltro = params
       }
       this.showFiltro = false
+    },
+
+    closeModalReporte() {
+      this.showModalReporte = false
     },
 
     goToComprobanteGasto() {

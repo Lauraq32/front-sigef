@@ -45,6 +45,7 @@
       <CButton @click="closeFiltro" color="info"> Filtrar </CButton>
     </CModalFooter>
   </CModal>
+
 </template>
 
 <script>
