@@ -72,7 +72,7 @@
                     :value="`${grupo.id}`"
                     :key="grupo.id"
                   >
-                    {{ grupo.nombre }}
+                    {{ grupo.descripcion }}
                   </option>
                 </CFormSelect>
               </CCol>
