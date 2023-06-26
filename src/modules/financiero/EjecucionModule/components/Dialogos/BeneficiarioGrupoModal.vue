@@ -1,13 +1,13 @@
 <template>
     <CModal size="sm" :visible="beneficiarioxGrupoModal" @close="closeModalGrupo" backdrop="static">
         <CModalHeader>
-            <CModalTitle>Beneficiario por grupo</CModalTitle>
+            <CModalTitle>Beneficiario por Grupo</CModalTitle>
         </CModalHeader>
         <CModalBody>
             <CCardBody>
                 <CForm class="needs-validation" novalidate :validated="grupoFormValidated" ref="formRef">
                     <CCol>
-                        <CFormLabel for="validationCustom05">Grupo de pago</CFormLabel>
+                        <CFormLabel for="validationCustom05">Grupo de Pago</CFormLabel>
                         <v-select name="grupoCompensacionData" v-model="selectGrupoCompensancion"
                             :options="grupoCompensacionList" required></v-select>
                         <CFormFeedback invalid
@@ -25,13 +25,13 @@
                             campo </CFormFeedback>
                     </CCol>
                     <CCol>
-                        <CFormLabel for="validationCustom04">Cargo beneficiaro</CFormLabel>
+                        <CFormLabel for="validationCustom04">Cargo Beneficiaro</CFormLabel>
                         <CFormInput id="validationCustom04" required v-model="postBeneficiarioGrupo.cargoBeneficiario">
                         </CFormInput>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <CCol>
-                        <CFormLabel for="validationCustom04"> Valor del pago</CFormLabel>
+                        <CFormLabel for="validationCustom04"> Valor del Pago</CFormLabel>
                         <CFormInput id="validationCustom04" required v-model="postBeneficiarioGrupo.monto"> </CFormInput>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
