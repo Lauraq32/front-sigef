@@ -14,6 +14,36 @@
             hover: true,
         }" :tableHeadProps="{}" :activePage="1" header :items="conciliacionPresupuestaria"
             :columns="tableConciliacionPresupuestaria" itemsPerPageSelect :itemsPerPage="10" pagination :footer="footerTableConciliacionPresupuestaria">
+            <template #presupuestoIngreso="{ item }">
+                <td>
+                    {{ formatPrice(item.presupuestoIngreso) }}
+                </td>
+            </template>
+            <template #presupuestoGasto="{ item }">
+                <td>
+                    {{ formatPrice(item.presupuestoGasto) }}
+                </td>
+            </template>
+            <template #diferenciaPresupuesto="{ item }">
+                <td>
+                    {{ formatPrice(item.diferenciaPresupuesto) }}
+                </td>
+            </template>
+            <template #ejecutadoIngreso="{ item }">
+                <td>
+                    {{ formatPrice(item.ejecutadoIngreso) }}
+                </td>
+            </template>
+            <template #ejecutadoGasto="{ item }">
+                <td>
+                    {{ formatPrice(item.ejecutadoGasto) }}
+                </td>
+            </template>
+            <template #diferenciaEjecutado="{ item }">
+                <td>
+                    {{ formatPrice(item.diferenciaEjecutado) }}
+                </td>
+            </template>
         </CSmartTable>
     </CContainer>
 </template>
@@ -48,7 +78,7 @@ export default {
                     label: 'Totales',
                     _props: {
                         color: '',
-                        colspan: 1,
+                        colspan: 3,
                         style: 'font-weight:bold;',
                     },
                 },
@@ -64,7 +94,7 @@ export default {
                     label: '',
                     _props: {
                         color: '',
-                        colspan: 1,
+                        colspan: 2,
                         style: 'font-weight:bold;',
                     },
                 },
@@ -80,42 +110,10 @@ export default {
                     label: '',
                     _props: {
                         color: '',
-                        colspan: 1,
+                        colspan: 2,
                         style: 'font-weight:bold;',
                     },
                 },
-                {
-                    label: '',
-                    _props: {
-                        color: '',
-                        colspan: 1,
-                        style: 'font-weight:bold;',
-                    },
-                },
-                {
-                    label: '',
-                    _props: {
-                        color: '',
-                        colspan: 1,
-                        style: 'font-weight:bold;',
-                    },
-                },
-                {
-                    label: '',
-                    _props: {
-                        color: '',
-                        colspan: 1,
-                        style: 'font-weight:bold;',
-                    },
-                },
-                {
-                    label: '',
-                    _props: {
-                        color: '',
-                        colspan: 1,
-                        style: 'font-weight:bold;',
-                    },
-                }
             ],
             tableConciliacionPresupuestaria: [
                 {
@@ -139,7 +137,7 @@ export default {
                     _style: { width: '12%' }
                 },
                 {
-                    key: 'presupestoGasto',
+                    key: 'presupuestoGasto',
                     label: 'Presupuesto Gastos',
                     _style: { width: '10%' }
                 },
@@ -169,13 +167,14 @@ export default {
     methods: {
         getConciliacionPresupuestaria(event) {
             EjecucionServices.getConciliacionPresupuestariaByMes(event?.target?.value || 0).then(({ data: { data } }) => {
-                this.conciliacionPresupuestaria = data.map(e => ({ ...e, diferenciaPresupuesto: (e.presupuestoIngreso - e.presupestoGasto).toFixed(2), diferenciaEjecutado: (e.ejecutadoIngreso - e.ejecutadoGasto).toFixed(2) }));
-                this.footerTableConciliacionPresupuestaria[3].label = formatPrice(this.conciliacionPresupuestaria.reduce((acc, {presupuestoIngreso}) => acc += presupuestoIngreso , 0));
-                this.footerTableConciliacionPresupuestaria[4].label = formatPrice(this.conciliacionPresupuestaria.reduce((acc, {presupestoGasto}) => acc += presupestoGasto , 0));
-                this.footerTableConciliacionPresupuestaria[6].label = formatPrice(this.conciliacionPresupuestaria.reduce((acc, {ejecutadoIngreso}) => acc += ejecutadoIngreso , 0));
-                this.footerTableConciliacionPresupuestaria[7].label = formatPrice(this.conciliacionPresupuestaria.reduce((acc, {ejecutadoGasto}) => acc += ejecutadoGasto , 0));
+                this.conciliacionPresupuestaria = data.map(e => ({ ...e, diferenciaPresupuesto: (e.presupuestoIngreso - e.presupuestoGasto).toFixed(2), diferenciaEjecutado: (e.ejecutadoIngreso - e.ejecutadoGasto).toFixed(2) }));
+                this.footerTableConciliacionPresupuestaria[1].label = formatPrice(this.conciliacionPresupuestaria.reduce((acc, {presupuestoIngreso}) => acc += presupuestoIngreso , 0));
+                this.footerTableConciliacionPresupuestaria[2].label = formatPrice(this.conciliacionPresupuestaria.reduce((acc, {presupuestoGasto}) => acc += presupuestoGasto , 0));
+                this.footerTableConciliacionPresupuestaria[3].label = formatPrice(this.conciliacionPresupuestaria.reduce((acc, {ejecutadoIngreso}) => acc += ejecutadoIngreso , 0));
+                this.footerTableConciliacionPresupuestaria[4].label = formatPrice(this.conciliacionPresupuestaria.reduce((acc, {ejecutadoGasto}) => acc += ejecutadoGasto , 0));
             })
-        }
+        },
+        formatPrice
     },
     mounted() {
         this.getConciliacionPresupuestaria();
