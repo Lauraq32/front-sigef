@@ -19,6 +19,7 @@
                     >No. de Recibo:</CFormLabel
                   >
                   <CFormInput
+                    :maxlength="talonario"
                     id="codigoIngresoTalonario"
                     v-model="ingresoPost.codigoIngresoTalonario"
                   >
@@ -319,7 +320,7 @@
         <template #show_details="{ item }">
           <td>
             <CButton @click="eliminarObjeto(item)">
-              <CIcon icon="cilTrash" size="xl" style="color: red"/>
+              <CIcon icon="cilTrash" size="xl" style="color: red" />
             </CButton>
           </td>
         </template>
@@ -382,6 +383,7 @@ export default {
       formatDate,
       ingresosList: [],
       cedulaMax: 11,
+      talonario: 10,
       validacionMonto: false,
       validarEnviarMonto: false,
       showContribuyentesModal: false,
