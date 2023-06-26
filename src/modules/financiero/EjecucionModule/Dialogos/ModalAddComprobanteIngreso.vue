@@ -126,7 +126,6 @@
                     class="form-control"
                     v-model="ingresoPost.contribuyente.telefono"
                     id="Teléfono"
-                    required
                     @keypress="onlyNumber"
                   />
                   <CFormFeedback invalid>
