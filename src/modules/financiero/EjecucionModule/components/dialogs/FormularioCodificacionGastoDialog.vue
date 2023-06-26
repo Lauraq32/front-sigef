@@ -35,7 +35,7 @@
 
                 <CCol :md="12">
                   <CFormLabel for="nombre" class="font-weight-bold">Monto Bruto</CFormLabel>
-                  <CFormInput v-model="detalleRegistroGasto.montoBruto" id="nombre" required />
+                  <CFormInput @change="setBaseImponible" v-model="detalleRegistroGasto.montoBruto" id="nombre" required />
                 </CCol>
                 <CCol :md="12">
                   <CFormLabel for="nombre" class="font-weight-bold">Fuente financiamiento: <span
@@ -59,10 +59,10 @@
                 <CCol :md="6">
                   <CCol :md="12">
                     <CFormLabel for="nombre">Tipo Retencion</CFormLabel>
-                    <CFormSelect required v-model="detalleRetencion.tipoRetencionId">
+                    <CFormSelect required v-model="detalleRetencion.tipoRetencionId" @change="setRetencion" >
                       <option :key="0">Selecionar Tipo Retencion</option>
-                      <option v-for="retencion in tipoRetencionesList" :value="`${retencion.id}`" :key="retencion.id">
-                        {{ retencion.tipo }}
+                      <option v-for="retencion in tipoRetencionesList" :value="JSON.stringify(retencion)" :key="retencion.id">
+                        {{ retencion.detalle }}
                       </option>
                     </CFormSelect>
                   </CCol>
@@ -145,11 +145,10 @@
               </CSmartTable>
             </CCol>
             <CCol :md="12">
-             <h1>Fondos del Gasto Cta./Banco en los calsificador seleccionado fue presupuestado</h1>
+              
             </CCol>
           </div>
         </div>
-
       </CCardBody>
     </CModalBody>
   </CModal>
@@ -210,7 +209,7 @@ export default {
         { key: 'tipoRetencionId', label: 'Tipo Retencion' },
         { key: 'montoAplica', label: '% o valor' },
         { key: 'montoAplicado', label: 'Del Valor' },
-        { key: 'montoAplicado', label: 'Valor Aplicado' },
+        { key: 'valorAplicado', label: 'Valor Aplicado' },
       ],
       clasificadoresTables: [
         { key: 'ctgClasificadorId', label: 'Clasificadores' },
@@ -227,11 +226,9 @@ export default {
   methods: {
     ...mapActions(useToastStore, ['show']),
     saveRetencion() {
-      this.isFormEventTypeValidated = false
-      if (this.$refs.eventTypeForm.$el.checkValidity()) {
+     
         this.guardarRetencion()
-      }
-      this.isFormEventTypeValidated = true
+
     },
     saveDetalle() {
       this.isFormEventTypeValidated = false
@@ -241,7 +238,9 @@ export default {
       this.isFormEventTypeValidated = true
     },
     guardarRetencion() {
-      this.detalleRetencion.valorAplicado = 
+      console.log(this.detalleRetencion)
+      this.detalleRetencion.tipoRetencionId = this.detalleRetencion.id 
+      this.detalleRetencion.valorAplicado =  this.detalleRetencion.montoAplica * 8
       this.detalleRegistroGasto.detalleRetencion = [this.detalleRetencion, ...this.detalleRegistroGasto.detalleRetencion]
     },
 
@@ -282,6 +281,19 @@ export default {
         console.log(response)
         this.tipoRetencionesList = response.data.data
       })
+    },
+
+    setRetencion(event){
+      let retencion = JSON.parse(event.target.value)
+      console.log(retencion)
+      if(retencion){
+        this.detalleRetencion.montoAplica = retencion.porciento
+      }else{
+        this.detalleRetencion.montoAplica = retencion.porciento
+      }
+    },
+    setBaseImponible(event){
+      this.detalleRetencion.baseImponible = event.target.value
     },
 
     selectMestProg(item) {
