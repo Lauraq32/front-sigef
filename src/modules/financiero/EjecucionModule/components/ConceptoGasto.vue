@@ -65,7 +65,6 @@ export default {
             ],
             columns: [
                 { key: 'descripcion', label: 'Descripción' },
-                { key: 'detalle', label: 'detalle' },
                 { key: 'show_details', label: 'Acciones', _style: { width: '10%' } }
             ],
             formatPrice
@@ -84,7 +83,7 @@ export default {
         },
 
         submitConceptoGasto(payload) {
-            if (payload.id) {
+            if (!payload.id) {
                 Api.postConceptoGasto(payload).then((response) => {
                     this.show({
                         content: response.data.message,

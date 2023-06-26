@@ -10,10 +10,6 @@
                         <CFormLabel for="fechaIngreso">Descripci&oacute;n</CFormLabel>
                         <CFormInput v-model="conceptoGasto.descripcion" id="Descripcion" required />
                     </CCol>
-                    <CCol :md="12">
-                        <CFormLabel for="fechaIngreso">Detalle</CFormLabel>
-                        <CFormInput v-model="conceptoGasto.detalle" id="Descripcion" required />
-                    </CCol>
                 </div>
             </CModalBody>
             <CModalFooter>
@@ -42,9 +38,7 @@ export default {
         return {
             isFormEventTypeValidated: false,
             conceptoGasto: {
-                id: null,
                 descripcion: null,
-                detalle: null
             }
         }
     },
@@ -59,9 +53,7 @@ export default {
 
         clearForm() {
             this.conceptoGasto = {
-                id: null,
                 descripcion: null,
-                detalle: null
             }
         },
 
