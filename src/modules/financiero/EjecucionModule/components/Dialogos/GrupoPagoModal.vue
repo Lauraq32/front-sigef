@@ -2,13 +2,13 @@
     <CModal size="sm" :visible="grupoModal" @close="closeModalGrupo" backdrop="static">
 
         <CModalHeader>
-            <CModalTitle>Grupos de pago</CModalTitle>
+            <CModalTitle>Grupos de Pago</CModalTitle>
         </CModalHeader>
         <CModalBody>
             <CCardBody>
                 <CForm class="needs-validation" novalidate :validated="grupoFormValidated" ref="formRef">
                     <CCol>
-                        <CFormLabel for="postGrupo.descripcion">Descripcion</CFormLabel>
+                        <CFormLabel for="postGrupo.descripcion">Descripci&oacute;n</CFormLabel>
                         <CFormInput id="postGrupo.descripcion" v-model="postGrupo.descripcion" required />
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
