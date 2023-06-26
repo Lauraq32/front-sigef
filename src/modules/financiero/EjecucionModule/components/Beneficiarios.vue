@@ -2,37 +2,17 @@
   <h3 class="text-center">Beneficiarios</h3>
   <div class="table-headers">
     <div class="p-2">
-      <CButton
-        style="font-weight: bold"
-        color="info"
-        @click="
-          () => {
-            lgDemo = true
-          }
-        "
-        >Agregar</CButton
-      >
+      <CButton style="font-weight: bold" color="info" @click="() => {
+          lgDemo = true
+        }
+        ">Agregar</CButton>
     </div>
   </div>
-  <CSmartTable
-    class="sticky-top"
-    clickableRows
-    :tableProps="{
-      striped: true,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    header
-    :items="Beneficiarios"
-    :columns="columns"
-    itemsPerPageSelect
-    columnFilter
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination
-  >
+  <CSmartTable class="sticky-top" clickableRows :tableProps="{
+    striped: true,
+    hover: true,
+  }" :tableHeadProps="{}" :activePage="1" header :items="Beneficiarios" :columns="columns" itemsPerPageSelect
+    columnFilter :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }" pagination>
     <template #ingreso="{ item }">
       <td>
         {{ formatDate(item.ingreso) }}
@@ -40,26 +20,12 @@
     </template>
     <template #show_details="{ item }">
       <td class="py-1">
-        <CButton
-          class="mt-1"
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item)"
-        >
+        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="toggleDetails(item)">
           {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
         </CButton>
       </td>
       <td class="py-1">
-        <CButton
-          class="mt-1"
-          color="danger"
-          variant="outline"
-          square
-          size="sm"
-          @click="deleteItem(item)"
-        >
+        <CButton class="mt-1" color="danger" variant="outline" square size="sm" @click="deleteItem(item)">
           {{ Boolean(item._toggled) ? 'Hide' : 'Eliminar' }}
         </CButton>
       </td>
@@ -77,68 +43,47 @@
       </CCollapse>
     </template>
   </CSmartTable>
-  <CModal
-    size="lg"
-    :visible="lgDemo"
-    @close="
-      () => {
-        lgDemo = false
-      }
-    "
-  >
+  <CModal size="lg" :visible="lgDemo" @close="() => {
+      lgDemo = false
+    }
+    ">
     <CModalHeader>
       <CModalTitle>Beneficiarios</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
+        <CForm class="row g-3 needs-validation" novalidate :validated="validatedCustom01" @submit="handleSubmitCustom01">
           <div class="row">
             <div class="col-6 mt-2">
               <CCol :md="7">
                 <CFormLabel for="validationCustom02">
-                  Tipo de Documento</CFormLabel
-                >
-                <CFormSelect
-                  v-model="postBeneficiario.tipoDcto"
-                  id="validationCustom05"
-                >
-                  <option>Cedula</option>
-                  <option>Pasaporte</option>
+                  Tipo de Documento</CFormLabel>
+                <CFormSelect v-model="postBeneficiario.tipoDcto" @change="changeDocument()" id="postBeneficiario.tipoDcto">
+                  <option value="cedula">Cedula</option>
+                  <option value="pasaporte">Pasaporte</option>
+                  <option value="rnc">RNC</option>
                 </CFormSelect>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
 
               <CCol :md="7">
                 <CFormLabel for="validationCustom04">Documento</CFormLabel>
-                <CFormInput
-                  v-model="postBeneficiario.rncCedPas"
-                  id="validationCustom04"
-                >
+                <CFormInput v-model="postBeneficiario.rncCedPas" id="cedula" minlength="9" required
+                  :maxlength="IdCodMaxLen" @keypress="checkDocument">
                 </CFormInput>
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="15">
                 <CFormLabel for="validationCustom04">Nombre</CFormLabel>
-                <CFormInput
-                  v-model="postBeneficiario.nombre"
-                  id="validationCustom04"
-                >
+                <CFormInput v-model="postBeneficiario.nombre" id="validationCustom04">
                 </CFormInput>
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="15">
                 <CFormLabel for="validationCustom04">Direccion</CFormLabel>
-                <CFormInput
-                  v-model="postBeneficiario.direccion"
-                  id="validationCustom04"
-                >
+                <CFormInput v-model="postBeneficiario.direccion" id="validationCustom04">
                 </CFormInput>
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -148,10 +93,7 @@
                 <div class="col-6">
                   <CCol :md="15">
                     <CFormLabel for="validationCustom04">Teléfono 1</CFormLabel>
-                    <CFormInput
-                      v-model="postBeneficiario.telefono"
-                      id="validationCustom04"
-                    >
+                    <CFormInput v-model="postBeneficiario.telefono" id="validationCustom04">
                     </CFormInput>
                     <CFormFeedback valid> Exito! </CFormFeedback>
                     <CFormFeedback invalid>
@@ -162,10 +104,7 @@
                 <div class="col-6">
                   <CCol :md="15">
                     <CFormLabel for="validationCustom04">Teléfono 1</CFormLabel>
-                    <CFormInput
-                      v-model="postBeneficiario.celular"
-                      id="validationCustom04"
-                    >
+                    <CFormInput v-model="postBeneficiario.celular" id="validationCustom04">
                     </CFormInput>
                     <CFormFeedback valid> Exito! </CFormFeedback>
                     <CFormFeedback invalid>
@@ -176,20 +115,14 @@
               </div>
               <CCol :md="6">
                 <CFormLabel for="validationCustom04">Contacto</CFormLabel>
-                <CFormInput
-                  v-model="postBeneficiario.contacto"
-                  id="validationCustom04"
-                >
+                <CFormInput v-model="postBeneficiario.contacto" id="validationCustom04">
                 </CFormInput>
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
               <CCol :md="15">
                 <CFormLabel for="validationCustom04">Email</CFormLabel>
-                <CFormInput
-                  v-model="postBeneficiario.email"
-                  id="validationCustom04"
-                >
+                <CFormInput v-model="postBeneficiario.email" id="validationCustom04">
                 </CFormInput>
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -198,27 +131,16 @@
 
             <div class="col-6 mt-2" style="position: relative; left: 57px">
               <CCol :md="7" class="mb-5">
-                <CFormLabel for="validationCustom04"
-                  >Fecha de ingreso</CFormLabel
-                >
-                <CFormInput
-                  v-model="postBeneficiario.ingreso"
-                  type="date"
-                  id="validationCustom04"
-                >
+                <CFormLabel for="validationCustom04">Fecha de ingreso</CFormLabel>
+                <CFormInput v-model="postBeneficiario.ingreso" type="date" id="validationCustom04">
                 </CFormInput>
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
 
               <CCol :md="7" class="mb-5">
-                <CFormLabel for="validationCustom04"
-                  >Tipo de Beneficiario</CFormLabel
-                >
-                <CFormSelect
-                  v-model="postBeneficiario.tipo"
-                  id="validationCustom05"
-                >
+                <CFormLabel for="validationCustom04">Tipo de Beneficiario</CFormLabel>
+                <CFormSelect v-model="postBeneficiario.tipo" id="validationCustom05">
                   <option>Ayudas</option>
                   <option>Empleado</option>
                   <option>Empresa</option>
@@ -233,10 +155,7 @@
 
               <CCol :md="7">
                 <CFormLabel for="validationCustom05">Estatus</CFormLabel>
-                <CFormSelect
-                  v-model="postBeneficiario.estatus"
-                  id="validationCustom05"
-                >
+                <CFormSelect v-model="postBeneficiario.estatus" id="validationCustom05">
                   <option>A</option>
                   <option>I</option>
                 </CFormSelect>
@@ -245,12 +164,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-              v-on:click="close"
-            >
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="close">
               Close
             </button>
             <button class="btn btn-info btn-block mt-1" v-on:click="submitForm">
@@ -269,7 +183,7 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { mapActions, mapState } from 'pinia'
 import { mapStores } from 'pinia'
-
+import { onlyNumber, onlyLetter } from '@/utils/validator'
 import { useToastStore } from '@/store/toast'
 import Api from '../services/EjecucionServices'
 
@@ -281,11 +195,13 @@ export default {
 
   data: function () {
     return {
+      onlyNumber,
+      onlyLetter,
       Beneficiarios: [],
       postBeneficiario: {
         id: 0,
         nombre: null,
-        tipoDcto: null,
+        tipoDcto: 'cedula',
         rncCedPas: null,
         ingreso: new Date(Date.now()),
         tipo: null,
@@ -302,27 +218,28 @@ export default {
       },
 
       columns: [
-        { key: 'id', label: 'Código', _style: { width: '10%' } },
+        { key: 'id', label: 'Código', _style: { width: '7%' } },
+        {
+          key: 'tipo',
+          label: 'Tipo de Beneficiario',
+          _style: { width: '12%' },
+        },
         {
           key: 'nombre',
           label: 'Beneficiario',
           _style: { width: '15%' },
         },
-        {
-          key: 'tipo',
-          label: 'Tipo de Beneficiario',
-          _style: { width: '10%' },
-        },
-        { key: 'direccion', label: 'Cédula', _style: { width: '15%' } },
-        { key: 'ingreso', label: 'Fecha Ingreso', _style: { width: '15%' } },
-        { key: 'tipoDcto', label: 'Tipo', _style: { width: '10%' } },
 
+        { key: 'rncCedPas', label: 'RNC/Cédula/Pasaporte', _style: { width: '12%' } },
+        { key: 'contacto', label: 'Contacto', _style: { width: '8%' } },
+        // { key: 'ingreso', label: 'Fecha Ingreso', _style: { width: '15%' } },
+        // { key: 'tipoDcto', label: 'Tipo', _style: { width: '10%' } },
         { key: 'email', label: 'Email', _style: { width: '20%' } },
-        { key: 'contacto', label: 'Contacto', _style: { width: '40%' } },
-        { key: 'telefono', label: 'Teléfono 1', _style: { width: '20%' } },
-        { key: 'celular', label: 'Teléfono 2', _style: { width: '20%' } },
 
-        { key: 'estatus', label: 'Estatus', _style: { width: '20%' } },
+        { key: 'telefono', label: 'Teléfono 1', _style: { width: '10%' } },
+        { key: 'celular', label: 'Teléfono 2', _style: { width: '10%' } },
+
+        { key: 'estatus', label: 'Estatus', _style: { width: '5%' } },
 
         {
           key: 'show_details',
@@ -356,6 +273,18 @@ export default {
     ...mapState(useRegistroStore, ['Beneficiarios']),
   },
   methods: {
+
+    checkDocument(e) {
+      if (this.postBeneficiario.tipoDcto === 'cedula') {
+        this.IdCodMaxLen = 11;
+        return onlyNumber(e);
+      }
+    },
+
+    changeDocument() {
+      this.IdCodMaxLen = this.postBeneficiario.tipoDcto === 'cedula' ? 11 : 15
+    },
+
     formatDate(ingreso) {
       return new Date(ingreso).toLocaleDateString('en-GB', {
         day: '2-digit',
@@ -482,26 +411,26 @@ export default {
         //const form = event.currentTarget
         this.lgDemo = true
         setTimeout(this.getBeneficiarios, 500)
-        ;(this.postBeneficiario = {
-          id: 0,
-          nombre: null,
-          tipoDcto: null,
-          rncCedPas: null,
-          ingreso: new Date(Date.now()),
-          tipo: null,
-          direccion: null,
-          ciudad: null,
-          contacto: null,
-          telefono: null,
-          celular: null,
-          email: null,
-          estatus: null,
-          mensual: 0,
-          recomienda: 0,
-          ayuntamientoId: this.$ayuntamientoId,
-          variacion: 0,
-        }),
-          (this.validatedCustom01 = false)
+          ; (this.postBeneficiario = {
+            id: 0,
+            nombre: null,
+            tipoDcto: null,
+            rncCedPas: null,
+            ingreso: new Date(Date.now()),
+            tipo: null,
+            direccion: null,
+            ciudad: null,
+            contacto: null,
+            telefono: null,
+            celular: null,
+            email: null,
+            estatus: null,
+            mensual: 0,
+            recomienda: 0,
+            ayuntamientoId: this.$ayuntamientoId,
+            variacion: 0,
+          }),
+            (this.validatedCustom01 = false)
         event.preventDefault()
         event.stopPropagation()
         setTimeout(this.getBeneficiarios, 500)
