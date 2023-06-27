@@ -15,6 +15,17 @@ export default {
         ),
     },
 
+    {
+      path: 'serviciosPersonales',
+      name: 'serviciosPersonales',
+      meta: { label: 'Detalle servicios Personales' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/Usuario/components/DetalleServiciosPersonales.vue'
+        ),
+    },
+
+
     //  {
     //     path: '',
     //     name: 'no-entry',
