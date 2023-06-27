@@ -79,6 +79,7 @@ export default {
             this.$emit('post-conceptoGasto', {
                 ...this.conceptoGasto
             })
+        this.closeModal()
         }
     },
 

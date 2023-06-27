@@ -1,10 +1,14 @@
 <template>
-    <h3 class="text-center mb-4">Conceptos de gastos</h3>
+    <h3 class="text-center mb-4">Conceptos de Gastos</h3>
 
-    <AppAccionHeader :actions="pageActions">
-        <CButton color="info" @click="openGastoModal">Agregar</CButton>
-        <CButton color="secondary" @click="goToGasto">Ir a Formulaci&oacute;n Gasto</CButton>
-    </AppAccionHeader>
+    <div class="table-headers">
+        <div class="d-inline p-2">
+            <CButton class="text-right" color="info" @click="openGastoModal">Agregar</CButton>
+        </div>
+
+    </div>
+
+
 
     <CSmartTable class="sticky-top" clickableRows :tableProps="{
         striped: true,
@@ -47,7 +51,7 @@ import router from '@/router'
 import { formatPrice } from '../../../../utils/format';
 import AppAccionHeader from "../../../../components/AppActionHeader.vue";
 import ConceptoGastoModal from "../Dialogs/ConceptoGastoModal.vue"
-
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 export default {
     components: {
@@ -64,6 +68,8 @@ export default {
             footerItem: [
             ],
             columns: [
+
+                { key: 'id', label: 'Id', _style: { width: '10%' } },
                 { key: 'descripcion', label: 'Descripción' },
                 { key: 'show_details', label: 'Acciones', _style: { width: '10%' } }
             ],
@@ -89,15 +95,19 @@ export default {
                         content: response.data.message,
                         closable: true,
                     })
+                    setTimeout(this.getConceptoGasto(), 200);
                 })
-            } else {
-                Api.putConceptoGasto(payload.id, payload).then(response => {
-                    this.show({
-                        content: response.data.message,
-                        closable: true,
-                    })
-                })
+                return;
             }
+            Api.putConceptoGasto(payload.id, payload).then(response => {
+                this.show({
+                    content: response.data.message,
+                    closable: true,
+                })
+                setTimeout(this.getConceptoGasto(), 200);
+            })
+
+
         },
 
         getConceptoGasto() {
@@ -109,7 +119,7 @@ export default {
 
         closeModal() {
             this.showConceptoGastoModal = false;
-            this.getConceptoGasto()
+            this.getConceptoGasto();
         },
 
         setConceptoGastoAndShowModal(item) {
@@ -117,13 +127,35 @@ export default {
             this.showConceptoGastoModal = true
         },
 
+
         deleteConceptoGasto(id) {
-            Api.deleteConceptoGasto(id).then(response => {
-                this.show({
-                    content: response.data.message,
-                    closable: true,
-                })
-                this.getConceptoGasto()
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: `Estás usted seguro que quieres eliminar el concepto?`,
+                showConfirmButton: true,
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No',
+                showCancelButton: true,
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+            }).then((answer) => {
+                if (answer.isConfirmed) {
+                    Api.deleteConceptoGasto(id).then(response => {
+                        this.show({
+                            content: response.data.message,
+                            closable: true,
+                        })
+                        this.getConceptoGasto()
+                    }).catch((error) => {
+                        this.show({
+                            content: error.response.data,
+                            closable: true,
+                            color: 'danger',
+                            class: 'text-white',
+                        })
+                    })
+                }
             })
         }
 
