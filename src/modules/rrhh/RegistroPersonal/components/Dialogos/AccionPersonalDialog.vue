@@ -31,19 +31,19 @@
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Programa:</div>
               <div class="col-8">
-                <h6>{{ empleado.programaDivision.nombre }}</h6>
+                <h6>{{ empleado.programaDivision?.nombre }}</h6>
               </div>
             </div>
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Departamento:</div>
               <div class="col-8">
-                <h6>{{ empleado.departamento.nombre }}</h6>
+                <h6>{{ empleado.departamento?.nombre }}</h6>
               </div>
             </div>
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Cargo:</div>
               <div class="col-8">
-                <h6>{{ empleado.posicion.nombre }}</h6>
+                <h6>{{ empleado.posicion?.nombre }}</h6>
               </div>
             </div>
           </div>
@@ -272,7 +272,7 @@ export default {
   },
 
   watch: {
-    empleado() {
+    empleado(newValue) {
       if (this.showModal) {
         Api.getAllTipoAcciones().then((response) => {
           this.tipoAcciones = response.data.data
@@ -280,7 +280,7 @@ export default {
 
         this.loadData()
         this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${
-          this.empleado.idImagenPerfil ?? -1
+          newValue.idImagenPerfil ?? -1
         }`;
       }
     },
