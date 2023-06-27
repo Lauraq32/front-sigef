@@ -137,6 +137,7 @@
   <reporteRegistroIngreso
     :showModalReporte="showModalReporte"
     @closeModalReporte="closeModalReporte"
+    @imprimir-report="imprimirReporte"
   />
 </template>
 
@@ -352,6 +353,40 @@ export default {
             },
           ],
         })
+      } catch (error) {
+        this.show({
+          content: error,
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        })
+      }
+    },
+
+    async imprimirReporte(payload) {
+      const reportParam = {
+        folderName: 'fep',
+        params: [],
+      }
+      try {
+        if (payload.selectedOption === 'option1') {
+          reportParam.reportName = 'Rep_Listado_Documento_Ingresos'
+          reportParam.params = [
+            {
+              name: 'FECHA_DESDE',
+              value: payload.fechaDesde,
+            },
+            {
+              name: 'FECHA_HASTA',
+              value: payload.fechaHasta,
+            },
+            {
+              name: 'ID_AYUNTAMIENTO',
+              value: 'majorityId',
+            },
+          ]
+          await showReport(reportParam)
+        }
       } catch (error) {
         this.show({
           content: error,

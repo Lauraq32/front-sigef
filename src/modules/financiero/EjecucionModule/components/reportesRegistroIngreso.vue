@@ -10,7 +10,7 @@
     <CModalBody>
       <div class="mb-3">
         <CFormLabel>Reporte por</CFormLabel>
-        <CFormSelect v-model="selectedOption">
+        <CFormSelect v-model="datosImprimir.selectedOption">
           <option value="option1">Rango de Fecha/Contribuyentes</option>
           <option value="option2">Clasificador/Rango de Fecha</option>
           <option value="option3">Un clasficador x fecha</option>
@@ -20,47 +20,25 @@
       </div>
 
       <div>
-        <div v-if="selectedOption == 'option1'">
+        <div v-if="datosImprimir.selectedOption == 'option1'">
           <div class="row">
             <div class="col-6">
               <CFormLabel>Fecha Inicial</CFormLabel>
               <div>
-                <CFormInput type="date" />
+                <CFormInput v-model="datosImprimir.fechaDesde" type="date" />
               </div>
             </div>
 
             <div class="col-6">
               <CFormLabel>Fecha Final</CFormLabel>
               <div>
-                <CFormInput type="date" />
+                <CFormInput v-model="datosImprimir.fechaHasta" type="date" />
               </div>
-            </div>
-          </div>
-
-          <div>
-            <CFormLabel for="displayNameContribuyentes"
-              >Contribuyente</CFormLabel
-            >
-            <div class="position-relative">
-              <CFormInput
-                v-model="contribuyente"
-                required
-                class="form-control padding-input"
-                id="displayNameContribuyentes"
-              >
-              </CFormInput>
-              <span class="position-absolute icon-input">
-                <CIcon
-                  icon="cisSearch"
-                  size="xl"
-                  v-on:click="() => (showContribuyentesModal = true)"
-                />
-              </span>
             </div>
           </div>
         </div>
 
-        <div v-if="selectedOption == 'option2'">
+        <div v-if="datosImprimir.selectedOption == 'option2'">
           <CFormLabel for="ctgClasificadorId">Clasificador</CFormLabel>
           <div>
             <div class="position-relative">
@@ -100,7 +78,7 @@
           </div>
         </div>
 
-        <div v-if="selectedOption == 'option3'">
+        <div v-if="datosImprimir.selectedOption == 'option3'">
           <CFormLabel for="ctgClasificadorId">Clasificador</CFormLabel>
           <div>
             <div class="position-relative">
@@ -129,7 +107,7 @@
           </div>
         </div>
 
-        <div v-if="selectedOption == 'option4'">
+        <div v-if="datosImprimir.selectedOption == 'option4'">
           <div class="row">
             <div class="col-6">
               <CFormLabel>Fecha Inicial</CFormLabel>
@@ -151,7 +129,7 @@
           </div>
         </div>
 
-        <div v-if="selectedOption == 'option5'">
+        <div v-if="datosImprimir.selectedOption == 'option5'">
           <div class="row">
             <div class="col-6">
               <CFormLabel>Fecha Inicial</CFormLabel>
@@ -172,10 +150,8 @@
     </CModalBody>
 
     <CModalFooter>
-      <CButton @click="() => closeModal()" class="btn btn-secondary">
-        Cancelar
-      </CButton>
-      <CButton @click="closeFiltro" color="info"> Filtrar </CButton>
+      <CButton class="btn btn-secondary"> Cancelar </CButton>
+      <CButton @click="imprimirReport" color="info"> imprimir </CButton>
     </CModalFooter>
   </CModal>
 
@@ -184,31 +160,30 @@
     :isVisible="showFindClasificadorModal"
     @close="selectClasificator"
   />
-  <contribuyentesDialog
-    :showModal="showContribuyentesModal"
-    @contribuyenteSeleccionado="setContribuyente"
-    @closeModal="closeModalContribuyentes"
-  />
 </template>
 
 <script>
 import ClasificadorSelectorDialog from '@/modules/financiero/FormulacionModule/components/ClasificadorSelectorDialog.vue'
-import contribuyentesDialog from '../Dialogos/ModalSelectContribuyentes.vue'
 
 export default {
   name: 'reportesRegistroIngreso',
   components: {
     ClasificadorSelectorDialog,
-    contribuyentesDialog,
   },
 
   data: () => {
     return {
-      selectedOption: 'option1',
+      datosImprimir: {
+        fechaDesde: null,
+        fechaHasta: null,
+        selectedOption: 'option1',
+        contribuyente: '',
+        clasificador: '',
+      },
+
       showFindClasificadorModal: false,
-      clasificador: '',
+
       showContribuyentesModal: false,
-      contribuyente: '',
     }
   },
 
@@ -221,6 +196,10 @@ export default {
     setContribuyente(payload) {
       this.showContribuyentesModal = false
       this.contribuyente = payload.nombre
+    },
+
+    imprimirReport() {
+      this.$emit('imprimir-report', this.datosImprimir)
     },
 
     clearModal() {
