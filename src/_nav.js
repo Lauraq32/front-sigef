@@ -816,6 +816,12 @@ export default [
         to: '/AdministrativoModule/manejoUsuarios',
         icon: 'cilPeoplePlus',
       },
+      {
+        component: 'CNavItem',
+        name: 'Misión y Visión',
+        to: '/AdministrativoModule/MisionVision',
+        icon: 'cilInfo',
+      },
     ],
   },
 ]
