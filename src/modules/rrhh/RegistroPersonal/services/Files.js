@@ -14,7 +14,7 @@ class Files {
 
       query = query ? `${query}&${tags.join('&')}` : `?${tags.join('&')}`
     }
-    return http.get(`files${query}`).then((response) => response.data.data)
+    return http.get(`files${query}`);
   }
 
   getFileById(id) {
