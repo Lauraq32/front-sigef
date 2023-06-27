@@ -15,7 +15,7 @@
 
             <div class="text-end mt-4">
                 <button class="btn btn-info me-2" @click="putMisionVision()">Guardar</button>
-                <button class="btn btn-secondary">Imprimir</button>
+                <button class="btn btn-secondary" @click="printReportMisionVision">Imprimir</button>
             </div>
 
         </div>
@@ -26,6 +26,7 @@
 import Api from '../services/AdministrativoServices'
 import { mapActions } from 'pinia'
 import { useToastStore } from '@/store/toast'
+import { showReport } from '@/utils/util'
 
 export default {
     name: 'misionVision',
@@ -61,11 +62,33 @@ export default {
                     life: 15000,
                 })
             })
-        }
-
-
+        },
+        async printReportMisionVision(item) {
+            try {
+                await showReport({
+                    folderName: 'fep',
+                    reportName: 'Rep_Recibo_Ingresos_A1',
+                    params: [
+                        {
+                            name: 'ID_TRANSACCION',
+                            value: item.id,
+                        },
+                        {
+                            name: 'CAPITULO_AYTO',
+                            value: 'majorityId',
+                        },
+                    ],
+                })
+            } catch (error) {
+                this.show({
+                    content: error,
+                    closable: true,
+                    color: 'danger',
+                    class: 'text-white',
+                })
+            }
+        },
     }
-
 }
 
 </script>
