@@ -104,6 +104,7 @@ import EventoInventarioDialog from './EventosInventarioDialog.vue'
 import MovimientoInventarioDetailView from './MovimientoInventarioDetailView.vue'
 import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
+import { showReport } from '@/utils/util'
 
 export default {
   name: 'UtilesLaborales',
@@ -210,7 +211,7 @@ export default {
       })
     },
 
-    handlerAccion(item, accion) {
+    async handlerAccion(item, accion) {
       switch (accion) {
         case "cancel":
           this.cancelUtilDelivery(item);
@@ -226,13 +227,28 @@ export default {
           break;
       
         default:
-        window
-          .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Nombre&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
-            '_blank',
-          )
-          .focus()
+          this.loadReport(item);
           break;
+      }
+    },
+
+    async loadReport(item) {
+      try {
+        await showReport({
+          folderName: 'rrhh',
+          reportName: 'utiles_empleado',
+          params: [{
+            name: "UtilLaboral",
+            value: item.id
+          }]
+        });
+      } catch (error) {
+        this.show({
+          content: error,
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        })
       }
     },
     

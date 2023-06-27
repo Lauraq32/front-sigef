@@ -77,6 +77,7 @@ import { formatPrice } from '../../../../utils/format'
 import { useToastStore } from '@/store/toast'
 import FormulacionGastoDialog from "../gasto/FormulacionGastoDialog";
 import AppAccionHeader from "../../../../components/AppActionHeader.vue";
+import { showReport } from '@/utils/util'
 
 export default {
   components: {
@@ -377,12 +378,27 @@ export default {
       }
       return this.addGasto(data)
     },
-    IngresoReport() {
-      console.log(this.$loggedInfo);
-      window.open(
-        `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?/FormulacionEjecucionP/Rep_Formulacion_Gastos_FP08&rs:Command=Render&CAPITULO_AYTO=${this.$loggedInfo.user.ayuntamiento.id}&ANO=${this.$loggedInfo.currentFiscalYearId}`,
-        '_blank',
-      )
+    async IngresoReport() {
+      try {
+        await showReport({
+          folderName: 'fep',
+          reportName: 'Rep_Formulacion_Gastos_FP08',
+          params: [{
+            name: "CAPITULO_AYTO",
+            value: "majorityId"
+          },{
+            name: "ANO",
+            value: "fiscalYear"
+          }]
+        });
+      } catch (error) {
+        this.show({
+          content: error,
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        })
+      }
     },
 
     cargarEstructuras() {

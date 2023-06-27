@@ -113,6 +113,7 @@ import router from '@/router'
 import { formatPrice } from '../../../../utils/format';
 import FormulacionIngresoDialog from "../gasto/FormulacionIngresoDialog.vue";
 import AppAccionHeader from "../../../../components/AppActionHeader.vue";
+import { showReport } from '@/utils/util'
 
 export default {
   components: {
@@ -405,13 +406,27 @@ export default {
       this.postIngreso.ctaControl = item.control;
     },
 
-    IngresoReport() {
-      window
-        .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?/FormulacionEjecucionP/Rep_Formulacion_Ingresos&rs:Command=Render&CAPITULO_AYTO=${this.authInfo.user.ayuntamiento.id}&ANO=${this.authInfo.currentFiscalYearId}`,
-          '_blank',
-        )
-        .focus()
+    async IngresoReport() {
+      try {
+        await showReport({
+          folderName: 'fep',
+          reportName: 'Rep_Formulacion_Ingresos',
+          params: [{
+            name: "CAPITULO_AYTO",
+            value: "majorityId"
+          },{
+            name: "ANO",
+            value: "fiscalYear"
+          }]
+        });
+      } catch (error) {
+        this.show({
+          content: error,
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        })
+      }
     },
     deleteItem(item) {
       this.$swal({
