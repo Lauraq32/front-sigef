@@ -150,7 +150,7 @@
     </CModalBody>
 
     <CModalFooter>
-      <CButton class="btn btn-secondary"> Cancelar </CButton>
+      <CButton class="btn btn-secondary" @click="closeModal"> Cancelar </CButton>
       <CButton @click="imprimirReport" color="info"> imprimir </CButton>
     </CModalFooter>
   </CModal>
