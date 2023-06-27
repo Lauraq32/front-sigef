@@ -21,7 +21,6 @@
     </CButton>
 
     <CButton
-      style="font-weight: bold"
       color="info"
       @click="
         () => {
@@ -33,7 +32,6 @@
     </CButton>
 
     <CButton
-      style="font-weight: bold"
       color="info"
       @click="
         () => {
@@ -43,10 +41,7 @@
       >Agregar</CButton
     >
     <div class="p-2">
-      <CButton
-        style="font-weight: bold"
-        color="info"
-        @click="goToComprobanteGasto"
+      <CButton color="secondary" @click="goToComprobanteGasto"
         >Comprobante Gasto</CButton
       >
     </div>
@@ -224,7 +219,7 @@ export default {
         {
           label: 'Total items',
           _props: {
-            colspan: 6,
+            colspan: 8,
             style: 'font-weight:bold;',
           },
         },

@@ -8,7 +8,7 @@
       <CModalTitle>Generar Reporte</CModalTitle>
     </CModalHeader>
     <CModalBody>
-      <div>
+      <div class="mb-3">
         <CFormLabel>Reporte por</CFormLabel>
         <CFormSelect v-model="selectedOption">
           <option value="option1">Rango de Fecha/Contribuyentes</option>
@@ -36,9 +36,27 @@
               </div>
             </div>
           </div>
+
           <div>
-            <CFormLabel>Contribuyente</CFormLabel>
-            <CFormInput type="date" />
+            <CFormLabel for="displayNameContribuyentes"
+              >Contribuyente</CFormLabel
+            >
+            <div class="position-relative">
+              <CFormInput
+                v-model="contribuyente"
+                required
+                class="form-control padding-input"
+                id="displayNameContribuyentes"
+              >
+              </CFormInput>
+              <span class="position-absolute icon-input">
+                <CIcon
+                  icon="cisSearch"
+                  size="xl"
+                  v-on:click="() => (showContribuyentesModal = true)"
+                />
+              </span>
+            </div>
           </div>
         </div>
 
@@ -129,7 +147,7 @@
           </div>
           <div>
             <CFormLabel>Desc.Impuestos</CFormLabel>
-            <CFormInput type="date" />
+            <CFormInput />
           </div>
         </div>
 
@@ -170,22 +188,31 @@
     :isVisible="showFindClasificadorModal"
     @close="selectClasificator"
   />
+  <contribuyentesDialog
+    :showModal="showContribuyentesModal"
+    @contribuyenteSeleccionado="setContribuyente"
+    @closeModal="closeModalContribuyentes"
+  />
 </template>
 
 <script>
 import ClasificadorSelectorDialog from '@/modules/financiero/FormulacionModule/components/ClasificadorSelectorDialog.vue'
+import contribuyentesDialog from '../Dialogos/ModalSelectContribuyentes.vue'
 
 export default {
   name: 'reportesRegistroIngreso',
   components: {
     ClasificadorSelectorDialog,
+    contribuyentesDialog,
   },
 
   data: () => {
     return {
-      selectedOption: '',
+      selectedOption: 'option1',
       showFindClasificadorModal: false,
       clasificador: '',
+      showContribuyentesModal: false,
+      contribuyente: '',
     }
   },
 
@@ -195,9 +222,19 @@ export default {
       this.clearModal()
     },
 
+    setContribuyente(payload) {
+      this.showContribuyentesModal = false
+      this.contribuyente = payload.nombre
+    },
+
     clearModal() {
       this.selectedOption = ''
       this.clasificador = ''
+      this.contribuyente = ''
+    },
+
+    closeModalContribuyentes() {
+      this.showContribuyentesModal = false
     },
 
     selectClasificator(infoClasificador) {
