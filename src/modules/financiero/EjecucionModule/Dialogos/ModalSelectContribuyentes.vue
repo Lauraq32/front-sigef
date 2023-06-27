@@ -50,7 +50,7 @@ export default {
     CModal,
     CIcon,
   },
-  emits: ['closeModal', 'select-contribuyentes'],
+  emits: ['closeModal', 'contribuyenteSeleccionado'],
   data: function () {
     return {
       contribuyentesList: [],

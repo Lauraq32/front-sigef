@@ -4,7 +4,6 @@
   <AppActionHeader>
     <CButton
       v-if="!paramsFiltro"
-      style="font-weight: bold"
       @click="
         () => {
           showFiltro = true
@@ -65,7 +64,7 @@
     :itemsPerPage="5"
     columnSorter
     no-items-label="No hay registros"
-    :sorterValue="{ column: 'status', state: 'asc' }"
+    :sorterValue="{ column: 'etapa', state: 'asc' }"
     pagination
   >
     <template #fecha="{ item }">
@@ -133,8 +132,8 @@
     @closeModal="closeContenedorModal"
   />
 
-  <filtroRegistroIngreso :showFiltro="showFiltro" @close="closeFiltro" />
-  <reporteRegistroIngreso
+  <FiltroRegistroIngreso :showFiltro="showFiltro" @close="closeFiltro" />
+  <ReporteRegistroIngreso
     :showModalReporte="showModalReporte"
     @closeModalReporte="closeModalReporte"
     @imprimir-report="imprimirReporte"
@@ -155,8 +154,8 @@ import ModalAddComprobanteIngreso from '../Dialogos/ModalAddComprobanteIngreso.v
 import { formatDate, formatPrice } from '@/utils/format'
 import ContenedorArchivos from '@/components/ContenedorArchivosModel.vue'
 import { filter } from '@/utils/validator'
-import filtroRegistroIngreso from './filtroRegistroIngreso.vue'
-import reporteRegistroIngreso from './reportesRegistroIngreso.vue'
+import FiltroRegistroIngreso from './filtroRegistroIngreso.vue'
+import ReporteRegistroIngreso from './reportesRegistroIngreso.vue'
 import { showReport } from '@/utils/util'
 
 export default {
@@ -167,8 +166,8 @@ export default {
     AppActionHeader,
     ModalAddComprobanteIngreso,
     ContenedorArchivos,
-    filtroRegistroIngreso,
-    reporteRegistroIngreso,
+    FiltroRegistroIngreso,
+    ReporteRegistroIngreso,
   },
 
   data: function () {
@@ -197,7 +196,7 @@ export default {
         { key: 'etapa', label: 'Etapa', _style: { width: '10%' } },
         {
           key: 'codigoIngresoTalonario',
-          label: 'Recibo',
+          label: 'No. Recibo',
           _style: { width: '10%' },
         },
         {
