@@ -188,6 +188,18 @@ class Ejecucion {
   deleteRegistroIngreso(id) {
     return http.delete(`registros-ingreso/${id}`)
   }
+  //Servicios de Grupo Pago
+  getGrupoPagoList(){
+    return http.get('grupos-compensacion')
+  }
+
+  putGrupoPago(id,data){
+    return http.put(`grupos-compensacion/${id}`,data)
+  }
+
+  postGrupoPago(data){
+    return http.post('grupos-compensacion',data)
+  }
 }
 
 export default new Ejecucion()
