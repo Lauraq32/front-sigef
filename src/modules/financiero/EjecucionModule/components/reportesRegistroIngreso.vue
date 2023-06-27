@@ -61,7 +61,7 @@
         </div>
 
         <div v-if="selectedOption == 'option2'">
-          <CFormLabel for="ctgClasificadorId">Clasificador:</CFormLabel>
+          <CFormLabel for="ctgClasificadorId">Clasificador</CFormLabel>
           <div>
             <div class="position-relative">
               <input
@@ -101,7 +101,7 @@
         </div>
 
         <div v-if="selectedOption == 'option3'">
-          <CFormLabel for="ctgClasificadorId">Clasificador:</CFormLabel>
+          <CFormLabel for="ctgClasificadorId">Clasificador</CFormLabel>
           <div>
             <div class="position-relative">
               <input
@@ -124,7 +124,7 @@
             </div>
           </div>
           <div>
-            <CFormLabel>fecha</CFormLabel>
+            <CFormLabel>Fecha</CFormLabel>
             <CFormInput type="date" />
           </div>
         </div>
@@ -152,10 +152,6 @@
         </div>
 
         <div v-if="selectedOption == 'option5'">
-          <div>
-            <CFormLabel>Resumen x clasificador</CFormLabel>
-            <CFormInput />
-          </div>
           <div class="row">
             <div class="col-6">
               <CFormLabel>Fecha Inicial</CFormLabel>
