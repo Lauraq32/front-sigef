@@ -6,18 +6,26 @@
             </CModalTitle>
         </CModalHeader>
         <CModalBody>
-            <CSmartTable class="sticky-top" clickableRows :tableProps="{
+
+            <CSmartTable clickableRows :tableProps="{
                 striped: true,
                 hover: true,
-            }" :tableHeadProps="{}" :activePage="1" header :items="[]" :columns="columns" columnFilter itemsPerPageSelect
-                :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }" pagination>
+            }" :tableHeadProps="{}" :activePage="1" header :items="mestProgList" :columns="columns" columnFilter
+                itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
+                pagination>
                 <template #status="{ item }">
                     <td>
                         <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
                     </td>
                 </template>
                 <template #show_details="{ item, index }">
-
+                    <td class="py-2">
+                        <div class="d-flex justify-content-around">
+                            <CButton class="mt-1" color="primary" variant="outline" square size="sm"
+                                @click="closeDialog(item)">
+                                Seleccionar</CButton>
+                        </div>
+                    </td>
                 </template>
             </CSmartTable>
         </CModalBody>
@@ -26,6 +34,7 @@
 
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
+import Api from '../../services/FormulacionServices'
 export default {
     components: {
         CSmartTable,
@@ -35,14 +44,13 @@ export default {
     },
     data: () => {
         return {
+            mestProgList: [],
             columns: [
-                { key: 'nombre', label: 'Grupos ocupacionales' },
-                { key: 'nombre', label: 'Numero de Cargos' },
-                { key: 'nombre', label: 'Mensual' },
-                { key: 'nombre', label: 'Anual' },
-                { key: 'nombre', label: 'Numero de Cargos' },
-                { key: 'nombre', label: 'Mensual' },
-                { key: 'nombre', label: 'Anual' },
+                { key: 'numero', label: 'Numero Estructura' },
+                { key: 'nombre', label: 'Nombre' },
+                { key: 'pnap', label: 'Pnap' },
+                { key: 'programa', label: 'Programa' },
+                { key: 'proyecto', label: 'Proyecto' },
                 {
                     key: 'show_details',
                     label: '',
@@ -58,10 +66,15 @@ export default {
     methods: {
         closeDialog(data) {
             this.$emit('close', data);
+        },
+        getMestProg() {
+            Api.getMestProg().then((response) => {
+                this.mestProgList = response.data.data
+            })
         }
     },
     mounted() {
-
+        this.getMestProg()
     },
 
 }

@@ -3,25 +3,16 @@ export default {
   redirect: '/AdministrativoModule/manejoUsuarios',
   meta: { label: 'Administrativo' },
   component: () =>
-    import('@/modules/administrativo/Usuario/layout/TemplateLayout.vue'),
+    import('@/modules/administrativo/layout/TemplateLayout.vue'),
   children: [
-    {
-      path: 'manejoUsuarios',
-      name: 'ManejoUsuarios',
-      meta: { label: 'Manejo de Usuarios' },
-      component: () =>
-        import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/Usuario/components/manejoUsuarios.vue'
-        ),
-    },
-
+  
     {
       path: 'serviciosPersonales',
       name: 'serviciosPersonales',
       meta: { label: 'Detalle servicios Personales' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/Usuario/components/DetalleServiciosPersonales.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/components/DetalleServiciosPersonales.vue'
         ),
     },
 
