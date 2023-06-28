@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import http from '@/Api/http-common'
 import { getAyuntamientoId, getFiscalYearId } from '@/utils/logged-info'
+import { filter } from '@/utils/validator'
 class Ejecucion {
   //-----------------------------CLASIFICADORES---------------------------------------//
   //get
@@ -27,11 +28,11 @@ class Ejecucion {
   }
 
   getContribuyente() {
-    return http.get(`Contribuyente/?ayuntamientoId=${getAyuntamientoId()}`)
+    return http.get('contribuyentes')
   }
 
   getContribuyenteById(id) {
-    return http.get(`Contribuyente/${id}`)
+    return http.get(`contribuyentes/${id}`)
   }
 
   getSectorbyid(id) {
@@ -42,16 +43,8 @@ class Ejecucion {
     return http.get(`RegistroGasto/${id}`)
   }
 
-  getIngresoAll() {
-    return http.get(
-      `RegistroIngreso?anio=${getFiscalYearId()}&ayuntamientoId=${getAyuntamientoId()}`,
-    )
-  }
-
-  getIngresoById(id, anioFiscalId, ayuntamientoId) {
-    return http.get(
-      `/RegistroIngreso/${id}?anio=${anioFiscalId}&ayuntamientoId=${ayuntamientoId}`,
-    )
+  getIngresoById(id) {
+    return http.get(`/registros-ingreso/${id}`)
   }
 
   getIngresoByIdAndDetalle(id) {
@@ -72,8 +65,8 @@ class Ejecucion {
     )
   }
 
-  getRegistroIngreso() {
-    return http.get('RegistroIngreso/Detalle/Clasificador/')
+  getRegistroIngreso(params) {
+    return http.get(`registros-ingreso${filter(params)}`)
   }
 
   getRegistroIngresoDetalle(id) {
@@ -89,14 +82,10 @@ class Ejecucion {
   }
 
   downloadGastoModificacion(value) {
-    return http.get(
-      `export-file/ingresos-modificacion?mes=${value}`,
-    )
+    return http.get(`export-file/ingresos-modificacion?mes=${value}`)
   }
   downloadGastoEjecucion(value) {
-    return http.get(
-      `export-file/ingresos-ejecucion?mes=${value}`,
-    )
+    return http.get(`export-file/ingresos-ejecucion?mes=${value}`)
   }
   //Get tipo retenciones
   getTipoRetencion(id) {
@@ -124,7 +113,7 @@ class Ejecucion {
   }
 
   postIngresos(data) {
-    return http.post('RegistroIngreso', data)
+    return http.post('registros-ingreso', data)
   }
 
   postIngresoDetalle(data) {
@@ -211,6 +200,21 @@ class Ejecucion {
   }
   deleteConceptoGasto(id){
     return http.delete(`conceptos-gasto/${id}`)
+  }
+  deleteRegistroIngreso(id) {
+    return http.delete(`registros-ingreso/${id}`)
+  }
+  //Servicios de Grupo Pago
+  getGrupoPagoList(){
+    return http.get('grupos-compensacion')
+  }
+
+  putGrupoPago(id,data){
+    return http.put(`grupos-compensacion/${id}`,data)
+  }
+
+  postGrupoPago(data){
+    return http.post('grupos-compensacion',data)
   }
 }
 

@@ -6,7 +6,7 @@ export const useToastStore = defineStore('ToastStore', () => {
     const messages = computed(() => state.value);
     const show = (message) => {
         message.id = state.value.length + 1;
-        state.value.push(message);
+        state.value = [message, ...state.value];
     };
     const removeMessage = (id) => {
         state.value = state.value.filter(message => message.id !== id);

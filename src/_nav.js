@@ -797,7 +797,7 @@ export default [
           {
             component: 'CNavItem',
             name: 'Inventario de útiles',
-            to: '/RRHHModule/inventario',
+            to: '/RRHHModule/utiles-laborales',
             icon: 'cilDollar',
           },
         ],
