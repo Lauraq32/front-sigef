@@ -1,0 +1,144 @@
+<template>
+  <div>
+    <h4 class="text-center">{{ this.ayuntamiento.descripcion }}</h4>
+    <div class="text-center">
+      <span><h6>RNC: 40230212660</h6></span>
+      <span
+        ><h6>Codigo: {{ ayuntamiento.codigo }}</h6></span
+      >
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <CForm class="w-50 mx-auto">
+      <div class="d-flex justify-content-center">
+        <div
+          class="position-relative flex justify-content-center border border-2 border-dark"
+          style="height: 200px"
+        >
+          <label
+            class="position-absolute top-50 start-50 translate-middle fs-5 upload-label"
+            style="font-weight: bolder"
+            for=""
+            >Click aqu&iacute; para agregar imagen</label
+          >
+          <img
+            width="200"
+            height="200"
+            :src="ayuntamiento.imagenUrl"
+            alt="Logo del ayuntamiento"
+            style="opacity: 0.5"
+          />
+          <input
+            accept="image/png, image/jpeg"
+            type="file"
+            @change="saveFile"
+            class="position-absolute top-50 start-50 translate-middle input-wrapper w-100 h-100 opacity-0"
+          />
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-6">
+          <CFormLabel>Lema</CFormLabel>
+          <CFormInput v-model="ayuntamiento.lema" />
+        </div>
+
+        <div class="col-6">
+          <CFormLabel>Siglas</CFormLabel>
+          <CFormInput v-model="ayuntamiento.siglas" />
+        </div>
+      </div>
+
+      <div>
+        <div class="row">
+          <div class="col-6">
+            <CFormLabel>Telefono</CFormLabel>
+            <CFormInput v-model="ayuntamiento.telefomo" />
+          </div>
+
+          <div class="col-6">
+            <CFormLabel>Fax</CFormLabel>
+            <CFormInput v-model="ayuntamiento.fax" />
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <CFormLabel>Direccion</CFormLabel>
+        <CFormTextarea v-model="ayuntamiento.direccion" />
+      </div>
+
+      <div>
+        <CFormLabel>Region</CFormLabel>
+        <CFormInput />
+      </div>
+
+      <div>
+        <CFormLabel>Provincia</CFormLabel>
+        <CFormInput />
+      </div>
+
+      <div>
+        <CFormLabel>Municipio</CFormLabel>
+        <CFormInput />
+      </div>
+
+      <div>
+        <CFormLabel>Distrito</CFormLabel>
+        <CFormInput />
+      </div>
+
+      <div class="d-flex justify-content-end mt-3">
+        <CButton class="btn btn-info btn-block mt-1"> Guardar </CButton>
+      </div>
+    </CForm>
+  </div>
+</template>
+
+<script>
+import Api from '../services/AdministrativoServices'
+import { getAyuntamientoId } from '@/utils/logged-info'
+import { CFormTextarea } from '@coreui/vue'
+
+export default {
+  name: 'ayuntamiento',
+  components: { CFormTextarea },
+  data: () => {
+    return {
+      imageUrl: null,
+      ayuntamiento: {
+        codigo: 'string',
+        descripcion: 'string',
+        imagenUrl: 'string',
+        lema: 'string',
+        telefomo: 'string',
+        direccion: 'string',
+        fax: 'string',
+        estatus: true,
+        siglas: 'string',
+      },
+    }
+  },
+  methods: {
+    getAyuntamiento() {
+      Api.getAyuntamiento(getAyuntamientoId()).then((response) => {
+        this.ayuntamiento = response.data.data
+      })
+    },
+
+    saveFile(event) {
+      const file = event.target.files[0]
+      if (file) {
+        const reader = new FileReader()
+        reader.onload = (evt) => {
+          this.ayuntamiento.imagenUrl = evt.target.result
+        }
+        reader.readAsDataURL(file)
+      }
+    },
+  },
+  mounted() {
+    this.getAyuntamiento()
+  },
+}
+</script>

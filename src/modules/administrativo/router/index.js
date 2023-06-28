@@ -3,7 +3,7 @@ export default {
   redirect: '/AdministrativoModule/manejoUsuarios',
   meta: { label: 'Administrativo' },
   component: () =>
-    import('@/modules/administrativo/Usuario/layout/TemplateLayout.vue'),
+    import('@/modules/administrativo/layout/TemplateLayout.vue'),
   children: [
     {
       path: 'manejoUsuarios',
@@ -11,7 +11,7 @@ export default {
       meta: { label: 'Manejo de Usuarios' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/Usuario/components/manejoUsuarios.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/components/manejoUsuarios.vue'
         ),
     },
 
@@ -21,9 +21,20 @@ export default {
       meta: { label: 'Detalle servicios Personales' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/Usuario/components/DetalleServiciosPersonales.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/components/DetalleServiciosPersonales.vue'
         ),
     },
+
+    {
+      path: 'ayuntamiento',
+      name: 'ayuntamiento',
+      meta: { label: 'Ayuntamiento' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/pages/ayuntamiento.vue'
+        ),
+    },
+
 
 
     //  {
