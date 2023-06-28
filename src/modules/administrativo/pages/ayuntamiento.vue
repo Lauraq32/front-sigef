@@ -89,7 +89,12 @@
       </div>
 
       <div class="d-flex justify-content-end mt-3">
-        <CButton class="btn btn-info btn-block mt-1"> Guardar </CButton>
+        <CButton
+          class="btn btn-info btn-block mt-1"
+          @Click="editarAyuntamiento"
+        >
+          Guardar
+        </CButton>
       </div>
     </CForm>
   </div>
@@ -99,6 +104,8 @@
 import Api from '../services/AdministrativoServices'
 import { getAyuntamientoId } from '@/utils/logged-info'
 import { CFormTextarea } from '@coreui/vue'
+import { useToastStore } from '@/store/toast'
+import { mapActions } from 'pinia'
 
 export default {
   name: 'ayuntamiento',
@@ -120,10 +127,30 @@ export default {
     }
   },
   methods: {
+    ...mapActions(useToastStore, ['show']),
+
     getAyuntamiento() {
       Api.getAyuntamiento(getAyuntamientoId()).then((response) => {
         this.ayuntamiento = response.data.data
       })
+    },
+
+    editarAyuntamiento() {
+      Api.putAyuntamiento(getAyuntamientoId(), this.ayuntamiento)
+        .then(() => {
+          this.show({
+            content: 'Ayuntamiento actualizado correctamente',
+            closable: true,
+            time: 7_000,
+          })
+        })
+        .catch(() => {
+          this.show({
+            content: 'Hubo un error al actualizar el Ayuntamiento',
+            closable: true,
+            time: 7_000,
+          })
+        })
     },
 
     saveFile(event) {
