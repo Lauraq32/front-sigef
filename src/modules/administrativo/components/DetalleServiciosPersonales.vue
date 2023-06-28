@@ -12,7 +12,7 @@
                     <CFormInput v-model="servicioPersonales.programa" size="sm" id="validationCustom02" required />
                 </div>
                 <div class="col-6">
-                    <h6>Normas, Politicas y Administracion Municipal</h6>
+                    <h6>{{ nombreEstructura }}</h6>
                 </div>
             </div>
             <div class="row border-bottom">
@@ -20,11 +20,11 @@
                     <h6>Sub-programa:</h6>
                 </div>
                 <div class="col-2">
-                    <label class="text-right" for="">00</label>
+                    <label class="text-right" for="">{{ subPrograma }}</label>
                     <!-- <CFormInput size="sm" id="validationCustom02" required /> -->
                 </div>
                 <div class="col-6">
-                    <h6>Normas, Politicas y Administracion Municipal</h6>
+                    <h6>{{ nombreEstructura }}</h6>
                 </div>
             </div>
             <div class="row border-bottom">
@@ -32,11 +32,11 @@
                     <h6>Proyecto:</h6>
                 </div>
                 <div class="col-2">
-                    <label class="text-right" for="">00</label>
+                    <label class="text-right" for="">{{ proyecto }}</label>
 
                 </div>
                 <div class="col-6">
-                    <h6>Normas, Politicas y Administracion Municipal</h6>
+                    <h6>{{ nombreEstructura }}</h6>
                 </div>
             </div>
             <div class="row border-bottom">
@@ -44,11 +44,11 @@
                     <h6>Actividad/obra:</h6>
                 </div>
                 <div class="col-2">
-                    <label class="text-right" for="">00</label>
+                    <label class="text-right" for="">{{ actividadObra }}</label>
                     <!-- <CFormInput size="sm" id="validationCustom02" required /> -->
                 </div>
                 <div class="col-6">
-                    <h6>Normas, Politicas y Administracion Municipal</h6>
+                    <h6>{{ nombreEstructura }}</h6>
                 </div>
             </div>
             <div class="row border-bottom">
@@ -56,11 +56,11 @@
                     <h6>Funcion:</h6>
                 </div>
                 <div class="col-2">
-                    <label class="text-right" for="">{{servicioPersonales.funcion}}</label>
+                    <label class="text-right" for="">{{ servicioPersonales.funcion }}</label>
                     <!-- <CFormInput size="sm" id="validationCustom02" required /> -->
                 </div>
                 <div class="col-6">
-                    <h6>Normas, Politicas y Administracion Municipal</h6>
+                    <h6>{{ nombreEstructura }}</h6>
                 </div>
             </div>
             <div class="row border-bottom">
@@ -68,11 +68,11 @@
                     <h6>Clasificador del Gasto:</h6>
                 </div>
                 <div class="col-2">
-                    <label class="text-right" for="">00</label>
+                    <label class="text-right" for="">{{ clasificadorGasto }}</label>
                     <!-- <CFormInput size="sm" id="validationCustom02" required /> -->
                 </div>
                 <div class="col-6">
-                    <h6>Normas, Politicas y Administracion Municipal</h6>
+                    <h6>{{ nombreEstructura }}</h6>
                 </div>
             </div>
             <div class="row border-bottom">
@@ -80,11 +80,11 @@
                     <h6>Unidad Responsable:</h6>
                 </div>
                 <div class="col-2">
-                    <label class="text-right" for="">{{servicioPersonales.unidadResponsable}}</label>
+                    <label class="text-right" for="">{{ servicioPersonales.unidadResponsable }}</label>
                     <!-- <CFormInput size="sm" id="validationCustom02" required /> -->
                 </div>
                 <div class="col-6">
-                    <h6>Normas, Politicas y Administracion Municipal</h6>
+                    <h6>{{ nombreEstructura }}</h6>
                 </div>
             </div>
 
@@ -101,8 +101,8 @@
         <CSmartTable class="sticky-top" clickableRows :tableProps="{
             striped: true,
             hover: true,
-        }" :tableHeadProps="{}" :activePage="1" header :items="[]" :columns="columns" columnFilter itemsPerPageSelect
-            :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }" pagination>
+        }" :tableHeadProps="{}" :activePage="1" header :items="serviciosItems" :columns="columns" columnFilter
+            itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }" pagination>
             <template #status="{ item }">
                 <td>
                     <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
@@ -115,7 +115,8 @@
     </div>
 
     <SelectMestProgDialog :showModal="MestProgDialog" @close="closeMestProgDialog" />
-    <DetalleServiciosPersonales :showModal="DetalleServiciosPersonalesDialog" />
+    <DetalleServiciosPersonales :showModal="DetalleServiciosPersonalesDialog" @saveDetalle="saveDetalle"
+        @close="closeDetalleMestProg" />
 </template>
 
 <script>
@@ -133,6 +134,18 @@ export default {
             validatedCustom01: null,
             MestProgDialog: false,
             DetalleServiciosPersonalesDialog: false,
+            nombreEstructura: '',
+            subPrograma: '',
+            proyecto: '',
+            actividadObra: '',
+            clasificadorGasto: '',
+            servicioData: {
+                goCantidad: 0,
+                goMensual: 0,
+                goCantidadSolicitada: 0,
+                goMensualSolicitado: 0,
+            },
+            serviciosItems: [],
             servicioPersonales: {
                 programa: '',
                 funcion: '',
@@ -163,13 +176,10 @@ export default {
                 go06MensualSolicitado: 0
             },
             columns: [
-                { key: 'nombre', label: 'Grupos ocupacionales' },
-                { key: 'nombre', label: 'Numero de Cargos' },
-                { key: 'nombre', label: 'Mensual' },
-                { key: 'nombre', label: 'Anual' },
-                { key: 'nombre', label: 'Numero de Cargos' },
-                { key: 'nombre', label: 'Mensual' },
-                { key: 'nombre', label: 'Anual' },
+                { key: 'goCantidad', label: 'Grupos ocupacionales' },
+                { key: 'goCantidadSolicitada', label: 'Numero de Cargos' },
+                { key: 'goMensual', label: 'Mensual' },
+                { key: 'goMensualSolicitado', label: 'Anual' },
                 {
                     key: 'show_details',
                     label: '',
@@ -192,6 +202,35 @@ export default {
             this.validatedCustom01 = true
         },
 
+        saveDetalle(data) {
+
+            const keys = Object.keys(data);
+
+
+            keys.map((key, index) => {
+                const value = data[key];
+                if (key[3] == 1) {
+                    console.log(value)
+                    let servicioData = {
+                        goCantidad: 0,
+                        goMensual: 0,
+                        goCantidadSolicitada: 0,
+                        goMensualSolicitado: 0,
+                    }
+                    servicioData.goCantidad = value
+                    servicioData.goMensual = value
+                    servicioData.goCantidadSolicitada = value
+                    servicioData.goMensualSolicitado = value
+                    this.serviciosItems = [servicioData, this.serviciosItems]
+                }
+
+                
+
+            });
+
+            //this.servicioPersonales = [...data]
+        },
+
         showMesProgDialog() {
             this.MestProgDialog = true;
         },
@@ -199,13 +238,17 @@ export default {
             this.DetalleServiciosPersonalesDialog = true;
         },
         closeMestProgDialog(data) {
-            console.log(data.programa)
+            this.nombreEstructura = data.nombre
             this.servicioPersonales.programa = data.programa
-            this.servicioPersonales.ctgFuncionId = data.ctgFuncionId
-            this.servicioPersonales.unidadRespon = data.unidadRespon
+            this.servicioPersonales.funcion = data.ctgFuncionId
+            this.servicioPersonales.unidadResponsable = data.unidadRespon
+            this.actividadObra = data.actObra
+            this.proyecto = data.proyecto
             this.MestProgDialog = false;
+        },
+        closeDetalleMestProg() {
+            this.DetalleServiciosPersonalesDialog = false;
         }
-
     },
     mounted() {
 

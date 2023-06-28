@@ -271,7 +271,7 @@
 
                 </CCol>
                 <div class="col-12 border-bottom mb-3">
-                    <CButton size="sm" color="primary" class="mb-3">
+                    <CButton size="sm" color="primary" class="mb-3" @click="saveDetalle">
                         Agregar</CButton>
                 </div>
             </CForm>
@@ -290,7 +290,7 @@ export default {
         showModal: false
     },
     data: () => {
-        return {
+        return {   
             detalleServicio: {
                 go01Cantidad: 0,
                 go01Mensual: 0,
@@ -340,9 +340,20 @@ export default {
     methods: {
         closeDialog(data) {
             this.$emit('close', data);
+        },
+
+        saveDetalle() {
+            this.$emit('saveDetalle', this.detalleServicio)
+        },
+
+        convertArray() {
+          
         }
+
     },
     mounted() {
+
+        this.convertArray();
 
     },
 
