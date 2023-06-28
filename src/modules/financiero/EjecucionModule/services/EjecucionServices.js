@@ -185,6 +185,22 @@ class Ejecucion {
     return http.get(`TipoGasto/${id}?Ayuntamiento=${getAyuntamientoId()}`)
   }
 
+  //Concepto de gastos
+  getConceptoGasto(){
+    return http.get('conceptos-gasto')
+  }
+  getConceptoGastoById(id){
+    return http.get(`conceptos-gasto/${id}`)
+  }
+  putConceptoGasto(id,data){
+    return http.put(`conceptos-gasto/${id}`,data)
+  }
+  postConceptoGasto(data){
+    return http.post('conceptos-gasto',data)
+  }
+  deleteConceptoGasto(id){
+    return http.delete(`conceptos-gasto/${id}`)
+  }
   deleteRegistroIngreso(id) {
     return http.delete(`registros-ingreso/${id}`)
   }
