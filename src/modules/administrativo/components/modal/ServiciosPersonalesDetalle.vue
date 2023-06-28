@@ -24,8 +24,7 @@
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-2">
-                                    <h6 class="align-middle mt-4 text-center">Servicios Generales</h6>
-
+                                    <h6 class="align-middle mt-4 ">Servicios Generales</h6>
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Numero de Cargos</CFormLabel>
@@ -64,7 +63,7 @@
 
 
 
-                                    <h6 class="align-middle mt-4 text-center">Apoyo Administrativo</h6>
+                                    <h6 class="align-middle mt-4 ">Apoyo Administrativo</h6>
 
 
                                     <CFormFeedback valid> Exito! </CFormFeedback>
@@ -104,7 +103,7 @@
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-2">
-                                    <h6 class="align-middle mt-4 text-center">Tecnicos</h6>
+                                    <h6 class="align-middle mt-4 ">Tecnicos</h6>
 
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -146,7 +145,7 @@
 
 
 
-                                    <h6 class="align-middle mt-4 text-center">Profesionales</h6>
+                                    <h6 class="align-middle mt-4 ">Profesionales</h6>
 
 
                                     <CFormFeedback valid> Exito! </CFormFeedback>
@@ -189,7 +188,7 @@
                                 <div class="col-2">
 
 
-                                    <h6 class="align-middle mt-4 text-center">Direccion y Supervision</h6>
+                                    <h6 class="align-middle mt-4 ">Direccion y Supervision</h6>
 
 
                                     <CFormFeedback valid> Exito! </CFormFeedback>
@@ -230,7 +229,7 @@
                                 <div class="col-2">
 
 
-                                    <h6 class="align-middle mt-4 text-center">Direccion y Supervision</h6>
+                                    <h6 class="align-middle mt-4 ">Direccion y Supervision</h6>
 
 
                                     <CFormFeedback valid> Exito! </CFormFeedback>
@@ -270,13 +269,16 @@
 
 
                 </CCol>
-                <div class="col-12 border-bottom mb-3">
-                    <CButton size="sm" color="primary" class="mb-3" @click="saveDetalle">
-                        Agregar</CButton>
-                </div>
+              
             </CForm>
 
         </CModalBody>
+        <CModalFooter>
+            <div class="col-12 mb-3" style="text-align: right;">
+                    <CButton  color="primary"  @click="saveDetalle">
+                        Guardar</CButton>
+                </div>
+        </CModalFooter>
     </CModal>
 </template>
 
@@ -284,13 +286,13 @@
 import { CSmartTable } from '@coreui/vue-pro'
 export default {
     components: {
-        CSmartTable,
-    },
+    CSmartTable,
+},
     props: {
         showModal: false
     },
     data: () => {
-        return {   
+        return {
             detalleServicio: {
                 go01Cantidad: 0,
                 go01Mensual: 0,
@@ -340,14 +342,16 @@ export default {
     methods: {
         closeDialog(data) {
             this.$emit('close', data);
+
         },
 
         saveDetalle() {
             this.$emit('saveDetalle', this.detalleServicio)
+            this.closeDialog();
         },
 
         convertArray() {
-          
+
         }
 
     },

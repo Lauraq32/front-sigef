@@ -65,6 +65,7 @@ export default {
     },
     methods: {
         closeDialog(data) {
+
             this.$emit('close', data);
         },
         getMestProg() {

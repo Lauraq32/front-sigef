@@ -9,7 +9,7 @@
                     <h6>Programa:</h6>
                 </div>
                 <div class="col-2">
-                    <CFormInput v-model="servicioPersonales.programa" size="sm" id="validationCustom02" required />
+                    <CFormInput v-model="programa" size="sm" id="validationCustom02" required />
                 </div>
                 <div class="col-6">
                     <h6>{{ nombreEstructura }}</h6>
@@ -56,7 +56,7 @@
                     <h6>Funcion:</h6>
                 </div>
                 <div class="col-2">
-                    <label class="text-right" for="">{{ servicioPersonales.funcion }}</label>
+                    <label class="text-right" for="">{{ funcion }}</label>
                     <!-- <CFormInput size="sm" id="validationCustom02" required /> -->
                 </div>
                 <div class="col-6">
@@ -80,7 +80,7 @@
                     <h6>Unidad Responsable:</h6>
                 </div>
                 <div class="col-2">
-                    <label class="text-right" for="">{{ servicioPersonales.unidadResponsable }}</label>
+                    <label class="text-right" for="">{{ unidadResponsable }}</label>
                     <!-- <CFormInput size="sm" id="validationCustom02" required /> -->
                 </div>
                 <div class="col-6">
@@ -91,11 +91,15 @@
         </div>
 
     </CCol>
-
-    <div class="col-12 border-bottom mb-3">
-        <CButton size="sm" color="primary" class="mb-3" @click="showDetalleServiciosPersonalesDialog">Agregar Detalle
+    <div class="col-12 ">
+        <CButton size="sm" color="primary" class="mb-3" @click="saveServicios">Guardar
         </CButton>
     </div>
+    <div class="col-12 mb-3" style="text-align: right;" >
+        <CButton size="sm" color="primary"  @click="showDetalleServiciosPersonalesDialog">Agregar Detalle
+        </CButton>
+    </div>
+  
 
     <div>
         <CSmartTable class="sticky-top" clickableRows :tableProps="{
@@ -123,6 +127,9 @@
 import { CSmartTable } from '@coreui/vue-pro'
 import SelectMestProgDialog from './modal/SelectMestProgDialog.vue'
 import DetalleServiciosPersonales from './modal/ServiciosPersonalesDetalle.vue'
+import Api from '../services/FormulacionServices'
+import { useToastStore } from '@/store/toast'
+import { mapActions } from 'pinia'
 export default {
     components: {
         CSmartTable,
@@ -139,6 +146,9 @@ export default {
             proyecto: '',
             actividadObra: '',
             clasificadorGasto: '',
+            programa: '',
+            funcion: '',
+            unidadResponsable: '',
             servicioData: {
                 goCantidad: 0,
                 goMensual: 0,
@@ -176,10 +186,10 @@ export default {
                 go06MensualSolicitado: 0
             },
             columns: [
-                { key: 'goCantidad', label: 'Grupos ocupacionales' },
-                { key: 'goCantidadSolicitada', label: 'Numero de Cargos' },
-                { key: 'goMensual', label: 'Mensual' },
-                { key: 'goMensualSolicitado', label: 'Anual' },
+                { key: 'cantidad', label: 'Grupos ocupacionales' },
+                { key: 'cantidadsolicitada', label: 'Numero de Cargos' },
+                { key: 'mensual', label: 'Mensual' },
+                { key: 'mensualsolicitado', label: 'Anual' },
                 {
                     key: 'show_details',
                     label: '',
@@ -193,6 +203,7 @@ export default {
         }
     },
     methods: {
+        ...mapActions(useToastStore, ['show']),
         handleSubmitCustom01(event) {
             const form = event.currentTarget
             if (form.checkValidity() === false) {
@@ -202,33 +213,42 @@ export default {
             this.validatedCustom01 = true
         },
 
+        saveServicios() {
+            Api.postFpServicioPersonal(this.servicioPersonales).then((response) => {
+                console.log(response)
+            }).then((response) => {
+                this.show({
+                    content: response.data.message,
+                    closable: true,
+                    color: 'success',
+                })
+            })
+                .catch((error) => {
+                    this.show({
+                        content: error.message,
+                        closable: true,
+                        color: 'danger',
+                    })
+                })
+        },
+
         saveDetalle(data) {
-
             const keys = Object.keys(data);
-
-
-            keys.map((key, index) => {
-                const value = data[key];
-                if (key[3] == 1) {
-                    console.log(value)
-                    let servicioData = {
-                        goCantidad: 0,
-                        goMensual: 0,
-                        goCantidadSolicitada: 0,
-                        goMensualSolicitado: 0,
-                    }
-                    servicioData.goCantidad = value
-                    servicioData.goMensual = value
-                    servicioData.goCantidadSolicitada = value
-                    servicioData.goMensualSolicitado = value
-                    this.serviciosItems = [servicioData, this.serviciosItems]
-                }
-
-                
-
+            const list = Array.from({ length: 6 }, (_, i) => {
+                const term = `go${(i + 1).toString().padStart(2, '0')}`;
+                const filteredKeys = keys.filter(key => key.startsWith(term));
+                return filteredKeys.reduce((acc, key) => {
+                    acc[key.replace(term, '').toLocaleLowerCase()] = data[key];
+                    return acc;
+                }, {})
             });
+            console.log(list)
+            this.serviciosItems = [...list]
 
-            //this.servicioPersonales = [...data]
+            this.servicioPersonales = data;
+            this.servicioPersonales.funcion = this.funcion
+            this.servicioPersonales.programa = this.programa
+            this.servicioPersonales.unidadResponsable = this.unidadResponsable
         },
 
         showMesProgDialog() {
@@ -238,13 +258,18 @@ export default {
             this.DetalleServiciosPersonalesDialog = true;
         },
         closeMestProgDialog(data) {
-            this.nombreEstructura = data.nombre
-            this.servicioPersonales.programa = data.programa
-            this.servicioPersonales.funcion = data.ctgFuncionId
-            this.servicioPersonales.unidadResponsable = data.unidadRespon
+            if (data){
+                this.nombreEstructura = data.nombre
+            this.programa = data.programa
+            this.funcion = data.ctgFuncionId
+            this.unidadResponsable = data.unidadRespon
             this.actividadObra = data.actObra
             this.proyecto = data.proyecto
             this.MestProgDialog = false;
+            return;
+            }
+            this.MestProgDialog = false;
+       
         },
         closeDetalleMestProg() {
             this.DetalleServiciosPersonalesDialog = false;
