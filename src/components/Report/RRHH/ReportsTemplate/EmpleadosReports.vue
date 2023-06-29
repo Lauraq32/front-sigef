@@ -333,6 +333,7 @@ export default {
           this.empleado.idImagenPerfil ?? -1
         }`
         this.getAyuntamientobyId(this.empleado.ayuntamientoId)
+        this.empleado.sexo = this.empleado.sexo === 'M' ? 'Masculino' : 'Femenino'
       })
     },
     lookInfo(param) {
