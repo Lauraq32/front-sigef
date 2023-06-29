@@ -84,7 +84,7 @@
                     <div class="col-9">
                       <CCol :md="12">
                         <CFormInput v-model="postEmpleado.nombre" id="nombres" required
-                          v-on:keypress="onlyLetter($event)" />
+                          v-on:keypress="onlyLetter($event)" maxlength="30"/>
                       </CCol>
                     </div>
                   </div>
@@ -96,7 +96,7 @@
                     <div class="col-9">
                       <CCol :md="12">
                         <CFormInput required v-model="postEmpleado.apellido" id="apellidos"
-                          v-on:keypress="onlyLetter($event)" />
+                          v-on:keypress="onlyLetter($event)" maxlength="30"/>
                       </CCol>
                     </div>
                   </div>
@@ -122,7 +122,7 @@
                     </div>
                     <div class="col-9">
                       <CCol :md="12">
-                        <CFormInput v-model="postEmpleado.direccion" id="direccion" required />
+                        <CFormInput v-model="postEmpleado.direccion" id="direccion" required  maxlength="50"/>
                       </CCol>
                     </div>
                   </div>
@@ -193,7 +193,7 @@
                     <div class="col-9">
                       <CCol :md="12">
                         <CFormInput v-model="postEmpleado.lugarNacimiento" id="lugarNacimiento"
-                          v-on:keypress="onlyLetter($event)" />
+                          v-on:keypress="onlyLetter($event)"  maxlength="20"/>
                       </CCol>
                     </div>
                   </div>
@@ -235,7 +235,7 @@
                   <CCol :md="12">
                     <CFormLabel for="Recomendado">Recomendado por</CFormLabel>
                     <CFormInput v-model="postEmpleado.recomendadoPor" type="text" id="Recomendado"
-                      v-on:keypress="onlyLetter($event)" />
+                      v-on:keypress="onlyLetter($event)"  maxlength="50"/>
                   </CCol>
                   <CCol :md="12">
                     <CFormLabel for="programaDivisionId">Dirección o dependencia</CFormLabel>
@@ -382,7 +382,7 @@
                   <h3>Otros</h3>
                   <CCol>
                     <CFormLabel for="emergenciaTelefono">Otros</CFormLabel>
-                    <CFormInput id="emergenciaTelefono" type="text" v-model="postEmpleado.observacion" />
+                    <CFormInput id="emergenciaTelefono" type="text" v-model="postEmpleado.observacion" :maxlength="100"/>
                   </CCol>
                 </div>
               </div>
@@ -396,7 +396,7 @@
 
                   <CCol>
                     <CFormLabel for="emergenciaNombre">Nombres</CFormLabel>
-                    <CFormInput v-model="postEmpleado.emergenciaNombre" id="emergenciaNombre" />
+                    <CFormInput v-model="postEmpleado.emergenciaNombre" id="emergenciaNombre" :maxlength="40"/>
                   </CCol>
                   <CCol>
                     <CFormLabel for="emergenciaTelefono">Tel&eacute;fono</CFormLabel>
@@ -405,7 +405,7 @@
                   </CCol>
                   <CCol>
                     <CFormLabel for="emergenciaDireccion">Dirección</CFormLabel>
-                    <CFormInput v-model="postEmpleado.emergenciaDireccion" id="emergenciaDireccion" />
+                    <CFormInput v-model="postEmpleado.emergenciaDireccion" id="emergenciaDireccion"  :maxlength="40"/>
 
                   </CCol>
                   <CCol>
@@ -544,12 +544,12 @@
                       <CCol :md="6">
                         <CFormLabel for="correo1">Correo Electr&oacute;nico 1</CFormLabel>
                         <CFormInput id="correo1" v-model="postEmpleado.correoElectronico"
-                          pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" />
+                          pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"  :maxlength="40"/>
                       </CCol>
                       <CCol :md="6">
                         <CFormLabel for="correo1">Correo Electr&oacute;nico 2</CFormLabel>
                         <CFormInput id="correo2" v-model="postEmpleado.correoElectronico2"
-                          pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" />
+                          pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"  :maxlength="40"/>
                       </CCol>
                     </div>
                   </CCol>
