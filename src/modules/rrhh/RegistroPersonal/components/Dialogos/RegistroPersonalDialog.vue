@@ -973,6 +973,20 @@ export default {
       if (new Date(event.target.value) > null) {
         return true
       }
+    },
+    loadData() {
+      if (this.empleado && this.showModal) {
+        this.postEmpleado = { ...this.empleado };
+        this.imageUrl = this.empleado.idImagenPerfil ? `${process.env.VUE_APP_API_URL}/api/files/public/${this.empleado.idImagenPerfil ?? -1}` : '';
+
+        if (this.empleado.programaDivisionId) {
+          this.getListDepartamento({
+            target: {
+              value: this.empleado.programaDivisionId
+            }
+          });
+        }
+      }
     }
   },
 
@@ -1045,17 +1059,14 @@ export default {
   watch: {
     empleado(newData) {
       this.clearModal();
-      if (newData && this.showModal) {
-        this.postEmpleado = { ...newData };
-        this.imageUrl = newData.idImagenPerfil ? `${process.env.VUE_APP_API_URL}/api/files/public/${newData.idImagenPerfil ?? -1}` : '';
-
-        if (newData.programaDivisionId) {
-          this.getListDepartamento({
-            target: {
-              value: newData.programaDivisionId
-            }
-          });
-        }
+      if (newData) {
+        this.loadData();
+      }
+    },
+    showModal(newData) {
+      this.clearModal();
+      if (newData) {
+        this.loadData();
       }
     }
   },

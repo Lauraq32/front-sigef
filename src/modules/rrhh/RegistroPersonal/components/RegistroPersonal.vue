@@ -264,8 +264,8 @@ export default {
     },
 
     closeRegistroPersonalModal() {
-      this.showRegistroPersonalModal = false;
       this.selectedEmployee = {};
+      this.showRegistroPersonalModal = false;
     },
 
     closeTarjetaEmpleadoModal() {
@@ -344,7 +344,6 @@ export default {
             setTimeout(this.getRegistroPersonal, 200)
           })
         }).catch((error) => {
-          console.log(error);
           this.show({
             content: error.response.data,
             closable: true,
