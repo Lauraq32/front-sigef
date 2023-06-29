@@ -330,7 +330,13 @@
 
                   <CCol :md="12">
                     <CFormLabel for="sueldo">Sueldo actual</CFormLabel>
-                    <CFormInput type="number" v-model="postEmpleado.sueldo" id="sueldo" required />
+                    <CurrencyInput
+                      id="sueldo"
+                      v-model="postEmpleado.sueldo"
+                      class="text-end"
+                      required
+                      :options="{ locale: 'en-US', currency: 'DOP', precision: 2, currencyDisplay: 'hidden'}"
+                    />
                   </CCol>
                   <CCol>
                     <CFormLabel for="estado">Estatus</CFormLabel>
@@ -581,6 +587,7 @@ import 'vue-select/dist/vue-select.css'
 import { useToastStore } from '@/store/toast'
 import { mapActions, mapStores } from 'pinia'
 import { CCol } from '@coreui/vue-pro'
+import CurrencyInput from '@/utils/CurrencyInput.vue';
 
 export default {
   name: 'RegistroPersonalDialog',
@@ -588,7 +595,8 @@ export default {
     CModal,
     moment,
     vSelect,
-    CCol
+    CCol,
+    CurrencyInput
   },
   emits: ['close-modal', 'post-personal'],
   data: function () {
@@ -867,20 +875,19 @@ export default {
       currentDate.setFullYear(currentDate.getFullYear() - 19);
 
       this.postEmpleado = {
-        ayuntamientoId: this.$ayuntamientoId,
         codigo: null,
         nombre: null,
         apellido: null,
         tipoDocumento: 'cedula',
         codigoIdentidad: null,
         direccion: null,
-        sectorId: 0,
+        sectorId: '',
         telefono: null,
         celular: null,
         fechaNacimiento: currentDate,
         lugarNacimiento: null,
         estadoCivil: '',
-        sexo: 'M',
+        sexo: '',
         dependientes: 0,
         fechaIngreso: null,
         fechaSalida: '1970-01-01T00:00:00',
@@ -975,7 +982,8 @@ export default {
       }
     },
     loadData() {
-      if (this.empleado && this.showModal) {
+      this.clearModal();
+      if (Object.keys(this.empleado).length && this.showModal) {
         this.postEmpleado = { ...this.empleado };
         this.imageUrl = this.empleado.idImagenPerfil ? `${process.env.VUE_APP_API_URL}/api/files/public/${this.empleado.idImagenPerfil ?? -1}` : '';
 
@@ -1058,13 +1066,11 @@ export default {
 
   watch: {
     empleado(newData) {
-      this.clearModal();
       if (newData) {
         this.loadData();
       }
     },
     showModal(newData) {
-      this.clearModal();
       if (newData) {
         this.loadData();
       }
