@@ -9,12 +9,12 @@
     <div class="container-fluid flex-column">
       <div class="text-center justify-content-center">
         <h5>{{ ayuntamiento.descripcion }}</h5>
-        <div class="d-flex justify-content-center">
-          <p class="mx-2">RNC: 000000000 </p>
-          <p>Teléfonos {{ ayuntamiento.telefomo }}</p>
+        <div class="text-center">
+          <p>RNC: {{ ayuntamiento.rnc ?? '000000000' }}</p>
+          <p>{{ ayuntamiento.direccion }}</p>
         </div>
 
-        <h5>Tarjeta del Empleado</h5>
+        <h5 class="mt-2">Tarjeta del Empleado</h5>
       </div>
 
       <div class="d-flex justify-content-end">
@@ -42,7 +42,7 @@
               <label for="datosGenerales"> {{ data.label }}: </label>
             </div>
             <p
-              class="col-6 "
+              class="col-6"
               id="datosGenerales"
               v-html="lookInfo(data.key)"
             ></p>
@@ -54,11 +54,7 @@
             <div class="col-6 fw-bold">
               <label for="idCampos"> {{ data.label }}: </label>
             </div>
-            <p
-              class="col-6"
-              id="idCampos"
-              v-html="lookInfo(data.key)"
-            ></p>
+            <p class="col-6" id="idCampos" v-html="lookInfo(data.key)"></p>
           </div>
         </div>
       </div>
@@ -135,9 +131,8 @@
 <script>
 import Api from '@/modules/rrhh/RegistroPersonal/services/RegistroPersonalServices'
 import { useRoute } from 'vue-router'
-import { formatDate, formatPrice } from '@/utils/format'
+import { formatDate, formatPrice, formatPhoneNumber } from '@/utils/format'
 import { CIcon } from '@coreui/icons-vue'
-
 
 export default {
   name: 'EmpleadoReport',
@@ -152,6 +147,7 @@ export default {
   data() {
     return {
       formatDate,
+      formatPhoneNumber,
       formatPrice,
       ayuntamiento: {},
       datosLaborales: [
@@ -316,6 +312,9 @@ export default {
     getAyuntamientobyId(id) {
       Api.getAyuntamientoById(id).then((response) => {
         this.ayuntamiento = response.data.data
+        this.ayuntamiento.telefomo = this.formatPhoneNumber(
+          this.ayuntamiento.telefomo,
+        )
       })
     },
 
@@ -326,14 +325,17 @@ export default {
         this.empleado.fechaNacimiento = this.formatDate(
           this.empleado.fechaNacimiento,
         )
-        this.empleado.sueldo = this.formatPrice(
-          this.empleado.sueldo,
+        this.empleado.telefono = this.formatPhoneNumber(this.empleado.telefono)
+        this.empleado.emergenciaTelefono = this.formatPhoneNumber(
+          this.empleado.emergenciaTelefono,
         )
+        this.empleado.sueldo = this.formatPrice(this.empleado.sueldo)
         this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${
           this.empleado.idImagenPerfil ?? -1
         }`
         this.getAyuntamientobyId(this.empleado.ayuntamientoId)
-        this.empleado.sexo = this.empleado.sexo === 'M' ? 'Masculino' : 'Femenino'
+        this.empleado.sexo =
+          this.empleado.sexo === 'M' ? 'Masculino' : 'Femenino'
       })
     },
     lookInfo(param) {
