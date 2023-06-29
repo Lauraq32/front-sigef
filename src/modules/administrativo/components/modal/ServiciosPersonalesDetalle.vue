@@ -237,28 +237,28 @@
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Numero de Cargos</CFormLabel>
-                                    <CFormInput v-model="detalleServicio.go05Cantidad" size="sm" id="validationCustom02"
+                                    <CFormInput v-model="detalleServicio.go06Cantidad" size="sm" id="validationCustom02"
                                         required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Mensual</CFormLabel>
-                                    <CFormInput v-model="detalleServicio.go05Mensual" size="sm" id="validationCustom02"
+                                    <CFormInput v-model="detalleServicio.go06Mensual" size="sm" id="validationCustom02"
                                         required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Numero de Cargos</CFormLabel>
-                                    <CFormInput v-model="detalleServicio.go05CantidadSolicitada" size="sm"
+                                    <CFormInput v-model="detalleServicio.go06CantidadSolicitada" size="sm"
                                         id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Mensual</CFormLabel>
-                                    <CFormInput v-model="detalleServicio.go05MensualSolicitado" size="sm"
+                                    <CFormInput v-model="detalleServicio.go06MensualSolicitado" size="sm"
                                         id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
