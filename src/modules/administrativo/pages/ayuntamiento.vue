@@ -112,8 +112,7 @@ export default {
   components: { CFormTextarea },
   data: () => {
     return {
-      imageUrl: null,
-      ayuntamiento: {
+      imageUrl: null,      ayuntamiento: {
         codigo: 'string',
         descripcion: 'string',
         imagenUrl: 'string',
