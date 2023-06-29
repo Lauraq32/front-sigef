@@ -95,11 +95,11 @@
         <CButton size="sm" color="primary" class="mb-3" @click="saveServicios">Guardar
         </CButton>
     </div>
-    <div class="col-12 mb-3" style="text-align: right;" >
-        <CButton size="sm" color="primary"  @click="showDetalleServiciosPersonalesDialog">Agregar Detalle
+    <div class="col-12 mb-3" style="text-align: right;">
+        <CButton size="sm" color="primary" @click="showDetalleServiciosPersonalesDialog">Agregar Detalle
         </CButton>
     </div>
-  
+
 
     <div>
         <CSmartTable class="sticky-top" clickableRows :tableProps="{
@@ -239,8 +239,11 @@ export default {
                 const filteredKeys = keys.filter(key => key.startsWith(term));
                 return filteredKeys.reduce((acc, key) => {
                     acc[key.replace(term, '').toLocaleLowerCase()] = data[key];
+                    acc['Sumado'] = 'popo'
                     return acc;
-                }, {})
+                }, {
+                    
+                })
             });
             console.log(list)
             this.serviciosItems = [...list]
@@ -258,18 +261,18 @@ export default {
             this.DetalleServiciosPersonalesDialog = true;
         },
         closeMestProgDialog(data) {
-            if (data){
+            if (data) {
                 this.nombreEstructura = data.nombre
-            this.programa = data.programa
-            this.funcion = data.ctgFuncionId
-            this.unidadResponsable = data.unidadRespon
-            this.actividadObra = data.actObra
-            this.proyecto = data.proyecto
-            this.MestProgDialog = false;
-            return;
+                this.programa = data.programa
+                this.funcion = data.ctgFuncionId
+                this.unidadResponsable = data.unidadRespon
+                this.actividadObra = data.actObra
+                this.proyecto = data.proyecto
+                this.MestProgDialog = false;
+                return;
             }
             this.MestProgDialog = false;
-       
+
         },
         closeDetalleMestProg() {
             this.DetalleServiciosPersonalesDialog = false;

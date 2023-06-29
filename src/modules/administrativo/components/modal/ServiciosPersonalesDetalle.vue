@@ -269,15 +269,15 @@
 
 
                 </CCol>
-              
+
             </CForm>
 
         </CModalBody>
         <CModalFooter>
             <div class="col-12 mb-3" style="text-align: right;">
-                    <CButton  color="primary"  @click="saveDetalle">
-                        Guardar</CButton>
-                </div>
+                <CButton color="primary" @click="saveDetalle">
+                    Guardar</CButton>
+            </div>
         </CModalFooter>
     </CModal>
 </template>
@@ -286,8 +286,8 @@
 import { CSmartTable } from '@coreui/vue-pro'
 export default {
     components: {
-    CSmartTable,
-},
+        CSmartTable,
+    },
     props: {
         showModal: false
     },
