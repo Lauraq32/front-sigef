@@ -325,9 +325,9 @@ export default {
         this.empleado.fechaNacimiento = this.formatDate(
           this.empleado.fechaNacimiento,
         )
-        this.empleado.telefono = this.formatPhoneNumber(this.empleado.telefono)
+        this.empleado.telefono = this.formatPhoneNumber(this.empleado.telefono ?? '')
         this.empleado.emergenciaTelefono = this.formatPhoneNumber(
-          this.empleado.emergenciaTelefono,
+          this.empleado.emergenciaTelefono ?? '',
         )
         this.empleado.sueldo = this.formatPrice(this.empleado.sueldo)
         this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${
