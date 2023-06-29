@@ -186,10 +186,14 @@ export default {
                 go06MensualSolicitado: 0
             },
             columns: [
-                { key: 'cantidad', label: 'Grupos ocupacionales' },
-                { key: 'cantidadsolicitada', label: 'Numero de Cargos' },
+                // { key: 'cantidad', label: 'Grupos ocupacionales' },
+                { key: 'cantidad', label: 'Numero de Cargos' },
                 { key: 'mensual', label: 'Mensual' },
-                { key: 'mensualsolicitado', label: 'Anual' },
+                { key: 'AnualActual', label: 'Anual' },
+                
+                { key: 'cantidadsolicitada', label: 'Numero de Cargos' },
+                { key: 'mensualsolicitado', label: 'Mensual' },
+                { key: 'AnualSolicitado', label: 'Anual' },
                 {
                     key: 'show_details',
                     label: '',
@@ -239,7 +243,8 @@ export default {
                 const filteredKeys = keys.filter(key => key.startsWith(term));
                 return filteredKeys.reduce((acc, key) => {
                     acc[key.replace(term, '').toLocaleLowerCase()] = data[key];
-                    acc['Sumado'] = 'popo'
+                    acc['AnualActual'] = acc['cantidad'] * acc['mensual']
+                    acc['AnualSolicitado'] = acc['cantidadsolicitada'] * acc['mensualsolicitado']
                     return acc;
                 }, {
                     
