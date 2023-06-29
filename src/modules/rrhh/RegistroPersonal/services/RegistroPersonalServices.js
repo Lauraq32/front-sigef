@@ -44,7 +44,7 @@ class RegistroPersonal {
   }
 
   getAyuntamientoById(id){
-    return http.get(`Ayuntamiento/${id}`)
+    return http.get(`ayuntamientos/${id}`)
   }
 
   getAllEmpleado(filter = {}) {

@@ -9,13 +9,24 @@
     <div class="container-fluid flex-column">
       <div class="text-center justify-content-center">
         <h5>{{ ayuntamiento.descripcion }}</h5>
-        <p>Teléfonos {{ empleado.telefono }}</p>
+        <div class="d-flex justify-content-center">
+          <p class="mx-2">RNC: 000000000 </p>
+          <p>Teléfonos {{ ayuntamiento.telefomo }}</p>
+        </div>
+
         <h5>Tarjeta del Empleado</h5>
       </div>
 
       <div class="d-flex justify-content-end">
-        <div class="position-relative flex justify-content-center border border-dark" style="height: 150px">
-          <img class="h-100" :src="imageUrl" alt="imagen de perfil del empleado" />
+        <div
+          class="position-relative flex justify-content-center border border-dark"
+          style="height: 120px"
+        >
+          <img
+            class="h-100"
+            :src="imageUrl"
+            alt="imagen de perfil del empleado"
+          />
         </div>
       </div>
 
@@ -31,7 +42,7 @@
               <label for="datosGenerales"> {{ data.label }}: </label>
             </div>
             <p
-              class="col-6 text-truncate"
+              class="col-6 "
               id="datosGenerales"
               v-html="lookInfo(data.key)"
             ></p>
@@ -44,7 +55,7 @@
               <label for="idCampos"> {{ data.label }}: </label>
             </div>
             <p
-              class="col-6 text-truncate"
+              class="col-6"
               id="idCampos"
               v-html="lookInfo(data.key)"
             ></p>
@@ -112,15 +123,21 @@
         </div>
       </div>
     </div>
+
+    <div class="row mt-5 h-0">
+      <div class="col-4 w-25 mx-4 h-0 border border-bottom-dark"></div>
+      <div class="col-4 w-25 mx-5 h-0 border border-bottom-dark"></div>
+      <div class="col-4 w-25 mx-4 h-0 border border-bottom-dark"></div>
+    </div>
   </div>
 </template>
 
 <script>
 import Api from '@/modules/rrhh/RegistroPersonal/services/RegistroPersonalServices'
 import { useRoute } from 'vue-router'
-import { formatDate } from '@/utils/format'
+import { formatDate, formatPrice } from '@/utils/format'
 import { CIcon } from '@coreui/icons-vue'
-import ApiFiles from '@/modules/rrhh/RegistroPersonal/services/Files'
+
 
 export default {
   name: 'EmpleadoReport',
@@ -135,6 +152,7 @@ export default {
   data() {
     return {
       formatDate,
+      formatPrice,
       ayuntamiento: {},
       datosLaborales: [
         {
@@ -144,7 +162,7 @@ export default {
 
         {
           label: 'Programa',
-          key: 'programaDivision.nombre',
+          key: 'departamento.programaDivision.nombre',
         },
 
         {
@@ -308,10 +326,13 @@ export default {
         this.empleado.fechaNacimiento = this.formatDate(
           this.empleado.fechaNacimiento,
         )
+        this.empleado.sueldo = this.formatPrice(
+          this.empleado.sueldo,
+        )
         this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${
-        this.empleado.idImagenPerfil ?? -1
-      }`
-        this.getAyuntamientobyId(response.data.data.ayuntamientoId)
+          this.empleado.idImagenPerfil ?? -1
+        }`
+        this.getAyuntamientobyId(this.empleado.ayuntamientoId)
       })
     },
     lookInfo(param) {
@@ -320,7 +341,6 @@ export default {
         '&nbsp;'
       )
     },
-
   },
   mounted() {
     this.getEmpleadoById(this.empleadoId)
