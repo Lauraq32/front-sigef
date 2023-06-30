@@ -40,7 +40,7 @@ export default {
             }
         }
     },
-    
+
     mounted() {
         this.getMissionVission()
     },
@@ -49,31 +49,56 @@ export default {
         ...mapActions(useToastStore, ['show']),
         getMissionVission() {
             Api.getMisionVision().then((response) => {
-                this.propuestaDeclaratoria = response.data.data
+                if(response.data.data){
+                    this.propuestaDeclaratoria = response.data.data
+                }
             })
         },
 
         putMisionVision() {
-            Api.putMisionVision(this.propuestaDeclaratoria.id, this.propuestaDeclaratoria).then(() => {
-                this.show({
-                    content: 'Registro actualizado correctamente',
-                    closable: true,
-                    life: 15000,
+            if (this.propuestaDeclaratoria.id) {
+                Api.putMisionVision(this.propuestaDeclaratoria.id, this.propuestaDeclaratoria).then(() => {
+                    this.show({
+                        content: 'Registro actualizado correctamente',
+                        closable: true,
+                        life: 15000,
+                    })
+                }).catch((error) => {
+                    this.show({
+                        content: error.response.data,
+                        closable: true,
+                        color: 'danger',
+                        class: 'text-white',
+                    })
                 })
-            }).catch ((error)=>{
-                this.show({
-                    content: error.response.data,
-                    closable: true,
-                    color: 'danger',
-                    class: 'text-white',
+            }
+            else {
+                Api.postMisionVision(this.propuestaDeclaratoria).then(() => {
+                    this.show({
+                        content: 'Registro agregado correctamente',
+                        closable: true,
+                        life: 15000,
+                    })
+                }).catch((error) => {
+                    this.show({
+                        content: error.response.data,
+                        closable: true,
+                        color: 'danger',
+                        class: 'text-white',
+                    })
                 })
-            })   
+            }
         },
+
+        CreateMisionVision() {
+
+        },
+
         async printReportMisionVision(item) {
             try {
                 await showReport({
                     folderName: 'fep',
-                    reportName: 'Rep_Recibo_Ingresos_A1',
+                    reportName: 'Rep_FP01_Mision_y_Vision',
                     params: [
                         {
                             name: 'ID_TRANSACCION',
@@ -85,7 +110,8 @@ export default {
                         },
                     ],
                 })
-            } catch (error) {
+            }
+            catch (error) {
                 this.show({
                     content: error,
                     closable: true,
