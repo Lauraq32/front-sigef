@@ -20,7 +20,7 @@
       <div class="d-flex justify-content-end">
         <div
           class="position-relative flex justify-content-center border border-dark"
-          style="height: 120px"
+          style="height: 80px"
         >
           <img
             class="h-100"
@@ -218,7 +218,7 @@ export default {
           key: 'tipoSangre.nombre',
         },
         {
-          label: 'Alérgico a',
+          label: 'Alérgico',
           key: 'emergenciaAlergico',
         },
         {
@@ -323,7 +323,7 @@ export default {
         this.empleado = response.data.data
         this.empleado.fechaIngreso = this.formatDate(this.empleado.fechaIngreso)
         this.empleado.fechaNacimiento = this.formatDate(
-          this.empleado.fechaNacimiento,
+          this.empleado.fechaNacimiento,  
         )
         this.empleado.telefono = this.formatPhoneNumber(this.empleado.telefono ?? '')
         this.empleado.emergenciaTelefono = this.formatPhoneNumber(
