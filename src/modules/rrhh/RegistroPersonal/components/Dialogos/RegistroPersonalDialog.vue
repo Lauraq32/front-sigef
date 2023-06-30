@@ -150,7 +150,7 @@
                     <div class="col-9">
                       <CCol :md="12">
                         <CFormInput v-on:keypress="onlyNumber($event)" v-model="postEmpleado.telefono" id="telefono"
-                          maxlength="13" type="text" />
+                          maxlength="13" />
                       </CCol>
                     </div>
                   </div>
@@ -203,7 +203,7 @@
                       <CFormLabel for="dependientes">Dependientes</CFormLabel>
                     </div>
                     <div class="col-9">
-                      <CFormInput v-model="postEmpleado.dependientes" type="number" id="dependientes" required
+                      <CFormInput v-model="postEmpleado.dependientes" v-on:keypress="onlyNumber($event)" id="dependientes" required
                         maxlength="3" />
                     </div>
                   </div>
@@ -407,7 +407,7 @@
                   <CCol>
                     <CFormLabel for="emergenciaTelefono">Tel&eacute;fono</CFormLabel>
                     <CFormInput v-on:keypress="onlyNumber($event)" v-model="postEmpleado.emergenciaTelefono"
-                      id="emergenciaTelefono" type="number" maxlength="13" />
+                      id="emergenciaTelefono" maxlength="13" />
                   </CCol>
                   <CCol>
                     <CFormLabel for="emergenciaDireccion">Dirección</CFormLabel>
