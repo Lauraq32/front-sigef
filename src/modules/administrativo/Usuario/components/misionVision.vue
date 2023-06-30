@@ -35,14 +35,14 @@ export default {
         return {
 
             propuestaDeclaratoria: {
-                mision: "string",
-                vision: "string",
+                mision: "",
+                vision: "",
             }
         }
     },
+    
     mounted() {
         this.getMissionVission()
-
     },
 
     methods: {
@@ -50,7 +50,6 @@ export default {
         getMissionVission() {
             Api.getMisionVision().then((response) => {
                 this.propuestaDeclaratoria = response.data.data
-                console.log(this.mision)
             })
         },
 
@@ -61,7 +60,14 @@ export default {
                     closable: true,
                     life: 15000,
                 })
-            })
+            }).catch ((error)=>{
+                this.show({
+                    content: error.response.data,
+                    closable: true,
+                    color: 'danger',
+                    class: 'text-white',
+                })
+            })   
         },
         async printReportMisionVision(item) {
             try {
