@@ -229,13 +229,10 @@ export default {
 
       datosPresionAlterial: [
         {
-          label: 'Presión Alta',
+          label: 'Nivel de Presión',
           key: 'emergenciaPresionAlta',
         },
-        {
-          label: 'Presión Baja',
-          key: 'emergenciaPresionBaja',
-        },
+       
         {
           label: 'En tratamiento',
           key: 'emergenciaEnTratamiento',
