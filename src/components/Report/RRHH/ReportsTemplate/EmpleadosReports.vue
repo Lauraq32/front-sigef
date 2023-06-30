@@ -38,11 +38,11 @@
       <div class="gridy">
         <div class="w-100 h-100 p-3 border border-dark">
           <div class="row" v-for="(data, index) in datosGenerales" :key="index">
-            <div class="col-6 fw-bold">
+            <div class="col-6 fw-bold tamanoLetra">
               <label for="datosGenerales"> {{ data.label }}: </label>
             </div>
             <p
-              class="col-6"
+              class="col-6 tamanoLetra"
               id="datosGenerales"
               v-html="lookInfo(data.key)"
             ></p>
@@ -51,10 +51,10 @@
 
         <div class="w-100 h-100 p-3 border border-dark">
           <div class="row" v-for="(data, index) in datosLaborales" :key="index">
-            <div class="col-6 fw-bold">
+            <div class="col-6 fw-bold tamanoLetra">
               <label for="idCampos"> {{ data.label }}: </label>
             </div>
-            <p class="col-6" id="idCampos" v-html="lookInfo(data.key)"></p>
+            <p class="col-6 tamanoLetra" id="idCampos" v-html="lookInfo(data.key)"></p>
           </div>
         </div>
       </div>
@@ -71,7 +71,7 @@
       <div class="gridy">
         <div class="w-100 h-100 p-3 border border-dark">
           <div
-            class="row"
+            class="row tamanoLetra"
             v-for="(data, index) in datosEmergencia"
             :key="index"
           >
@@ -87,7 +87,7 @@
             </div>
             <p
               v-if="data.key !== '--'"
-              class="col-6 text-truncate"
+              class="col-6 tamanoLetra"
               id="idCampos"
               v-html="lookInfo(data.key)"
             ></p>
@@ -95,7 +95,7 @@
         </div>
         <div class="w-100 h-100 p-3 border border-dark">
           <div
-            class="row"
+            class="row tamanoLetra"
             v-for="(data, index) in datosPresionAlterial"
             :key="index"
           >
@@ -111,7 +111,7 @@
             </div>
             <p
               v-if="data.key !== '--'"
-              class="col-6 text-truncate"
+              class="col-6 tamanoLetra"
               id="idCampos"
               v-html="lookInfo(data.key)"
             ></p>
@@ -120,8 +120,8 @@
       </div>
     </div>
 
-    <div class="row mt-5 h-0">
-      <div class="col-4 w-25 mx-4 h-0 border border-bottom-dark"></div>
+    <div class="row margen h-0">
+      <div class="col-4  w-25 mx-4 h-0 border border-bottom-dark"></div>
       <div class="col-4 w-25 mx-5 h-0 border border-bottom-dark"></div>
       <div class="col-4 w-25 mx-4 h-0 border border-bottom-dark"></div>
     </div>
@@ -218,7 +218,7 @@ export default {
           key: 'tipoSangre.nombre',
         },
         {
-          label: 'Alérgico a',
+          label: 'Alérgico',
           key: 'emergenciaAlergico',
         },
         {
@@ -229,13 +229,10 @@ export default {
 
       datosPresionAlterial: [
         {
-          label: 'Presión Alta',
+          label: 'Nivel de Presión',
           key: 'emergenciaPresionAlta',
         },
-        {
-          label: 'Presión Baja',
-          key: 'emergenciaPresionBaja',
-        },
+       
         {
           label: 'En tratamiento',
           key: 'emergenciaEnTratamiento',
@@ -325,7 +322,9 @@ export default {
         this.empleado.fechaNacimiento = this.formatDate(
           this.empleado.fechaNacimiento,
         )
-        this.empleado.telefono = this.formatPhoneNumber(this.empleado.telefono ?? '')
+        this.empleado.telefono = this.formatPhoneNumber(
+          this.empleado.telefono ?? '',
+        )
         this.empleado.emergenciaTelefono = this.formatPhoneNumber(
           this.empleado.emergenciaTelefono ?? '',
         )
@@ -378,5 +377,13 @@ img {
   margin-top: 20px;
   font-weight: bold;
   text-decoration: underline;
+}
+
+.margen{
+  margin-top: 70px;
+}
+
+.tamanoLetra {
+  font-size: 12px;
 }
 </style>
