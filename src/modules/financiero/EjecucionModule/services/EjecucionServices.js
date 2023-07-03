@@ -34,7 +34,7 @@ class Ejecucion {
     return http.get('registros-gasto/Clasifica')
   }
   getRegistroGastoMesProg(mestProg){
-    return http.get(`registros-gasto/MesProg?anio=${getFiscalYearId()}&AyuntamientoId=${getAyuntamientoId()}&Mesprog=${mestProg}`)
+    return http.get(`registros-gasto/estructura-programatica/${mestProg}`)
   }
 
   //get

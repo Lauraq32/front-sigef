@@ -7,6 +7,7 @@
 
       <CCardBody>
         <div class="row">
+       
           <div class="col-4">
             <CForm :validated="isFormEventTypeValidated" ref="eventTypeForm">
               <div class="row">
@@ -59,9 +60,10 @@
                 <CCol :md="6">
                   <CCol :md="12">
                     <CFormLabel for="nombre">Tipo Retencion</CFormLabel>
-                    <CFormSelect required v-model="detalleRetencion.tipoRetencionId" @change="setRetencion" >
+                    <CFormSelect required v-model="detalleRetencion.tipoRetencionId" @change="setRetencion">
                       <option :key="0">Selecionar Tipo Retencion</option>
-                      <option v-for="retencion in tipoRetencionesList" :value="JSON.stringify(retencion)" :key="retencion.id">
+                      <option v-for="retencion in tipoRetencionesList" :value="JSON.stringify(retencion)"
+                        :key="retencion.id">
                         {{ retencion.detalle }}
                       </option>
                     </CFormSelect>
@@ -74,22 +76,22 @@
                 <CCol :md="12">
                   <CCol :md="12">
                     <div class="form-check">
-                      <input  class="form-check-input" type="radio"
-                        value="Transferencia" name="flexRadioDefault" id="flexRadioDefault1">
+                      <input class="form-check-input" type="radio" value="Transferencia" name="flexRadioDefault"
+                        id="flexRadioDefault1">
                       <label class="form-check-label" for="flexRadioDefault1">
                         Total
                       </label>
                     </div>
                     <div class="form-check">
-                      <input  class="form-check-input" type="radio"
-                        value="Transferencia" name="flexRadioDefault" id="flexRadioDefault1">
+                      <input class="form-check-input" type="radio" value="Transferencia" name="flexRadioDefault"
+                        id="flexRadioDefault1">
                       <label class="form-check-label" for="flexRadioDefault1">
                         SubTotal
                       </label>
                     </div>
                     <div class="form-check">
-                      <input  class="form-check-input" type="radio"
-                        value="Transferencia" name="flexRadioDefault" id="flexRadioDefault1">
+                      <input class="form-check-input" type="radio" value="Transferencia" name="flexRadioDefault"
+                        id="flexRadioDefault1">
                       <label class="form-check-label" for="flexRadioDefault1">
                         Otros
                       </label>
@@ -145,7 +147,7 @@
               </CSmartTable>
             </CCol>
             <CCol :md="12">
-              
+
             </CCol>
           </div>
         </div>
@@ -187,7 +189,7 @@ export default {
         tipoRetencionId: 0,
         montoAplica: 0,
         montoAplicado: 0,
-        valorAplicado:0
+        valorAplicado: 0
       },
       detalleRegistroGasto: {
         fecha: null,
@@ -211,14 +213,24 @@ export default {
         { key: 'montoAplicado', label: 'Del Valor' },
         { key: 'valorAplicado', label: 'Valor Aplicado' },
       ],
-      clasificadoresTables: [
-        { key: 'ctgClasificadorId', label: 'Clasificadores' },
+      clasificadoresByCuentaTables: [
+        { key: 'clasificador', label: 'Clasificadores' },
         { key: 'nombre', label: 'Descripcion' },
-        { key: 'totalOriginal', label: 'P/Original' },
-        { key: '1', label: 'Modific.' },
-        { key: '1', label: 'P/Actual.' },
-        { key: 'totalDevengado', label: 'Devengado.' },
-        { key: 'totalPagado', label: 'Pagado' },
+        { key: 'presupuestoBco', label: 'P/Original' },
+        { key: 'variacionBco', label: 'Modific.' },
+        // { key: '1', label: 'P/Actual.' },
+        { key: 'totalDevengadoBco', label: 'Devengado.' },
+        { key: 'totalPagadoBco', label: 'Pagado' },
+        { key: 'show_details', label: 'Seleccionar' },
+      ],
+      clasificadoresTables: [
+        { key: 'clasificador', label: 'Clasificadores' },
+        { key: 'nombre', label: 'Descripcion' },
+        { key: 'presupuestoBco1', label: 'P/Original' },
+        { key: 'variacionBco1', label: 'Modific.' },
+        // { key: '1', label: 'P/Actual.' },
+        { key: 'totalDevengadoBco1', label: 'Devengado.' },
+        { key: 'totalPagadoBco1', label: 'Pagado' },
         { key: 'show_details', label: 'Seleccionar' },
       ]
     }
@@ -226,8 +238,8 @@ export default {
   methods: {
     ...mapActions(useToastStore, ['show']),
     saveRetencion() {
-     
-        this.guardarRetencion()
+
+      this.guardarRetencion()
 
     },
     saveDetalle() {
@@ -239,8 +251,8 @@ export default {
     },
     guardarRetencion() {
       console.log(this.detalleRetencion)
-      this.detalleRetencion.tipoRetencionId = this.detalleRetencion.id 
-      this.detalleRetencion.valorAplicado =  this.detalleRetencion.montoAplica * 8
+      this.detalleRetencion.tipoRetencionId = this.detalleRetencion.id
+      this.detalleRetencion.valorAplicado = this.detalleRetencion.montoAplica * 8
       this.detalleRegistroGasto.detalleRetencion = [this.detalleRetencion, ...this.detalleRegistroGasto.detalleRetencion]
     },
 
@@ -253,7 +265,7 @@ export default {
     },
 
     getMestProg(event) {
-
+      console.log(this.registroGasto.bancoId)
       if (event.target.value.length == 10) {
 
         Api.getRegistroGastoMesProg(event.target.value).then(response => {
@@ -283,16 +295,16 @@ export default {
       })
     },
 
-    setRetencion(event){
+    setRetencion(event) {
       let retencion = JSON.parse(event.target.value)
       console.log(retencion)
-      if(retencion){
+      if (retencion) {
         this.detalleRetencion.montoAplica = retencion.porciento
-      }else{
+      } else {
         this.detalleRetencion.montoAplica = retencion.porciento
       }
     },
-    setBaseImponible(event){
+    setBaseImponible(event) {
       this.detalleRetencion.baseImponible = event.target.value
     },
 
