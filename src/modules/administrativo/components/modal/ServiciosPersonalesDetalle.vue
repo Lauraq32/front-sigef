@@ -351,9 +351,7 @@ export default {
         },
 
         convertArray() {
-
-        }
-
+        },
     },
     mounted() {
 

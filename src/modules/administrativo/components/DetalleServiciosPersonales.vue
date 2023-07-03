@@ -190,7 +190,6 @@ export default {
                 { key: 'cantidad', label: 'Numero de Cargos' },
                 { key: 'mensual', label: 'Mensual' },
                 { key: 'AnualActual', label: 'Anual' },
-                
                 { key: 'cantidadsolicitada', label: 'Numero de Cargos' },
                 { key: 'mensualsolicitado', label: 'Mensual' },
                 { key: 'AnualSolicitado', label: 'Anual' },
@@ -217,6 +216,14 @@ export default {
             this.validatedCustom01 = true
         },
 
+        getServicioDetalle() {
+            Api.getFpServicioPersonal().then((response) => {
+                if (response.data.data) {
+                    this.servicioPersonales = response.data.data
+                }
+            })
+        },
+
         saveServicios() {
             Api.postFpServicioPersonal(this.servicioPersonales).then((response) => {
                 console.log(response)
@@ -235,7 +242,6 @@ export default {
                     })
                 })
         },
-
         saveDetalle(data) {
             const keys = Object.keys(data);
             const list = Array.from({ length: 6 }, (_, i) => {
@@ -247,7 +253,6 @@ export default {
                     acc['AnualSolicitado'] = acc['cantidadsolicitada'] * acc['mensualsolicitado']
                     return acc;
                 }, {
-                    
                 })
             });
             console.log(list)
@@ -284,7 +289,7 @@ export default {
         }
     },
     mounted() {
-
+        this.getServicioDetalle();
     }
 }
 </script>
