@@ -16,7 +16,7 @@
             </template>
         </CSmartTable>
     </div>
-
+    <DetalleServiciosPersonales :showModal="MestProgDialog" @close="closeMestProgDialog"/>
     <!-- <SelectMestProgDialog :showModal="MestProgDialog" @close="closeMestProgDialog" />
     <DetalleServiciosPersonales :showModal="DetalleServiciosPersonalesDialog" @saveDetalle="saveDetalle"
         @close="closeDetalleMestProg" /> -->
@@ -27,6 +27,7 @@ import { CSmartTable } from '@coreui/vue-pro'
 import SelectMestProgDialog from './modal/SelectMestProgDialog.vue'
 import DetalleServiciosPersonales from './modal/ServiciosPersonalesDetalle.vue'
 import Api from '../services/FormulacionServices'
+import DetalleServiciosPersonales from '../components/DetalleServiciosPersonales.vue'
 import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
 export default {
