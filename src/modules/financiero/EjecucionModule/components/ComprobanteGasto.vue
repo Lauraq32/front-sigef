@@ -70,6 +70,7 @@ import { CSmartTable } from '@coreui/vue-pro'
 import Api from '../services/EjecucionServices'
 import { formatDate } from '@/utils/format'
 import router from '@/router'
+import Swal from 'sweetalert2';
 import BancoIdServices from '@/modules/financiero/ConciliacionBancaria/services/ConciliacionServices'
 export default {
   components: {
@@ -108,19 +109,34 @@ export default {
         {
           label: 'Cancelar',
           clickHandler: (item) => {
-            Api.deleteRegistroGasto(item.id).then((response) => {
-              this.show({
-                content: 'Registro Cancelado con exito',
-                closable: true,
-              })
-              this.getRegistroGasto()
-            }).catch(console.log())
+            Swal.fire({
+              denyButtonText: 'No',
+              allowEscapeKey: false,
+              allowOutsideClick: false,
+              title: 'Estás seguro que deseas cancelar este registro?',
+              text: 'No podrás revertirlo',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Si, Eliminar!',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                Api.deleteRegistroGasto(item.id).then((response) => {
+                  this.show({
+                    content: 'Registro Cancelado con exito',
+                    closable: true,
+                  })
+                  this.getRegistroGasto()
+                }).catch(console.log())
+              }
+            });
           }
         },
         {
           label: 'Duplicar Pagado',
           clickHandler: (item) => {
-            Api.putRegistroGastoPagado(item.id).then( () => {
+            Api.putRegistroGastoPagado(item.id).then(() => {
               this.show({
                 content: 'Registro Duplicado con exito',
                 closable: true,
@@ -135,7 +151,7 @@ export default {
         {
           label: 'Duplicar Devengado',
           clickHandler: (item) => {
-            Api.putRegistroGastoDevengado(item.id).then( () => {
+            Api.putRegistroGastoDevengado(item.id).then(() => {
               this.show({
                 content: 'Registro Duplicado con exito',
                 closable: true,
