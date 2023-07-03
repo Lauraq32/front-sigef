@@ -36,6 +36,16 @@
         {{ item.beneficiario.descripcion }}
       </td>
     </template>
+    <template #documento="{ item }">
+      <td>
+        {{ item.beneficiario.id }}
+      </td>
+    </template>
+    <template #tipo="{ item }">
+      <td>
+        {{ item.beneficiario.tipoDocumento }}
+      </td>
+    </template>
   </CSmartTable>
   <beneficiarioGrupoModal :beneficiarioxGrupoModal="beneficiarioxGrupoModal" @close-modal="closeModal"
     @post-Beneficiariogrupo="saveBeneficiarioGrupo" :beneficiarioGroupToUpdate="beneficiarioGroupToUpdate" />
@@ -65,6 +75,8 @@ export default {
 
         { key: 'id', label: 'Id', _style: { width: '4%' } },
         { key: 'beneficiario', label: 'Beneficiario', _style: { width: '10%' } },
+        { key: 'tipo', label: 'Tipo documento', _style: { width: '10%' } },
+        { key: 'documento', label: '#Documento', _style: { width: '10%' } },
         { key: 'grupoCompensacion', label: 'Grupo Compensación', _style: { width: '20%' } },
         { key: 'cargoBeneficiario', label: 'Cargo', _style: { width: '14%' } },
         { key: 'monto', label: 'Valor', _style: { width: '8%' } },
@@ -101,7 +113,7 @@ export default {
         this.beneficiarioGrupoAll = response.data.data
       })
     },
-    
+
     saveBeneficiarioGrupo(payload) {
       if (payload.id) {
         Api.putBeneficiarioGrupo(payload.id, payload).then(() => {
@@ -140,8 +152,8 @@ export default {
       }
     },
     updateBeneficiaryGroup(item) {
-        this.beneficiarioGroupToUpdate = item
-        this.beneficiarioxGrupoModal = true
+      this.beneficiarioGroupToUpdate = item
+      this.beneficiarioxGrupoModal = true
     },
   },
   mounted() {
