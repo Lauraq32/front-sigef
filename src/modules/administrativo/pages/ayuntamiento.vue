@@ -41,53 +41,79 @@
       </div>
       <div class="row mt-4">
         <div class="col-6">
-          <CFormLabel>Lema</CFormLabel>
-          <CFormInput v-model="postAyuntamiento.lema" />
+          <CFormLabel for="postAyuntamiento.lema">Lema</CFormLabel>
+          <CFormInput
+            id="postAyuntamiento.lema"
+            v-model="postAyuntamiento.lema"
+            maxlength="50"
+          />
         </div>
 
         <div class="col-6">
-          <CFormLabel>Siglas</CFormLabel>
-          <CFormInput v-model="postAyuntamiento.siglas" />
+          <CFormLabel for="postAyuntamiento.siglas">Siglas</CFormLabel>
+          <CFormInput
+            id="postAyuntamiento.siglas"
+            v-model="postAyuntamiento.siglas"
+            maxlength="5"
+          />
         </div>
       </div>
 
       <div>
         <div class="row">
           <div class="col-6">
-            <CFormLabel>Telefono</CFormLabel>
-            <CFormInput v-model="postAyuntamiento.telefono" maxlength="10" />
+            <CFormLabel for="postAyuntamiento.telefono"
+              >Tel&eacute;fono</CFormLabel
+            >
+            <CFormInput
+              @keypress="onlyNumber"
+              id="postAyuntamiento.telefono"
+              v-model="postAyuntamiento.telefono"
+              maxlength="10"
+            />
           </div>
 
           <div class="col-6">
-            <CFormLabel>Fax</CFormLabel>
-            <CFormInput v-model="postAyuntamiento.fax" maxlength="10" />
+            <CFormLabel for="postAyuntamiento.fax">Fax</CFormLabel>
+            <CFormInput
+              @keypress="onlyNumber"
+              id="postAyuntamiento.fax"
+              v-model="postAyuntamiento.fax"
+              maxlength="10"
+            />
           </div>
         </div>
       </div>
 
       <div>
-        <CFormLabel>Direccion</CFormLabel>
-        <CFormInput v-model="postAyuntamiento.direccion" />
+        <CFormLabel for="postAyuntamiento.direccion"
+          >Direcci&oacute;n</CFormLabel
+        >
+        <CFormInput
+          id="postAyuntamiento.direccion"
+          v-model="postAyuntamiento.direccion"
+          maxlength="50"
+        />
       </div>
 
       <div>
-        <CFormLabel>Region</CFormLabel>
-        <CFormInput disabled :value="region" />
+        <CFormLabel for="region">Regi&oacute;n</CFormLabel>
+        <CFormInput id="region" disabled :value="region" />
       </div>
 
       <div>
-        <CFormLabel>Provincia</CFormLabel>
-        <CFormInput disabled :value="provincia" />
+        <CFormLabel for="provincia">Provincia</CFormLabel>
+        <CFormInput id="provincia" disabled :value="provincia" />
       </div>
 
       <div>
-        <CFormLabel>Municipio</CFormLabel>
-        <CFormInput disabled :value="municipio" />
+        <CFormLabel for="municipio">Municipio</CFormLabel>
+        <CFormInput id="municipio" disabled :value="municipio" />
       </div>
 
       <div>
-        <CFormLabel>Distrito</CFormLabel>
-        <CFormInput disabled :value="distrito" />
+        <CFormLabel for="distrito">Distrito</CFormLabel>
+        <CFormInput id="distrito" disabled :value="distrito" />
       </div>
 
       <div class="d-flex justify-content-end mt-3">
@@ -108,6 +134,7 @@ import { getAyuntamientoId } from '@/utils/logged-info'
 import { CFormTextarea } from '@coreui/vue'
 import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
+import { onlyNumber } from '@/utils/validator'
 
 export default {
   name: 'ayuntamiento',
@@ -127,6 +154,7 @@ export default {
         rnc: null,
         tipoGobierno: 'AYUNTAMIENTO',
       },
+      onlyNumber,
     }
   },
 
