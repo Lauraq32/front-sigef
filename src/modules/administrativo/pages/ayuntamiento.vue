@@ -1,10 +1,12 @@
 <template>
   <div>
-    <h4 class="text-center">{{ this.ayuntamiento.descripcion }}</h4>
+    <h4 class="text-center">{{ postAyuntamiento.descripcion }}</h4>
     <div class="text-center">
-      <span><h6>RNC: 40230212660</h6></span>
       <span
-        ><h6>Codigo: {{ ayuntamiento.codigo }}</h6></span
+        ><h6>{{ postAyuntamiento.rnc }}</h6></span
+      >
+      <span
+        ><h6>Codigo: {{ postAyuntamiento.codigo }}</h6></span
       >
     </div>
   </div>
@@ -25,7 +27,7 @@
           <img
             width="200"
             height="200"
-            :src="ayuntamiento.imagenUrl"
+            :src="postAyuntamiento.imagenUrl"
             alt="Logo del ayuntamiento"
             style="opacity: 0.5"
           />
@@ -40,12 +42,12 @@
       <div class="row mt-4">
         <div class="col-6">
           <CFormLabel>Lema</CFormLabel>
-          <CFormInput v-model="ayuntamiento.lema" />
+          <CFormInput v-model="postAyuntamiento.lema" />
         </div>
 
         <div class="col-6">
           <CFormLabel>Siglas</CFormLabel>
-          <CFormInput v-model="ayuntamiento.siglas" />
+          <CFormInput v-model="postAyuntamiento.siglas" />
         </div>
       </div>
 
@@ -53,39 +55,39 @@
         <div class="row">
           <div class="col-6">
             <CFormLabel>Telefono</CFormLabel>
-            <CFormInput v-model="ayuntamiento.telefomo" />
+            <CFormInput v-model="postAyuntamiento.telefono" maxlength="10" />
           </div>
 
           <div class="col-6">
             <CFormLabel>Fax</CFormLabel>
-            <CFormInput v-model="ayuntamiento.fax" />
+            <CFormInput v-model="postAyuntamiento.fax" maxlength="10" />
           </div>
         </div>
       </div>
 
       <div>
         <CFormLabel>Direccion</CFormLabel>
-        <CFormTextarea v-model="ayuntamiento.direccion" />
+        <CFormInput v-model="postAyuntamiento.direccion" />
       </div>
 
       <div>
         <CFormLabel>Region</CFormLabel>
-        <CFormInput />
+        <CFormInput disabled :value="region" />
       </div>
 
       <div>
         <CFormLabel>Provincia</CFormLabel>
-        <CFormInput />
+        <CFormInput disabled :value="provincia" />
       </div>
 
       <div>
         <CFormLabel>Municipio</CFormLabel>
-        <CFormInput />
+        <CFormInput disabled :value="municipio" />
       </div>
 
       <div>
         <CFormLabel>Distrito</CFormLabel>
-        <CFormInput />
+        <CFormInput disabled :value="distrito" />
       </div>
 
       <div class="d-flex justify-content-end mt-3">
@@ -112,30 +114,57 @@ export default {
   components: { CFormTextarea },
   data: () => {
     return {
-      imageUrl: null,      ayuntamiento: {
-        codigo: 'string',
-        descripcion: 'string',
-        imagenUrl: 'string',
-        lema: 'string',
-        telefomo: 'string',
-        direccion: 'string',
-        fax: 'string',
+      postAyuntamiento: {
+        codigo: null,
+        descripcion: null,
+        imagenUrl: null,
+        lema: null,
+        telefono: null,
+        direccion: null,
+        fax: null,
         estatus: true,
-        siglas: 'string',
+        siglas: null,
+        rnc: null,
+        tipoGobierno: 'AYUNTAMIENTO',
       },
     }
   },
+
+  computed: {
+    provincia() {
+      return this.postAyuntamiento?.provincia?.descripcion ?? ''
+    },
+
+    region() {
+      return this.postAyuntamiento?.region?.descripcion ?? ''
+    },
+
+    distrito() {
+      return this.postAyuntamiento?.distrito?.descripcion ?? ''
+    },
+
+    municipio() {
+      return this.postAyuntamiento?.municipio?.descripcion ?? ''
+    },
+  },
+
   methods: {
     ...mapActions(useToastStore, ['show']),
 
     getAyuntamiento() {
       Api.getAyuntamiento(getAyuntamientoId()).then((response) => {
-        this.ayuntamiento = response.data.data
+        this.postAyuntamiento = response.data.data
       })
     },
 
     editarAyuntamiento() {
-      Api.putAyuntamiento(getAyuntamientoId(), this.ayuntamiento)
+      Api.putAyuntamiento(getAyuntamientoId(), {
+        ...this.postAyuntamiento,
+        regionId: this.postAyuntamiento.region.id ?? 0,
+        provinciaId: this.postAyuntamiento.provincia.id ?? 0,
+        municipioId: this.postAyuntamiento.municipio?.id ?? 0,
+        distritoId: this.postAyuntamiento.distrito?.id ?? 0,
+      })
         .then(() => {
           this.show({
             content: 'Ayuntamiento actualizado correctamente',
@@ -157,7 +186,7 @@ export default {
       if (file) {
         const reader = new FileReader()
         reader.onload = (evt) => {
-          this.ayuntamiento.imagenUrl = evt.target.result
+          this.postAyuntamiento.imagenUrl = evt.target.result
         }
         reader.readAsDataURL(file)
       }
