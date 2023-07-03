@@ -108,7 +108,13 @@ export default {
         {
           label: 'Cancelar',
           clickHandler: (item) => {
-            //this.editarGasto(item)
+            Api.deleteRegistroGasto(item.id).then((response) => {
+              this.show({
+                content: 'Registro Cancelado con exito',
+                closable: true,
+              })
+              this.getRegistroGasto()
+            }).catch(console.log())
           }
         },
         {

@@ -6,6 +6,10 @@ class Ejecucion {
   getTipoRetenciones(){
     return http.get('tipos-retenciones')
   }
+
+  deleteRegistroGasto(id){
+    return http.delete(`registros-gasto${id}`)
+  }
   //Comprobante Gasto
   getRegistroGasto(){
     return http.get('registros-gasto')
