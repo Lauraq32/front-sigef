@@ -7,7 +7,7 @@
 
       <CCardBody>
         <div class="row">
-       
+
           <div class="col-4">
             <CForm :validated="isFormEventTypeValidated" ref="eventTypeForm">
               <div class="row">
@@ -31,7 +31,7 @@
                 </CCol>
                 <CCol :md="6" class="border">
                   <CFormLabel for="nombre" class="font-weight-bold">Balance disponible</CFormLabel>
-
+                  <label for="">{{ balanceDisponible }}</label>
                 </CCol>
 
                 <CCol :md="12">
@@ -183,6 +183,7 @@ export default {
       ctgOrganismoFinanciadorId: '',
       ctgFuenteId: '',
       isFormEventTypeValidated: false,
+      balanceDisponible:null,
       detalleRetencion: {
         fecha: null,
         beneficiarioId: 1,
@@ -226,11 +227,11 @@ export default {
       clasificadoresTables: [
         { key: 'clasificador', label: 'Clasificadores' },
         { key: 'nombre', label: 'Descripcion' },
-        { key: 'presupuestoBco1', label: 'P/Original' },
-        { key: 'variacionBco1', label: 'Modific.' },
+        { key: 'presupuestoBco', label: 'P/Original' },
+        { key: 'variacionBco', label: 'Modific.' },
         // { key: '1', label: 'P/Actual.' },
-        { key: 'totalDevengadoBco1', label: 'Devengado.' },
-        { key: 'totalPagadoBco1', label: 'Pagado' },
+        { key: 'totalDevengadoBco', label: 'Devengado.' },
+        { key: 'totalPagadoBco', label: 'Pagado' },
         { key: 'show_details', label: 'Seleccionar' },
       ]
     }
@@ -265,12 +266,26 @@ export default {
     },
 
     getMestProg(event) {
-      console.log(this.registroGasto.bancoId)
-      if (event.target.value.length == 10) {
 
+      // console.log(this.registroGasto.bancoId)
+      if (event.target.value.length == 10) {
+        console.log(this.registroGasto.bancoId)
         Api.getRegistroGastoMesProg(event.target.value).then(response => {
           if (response.data.data.length > 1) {
-            this.mestProgList = response.data.data
+            var dataResponse = response.data.data.reduce((acc, current) => {
+              console.log(current);
+              acc.push({
+                clasificador: current.clasificador,
+                nombre: current.nombre,
+                presupuestoBco: current[`presupuestoBco${this.registroGasto.bancoId}`],
+                totalDevengadoBco: current[`totalDevengadoBco${this.registroGasto.bancoId}`],
+                totalPagadoBco: current[`totalPagadoBco${this.registroGasto.bancoId}`],
+                variacionBco: current[`variacionBco${this.registroGasto.bancoId}`],
+              });
+              return acc;
+            }, []);
+            this.mestProgList = dataResponse;
+
             this.show({
               content: 'Data encontrada con exito',
               closable: true,
@@ -290,7 +305,8 @@ export default {
 
     getTipoRetenciones() {
       Api.getTipoRetencion().then(response => {
-        console.log(response)
+
+
         this.tipoRetencionesList = response.data.data
       })
     },
@@ -309,10 +325,13 @@ export default {
     },
 
     selectMestProg(item) {
+      console.log(item);
+      
       this.ctgFuenteId = item.ctgFuenteId
       this.ctgFuenteEspecificaId = item.ctgFuenteEspecificaId
       this.ctgOrganismoFinanciadorId = item.ctgOrganismoFinanciadorId
-      this.detalleRegistroGasto.clasificadorId = item.ctgClasificadorId
+      this.detalleRegistroGasto.clasificadorId = item.clasificador
+      this.balanceDisponible = item.presupuestoBco
     }
   },
 
