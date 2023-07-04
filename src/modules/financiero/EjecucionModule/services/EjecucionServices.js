@@ -195,6 +195,12 @@ class Ejecucion {
   getTipoGastoById(id) {
     return http.get(`TipoGasto/${id}?Ayuntamiento=${getAyuntamientoId()}`)
   }
+
+  //Delete 
+
+  deleteBeneficiarios(id){
+    return http.delete(`Beneficiarios/${id}`)
+  }
 }
 
 export default new Ejecucion()
