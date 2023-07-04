@@ -97,13 +97,13 @@ export default {
       this.grupoModal = false
     },
 
-    // getAllGrupoPago() {
-    //   Api.getGrupoPagoList().then((response) => {
-    //     this.grupoPago = response.data.data
-    //     this.itemsCount = this.items.length
-    //     this.footerItem[0].label = `Total items: ${this.itemsCount}`
-    //   })
-    // },
+    getAllGrupoPago() {
+      Api.getGrupoPagoList().then((response) => {
+        this.grupoPago = response.data.data
+        this.itemsCount = this.grupoPago.length
+        this.footerItem[0].label = `Total items: ${this.itemsCount}`
+      })
+    },
 
     saveGrupoPago(payload) {
       if (payload.id) {
@@ -151,11 +151,7 @@ export default {
   },
 
   mounted() {
-    Api.getGrupoPagoList().then((response) => {
-      this.grupoPago = response.data.data
-      this.itemsCount = this.grupoPago.length
-      this.footerItem[0].label = `Total items: ${this.itemsCount}`
-    })
+    this.getAllGrupoPago()
   },
 }
 </script>
