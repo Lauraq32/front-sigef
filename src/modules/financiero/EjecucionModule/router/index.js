@@ -122,6 +122,17 @@ export default {
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/Retenciones.vue'
         ),
     },
+    {
+      path: 'conceptoGasto',
+      name: 'conceptoGasto',
+      meta: { label: 'Conceptos de gastos' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/ConceptoGasto.vue'
+        ),
+    },
+
+
 
     //  {
     //     path: '',

@@ -201,6 +201,12 @@ export default [
             to: '/Ejecucion/ejecucionGastos',
             icon: 'cilChartPie',
           },
+          {
+            component: 'CNavItem',
+            name: 'Concepto del Gasto',
+            to: '/Ejecucion/conceptoGasto',
+            icon: 'cilChartPie',
+          },
 
 
           {
