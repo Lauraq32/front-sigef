@@ -126,6 +126,7 @@ import {
   cilPlus,
   cilMinus,
   cilTrash,
+  cilInfo,
   cilFilter,
   cilFilterX
 } from '@coreui/icons-pro'
@@ -228,6 +229,7 @@ export const iconsSet = Object.assign(
     cilCreditCard,
     cilPlus,
     cilMinus,
+    cilInfo
   },
   {
     cifUs,
