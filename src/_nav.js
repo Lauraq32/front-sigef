@@ -807,7 +807,7 @@ export default [
         component: 'CNavItem',
         name: 'Ayuntamiento',
         to: '/AdministrativoModule/ayuntamiento',
-        icon: 'cilPeoplePlus',
+        icon: 'cilBuilding',
       },
     ],
   },
