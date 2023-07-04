@@ -146,7 +146,7 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Grupo de pago',
+            name: 'Grupos de pago',
             to: '/Ejecucion/grupoPago',
             icon: 'cilBuilding',
           },
