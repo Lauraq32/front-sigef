@@ -20,7 +20,7 @@
             </div>
             <div class="col-9 col-md-6">
               <CFormInput
-                @change="validarFechaDesde"
+                @change="validarFechaHasta"
                 required
                 id="validationCustom01"
                 v-model="fechaDesde"
@@ -150,7 +150,7 @@ export default {
       postAccionPersonal: {
         fechaDesde: null,
         tipoAccionId: null,
-        cantidad: 0,
+        cantidad: 1,
         fechaHasta: null,
         detalle: null,
       },
@@ -181,7 +181,6 @@ export default {
       },
       set(value) {
         this.postAccionPersonal.fechaDesde = new Date(`${value}T00:00:00`)
-        this.validarFechaDesde()
       },
     },
 
@@ -228,26 +227,17 @@ export default {
       this.isFormEventTypeValidated = false
       if (
         this.$refs.eventTypeForm.$el.checkValidity() &&
-        !this.isLowerSelectedInitDate &&
         !this.fechaHataValidation
       ) {
         return this.saveDataAccionPersonal({ ...this.postAccionPersonal })
       }
-      this.isFormEventTypeValidated = true
-    },
-
-    validarFechaDesde() {
-      const fechaDesde = new Date(this.postAccionPersonal.fechaDesde)
-      fechaDesde.setHours(0, 0, 0, 0)
-      const fechaActual = new Date()
-      fechaActual.setHours(0, 0, 0, 0)
-      if (fechaDesde < fechaActual) {
-        this.isLowerSelectedInitDate = true
-      } else {
-        this.isLowerSelectedInitDate = false
-      }
-
-      this.validarFechaHasta()
+      this.isFormEventTypeValidated = true;
+      this.show({
+        content: "Informaci&oacute;n incorrecta. Por favor revisar la informaci&oacute;n del formulario",
+        closable: true,
+        color: 'danger',
+        class: 'text-white',
+      })
     },
 
     validarFechaHasta() {

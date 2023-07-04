@@ -198,6 +198,12 @@ export default [
             to: '/Ejecucion/ejecucionGastos',
             icon: 'cilChartPie',
           },
+          {
+            component: 'CNavItem',
+            name: 'Concepto del Gasto',
+            to: '/Ejecucion/conceptoGasto',
+            icon: 'cilChartPie',
+          },
 
           {
             component: 'CNavTitle',
@@ -778,7 +784,7 @@ export default [
           {
             component: 'CNavItem',
             name: 'Inventario de útiles',
-            to: '/RRHHModule/inventario',
+            to: '/RRHHModule/utiles-laborales',
             icon: 'cilDollar',
           },
         ],
@@ -802,6 +808,12 @@ export default [
         name: 'Manejo usuarios',
         to: '/AdministrativoModule/manejoUsuarios',
         icon: 'cilPeoplePlus',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Misión y Visión',
+        to: '/AdministrativoModule/MisionVision',
+        icon: 'cilInfo',
       },
       {
         component: 'CNavItem',

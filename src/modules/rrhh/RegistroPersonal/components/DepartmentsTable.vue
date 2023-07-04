@@ -71,7 +71,7 @@
     </template>
     <template #status="{ item }">
       <td class="py-2">
-        <CBadge :color="getBadge(item.status)">
+        <CBadge class="text-uppercase" :color="getBadge(item.status)">
           {{ item.status ? 'Activo' : 'Inactivo' }}
         </CBadge>
       </td>
