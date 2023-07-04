@@ -6,7 +6,7 @@
       </button>
     </div>
 
-    <div class="container-fluid flex-column">
+    <div class="container-fluid flex-column mb-5">
       <div class="text-center justify-content-center">
         <h5>{{ ayuntamiento.descripcion }}</h5>
         <div class="text-center">
@@ -54,7 +54,11 @@
             <div class="col-6 fw-bold tamanoLetra">
               <label for="idCampos"> {{ data.label }}: </label>
             </div>
-            <p class="col-6 tamanoLetra" id="idCampos" v-html="lookInfo(data.key)"></p>
+            <p
+              class="col-6 tamanoLetra"
+              id="idCampos"
+              v-html="lookInfo(data.key)"
+            ></p>
           </div>
         </div>
       </div>
@@ -119,12 +123,12 @@
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="row margen h-0">
-      <div class="col-4  w-25 mx-4 h-0 border border-bottom-dark"></div>
-      <div class="col-4 w-25 mx-5 h-0 border border-bottom-dark"></div>
-      <div class="col-4 w-25 mx-4 h-0 border border-bottom-dark"></div>
-    </div>
+  <div class="d-flex mx-5 margen gap-5 h-100 w-100">
+    <div class="w-25 border border-bottom-dark"></div>
+    <div class="w-25 border border-bottom-dark"></div>
+    <div class="w-25 border border-bottom-dark"></div>
   </div>
 </template>
 
@@ -232,7 +236,7 @@ export default {
           label: 'Nivel de Presión',
           key: 'emergenciaPresionAlta',
         },
-       
+
         {
           label: 'En tratamiento',
           key: 'emergenciaEnTratamiento',
@@ -379,7 +383,7 @@ img {
   text-decoration: underline;
 }
 
-.margen{
+.margen {
   margin-top: 70px;
 }
 
