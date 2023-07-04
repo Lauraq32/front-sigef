@@ -38,7 +38,8 @@
       </td>
     </template>
   </CSmartTable>
-  <BeneficiariosModal :beneficiarioToUpdate="beneficiarioToUpdate" :showModal="showBeneficiarioModal" @postBeneficiarios="submitForm" @close-modal="closeForm" />
+  <BeneficiariosModal :beneficiarioToUpdate="beneficiarioToUpdate" :showModal="showBeneficiarioModal"
+    @postBeneficiarios="submitForm" @close-modal="closeForm" />
 </template>
 
 <script>
@@ -57,6 +58,7 @@ export default {
 
   data: function () {
     return {
+      beneficiario: null,
       Beneficiarios: [],
       showBeneficiarioModal: false,
       beneficiarioToUpdate: {},
@@ -136,7 +138,7 @@ export default {
               life: 15000,
             })
             setTimeout(this.getAllBeneficiarios(), 200)
-          }).catch((error)=>{
+          }).catch((error) => {
             this.show({
               content: error.response.data,
               closable: true,
@@ -186,10 +188,10 @@ export default {
       }
     },
 
-    EditBeneficiary(item){
+    EditBeneficiary(item) {
       this.showBeneficiarioModal = true
       this.beneficiarioToUpdate = item
-      
+
     }
   },
 

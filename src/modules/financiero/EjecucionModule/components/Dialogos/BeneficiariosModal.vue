@@ -147,13 +147,11 @@
 <script>
 import { CModal } from '@coreui/vue'
 import { onlyNumber, onlyLetter } from '@/utils/validator'
-import { CModalFooter, CButton } from '@coreui/vue-pro';
-import { watch } from 'vue';
+
 export default {
     name: 'BeneficiarioModal',
     components: {
         CModal,
-
     },
     emits: ['postBeneficiarios', 'close-modal'],
     data() {
@@ -210,7 +208,7 @@ export default {
             this.formBeneficiariosValidate = false
             if (this.$refs.formBeneficiarios.$el.checkValidity()) {
                 this.$emit("postBeneficiarios", {...this.postBeneficiario})
-                this.clearForm()
+                this.closeModal()
             }
             this.formBeneficiariosValidate = true
         },
