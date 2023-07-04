@@ -101,8 +101,8 @@ export default {
                     reportName: 'Rep_FP01_Mision_y_Vision',
                     params: [
                         {
-                            name: 'ID_TRANSACCION',
-                            value: item.id,
+                            name: 'ANO',
+                            value: "fiscalYear",
                         },
                         {
                             name: 'CAPITULO_AYTO',
