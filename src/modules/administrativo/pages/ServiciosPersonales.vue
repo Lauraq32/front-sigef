@@ -56,6 +56,7 @@ import { CSmartTable } from '@coreui/vue-pro'
 import Api from '../services/FormulacionServices'
 import DetalleServiciosPersonales from '../components/DetalleServiciosPersonales.vue'
 import { useToastStore } from '@/store/toast'
+import { showReport } from '@/utils/util'
 import { mapActions } from 'pinia'
 export default {
     components: {
@@ -81,6 +82,12 @@ export default {
                     label: 'Remover',
                     clickHandler: (value) => {
                         _this.deleteServicioPersonal(value.id)
+                    },
+                },
+                {
+                    label: 'Imprimir',
+                    clickHandler: (value) => {
+                        _this.printReportReciboIngreso(value)
                     },
                 },
             ],
@@ -111,38 +118,64 @@ export default {
             })
         },
 
-        deleteServicioPersonal(id) {
-            Api.deleteFpServicioPersonal(id).then(response => (
-                setTimeout(this.getServicios(), 500)
-            )).then((response) => {
-                this.show({
-                    content: 'Registro Eliminado con exito',
-                    closable: true,
-                    color: 'success',
+        async printReportReciboIngreso(item) {
+            try {
+                await showReport({
+                    folderName: 'fep',
+                    reportName: 'Rep_FP05_Serviciospersonales',
+                    params: [
+                        {
+                            name: 'ANO',
+                            value: 'fiscalYear',
+                        },
+                        {
+                            name: 'CAPITULO_AYTO',
+                            value: 'majorityId',
+                        },
+                    ],
                 })
-            })
-                .catch((error) => {
+            } catch (error) {
+                this.show({
+                    content: error,
+                    closable: true,
+                    color: 'danger',
+                    class: 'text-white',
+                })
+            }
+        },
+
+            deleteServicioPersonal(id) {
+                Api.deleteFpServicioPersonal(id).then(response => (
+                    setTimeout(this.getServicios(), 500)
+                )).then((response) => {
                     this.show({
-                        content: error.message,
+                        content: 'Registro Eliminado con exito',
                         closable: true,
-                        color: 'danger',
+                        color: 'success',
                     })
                 })
+                    .catch((error) => {
+                        this.show({
+                            content: error.message,
+                            closable: true,
+                            color: 'danger',
+                        })
+                    })
 
+            },
+
+            showServicioPeronalesDialog() {
+                this.servicioPerosnalesDialog = true;
+            },
+
+            closeMestProgDialog() {
+                this.servicioPerosnalesDialog = false;
+            }
         },
-
-        showServicioPeronalesDialog() {
-            this.servicioPerosnalesDialog = true;
-        },
-
-        closeMestProgDialog() {
-            this.servicioPerosnalesDialog = false;
+        mounted() {
+            this.getServicios();
         }
-    },
-    mounted() {
-        this.getServicios();
     }
-}
 </script>
 
 <style lang="scss" scoped></style>
