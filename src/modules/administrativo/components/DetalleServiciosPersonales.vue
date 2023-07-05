@@ -142,7 +142,7 @@
     </CModal>
 
     <SelectClasificador :showModal="clasificadorDialog" @closeClasificador="closeDialogClasificador" />
-    <SelectMestProgDialog :showModal="MestProgDialog" @closeMestProg="closeMestProgDialog"/>
+    <SelectMestProgDialog :showModal="MestProgDialog" @closeMestProg="closeMestProgDialog" />
     <DetalleServiciosPersonales :showModal="DetalleServiciosPersonalesDialog" @saveDetalle="saveDetalle"
         @closeServiciosPersonales="closeDetalleMestProg" />
 </template>
@@ -266,6 +266,41 @@ export default {
     },
     methods: {
         ...mapActions(useToastStore, ['show']),
+        clearForm() {
+            this.programa = null
+            this.proyecto = null
+            this.actividadObra = null
+            this.funcion = null
+            this.serviciosItems = []
+            this.servicioPersonales = {
+                estructuraProgramaticaId: null,
+                clasificadorId: null,
+                go01Cantidad: 0,
+                go01Mensual: 0,
+                go01CantidadSolicitada: 0,
+                go01MensualSolicitado: 0,
+                go02Cantidad: 0,
+                go02Mensual: 0,
+                go02CantidadSolicitada: 0,
+                go02MensualSolicitado: 0,
+                go03Cantidad: 0,
+                go03Mensual: 0,
+                go03CantidadSolicitada: 0,
+                go03MensualSolicitado: 0,
+                go04Cantidad: 0,
+                go04Mensual: 0,
+                go04CantidadSolicitada: 0,
+                go04MensualSolicitado: 0,
+                go05Cantidad: 0,
+                go05Mensual: 0,
+                go05CantidadSolicitada: 0,
+                go05MensualSolicitado: 0,
+                go06Cantidad: 0,
+                go06Mensual: 0,
+                go06CantidadSolicitada: 0,
+                go06MensualSolicitado: 0
+            }
+        },
         handleSubmitCustom01(event) {
             const form = event.currentTarget
             if (form.checkValidity() === false) {
@@ -296,6 +331,7 @@ export default {
                         closable: true,
                         color: 'success',
                     })
+                    this.clearForm()
                 })
                     .catch((error) => {
                         this.show({
@@ -316,6 +352,7 @@ export default {
                     closable: true,
                     color: 'success',
                 })
+                this.clearForm()
             })
                 .catch((error) => {
                     this.show({
