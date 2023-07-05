@@ -15,7 +15,7 @@
                                         Tipo de Documento</CFormLabel>
                                     <CFormSelect v-model="postBeneficiario.tipoDcto" @change="changeDocument()"
                                         id="postBeneficiario.tipoDcto">
-                                        <option value="cedula">Cedula</option>
+                                        <option value="cedula">Cédula</option>
                                         <option value="pasaporte">Pasaporte</option>
                                         <option value="rnc">RNC</option>
                                     </CFormSelect>
@@ -40,7 +40,7 @@
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </CCol>
                                 <CCol class="col-6">
-                                    <CFormLabel for="validationCustom04">Direccion</CFormLabel>
+                                    <CFormLabel for="validationCustom04">Direcci&oacute;n</CFormLabel>
                                     <CFormInput v-model="postBeneficiario.direccion" required
                                         id="validationCustom04">
                                     </CFormInput>
@@ -105,9 +105,9 @@
                                     <option>Institucional</option>
                                     <option>Pensionado</option>
                                     <option>Personal</option>
-                                    <option>Subvencion</option>
+                                    <option>Subvenci&oacute;n</option>
                                     <option>Comercial</option>
-                                    <option>otros</option>
+                                    <option>Otros</option>
                                 </CFormSelect>
                             </CCol>
                         </div>

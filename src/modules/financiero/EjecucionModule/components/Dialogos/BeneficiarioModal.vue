@@ -150,9 +150,9 @@
                   <option>Institucional</option>
                   <option>Pensionado</option>
                   <option>Personal</option>
-                  <option>Subvencion</option>
+                  <option>Subvenci&oacute;n</option>
                   <option>Comercial</option>
-                  <option>otros</option>
+                  <option>Otros</option>
                 </CFormSelect>
               </CCol>
 

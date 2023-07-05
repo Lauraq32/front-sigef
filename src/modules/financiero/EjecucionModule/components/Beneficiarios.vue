@@ -49,7 +49,6 @@ import BeneficiariosModal from '../components/Dialogos/BeneficiariosModal.vue'
 import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
 
-
 export default {
   components: {
     CSmartTable,
@@ -74,25 +73,18 @@ export default {
           label: 'Beneficiario',
           _style: { width: '15%' },
         },
-
         { key: 'rncCedPas', label: 'RNC/Cédula/Pasaporte', _style: { width: '12%' } },
         { key: 'contacto', label: 'Contacto', _style: { width: '8%' } },
-        // { key: 'ingreso', label: 'Fecha Ingreso', _style: { width: '15%' } },
-        // { key: 'tipoDcto', label: 'Tipo', _style: { width: '10%' } },
         { key: 'email', label: 'Email', _style: { width: '20%' } },
-
         { key: 'telefono', label: 'Teléfono 1', _style: { width: '10%' } },
         { key: 'celular', label: 'Teléfono 2', _style: { width: '10%' } },
-
         { key: 'estatus', label: 'Estatus', _style: { width: '5%' } },
-
         {
           key: 'show_details',
           label: '',
           _style: { width: '1%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
       footerItem: [
@@ -105,13 +97,10 @@ export default {
           },
         },
       ],
-
-
       validatedCustom01: null,
       lgDemo: false,
     }
   },
-
   methods: {
     ...mapActions(useToastStore, ['show']),
     getAllBeneficiarios() {
@@ -147,7 +136,6 @@ export default {
           })
         }
       })
-
     },
 
     closeForm() {
@@ -191,7 +179,6 @@ export default {
     EditBeneficiary(item) {
       this.showBeneficiarioModal = true
       this.beneficiarioToUpdate = item
-
     }
   },
 
