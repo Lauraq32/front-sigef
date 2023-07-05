@@ -28,8 +28,7 @@
           header
           :items="clasificadores"
           :columns="columns"
-          itemsPerPageSelect
-          :itemsPerPage="5"
+          :itemsPerPage="7"
           :items-per-page-options="[5, 10, 20]"
           columnSorter
           :sorterValue="{ column: 'status', state: 'asc' }"
@@ -51,6 +50,16 @@
               </div>
             </td>
           </template>
+          <template #ffo="{item}">
+            <td v-if="origin">
+                {{ item.ctgFuenteId }}/{{ item.ctgFuenteEspecificaId }}/{{ item.ctgOrganismoFinanciadorId }}
+            </td>
+          </template>
+          <template #nombre="{item}">
+            <td :colspan="!origin ? 2: 1">
+                {{ item.nombre }}
+            </td>
+          </template>
         </CSmartTable>
     </CModalBody>
   </CModal>
@@ -67,11 +76,15 @@ const emit = defineEmits(['close'])
 const props = defineProps({
   isVisible: Boolean,
   filtered: {
-    default: () => true,
+    default: () => () => true,
   },
   term: {
     default: '',
   },
+  origin: {
+    type: String,
+    default: null
+  }
 });
 
 const toastStore = useToastStore();
@@ -80,9 +93,16 @@ const isLoading = ref(true)
 const clasificadores = ref([])
 const allClasificator = ref([])
 const columns = [
-  { key: 'clasifica', label: 'Clasificador' },
-  { key: 'cControl', label: 'Control' },
-  { key: 'nombre', label: 'Detalle', _style: { width: '25%' } },
+  { key: 'clasifica', label: 'Clasificador', _style: { width: '15%' }, },
+  { key: 'cControl', label: 'Control', _style: { width: '10%' }, },
+  { key: 'nombre', label: 'Detalle', _style: { width: '55%' } },
+  {
+    key: 'ffo',
+    label: '',
+    filter: false,
+    sorter: false,
+    _style: { width: '5%' },
+  },
   {
     key: 'tipo',
     label: 'Tipo',
@@ -105,10 +125,10 @@ const closeDialog = (data) => {
 
 watchEffect(() => {
   if (allClasificator.value.length === 0) {
-    Api.getListarClasificadores()
+    Api.getListarClasificadores(props.origin)
       .then((response) => {
-        allClasificator.value = response.data.data
-        clasificadores.value = allClasificator.value.filter(props.filtered)
+        allClasificator.value = response.data.data;
+        clasificadores.value = allClasificator.value.filter(props.filtered);
         isLoading.value = false;
         autoSelectClasificator(props.term);
       })

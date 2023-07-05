@@ -24,7 +24,7 @@ class DeparmentServices {
   }
 
   getGruposNomina() {
-    return httpClient.get('/grupoNomina')
+    return httpClient.get('/grupo-nomina')
   }
 
   getCuentasDeBancos() {

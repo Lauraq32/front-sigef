@@ -1,48 +1,80 @@
 <template>
-  <h3 class="text-center">Reclutamiento y/o Solicitudes</h3>
+  <h3 class="text-center mb-4">Reclutamiento y/o Solicitudes</h3>
 
   <div class="table-headers">
     <div class="d-inline p-2">
-      <CButton color="info" @click="() => {
-          showReclutamientoModal = true
-        }
-        ">Agregar</CButton>
+      <CButton
+        color="info"
+        @click="
+          () => {
+            showReclutamientoModal = true
+          }
+        "
+        >Agregar</CButton
+      >
     </div>
   </div>
-  <CSmartTable class="sticky-top" clickableRows :tableProps="{
+  <CSmartTable
+    class="sticky-top"
+    clickableRows
+    :tableProps="{
       striped: true,
       hover: true,
-    }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header :items="solicitudItem" :columns="columns"
-    columnFilter itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination>
-    <template #show_details="{ item, index }">
+    }"
+    :tableHeadProps="{}"
+    :activePage="1"
+    :footer="footerItem"
+    header
+    :items="solicitudItem"
+    :columns="columns"
+    columnFilter
+    itemsPerPageSelect
+    :itemsPerPage="5"
+    columnSorter
+    :sorterValue="{ column: 'status', state: 'asc' }"
+    pagination
+  >
+    <template #show_details="{ item }">
       <td>
-        <CButton @click="getReclutamientoById(item)" color="primary" variant="outline">Editar</CButton>
+        <CButton
+          @click="getReclutamientoById(item)"
+          color="primary"
+          variant="outline"
+          >Editar</CButton
+        >
       </td>
-
     </template>
-    <template #entrevistado="{ item, index }">
+    <template #entrevistado="{ item }">
       <td class="py-2">
         {{ item.entrevistado ? 'Si' : 'No' }}
       </td>
     </template>
-    <template #evaluado="{ item, index }">
+    <template #evaluado="{ item }">
       <td class="py-2">
         {{ item.evaluado ? 'Si' : 'No' }}
       </td>
     </template>
-
+    <template #celular="{ item }">
+      <td class="py-2">
+        {{ item.celular ?? '' }}
+      </td>
+    </template>
   </CSmartTable>
-  <ReclutamientoDialog :showModal="showReclutamientoModal" @closeModal="closeModal"
-    @post-reclutamiento="saveSolicitudEmpleo" :solicitudEmpleoId="reclutamiento" />
+  <ReclutamientoDialog
+    :showModal="showReclutamientoModal"
+    @closeModal="closeModal"
+    @post-reclutamiento="saveSolicitudEmpleo"
+    :solicitudEmpleoId="reclutamiento"
+  />
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
-import { CModal } from '@coreui/vue'
+import { CModal, CFormInput } from '@coreui/vue'
 import ReclutamientoDialog from '../components/Dialogos/ReclutamientoDialogs.vue'
 import Api from '../services/SolicitudEmpleo'
 import { mapActions } from 'pinia'
 import { useToastStore } from '@/store/toast'
+import { h } from 'vue'
 
 export default {
   components: {
@@ -52,10 +84,7 @@ export default {
   },
   data: () => {
     return {
-
-      validatedCustom01: null,
       showReclutamientoModal: false,
-      solicitudEmpleoId: null,
       columns: [
         {
           key: 'id',
@@ -65,24 +94,53 @@ export default {
         {
           key: 'nombre',
           label: 'Nombre Solicitante',
-          _style: { width: '30%' },
+          _style: { width: '25%' },
         },
-        { key: 'telefono', label: 'Teléfono', _style: { width: '10%' } },
+        {
+          key: 'codigoIdentidad',
+          label: 'Cédula/Pasaporte',
+          _style: { width: '15%' },
+        },
+        { key: 'celular', label: 'Celular', _style: { width: '10%' } },
         { key: 'edad', label: 'Edad', _style: { width: '10%' } },
         {
           key: 'entrevistado',
           label: 'Entrevistado',
-          _style: { width: '10%' },
+          _style: { width: '15%' },
+          filter: (_, onChange) => {
+            return h(CFormInput, {
+              class: 'form-control form-control-sm',
+              onInput: ({target: {value: typed}}) => {
+                onChange((item) => {
+                  const text = item ? 'si': 'no';
+                  return text.includes(typed.toLowerCase());
+                });
+              }
+            });
+          }
         },
-        { key: 'evaluado', label: 'Evaluado', _style: { width: '10%' } },
-
+        {
+          key: 'evaluado',
+          label: 'Evaluado',
+          _style: { width: '10%' },
+          filter: (_, onChange) => {
+            return h(CFormInput, {
+              class: 'form-control form-control-sm',
+              onInput: ({target: {value: typed}}) => {
+                onChange((item) => {
+                  const text = item ? 'si': 'no';
+                  return text.includes(typed.toLowerCase());
+                });
+              }
+            });
+          }
+        },
         {
           key: 'show_details',
           label: '',
-          _style: { width: '1%' },
+          _style: { width: '5%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
       solicitudItem: [],
@@ -90,68 +148,70 @@ export default {
         {
           label: 'Total Item',
           _props: {
-            colspan: 6,
+            colspan: 7,
             style: 'font-weight:bold;',
           },
-        }
-
+        },
       ],
-      details: [],
+      reclutamiento: {},
     }
   },
   watch: {
     showReclutamientoModal() {
       this.getAll()
-    }
+    },
   },
   methods: {
     ...mapActions(useToastStore, ['show']),
     getAll() {
-      Api.getSolicitudEmpleo().then(response => (
-        this.solicitudItem = response.data.data,
-        this.footerItem[0].label = `Total Item: ${this.solicitudItem.length}`
-      ))
+      Api.getSolicitudEmpleo().then(
+        (response) => (
+          (this.solicitudItem = response.data.data),
+          (this.footerItem[0].label = `Total Item: ${this.solicitudItem.length}`)
+        ),
+      )
     },
     saveSolicitudEmpleo(payload) {
-
-      if (this.solicitudEmpleoId != null) {
-        Api.putSolicitudEmpleo(this.solicitudEmpleoId, payload).then((response) => {
-          this.show({
-            content: 'Registro actualizado correctamente',
-            closable: true,
+      if (payload.id) {
+        Api.putSolicitudEmpleo(payload.id, payload)
+          .then((response) => {
+            this.show({
+              content: 'Registro actualizado correctamente',
+              closable: true,
+            })
+            this.getAll()
+            this.closeModal()
           })
-          this.getAll()
-        }
-        ).catch(error => {
-          this.show({
-            content: error.response.data,
-            closable: true,
-            color: 'danger'
+          .catch((error) => {
+            this.show({
+              content: error.response.data,
+              closable: true,
+              color: 'danger',
+            })
           })
-        })
-
       } else {
-        Api.postSolicitudEmpleo(payload).then(response => {
-          this.show({
-            content: 'Registro Agregado correctamente',
-            closable: true,
+        Api.postSolicitudEmpleo(payload)
+          .then((response) => {
+            this.show({
+              content: 'Registro Agregado correctamente',
+              closable: true,
+            })
+            this.getAll()
+            this.closeModal()
           })
-          this.getAll()
-          this.showReclutamientoModal = false
-        }).catch((error) => {
-          this.show({
-            content: error.response.data,
-            closable: true,
-            color: 'danger'
+          .catch((error) => {
+            this.show({
+              content: error.response.data,
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+            })
           })
-        })
       }
-      this.solicitudEmpleoId = null
-
     },
     closeModal() {
-      this.showReclutamientoModal = false;
-      this.solicitudEmpleoId = null
+      this.showReclutamientoModal = false
+      this.reclutamiento = {}
     },
     getBadge(status) {
       switch (status) {
@@ -168,15 +228,12 @@ export default {
       }
     },
     getReclutamientoById(item) {
-      this.solicitudEmpleoId = item.id
       this.reclutamiento = item
       this.showReclutamientoModal = true
     },
-
   },
   mounted() {
     this.getAll()
   },
 }
 </script>
-
