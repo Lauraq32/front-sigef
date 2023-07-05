@@ -3,7 +3,10 @@
     <h4 class="text-center">{{ postAyuntamiento.descripcion }}</h4>
     <div class="text-center">
       <span
-        ><h6>{{ postAyuntamiento.rnc }}</h6></span
+        ><h6>{{ postAyuntamiento.direccion }}</h6></span
+      >
+      <span
+        ><h6>RNC: {{ postAyuntamiento.rnc }}</h6></span
       >
       <span
         ><h6>Codigo: {{ postAyuntamiento.codigo }}</h6></span
