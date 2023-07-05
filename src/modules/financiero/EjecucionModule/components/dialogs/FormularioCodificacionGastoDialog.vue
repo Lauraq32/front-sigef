@@ -185,7 +185,7 @@ export default {
       isFormEventTypeValidated: false,
       balanceDisponible:null,
       detalleRetencion: {
-        fecha: null,
+        fecha: '2023-07-07',
         beneficiarioId: 1,
         tipoRetencionId: 0,
         montoAplica: 0,
@@ -193,7 +193,7 @@ export default {
         valorAplicado: 0
       },
       detalleRegistroGasto: {
-        fecha: null,
+        fecha: '2023-07-07',
         bancoId: 1,
         estructuraProgramatica: "",
         clasificadorId: "",
