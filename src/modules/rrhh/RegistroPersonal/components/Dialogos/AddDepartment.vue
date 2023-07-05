@@ -17,7 +17,7 @@
           class="row g-3 needs-validation"
           novalidate
           :validated="formIsValid"
-          @submit="hanldeSubmitForm"
+          @submit.prevent="hanldeSubmitForm"
         >
           <CContainer>
             <CRow>
@@ -26,8 +26,7 @@
                   >C&oacute;digo SASP</CFormLabel
                 >
                 <CFormInput
-                  required
-                  type="Number"
+                  type="number"
                   oninput="this.value = this.valueAsNumber"
                   v-model="newDepartment.saspId"
                   feedbackInvalid="Inserte Codigo SASP"
@@ -39,29 +38,29 @@
           </CContainer>
 
           <div>
-            <CFormLabel>Nombre Depto. &oacute; N&oacute;mina</CFormLabel>
-            <CFormInput required v-model="newDepartment.nombre"> </CFormInput>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+            <CFormLabel>Programa</CFormLabel>
+            <CFormSelect
+              required
+              :modelValue="`${newDepartment.programaDivisionId}`"
+              @update:modelValue="handleProgramaChange"
+            >
+              <option :value="'0'">Selecionar Programa</option>
+              <option
+                v-for="programa in programas"
+                :value="`${programa.id}`"
+                :key="programa.id"
+              >
+                {{ programa.nombre }}
+              </option>
+            </CFormSelect>
           </div>
 
-          <CContainer>
+          <CContainer class="mt-2">
             <CRow>
               <CCol :md="6">
-                <CFormLabel>Programa</CFormLabel>
-                <CFormSelect
-                  required
-                  :modelValue="`${newDepartment.programaDivisionId}`"
-                  @update:modelValue="handleProgramaChange"
-                >
-                  <option :value="'0'">Selecionar Programa</option>
-                  <option
-                    v-for="programa in programas"
-                    :value="`${programa.id}`"
-                    :key="programa.id"
-                  >
-                    {{ programa.nombre }}
-                  </option>
-                </CFormSelect>
+                <CFormLabel>Nombre Depto. &oacute; N&oacute;mina</CFormLabel>
+                <CFormInput required v-model="newDepartment.nombre"> </CFormInput>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
 
               <CCol :md="6">
@@ -106,14 +105,14 @@
                   <CFormSelect
                     required
                     v-model="newDepartment.ctgClasificadorId"
-                    @update:modelValue="handleClasificadorChange"
+                    @change="handleClasificadorChange"
                     :options="[
                       {
                         label: 'Seleccione Clasificador',
                         value: '0',
                         item: {},
                       },
-                      ...clasificadores,
+                      ...clasificadoresFiltrados,
                     ]"
                   >
                   </CFormSelect>
@@ -160,26 +159,19 @@
               <CRow>
                 <CCol :md="3">
                   <CFormLabel>Clasificador</CFormLabel>
-                  <div class="position-relative">
                     <CFormInput
-                      required
                       v-model="newDepartment.ctgClasificadorRegaliaId"
                       feedbackInvalid="Seleccione un clasificador ."
                       id="invalidClasificador"
                       maxlength="6"
                       @keypress="onlyNumber"
                     ></CFormInput>
-                    <span class="position-absolute icon-input">
-                      <CIcon icon="cisSearch" size="xl" />
-                    </span>
-                  </div>
                 </CCol>
 
                 <CCol :md="3">
                   <CFormLabel>Fuente Financiamineto</CFormLabel>
                   <CFormInput
                     v-model="newDepartment.ctgFuenteRegaliaId"
-                    required
                     maxlength="2"
                     @keypress="onlyNumber"
                   ></CFormInput>
@@ -189,7 +181,6 @@
                   <CFormLabel>Fuente Espec&iacute;fica</CFormLabel>
                   <CFormInput
                     v-model="newDepartment.ctgFuenteEspecificaRegaliaId"
-                    required
                     maxlength="4"
                     @keypress="onlyNumber"
                   ></CFormInput>
@@ -199,7 +190,6 @@
                   <CFormLabel> Organismo Financiero</CFormLabel>
                   <CFormInput
                     v-model="newDepartment.ctgOrganismoFinanciadorRegaliaId"
-                    required
                     maxlength="4"
                     @keypress="onlyNumber"
                   >
@@ -324,23 +314,12 @@ export default {
         this.newDepartment.estructura = programa.estructura
       }
     },
-    handleClasificadorChange(clasificadorId) {
-      const selected = this.clasificadores.find(
-        (x) => x.value === clasificadorId,
-      )
+    handleClasificadorChange({target}) {
+      const selected = this.clasificadoresFiltrados[target.selectedIndex - 1];
       if (selected) {
         this.newDepartment.ctgFuenteId = selected.item?.ctgFuenteId
-        this.newDepartment.ctgFuenteEspecificaId =
-          selected.item?.ctgFuenteEspecificaId
-        this.newDepartment.ctgOrganismoFinanciadorId =
-          selected.item?.ctgOrganismoFinanciadorId
-
-        this.newDepartment.ctgClasificadorRegaliaId = selected.item?.clasifica
-        this.newDepartment.ctgFuenteRegaliaId = selected.item?.ctgFuenteId
-        this.newDepartment.ctgFuenteEspecificaRegaliaId =
-          selected.item?.ctgFuenteEspecificaId
-        this.newDepartment.ctgOrganismoFinanciadorRegaliaId =
-          selected.item?.ctgOrganismoFinanciadorId
+        this.newDepartment.ctgFuenteEspecificaId = selected.item?.ctgFuenteEspecificaId;
+        this.newDepartment.ctgOrganismoFinanciadorId = selected.item?.ctgOrganismoFinanciadorId;
       }
     },
   },
@@ -368,16 +347,15 @@ export default {
       .getCuentasDeBancos()
       .then((response) => (this.cuentasBanco = response.data.data))
     departmentService.getClasificadores().then((response) => {
-      this.clasificadores = response.data.data
-        .filter((clasificator => clasificator?.clasifica?.toString().match(/^(2)/g)))
-        .filter((x) => clasificadoresPermitidos.includes(x.clasifica))
-        .map((item) => {
-          return {
-            label: `${item.clasifica} - ${item.nombre}`,
-            value: item.clasifica,
-            item,
-          }
-        })
+      const clasificadores = response.data?.data
+        ?.filter((clasificator => clasificator?.clasifica?.toString().match(/^(2)/g)))
+        ?.filter((x) => clasificadoresPermitidos.includes(x.clasifica));
+
+      const uniqueClasificadores = clasificadores.reduce((obj, item) => {
+        obj[ `${item.clasifica}-${item.source.mestProgId}-(${item.ctgFuenteId}/${item.ctgFuenteEspecificaId}/${item.ctgOrganismoFinanciadorId})`] = item;
+        return obj;
+      }, {});
+      this.clasificadores = Object.values(uniqueClasificadores);
     })
   },
   computed: {
@@ -399,6 +377,17 @@ export default {
         this.newDepartment.ctgOrganismoFinanciadorRegaliaId?.length > 2
       ].reduce((a, b) => a && b,  true));
     },
+    clasificadoresFiltrados() {
+      return this.clasificadores
+        .filter((x) => x.source.mestProgId === this.newDepartment.estructura)
+        .map((item) => {
+          return {
+            label: `${item.clasifica} - ${item.nombre} (${item.ctgFuenteId}/${item.ctgFuenteEspecificaId}/${item.ctgOrganismoFinanciadorId})`,
+            value: item.clasifica,
+            item,
+          }
+        });
+    }
   },
   watch: {
     validPaymentStructureInfo(newValue) {
