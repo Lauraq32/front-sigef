@@ -11,7 +11,7 @@
   <CSmartTable class="sticky-top" clickableRows :tableProps="{
     striped: true,
     hover: true,
-  }" :tableHeadProps="{}" :activePage="1" footer="footerItem" header :items="grupoPago" :columns="columns"
+  }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header :items="grupoPago" :columns="columns"
     itemsPerPageSelect columnFilter :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
     pagination>
     <template #show_details="{ item }">
@@ -32,7 +32,8 @@
       </td>
     </template>
   </CSmartTable>
-  <grupoPagoModal :grupoModal="grupoModal" @close-modal="closeModal" @post-grupo="saveGrupoPago" :groupToUpdate="groupToUpdate"/>
+  <grupoPagoModal :grupoModal="grupoModal" @close-modal="closeModal" @post-grupo="saveGrupoPago"
+    :groupToUpdate="groupToUpdate" />
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
@@ -53,10 +54,21 @@ export default {
   data: () => {
     return {
       formatDate,
+      itemsCount: null,
       grupoModal: false,
       validatedCustom01: null,
-      groupToUpdate:{},
+      groupToUpdate: {},
       grupoPago: [],
+      footerItem: [
+        {
+          label: 'Total Items',
+          _props: {
+            color: '',
+            colspan: 6,
+            style: 'font-weight:bold;',
+          },
+        },
+      ],
       columns: [
         { key: 'id', label: 'Código', _style: { width: '10%' } },
         { key: 'descripcion', label: 'Descripción', _style: { width: '49%' } },
@@ -77,17 +89,6 @@ export default {
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
-      footerItem: [
-        {
-          label: 'Total Items',
-          _props: {
-            color: '',
-            colspan: 1,
-            style: 'font-weight:bold;',
-          },
-        },
-
-      ],
     }
   },
   methods: {
@@ -99,6 +100,8 @@ export default {
     getAllGrupoPago() {
       Api.getGrupoPagoList().then((response) => {
         this.grupoPago = response.data.data
+        this.itemsCount = this.grupoPago.length
+        this.footerItem[0].label = `Total items: ${this.itemsCount}`
       })
     },
 
@@ -140,7 +143,7 @@ export default {
       }
     },
 
-    editarGrupo(item){
+    editarGrupo(item) {
       this.groupToUpdate = item
       this.grupoModal = true
     },

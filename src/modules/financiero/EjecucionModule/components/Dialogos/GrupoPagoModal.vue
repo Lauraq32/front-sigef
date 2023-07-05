@@ -19,7 +19,7 @@
                     </CCol>
                     <CCol>
                         <CFormLabel for="postGrupo.fechaFin">Fecha Fin</CFormLabel>
-                        <CFormInput type="date" id="postGrupo.fechaFin" v-model="fechaFin" @change="validarFechaHasta"
+                        <CFormInput type="date" id="postGrupo.fechaFin" :disabled="!postGrupo.id" v-model="fechaFin" @change="validarFechaHasta"
                             required />
                         <CFormFeedback invalid :style="{ display: fechaHataValidation ? 'flex' : 'none' }">
                             La fecha no puede ser menor a la fecha inicio
@@ -52,7 +52,7 @@ export default {
             postGrupo: {
                 descripcion: "",
                 fechaInicio: new Date(),
-                fechaFin: new Date()
+                fechaFin: null
 
             },
             isLowerSelectedInitDate: false,
@@ -130,7 +130,7 @@ export default {
                 this.postGrupo = {
                     descripcion: "",
                     fechaInicio: new Date(),
-                    fechaFin: new Date()
+                    fechaFin: null
                 }
         },
 
