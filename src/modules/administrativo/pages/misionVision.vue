@@ -2,22 +2,18 @@
     <div class="app">
         <div class="parent-div pb-4 text-center">
             <h2 class="title">Misión y Visión</h2>
-
             <div class="child-div mt-4">
                 <h5 class="subtitle text-start">Misión</h5>
                 <textarea class="form-control" v-model="propuestaDeclaratoria.mision" rows="3"></textarea>
             </div>
-
             <div class="child-div mt-4">
                 <h5 class="subtitle text-start">Visión</h5>
                 <textarea class="form-control" v-model="propuestaDeclaratoria.vision" rows="3"></textarea>
             </div>
-
             <div class="text-end mt-4">
                 <button class="btn btn-info me-2" @click="putMisionVision()">Guardar</button>
                 <button class="btn btn-secondary" @click="printReportMisionVision">Imprimir</button>
             </div>
-
         </div>
     </div>
 </template>
@@ -30,21 +26,17 @@ import { showReport } from '@/utils/util'
 
 export default {
     name: 'misionVision',
-
     data: () => {
         return {
-
             propuestaDeclaratoria: {
                 mision: "",
                 vision: "",
             }
         }
     },
-
     mounted() {
         this.getMissionVission()
     },
-
     methods: {
         ...mapActions(useToastStore, ['show']),
         getMissionVission() {
@@ -54,7 +46,6 @@ export default {
                 }
             })
         },
-
         putMisionVision() {
             if (this.propuestaDeclaratoria.id) {
                 Api.putMisionVision(this.propuestaDeclaratoria.id, this.propuestaDeclaratoria).then(() => {
@@ -97,8 +88,8 @@ export default {
                     reportName: 'Rep_FP01_Mision_y_Vision',
                     params: [
                         {
-                            name: 'ID_TRANSACCION',
-                            value: item.id,
+                            name: 'ANO',
+                            value: "fiscalYear",
                         },
                         {
                             name: 'CAPITULO_AYTO',

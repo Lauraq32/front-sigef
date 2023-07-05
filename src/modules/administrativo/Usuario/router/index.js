@@ -14,7 +14,6 @@ export default {
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/Usuario/components/manejoUsuarios.vue'
         ),
     },
-
     //  {
     //     path: '',
     //     name: 'no-entry',
