@@ -812,7 +812,7 @@ export default [
       {
         component: 'CNavItem',
         name: 'Misión y Visión',
-        to: '/AdministrativoModule/MisionVision',
+        to: '/AdministrativoModule/misionVision',
         icon: 'cilInfo',
       },
       {
