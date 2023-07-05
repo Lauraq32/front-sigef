@@ -14,16 +14,6 @@ export default {
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/Usuario/components/manejoUsuarios.vue'
         ),
     },
-    {
-      path: 'misionVision',
-      name: 'MisionVision',
-      meta: { label: 'Mision y Vision' },
-      component: () =>
-        import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/Usuario/components/misionVision.vue'
-        ),
-    },
-
     //  {
     //     path: '',
     //     name: 'no-entry',
