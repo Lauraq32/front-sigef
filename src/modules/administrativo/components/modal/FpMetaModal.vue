@@ -115,9 +115,9 @@ export default {
             unidadRespon: "",
             actObra: "",
             proyecto: "",
-        }
+        },
     },
-    components: { CContainer, CFormTextarea, CSmartTable, CForm, CModal, FpMetaDetalleModal, SelectMestProgDialog },
+    components: { CContainer, CFormTextarea, CSmartTable, CForm, CModal, FpMetaDetalleModal, SelectMestProgDialog, },
     methods: {
         closeModalFpMeta() {
             this.$emit('closeModalFpMeta', false);
@@ -146,7 +146,7 @@ export default {
             if (value.id) {
                 AdministrativoApi.deleteFpMetaDetalle(value.id).then(() => {
                     this.fpMeta.fpMetaDetalles = this.fpMeta.fpMetaDetalles.filter((fpMetaDetalle) => fpMetaDetalle.id !== value.id);
-                }).catch(({data}) => {
+                }).catch(({ data }) => {
                     this.show({
                         content: data.message,
                         closable: true,
@@ -160,15 +160,16 @@ export default {
         saveFpMeta() {
             if (!this.fpMeta.id) {
                 AdministrativoApi.createFpMetaAndDetalle(this.fpMeta).then(({ data }) => {
-                    this.clearFrom();
                     this.show({
-                        content: data.message,
+                        content: data.message || "Registro guardado",
                         closable: true,
                         color: 'success'
                     });
-                }).catch(({ data }) => {
+                    this.$emit('update');
+                }).catch(({response}) => {
+                    debugger;
                     this.show({
-                        content: data.message,
+                        content: response.data.message,
                         closable: true,
                         color: 'danger'
                     });
@@ -178,7 +179,7 @@ export default {
             AdministrativoApi.editFpMetaAndDetalle(this.fpMeta.id, this.fpMeta).then(({ data }) => {
                 this.clearFrom();
                 this.show({
-                    content: data.message,
+                    content: data.message || "Registro guardado",
                     closable: true,
                     color: 'success'
                 });
