@@ -816,6 +816,12 @@ export default [
         to: '/AdministrativoModule/manejoUsuarios',
         icon: 'cilPeoplePlus',
       },
+      {
+        component: 'CNavItem',
+        name: 'Servicios Personales',
+        to: '/AdministrativoModule/serviciosPersonales',
+        icon: 'cilPeoplePlus',
+      },
     ],
   },
 ]

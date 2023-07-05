@@ -333,7 +333,6 @@ export default {
                     _style: { width: '1%' },
                     filter: false,
                     sorter: false,
-                    // _props: { color: 'primary', class: 'fw-semibold'}
                 },
             ],
             details: [],
@@ -341,8 +340,7 @@ export default {
     },
     methods: {
         closeDialog(data) {
-            this.$emit('close', data);
-
+            this.$emit('closeServiciosPersonales', data);
         },
 
         saveDetalle() {

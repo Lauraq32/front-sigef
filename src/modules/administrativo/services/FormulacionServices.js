@@ -20,6 +20,9 @@ class UsuariosApi {
   getMestProg(){
     return http.get(`CtgMestProg`)
   }
+  getClasificadorGasto(){
+    return http.get('CtgClasificador/presupuesto-gastos')
+  }
 }
 
 export default new UsuariosApi()

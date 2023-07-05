@@ -12,7 +12,7 @@ export default {
       meta: { label: 'Detalle servicios Personales' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/components/DetalleServiciosPersonales.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/pages/ServiciosPersonales.vue'
         ),
     },
 
