@@ -41,9 +41,9 @@
         {{ item.beneficiario.id }}
       </td>
     </template>
-    <template #tipo="{ item }">
+    <template #monto="{item}">
       <td>
-        {{ item.beneficiario.tipoDocumento }}
+        {{ formatPrice(item.monto) }}
       </td>
     </template>
   </CSmartTable>
@@ -57,6 +57,8 @@ import beneficiarioGrupoModal from './Dialogos/BeneficiarioGrupoModal.vue'
 import Api from '../services/EjecucionServices'
 import { mapActions } from 'pinia'
 import { useToastStore } from '@/store/toast'
+import { formatPrice } from '../../../../utils/format';
+
 export default {
   components: {
     CSmartTable,
@@ -75,9 +77,8 @@ export default {
 
         { key: 'id', label: 'Id', _style: { width: '4%' } },
         { key: 'beneficiario', label: 'Beneficiario', _style: { width: '10%' } },
-        { key: 'tipo', label: 'Tipo documento', _style: { width: '10%' } },
-        { key: 'documento', label: '#Documento', _style: { width: '10%' } },
-        { key: 'grupoCompensacion', label: 'Grupo Compensación', _style: { width: '20%' } },
+        { key: 'documento', label: 'Cédula/Pasaporte/RNC', _style: { width: '14%' } },
+        { key: 'grupoCompensacion', label: ' Grupo de Pago', _style: { width: '20%' } },
         { key: 'cargoBeneficiario', label: 'Cargo', _style: { width: '14%' } },
         { key: 'monto', label: 'Valor', _style: { width: '8%' } },
         {
@@ -89,6 +90,7 @@ export default {
           // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
+      formatPrice,
       footerItem: [
         {
           label: 'Total Items',
@@ -100,7 +102,6 @@ export default {
         },
 
       ],
-      details: [],
     }
   },
   methods: {
@@ -111,7 +112,9 @@ export default {
     getAllBeneficiarioGrupo() {
       Api.getBeneficiariosGrupoList().then((response) => {
         this.beneficiarioGrupoAll = response.data.data
+        this.footerItem[0].label = `Total item: ${response.data.data.length}`
       })
+
     },
 
     saveBeneficiarioGrupo(payload) {

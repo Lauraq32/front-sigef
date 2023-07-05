@@ -11,7 +11,7 @@
                         <v-select name="grupoCompensacionData" v-model="selectGrupoCompensancion"
                             :options="grupoCompensacionList" required></v-select>
                         <CFormFeedback invalid
-                            :style="{ display: !postBeneficiarioGrupo.grupoCompensacionId ? 'flex' : 'none' }"> Favor agregar
+                            :style="{ display: !postBeneficiarioGrupo.grupoCompensacionId && validateField? 'flex' : 'none' }"> Favor agregar
                             el
                             campo </CFormFeedback>
                     </CCol>
@@ -20,19 +20,19 @@
                         <v-select v-model="selectBeneficiario" required
                             :options="beneficiarioList"></v-select>
                             <CFormFeedback invalid
-                            :style="{ display: !postBeneficiarioGrupo.beneficiarioId ? 'flex' : 'none' }"> Favor agregar
+                            :style="{ display: !postBeneficiarioGrupo.beneficiarioId && validateField ? 'flex' : 'none' }"> Favor agregar
                             el
                             campo </CFormFeedback>
                     </CCol>
                     <CCol>
                         <CFormLabel for="validationCustom04">Cargo Beneficiaro</CFormLabel>
-                        <CFormInput id="validationCustom04" required v-model="postBeneficiarioGrupo.cargoBeneficiario">
+                        <CFormInput id="validationCustom04" @keypress="onlyLetter" required v-model="postBeneficiarioGrupo.cargoBeneficiario">
                         </CFormInput>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <CCol>
                         <CFormLabel for="validationCustom04"> Valor del Pago</CFormLabel>
-                        <CFormInput id="validationCustom04" required v-model="postBeneficiarioGrupo.monto"> </CFormInput>
+                        <CFormInput id="validationCustom04" required @keypress="onlyNumber" v-model="postBeneficiarioGrupo.monto" > </CFormInput>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <div class="modal-footer">
@@ -52,7 +52,8 @@
 <script>
 import { CModal } from '@coreui/vue';
 import Api from '../../services/EjecucionServices';
-
+import { onlyLetter,onlyNumber} from '@/utils/validator'
+import { formatPrice } from '../../../../../utils/format';
 export default {
     name: 'BeneficiarioGrupoModal',
     components: {
@@ -61,7 +62,11 @@ export default {
     emits: ['post-Beneficiariogrupo', 'close-modal'],
     data: function () {
         return {
-            grupoFormValidated: false,
+            onlyLetter,
+            onlyNumber,
+            formatPrice,
+            grupoFormValidated: false,      
+            validateField: false,
             grupoCompensacionList: [],
             beneficiarioList: [],
             postBeneficiarioGrupo: {
@@ -106,6 +111,7 @@ export default {
                 return
             }
             this.grupoFormValidated = true
+            this.validateField = true
         },
 
         clearForm() {
@@ -118,6 +124,7 @@ export default {
                     cargoBeneficiario: null,
                     monto: 0
                 }
+            this.validateField = false
         },
 
         closeModalGrupo() {
