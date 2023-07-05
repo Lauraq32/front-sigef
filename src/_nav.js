@@ -817,6 +817,12 @@ export default [
       },
       {
         component: 'CNavItem',
+        name: 'Metas',
+        to: '/AdministrativoModule/fp-meta-04',
+        icon: 'cilList',
+      },
+      {
+        component: 'CNavItem',
         name: 'Ayuntamiento',
         to: '/AdministrativoModule/ayuntamiento',
         icon: 'cilBuilding',
