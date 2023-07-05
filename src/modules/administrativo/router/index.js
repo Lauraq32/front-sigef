@@ -34,6 +34,16 @@ export default {
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/pages/ayuntamiento.vue'
         ),
     },
+    
+    {
+      path: 'misionVision',
+      name: 'MisionVision',
+      meta: { label: 'Misión y Visión' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/pages/misionVision.vue'
+        ),
+    },
 
 
 

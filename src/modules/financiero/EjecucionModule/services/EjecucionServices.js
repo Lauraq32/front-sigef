@@ -13,6 +13,10 @@ class Ejecucion {
     return http.get(`Beneficiarios/${id}`)
   }
 
+  deleteBeneficiario(id) {
+    return http.delete(`Beneficiarios/${id}`)
+  }
+
   getAnioFiscal() {
     return http.get('anios-fiscales')
   }
@@ -203,6 +207,11 @@ class Ejecucion {
 
   getGrupoCompensacionList(){
     return http.get('grupos-compensacion')
+  }
+  //Delete 
+
+  deleteBeneficiarios(id){
+    return http.delete(`Beneficiarios/${id}`)
   }
   //Concepto de gastos
   getConceptoGasto(){

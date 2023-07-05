@@ -44,7 +44,7 @@ export default {
     {
       path: 'grupoPago',
       name: 'grupoPago',
-      meta: { label: 'Grupo Pago' },
+      meta: { label: 'Grupos de Pago' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/GrupoPago.vue'

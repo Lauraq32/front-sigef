@@ -143,7 +143,7 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Grupo de pago',
+            name: 'Grupos de pago',
             to: '/Ejecucion/grupoPago',
             icon: 'cilBuilding',
           },
@@ -812,7 +812,7 @@ export default [
       {
         component: 'CNavItem',
         name: 'Misión y Visión',
-        to: '/AdministrativoModule/MisionVision',
+        to: '/AdministrativoModule/misionVision',
         icon: 'cilInfo',
       },
       {
