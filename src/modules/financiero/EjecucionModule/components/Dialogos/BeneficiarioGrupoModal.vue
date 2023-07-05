@@ -11,38 +11,46 @@
                         <v-select name="grupoCompensacionData" v-model="selectGrupoCompensancion"
                             :options="grupoCompensacionList" required></v-select>
                         <CFormFeedback invalid
-                            :style="{ display: !postBeneficiarioGrupo.grupoCompensacionId && validateField? 'flex' : 'none' }"> Favor agregar
+                            :style="{ display: !postBeneficiarioGrupo.grupoCompensacionId && validateField ? 'flex' : 'none' }">
+                            Favor agregar
                             el
                             campo </CFormFeedback>
                     </CCol>
                     <CCol>
                         <CFormLabel for="validationCustom05">Beneficiario</CFormLabel>
-                        <v-select v-model="selectBeneficiario" required
-                            :options="beneficiarioList"></v-select>
-                            <CFormFeedback invalid
-                            :style="{ display: !postBeneficiarioGrupo.beneficiarioId && validateField ? 'flex' : 'none' }"> Favor agregar
+                        <v-select v-model="selectBeneficiario" required :options="beneficiarioList"></v-select>
+                        <CFormFeedback invalid
+                            :style="{ display: !postBeneficiarioGrupo.beneficiarioId && validateField ? 'flex' : 'none' }">
+                            Favor agregar
                             el
                             campo </CFormFeedback>
                     </CCol>
                     <CCol>
                         <CFormLabel for="validationCustom04">Cargo Beneficiaro</CFormLabel>
-                        <CFormInput id="validationCustom04" @keypress="onlyLetter" required v-model="postBeneficiarioGrupo.cargoBeneficiario">
+                        <CFormInput id="validationCustom04" @keypress="onlyLetter" required
+                            v-model="postBeneficiarioGrupo.cargoBeneficiario">
                         </CFormInput>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <CCol>
                         <CFormLabel for="validationCustom04"> Valor del Pago</CFormLabel>
-                        <CFormInput id="validationCustom04" required @keypress="onlyNumber" v-model="postBeneficiarioGrupo.monto" > </CFormInput>
+                        <CurrencyInput class="form-control text-end" @keypress="onlyNumber" required id="presupuestoBco1"
+                            v-model="postBeneficiarioGrupo.monto" :options="{
+                                locale: 'en-US',
+                                currency: 'USD',
+                                precision: 2,
+                                currencyDisplay: 'hidden',
+                            }" />
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="closeModalGrupo">
+                    <CModalFooter>
+                        <CButton class="btn btn-secondary" @click="closeModalGrupo">
                             Close
-                        </button>
-                        <button class="btn btn-info btn-block mt-1" v-on:click="saveBeneficiarioGrupo">
+                        </CButton>
+                        <CButton class="btn btn-info btn-block mt-1" v-on:click="saveBeneficiarioGrupo">
                             Guardar
-                        </button>
-                    </div>
+                        </CButton>
+                    </CModalFooter>
                 </CForm>
             </CCardBody>
         </CModalBody>
@@ -52,12 +60,15 @@
 <script>
 import { CModal } from '@coreui/vue';
 import Api from '../../services/EjecucionServices';
-import { onlyLetter,onlyNumber} from '@/utils/validator'
+import { onlyLetter, onlyNumber } from '@/utils/validator'
 import { formatPrice } from '../../../../../utils/format';
+import CurrencyInput from '@/utils/CurrencyInput.vue'
+
 export default {
     name: 'BeneficiarioGrupoModal',
     components: {
         CModal,
+        CurrencyInput,
     },
     emits: ['post-Beneficiariogrupo', 'close-modal'],
     data: function () {
@@ -65,7 +76,7 @@ export default {
             onlyLetter,
             onlyNumber,
             formatPrice,
-            grupoFormValidated: false,      
+            grupoFormValidated: false,
             validateField: false,
             grupoCompensacionList: [],
             beneficiarioList: [],
@@ -74,7 +85,6 @@ export default {
                 beneficiarioId: 0,
                 cargoBeneficiario: null,
                 monto: 0
-
             },
             isLowerSelectedInitDate: false,
             fechaHataValidation: false,
@@ -84,19 +94,20 @@ export default {
     computed: {
         selectBeneficiario: {
             get() {
-                return this.beneficiarioList.find((x) => x.code == this.postBeneficiarioGrupo.beneficiarioId)
+                console.log(this.beneficiarioList.find((x) => x.code == this.postBeneficiarioGrupo.beneficiarioId), this.postBeneficiarioGrupo.beneficiarioId)
+                return this.beneficiarioList.find((x) => x.elem.rncCedPas == this.postBeneficiarioGrupo.beneficiarioId || x.code == this.postBeneficiarioGrupo.beneficiarioId)
             },
             set(util) {
-                this.postBeneficiarioGrupo.beneficiarioId = Number(util.code)
+                console.log(util)
+                this.postBeneficiarioGrupo.beneficiarioId = Number(util?.code)
             },
         },
-
-        selectGrupoCompensancion:{
+        selectGrupoCompensancion: {
             get() {
                 return this.grupoCompensacionList.find((x) => x.code == this.postBeneficiarioGrupo.grupoCompensacionId)
             },
             set(util) {
-                this.postBeneficiarioGrupo.grupoCompensacionId = Number(util.code)
+                this.postBeneficiarioGrupo.grupoCompensacionId = Number(util?.code)
             },
         }
 
@@ -106,7 +117,7 @@ export default {
         saveBeneficiarioGrupo() {
             this.grupoFormValidated = false
             if (this.$refs.formRef.$el.checkValidity() && this.postBeneficiarioGrupo.grupoCompensacionId) {
-                this.$emit('post-Beneficiariogrupo', { ...this.postBeneficiarioGrupo })
+                this.$emit('post-Beneficiariogrupo', { ...this.postBeneficiarioGrupo, beneficiarioId: Number(this.selectBeneficiario.code) })
                 this.clearForm()
                 return
             }
@@ -146,7 +157,8 @@ export default {
             Api.getBeneficiarios().then(({ data: { data } }) => {
                 this.beneficiarioList = data.map(elem => ({
                     code: elem.id,
-                    label: `${elem.id}-${elem.nombre}`
+                    label: `${elem.id}-${elem.nombre}`,
+                    elem
                 })
                 );
             })
@@ -161,12 +173,18 @@ export default {
 
     watch: {
         beneficiarioGroupToUpdate(newGroup) {
-            if (newGroup) {
-                this.postBeneficiarioGrupo = { ...newGroup,
+            console.log(newGroup, {
+                ...newGroup,
                 grupoCompensacionId: newGroup.grupoCompensacion?.id,
-                beneficiarioId: newGroup.beneficiario?.id
+                beneficiarioId: newGroup.beneficiario?.id,
+            })
+            if (newGroup) {
+                this.postBeneficiarioGrupo = {
+                    ...newGroup,
+                    grupoCompensacionId: newGroup.grupoCompensacion?.id,
+                    beneficiarioId: newGroup.beneficiario?.id,
                 };
-                
+
             }
         },
     },
