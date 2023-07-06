@@ -252,8 +252,7 @@ export default {
     calcularFechaHasta() {
       if (
         this.postAccionPersonal.fechaDesde &&
-        this.postAccionPersonal.cantidad &&
-        !this.postAccionPersonal.id
+        this.postAccionPersonal.cantidad
       ) {
         const fechaDesde = new Date(this.postAccionPersonal.fechaDesde)
         const cantidad = parseInt(this.postAccionPersonal.cantidad)
