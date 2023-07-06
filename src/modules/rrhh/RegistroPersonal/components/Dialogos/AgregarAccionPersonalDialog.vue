@@ -87,7 +87,7 @@
                 required
                 id="validationCustom04"
                 type="date"
-                v-model="fecha"
+                v-model="fechaHasta"
               />
               <CFormFeedback
                 invalid
@@ -183,10 +183,9 @@ export default {
       },
     },
 
-    fecha: {
+    fechaHasta: {
       get() {
         let date = this.postAccionPersonal.fechaDesde ?? new Date()
-        console.log(date)
         if (
           this.postAccionPersonal.fechaHasta !== null &&
           this.postAccionPersonal.fechaHasta?.toString() !== 'Invalid Date'
@@ -246,9 +245,7 @@ export default {
       fechaDesde.setHours(0, 0, 0, 0)
       const fechaActual = new Date(this.postAccionPersonal.fechaDesde)
       fechaActual.setHours(0, 0, 0, 0)
-      console.log(fechaDesde < fechaActual)
       this.fechaHataValidation = fechaDesde < fechaActual
-      console.log(fechaDesde, fechaActual)
     },
 
     calcularFechaHasta() {
