@@ -161,6 +161,12 @@ export default [
             icon: 'cilCalculator',
           },
           {
+            component: 'CNavItem',
+            name: 'Catalogo de Funciones',
+            to: '/Ejecucion/catalogoDeFunciones',
+            icon: 'cilCalculator',
+          },
+          {
             component: 'CNavTitle',
             name: 'Procesos',
           },

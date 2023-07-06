@@ -132,12 +132,14 @@ export default {
         ),
     },
 
-
-
-    //  {
-    //     path: '',
-    //     name: 'no-entry',
-    //     component: () => import(/* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FormulacionModule/components/Prueba.vue'),
-    // },
+    {
+      path: 'catalogoDeFunciones',
+      name: 'catalogoDeFunciones',
+      meta: { label: 'Catalogo de Funciones' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '../components/CatalogoDeFunciones.vue'
+        ),
+    },
   ],
 }
