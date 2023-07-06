@@ -83,6 +83,7 @@
             </div>
             <div class="col-9 col-md-6">
               <CFormInput
+                disabled
                 v-on:change="validarFechaHasta"
                 required
                 id="validationCustom04"
@@ -251,7 +252,8 @@ export default {
     calcularFechaHasta() {
       if (
         this.postAccionPersonal.fechaDesde &&
-        this.postAccionPersonal.cantidad
+        this.postAccionPersonal.cantidad &&
+        !this.postAccionPersonal.id
       ) {
         const fechaDesde = new Date(this.postAccionPersonal.fechaDesde)
         const cantidad = parseInt(this.postAccionPersonal.cantidad)
@@ -284,9 +286,11 @@ export default {
       this.calcularFechaHasta()
     },
     'postAccionPersonal.fechaDesde': function () {
-      this.postAccionPersonal.cantidad = null
-      this.postAccionPersonal.fechaHasta = this.postAccionPersonal.fechaDesde
-      this.calcularFechaHasta()
+      if (!this.postAccionPersonal.cantidad) {
+        this.postAccionPersonal.cantidad = null
+        this.postAccionPersonal.fechaHasta = this.postAccionPersonal.fechaDesde
+        this.calcularFechaHasta()
+      }
     },
   },
 
