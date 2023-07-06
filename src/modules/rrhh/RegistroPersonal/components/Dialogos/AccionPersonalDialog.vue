@@ -272,16 +272,15 @@ export default {
   },
 
   watch: {
-    empleado() {
+    empleado(newValue) {
       if (this.showModal) {
-        console.log(this.empleado)
         Api.getAllTipoAcciones().then((response) => {
           this.tipoAcciones = response.data.data
         })
 
         this.loadData()
         this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${
-          this.empleado.idImagenPerfil ?? -1
+          newValue.idImagenPerfil ?? -1
         }`;
       }
     },

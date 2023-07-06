@@ -88,12 +88,9 @@ export default {
   data: function () {
     return {
       filedata: {},
-      lgDemo5: false,
       fullscreenDemo: false,
       visible: false,
-      file: null,
       showModalSaveDocument: false,
-      postEmpleado: {},
       documentos: [],
       typeDocument: '',
       fileName: '',
@@ -154,11 +151,20 @@ export default {
       this.clearForm();
     },
     sendData() {
-      this.isFormEventTypeValidated = false
+      this.isFormEventTypeValidated = false;
       if (this.$refs.eventTypeForm.$el.checkValidity()) {
         return this.postDocumentos()
       }
-      this.isFormEventTypeValidated = true
+      this.isFormEventTypeValidated = true;
+
+      if (!this.dropzoneFile) {
+        this.show({
+          content: "Para guardar un registro, debe tener un documento asociado",
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        });
+      }
     },
     postDocumentos() {
       if (this.tagKeyName && this.tagValueName && this.dropzoneFile) {
@@ -176,7 +182,6 @@ export default {
           });
           this.clearForm();
         }).catch((e) => {
-          console.log(e)
           this.show({
             content: e.response.data,
             closable: true,
@@ -185,14 +190,21 @@ export default {
           });
         });
       }
+
+      if (!this.dropzoneFile) {
+        this.show({
+          content: "Para guardar un registro, debe tener un documento asociado",
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        });
+      }
+
     },
     clearForm(){
       this.fileName = '';
       this.fileDescription = '';
       this.dropzoneFile = null;
-    },
-    handleFileChange(event) {
-      this.filedata = event.target.files[0]
     },
     toggle(index) {
       this.documentos[index].visible = !this.documentos[index].visible
@@ -201,8 +213,8 @@ export default {
       ApiFile.getFiles({
         tag: { [key]: id }
       }).then((response) => {
-        this.documentos = response.data.data
-        this.footerItem[0].label = `Total Items ${this.documentos.length}`
+        this.documentos = response.data.data?.filter(image => !image.fileTags.find(tag => `${tag.key}-${tag.value}` === "profileImage-1"));
+        this.footerItem[0].label = `Total Items ${this.documentos.length}`;
       })
     },
     seeImage(id){

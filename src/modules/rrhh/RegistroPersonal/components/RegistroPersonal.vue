@@ -104,6 +104,7 @@
 import { CModal } from '@coreui/vue'
 import { mapActions } from 'pinia'
 import Api from '../services/RegistroPersonalServices'
+import fileApi from '../services/Files'
 import EmpleadoReports from '@/components/Report/RRHH/ReportsTemplate/EmpleadosReports.vue'
 import { useToastStore } from '@/store/toast'
 import RegistroPersonalDialog from '../components/Dialogos/RegistroPersonalDialog.vue'
@@ -115,6 +116,7 @@ import UtilesLaboralesDialog from './Dialogos/UtilesLaboralesDialog.vue'
 import TipoNovedadDialog from './TipoNovedades.vue'
 import TarjetaEmpleadoDialogs from '../components/Dialogos/TarjetaEmpleado.vue'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
+import { showReport } from '@/utils/util'
 
 export default {
   components: {
@@ -262,8 +264,8 @@ export default {
     },
 
     closeRegistroPersonalModal() {
-      this.showRegistroPersonalModal = false;
       this.selectedEmployee = {};
+      this.showRegistroPersonalModal = false;
     },
 
     closeTarjetaEmpleadoModal() {
@@ -273,42 +275,39 @@ export default {
       this.showRegistroPersonalModal = true
     },
 
-    imprimirReporte() {
-      if (this.reporteDepto === '1') {
-        window
-          .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Nombre&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
-            '_blank',
-          )
-          .focus()
-      }
-      
-      if (this.reporteDepto === '2') {
-        window
-          .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Apellidos&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
-            '_blank',
-          )
-          .focus()
-      }
-      if (this.reporteDepto === '3') {
-        window
-          .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Cargo&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
-            '_blank',
-          )
-          .focus()
-      }
-      if (this.reporteDepto === '4') {
-        window
-          .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Departamentos&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
-            '_blank',
-          )
-          .focus()
-      }
+    async imprimirReporte() {
+      const reportParam = {
+        folderName: 'rrhh',
+        params: [{
+          name: "ID_AYUNTAMIENTO",
+          value: "majorityId"
+        }]
+      };
 
-      this.reportes = false;
+      try {
+        if (this.reporteDepto === '1') {
+          reportParam.reportName = 'Rep_Empleados_por_Nombre';
+        }
+        if (this.reporteDepto === '2') {
+          reportParam.reportName = 'Rep_Empleados_por_Apellidos';
+        }
+        if (this.reporteDepto === '3') {
+          reportParam.reportName = 'Rep_Empleados_por_Cargo';
+        }
+        if (this.reporteDepto === '4') {
+          reportParam.reportName = 'Rep_Empleados_por_Departamento';
+        }
+        await showReport(reportParam);
+
+        this.reportes = false;
+      } catch (error) {
+        this.show({
+          content: error,
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        })
+      }
     },
 
     closeContenedorModal(payload) {
@@ -327,15 +326,23 @@ export default {
       this.showModal();
     },
 
-    submitForm(payload) {
-      if (payload.id != null) {
-        Api.putEmpleado(payload.id, payload).then(() => {
-          this.show({
-            content: 'Registro actualizado correctamente',
-            closable: true,
+    async submitForm({ payload, profilePhoto }) {
+      if (payload.id) {
+        this.saveProfilePhoto(profilePhoto, payload.idImagenPerfil, payload.id)
+        .then(imageId => {
+          if (imageId) {
+            payload.idImagenPerfil = imageId;
+          }
+
+          return Api.putEmpleado(payload.id, payload)
+          .then(() => {
+            this.show({
+              content: 'Registro actualizado correctamente',
+              closable: true,
+            })
+            this.closeRegistroPersonalModal()
+            setTimeout(this.getRegistroPersonal, 200)
           })
-          this.closeRegistroPersonalModal()
-          setTimeout(this.getRegistroPersonal, 500)
         }).catch((error) => {
           this.show({
             content: error.response.data,
@@ -402,6 +409,24 @@ export default {
     handleFilterEmployeeByStatus({ target }) {
       this.getRegistroPersonal({
         status: target.value
+      });
+    },
+    saveProfilePhoto(file, fallback, empleadoId) {
+      if (!file || fallback) {
+        return Promise.resolve(fallback ?? 0);
+      }
+
+      return new Promise((res, rej) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('empleadoId', empleadoId);
+        formData.append('profileImage', 1)
+        formData.append('uploaded', (new Date()).toISOString());
+        formData.append('public', true);
+
+        fileApi.saveFile(formData)
+        .then(response => res(response.data.data[0].id))
+        .catch(rej);
       });
     }
   },

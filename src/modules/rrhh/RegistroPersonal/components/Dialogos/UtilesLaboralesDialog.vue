@@ -63,6 +63,7 @@
               <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
               <CDropdownMenu>
                 <CDropdownItem @click="() => handlerAccion(item, 'print')" v-if="item.estatus !== 'Cancelado'">Imprimir</CDropdownItem>
+                <CDropdownItem @click="() => handlerAccion(item, 'editar')" v-if="item.estatus == 'Registrado'">Editar</CDropdownItem>
                 <CDropdownItem @click="() => handlerAccion(item, 'detail')">Ver Detalle</CDropdownItem>
                 <CDropdownItem @click="() => handlerAccion(item, 'cancel')" v-if="!['Cancelado', 'Entregado'].includes(item.estatus)">Cancelar</CDropdownItem>
                 <CDropdownItem @click="() => handlerAccion(item, 'approved')" v-if="!['Cancelado', 'Entregado'].includes(item.estatus)">Marcar como entregado</CDropdownItem>
@@ -76,10 +77,12 @@
     <EventoInventarioDialog
       :inventarioList="utilLaboralList"
       :utilLaboral="inventarioDeUtilLaboral"
+      :util="util"
       :showModal="showEventoInventarioDialog"
       :empleado="employeeInfo"
       @closeModal="closeEventoInventarioDialog"
       @save="saveUtil"
+      @editar="editarUtil"
     />
 
     <MovimientoInventarioDetailView
@@ -101,6 +104,7 @@ import EventoInventarioDialog from './EventosInventarioDialog.vue'
 import MovimientoInventarioDetailView from './MovimientoInventarioDetailView.vue'
 import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
+import { showReport } from '@/utils/util'
 
 export default {
   name: 'UtilesLaborales',
@@ -116,6 +120,7 @@ export default {
       formatDate,
       formatNumber,
       onlyLetter,
+      util:{},
       utilLaboralList: [],
       showEventoInventarioDialog: false,
       inventarioDeUtilLaboral: {
@@ -172,6 +177,29 @@ export default {
             })
           })
     },
+    editarUtil(util,id){
+      Api.putUtils(util,id).then(
+        (response) => {
+          this.show({
+              content: response.data.message,
+              closable: true,
+              color: 'success',
+              class: 'text-white',
+              time: 7_000
+            })
+            setTimeout(this.loadUtilsByEmployeeId, 200);
+            this.clearUtilesLaborales();
+        }
+      ).catch((error) => {
+        this.show({
+              content: error.response.data,
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+            })
+      })
+      this.closeEventoInventarioDialog();
+    },
     getAllInventario() {
       Api.getAllInventario().then((response) => {
         this.utilLaboralList = response.data.data.map((elem) => ({
@@ -183,10 +211,13 @@ export default {
       })
     },
 
-    handlerAccion(item, accion) {
+    async handlerAccion(item, accion) {
       switch (accion) {
         case "cancel":
           this.cancelUtilDelivery(item);
+          break;
+        case "editar":
+          this.loadModal(item);
           break;
         case "approved":
           this.approveUtilDelivery(item);
@@ -196,13 +227,28 @@ export default {
           break;
       
         default:
-        window
-          .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Nombre&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
-            '_blank',
-          )
-          .focus()
+          this.loadReport(item);
           break;
+      }
+    },
+
+    async loadReport(item) {
+      try {
+        await showReport({
+          folderName: 'rrhh',
+          reportName: 'utiles_empleado',
+          params: [{
+            name: "UtilLaboral",
+            value: item.id
+          }]
+        });
+      } catch (error) {
+        this.show({
+          content: error,
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        })
       }
     },
     
@@ -311,6 +357,10 @@ export default {
         .then(({ data: { data } }) => {
           this.utilDetailsView = data;
         });
+    },
+    loadModal(util) {
+          this.util = util
+          this.showEventoInventarioDialog = true
     }
   },
 
