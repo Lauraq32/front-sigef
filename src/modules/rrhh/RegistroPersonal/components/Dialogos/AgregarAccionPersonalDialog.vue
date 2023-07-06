@@ -87,7 +87,7 @@
                 required
                 id="validationCustom04"
                 type="date"
-                v-model="fechaHasta"
+                v-model="fecha"
               />
               <CFormFeedback
                 invalid
@@ -151,7 +151,7 @@ export default {
         fechaDesde: null,
         tipoAccionId: null,
         cantidad: 1,
-        fechaHasta: null,
+        fechaHasta: new Date(),
         detalle: null,
       },
       isFormEventTypeValidated: false,
@@ -164,29 +164,29 @@ export default {
   computed: {
     fechaDesde: {
       get() {
-        let date = this.postAccionPersonal.fechaDesde
+        let date = this.postAccionPersonal.fechaDesde ?? new Date()
         if (
           this.postAccionPersonal.fechaDesde !== null &&
           this.postAccionPersonal.fechaDesde?.toString() !== 'Invalid Date'
         ) {
           if (typeof this.postAccionPersonal.fechaDesde === 'string') {
-            date =
-              typeof date === 'string'
-                ? new Date(this.postAccionPersonal.fechaDesde)
-                : date
+            date = new Date(this.postAccionPersonal.fechaDesde)
             return date.toISOString().split('T')[0]
           }
         }
         return date?.toISOString()?.split('T')?.[0]
       },
       set(value) {
-        this.postAccionPersonal.fechaDesde = new Date(`${value}T00:00:00`)
+        return (this.postAccionPersonal.fechaDesde = new Date(
+          `${value}T00:00:00`,
+        ))
       },
     },
 
-    fechaHasta: {
+    fecha: {
       get() {
-        let date = this.postAccionPersonal.fechaHasta
+        let date = this.postAccionPersonal.fechaDesde ?? new Date()
+        console.log(date)
         if (
           this.postAccionPersonal.fechaHasta !== null &&
           this.postAccionPersonal.fechaHasta?.toString() !== 'Invalid Date'
@@ -231,9 +231,10 @@ export default {
       ) {
         return this.saveDataAccionPersonal({ ...this.postAccionPersonal })
       }
-      this.isFormEventTypeValidated = true;
+      this.isFormEventTypeValidated = true
       this.show({
-        content: "Informaci&oacute;n incorrecta. Por favor revisar la informaci&oacute;n del formulario",
+        content:
+          'Informaci&oacute;n incorrecta. Por favor revisar la informaci&oacute;n del formulario',
         closable: true,
         color: 'danger',
         class: 'text-white',
@@ -245,16 +246,50 @@ export default {
       fechaDesde.setHours(0, 0, 0, 0)
       const fechaActual = new Date(this.postAccionPersonal.fechaDesde)
       fechaActual.setHours(0, 0, 0, 0)
+      console.log(fechaDesde < fechaActual)
       this.fechaHataValidation = fechaDesde < fechaActual
+      console.log(fechaDesde, fechaActual)
+    },
+
+    calcularFechaHasta() {
+      if (
+        this.postAccionPersonal.fechaDesde &&
+        this.postAccionPersonal.cantidad
+      ) {
+        const fechaDesde = new Date(this.postAccionPersonal.fechaDesde)
+        const cantidad = parseInt(this.postAccionPersonal.cantidad)
+
+        const fechaHasta = new Date(
+          fechaDesde.getTime() + cantidad * 24 * 60 * 60 * 1000,
+        )
+
+        this.postAccionPersonal.fechaHasta = fechaHasta
+          .toISOString()
+          .substring(0, 10)
+      }
     },
   },
 
   watch: {
     accionPersonal() {
-      this.postAccionPersonal = { ...this.accionPersonal, tipoAccionId: `${this.accionPersonal.tipoAccionId}` }
+      this.postAccionPersonal = {
+        ...this.accionPersonal,
+        tipoAccionId: `${this.accionPersonal.tipoAccionId}`,
+      }
     },
     tipoAcciones() {
-      this.postAccionPersonal.tipoAccionId = `${this.tipoAcciones?.[0].id}`;
+      this.postAccionPersonal.tipoAccionId = `${this.tipoAcciones?.[0].id}`
+    },
+    'postAccionPersonal.cantidad': function () {
+      if (this.postAccionPersonal.cantidad == 0) {
+        this.postAccionPersonal.fechaHasta = this.postAccionPersonal.fechaDesde
+      }
+      this.calcularFechaHasta()
+    },
+    'postAccionPersonal.fechaDesde': function () {
+      this.postAccionPersonal.cantidad = null
+      this.postAccionPersonal.fechaHasta = this.postAccionPersonal.fechaDesde
+      this.calcularFechaHasta()
     },
   },
 

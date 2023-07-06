@@ -48,8 +48,15 @@
             </div>
           </div>
           <div class="col-5">
-            <div class="position-relative flex justify-content-center border border-dark w-75 mt-4" style="height: 150px">
-              <img class="h-100" :src="imageUrl" alt="imagen de perfil del empleado" />
+            <div
+              class="position-relative flex justify-content-center border border-dark w-75 mt-4"
+              style="height: 150px"
+            >
+              <img
+                class="h-100"
+                :src="imageUrl"
+                alt="imagen de perfil del empleado"
+              />
             </div>
           </div>
         </div>
@@ -88,6 +95,12 @@
         <template #fechaDesde="{ item }">
           <td>
             {{ formatDate(item.fechaDesde) }}
+          </td>
+        </template>
+
+        <template #tipoAccionId="{ item }">
+          <td>
+            {{ item.tipoAccion.descripcion }}
           </td>
         </template>
 
@@ -181,7 +194,7 @@ export default {
         cantidad: 0,
         fechaHasta: null,
         detalle: null,
-      }
+      },
     }
   },
 
@@ -264,7 +277,7 @@ export default {
       })
     },
     loadData() {
-      this.clearAccionPersonal();
+      this.clearAccionPersonal()
       if (this.empleado.id) {
         setTimeout(() => this.getAccionPersonalById(this.empleado.id), 500)
       }
@@ -281,7 +294,7 @@ export default {
         this.loadData()
         this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${
           newValue.idImagenPerfil ?? -1
-        }`;
+        }`
       }
     },
   },
