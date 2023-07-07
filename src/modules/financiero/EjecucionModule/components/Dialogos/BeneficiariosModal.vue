@@ -64,7 +64,7 @@
                                 <CCol class="col-6">
                                     <CFormLabel for="validationCustom04">Teléfono 2</CFormLabel>
                                     <CFormInput v-model="postBeneficiario.celular" maxlength="10" @keypress="onlyNumber"
-                                        required id="validationCustom04">
+                                         id="validationCustom04">
                                     </CFormInput>
                                     <CFormFeedback invalid>
                                         Favor agregar el campo
@@ -82,7 +82,7 @@
                                 </CCol>
                                 <CCol class="col-6">
                                     <CFormLabel for="validationCustom04">Email</CFormLabel>
-                                    <CFormInput v-model="postBeneficiario.email" type="email" maxlength="50" required
+                                    <CFormInput v-model="postBeneficiario.email" type="email" maxlength="50" 
                                         id="validationCustom04">
                                     </CFormInput>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -122,7 +122,7 @@
                         <CCol class="col-6">
                             <CFormLabel for="validationCustom04">Mensual</CFormLabel>
                             <CurrencyInput class="form-control text-end" required id="presupuestoBco1"
-                                :disabled="postBeneficiario.tipo !== 'Pensionado' && postBeneficiario.tipo !== 'Subvención'"
+                                :disabled="postBeneficiario.tipo !== 'pensionado' && postBeneficiario.tipo !== 'subvencion'"
                                 v-model="postBeneficiario.mensual" :options="{
                                     locale: 'en-US',
                                     currency: 'USD',
@@ -134,7 +134,7 @@
                         <CCol class="col-6">
                             <CFormLabel for="validationCustom04">Recomendado</CFormLabel>
                             <CurrencyInput class="form-control text-end" required id="presupuestoBco1"
-                                :disabled="postBeneficiario.tipo !== 'Pensionado' && postBeneficiario.tipo !== 'Subvención'"
+                                :disabled="postBeneficiario.tipo !== 'pensionado' && postBeneficiario.tipo !== 'subvencion'"
                                 v-model="postBeneficiario.recomienda" :options="{
                                     locale: 'en-US',
                                     currency: 'USD',
@@ -287,7 +287,8 @@ export default {
         },
 
         'postBeneficiario.tipo': function () {
-            if (this.postBeneficiario.tipo !== "pensionado" || this.postBeneficiario.tipo !== "subvencion") {
+            console.log( this.postBeneficiario.tipo !== "pensionado" || this.postBeneficiario.tipo !== "subvencion")
+            if (this.postBeneficiario.tipo !== "Pensionado" || this.postBeneficiario.tipo !== "Subvención") {
                 this.postBeneficiario.mensual = 0
                 this.postBeneficiario.recomienda = 0
             }
