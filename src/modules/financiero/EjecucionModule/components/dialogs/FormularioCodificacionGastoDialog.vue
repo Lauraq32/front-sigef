@@ -269,8 +269,6 @@ export default {
     },
 
     closeMestProgDialog(data) {
-      console.log(data)
-
       this.detalleRegistroGasto.funcionId = data.ctgFuncionId;
       this.ctgFuenteId = data.ctgFuncionId
       this.detalleRegistroGasto.estructuraProgramatica = data.numero
@@ -289,11 +287,8 @@ export default {
       this.isFormEventTypeValidated = true
     },
     guardarRetencion() {
-      //console.log(this.detalleRetencion)
       this.detalleRetencion.tipoRetencionId = this.tipoRetencionObj.code
-      // this.detalleRetencion.valorAplicado = this.detalleRetencion.montoAplica * 8
       this.detalleRegistroGasto.detalleRetencion = [{ ...this.detalleRetencion }, ...this.detalleRegistroGasto.detalleRetencion]
-      console.log(this.detalleRegistroGasto.detalleRetencion);
     },
 
     saveDetalle() {
@@ -306,11 +301,9 @@ export default {
 
     getMestProg(item) {
       if (item.length == 10) {
-        console.log(this.registroGasto.bancoId)
         Api.getRegistroGastoMesProg(item).then(response => {
           if (response.data.data.length > 1) {
             var dataResponse = response.data.data.reduce((acc, current) => {
-              console.log(current);
               acc.push({
                 clasificador: current.clasificador,
                 nombre: current.nombre,
@@ -374,7 +367,6 @@ export default {
     },
 
     selectMestProg(item) {
-      console.log(item)
       this.detalleRegistroGasto.fuenteEspecificaId = item.fuenteEspecificaId
       this.detalleRegistroGasto.organismoFinanciadorId = item.organismoFinanciadorId
       this.detalleRegistroGasto.clasificadorId = item.clasificador
@@ -385,11 +377,9 @@ export default {
 
   watch: {
     tipoRetencionObj(value) {
-      console.log(value)
       this.detalleRetencion.montoAplica = value.porciento;
       switch (value.operacion) {
         case "Multiplicar":
-         console.log(this.detalleRetencion.valorAplicado = this.detalleRetencion.montoAplica * this.detalleRegistroGasto.montoBruto);
           break;
         case "Dividir":
           this.detalleRetencion.valorAplicado = this.detalleRegistroGasto.montoBruto/this.detalleRetencion.montoAplica

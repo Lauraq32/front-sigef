@@ -251,7 +251,6 @@ export default {
 
 
     closeBeneficiarioModal(payload) {
-      console.log('se cerro', payload.id);
       this.displayBeneficiario = payload.nombre
       this.postRegistroGasto.beneficiarioId = payload.id
       this.showBeneficiarioModal = false;
@@ -284,7 +283,6 @@ export default {
       this.$emit('post-gasto', {
         ...this.postRegistroGasto
       })
-      console.log('se mando')
     },
 
     closeModal() {
