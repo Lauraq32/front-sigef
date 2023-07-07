@@ -6,6 +6,15 @@ export default {
     import('@/modules/administrativo/layout/TemplateLayout.vue'),
   children: [
     {
+      path: 'fp-meta-04',
+      name: 'FpMeta04',
+      meta: { label: 'Metas' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/pages/FpMeta.vue'
+        ),
+    },
+    {
       path: 'manejoUsuarios',
       name: 'ManejoUsuarios',
       meta: { label: 'Manejo de Usuarios' },
