@@ -108,6 +108,7 @@ export default {
     ...mapActions(useToastStore, ['show']),
     closeModal() {
       this.beneficiarioxGrupoModal = false
+      this.beneficiarioGroupToUpdate = {}
     },
     getAllBeneficiarioGrupo() {
       Api.getBeneficiariosGrupoList().then((response) => {
