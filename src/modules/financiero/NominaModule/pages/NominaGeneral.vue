@@ -2,7 +2,8 @@
     <h3 class="text-center">N&oacute;mina General</h3>
     <NominaSelectFiscalYear @sendDataFilter="filterByDate">
         <CButton style="font-weight: bold" color="info" @click="">Imprimir Todos</CButton>
-        <CButton style="font-weight: bold" class="ml-5" color="info" @click ="() => showModal = true">Generar N&oacute;mina</CButton>
+        <CButton style="font-weight: bold" class="ml-5" color="info" @click="() => showModal = true">Generar N&oacute;mina
+        </CButton>
     </NominaSelectFiscalYear>
     <div>
         <CSmartTable class="sticky-top" clickableRows :tableProps="{
@@ -14,22 +15,27 @@
             pagination>
             <template #posicion="{ item }">
                 <td>
-                    {{ item.posicion.nombre }}
+                    {{ item.posicion?.nombre }}
                 </td>
             </template>
             <template #departamento="{ item }">
                 <td>
-                    {{ item.departamento.nombre }}
+                    {{ item.departamento?.descripcion }}
                 </td>
             </template>
             <template #programaDivision="{ item }">
                 <td>
-                    {{ item.departamento.programaDivision.nombre }}
+                    {{ item.programaDivision?.descripcion }}
                 </td>
             </template>
             <template #fecha="{ item }">
                 <td>
                     {{ formatDate(item.fecha) }}
+                </td>
+            </template>
+            <template #show_details="{ item, index }">
+                <td class="py-2">
+                    <p>Opciones</p>
                 </td>
             </template>
         </CSmartTable>
@@ -42,7 +48,8 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { mapState } from 'pinia';
 import NominaSelectFiscalYear from '../components/NominaSelectFiscalYear.vue';
 import ModalGenerarNomina from '../components/dialogos/ModalGenerarNomina.vue';
-import ApiNomina from '../services/NominaServices'
+import ApiNomina from '../services/NominaServices';
+import { formatDate } from '@/utils/format';
 
 
 export default {
@@ -63,7 +70,6 @@ export default {
         filterByDate(value) {
             ApiNomina.getNominasGeneral(value).then((response) => {
                 this.dataNominaGeneral = response.data.data;
-                console.log(response.data.data);
             })
         },
         getCloseModalValue(value) {
@@ -108,7 +114,7 @@ export default {
                     _style: { width: '13%' },
                 },
                 {
-                    key: 'totalAPagar',
+                    key: 'totalNeto',
                     label: 'T/Pagar',
                     _style: { width: '7%' },
                 },
@@ -129,7 +135,8 @@ export default {
                     _style: { width: '10%' },
                     sorter: false,
                 },
-            ]
+            ],
+            formatDate
         }
     }
 }

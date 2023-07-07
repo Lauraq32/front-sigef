@@ -25,7 +25,7 @@ export default {
     },
 
     {
-      path: 'nominaGeneral',
+      path: 'nomina-general',
       name: 'grupoNominas',
       meta: { label: 'Nómina General' },
       component: () =>

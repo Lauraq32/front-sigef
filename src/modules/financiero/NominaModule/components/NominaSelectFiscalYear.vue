@@ -37,7 +37,6 @@
                     <label class="form-label col-auto col-form-label" for="formaPago">Forma de pago</label>
                     <CFormSelect v-model="nominaGeneral.formaPago" id="formaPago">
                         <option selected value="">--Selecciona--</option>
-                        <option>EFECTIVO</option>
                         <option>BANCO</option>
                         <option>CHEQUE</option>
                     </CFormSelect>
@@ -115,11 +114,7 @@ export default {
         this.selectedFiscalYear = `${this.authInfo.currentFiscalYearId}`;
     },
     setup() {
-        const authStore = useAuthStore();
-        const { user, currentFiscalYearId } = authStore.authInfo;
         const nominaGeneral = {
-            ayuntamientoId: user.ayuntamiento.id,
-            anio: currentFiscalYearId,
             mes: new Date().getMonth() + 1,
             tipoContrato: '',
             formaPago: '',

@@ -17,30 +17,30 @@
                             :options="departamentos"></v-select>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <span class="form-label col-auto col-form-label">PNAP: {{ selectedDepartamentoInfo?.estructura?.pnap
-                        }}</span>
-                        <span class="form-label col-auto col-form-label">C&oacute;digo del Departamento: {{
-                            selectedDepartamentoInfo.code }}</span>
+                        <p class="form-label col-auto col-form-label"><strong>PNAP:</strong> {{ selectedDepartamentoInfo?.estructura?.pnap
+                        }}</p>
+                        <p class="form-label col-auto col-form-label"><strong>C&oacute;digo del Departamento:</strong> {{
+                            selectedDepartamentoInfo.code }}</p>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <span class="form-label col-auto col-form-label">Programa: {{
-                            selectedDepartamentoInfo?.estructura?.programa }}</span>
-                        <span class="form-label col-auto col-form-label">Sub-Programa: {{
-                            selectedDepartamentoInfo?.estructura?.programa }}</span>
+                        <p class="form-label col-auto col-form-label"><strong>Programa:</strong> {{
+                            selectedDepartamentoInfo?.estructura?.programa }}</p>
+                        <p class="form-label col-auto col-form-label"><strong>Sub-Programa:</strong> {{
+                            selectedDepartamentoInfo?.estructura?.programa }}</p>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <span class="form-label col-auto col-form-label">Proyecto: {{
-                            selectedDepartamentoInfo?.estructura?.proyecto }}</span>
-                        <span class="form-label col-auto col-form-label">Actividad/obra: {{
-                            selectedDepartamentoInfo?.estructura?.actObra }}</span>
+                        <p class="form-label col-auto col-form-label"><strong>Proyecto:</strong> {{
+                            selectedDepartamentoInfo?.estructura?.proyecto }}</p>
+                        <p class="form-label col-auto col-form-label"><strong>Actividad/obra:</strong> {{
+                            selectedDepartamentoInfo?.estructura?.actObra }}</p>
                     </div>
                     <div>
-                        <span class="form-label col-auto col-form-label">Clasificador: {{
-                            selectedDepartamentoInfo?.clasificador?.id }}</span>
+                        <p class="form-label col-auto col-form-label"><strong>Clasificador:</strong> {{
+                            selectedDepartamentoInfo?.clasificador?.id }}</p>
                     </div>
                     <div class="d-flex gap-1">
-                        <span class="form-label col-auto col-form-label">Desc. Clasificador: {{
-                            selectedDepartamentoInfo?.clasificador?.descripcion }}</span>
+                        <p class="form-label col-auto col-form-label"><strong>Desc. Clasificador:</strong> {{
+                            selectedDepartamentoInfo?.clasificador?.descripcion }}</p>
                     </div>
                     <div class="d-flex gap-1">
                         <label class="form-label col-auto col-form-label fw-bolder" for="descClasificador">Fecha de la
@@ -48,12 +48,26 @@
                         <CFormInput type="date" v-model="fechaNomina" />
                     </div>
                     <div class="d-flex gap-1">
-                        <label class="form-label col-auto col-form-label fw-bolder" for="formaPago">Forma de Pago:</label>
+                        <label class="form-label col-auto col-form-label fw-bolder" for="formaPago">Metodo de Pago:</label>
                         <CFormSelect id="formaPago" v-model="generateNomina.formaPago">
                             <option selected value="">Selecciona</option>
-                            <option>EFECTIVO</option>
                             <option>BANCO</option>
                             <option>CHEQUE</option>
+                        </CFormSelect>
+                    </div>
+                    <div class="d-flex gap-1">
+                        <label class="form-label col-auto col-form-label fw-bolder" for="formaPago">Tipo de Contrato:</label>
+                        <CFormSelect id="formaPago" v-model="generateNomina.tipoContrato">
+                            <option selected value="">Selecciona</option>
+                            <option value="Fijo">FIJO</option>
+                            <option value="Temporal">TEMPORAL</option>
+                        </CFormSelect>
+                    </div>
+                    <div class="d-flex gap-1">
+                        <label class="form-label col-auto col-form-label fw-bolder" for="formaPago">Periodicidad</label>
+                        <CFormSelect id="formaPago" v-model.number="generateNomina.periodicidad">
+                            <option value="1">Mensual</option>
+                            <option value=2>Quincenal</option>
                         </CFormSelect>
                     </div>
                     <div class="d-flex gap-3">
@@ -217,22 +231,22 @@ export default {
             }
             this.generateNomina.fecha = this.fechaNomina;
             this.generateNomina.configuracion.retenciones = this.generateNomina.configuracion.retenciones.filter((e) => e.check)
-            console.log(this.generateNomina);
-            // ApiNomina.createNomina(this.generateNomina).then((_) => {
-            //     this.clearAllData();
-            //     this.show({
-            //         content: 'La nomina ha sido generada',
-            //         closable: true,
-            //         color: 'success'
-            //     });
-            // }).catch((e) => {
-            //     const { message } = e.response.data;
-            //     this.show({
-            //         content: message,
-            //         closable: true,
-            //         color: 'danger'
-            //     });
-            // })
+            this.generateNomina.programaDivision = this.selectedProgramasDivisionId;
+            ApiNomina.createNomina(this.generateNomina).then((_) => {
+                this.clearAllData();
+                this.show({
+                    content: 'La nomina ha sido generada',
+                    closable: true,
+                    color: 'success'
+                });
+            }).catch((e) => {
+                const { message } = e.response.data;
+                this.show({
+                    content: message || "",
+                    closable: true,
+                    color: 'danger'
+                });
+            })
         },
         clearAllData() {
             this.fechaNomina = null;
@@ -256,9 +270,10 @@ export default {
                 formaPago: '',
                 isRegalia: false,
                 allowsDuplicate: false,
+                periodicidad: 1,
                 calcularRetenciones: true,
                 nota: '',
-                configuracion: {}
+                configuracion: this.generateNomina .configuracion
             };
         },
         getConfiguracionNominaApi() {
@@ -343,6 +358,7 @@ export default {
                 isRegalia: false,
                 allowsDuplicate: false,
                 calcularRetenciones: true,
+                periodicidad: 1,
                 nota: '',
                 configuracion: {
                     retenciones: [],
