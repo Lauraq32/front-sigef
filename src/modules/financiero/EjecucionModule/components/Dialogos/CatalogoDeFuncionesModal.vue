@@ -79,7 +79,6 @@ export default {
   methods: {
     closeCatalogoFuncion() {
       this.$emit('close-modal', false)
-      this.clearForm()
     },
   },
 
