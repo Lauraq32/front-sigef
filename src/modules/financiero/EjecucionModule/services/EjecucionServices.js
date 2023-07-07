@@ -3,12 +3,17 @@ import http from '@/Api/http-common'
 import { getAyuntamientoId, getFiscalYearId } from '@/utils/logged-info'
 
 class Ejecucion {
+
+  getMestProg(){
+    return http.get('CtgMestProg')
+  }
+
   getTipoRetenciones(){
     return http.get('tipos-retenciones')
   }
 
   deleteRegistroGasto(id){
-    return http.delete(`registros-gasto${id}`)
+    return http.delete(`registros-gasto/${id}`)
   }
   //Comprobante Gasto
   getRegistroGasto(){

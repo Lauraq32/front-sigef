@@ -260,7 +260,6 @@
                     <CFormLabel for="departamentoId">Departamento</CFormLabel>
                     <v-select required id="validationCustom03" v-model="selectedDepartamento"
                       :options="departamentoList"></v-select>
-
                   </CCol>
 
                   <CCol :md="12">

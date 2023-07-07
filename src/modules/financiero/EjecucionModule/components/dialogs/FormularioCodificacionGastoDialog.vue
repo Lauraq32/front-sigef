@@ -1,5 +1,5 @@
 <template>
-  <CModal size="xl" fullscreen :visible="showModal" @close="closeModal">
+  <CModal size="xl" fullscreen :visible="showModal" @close="closeModal" backdrop="static">
     <CModalHeader>
       <CModalTitle>Documento del Gasto2</CModalTitle>
     </CModalHeader>
@@ -12,6 +12,7 @@
             <CForm :validated="isFormEventTypeValidated" ref="eventTypeForm">
               <div class="row">
                 <CCol :md="8">
+                  <button @click="showMestProgDialog">Estructura</button>
                   <CFormLabel for="nombre">Programa o Proyecto</CFormLabel>
                   <CFormInput maxlength="10" v-model="detalleRegistroGasto.estructuraProgramatica"
                     @keyup="getMestProg($event)" id="nombre" required />
@@ -59,14 +60,16 @@
                 </CCol>
                 <CCol :md="6">
                   <CCol :md="12">
+
                     <CFormLabel for="nombre">Tipo Retencion</CFormLabel>
-                    <CFormSelect required v-model="detalleRetencion.tipoRetencionId" @change="setRetencion">
+                    <v-select v-model="tipoRetencionObj" :options="tipoRetencionesList" @input="setRetencion"></v-select>
+                    <!-- <CFormSelect required v-model="detalleRetencion.tipoRetencionId" @change="setRetencion">
                       <option :key="0">Selecionar Tipo Retencion</option>
                       <option v-for="retencion in tipoRetencionesList" :value="JSON.stringify(retencion)"
                         :key="retencion.id">
                         {{ retencion.detalle }}
                       </option>
-                    </CFormSelect>
+                    </CFormSelect> -->
                   </CCol>
                 </CCol>
                 <CCol :md="6">
@@ -110,6 +113,11 @@
                   }" :tableHeadProps="{}" :activePage="1" header :items="detalleRegistroGasto.detalleRetencion"
                     :columns="RetencionColumn" columnFilter :footer="footer" itemsPerPageSelect :itemsPerPage="5"
                     columnSorter :sorterValue="{ column: 'nombres', state: 'asc' }" pagination>
+                    <!-- <template #tipoRetencionId="{ item, index }">
+                      <td>
+                        {{ item. }}
+                      </td>
+                    </template> -->
                     <template #show_details="{ item, index }">
                       <td>
                         <CDropdown>
@@ -144,7 +152,10 @@
                     </CButton>
                   </td>
                 </template>
+
               </CSmartTable>
+
+
             </CCol>
             <CCol :md="12">
 
@@ -154,6 +165,7 @@
       </CCardBody>
     </CModalBody>
   </CModal>
+  <MestProgDialog @closeMestProg="closeMestProgDialog" :showModal="MestProgDialogProp" />
 </template>
     
 <script>
@@ -163,17 +175,25 @@ import { CIcon } from '@coreui/icons-vue'
 import Api from '../../services/EjecucionServices'
 import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
+import MestProgDialog from './MestProgDialog.vue'
 
 export default {
   name: 'FormularioCodificacionGasto',
   components: {
     CSmartTable,
     CModal,
-    CIcon
+    CIcon,
+    MestProgDialog
   },
 
   data: function () {
     return {
+      TipoRetencionList: [{
+        code: 0,
+        label: 'Seleccionar',
+      }],
+      tipoRetencionObj: null,
+      MestProgDialogProp: false,
       profesionesList: [],
       mestProgList: [],
       tipoRetencionesList: [],
@@ -183,7 +203,7 @@ export default {
       ctgOrganismoFinanciadorId: '',
       ctgFuenteId: '',
       isFormEventTypeValidated: false,
-      balanceDisponible:null,
+      balanceDisponible: null,
       detalleRetencion: {
         fecha: '2023-07-07',
         beneficiarioId: 1,
@@ -209,7 +229,8 @@ export default {
       },
 
       RetencionColumn: [
-        { key: 'tipoRetencionId', label: 'Tipo Retencion' },
+
+        { key: 'tipoRetencionId', label: 'Retencion' },
         { key: 'montoAplica', label: '% o valor' },
         { key: 'montoAplicado', label: 'Del Valor' },
         { key: 'valorAplicado', label: 'Valor Aplicado' },
@@ -219,6 +240,7 @@ export default {
         { key: 'nombre', label: 'Descripcion' },
         { key: 'presupuestoBco', label: 'P/Original' },
         { key: 'variacionBco', label: 'Modific.' },
+
         // { key: '1', label: 'P/Actual.' },
         { key: 'totalDevengadoBco', label: 'Devengado.' },
         { key: 'totalPagadoBco', label: 'Pagado' },
@@ -229,6 +251,9 @@ export default {
         { key: 'nombre', label: 'Descripcion' },
         { key: 'presupuestoBco', label: 'P/Original' },
         { key: 'variacionBco', label: 'Modific.' },
+        { key: 'fuenteEspecificaId', label: 'fuenteEspecificaId.' },
+        { key: 'fuenteId', label: 'fuenteId.' },
+        { key: 'organismoFinanciadorId', label: 'organismoFinanciadorId.' },
         // { key: '1', label: 'P/Actual.' },
         { key: 'totalDevengadoBco', label: 'Devengado.' },
         { key: 'totalPagadoBco', label: 'Pagado' },
@@ -238,10 +263,23 @@ export default {
   },
   methods: {
     ...mapActions(useToastStore, ['show']),
+
+    showMestProgDialog() {
+      this.MestProgDialogProp = true;
+    },
+
+    closeMestProgDialog(data) {
+      console.log(data)
+
+      this.detalleRegistroGasto.funcionId = data.ctgFuncionId;
+      this.ctgFuenteId = data.ctgFuncionId
+      this.detalleRegistroGasto.estructuraProgramatica = data.numero
+      this.getMestProg(data.numero)
+      this.MestProgDialogProp = false;
+    },
+
     saveRetencion() {
-
       this.guardarRetencion()
-
     },
     saveDetalle() {
       this.isFormEventTypeValidated = false
@@ -251,10 +289,11 @@ export default {
       this.isFormEventTypeValidated = true
     },
     guardarRetencion() {
-      console.log(this.detalleRetencion)
-      this.detalleRetencion.tipoRetencionId = this.detalleRetencion.id
-      this.detalleRetencion.valorAplicado = this.detalleRetencion.montoAplica * 8
-      this.detalleRegistroGasto.detalleRetencion = [this.detalleRetencion, ...this.detalleRegistroGasto.detalleRetencion]
+      //console.log(this.detalleRetencion)
+      this.detalleRetencion.tipoRetencionId = this.tipoRetencionObj.code
+      // this.detalleRetencion.valorAplicado = this.detalleRetencion.montoAplica * 8
+      this.detalleRegistroGasto.detalleRetencion = [{ ...this.detalleRetencion }, ...this.detalleRegistroGasto.detalleRetencion]
+      console.log(this.detalleRegistroGasto.detalleRetencion);
     },
 
     saveDetalle() {
@@ -265,18 +304,19 @@ export default {
       this.$emit('closeModal')
     },
 
-    getMestProg(event) {
-
-      // console.log(this.registroGasto.bancoId)
-      if (event.target.value.length == 10) {
+    getMestProg(item) {
+      if (item.length == 10) {
         console.log(this.registroGasto.bancoId)
-        Api.getRegistroGastoMesProg(event.target.value).then(response => {
+        Api.getRegistroGastoMesProg(item).then(response => {
           if (response.data.data.length > 1) {
             var dataResponse = response.data.data.reduce((acc, current) => {
               console.log(current);
               acc.push({
                 clasificador: current.clasificador,
                 nombre: current.nombre,
+                fuenteId: current.fuenteId,
+                organismoFinanciadorId: current.organismoFinanciadorId,
+                fuenteEspecificaId: current.fuenteEspecificaId,
                 presupuestoBco: current[`presupuestoBco${this.registroGasto.bancoId}`],
                 totalDevengadoBco: current[`totalDevengadoBco${this.registroGasto.bancoId}`],
                 totalPagadoBco: current[`totalPagadoBco${this.registroGasto.bancoId}`],
@@ -304,16 +344,25 @@ export default {
     },
 
     getTipoRetenciones() {
-      Api.getTipoRetencion().then(response => {
 
-
-        this.tipoRetencionesList = response.data.data
+      Api.getTipoRetencion().then(({ data: { data } }) => {
+        this.tipoRetencionesList = data.map((elem) => ({
+          code: elem.id,
+          label: `(${elem.id})  ${elem.detalle}`,
+          porciento: elem.porciento,
+          operacion: elem.operacion,
+          porciento: elem.porciento,
+        }))
+        this.tipoRetencionesList.unshift({
+          code: 0,
+          label: 'Seleccionar',
+        })
       })
     },
 
-    setRetencion(event) {
-      let retencion = JSON.parse(event.target.value)
-      console.log(retencion)
+    setRetencion(data) {
+      let retencion = data
+      this.detalleRetencion.tipoRetencionId = retencion.id
       if (retencion) {
         this.detalleRetencion.montoAplica = retencion.porciento
       } else {
@@ -325,13 +374,29 @@ export default {
     },
 
     selectMestProg(item) {
-      console.log(item);
-      
-      this.ctgFuenteId = item.ctgFuenteId
-      this.ctgFuenteEspecificaId = item.ctgFuenteEspecificaId
-      this.ctgOrganismoFinanciadorId = item.ctgOrganismoFinanciadorId
+      console.log(item)
+      this.detalleRegistroGasto.fuenteEspecificaId = item.fuenteEspecificaId
+      this.detalleRegistroGasto.organismoFinanciadorId = item.organismoFinanciadorId
       this.detalleRegistroGasto.clasificadorId = item.clasificador
+      this.detalleRegistroGasto.fuenteId = item.fuenteId
       this.balanceDisponible = item.presupuestoBco
+    }
+  },
+
+  watch: {
+    tipoRetencionObj(value) {
+      console.log(value)
+      this.detalleRetencion.montoAplica = value.porciento;
+      switch (value.operacion) {
+        case "Multiplicar":
+         console.log(this.detalleRetencion.valorAplicado = this.detalleRetencion.montoAplica * this.detalleRegistroGasto.montoBruto);
+          break;
+        case "Dividir":
+          this.detalleRetencion.valorAplicado = this.detalleRegistroGasto.montoBruto/this.detalleRetencion.montoAplica
+          break;
+        default:
+          break;
+      }
     }
   },
 
