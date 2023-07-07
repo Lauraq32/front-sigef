@@ -232,7 +232,6 @@ export default {
         closeModal() {
             this.$emit("close-modal", false)
             this.clearForm()
-            console.log(this.clearForm())
         },
         checkDocument(e) {
             if (this.postBeneficiario.tipoDcto === 'cedula') {
@@ -287,8 +286,7 @@ export default {
         },
 
         'postBeneficiario.tipo': function () {
-            console.log( this.postBeneficiario.tipo !== "pensionado" || this.postBeneficiario.tipo !== "subvencion")
-            if (this.postBeneficiario.tipo !== "Pensionado" || this.postBeneficiario.tipo !== "Subvención") {
+            if (this.postBeneficiario.tipo !== "pensionado" || this.postBeneficiario.tipo !== "subvencion") {
                 this.postBeneficiario.mensual = 0
                 this.postBeneficiario.recomienda = 0
             }
