@@ -246,12 +246,12 @@ export default {
       fechaDesde.setHours(0, 0, 0, 0)
       const fechaActual = new Date(this.postAccionPersonal.fechaDesde)
       fechaActual.setHours(0, 0, 0, 0)
-      this.fechaHataValidation = fechaDesde < fechaActual
+      this.fechaHataValidation = fechaDesde < fechaActual 
     },
 
     calcularFechaHasta() {
       if (
-        this.postAccionPersonal.fechaDesde &&
+        this.postAccionPersonal.fechaDesde ||
         this.postAccionPersonal.cantidad
       ) {
         const fechaDesde = new Date(this.postAccionPersonal.fechaDesde)
@@ -281,15 +281,15 @@ export default {
     'postAccionPersonal.cantidad': function () {
       if (this.postAccionPersonal.cantidad == 0) {
         this.postAccionPersonal.fechaHasta = this.postAccionPersonal.fechaDesde
+      }else {
+        this.fechaHataValidation = false
       }
       this.calcularFechaHasta()
     },
     'postAccionPersonal.fechaDesde': function () {
-      if (!this.postAccionPersonal.cantidad) {
-        this.postAccionPersonal.cantidad = null
-        this.postAccionPersonal.fechaHasta = this.postAccionPersonal.fechaDesde
-        this.calcularFechaHasta()
-      }
+      this.postAccionPersonal.cantidad = 0
+      this.postAccionPersonal.fechaHasta = this.postAccionPersonal.fechaDesde
+      this.calcularFechaHasta()
     },
   },
 
