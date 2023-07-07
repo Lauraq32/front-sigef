@@ -5,6 +5,11 @@ class UsuariosApi {
     return http.get('/login/listarUsuarios')
   }
 
+  
+  getMestProg() {
+    return http.get(`CtgMestProg`)
+  }
+
   getFpServicioPersonal() {
     return http.get('fp-servicio-personal')
   }
@@ -49,9 +54,13 @@ class UsuariosApi {
     return http.delete(`fp-servicio-personal/${id}`)
   }
 
+  getClasificadorGasto(){
+    return http.get('CtgClasficador/presupuesto-gasto')
+  }
+
   getMestProg() {
     return http.get(`CtgMestProg`)
   }
 }
 
-export default new AdministrativoApi()
+export default new UsuariosApi()
