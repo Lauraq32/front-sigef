@@ -74,7 +74,7 @@ export default {
           _style: { width: '15%' },
         },
         { key: 'rncCedPas', label: 'RNC/Cédula/Pasaporte', _style: { width: '12%' } },
-        { key: 'contacto', label: 'Contacto', _style: { width: '8%' } },
+        { key: 'contacto', label: 'Contacto', _style: { width: '10%' } },
         { key: 'email', label: 'Email', _style: { width: '20%' } },
         { key: 'telefono', label: 'Teléfono 1', _style: { width: '10%' } },
         { key: 'celular', label: 'Teléfono 2', _style: { width: '10%' } },
@@ -140,6 +140,7 @@ export default {
 
     closeForm() {
       this.showBeneficiarioModal = false
+      this.beneficiarioToUpdate = {}
     },
     submitForm(payload) {
       if (payload.id) {
