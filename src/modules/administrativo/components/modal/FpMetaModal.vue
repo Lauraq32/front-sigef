@@ -11,7 +11,7 @@
                     </CButton>
                 </div>
                 <div class="row">
-                    <p><strong>Estructura Programatica: </strong> {{ fpMeta.estructuraProgramaticaId }}</p>
+                    <p><strong>Estructura Program&aacute;tica: </strong> {{ fpMeta.estructuraProgramaticaId }}</p>
                     <div class="row">
                         <p><strong>Programa: </strong> {{ estructura.programa }}</p>
                     </div>
@@ -22,7 +22,7 @@
                         <p><strong>Actividad/obra: </strong> {{ estructura.actObra }}</p>
                     </div>
                     <div class="row">
-                        <p><strong>Funcion: </strong> {{ estructura.ctgFuncionId }}</p>
+                        <p><strong>Funci&oacute;n: </strong> {{ estructura.ctgFuncionId }}</p>
                     </div>
                     <div class="row">
                         <p><strong>Unidad Responsable: </strong> {{ estructura.unidadRespon }}</p>

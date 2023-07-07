@@ -57,7 +57,7 @@ export default {
             tableColumnsFpMetas: [
                 { key: "descripcion", label: "Descripción", _style: { width: "40%" } },
                 { key: "nombre", label: "Unidad Responsable", _style: { width: "25%" } },
-                { key: "numero", label: "Estructura Programatica", _style: { width: "20%" } },
+                { key: "numero", label: "Estructura Programática", _style: { width: "20%" } },
                 { key: 'show_details', label: '', _style: { width: '15%' }, filter: false, sorter: false }
             ],
             buttonActions: [
@@ -123,6 +123,10 @@ export default {
                         {
                             name: 'CAPITULO_AYTO',
                             value: 'majorityId',
+                        },
+                        {
+                            name: 'META_ID',
+                            value: item?.id,
                         },
                     ],
                 })
