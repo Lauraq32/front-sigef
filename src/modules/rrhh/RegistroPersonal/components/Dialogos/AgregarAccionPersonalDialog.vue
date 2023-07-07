@@ -149,7 +149,7 @@ export default {
   data: () => {
     return {
       postAccionPersonal: {
-        fechaDesde: null,
+        fechaDesde: new Date(),
         tipoAccionId: null,
         cantidad: 1,
         fechaHasta: new Date(),
@@ -159,6 +159,7 @@ export default {
       isLowerSelectedInitDate: false,
       fechaHataValidation: false,
       isZeroEqualZero: false,
+      validarFecha: false,
     }
   },
 
@@ -210,18 +211,19 @@ export default {
     ...mapActions(useToastStore, ['show']),
     clearAccionPersonal() {
       this.$emit('clearModal', this.postAccionPersonal)
-    },
-
-    closeModal() {
-      this.$emit('close', false)
-    },
-    saveDataAccionPersonal(data) {
-      this.$emit('sendData', data)
-      this.clearAccionPersonal()
       this.isFormEventTypeValidated = false
       this.isLowerSelectedInitDate = false
       this.fechaHataValidation = false
       this.isZeroEqualZero = false
+    },
+
+    closeModal() {
+      this.$emit('close', false)
+      this.clearAccionPersonal()
+    },
+    saveDataAccionPersonal(data) {
+      this.$emit('sendData', data)
+      this.clearAccionPersonal()
     },
     sendData() {
       this.isFormEventTypeValidated = false
@@ -246,7 +248,7 @@ export default {
       fechaDesde.setHours(0, 0, 0, 0)
       const fechaActual = new Date(this.postAccionPersonal.fechaDesde)
       fechaActual.setHours(0, 0, 0, 0)
-      this.fechaHataValidation = fechaDesde < fechaActual 
+      this.fechaHataValidation = fechaDesde < fechaActual
     },
 
     calcularFechaHasta() {
@@ -279,16 +281,11 @@ export default {
       this.postAccionPersonal.tipoAccionId = `${this.tipoAcciones?.[0].id}`
     },
     'postAccionPersonal.cantidad': function () {
-      if (this.postAccionPersonal.cantidad == 0) {
-        this.postAccionPersonal.fechaHasta = this.postAccionPersonal.fechaDesde
-      }else {
+      if (this.postAccionPersonal.cantidad === 0) {
+        this.postAccionPersonal.fechaHasta = this.postAccionPersonal.fechaHasta
+      } else {
         this.fechaHataValidation = false
       }
-      this.calcularFechaHasta()
-    },
-    'postAccionPersonal.fechaDesde': function () {
-      this.postAccionPersonal.cantidad = 0
-      this.postAccionPersonal.fechaHasta = this.postAccionPersonal.fechaDesde
       this.calcularFechaHasta()
     },
   },
