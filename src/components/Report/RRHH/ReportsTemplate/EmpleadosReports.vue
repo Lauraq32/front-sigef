@@ -6,16 +6,27 @@
       </button>
     </div>
 
-    <div class="container-fluid flex-column">
+    <div class="container-fluid flex-column mb-5">
       <div class="text-center justify-content-center">
         <h5>{{ ayuntamiento.descripcion }}</h5>
-        <p>Teléfonos {{ empleado.telefono }}</p>
-        <h5>Tarjeta del Empleado</h5>
+        <div class="text-center">
+          <p>RNC: {{ ayuntamiento.rnc ?? '000000000' }}</p>
+          <p>{{ ayuntamiento.direccion }}</p>
+        </div>
+
+        <h5 class="mt-2">Tarjeta del Empleado</h5>
       </div>
 
       <div class="d-flex justify-content-end">
-        <div class="border border-2 border-dark" style="width: 15%">
-          <img :src="imageUrl" alt="imagen Empleado" />
+        <div
+          class="position-relative flex justify-content-center border border-dark"
+          style="height: 120px"
+        >
+          <img
+            class="h-100"
+            :src="imageUrl"
+            alt="imagen de perfil del empleado"
+          />
         </div>
       </div>
 
@@ -27,11 +38,11 @@
       <div class="gridy">
         <div class="w-100 h-100 p-3 border border-dark">
           <div class="row" v-for="(data, index) in datosGenerales" :key="index">
-            <div class="col-6 fw-bold">
+            <div class="col-6 fw-bold tamanoLetra">
               <label for="datosGenerales"> {{ data.label }}: </label>
             </div>
             <p
-              class="col-6 text-truncate"
+              class="col-6 tamanoLetra"
               id="datosGenerales"
               v-html="lookInfo(data.key)"
             ></p>
@@ -40,11 +51,11 @@
 
         <div class="w-100 h-100 p-3 border border-dark">
           <div class="row" v-for="(data, index) in datosLaborales" :key="index">
-            <div class="col-6 fw-bold">
+            <div class="col-6 fw-bold tamanoLetra">
               <label for="idCampos"> {{ data.label }}: </label>
             </div>
             <p
-              class="col-6 text-truncate"
+              class="col-6 tamanoLetra"
               id="idCampos"
               v-html="lookInfo(data.key)"
             ></p>
@@ -64,7 +75,7 @@
       <div class="gridy">
         <div class="w-100 h-100 p-3 border border-dark">
           <div
-            class="row"
+            class="row tamanoLetra"
             v-for="(data, index) in datosEmergencia"
             :key="index"
           >
@@ -80,7 +91,7 @@
             </div>
             <p
               v-if="data.key !== '--'"
-              class="col-6 text-truncate"
+              class="col-6 tamanoLetra"
               id="idCampos"
               v-html="lookInfo(data.key)"
             ></p>
@@ -88,7 +99,7 @@
         </div>
         <div class="w-100 h-100 p-3 border border-dark">
           <div
-            class="row"
+            class="row tamanoLetra"
             v-for="(data, index) in datosPresionAlterial"
             :key="index"
           >
@@ -104,7 +115,7 @@
             </div>
             <p
               v-if="data.key !== '--'"
-              class="col-6 text-truncate"
+              class="col-6 tamanoLetra"
               id="idCampos"
               v-html="lookInfo(data.key)"
             ></p>
@@ -113,14 +124,19 @@
       </div>
     </div>
   </div>
+
+  <div class="d-flex mx-5 margen gap-5 h-100 w-100">
+    <div class="w-25 border border-bottom-dark"></div>
+    <div class="w-25 border border-bottom-dark"></div>
+    <div class="w-25 border border-bottom-dark"></div>
+  </div>
 </template>
 
 <script>
 import Api from '@/modules/rrhh/RegistroPersonal/services/RegistroPersonalServices'
 import { useRoute } from 'vue-router'
-import { formatDate } from '@/utils/format'
+import { formatDate, formatPrice, formatPhoneNumber } from '@/utils/format'
 import { CIcon } from '@coreui/icons-vue'
-import ApiFiles from '@/modules/rrhh/RegistroPersonal/services/Files'
 
 export default {
   name: 'EmpleadoReport',
@@ -135,6 +151,8 @@ export default {
   data() {
     return {
       formatDate,
+      formatPhoneNumber,
+      formatPrice,
       ayuntamiento: {},
       datosLaborales: [
         {
@@ -144,7 +162,7 @@ export default {
 
         {
           label: 'Programa',
-          key: 'programaDivision.nombre',
+          key: 'departamento.programaDivision.nombre',
         },
 
         {
@@ -204,7 +222,7 @@ export default {
           key: 'tipoSangre.nombre',
         },
         {
-          label: 'Alérgico a',
+          label: 'Alérgico',
           key: 'emergenciaAlergico',
         },
         {
@@ -215,13 +233,10 @@ export default {
 
       datosPresionAlterial: [
         {
-          label: 'Presión Alta',
+          label: 'Nivel de Presión',
           key: 'emergenciaPresionAlta',
         },
-        {
-          label: 'Presión Baja',
-          key: 'emergenciaPresionBaja',
-        },
+
         {
           label: 'En tratamiento',
           key: 'emergenciaEnTratamiento',
@@ -244,11 +259,11 @@ export default {
         },
         {
           label: 'Apellidos',
-          key: 'apellidos',
+          key: 'apellido',
         },
         {
           label: 'Nombres',
-          key: 'nombres',
+          key: 'nombre',
         },
         {
           label: 'Cédula_Pasaporte',
@@ -298,6 +313,9 @@ export default {
     getAyuntamientobyId(id) {
       Api.getAyuntamientoById(id).then((response) => {
         this.ayuntamiento = response.data.data
+        this.ayuntamiento.telefomo = this.formatPhoneNumber(
+          this.ayuntamiento.telefomo,
+        )
       })
     },
 
@@ -308,10 +326,19 @@ export default {
         this.empleado.fechaNacimiento = this.formatDate(
           this.empleado.fechaNacimiento,
         )
+        this.empleado.telefono = this.formatPhoneNumber(
+          this.empleado.telefono ?? '',
+        )
+        this.empleado.emergenciaTelefono = this.formatPhoneNumber(
+          this.empleado.emergenciaTelefono ?? '',
+        )
+        this.empleado.sueldo = this.formatPrice(this.empleado.sueldo)
         this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${
-        this.empleado.idImagenPerfil ?? -1
-      }`
-        this.getAyuntamientobyId(response.data.data.ayuntamientoId)
+          this.empleado.idImagenPerfil ?? -1
+        }`
+        this.getAyuntamientobyId(this.empleado.ayuntamientoId)
+        this.empleado.sexo =
+          this.empleado.sexo === 'M' ? 'Masculino' : 'Femenino'
       })
     },
     lookInfo(param) {
@@ -320,7 +347,6 @@ export default {
         '&nbsp;'
       )
     },
-
   },
   mounted() {
     this.getEmpleadoById(this.empleadoId)
@@ -355,5 +381,13 @@ img {
   margin-top: 20px;
   font-weight: bold;
   text-decoration: underline;
+}
+
+.margen {
+  margin-top: 70px;
+}
+
+.tamanoLetra {
+  font-size: 12px;
 }
 </style>

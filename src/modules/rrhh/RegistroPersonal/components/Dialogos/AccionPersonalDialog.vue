@@ -19,37 +19,37 @@
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Nombre:</div>
               <div class="col-8">
-                <h6>{{ empleado.nombres }}</h6>
+                <h6>{{ empleado.nombre }}</h6>
               </div>
             </div>
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Apellido:</div>
               <div class="col-8">
-                <h6>{{ empleado.apellidos }}</h6>
+                <h6>{{ empleado.apellido }}</h6>
               </div>
             </div>
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Programa:</div>
               <div class="col-8">
-                <h6>{{ empleado.programaDivision.nombre }}</h6>
+                <h6>{{ empleado.programaDivision?.nombre }}</h6>
               </div>
             </div>
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Departamento:</div>
               <div class="col-8">
-                <h6>{{ empleado.departamento.nombre }}</h6>
+                <h6>{{ empleado.departamento?.nombre }}</h6>
               </div>
             </div>
             <div class="row mt-4 mx-3">
               <div class="col-4 col-label">Cargo:</div>
               <div class="col-8">
-                <h6>{{ empleado.posicion.nombre }}</h6>
+                <h6>{{ empleado.posicion?.nombre }}</h6>
               </div>
             </div>
           </div>
           <div class="col-5">
-            <div class="border" style="width: 80%">
-              <img :src="imageUrl" alt="imagen Empleado" />
+            <div class="position-relative flex justify-content-center border border-dark w-75 mt-4" style="height: 150px">
+              <img class="h-100" :src="imageUrl" alt="imagen de perfil del empleado" />
             </div>
           </div>
         </div>
@@ -264,21 +264,25 @@ export default {
       })
     },
     loadData() {
-      this.clearAccionPersonal()
-      setTimeout(() => this.getAccionPersonalById(this.empleado.id), 500)
+      this.clearAccionPersonal();
+      if (this.empleado.id) {
+        setTimeout(() => this.getAccionPersonalById(this.empleado.id), 500)
+      }
     },
   },
 
   watch: {
-    empleado() {
-      Api.getAllTipoAcciones().then((response) => {
-        this.tipoAcciones = response.data.data
-      })
+    empleado(newValue) {
+      if (this.showModal) {
+        Api.getAllTipoAcciones().then((response) => {
+          this.tipoAcciones = response.data.data
+        })
 
-      this.loadData()
-      this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${
-        this.empleado.idImagenPerfil ?? -1
-      }`
+        this.loadData()
+        this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${
+          newValue.idImagenPerfil ?? -1
+        }`;
+      }
     },
   },
 
