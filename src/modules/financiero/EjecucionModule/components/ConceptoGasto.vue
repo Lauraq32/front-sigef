@@ -126,7 +126,8 @@ export default {
               content: response.data.message,
               closable: true,
             })
-            setTimeout(this.getConceptoGasto(), 200)
+            setTimeout(this.getConceptoGasto(), 200);
+            this.conceptoGastoItem = {};
           })
           .catch((error) => {
             this.show({
