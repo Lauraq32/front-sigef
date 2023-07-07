@@ -41,7 +41,7 @@
 import { CModal } from '@coreui/vue'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CIcon } from '@coreui/icons-vue'
-import Api from '../services/EjecucionServices'
+import Api from '../../services/EjecucionServices'
 
 export default {
   name: 'contribuyentesDialog',
