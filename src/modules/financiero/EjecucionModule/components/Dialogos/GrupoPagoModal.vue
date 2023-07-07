@@ -9,7 +9,7 @@
                 <CForm class="needs-validation" novalidate :validated="grupoFormValidated" ref="formRef">
                     <CCol>
                         <CFormLabel for="postGrupo.descripcion">Descripci&oacute;n</CFormLabel>
-                        <CFormInput id="postGrupo.descripcion" v-model="postGrupo.descripcion" required />
+                        <CFormInput id="postGrupo.descripcion" v-model="postGrupo.descripcion" @keypress="onlyLetter" maxlength="20" required />
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <CCol>
@@ -39,21 +39,23 @@
 </template>
 <script>
 import { CModal } from '@coreui/vue';
-
+import { onlyLetter } from '@/utils/validator'
 export default {
     name: 'CargosModal',
     components: {
         CModal,
+        onlyLetter,
+
     },
     emits: ['post-grupo', 'close-modal'],
     data: function () {
         return {
+            onlyLetter,
             grupoFormValidated: false,
             postGrupo: {
-                descripcion: "",
+                descripcion: null,
                 fechaInicio: new Date(),
                 fechaFin: null
-
             },
             isLowerSelectedInitDate: false,
             fechaHataValidation: false,

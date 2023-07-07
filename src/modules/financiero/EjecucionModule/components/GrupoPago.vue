@@ -49,7 +49,8 @@ export default {
   components: {
     CSmartTable,
     CModal,
-    grupoPagoModal
+    grupoPagoModal,
+
   },
   data: () => {
     return {
@@ -95,6 +96,7 @@ export default {
     ...mapActions(useToastStore, ['show']),
     closeModal() {
       this.grupoModal = false
+      this.groupToUpdate = {}
     },
 
     getAllGrupoPago() {
