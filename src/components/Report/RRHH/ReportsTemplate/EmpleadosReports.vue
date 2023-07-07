@@ -20,7 +20,7 @@
       <div class="d-flex justify-content-end">
         <div
           class="position-relative flex justify-content-center border border-dark"
-          style="height: 121px"
+          style="height: 120px"
         >
           <img
             class="h-100"
