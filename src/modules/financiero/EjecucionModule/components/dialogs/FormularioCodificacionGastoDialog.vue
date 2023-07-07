@@ -12,10 +12,18 @@
             <CForm :validated="isFormEventTypeValidated" ref="eventTypeForm">
               <div class="row">
                 <CCol :md="8">
-                  <button @click="showMestProgDialog">Estructura</button>
                   <CFormLabel for="nombre">Programa o Proyecto</CFormLabel>
+                  <div class="position-relative">
+                    <input v-model="detalleRegistroGasto.estructuraProgramatica" ref="name" disabled required class="form-control padding-input"
+                      type="text" id="displayNameProfesion" />
+                    <span class="position-absolute icon-input">
+                      <CIcon icon="cisSearch" size="xl" v-on:click="showMestProgDialog" />
+                    </span>
+                  </div>
+                  <!-- <button @click="showMestProgDialog">Estructura</button>
+                 
                   <CFormInput maxlength="10" v-model="detalleRegistroGasto.estructuraProgramatica"
-                    @keyup="getMestProg($event)" id="nombre" required />
+                    @keyup="getMestProg($event)" id="nombre" required /> -->
                 </CCol>
                 <CCol :md="4">
                   <CFormLabel for="nombre" class="font-weight-bold">Etapa:</CFormLabel>
@@ -249,10 +257,10 @@ export default {
       clasificadoresTables: [
         { key: 'clasificador', label: 'Clasificadores' },
         { key: 'nombre', label: 'Descripcion' },
-        { key: 'presupuestoBco', label: 'P/Original' },
-        { key: 'variacionBco', label: 'Modific.' },
-        { key: 'fuenteEspecificaId', label: 'fuenteEspecificaId.' },
-        { key: 'fuenteId', label: 'fuenteId.' },
+        { key: 'presupuestoBco', label: 'P/Original', _style: { display: 'none' } },
+        { key: 'variacionBco', label: 'Modific.', _style: { display: 'none' } },
+        { key: 'fuenteEspecificaId', label: 'fuenteEspecificaId.', _style: { display: 'none' } },
+        { key: 'fuenteId', label: 'fuenteId.', _style: { display: 'none' } },
         { key: 'organismoFinanciadorId', label: 'organismoFinanciadorId.' },
         // { key: '1', label: 'P/Actual.' },
         { key: 'totalDevengadoBco', label: 'Devengado.' },
@@ -382,7 +390,7 @@ export default {
         case "Multiplicar":
           break;
         case "Dividir":
-          this.detalleRetencion.valorAplicado = this.detalleRegistroGasto.montoBruto/this.detalleRetencion.montoAplica
+          this.detalleRetencion.valorAplicado = this.detalleRegistroGasto.montoBruto / this.detalleRetencion.montoAplica
           break;
         default:
           break;
