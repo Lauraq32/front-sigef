@@ -1,6 +1,5 @@
 import { createStore } from 'vuex'
 import Formulacion from '@/modules/financiero/FormulacionModule/store/Formulacion'
-import AdministrativoModule from '@/modules/administrativo/Usuario/store/Administrativo'
 import myCustomModule from '@/store/module-template'
 import RRHHModule from '@/modules/rrhh/RegistroPersonal/store/RegistroPersonal'
 import EjecucionModule from '@/modules/financiero/EjecucionModule/store/Ejecucion'
@@ -27,7 +26,6 @@ export default createStore({
   actions: {},
   modules: {
     Formulacion,
-    AdministrativoModule,
     myCustomModule,
     RRHHModule,
     EjecucionModule,

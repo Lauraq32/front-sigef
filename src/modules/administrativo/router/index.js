@@ -6,6 +6,15 @@ export default {
     import('@/modules/administrativo/layout/TemplateLayout.vue'),
   children: [
     {
+      path: 'fp-meta-04',
+      name: 'FpMeta04',
+      meta: { label: 'Metas' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/pages/FpMeta.vue'
+        ),
+    },
+    {
       path: 'manejoUsuarios',
       name: 'ManejoUsuarios',
       meta: { label: 'Manejo de Usuarios' },
@@ -34,7 +43,7 @@ export default {
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/pages/ayuntamiento.vue'
         ),
     },
-    
+
     {
       path: 'misionVision',
       name: 'MisionVision',
@@ -42,6 +51,15 @@ export default {
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/pages/misionVision.vue'
+        ),
+    },
+    {
+      path: 'serviciosPersonales',
+      name: 'serviciosPersonales',
+      meta: { label: 'Detalle servicios Personales' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/pages/ServiciosPersonales.vue'
         ),
     },
 
@@ -54,3 +72,4 @@ export default {
     // },
   ],
 }
+
