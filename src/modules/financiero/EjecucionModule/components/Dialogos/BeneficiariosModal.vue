@@ -107,7 +107,7 @@
                                     <option value="institucional">Institucional</option>
                                     <option value="pensionado">Pensionado</option>
                                     <option value="personal">Personal</option>
-                                    <option value="subvención">Subvenci&oacute;n</option>
+                                    <option value="subvencion">Subvenci&oacute;n</option>
                                     <option value="comercial">Comercial</option>
                                     <option value="otros">Otros</option>
                                 </CFormSelect>
@@ -181,7 +181,7 @@ export default {
                 tipoDcto: 'cedula',
                 rncCedPas: null,
                 ingreso: new Date(Date.now()),
-                tipo: "Ayudas",
+                tipo: "ayudas",
                 direccion: null,
                 ciudad: null,
                 contacto: null,
@@ -254,7 +254,7 @@ export default {
                 tipoDcto: 'cedula',
                 rncCedPas: null,
                 ingreso: new Date(Date.now()),
-                tipo: "Ayudas",
+                tipo: "ayudas",
                 direccion: null,
                 ciudad: null,
                 contacto: null,
@@ -265,7 +265,6 @@ export default {
                 mensual: 0,
                 recomienda: 0,
             }
-            
         }
     },
 
@@ -278,19 +277,17 @@ export default {
         beneficiarioToUpdate(newBeneficiary) {
             if (newBeneficiary) {
                 this.postBeneficiario = { ...this.beneficiarioToUpdate }
-
             }
         },
 
         showModal() {
-            // this.postBeneficiario = { ...this.beneficiarioToUpdate }
             this.postBeneficiario.mensual = 0
             this.postBeneficiario.recomienda = 0
             this.formBeneficiariosValidate = false
         },
 
         'postBeneficiario.tipo': function () {
-            if (this.postBeneficiario.tipo !== "Pensionado" || this.postBeneficiario.tipo !== "Subvención") {
+            if (this.postBeneficiario.tipo !== "pensionado" || this.postBeneficiario.tipo !== "subvencion") {
                 this.postBeneficiario.mensual = 0
                 this.postBeneficiario.recomienda = 0
             }
