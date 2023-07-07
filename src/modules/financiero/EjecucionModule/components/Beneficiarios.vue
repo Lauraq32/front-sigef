@@ -140,6 +140,7 @@ export default {
 
     closeForm() {
       this.showBeneficiarioModal = false
+      this.beneficiarioToUpdate = {}
     },
     submitForm(payload) {
       if (payload.id) {

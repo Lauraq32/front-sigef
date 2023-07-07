@@ -101,15 +101,15 @@
                             <CCol class="col-6">
                                 <CFormLabel for="validationCustom04">Tipo de Beneficiario</CFormLabel>
                                 <CFormSelect v-model="postBeneficiario.tipo" id="validationCustom05">
-                                    <option>Ayudas</option>
-                                    <option>Empleado</option>
-                                    <option>Empresa</option>
-                                    <option>Institucional</option>
-                                    <option>Pensionado</option>
-                                    <option>Personal</option>
-                                    <option>Subvenci&oacute;n</option>
-                                    <option>Comercial</option>
-                                    <option>Otros</option>
+                                    <option value="ayudas">Ayudas</option>
+                                    <option value="empleado">Empleado</option>
+                                    <option value="empresa">Empresa</option>
+                                    <option value="institucional">Institucional</option>
+                                    <option value="pensionado">Pensionado</option>
+                                    <option value="personal">Personal</option>
+                                    <option value="subvención">Subvenci&oacute;n</option>
+                                    <option value="comercial">Comercial</option>
+                                    <option value="otros">Otros</option>
                                 </CFormSelect>
                             </CCol>
                         </div>
@@ -122,7 +122,7 @@
                         <CCol class="col-6">
                             <CFormLabel for="validationCustom04">Mensual</CFormLabel>
                             <CurrencyInput class="form-control text-end" required id="presupuestoBco1"
-                                :disabled="postBeneficiario.tipo !== 'Pensionado' && postBeneficiario.tipo !== 'Subvención'" 
+                                :disabled="postBeneficiario.tipo !== 'Pensionado' && postBeneficiario.tipo !== 'Subvención'"
                                 v-model="postBeneficiario.mensual" :options="{
                                     locale: 'en-US',
                                     currency: 'USD',
@@ -134,7 +134,7 @@
                         <CCol class="col-6">
                             <CFormLabel for="validationCustom04">Recomendado</CFormLabel>
                             <CurrencyInput class="form-control text-end" required id="presupuestoBco1"
-                                :disabled="postBeneficiario.tipo !== 'Pensionado' && postBeneficiario.tipo !== 'Subvención'" 
+                                :disabled="postBeneficiario.tipo !== 'Pensionado' && postBeneficiario.tipo !== 'Subvención'"
                                 v-model="postBeneficiario.recomienda" :options="{
                                     locale: 'en-US',
                                     currency: 'USD',
@@ -181,7 +181,7 @@ export default {
                 tipoDcto: 'cedula',
                 rncCedPas: null,
                 ingreso: new Date(Date.now()),
-                tipo: null,
+                tipo: "Ayudas",
                 direccion: null,
                 ciudad: null,
                 contacto: null,
@@ -227,9 +227,7 @@ export default {
                 this.closeModal()
             }
             this.formBeneficiariosValidate = true
-
         },
-
 
         closeModal() {
             this.$emit("close-modal", false)
@@ -256,7 +254,7 @@ export default {
                 tipoDcto: 'cedula',
                 rncCedPas: null,
                 ingreso: new Date(Date.now()),
-                tipo: null,
+                tipo: "Ayudas",
                 direccion: null,
                 ciudad: null,
                 contacto: null,
@@ -267,6 +265,7 @@ export default {
                 mensual: 0,
                 recomienda: 0,
             }
+            
         }
     },
 
@@ -279,12 +278,15 @@ export default {
         beneficiarioToUpdate(newBeneficiary) {
             if (newBeneficiary) {
                 this.postBeneficiario = { ...this.beneficiarioToUpdate }
-                
+
             }
         },
 
-        showModal(){
-           this.postBeneficiario = { ...this.beneficiarioToUpdate }
+        showModal() {
+            // this.postBeneficiario = { ...this.beneficiarioToUpdate }
+            this.postBeneficiario.mensual = 0
+            this.postBeneficiario.recomienda = 0
+            this.formBeneficiariosValidate = false
         },
 
         'postBeneficiario.tipo': function () {
@@ -293,8 +295,6 @@ export default {
                 this.postBeneficiario.recomienda = 0
             }
         }
-
-
     }
 }
 </script>
