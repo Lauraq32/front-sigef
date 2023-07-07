@@ -34,7 +34,7 @@
           </CCol>
           <CCol>
             <CFormLabel for="postGrupo.fechaInicio"
-              >Denominaci&acute;</CFormLabel
+              >Denominaci&oacute;n</CFormLabel
             >
             <CFormInput id="postGrupo.fechaInicio" required />
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
