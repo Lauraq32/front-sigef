@@ -13,6 +13,10 @@ class Ejecucion {
     return http.get(`Beneficiarios/${id}`)
   }
 
+  deleteBeneficiario(id) {
+    return http.delete(`Beneficiarios/${id}`)
+  }
+
   getAnioFiscal() {
     return http.get('anios-fiscales')
   }
@@ -185,6 +189,30 @@ class Ejecucion {
     return http.get(`TipoGasto/${id}?Ayuntamiento=${getAyuntamientoId()}`)
   }
 
+  //Servicios beneficiario grupo pago
+
+  getBeneficiariosGrupoList(){
+    return http.get(`beneficiarios-compensacion?Ayuntamiento=${getAyuntamientoId()}`)
+  }
+
+  postBeneficiarioGrupo(data){
+    return http.post('beneficiarios-compensacion',data)
+  }
+
+  putBeneficiarioGrupo(id,data){
+    return http.put(`beneficiarios-compensacion/${id}`,data)
+  }
+
+  //servicios grupo compensacion
+
+  getGrupoCompensacionList(){
+    return http.get('grupos-compensacion')
+  }
+  //Delete 
+
+  deleteBeneficiarios(id){
+    return http.delete(`Beneficiarios/${id}`)
+  }
   //Concepto de gastos
   getConceptoGasto(){
     return http.get('conceptos-gasto')
