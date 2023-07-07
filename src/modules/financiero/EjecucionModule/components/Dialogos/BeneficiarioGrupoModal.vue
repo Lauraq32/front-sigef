@@ -98,7 +98,6 @@ export default {
                 return this.beneficiarioList.find((x) => x.elem.rncCedPas == this.postBeneficiarioGrupo.beneficiarioId || x.code == this.postBeneficiarioGrupo.beneficiarioId)
             },
             set(util) {
-                console.log(util)
                 this.postBeneficiarioGrupo.beneficiarioId = Number(util?.code)
             },
         },
@@ -173,11 +172,6 @@ export default {
 
     watch: {
         beneficiarioGroupToUpdate(newGroup) {
-            console.log(newGroup, {
-                ...newGroup,
-                grupoCompensacionId: newGroup.grupoCompensacion?.id,
-                beneficiarioId: newGroup.beneficiario?.id,
-            })
             if (newGroup) {
                 this.postBeneficiarioGrupo = {
                     ...newGroup,
