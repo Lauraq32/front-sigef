@@ -38,15 +38,15 @@
           <CButton
             color="primary"
             variant="outline"
-            square
+            size="sm" 
             @click="setConceptoGastoAndShowModal(item)"
           >
             <CIcon icon="cilPencil" size="xl"/>
           </CButton>
           <CButton
             color="danger"
-            variant="outline"
-            square
+            variant="ghost"
+            size="sm"
             @click="deleteConceptoGasto(item.id)"
           >
             <CIcon icon="cilTrash" size="xl" />
