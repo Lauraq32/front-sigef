@@ -4,7 +4,7 @@
             <div class="d-flex gap-3">
                 <div class="d-flex flex-column align-items-center" v-if="showFiscalYearList">
                     <label class="form-label col-auto col-form-label" for="fiscalYearSelect">A&ntilde;o Fiscal</label>
-                    <CFormSelect id="fiscalYearSelect" v-model.number="nominaGeneral.anio" @change="setFiscalYear($event)"
+                    <CFormSelect id="fiscalYearSelect" @change="setFiscalYear($event)"
                         aria-label="Selecionar año fiscal" :options="fiscalYearList">
                     </CFormSelect>
                 </div>
@@ -29,8 +29,8 @@
                     <label class="form-label col-auto col-form-label" for="tipoContrato">Tipo de contracto</label>
                     <CFormSelect v-model="nominaGeneral.tipoContrato" id="tipoContrato">
                         <option selected value="">--Selecciona--</option>
-                        <option>Tipo de contrato 1</option>
-                        <option>Tipo de contrato 2</option>
+                        <option>Fijo</option>
+                        <option>Temporal</option>
                     </CFormSelect>
                 </div>
                 <div class="d-flex flex-column align-items-center">

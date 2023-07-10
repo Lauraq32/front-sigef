@@ -13,6 +13,11 @@
         }" :tableHeadProps="{}" :activePage="1" header :items="dataNominaGeneral" :columns="tableNominaGeneral"
             columnFilter itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
             pagination>
+            <template #totalNeto="{ item }">
+                <td>
+                    {{ formatPrice(item.totalNeto) }}
+                </td>
+            </template>
             <template #posicion="{ item }">
                 <td>
                     {{ item.posicion?.nombre }}
@@ -33,11 +38,6 @@
                     {{ formatDate(item.fecha) }}
                 </td>
             </template>
-            <template #show_details="{ item, index }">
-                <td class="py-2">
-                    <p>Opciones</p>
-                </td>
-            </template>
         </CSmartTable>
     </div>
     <ModalGenerarNomina :modalGenerarNomina="showModal" @changeValueModal="getCloseModalValue"></ModalGenerarNomina>
@@ -49,7 +49,7 @@ import { mapState } from 'pinia';
 import NominaSelectFiscalYear from '../components/NominaSelectFiscalYear.vue';
 import ModalGenerarNomina from '../components/dialogos/ModalGenerarNomina.vue';
 import ApiNomina from '../services/NominaServices';
-import { formatDate } from '@/utils/format';
+import { formatDate, formatPrice } from '@/utils/format';
 
 
 export default {
@@ -129,14 +129,9 @@ export default {
                     label: 'Comprobante',
                     _style: { width: '10%' }
                 },
-                {
-                    key: 'show_details',
-                    label: '',
-                    _style: { width: '10%' },
-                    sorter: false,
-                },
             ],
-            formatDate
+            formatDate,
+            formatPrice
         }
     }
 }
