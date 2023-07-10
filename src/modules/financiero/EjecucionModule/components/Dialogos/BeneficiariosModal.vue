@@ -286,7 +286,7 @@ export default {
         },
 
         'postBeneficiario.tipo': function () {
-            if (this.postBeneficiario.tipo !== "pensionado" || this.postBeneficiario.tipo !== "subvencion") {
+            if (this.postBeneficiario.tipo !== "pensionado" || this.postBeneficiario.tipo !== "subvencion" && !this.postBeneficiario.id) {
                 this.postBeneficiario.mensual = 0
                 this.postBeneficiario.recomienda = 0
             }
