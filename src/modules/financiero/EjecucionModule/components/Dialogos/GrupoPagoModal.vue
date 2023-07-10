@@ -9,7 +9,8 @@
                 <CForm class="needs-validation" novalidate :validated="grupoFormValidated" ref="formRef">
                     <CCol>
                         <CFormLabel for="postGrupo.descripcion">Descripci&oacute;n</CFormLabel>
-                        <CFormInput id="postGrupo.descripcion" v-model="postGrupo.descripcion" @keypress="onlyLetter" maxlength="20" required />
+                        <CFormInput id="postGrupo.descripcion" v-model="postGrupo.descripcion" @keypress="onlyLetter"
+                            maxlength="20" required />
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <CCol>
@@ -19,8 +20,8 @@
                     </CCol>
                     <CCol>
                         <CFormLabel for="postGrupo.fechaFin">Fecha Fin</CFormLabel>
-                        <CFormInput type="date" id="postGrupo.fechaFin" :disabled="!postGrupo.id" v-model="fechaFin" @change="validarFechaHasta"
-                            required />
+                        <CFormInput type="date" id="postGrupo.fechaFin" :disabled="!postGrupo.id" v-model="fechaFin"
+                            @change="validarFechaHasta" required />
                         <CFormFeedback invalid :style="{ display: fechaHataValidation ? 'flex' : 'none' }">
                             La fecha no puede ser menor a la fecha inicio
                         </CFormFeedback>
@@ -87,7 +88,7 @@ export default {
 
         fechaFin: {
             get() {
-                let date = this.postGrupo.fechaFin
+                let date = this.postGrupo?.fechaFin  ?? new Date()
                 if (
                     this.postGrupo.fechaFin !== null &&
                     this.postGrupo.fechaFin?.toString() !== 'Invalid Date'
