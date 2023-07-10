@@ -178,13 +178,13 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Comprobante de ingreso',
+            name: 'Comprobante de Ingresos',
             to: '/Ejecucion/comprobanteIngreso',
             icon: 'cilNotes',
           },
           {
             component: 'CNavItem',
-            name: 'Comprobante de gasto',
+            name: 'Comprobante de Gastos',
             to: '/Ejecucion/comprobanteGasto',
             icon: 'cilNotes',
           },
@@ -200,15 +200,21 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Ejecución ingreso',
+            name: 'Presupuesto de Ingresos',
             to: '/Ejecucion/ejecucionIngreso',
             icon: 'cilChartPie',
           },
           {
             component: 'CNavItem',
-            name: 'Ejecución gasto',
+            name: 'Presupuesto de Gastos',
             to: '/Ejecucion/ejecucionGastos',
             icon: 'cilChartPie',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Cuentas de Banco',
+            to: '/Ejecucion/cuentaDeBanco',
+            icon: 'cilAddressBook',
           },
           {
             component: 'CNavItem',
@@ -220,6 +226,12 @@ export default [
           {
             component: 'CNavTitle',
             name: 'Reportes',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Sección de Informes',
+            to: '/Ejecucion/conceptoGasto',
+            icon: 'cilInbox',
           },
           {
             component: 'CNavTitle',

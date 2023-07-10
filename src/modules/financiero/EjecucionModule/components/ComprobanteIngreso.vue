@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Comprobantes de Ingresos</h3>
+  <h3 class="text-center">Comprobante de Ingresos</h3>
 
   <AppActionHeader>
     <CButton
