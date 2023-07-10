@@ -82,6 +82,12 @@ export default [
             icon: 'cilBuilding',
           },
           {
+            component: 'CNavItem',
+            name: 'Catalogo de Funciones',
+            to: '/FinancieroModule/catalogoDeFunciones',
+            icon: 'cilExcerpt',
+          },
+          {
             component: 'CNavTitle',
             name: 'Procesos',
           },

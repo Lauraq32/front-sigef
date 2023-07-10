@@ -1,19 +1,17 @@
 <template>
   <h3 class="text-center">Catalogo de Funciones</h3>
-
   <TablecatalogoDeFunciones :datosTable="catalogoFunciones" />
 </template>
 
 <script>
-import Api from '../services/EjecucionServices'
+import Api from '@/modules/financiero/EjecucionModule/services/EjecucionServices'
 import { CSmartTable } from '@coreui/vue-pro'
-import TablecatalogoDeFunciones from './Table/TableCatalogoFunciones.vue'
-
+import TablecatalogoDeFunciones from '@/modules/financiero/EjecucionModule/components/Table/TableCatalogoFunciones.vue'
 export default {
   name: 'catalogoDeFunciones',
   components: {
-    CSmartTable,
     TablecatalogoDeFunciones,
+    CSmartTable,
   },
 
   data: () => {
