@@ -93,11 +93,11 @@ export default {
             ],
             columns: [
 
-                { key: 'pnap', label: 'pnap' },
-                { key: 'numero', label: 'numero' },
-                { key: 'nombre', label: 'nombre' },
-                { key: 'unidadRespon', label: 'unidadRespon' },
-                { key: 'ctgFuncionId', label: 'ctgFuncionId' },
+                { key: 'pnap', label: 'Pnap' },
+                { key: 'numero', label: 'Número' },
+                { key: 'nombre', label: 'Nombre' },
+                { key: 'unidadRespon', label: 'Unidad Responsable' },
+                { key: 'ctgFuncionId', label: 'Función' },
                 {
                     key: 'show_details',
                     label: '',

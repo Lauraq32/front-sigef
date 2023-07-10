@@ -2,7 +2,7 @@
     <CModal size="lg" backdrop="static" :visible="showModal" @close="closeDialog()">
         <CModalHeader>
             <CModalTitle>
-                Clasificadores de Gasto
+                Clasificador del Gasto
             </CModalTitle>
         </CModalHeader>
         <CModalBody>
@@ -48,7 +48,7 @@ export default {
             columns: [
                 { key: 'clasifica', label: 'Clasificador' },
                 { key: 'nombre', label: 'Nombre' },
-                { key: 'ctgFuenteEspecificaId', label: 'Fuente especifica' },
+                { key: 'ctgFuenteEspecificaId', label: 'Fuente Especifica' },
                 { key: 'ctgOrganismoFinanciadorId', label: 'Organismo Financiador' },
                 {
                     key: 'show_details',
@@ -68,7 +68,7 @@ export default {
                 this.$emit('closeClasificador', data);
                 return
             }
-            this.this.$emit('closeClasificador');
+            this.$emit('closeClasificador');
             
         },
         getClasificadores() {

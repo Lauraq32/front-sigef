@@ -31,7 +31,7 @@
                     <div class="">
                         <div class="position-relative mb-4 w-100">
                             <input v-model="servicioPersonales.clasificadorId" class="form-control padding-input"
-                                placeholder="Buscar estructura programatica" />
+                                placeholder="Buscar Clasificador del Gasto" />
                             <span class="position-absolute icon-input">
                                 <CIcon icon="cisSearch" size="xl" @click="showClasificadorDialog" />
                             </span>
@@ -68,7 +68,7 @@
             </div>
             <div class="">
                 <div class="">
-                    <h6>Actividad/obra:</h6>
+                    <h6>Actividad/Obra:</h6>
                 </div>
                 <div class="">
                     <label class="text-right" for="">{{ actividadObra }}</label>
@@ -79,7 +79,7 @@
             </div>
             <div class="">
                 <div class="">
-                    <h6>Funcion:</h6>
+                    <h6>Funci&oacute;n:</h6>
                 </div>
                 <div class="">
                     <label class="text-right" for="">{{ funcion }}</label>
@@ -247,10 +247,11 @@ export default {
             },
 
             columns: [
-                { key: 'cantidad', label: 'Numero de Cargos' },
+                { key: 'Categorias', label: 'Categoría' },
+                { key: 'cantidad', label: 'Número de Cargos' },
                 { key: 'mensual', label: 'Mensual' },
                 { key: 'AnualActual', label: 'Anual' },
-                { key: 'cantidadsolicitada', label: 'Numero de Cargos' },
+                { key: 'cantidadsolicitada', label: 'Número de Cargos' },
                 { key: 'mensualsolicitado', label: 'Mensual' },
                 { key: 'AnualSolicitado', label: 'Anual' },
                 {
@@ -266,40 +267,43 @@ export default {
     },
     methods: {
         ...mapActions(useToastStore, ['show']),
+        cargarCategorias() {
+
+        },
         clearForm() {
             this.programa = null
             this.proyecto = null
             this.actividadObra = null
             this.funcion = null
-            this.serviciosItems = []
-            this.servicioPersonales = {
-                estructuraProgramaticaId: null,
-                clasificadorId: null,
-                go01Cantidad: 0,
-                go01Mensual: 0,
-                go01CantidadSolicitada: 0,
-                go01MensualSolicitado: 0,
-                go02Cantidad: 0,
-                go02Mensual: 0,
-                go02CantidadSolicitada: 0,
-                go02MensualSolicitado: 0,
-                go03Cantidad: 0,
-                go03Mensual: 0,
-                go03CantidadSolicitada: 0,
-                go03MensualSolicitado: 0,
-                go04Cantidad: 0,
-                go04Mensual: 0,
-                go04CantidadSolicitada: 0,
-                go04MensualSolicitado: 0,
-                go05Cantidad: 0,
-                go05Mensual: 0,
-                go05CantidadSolicitada: 0,
-                go05MensualSolicitado: 0,
-                go06Cantidad: 0,
-                go06Mensual: 0,
-                go06CantidadSolicitada: 0,
-                go06MensualSolicitado: 0
-            }
+            this.serviciosItems = [],
+                this.servicioPersonales = {
+                    estructuraProgramaticaId: null,
+                    clasificadorId: null,
+                    go01Cantidad: 0,
+                    go01Mensual: 0,
+                    go01CantidadSolicitada: 0,
+                    go01MensualSolicitado: 0,
+                    go02Cantidad: 0,
+                    go02Mensual: 0,
+                    go02CantidadSolicitada: 0,
+                    go02MensualSolicitado: 0,
+                    go03Cantidad: 0,
+                    go03Mensual: 0,
+                    go03CantidadSolicitada: 0,
+                    go03MensualSolicitado: 0,
+                    go04Cantidad: 0,
+                    go04Mensual: 0,
+                    go04CantidadSolicitada: 0,
+                    go04MensualSolicitado: 0,
+                    go05Cantidad: 0,
+                    go05Mensual: 0,
+                    go05CantidadSolicitada: 0,
+                    go05MensualSolicitado: 0,
+                    go06Cantidad: 0,
+                    go06Mensual: 0,
+                    go06CantidadSolicitada: 0,
+                    go06MensualSolicitado: 0
+                }
         },
         handleSubmitCustom01(event) {
             const form = event.currentTarget
@@ -318,9 +322,14 @@ export default {
 
 
         closeDialogClasificador(data) {
-            this.servicioPersonales.clasificadorId = data.clasifica
-            this.clasificadorGasto = data.clasifica
+            if (data?.clasifica) {
+                this.servicioPersonales.clasificadorId = data.clasifica
+                this.clasificadorGasto = data.clasifica
+                this.clasificadorDialog = false;
+                return
+            }
             this.clasificadorDialog = false;
+
         },
         saveServicios() {
             if (this.servicioPersonales.id) {
@@ -364,11 +373,20 @@ export default {
         },
         saveDetalle(data) {
             const keys = Object.keys(data);
+            const categoriasServicios = [
+                'Servicios Generales',
+                'Apoyo Administrativo',
+                'Tecnicos',
+                'Profesionales',
+                'Direccion y Supervision',
+                'Cargos Típicos',
+            ]
             const list = Array.from({ length: 6 }, (_, i) => {
                 const term = `go${(i + 1).toString().padStart(2, '0')}`;
                 const filteredKeys = keys.filter(key => key.startsWith(term));
                 return filteredKeys.reduce((acc, key) => {
                     acc[key.replace(term, '').toLocaleLowerCase()] = data[key];
+                    acc['Categorias'] = categoriasServicios[i]
                     acc['AnualActual'] = acc['cantidad'] * acc['mensual']
                     acc['AnualSolicitado'] = acc['cantidadsolicitada'] * acc['mensualsolicitado']
                     return acc;

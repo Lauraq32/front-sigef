@@ -27,7 +27,7 @@
                                     <h6 class="align-middle mt-4 ">Servicios Generales</h6>
                                 </div>
                                 <div class="col-2">
-                                    <CFormLabel for="validationCustom01">Numero de Cargos</CFormLabel>
+                                    <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
                                     <CFormInput v-model="detalleServicio.go01Cantidad" size="sm" id="validationCustom02"
                                         required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
@@ -41,7 +41,7 @@
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
-                                    <CFormLabel for="validationCustom01">Numero de Cargos</CFormLabel>
+                                    <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
                                     <CFormInput v-model="detalleServicio.go01CantidadSolicitada" size="sm"
                                         id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
@@ -70,7 +70,7 @@
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
-                                    <CFormLabel for="validationCustom01">Numero de Cargos</CFormLabel>
+                                    <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
                                     <CFormInput v-model="detalleServicio.go02Cantidad" size="sm" id="validationCustom02"
                                         required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
@@ -84,7 +84,7 @@
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
-                                    <CFormLabel for="validationCustom01">Numero de Cargos</CFormLabel>
+                                    <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
                                     <CFormInput v-model="detalleServicio.go02CantidadSolicitada" size="sm"
                                         id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
@@ -109,7 +109,7 @@
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
-                                    <CFormLabel for="validationCustom01">Numero de Cargos</CFormLabel>
+                                    <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
                                     <CFormInput v-model="detalleServicio.go03Cantidad" size="sm" id="validationCustom02"
                                         required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
@@ -123,7 +123,7 @@
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
-                                    <CFormLabel for="validationCustom01">Numero de Cargos</CFormLabel>
+                                    <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
                                     <CFormInput v-model="detalleServicio.go03CantidadSolicitada" size="sm"
                                         id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
@@ -152,7 +152,7 @@
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
-                                    <CFormLabel for="validationCustom01">Numero de Cargos</CFormLabel>
+                                    <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
                                     <CFormInput v-model="detalleServicio.go04Cantidad" size="sm" id="validationCustom02"
                                         required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
@@ -166,7 +166,7 @@
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
-                                    <CFormLabel for="validationCustom01">Numero de Cargos</CFormLabel>
+                                    <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
                                     <CFormInput v-model="detalleServicio.go04CantidadSolicitada" size="sm"
                                         id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
@@ -188,14 +188,14 @@
                                 <div class="col-2">
 
 
-                                    <h6 class="align-middle mt-4 ">Direccion y Supervision</h6>
+                                    <h6 class="align-middle mt-4 ">Direcci&oacute;n y Supervision</h6>
 
 
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
-                                    <CFormLabel for="validationCustom01">Numero de Cargos</CFormLabel>
+                                    <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
                                     <CFormInput v-model="detalleServicio.go05Cantidad" size="sm" id="validationCustom02"
                                         required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
@@ -209,7 +209,7 @@
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
-                                    <CFormLabel for="validationCustom01">Numero de Cargos</CFormLabel>
+                                    <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
                                     <CFormInput v-model="detalleServicio.go05CantidadSolicitada" size="sm"
                                         id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
@@ -229,14 +229,14 @@
                                 <div class="col-2">
 
 
-                                    <h6 class="align-middle mt-4 ">Direccion y Supervision</h6>
+                                    <h6 class="align-middle mt-4 ">Cargos Ti&iacute;picos</h6>
 
 
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
-                                    <CFormLabel for="validationCustom01">Numero de Cargos</CFormLabel>
+                                    <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
                                     <CFormInput v-model="detalleServicio.go06Cantidad" size="sm" id="validationCustom02"
                                         required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
@@ -250,7 +250,7 @@
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
-                                    <CFormLabel for="validationCustom01">Numero de Cargos</CFormLabel>
+                                    <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
                                     <CFormInput v-model="detalleServicio.go06CantidadSolicitada" size="sm"
                                         id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
@@ -321,10 +321,10 @@ export default {
             },
             columns: [
                 { key: 'nombre', label: 'Grupos ocupacionales' },
-                { key: 'nombre', label: 'Numero de Cargos' },
+                { key: 'nombre', label: 'Número de Cargos' },
                 { key: 'nombre', label: 'Mensual' },
                 { key: 'nombre', label: 'Anual' },
-                { key: 'nombre', label: 'Numero de Cargos' },
+                { key: 'nombre', label: 'Número de Cargos' },
                 { key: 'nombre', label: 'Mensual' },
                 { key: 'nombre', label: 'Anual' },
                 {
