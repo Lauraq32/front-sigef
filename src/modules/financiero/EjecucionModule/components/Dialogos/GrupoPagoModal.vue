@@ -66,7 +66,7 @@ export default {
     computed: {
         fechaInicio: {
             get() {
-                let date = this.postGrupo.fechaInicio
+                let date = this.postGrupo.fechaInicio ?? new Date()
                 if (
                     this.postGrupo.fechaInicio !== null &&
                     this.postGrupo.fechaInicio?.toString() !== 'Invalid Date'
@@ -88,7 +88,7 @@ export default {
 
         fechaFin: {
             get() {
-                let date = this.postGrupo?.fechaFin  ?? new Date()
+                let date = this.postGrupo?.fechaFin 
                 if (
                     this.postGrupo.fechaFin !== null &&
                     this.postGrupo.fechaFin?.toString() !== 'Invalid Date'
