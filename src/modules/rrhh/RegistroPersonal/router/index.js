@@ -88,19 +88,13 @@ export default {
         ),
     },
     {
-      path: 'inventario',
-      name: 'Inventario',
-      meta: { label: 'Inventario' },
+      path: 'utiles-laborales',
+      name: 'utilesLaborales',
+      meta: { label: 'Inventario de útiles' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/rrhh/RegistroPersonal/components/Inventario.vue'
         ),
     },
-
-    //  {
-    //     path: '',
-    //     name: 'no-entry',
-    //     component: () => import(/* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FormulacionModule/components/Prueba.vue'),
-    // },
   ],
 }

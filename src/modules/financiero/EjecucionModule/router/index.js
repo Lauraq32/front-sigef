@@ -44,7 +44,7 @@ export default {
     {
       path: 'grupoPago',
       name: 'grupoPago',
-      meta: { label: 'Grupo Pago' },
+      meta: { label: 'Grupos de Pago' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/GrupoPago.vue'
@@ -122,6 +122,17 @@ export default {
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/Retenciones.vue'
         ),
     },
+    {
+      path: 'conceptoGasto',
+      name: 'conceptoGasto',
+      meta: { label: 'Conceptos de gastos' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/ConceptoGasto.vue'
+        ),
+    },
+
+
 
     //  {
     //     path: '',

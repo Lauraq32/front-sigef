@@ -1,7 +1,7 @@
 <template>
   <h3 class="text-center mb-4">Áreas de trabajo</h3>
   <div class="table-headers mb-4">
-    <div class="d-flex p-2">
+    <div class="d-flex p-2 gap-1">
       <CButton
         color="info"
         @click="() => { newAreaTrabajoModal = true }">Agregar</CButton>
