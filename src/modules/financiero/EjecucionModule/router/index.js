@@ -71,7 +71,7 @@ export default {
     {
       path: 'comprobanteIngreso',
       name: 'comprobanteIngreso',
-      meta: { label: 'Comprobante Ingreso' },
+      meta: { label: 'Comprobante de Ingresos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/ComprobanteIngreso.vue'
@@ -80,7 +80,7 @@ export default {
     {
       path: 'comprobanteGasto',
       name: 'comprobanteGasto',
-      meta: { label: 'Comprobante Gasto' },
+      meta: { label: 'Comprobante de Gasto' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/ComprobanteGasto.vue'
