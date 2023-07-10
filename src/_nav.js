@@ -744,7 +744,7 @@ export default [
             component: 'CNavItem',
             name: 'Departamentos',
             to: '/RRHHModule/departamentos',
-            icon: 'Storage',
+            icon: 'cilStorage',
           },
           {
             component: 'CNavItem',
