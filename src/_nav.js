@@ -164,7 +164,7 @@ export default [
             component: 'CNavItem',
             name: 'Catalogo de Funciones',
             to: '/Ejecucion/catalogoDeFunciones',
-            icon: 'cilCalculator',
+            icon: 'cilExcerpt',
           },
           {
             component: 'CNavTitle',
@@ -738,7 +738,7 @@ export default [
             component: 'CNavItem',
             name: 'Departamentos',
             to: '/RRHHModule/departamentos',
-            icon: 'cilStorage',
+            icon: 'Storage',
           },
           {
             component: 'CNavItem',
