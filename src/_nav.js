@@ -82,6 +82,12 @@ export default [
             icon: 'cilBuilding',
           },
           {
+            component: 'CNavItem',
+            name: 'Catalogo de Funciones',
+            to: '/FinancieroModule/catalogoDeFunciones',
+            icon: 'cilExcerpt',
+          },
+          {
             component: 'CNavTitle',
             name: 'Procesos',
           },
@@ -159,6 +165,12 @@ export default [
             name: 'Beneficiario por grupo',
             to: '/Ejecucion/beneficiarioGrupo',
             icon: 'cilCalculator',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Catalogo de Funciones',
+            to: '/Ejecucion/catalogoDeFunciones',
+            icon: 'cilExcerpt',
           },
           {
             component: 'CNavTitle',

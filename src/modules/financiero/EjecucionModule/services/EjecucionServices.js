@@ -214,35 +214,39 @@ class Ejecucion {
     return http.delete(`Beneficiarios/${id}`)
   }
   //Concepto de gastos
-  getConceptoGasto(){
+  getConceptoGasto() {
     return http.get('conceptos-gasto')
   }
-  getConceptoGastoById(id){
+  getConceptoGastoById(id) {
     return http.get(`conceptos-gasto/${id}`)
   }
-  putConceptoGasto(id,data){
-    return http.put(`conceptos-gasto/${id}`,data)
+  putConceptoGasto(id, data) {
+    return http.put(`conceptos-gasto/${id}`, data)
   }
-  postConceptoGasto(data){
-    return http.post('conceptos-gasto',data)
+  postConceptoGasto(data) {
+    return http.post('conceptos-gasto', data)
   }
-  deleteConceptoGasto(id){
+  deleteConceptoGasto(id) {
     return http.delete(`conceptos-gasto/${id}`)
   }
   deleteRegistroIngreso(id) {
     return http.delete(`registros-ingreso/${id}`)
   }
   //Servicios de Grupo Pago
-  getGrupoPagoList(){
+  getGrupoPagoList() {
     return http.get('grupos-compensacion')
   }
 
-  putGrupoPago(id,data){
-    return http.put(`grupos-compensacion/${id}`,data)
+  putGrupoPago(id, data) {
+    return http.put(`grupos-compensacion/${id}`, data)
   }
 
-  postGrupoPago(data){
-    return http.post('grupos-compensacion',data)
+  postGrupoPago(data) {
+    return http.post('grupos-compensacion', data)
+  }
+
+  getCatalogoFunciones() {
+    return http.get('catalogos-funcion')
   }
 }
 
