@@ -3,10 +3,19 @@ import http from '@/Api/http-common';
 import { getAyuntamientoId } from '@/utils/logged-info';
 import FileApi from './Files';
 class RegistroPersonal {
+  //delete Cargo
+  deleteCargo(id){
+    return http.delete(`cargos/${id}`)
+  }
+  //put utils
+  putUtils(data,id) {
+    return http.put(`utiles-laborales/${id}`,data)
+  }
   //get
   tipoSangreList() {
     return http.get('tipos-sangre')
   }
+
 
   getAllTipoAcciones() {
     return http.get('tipo-acciones')
@@ -44,7 +53,7 @@ class RegistroPersonal {
   }
 
   getAyuntamientoById(id){
-    return http.get(`Ayuntamiento/${id}`)
+    return http.get(`ayuntamientos/${id}`)
   }
 
   getAllEmpleado(filter = {}) {
@@ -105,8 +114,8 @@ class RegistroPersonal {
     return http.put(`inventarios/${id}`, data)
   }
   
-  getUtilesLaborales() {
-    return http.get(`utiles-laborales`)
+  getUtilesLaborales(empleadoId) {
+    return http.get(`utiles-laborales/empleado/${empleadoId}`);
   }
   
   postUtilLaboral(data) {
@@ -117,8 +126,16 @@ class RegistroPersonal {
     return http.post(`utiles-laborales/${id}`, data)
   }
   
-  postEventos(id, data) {
-    return http.post(`utiles-laborales/${id}/eventos`, data)
+  cancelUtilLaboral(id) {
+    return http.patch(`utiles-laborales/${id}/canceled`)
+  }
+  
+  deliverUtilLaboral(id) {
+    return http.patch(`utiles-laborales/${id}/delivered`)
+  }
+  
+  getUtilLaboralEventos(id) {
+    return http.get(`utiles-laborales/${id}/eventos`);
   }
 
   //AREA TRABAJO

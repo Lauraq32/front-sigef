@@ -59,9 +59,10 @@
     @closeModal="closeTipoNovedad"
   />
   
-  <ContenedorArchivosRRHH
+  <ContenedorArchivosModel
     :showModal="showModalDoc"
-    :empleado="selectedEmployee"
+    :tagKeyName="'empleadoId'"
+    :tagValueName="selectedEmployee?.id"
     @closeModal="closeContenedorModal"
   />
 
@@ -69,6 +70,12 @@
     :showModal="showEducacion"
     :employeeInfo="selectedEmployee"
     @closeModal="() => showEducacion = false"
+  />
+
+  <UtilesLaboralesDialog
+    :showModal="showUtilesLaboralesDialog"
+    :employeeInfo="selectedEmployee"
+    @closeModal="() => showUtilesLaboralesDialog = false"
   />
 
   <!-- Reportes -->
@@ -102,11 +109,13 @@ import { useToastStore } from '@/store/toast'
 import RegistroPersonalDialog from '../components/Dialogos/RegistroPersonalDialog.vue'
 import RegistroPersonalTable from '../components/tables/RegistroPersonalTable.vue'
 import EducacionDialog from './Dialogos/EducacionDialog.vue'
-import ContenedorArchivosRRHH from './ContenedorArchivosRRHH.vue'
+import ContenedorArchivosModel from '@/components/ContenedorArchivosModel.vue'
 import AccionPersonalDialog from './Dialogos/AccionPersonalDialog.vue'
+import UtilesLaboralesDialog from './Dialogos/UtilesLaboralesDialog.vue'
 import TipoNovedadDialog from './TipoNovedades.vue'
 import TarjetaEmpleadoDialogs from '../components/Dialogos/TarjetaEmpleado.vue'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
+import { showReport } from '@/utils/util'
 
 export default {
   components: {
@@ -115,12 +124,13 @@ export default {
     RegistroPersonalDialog,
     AccionPersonalDialog,
     AccionPersonalDialog,
-    ContenedorArchivosRRHH,
+    ContenedorArchivosModel,
     TipoNovedadDialog,
     RegistroPersonalDialog,
     TarjetaEmpleadoDialogs,
     EmpleadoReports,
     EducacionDialog,
+    UtilesLaboralesDialog,
   },
 
   data: function () {
@@ -137,13 +147,14 @@ export default {
       showEducacion: false,
       employeeInfo: null,
       showRegistroPersonalModal: false,
+      showUtilesLaboralesDialog: false,
       registroPersonal: [],
       reporteDepto: '1',
       reportes: false,
       columns: [
         { key: 'codigo', label: 'Código', _style: { width: '5%' } },
-        { key: 'apellidos', label: 'Apellido', _style: { width: '15%' } },
-        { key: 'nombres', label: 'Nombre', _style: { width: '15%' } },
+        { key: 'apellido', label: 'Apellido', _style: { width: '15%' } },
+        { key: 'nombre', label: 'Nombre', _style: { width: '15%' } },
         { key: 'codigoIdentidad', label: 'Cédula/Pasaporte', _style: { width: '10%' } },
         {
           key: 'departamenteName',
@@ -197,14 +208,21 @@ export default {
         {
           label: 'Acción personal',
           clickHandler: (value) => {
-            this.showAccionPersonal = true
             this.selectedEmployee = value
+            this.showAccionPersonal = true
           }
         },
         {
           label: 'Tabla de acciones',
           clickHandler: (value) => {
             this.showTipoNovedad = true
+            this.selectedEmployee = value
+          }
+        },
+        {
+          label: 'Útiles laborales',
+          clickHandler: (value) => {
+            this.showUtilesLaboralesDialog = true
             this.selectedEmployee = value
           }
         },
@@ -256,42 +274,42 @@ export default {
       this.showRegistroPersonalModal = true
     },
 
-    imprimirReporte() {
-      if (this.reporteDepto === '1') {
-        window
-          .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Nombre&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
-            '_blank',
-          )
-          .focus()
-      }
-      
-      if (this.reporteDepto === '2') {
-        window
-          .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Apellidos&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
-            '_blank',
-          )
-          .focus()
-      }
-      if (this.reporteDepto === '3') {
-        window
-          .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Cargo&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
-            '_blank',
-          )
-          .focus()
-      }
-      if (this.reporteDepto === '4') {
-        window
-          .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Departamentos&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
-            '_blank',
-          )
-          .focus()
-      }
+    async imprimirReporte() {
+      const reportParam = {
+        folderName: 'rrhh',
+        params: [{
+          name: "ID_AYUNTAMIENTO",
+          value: "majorityId"
+        }]
+      };
 
-      this.reportes = false;
+      try {
+        if (this.reporteDepto === '1') {
+          reportParam.reportName = 'Rep_Empleados_por_Nombre';
+          await showReport(reportParam);
+        }
+        if (this.reporteDepto === '2') {
+          reportParam.reportName = 'Rep_Empleados_por_Apellidos';
+          await showReport(reportParam);
+        }
+        if (this.reporteDepto === '3') {
+          reportParam.reportName = 'Rep_Empleados_por_Cargo';
+          await showReport(reportParam);
+        }
+        if (this.reporteDepto === '4') {
+          reportParam.reportName = 'Rep_Empleados_por_Departamento';
+          await showReport(reportParam);
+        }
+
+        this.reportes = false;
+      } catch (error) {
+        this.show({
+          content: error,
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        })
+      }
     },
 
     closeContenedorModal(payload) {

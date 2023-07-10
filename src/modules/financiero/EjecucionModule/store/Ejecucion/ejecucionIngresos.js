@@ -10,7 +10,7 @@ import Api from '../../services/EjecucionServices'
 export const useEjecucionIngresoStore = defineStore(
   'useEjecucionIngresoStore',
   () => {
-    const ingresosList = ref([]) 
+    const ingresosList = ref([])
 
     //const name = ref('Eduardo')
     const getList = computed(() => ingresosList)
@@ -34,9 +34,7 @@ export const useEjecucionIngresoStore = defineStore(
     }
 
     function addIngresos(data) {
-      Api.postIngresos(data).then((response) => {
-        console.log(response)
-      })
+      return Api.postIngresos(data)
     }
 
     function addIngresoDetalle(data) {
@@ -45,7 +43,6 @@ export const useEjecucionIngresoStore = defineStore(
       })
     }
 
-    
     function addGastoDetalle(data) {
       Api.postGastoDetalle(data).then((response) => {
         console.log(response)
@@ -53,18 +50,18 @@ export const useEjecucionIngresoStore = defineStore(
     }
 
     function getIngresos() {
-        Api.getIngresoAll().then((response) => {
-          console.log(response)
-          ingresosList.value = response.data.data
-        })
-      }
+      Api.getIngresoAll().then((response) => {
+        console.log(response)
+        ingresosList.value = response.data.data
+      })
+    }
 
-      function getIngresosById(id) {
-        Api.getIngresoAll().then((response) => {
-          console.log(response)
-          ingresosList.value = response.data.data
-        })
-      }
+    function getIngresosById(id) {
+      Api.getIngresoAll().then((response) => {
+        console.log(response)
+        ingresosList.value = response.data.data
+      })
+    }
 
     function putIngreso(data) {
       Api.putBeneficiarios(data).then((response) => {
@@ -89,7 +86,7 @@ export const useEjecucionIngresoStore = defineStore(
       getIngresos,
       addIngresoDetalle,
       addGastoDetalle,
-      putRegistrosGasto
+      putRegistrosGasto,
     }
   },
 )
