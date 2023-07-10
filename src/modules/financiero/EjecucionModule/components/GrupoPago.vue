@@ -28,7 +28,7 @@
     </template>
     <template #fechaFin="{ item }">
       <td class="py-2">
-        {{ formatDate(item.fechaFin) }}
+        {{ item.fechaFin ? formatDate(item.fechaFin) : '' }}
       </td>
     </template>
   </CSmartTable>
@@ -49,7 +49,8 @@ export default {
   components: {
     CSmartTable,
     CModal,
-    grupoPagoModal
+    grupoPagoModal,
+
   },
   data: () => {
     return {
@@ -96,12 +97,18 @@ export default {
     closeModal() {
       this.grupoModal = false
       this.groupToUpdate = {}
-
     },
 
     getAllGrupoPago() {
       Api.getGrupoPagoList().then((response) => {
-        this.grupoPago = response.data.data
+        this.grupoPago = response.data.data.map(x=>{
+          return{
+            id:x.id,
+            descripcion:x.descripcion,
+            fechaInicio:x.fechaInicio,
+            fechaFin: x.fechaFin 
+          }
+        })
         this.itemsCount = this.grupoPago.length
         this.footerItem[0].label = `Total items: ${this.itemsCount}`
       })
@@ -116,6 +123,7 @@ export default {
             life: 15000,
           })
           setTimeout(() => this.getAllGrupoPago(), 200)
+          this.closeModal();
         })
           .catch((error) => {
             return this.show({
