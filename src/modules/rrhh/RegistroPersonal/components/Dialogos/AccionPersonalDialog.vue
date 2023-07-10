@@ -48,8 +48,15 @@
             </div>
           </div>
           <div class="col-5">
-            <div class="position-relative flex justify-content-center border border-dark w-75 mt-4" style="height: 150px">
-              <img class="h-100" :src="imageUrl" alt="imagen de perfil del empleado" />
+            <div
+              class="position-relative flex justify-content-center border border-dark w-75 mt-4"
+              style="height: 150px"
+            >
+              <img
+                class="h-100"
+                :src="imageUrl"
+                alt="imagen de perfil del empleado"
+              />
             </div>
           </div>
         </div>
@@ -91,17 +98,27 @@
           </td>
         </template>
 
+        <template #tipoAccionId="{ item }">
+          <td>
+            {{ item.tipoAccion.descripcion }}
+          </td>
+        </template>
+
         <template #show_details="{ item }">
-          <td class="py-2">
-            <CButton
-              color="primary"
-              variant="outline"
-              square
-              size="sm"
-              @click="getAccionesPersonalById(item)"
-            >
-              Editar
-            </CButton>
+          <td>
+            <CDropdown>
+              <CDropdownToggle color="primary" variant="outline"
+                >Acciones</CDropdownToggle
+              >
+              <CDropdownMenu>
+                <CDropdownItem @click="() => printReportReciboIngreso(item)"
+                  >Imprimir</CDropdownItem
+                >
+                <CDropdownItem @click="() => getAccionesPersonalById(item)"
+                  >Editar</CDropdownItem
+                >
+              </CDropdownMenu>
+            </CDropdown>
           </td>
         </template>
       </CSmartTable>
@@ -137,7 +154,8 @@ import Api from '@/modules/rrhh/RegistroPersonal/services/RegistroPersonalServic
 import AgregarAccionPersonalDialog from '@/modules/rrhh/RegistroPersonal/components/Dialogos/AgregarAccionPersonalDialog.vue'
 import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
-
+import { showReport } from '@/utils/util'
+const _this = this
 export default {
   name: 'AccionPersonalDialog',
   components: {
@@ -175,13 +193,13 @@ export default {
       ],
       imageUrl: '',
       postAccionPersonal: {
-        fechaDesde: null,
+        fechaDesde: new Date(),
         tipoAccionId: null,
         empleadoId: 0,
         cantidad: 0,
-        fechaHasta: null,
+        fechaHasta: new Date(),
         detalle: null,
-      }
+      },
     }
   },
 
@@ -221,7 +239,7 @@ export default {
 
     submitAccionPersonal(payload) {
       if (payload.id) {
-        return Api.putAccionesPersonales(payload.id, payload).then(
+        return Api.putAccionesPersonales(payload.id, { ...payload }).then(
           (response) => {
             this.show({
               content: 'Registro actualizado correctamente',
@@ -249,11 +267,11 @@ export default {
     clearAccionPersonal() {
       this.id = null
       this.postAccionPersonal = {
-        fechaDesde: null,
+        fechaDesde: new Date(),
         tipoAccionId: null,
         empleadoId: this.empleado.id,
         cantidad: 0,
-        fechaHasta: null,
+        fechaHasta: new Date(),
         detalle: null,
       }
     },
@@ -264,9 +282,35 @@ export default {
       })
     },
     loadData() {
-      this.clearAccionPersonal();
+      this.clearAccionPersonal()
       if (this.empleado.id) {
         setTimeout(() => this.getAccionPersonalById(this.empleado.id), 500)
+      }
+    },
+
+    async printReportReciboIngreso(item) {
+      try {
+        await showReport({
+          folderName: 'rrhh',
+          reportName: 'AccionPersonal',
+          params: [
+            {
+              name: 'idAccionPersonal',
+              value: item.id,
+            },
+            {
+              name: 'PERFIL_IMAGE_URL',
+              value: `${process.env.VUE_APP_API_URL}/api/files/public`,
+            },
+          ],
+        })
+      } catch (error) {
+        this.show({
+          content: error,
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        })
       }
     },
   },
@@ -281,7 +325,7 @@ export default {
         this.loadData()
         this.imageUrl = `${process.env.VUE_APP_API_URL}/api/files/public/${
           newValue.idImagenPerfil ?? -1
-        }`;
+        }`
       }
     },
   },
