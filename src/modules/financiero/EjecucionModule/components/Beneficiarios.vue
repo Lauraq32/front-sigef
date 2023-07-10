@@ -82,7 +82,6 @@ export default {
         { key: 'telefono', label: 'Teléfono 1', _style: { width: '10%' } },
         { key: 'celular', label: 'Teléfono 2', _style: { width: '10%' } },
         { key: 'estatus', label: 'Estatus', _style: { width: '5%' } },
-        { key: 'recomienda', label: 'Recomienda', _style: { width: '5%' } },
         {
           key: 'show_details',
           label: '',
