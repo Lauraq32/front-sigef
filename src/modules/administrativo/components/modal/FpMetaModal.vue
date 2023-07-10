@@ -57,7 +57,7 @@
             </CForm>
             <FpMetaDetalleModal :modalFpMetaDetalle="showModalFpMetaDetalle"
                 @closeModalFpMetaDetalle="closeFpMetaDetalleModal" @getFpMetaDetalles="addDetalleToFpMetaDetalle" />
-            <SelectMestProgDialog :showModal="mestProgDialog" @close="closeMestProgDialog" />
+            <SelectMestProgModal :showModal="mestProgDialog" @close="closeMestProgDialog" />
         </CModalBody>
         <CModalFooter>
         </CModalFooter>
@@ -67,7 +67,7 @@
 import { CModal, CForm } from '@coreui/vue';
 import { CContainer, CFormTextarea, CSmartTable } from '@coreui/vue-pro';
 import FpMetaDetalleModal from "./FpMetaDetalleModal.vue"
-import SelectMestProgDialog from "./SelectMestProgDialog.vue"
+import SelectMestProgModal from "./SelectMestProgModal.vue"
 import { mapState, mapActions } from 'pinia';
 import { useToastStore } from '@/store/toast';
 import { useAuthStore } from '@/store/AuthStore';
@@ -117,7 +117,7 @@ export default {
             proyecto: "",
         },
     },
-    components: { CContainer, CFormTextarea, CSmartTable, CForm, CModal, FpMetaDetalleModal, SelectMestProgDialog, },
+    components: { CContainer, CFormTextarea, CSmartTable, CForm, CModal, FpMetaDetalleModal, SelectMestProgModal, },
     methods: {
         closeModalFpMeta() {
             this.$emit('closeModalFpMeta', false);
