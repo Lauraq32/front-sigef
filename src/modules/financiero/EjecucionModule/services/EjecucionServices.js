@@ -189,6 +189,25 @@ class Ejecucion {
     return http.get(`TipoGasto/${id}?Ayuntamiento=${getAyuntamientoId()}`)
   }
 
+  //Servicios beneficiario grupo pago
+
+  getBeneficiariosGrupoList(){
+    return http.get(`beneficiarios-compensacion?Ayuntamiento=${getAyuntamientoId()}`)
+  }
+
+  postBeneficiarioGrupo(data){
+    return http.post('beneficiarios-compensacion',data)
+  }
+
+  putBeneficiarioGrupo(id,data){
+    return http.put(`beneficiarios-compensacion/${id}`,data)
+  }
+
+  //servicios grupo compensacion
+
+  getGrupoCompensacionList(){
+    return http.get('grupos-compensacion')
+  }
   //Delete 
 
   deleteBeneficiarios(id){

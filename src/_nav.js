@@ -811,9 +811,21 @@ export default [
       },
       {
         component: 'CNavItem',
+        name: 'Servicios Personales',
+        to: '/AdministrativoModule/serviciosPersonales',
+        icon: 'cilPeoplePlus',
+      },
+      {
+        component: 'CNavItem',
         name: 'Misión y Visión',
         to: '/AdministrativoModule/misionVision',
         icon: 'cilInfo',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Metas',
+        to: '/AdministrativoModule/fp-meta-04',
+        icon: 'cilList',
       },
       {
         component: 'CNavItem',
