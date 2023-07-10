@@ -1,5 +1,5 @@
 <template>
-    <CModal :visible="showModal" @close="closeModal
+    <CModal backdrop="static" :visible="showModal" @close="closeModal
         ">
         <CModalHeader>
             <CModalTitle>Beneficiarios</CModalTitle>
@@ -34,14 +34,14 @@
                             <div class="row">
                                 <CCol class="col-6">
                                     <CFormLabel for="validationCustom04">Nombre</CFormLabel>
-                                    <CFormInput v-model="postBeneficiario.nombre" @keypress="onlyLetter" required
-                                        id="validationCustom04">
+                                    <CFormInput v-model="postBeneficiario.nombre" maxlength="20" @keypress="onlyLetter"
+                                        required id="validationCustom04">
                                     </CFormInput>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </CCol>
                                 <CCol class="col-6">
                                     <CFormLabel for="validationCustom04">Direcci&oacute;n</CFormLabel>
-                                    <CFormInput v-model="postBeneficiario.direccion" required
+                                    <CFormInput v-model="postBeneficiario.direccion" maxlength="50" required
                                         id="validationCustom04">
                                     </CFormInput>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -52,8 +52,8 @@
 
                                 <CCol class="col-6">
                                     <CFormLabel for="validationCustom04">Teléfono 1</CFormLabel>
-                                    <CFormInput v-model="postBeneficiario.telefono" maxlength="10" @keypress="onlyNumber" required
-                                        id="validationCustom04">
+                                    <CFormInput v-model="postBeneficiario.telefono" maxlength="10" @keypress="onlyNumber"
+                                        required id="validationCustom04">
                                     </CFormInput>
 
                                     <CFormFeedback invalid>
@@ -63,8 +63,8 @@
 
                                 <CCol class="col-6">
                                     <CFormLabel for="validationCustom04">Teléfono 2</CFormLabel>
-                                    <CFormInput v-model="postBeneficiario.celular" maxlength="10" @keypress="onlyNumber" required
-                                        id="validationCustom04">
+                                    <CFormInput v-model="postBeneficiario.celular" maxlength="10" @keypress="onlyNumber"
+                                         id="validationCustom04">
                                     </CFormInput>
                                     <CFormFeedback invalid>
                                         Favor agregar el campo
@@ -75,13 +75,15 @@
                             <div class="row">
                                 <CCol class="col-6">
                                     <CFormLabel for="validationCustom04">Contacto</CFormLabel>
-                                    <CFormInput v-model="postBeneficiario.contacto"  required id="validationCustom04">
+                                    <CFormInput v-model="postBeneficiario.contacto" maxlength="10" @keypress="onlyLetter"
+                                        required id="validationCustom04">
                                     </CFormInput>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </CCol>
                                 <CCol class="col-6">
                                     <CFormLabel for="validationCustom04">Email</CFormLabel>
-                                    <CFormInput v-model="postBeneficiario.email"  required id="validationCustom04">
+                                    <CFormInput v-model="postBeneficiario.email" type="email" maxlength="50" 
+                                        id="validationCustom04">
                                     </CFormInput>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </CCol>
@@ -90,7 +92,7 @@
 
                         <div class="row">
                             <CCol class="col-6">
-                                <CFormLabel for="validationCustom04">Fecha de ingreso</CFormLabel>
+                                <CFormLabel for="validationCustom04">Fecha de Ingreso</CFormLabel>
                                 <CFormInput v-model="fechaInicio" type="date" required id="validationCustom04">
                                 </CFormInput>
                                 <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -98,16 +100,16 @@
 
                             <CCol class="col-6">
                                 <CFormLabel for="validationCustom04">Tipo de Beneficiario</CFormLabel>
-                                <CFormSelect v-model="postBeneficiario.tipo"  id="validationCustom05">
-                                    <option>Ayudas</option>
-                                    <option>Empleado</option>
-                                    <option>Empresa</option>
-                                    <option>Institucional</option>
-                                    <option>Pensionado</option>
-                                    <option>Personal</option>
-                                    <option>Subvenci&oacute;n</option>
-                                    <option>Comercial</option>
-                                    <option>Otros</option>
+                                <CFormSelect v-model="postBeneficiario.tipo" id="validationCustom05">
+                                    <option value="ayudas">Ayudas</option>
+                                    <option value="empleado">Empleado</option>
+                                    <option value="empresa">Empresa</option>
+                                    <option value="institucional">Institucional</option>
+                                    <option value="pensionado">Pensionado</option>
+                                    <option value="personal">Personal</option>
+                                    <option value="subvencion">Subvenci&oacute;n</option>
+                                    <option value="comercial">Comercial</option>
+                                    <option value="otros">Otros</option>
                                 </CFormSelect>
                             </CCol>
                         </div>
@@ -119,14 +121,26 @@
                     <div class="row">
                         <CCol class="col-6">
                             <CFormLabel for="validationCustom04">Mensual</CFormLabel>
-                            <CFormInput v-model="postBeneficiario.mensual"  required id="validationCustom04">
-                            </CFormInput>
+                            <CurrencyInput class="form-control text-end" required id="presupuestoBco1"
+                                :disabled="postBeneficiario.tipo !== 'pensionado' && postBeneficiario.tipo !== 'subvencion'"
+                                v-model="postBeneficiario.mensual" :options="{
+                                    locale: 'en-US',
+                                    currency: 'USD',
+                                    precision: 2,
+                                    currencyDisplay: 'hidden',
+                                }" />
                             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                         </CCol>
                         <CCol class="col-6">
                             <CFormLabel for="validationCustom04">Recomendado</CFormLabel>
-                            <CFormInput v-model="postBeneficiario.recomienda" required  id="validationCustom04">
-                            </CFormInput>
+                            <CurrencyInput class="form-control text-end" required id="presupuestoBco1"
+                                :disabled="postBeneficiario.tipo !== 'pensionado' && postBeneficiario.tipo !== 'subvencion'"
+                                v-model="postBeneficiario.recomienda" :options="{
+                                    locale: 'en-US',
+                                    currency: 'USD',
+                                    precision: 2,
+                                    currencyDisplay: 'hidden',
+                                }" />
                             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                         </CCol>
                     </div>
@@ -147,11 +161,13 @@
 <script>
 import { CModal } from '@coreui/vue'
 import { onlyNumber, onlyLetter } from '@/utils/validator'
+import CurrencyInput from '@/utils/CurrencyInput.vue'
 
 export default {
     name: 'BeneficiarioModal',
     components: {
         CModal,
+        CurrencyInput
     },
     emits: ['postBeneficiarios', 'close-modal'],
     data() {
@@ -165,7 +181,7 @@ export default {
                 tipoDcto: 'cedula',
                 rncCedPas: null,
                 ingreso: new Date(Date.now()),
-                tipo: null,
+                tipo: "ayudas",
                 direccion: null,
                 ciudad: null,
                 contacto: null,
@@ -179,7 +195,7 @@ export default {
         }
     },
 
-    computed:{
+    computed: {
         fechaInicio: {
             get() {
                 let date = this.postBeneficiario.ingreso
@@ -207,7 +223,7 @@ export default {
         createBeneficiarios() {
             this.formBeneficiariosValidate = false
             if (this.$refs.formBeneficiarios.$el.checkValidity()) {
-                this.$emit("postBeneficiarios", {...this.postBeneficiario})
+                this.$emit("postBeneficiarios", { ...this.postBeneficiario })
                 this.closeModal()
             }
             this.formBeneficiariosValidate = true
@@ -229,16 +245,15 @@ export default {
             this.postBeneficiario.rncCedPas = ""
         },
 
-        clearForm(){
+        clearForm() {
             this.formBeneficiariosValidate = false
             this.id = null
             this.postBeneficiario = {
-                id: 0,
                 nombre: null,
                 tipoDcto: 'cedula',
                 rncCedPas: null,
                 ingreso: new Date(Date.now()),
-                tipo: null,
+                tipo: "ayudas",
                 direccion: null,
                 ciudad: null,
                 contacto: null,
@@ -250,7 +265,6 @@ export default {
                 recomienda: 0,
             }
         }
-
     },
 
     props: {
@@ -258,10 +272,23 @@ export default {
         beneficiarioToUpdate: Object
     },
 
-    watch:{
-        beneficiarioToUpdate(newBeneficiary){
-            if(newBeneficiary){
-                this.postBeneficiario = {...this.beneficiarioToUpdate}
+    watch: {
+        beneficiarioToUpdate(newBeneficiary) {
+            if (newBeneficiary) {
+                this.postBeneficiario = { ...this.beneficiarioToUpdate }
+            }
+        },
+
+        showModal() {
+            this.postBeneficiario.mensual = 0
+            this.postBeneficiario.recomienda = 0
+            this.formBeneficiariosValidate = false
+        },
+
+        'postBeneficiario.tipo': function () {
+            if (this.postBeneficiario.tipo !== "pensionado" || this.postBeneficiario.tipo !== "subvencion" && !this.postBeneficiario.id) {
+                this.postBeneficiario.mensual = 0
+                this.postBeneficiario.recomienda = 0
             }
         }
     }

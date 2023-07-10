@@ -95,6 +95,8 @@ export default {
     ...mapActions(useToastStore, ['show']),
     closeModal() {
       this.grupoModal = false
+      this.groupToUpdate = {}
+
     },
 
     getAllGrupoPago() {
