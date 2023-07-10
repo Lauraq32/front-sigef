@@ -129,8 +129,6 @@ export default {
             recomienda: x.recomienda === null ? '' : x.recomienda,
           }
         })
-
-        
       })
     },
 
