@@ -97,7 +97,7 @@ export default {
                 { key: 'numero', label: 'Número' },
                 { key: 'nombre', label: 'Nombre' },
                 { key: 'unidadRespon', label: 'Unidad Responsable' },
-                { key: 'ctgFuncionId', label: 'CtgFuncion' },
+                { key: 'ctgFuncionId', label: 'Función' },
                 {
                     key: 'show_details',
                     label: '',
