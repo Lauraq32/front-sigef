@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Comprobante de gastos</h3>
+  <h3 class="text-center">Comprobante de Gastos</h3>
   <div class="table-headers">
     <div class="p-2">
       <CButton
@@ -1029,11 +1029,11 @@ export default {
           label: 'Beneficiario',
           _style: { width: '20%' },
         },
-        { key: 'bancoId', label: 'Cuenta de banco', _style: { width: '20%' } },
+        { key: 'bancoId', label: 'Cuenta de Banco', _style: { width: '20%' } },
         { key: 'totalBruto', label: 'Total Bruto', _style: { width: '20%' } },
         {
           key: 'totalRetenciones',
-          label: 'Total Retencion',
+          label: 'Total Retención',
           _style: { width: '20%' },
         },
         { key: 'valorNeto', label: 'Valor Neto', _style: { width: '40%' } },

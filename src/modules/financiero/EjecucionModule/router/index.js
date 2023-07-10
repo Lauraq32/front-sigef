@@ -80,7 +80,7 @@ export default {
     {
       path: 'comprobanteGasto',
       name: 'comprobanteGasto',
-      meta: { label: 'Comprobante de Gasto' },
+      meta: { label: 'Comprobante de Gastos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/ComprobanteGasto.vue'
@@ -139,6 +139,15 @@ export default {
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '../components/CatalogoDeFunciones.vue'
+        ),
+    },
+    {
+      path: 'cuentaDeBanco',
+      name: 'cuentaDeBanco',
+      meta: { label: 'Cuenta de Banco' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '../components/cuentaDeBanco.vue'
         ),
     },
   ],
