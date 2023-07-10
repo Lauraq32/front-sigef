@@ -55,7 +55,7 @@ class UsuariosApi {
   }
 
   getClasificadorGasto(){
-    return http.get('CtgClasficador/presupuesto-gasto')
+    return http.get('CtgClasificador/presupuesto-gastos')
   }
 
   getMestProg() {
