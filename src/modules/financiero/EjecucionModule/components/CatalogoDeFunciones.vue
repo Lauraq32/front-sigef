@@ -1,21 +1,8 @@
 <template>
   <h3 class="text-center">Catalogo de Funciones</h3>
-  <div class="table-headers">
-    <div class="d-inline p-2">
-      <CButton
-        color="info"
-        @click="
-          () => {
-            showModalCatalogoFuncion = true
-          }
-        "
-        >Agregar</CButton
-      >
-    </div>
-  </div>
 
   <CSmartTable
-    class="sticky-top"
+    class="sticky-top mt-5"
     clickableRows
     :tableProps="{
       striped: true,
@@ -67,26 +54,18 @@
       </td>
     </template>
   </CSmartTable>
-
-  <ModalCatalogoFunciones
-    :showModal="showModalCatalogoFuncion"
-    @close-modal="closeCatalogoFuncion"
-  />
 </template>
 
 <script>
 import Api from '../services/EjecucionServices'
 import { CSmartTable } from '@coreui/vue-pro'
-import ModalCatalogoFunciones from './Dialogos/CatalogoDeFuncionesModal.vue'
 export default {
   name: 'catalogoDeFunciones',
   components: {
     CSmartTable,
-    ModalCatalogoFunciones,
   },
   data: () => {
     return {
-      showModalCatalogoFuncion: false,
       catalogoFunciones: [],
       columns: [
         {
@@ -125,10 +104,6 @@ export default {
       Api.getCatalogoFunciones().then((response) => {
         this.catalogoFunciones = response.data.data
       })
-    },
-
-    closeCatalogoFuncion() {
-      this.showModalCatalogoFuncion = false
     },
   },
 
