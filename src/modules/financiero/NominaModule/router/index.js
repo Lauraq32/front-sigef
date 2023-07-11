@@ -17,12 +17,12 @@ export default {
     },
 
     {
-      path: 'nominaGeneral',
+      path: 'nomina-general',
       name: 'nominaGeneral',
       meta: { label: 'Nómina General' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/nominaG.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/pages/NominaGeneral.vue'
         ),
     },
     {
