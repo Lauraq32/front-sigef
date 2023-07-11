@@ -40,14 +40,14 @@
             </template>
         </CSmartTable>
     </div>
-    <ModalGenerarNomina :modalGenerarNomina="showModal" @changeValueModal="getCloseModalValue"></ModalGenerarNomina>
+    <ModalGenerarNomina :modalGenerarNomina="showModal" @changeValueModal="getCloseModalValue" @update="() => filterByDate({})" />
 </template>
 <script>
 import { useAuthStore } from '@/store/AuthStore';
 import { CSmartTable } from '@coreui/vue-pro'
 import { mapState } from 'pinia';
 import NominaSelectFiscalYear from '../components/NominaSelectFiscalYear.vue';
-import ModalGenerarNomina from '../components/dialogos/ModalGenerarNomina.vue';
+import ModalGenerarNomina from '../components/modal/ModalGenerarNomina.vue';
 import ApiNomina from '../services/NominaServices';
 import { formatDate, formatPrice } from '@/utils/format';
 

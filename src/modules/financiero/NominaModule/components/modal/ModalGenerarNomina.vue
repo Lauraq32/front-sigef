@@ -50,17 +50,15 @@
                     <div class="d-flex gap-1">
                         <label class="form-label col-auto col-form-label fw-bolder" for="formaPago">Metodo de Pago:</label>
                         <CFormSelect id="formaPago" v-model="generateNomina.formaPago">
-                            <option selected value="">Selecciona</option>
-                            <option>BANCO</option>
-                            <option>CHEQUE</option>
+                            <option value="CHEQUE">Cheque</option>
+                            <option value="BANCO">Banco</option>
                         </CFormSelect>
                     </div>
                     <div class="d-flex gap-1">
                         <label class="form-label col-auto col-form-label fw-bolder" for="formaPago">Tipo de Contrato:</label>
                         <CFormSelect id="formaPago" v-model="generateNomina.tipoContrato">
-                            <option selected value="">Selecciona</option>
-                            <option value="Fijo">FIJO</option>
-                            <option value="Temporal">TEMPORAL</option>
+                            <option value="Fijo">Fijo</option>
+                            <option value="Temporal">Temporal</option>
                         </CFormSelect>
                     </div>
                     <div class="d-flex gap-1">
@@ -239,6 +237,7 @@ export default {
                     closable: true,
                     color: 'success'
                 });
+                this.$emit('update');
             }).catch((e) => {
                 const { message } = e.response.data;
                 this.show({
