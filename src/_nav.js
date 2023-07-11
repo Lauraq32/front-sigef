@@ -295,13 +295,6 @@ export default [
         to: '/NominaModule',
         icon: 'cilMoney',
         items: [
-
-          {
-            component: 'CNavItem',
-            name: 'Clasificadores Nómina',
-            to: '/NominaModule/clasificadoresNomina',
-            icon: 'cilBook',
-          },
           {
             component: 'CNavItem',
             name: 'Grupo Nóminas',
@@ -791,7 +784,7 @@ export default [
           {
             component: 'CNavItem',
             name: 'Inventario de útiles',
-            to: '/RRHHModule/inventario',
+            to: '/RRHHModule/utiles-laborales',
             icon: 'cilDollar',
           },
         ],
