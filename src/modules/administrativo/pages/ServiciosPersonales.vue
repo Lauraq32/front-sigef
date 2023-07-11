@@ -1,7 +1,10 @@
 <template>
-    <button @click="showServicioPeronalesDialog" type="button" class="btn btn-primary">
-        Agregar
-    </button>
+    <AppActionHeader>
+        <button @click="showServicioPeronalesDialog" type="button" class="btn btn-primary">
+            Agregar
+        </button>
+    </AppActionHeader>
+
     <div>
         <CSmartTable class="sticky-top" clickableRows :tableProps="{
             striped: true,
@@ -55,14 +58,18 @@
 import { CSmartTable } from '@coreui/vue-pro'
 import Api from '../services/FormulacionServices'
 import DetalleServiciosPersonales from '../components/DetalleServiciosPersonales.vue'
+import AppActionHeader from '../../../components/AppActionHeader.vue'
 import { useToastStore } from '@/store/toast'
 import { showReport } from '@/utils/util'
 import { mapActions } from 'pinia'
+
+
 export default {
     components: {
         CSmartTable,
 
-        DetalleServiciosPersonales
+        DetalleServiciosPersonales,
+        AppActionHeader
     },
     data: function () {
         const _this = this;
@@ -119,6 +126,7 @@ export default {
         },
 
         async printReportReciboIngreso(item) {
+            console.log(item)
             try {
                 await showReport({
                     folderName: 'fep',
@@ -132,6 +140,10 @@ export default {
                             name: 'CAPITULO_AYTO',
                             value: 'majorityId',
                         },
+                        {
+                            name: 'SERV_ID',
+                            value: item.id,
+                        },
                     ],
                 })
             } catch (error) {
@@ -144,38 +156,38 @@ export default {
             }
         },
 
-            deleteServicioPersonal(id) {
-                Api.deleteFpServicioPersonal(id).then(response => (
-                    setTimeout(this.getServicios(), 500)
-                )).then((response) => {
+        deleteServicioPersonal(id) {
+            Api.deleteFpServicioPersonal(id).then(response => (
+                setTimeout(this.getServicios(), 500)
+            )).then((response) => {
+                this.show({
+                    content: 'Registro Eliminado con exito',
+                    closable: true,
+                    color: 'success',
+                })
+            })
+                .catch((error) => {
                     this.show({
-                        content: 'Registro Eliminado con exito',
+                        content: error.message,
                         closable: true,
-                        color: 'success',
+                        color: 'danger',
                     })
                 })
-                    .catch((error) => {
-                        this.show({
-                            content: error.message,
-                            closable: true,
-                            color: 'danger',
-                        })
-                    })
 
-            },
-
-            showServicioPeronalesDialog() {
-                this.servicioPerosnalesDialog = true;
-            },
-
-            closeMestProgDialog() {
-                this.servicioPerosnalesDialog = false;
-            }
         },
-        mounted() {
-            this.getServicios();
+
+        showServicioPeronalesDialog() {
+            this.servicioPerosnalesDialog = true;
+        },
+
+        closeMestProgDialog() {
+            this.servicioPerosnalesDialog = false;
         }
+    },
+    mounted() {
+        this.getServicios();
     }
+}
 </script>
 
 <style lang="scss" scoped></style>
