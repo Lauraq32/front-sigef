@@ -482,7 +482,12 @@ export default {
                 closable: true,
                 color: 'inherit',
               })
-              setTimeout(this.getRegistroPersonal, 500)
+              setTimeout(() =>
+                this.getRegistroPersonal({
+                  status: 'inactivo',
+                }),
+                500,
+              )
             })
             .catch((error) => {
               this.show({
