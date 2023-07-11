@@ -361,9 +361,8 @@ export default {
                 Api.putFpServicioPersonalById(this.servicioPersonales.id, this.servicioPersonales).then((response) => {
                 }).then((response) => {
                     this.show({
-                        content: 'Registro agregado con exito',
+                        content: 'Registro editado con exito',
                         closable: true,
-                        color: 'success',
                     })
                     this.clearForm()
                 })
@@ -400,9 +399,9 @@ export default {
             const categoriasServicios = [
                 'Servicios Generales',
                 'Apoyo Administrativo',
-                'Tecnicos',
+                'Técnicos',
                 'Profesionales',
-                'Direccion y Supervision',
+                'Dirección y Supervisión',
                 'Cargos Típicos',
             ]
             const list = Array.from({ length: 6 }, (_, i) => {
