@@ -64,7 +64,8 @@
     <div class="col-3" style="position: relative; top: 16px">
       <div>
         <div class="d-inline p-2">
-          <CButton style="font-weight: bold" color="info" @click="imprimriPorTPago">Imprimir Todos</CButton>
+          <CButton style="font-weight: bold" color="info" @click="() => { showImprimirModal = true }">Imprimir Dio mio
+          </CButton>
         </div>
         <div class="d-inline p-2">
           <CButton style="font-weight: bold" class="ml-5" color="info" @click="() => {
@@ -119,7 +120,7 @@
       </td>
     </template>
     <template #show_details="{ item }">
-      <td class="py-1">
+      
       <td class="py-1">
         <CButton @click="toggleDetail2()" class="mt-1" color="primary" variant="outline" square size="sm">
           {{ Boolean(item._toggled) ? 'Hide' : 'Imprimir' }}
@@ -135,7 +136,7 @@
           {{ Boolean(item._toggled) ? 'Hide' : 'Cons/Nomina' }}
         </CButton>
       </td>
-      </td>
+      
 
     </template>
     <template #details="{ item }">
@@ -1866,6 +1867,7 @@
       <CButton color="secondary" @click="cerrar">Close</CButton>
     </CModalFooter>
   </CModal>
+  <ModalImprimirNomina :showModal="showImprimirModal" />
 </template>
 
 <script>
@@ -1875,7 +1877,7 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
-
+import ModalImprimirNomina from './dialogos/ModalImprimirTodosNomina.vue'
 import { useToastStore } from '@/store/toast'
 import Api from '../services/NominaServices'
 import router from '@/router'
@@ -1884,11 +1886,13 @@ export default {
   components: {
     CSmartTable,
     CModal,
-
+    ModalImprimirNomina
   },
+
 
   data: function () {
     return {
+      showImprimirModal: false,
       consulEmple: false,
       nominag: [],
       reportes: false,
