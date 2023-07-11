@@ -1,7 +1,7 @@
 <template>
   <AppActionHeader :actions="pageActions">
-    <CButton color="secondary" @click="goToComprobanteIngreso">Ir a Comprobante ingreso</CButton>
     <CButton color="primary" @click="showComprobanteDialog">Agregar</CButton>
+    <CButton color="secondary" @click="goToComprobanteIngreso">Ir a Comprobante ingreso</CButton>
   </AppActionHeader>
   <!-- <CButton color="secondary" @click="goToGasto">Ir a Formulaci&oacute;n Gasto</CButton>  -->
   <CSmartTable class="sticky-top" clickableRows :tableProps="{
@@ -24,7 +24,7 @@
 
     <template #fecha="{ item }">
       <td>
-        {{ this.formatDate(item.fecha) }}
+        {{ formatDate(item.fecha) }}
       </td>
     </template>
     <template #conceptoGasto="{ item, index }">
