@@ -401,7 +401,7 @@ export default {
                 'Apoyo Administrativo',
                 'Técnicos',
                 'Profesionales',
-                'Direccion y Supervision',
+                'Dirección y Supervisión',
                 'Cargos Típicos',
             ]
             const list = Array.from({ length: 6 }, (_, i) => {
