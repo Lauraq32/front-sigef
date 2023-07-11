@@ -14,78 +14,61 @@
                   <CCol :md="12">
                     <div class="row">
                       <CCol :md="6">
-                        <CFormLabel for="nombre">fecha</CFormLabel>
-                        <CFormInput v-model="postRegistroGasto.fecha" type="date" id="nombre" required />
+                        <CFormLabel for="fecha">Fecha</CFormLabel>
+                        <CFormInput v-model="postRegistroGasto.fecha" type="date" id="fecha" required />
 
 
                       </CCol>
                       <CCol :md="6">
-                        <CFormLabel for="nombre">Estatus</CFormLabel>
-                        <CFormInput v-model="postRegistroGasto.estatus" id="nombre" required />
-
-
-                      </CCol>
-                      <CCol :md="6">
-                        <CFormLabel for="nombre">Etapa</CFormLabel>
-                        <CFormSelect v-model="postRegistroGasto.etapa" id="validationCustom05">
-                          <option value="1">Activo</option>
-                          <option value="2">Inactivo</option>
+                        <CFormLabel for="etapa">Etapa</CFormLabel>
+                        <CFormSelect v-model="postRegistroGasto.etapa" id="etapa">
+                          <option value="1">Devengado</option>
+                          <option value="2">Pagado</option>
+                          <option value="2">Variacion</option>
+                          <option value="2">Compromiso</option>
                         </CFormSelect>
 
 
                       </CCol>
                       <CCol :md="6">
-                        <CFormLabel for="nombre">Comp Modifica</CFormLabel>
-                        <CFormInput id="nombre" required />
+                        <CFormLabel for="nombre">Comprobante Modificado</CFormLabel>
+                        <CFormInput @keypress="onlyNumber" id="nombre" required />
 
 
                       </CCol>
                       <CCol :md="6">
-                        <CFormLabel for="nombre">Resolucion No.</CFormLabel>
-                        <CFormInput id="nombre" required />
+                        <CFormLabel for="Resolucion">Resoluci&oacute;n No.</CFormLabel>
+                        <CFormInput id="Resolucion" required />
 
 
                       </CCol>
                       <CCol :md="6">
-                        <CFormLabel for="nombre">Fecha Resolucion</CFormLabel>
-                        <CFormInput v-model="postRegistroGasto.fechaResolucion" type="date" id="nombre" required />
+                        <CFormLabel for="fechaResolucion">Fecha Resoluci&oacute;n</CFormLabel>
+                        <CFormInput v-model="postRegistroGasto.fechaResolucion" type="date" id="fechaResolucion"
+                          required />
 
 
                       </CCol>
                       <CCol :md="12">
-                        <CFormLabel for="nombre">Forma de Pago</CFormLabel>
+                        <CFormLabel for="formaPago">Forma de Pago</CFormLabel>
                         <div class="row">
                           <div class="col-6">
-                            <div class="form-check">
-                              <input v-model="postRegistroGasto.formaPago" class="form-check-input" type="radio" value="Cheque" name="flexRadioDefault"
-                                id="flexRadioDefault1">
-                              <label class="form-check-label" for="flexRadioDefault1">
+                            <CFormSelect required v-model="postRegistroGasto.formaPago">
+                              <option :key="0">Selecionar Cuenta de banco</option>
+                              <option value="cheque">
                                 Cheque
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input v-model="postRegistroGasto.formaPago" class="form-check-input" type="radio" value="Banco" name="flexRadioDefault"
-                                id="flexRadioDefault1">
-                              <label class="form-check-label" for="flexRadioDefault1">
-                                Cargo Banco
-                              </label>
-                            </div>
-                          </div>
-                          <div class="col-6">
-                            <div class="form-check">
-                              <input v-model="postRegistroGasto.formaPago" class="form-check-input" type="radio" value="Transferencia" name="flexRadioDefault"
-                                id="flexRadioDefault1">
-                              <label class="form-check-label" for="flexRadioDefault1">
+                              </option>
+                              <option value="cargoBanco">
+                                Cargo a Banco
+                              </option>
+                              <option value="transferencia">
                                 Transferencia
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input v-model="postRegistroGasto.formaPago" class="form-check-input" type="radio" value="Reversar" name="flexRadioDefault"
-                                id="flexRadioDefault1">
-                              <label class="form-check-label" for="flexRadioDefault1">
+                              </option>
+                              <option value="reversar">
                                 Reversar
-                              </label>
-                            </div>
+                              </option>
+                            </CFormSelect>
+
                           </div>
                         </div>
                       </CCol>
@@ -97,10 +80,10 @@
                     <div class="row">
 
                       <CCol :md="12">
-                        <CFormLabel for="nombre">Beneficiario</CFormLabel>
+                        <CFormLabel for="displayBeneficiario">Beneficiario</CFormLabel>
                         <div class="position-relative">
                           <input v-model="displayBeneficiario" ref="name" disabled required
-                            class="form-control padding-input" type="text" id="displayNameProfesion" />
+                            class="form-control padding-input" type="text" id="displayBeneficiario" />
                           <span class="position-absolute icon-input">
                             <CIcon icon="cisSearch" size="xl" v-on:click="openBeneficiarioModal" />
                           </span>
@@ -108,13 +91,13 @@
 
                       </CCol>
                       <CCol :md="12">
-                        <CFormLabel for="nombre">Por Concepto de</CFormLabel>
-                        <CFormInput v-model="postRegistroGasto.conceptoGastoId" id="nombre" required />
+                        <CFormLabel for="conceptoGastoId">Por Concepto de</CFormLabel>
+                        <CFormInput v-model="postRegistroGasto.conceptoGastoId" id="conceptoGastoId" required />
 
 
                       </CCol>
                       <CCol :md="12">
-                        <CFormLabel for="nombre">Por Concepto de</CFormLabel>
+                        <CFormLabel for="nombre">Cuenta de banco</CFormLabel>
                         <CFormSelect required v-model="postRegistroGasto.bancoId">
                           <option :key="0">Selecionar Cuenta de banco</option>
                           <option v-for="cuenta in cuentasBanco" :value="`${cuenta.bancoId}`" :key="cuenta.bancoId">
@@ -127,8 +110,8 @@
                   </CCol>
                 </div>
                 <div class="col-12">
-                  <label for="">Detalle</label>
-                  <textarea v-model="postRegistroGasto.detalle" name="" id="" style="width: 100%;">
+                  <CFormLabel for="">Detalle</CFormLabel>
+                  <textarea v-model="postRegistroGasto.detalle" name="" id="detalle" style="width: 100%;">
 
                   </textarea>
                 </div>
@@ -139,30 +122,21 @@
 
             </div>
           </div>
-          <CButton style="font-weight: bold" color="info" @click="sendData">Agregar</CButton>
-          <CButton style="font-weight: bold" color="info" @click="openCodificacionGasto">Agregar detalle</CButton>
+
         </CForm>
+      
+        <CButton style="font-weight: bold" color="secondary" @click="openCodificacionGasto">Agregar detalle</CButton>
         <CSmartTable class="sticky-top" clickableRows :tableProps="{
           striped: true,
           hover: true,
         }" :tableHeadProps="{}" :activePage="1" header :items="postRegistroGasto.detalleRegistroGastos"
           :columns="detalleGastoColumns" columnFilter :footer="footer" itemsPerPageSelect :itemsPerPage="5" columnSorter
           :sorterValue="{ column: 'nombres', state: 'asc' }" pagination>
-          <template #show_details="{ item, index }">
-            <td>
-              <CDropdown>
-                <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
-                <CDropdownMenu>
-                  <CDropdownItem v-for="action in actions" @click="action.clickHandler && action.clickHandler(item)">{{
-                    action.label }}</CDropdownItem>
-                </CDropdownMenu>
-              </CDropdown>
-            </td>
-          </template>
+   
         </CSmartTable>
       </CCardBody>
     </CModalBody>
-
+    <CButton style="font-weight: bold" color="info" @click="sendData">Agregar</CButton>
   </CModal>
   <SelectBeneficiario :isVisible="showBeneficiarioModal" @close="closeBeneficiarioModal" />
   <FormularioCodificacionGastoDialog @saveDetalle="saveDetalle" :registroGasto="postRegistroGasto"
@@ -177,6 +151,7 @@ import SelectBeneficiario from './SelectBeneficiario.vue'
 import FormularioCodificacionGastoDialog from './FormularioCodificacionGastoDialog.vue'
 import CuentaService from '@/modules/rrhh/RegistroPersonal/services/DeparmentServices'
 import { useToastStore } from '@/store/toast'
+import { onlyNumber } from '@/utils/validator'
 
 import Api from '../../services/EjecucionServices'
 import { props } from 'vue-number-format'
@@ -284,10 +259,6 @@ export default {
         ...this.postRegistroGasto
       })
     },
-
-    closeModal() {
-      this.$emit('close-modal')
-    },
   },
 
   props: {
@@ -309,5 +280,6 @@ export default {
   transform: translateY(-50%);
   cursor: pointer;
   right: 2px;
-}</style>
+}
+</style>
   

@@ -3,7 +3,6 @@
     <CButton color="primary" @click="showComprobanteDialog">Agregar</CButton>
     <CButton color="secondary" @click="goToComprobanteIngreso">Ir a Comprobante ingreso</CButton>
   </AppActionHeader>
-  <!-- <CButton color="secondary" @click="goToGasto">Ir a Formulaci&oacute;n Gasto</CButton>  -->
   <CSmartTable class="sticky-top" clickableRows :tableProps="{
     striped: true,
     hover: true,
@@ -38,7 +37,7 @@
       </td>
     </template>
     <template #estatus="{ item }">
-      <td class="">
+      <td>
 
         <CBadge :color="item.estatus ? 'success' : 'danger'">{{
 
@@ -128,7 +127,13 @@ export default {
                     closable: true,
                   })
                   this.getRegistroGasto()
-                }).catch(console.log())
+                }).catch((error) => {
+                  this.show({
+                    content: error.message,
+                    closable: true,
+                    color:'danger'
+                  })
+                })
               }
             });
           }
@@ -143,9 +148,12 @@ export default {
               })
               this.getRegistroGasto()
             }).catch(error => {
-
+              this.show({
+                    content: error.message,
+                    closable: true,
+                    color:'danger'
+                  })
             })
-            //this.editarGasto(item)
           }
         },
         {
@@ -165,21 +173,10 @@ export default {
         {
           label: 'Imprimir',
           clickHandler: (item) => {
-            //this.editarGasto(item)
+
           }
         },
-        // {
-        //   label: 'Cancelar Comprobante',
-        //   clickHandler: () => {
-        //     console.log('hola')
-        //   }
-        // },
-        // {
-        //   label: 'Documentos Asociados al 815',
-        //   clickHandler: () => {
-        //     this.showFormularioCodificacionGastoDialog()
-        //   }
-        // },
+
       ]
 
       ,

@@ -14,23 +14,19 @@
                 <CCol :md="8">
                   <CFormLabel for="nombre">Programa o Proyecto</CFormLabel>
                   <div class="position-relative">
-                    <input v-model="detalleRegistroGasto.estructuraProgramatica" ref="name" disabled required class="form-control padding-input"
-                      type="text" id="displayNameProfesion" />
+                    <input v-model="detalleRegistroGasto.estructuraProgramatica" ref="name" disabled required
+                      class="form-control padding-input" type="text" id="displayNameProfesion" />
                     <span class="position-absolute icon-input">
                       <CIcon icon="cisSearch" size="xl" v-on:click="showMestProgDialog" />
                     </span>
                   </div>
-                  <!-- <button @click="showMestProgDialog">Estructura</button>
-                 
-                  <CFormInput maxlength="10" v-model="detalleRegistroGasto.estructuraProgramatica"
-                    @keyup="getMestProg($event)" id="nombre" required /> -->
                 </CCol>
                 <CCol :md="4">
                   <CFormLabel for="nombre" class="font-weight-bold">Etapa:</CFormLabel>
                   <span>{{ registroGasto.etapa }}</span>
                 </CCol>
                 <CCol :md="12">
-                  <CFormLabel for="nombre" class="font-weight-bold">Administracion Municipal</CFormLabel>
+                  <CFormLabel for="nombre" class="font-weight-bold">Administraci&oacute;n Municipal</CFormLabel>
                   <CFormCheck type="radio" name="flexRadioDefault" id="flexRadioDefault1" label="Default radio" />
                 </CCol>
                 <hr>
@@ -45,7 +41,7 @@
 
                 <CCol :md="12">
                   <CFormLabel for="nombre" class="font-weight-bold">Monto Bruto</CFormLabel>
-                  <CFormInput @change="setBaseImponible" v-model="detalleRegistroGasto.montoBruto" id="nombre" required />
+                  <CFormInput :keypress="onlyNumber" @change="setBaseImponible" v-model="detalleRegistroGasto.montoBruto" id="nombre" required />
                 </CCol>
                 <CCol :md="12">
                   <CFormLabel for="nombre" class="font-weight-bold">Fuente financiamiento: <span
@@ -71,13 +67,6 @@
 
                     <CFormLabel for="nombre">Tipo Retencion</CFormLabel>
                     <v-select v-model="tipoRetencionObj" :options="tipoRetencionesList" @input="setRetencion"></v-select>
-                    <!-- <CFormSelect required v-model="detalleRetencion.tipoRetencionId" @change="setRetencion">
-                      <option :key="0">Selecionar Tipo Retencion</option>
-                      <option v-for="retencion in tipoRetencionesList" :value="JSON.stringify(retencion)"
-                        :key="retencion.id">
-                        {{ retencion.detalle }}
-                      </option>
-                    </CFormSelect> -->
                   </CCol>
                 </CCol>
                 <CCol :md="6">
@@ -121,11 +110,6 @@
                   }" :tableHeadProps="{}" :activePage="1" header :items="detalleRegistroGasto.detalleRetencion"
                     :columns="RetencionColumn" columnFilter :footer="footer" itemsPerPageSelect :itemsPerPage="5"
                     columnSorter :sorterValue="{ column: 'nombres', state: 'asc' }" pagination>
-                    <!-- <template #tipoRetencionId="{ item, index }">
-                      <td>
-                        {{ item. }}
-                      </td>
-                    </template> -->
                     <template #show_details="{ item, index }">
                       <td>
                         <CDropdown>
@@ -160,13 +144,9 @@
                     </CButton>
                   </td>
                 </template>
-
               </CSmartTable>
-
-
             </CCol>
             <CCol :md="12">
-
             </CCol>
           </div>
         </div>
@@ -184,7 +164,7 @@ import Api from '../../services/EjecucionServices'
 import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
 import MestProgDialog from './MestProgDialog.vue'
-
+import {onlyNumber} from '@/utils/validator'
 export default {
   name: 'FormularioCodificacionGasto',
   components: {
@@ -249,7 +229,6 @@ export default {
         { key: 'presupuestoBco', label: 'P/Original' },
         { key: 'variacionBco', label: 'Modific.' },
 
-        // { key: '1', label: 'P/Actual.' },
         { key: 'totalDevengadoBco', label: 'Devengado.' },
         { key: 'totalPagadoBco', label: 'Pagado' },
         { key: 'show_details', label: 'Seleccionar' },
@@ -262,7 +241,6 @@ export default {
         { key: 'fuenteEspecificaId', label: 'fuenteEspecificaId.', _style: { display: 'none' } },
         { key: 'fuenteId', label: 'fuenteId.', _style: { display: 'none' } },
         { key: 'organismoFinanciadorId', label: 'organismoFinanciadorId.' },
-        // { key: '1', label: 'P/Actual.' },
         { key: 'totalDevengadoBco', label: 'Devengado.' },
         { key: 'totalPagadoBco', label: 'Pagado' },
         { key: 'show_details', label: 'Seleccionar' },
@@ -340,7 +318,11 @@ export default {
             this.mestProgList = []
           }
 
-        }).catch(error => console.log(error))
+        }).catch(error => this.show({
+          content: error.message,
+          closable: true,
+          color: 'danger'
+        }))
       }
     },
 

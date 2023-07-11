@@ -2,7 +2,7 @@
     <CModal backdrop="static" size="lg" :visible="isVisible" @close="closeDialog()">
         <CModalBody>
             <CModalHeader>
-                <CModalTitle>Clasificadores</CModalTitle>
+                <CModalTitle>Beneficiarios</CModalTitle>
             </CModalHeader>
             <div v-if="isLoading" class="d-flex p-4 align-items-center justify-content-center w-100">
                 <h3>Espere ....</h3>
@@ -10,7 +10,7 @@
             <CSmartTable v-else clickableRows :tableProps="{
                 striped: true,
                 hover: true,
-            }" :tableHeadProps="{}" :activePage="1" tableFilter header :items="clasificadores" :columns="columns"
+            }" :tableHeadProps="{}" :activePage="1" tableFilter header :items="beneficiarios" :columns="columns"
                 itemsPerPageSelect :itemsPerPage="5" :items-per-page-options="[5, 10, 20]" columnSorter
                 :sorterValue="{ column: 'status', state: 'asc' }" pagination>
                 <template #show_details="{ item }">
@@ -37,9 +37,6 @@ import { useToastStore } from '@/store/toast'
 const emit = defineEmits(['close'])
 const props = defineProps({
     isVisible: Boolean,
-    // filtered: {
-    //   default: () => true,
-    // },
     term: {
         default: '',
     },
@@ -48,7 +45,7 @@ const props = defineProps({
 const toastStore = useToastStore();
 
 const isLoading = ref(true)
-const clasificadores = ref([])
+const beneficiarios = ref([])
 const columns = [
     { key: 'id', label: 'Id' },
     { key: 'nombre', label: 'Nombre' },
@@ -69,7 +66,7 @@ const closeDialog = (data) => {
 watchEffect(() => {
     Api.getBeneficiarios()
         .then((response) => {
-            clasificadores.value = response.data.data
+            beneficiarios.value = response.data.data
             isLoading.value = false
             isLoading.value = false;
             autoSelectClasificator(props.term);
