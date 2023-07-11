@@ -361,7 +361,7 @@ export default {
                 Api.putFpServicioPersonalById(this.servicioPersonales.id, this.servicioPersonales).then((response) => {
                 }).then((response) => {
                     this.show({
-                        content: 'Registro agregado con exito',
+                        content: 'Registro editado con exito',
                         closable: true,
                     })
                     this.clearForm()
