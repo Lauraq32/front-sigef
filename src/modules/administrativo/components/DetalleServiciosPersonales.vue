@@ -100,10 +100,7 @@
                     <h6>{{ nombreEstructura }}</h6>
                 </div>
             </div>
-            <div class=" ">
-                <CButton size="sm" color="primary" class="" @click="saveServicios">Guardar
-                </CButton>
-            </div>
+
             <div class=" " style="text-align: right;">
                 <CButton size="sm" color="primary" @click="showDetalleServiciosPersonalesDialog">Agregar Detalle
                 </CButton>
@@ -121,9 +118,30 @@
             }" :tableHeadProps="{}" :activePage="1" header :items="serviciosItems" :columns="columns" columnFilter
                 itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
                 pagination>
-                <template #status="{ item }">
+
+                <template #mensual="{ item }">
                     <td>
-                        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+
+                        {{ formatPrice(item.mensual) }}
+                    </td>
+                </template>
+
+                <template #mensualsolicitado="{ item }">
+                    <td>
+
+                        {{ formatPrice(item.mensualsolicitado) }}
+                    </td>
+                </template>
+                <template #AnualActual="{ item }">
+                    <td>
+
+                        {{ formatPrice(item.mensual * item.cantidad) }}
+                    </td>
+                </template>
+                <template #AnualSolicitado="{ item }">
+                    <td>
+
+                        {{ formatPrice(item.mensualsolicitado * item.cantidadsolicitada) }}
                     </td>
                 </template>
                 <template #show_details="{ item, index }">
@@ -138,6 +156,11 @@
             }
                 ">Cerrar
             </CButton>
+            <div class=" ">
+                <CButton color="primary" class="" @click="saveServicios">Guardar
+                </CButton>
+            </div>
+
         </CModalFooter>
     </CModal>
 
@@ -155,6 +178,7 @@ import DetalleServiciosPersonales from './modal/ServiciosPersonalesDetalle.vue'
 import Api from '../services/FormulacionServices'
 import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
+import { formatPrice } from '@/utils/format'
 export default {
     components: {
         CSmartTable,
@@ -163,6 +187,7 @@ export default {
         SelectClasificador
     },
     props: {
+
         showModal: false,
         servicioPersonalesProps: {
             estructuraProgramaticaId: null,
@@ -197,7 +222,7 @@ export default {
 
         return {
 
-
+            formatPrice,
             validatedCustom01: null,
             MestProgDialog: false,
             clasificadorDialog: false,
@@ -359,7 +384,6 @@ export default {
                 this.show({
                     content: 'Registro agregado con exito',
                     closable: true,
-                    color: 'success',
                 })
                 this.clearForm()
             })
