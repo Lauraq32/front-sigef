@@ -1,5 +1,5 @@
 <template>
-    <CModal @close="closeModalFpMeta" size="xl" :visible="modalFpMeta">
+    <CModal @close="closeModalFpMeta" backdrop="static" size="xl" :visible="modalFpMeta">
         <CModalHeader>
             <CModalTitle>Agregar Fp Metas</CModalTitle>
         </CModalHeader>
@@ -154,7 +154,7 @@ export default {
                     });
                 });
             } else {
-                this.fpMeta.fpMetaDetalles = this.fpMeta.fpMetaDetalles.filter((fpMetaDetalle) => fpMetaDetalle.id !== value.id);
+                this.fpMeta.fpMetaDetalles.splice(this.fpMeta.fpMetaDetalles.indexOf(value), 1);
             }
         },
         saveFpMeta() {
@@ -162,8 +162,7 @@ export default {
                 AdministrativoApi.createFpMetaAndDetalle(this.fpMeta).then(({ data }) => {
                     this.show({
                         content: data.message || "Registro guardado",
-                        closable: true,
-                        color: 'success'
+                        closable: true
                     });
                     this.$emit('update');
                 }).catch(({response}) => {
@@ -180,8 +179,7 @@ export default {
                 this.clearFrom();
                 this.show({
                     content: data.message || "Registro guardado",
-                    closable: true,
-                    color: 'success'
+                    closable: true
                 });
             }).catch(({ response }) => {
                 this.show({
