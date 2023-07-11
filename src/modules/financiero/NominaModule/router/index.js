@@ -5,18 +5,10 @@ export default {
   component: () =>
     import('@/modules/financiero/NominaModule/layout/TemplateLayout.vue'),
   children: [
+   
     {
-      path: 'clasificadoresNomina',
-      name: 'clasificadoresNomina',
-      meta: { label: 'Clasificadores Nómina' },
-      component: () =>
-        import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/ClasificadoresNomina.vue'
-        ),
-    },
-    {
-      path: 'grupoNominass',
-      name: 'grupoNominass',
+      path: 'grupoNominas',
+      name: 'grupoNominas',
       meta: { label: 'Grupo Nóminas' },
       component: () =>
         import(
@@ -26,7 +18,7 @@ export default {
 
     {
       path: 'nomina-general',
-      name: 'grupoNominas',
+      name: 'nominaGeneral',
       meta: { label: 'Nómina General' },
       component: () =>
         import(
