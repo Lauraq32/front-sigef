@@ -363,7 +363,6 @@ export default {
                     this.show({
                         content: 'Registro agregado con exito',
                         closable: true,
-                        color: 'success',
                     })
                     this.clearForm()
                 })
@@ -400,7 +399,7 @@ export default {
             const categoriasServicios = [
                 'Servicios Generales',
                 'Apoyo Administrativo',
-                'Tecnicos',
+                'Técnicos',
                 'Profesionales',
                 'Direccion y Supervision',
                 'Cargos Típicos',

@@ -103,7 +103,7 @@
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-2">
-                                    <h6 class="align-middle mt-4 ">Tecnicos</h6>
+                                    <h6 class="align-middle mt-4 ">T&eacute;cnicos</h6>
 
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
