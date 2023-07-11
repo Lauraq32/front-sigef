@@ -28,29 +28,29 @@
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
-                                    <CFormInput  @keypress="onlyNumber"  v-model="detalleServicio.go01Cantidad" size="sm" id="validationCustom02"
-                                        required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go01Cantidad" size="sm"
+                                        id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Mensual</CFormLabel>
-                                    <CFormInput @keypress="onlyNumber"  v-model="detalleServicio.go01Mensual" size="sm" id="validationCustom02"
-                                        required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go01Mensual" size="sm"
+                                        id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
-                                    <CFormInput @keypress="onlyNumber"  v-model="detalleServicio.go01CantidadSolicitada" size="sm"
-                                        id="validationCustom02" required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go01CantidadSolicitada"
+                                        size="sm" id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Mensual</CFormLabel>
-                                    <CFormInput @keypress="onlyNumber"  v-model="detalleServicio.go01MensualSolicitado" size="sm"
-                                        id="validationCustom02" required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go01MensualSolicitado"
+                                        size="sm" id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
@@ -71,29 +71,29 @@
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
-                                    <CFormInput @keypress="onlyNumber"  v-model="detalleServicio.go02Cantidad" size="sm" id="validationCustom02"
-                                        required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go02Cantidad" size="sm"
+                                        id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Mensual</CFormLabel>
-                                    <CFormInput @keypress="onlyNumber"  v-model="detalleServicio.go02Mensual" size="sm" id="validationCustom02"
-                                        required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go02Mensual" size="sm"
+                                        id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
-                                    <CFormInput @keypress="onlyNumber"  v-model="detalleServicio.go02CantidadSolicitada" size="sm"
-                                        id="validationCustom02" required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go02CantidadSolicitada"
+                                        size="sm" id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Mensual</CFormLabel>
-                                    <CFormInput @keypress="onlyNumber"  v-model="detalleServicio.go02MensualSolicitado" size="sm"
-                                        id="validationCustom02" required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go02MensualSolicitado"
+                                        size="sm" id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
@@ -110,29 +110,29 @@
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
-                                    <CFormInput @keypress="onlyNumber"  v-model="detalleServicio.go03Cantidad" size="sm" id="validationCustom02"
-                                        required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go03Cantidad" size="sm"
+                                        id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Mensual</CFormLabel>
-                                    <CFormInput @keypress="onlyNumber"  v-model="detalleServicio.go03Mensual" size="sm" id="validationCustom02"
-                                        required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go03Mensual" size="sm"
+                                        id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
-                                    <CFormInput @keypress="onlyNumber"  v-model="detalleServicio.go03CantidadSolicitada" size="sm"
-                                        id="validationCustom02" required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go03CantidadSolicitada"
+                                        size="sm" id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Mensual</CFormLabel>
-                                    <CFormInput @keypress="onlyNumber"  v-model="detalleServicio.go03MensualSolicitado" size="sm"
-                                        id="validationCustom02" required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go03MensualSolicitado"
+                                        size="sm" id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
@@ -153,29 +153,29 @@
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
-                                    <CFormInput @keypress="onlyNumber"  v-model="detalleServicio.go04Cantidad" size="sm" id="validationCustom02"
-                                        required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go04Cantidad" size="sm"
+                                        id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Mensual</CFormLabel>
-                                    <CFormInput @keypress="onlyNumber"  v-model="detalleServicio.go04Mensual" size="sm" id="validationCustom02"
-                                        required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go04Mensual" size="sm"
+                                        id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
-                                    <CFormInput @keypress="onlyNumber"  v-model="detalleServicio.go04CantidadSolicitada" size="sm"
-                                        id="validationCustom02" required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go04CantidadSolicitada"
+                                        size="sm" id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Mensual</CFormLabel>
-                                    <CFormInput @keypress="onlyNumber"  v-model="detalleServicio.go04MensualSolicitado" size="sm"
-                                        id="validationCustom02" required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go04MensualSolicitado"
+                                        size="sm" id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
@@ -196,29 +196,29 @@
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
-                                    <CFormInput @keypress="onlyNumber"  v-model="detalleServicio.go05Cantidad" size="sm" id="validationCustom02"
-                                        required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go05Cantidad" size="sm"
+                                        id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Mensual</CFormLabel>
-                                    <CFormInput @keypress="onlyNumber"  v-model="detalleServicio.go05Mensual" size="sm" id="validationCustom02"
-                                        required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go05Mensual" size="sm"
+                                        id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
-                                    <CFormInput @keypress="onlyNumber"  v-model="detalleServicio.go05CantidadSolicitada" size="sm"
-                                        id="validationCustom02" required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go05CantidadSolicitada"
+                                        size="sm" id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Mensual</CFormLabel>
-                                    <CFormInput @keypress="onlyNumber"  v-model="detalleServicio.go05MensualSolicitado" size="sm"
-                                        id="validationCustom02" required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go05MensualSolicitado"
+                                        size="sm" id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
@@ -237,29 +237,29 @@
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
-                                    <CFormInput @keypress="onlyNumber"  v-model="detalleServicio.go06Cantidad" size="sm" id="validationCustom02"
-                                        required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go06Cantidad" size="sm"
+                                        id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Mensual</CFormLabel>
-                                    <CFormInput @keypress="onlyNumber"  v-model="detalleServicio.go06Mensual" size="sm" id="validationCustom02"
-                                        required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go06Mensual" size="sm"
+                                        id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Número de Cargos</CFormLabel>
-                                    <CFormInput @keypress="onlyNumber"  v-model="detalleServicio.go06CantidadSolicitada" size="sm"
-                                        id="validationCustom02" required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go06CantidadSolicitada"
+                                        size="sm" id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>
                                 <div class="col-2">
                                     <CFormLabel for="validationCustom01">Mensual</CFormLabel>
-                                    <CFormInput @keypress="onlyNumber"  v-model="detalleServicio.go06MensualSolicitado" size="sm"
-                                        id="validationCustom02" required />
+                                    <CFormInput @keypress="onlyNumber" v-model="detalleServicio.go06MensualSolicitado"
+                                        size="sm" id="validationCustom02" required />
                                     <CFormFeedback valid> Exito! </CFormFeedback>
                                     <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                                 </div>

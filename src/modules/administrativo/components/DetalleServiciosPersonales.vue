@@ -100,10 +100,7 @@
                     <h6>{{ nombreEstructura }}</h6>
                 </div>
             </div>
-            <div class=" ">
-                <CButton size="sm" color="primary" class="" @click="saveServicios">Guardar
-                </CButton>
-            </div>
+
             <div class=" " style="text-align: right;">
                 <CButton size="sm" color="primary" @click="showDetalleServiciosPersonalesDialog">Agregar Detalle
                 </CButton>
@@ -138,13 +135,13 @@
                 <template #AnualActual="{ item }">
                     <td>
 
-                    {{formatPrice(item.mensual * item.cantidad)}}
+                        {{ formatPrice(item.mensual * item.cantidad) }}
                     </td>
                 </template>
                 <template #AnualSolicitado="{ item }">
                     <td>
 
-                    {{formatPrice(item.mensualsolicitado * item.cantidadsolicitada)}}
+                        {{ formatPrice(item.mensualsolicitado * item.cantidadsolicitada) }}
                     </td>
                 </template>
                 <template #show_details="{ item, index }">
@@ -159,6 +156,11 @@
             }
                 ">Cerrar
             </CButton>
+            <div class=" ">
+                <CButton color="primary" class="" @click="saveServicios">Guardar
+                </CButton>
+            </div>
+
         </CModalFooter>
     </CModal>
 
