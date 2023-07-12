@@ -219,7 +219,7 @@ export default {
         {
           label: 'Total items',
           _props: {
-            colspan: 8,
+            colspan: 1,
             style: 'font-weight:bold;',
           },
         },
@@ -227,8 +227,14 @@ export default {
         {
           label: '',
           _props: {
-            colspan: 1,
+            colspan: 6,
             style: 'font-weight:bold; text-align:right',
+          },
+        },
+        {
+          label: '',
+          _props: {
+            colspan: 9,
           },
         },
       ],
@@ -382,6 +388,10 @@ export default {
             {
               name: 'ID_AYUNTAMIENTO',
               value: 'majorityId',
+            },
+            {
+              name: 'ANIO',
+              value: 'fiscalYear',
             },
           ]
           await showReport(reportParam)
