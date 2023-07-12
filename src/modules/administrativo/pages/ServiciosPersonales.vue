@@ -163,7 +163,7 @@ export default {
                 this.show({
                     content: 'Registro Eliminado con exito',
                     closable: true,
-                    color: 'success',
+                    color: 'danger',
                 })
             })
                 .catch((error) => {
