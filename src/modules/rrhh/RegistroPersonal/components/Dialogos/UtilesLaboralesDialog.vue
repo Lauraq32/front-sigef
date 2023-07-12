@@ -161,7 +161,6 @@ export default {
             this.show({
               content: response.data.message,
               closable: true,
-              class: 'text-white',
               time: 7_000
             })
             setTimeout(this.loadUtilsByEmployeeId, 200);
@@ -182,7 +181,6 @@ export default {
           this.show({
               content: response.data.message,
               closable: true,
-              class: 'text-white',
               time: 7_000
             })
             setTimeout(this.loadUtilsByEmployeeId, 200);
@@ -269,7 +267,6 @@ export default {
             this.show({
               content: "Registro cancelado",
               closable: true,
-              class: 'text-white',
             })
             setTimeout(this.loadUtilsByEmployeeId, 200);
           })
@@ -304,7 +301,6 @@ export default {
             this.show({
               content: "Registro marcado como entregado",
               closable: true,
-              class: 'text-white',
             })
             setTimeout(this.loadUtilsByEmployeeId, 200);
           })
