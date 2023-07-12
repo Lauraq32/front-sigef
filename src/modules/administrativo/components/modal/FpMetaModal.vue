@@ -59,7 +59,7 @@
         </CModalBody>
         <CModalFooter>
             <CButton size="sm" color="primary" class="mb-3" @click="sendData">Guardar todo
-                    </CButton>
+            </CButton>
         </CModalFooter>
     </CModal>
 </template>
@@ -158,6 +158,14 @@ export default {
             }
         },
         saveFpMeta() {
+            if (!Array.isArray(this.fpMeta.fpMetaDetalles) || !this.fpMeta.fpMetaDetalles.length) {
+                this.show({
+                    content: "Se debe de tener un detalle como mínimo",
+                    closable: true,
+                    color: 'danger'
+                });
+                return;
+            }
             if (!this.fpMeta.id) {
                 AdministrativoApi.createFpMetaAndDetalle(this.fpMeta).then(({ data }) => {
                     this.show({
@@ -165,7 +173,7 @@ export default {
                         closable: true
                     });
                     this.$emit('update');
-                }).catch(({response}) => {
+                }).catch(({ response }) => {
                     debugger;
                     this.show({
                         content: response.data.message,
