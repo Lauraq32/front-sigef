@@ -174,7 +174,6 @@ export default {
                     });
                     this.$emit('update');
                 }).catch(({ response }) => {
-                    debugger;
                     this.show({
                         content: response.data.message,
                         closable: true,
