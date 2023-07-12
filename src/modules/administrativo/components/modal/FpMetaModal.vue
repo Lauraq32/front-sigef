@@ -6,7 +6,7 @@
         <CModalBody>
             <CForm novalidate :validated="isFormEventTypeValidated" ref="eventTypeForm">
                 <div class="col-12">
-                    <CButton size="sm" color="primary" class="mb-3" @click="() => mestProgDialog = true">Buscar
+                    <CButton size="sm" color="secondary" class="mb-3" @click="() => mestProgDialog = true">Buscar
                         Estructura
                     </CButton>
                 </div>
@@ -31,10 +31,8 @@
                 <h6 class="my-2">Descripci&oacute;n</h6>
                 <CFormTextarea rows="4" v-model="fpMeta.descripcion" required></CFormTextarea>
                 <div class="col-12 border-bottom my-3 d-flex justify-content-between">
-                    <CButton size="sm" color="primary" class="mb-3" @click="() => showModalFpMetaDetalle = true">Agregar
+                    <CButton size="sm" color="secondary" class="mb-3" @click="() => showModalFpMetaDetalle = true">Agregar
                         Detalle
-                    </CButton>
-                    <CButton size="sm" color="success" class="mb-3" @click="sendData">Guardar todo
                     </CButton>
                 </div>
                 <div>
@@ -42,7 +40,7 @@
                         striped: true,
                         hover: true,
                     }" :tableHeadProps="{}" :activePage="1" header :items="fpMeta.fpMetaDetalles"
-                        :columns="tableColumnsFpMetaDetalles" itemsPerPageSelect :itemsPerPage="10" columnSorter
+                        :columns="tableColumnsFpMetaDetalles" :itemsPerPage="5" columnSorter
                         :sorterValue="{ column: 'status', state: 'asc' }" pagination>
                         <template #show_details="{ item }">
                             <td class="py-2">
@@ -60,6 +58,8 @@
             <SelectMestProgModal :showModal="mestProgDialog" @close="closeMestProgDialog" />
         </CModalBody>
         <CModalFooter>
+            <CButton size="sm" color="primary" class="mb-3" @click="sendData">Guardar todo
+            </CButton>
         </CModalFooter>
     </CModal>
 </template>
@@ -77,10 +77,10 @@ export default {
     data: function () {
         return {
             tableColumnsFpMetaDetalles: [
-                { key: "descripcion", label: "Descripción", _style: { width: "35%" } },
-                { key: "unidadMedida", label: "Unidad Medida", _style: { width: "20%" } },
+                { key: "descripcion", label: "Descripción", _style: { width: "30%" } },
+                { key: "unidadMedida", label: "Unidad de Medida", _style: { width: "20%" } },
                 { key: "estimadoAnioActual", label: "Estimado Año Actual", _style: { width: "20%" } },
-                { key: "programadoAnioSiguiente", label: "Programado Año Siguiente", _style: { width: "20%" } },
+                { key: "programadoAnioSiguiente", label: "Programado Año Siguiente", _style: { width: "25%" } },
                 { key: 'show_details', label: '', _style: { width: '5s%' }, filter: false, sorter: false }
             ],
             showModalFpMetaDetalle: false,
@@ -158,6 +158,14 @@ export default {
             }
         },
         saveFpMeta() {
+            if (!Array.isArray(this.fpMeta.fpMetaDetalles) || !this.fpMeta.fpMetaDetalles.length) {
+                this.show({
+                    content: "Se debe de tener un detalle como mínimo",
+                    closable: true,
+                    color: 'danger'
+                });
+                return;
+            }
             if (!this.fpMeta.id) {
                 AdministrativoApi.createFpMetaAndDetalle(this.fpMeta).then(({ data }) => {
                     this.show({
@@ -165,8 +173,7 @@ export default {
                         closable: true
                     });
                     this.$emit('update');
-                }).catch(({response}) => {
-                    debugger;
+                }).catch(({ response }) => {
                     this.show({
                         content: response.data.message,
                         closable: true,
