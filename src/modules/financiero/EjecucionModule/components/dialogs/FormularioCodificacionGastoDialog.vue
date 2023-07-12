@@ -32,7 +32,7 @@
                 <hr>
                 <CCol :md="6">
                   <CFormLabel for="nombre" class="font-weight-bold">Clasificador</CFormLabel>
-                  <CFormInput v-model="detalleRegistroGasto.clasificadorId" id="nombre" required />
+                  <CFormInput :keypress="onlyNumber" v-model="detalleRegistroGasto.clasificadorId" id="nombre" required />
                 </CCol>
                 <CCol :md="6" class="border">
                   <CFormLabel for="nombre" class="font-weight-bold">Balance disponible</CFormLabel>
