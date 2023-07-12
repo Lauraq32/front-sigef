@@ -9,15 +9,12 @@
           <div class="row">
             <div class="col-12">
               <div class="row">
-
                 <div class="col-6">
                   <CCol :md="12">
                     <div class="row">
                       <CCol :md="6">
                         <CFormLabel for="fecha">Fecha</CFormLabel>
                         <CFormInput v-model="postRegistroGasto.fecha" type="date" id="fecha" required />
-
-
                       </CCol>
                       <CCol :md="6">
                         <CFormLabel for="etapa">Etapa</CFormLabel>
@@ -27,27 +24,19 @@
                           <option value="2">Variacion</option>
                           <option value="2">Compromiso</option>
                         </CFormSelect>
-
-
                       </CCol>
                       <CCol :md="6">
                         <CFormLabel for="nombre">Comprobante Modificado</CFormLabel>
                         <CFormInput @keypress="onlyNumber" id="nombre" required />
-
-
                       </CCol>
                       <CCol :md="6">
                         <CFormLabel for="Resolucion">Resoluci&oacute;n No.</CFormLabel>
                         <CFormInput id="Resolucion" required />
-
-
                       </CCol>
                       <CCol :md="6">
                         <CFormLabel for="fechaResolucion">Fecha Resoluci&oacute;n</CFormLabel>
                         <CFormInput v-model="postRegistroGasto.fechaResolucion" type="date" id="fechaResolucion"
                           required />
-
-
                       </CCol>
                       <CCol :md="12">
                         <CFormLabel for="formaPago">Forma de Pago</CFormLabel>
@@ -68,7 +57,6 @@
                                 Reversar
                               </option>
                             </CFormSelect>
-
                           </div>
                         </div>
                       </CCol>
@@ -78,7 +66,6 @@
                 <div class="col-6">
                   <CCol :md="12">
                     <div class="row">
-
                       <CCol :md="12">
                         <CFormLabel for="displayBeneficiario">Beneficiario</CFormLabel>
                         <div class="position-relative">
@@ -88,13 +75,10 @@
                             <CIcon icon="cisSearch" size="xl" v-on:click="openBeneficiarioModal" />
                           </span>
                         </div>
-
                       </CCol>
                       <CCol :md="12">
                         <CFormLabel for="conceptoGastoId">Por Concepto de</CFormLabel>
                         <CFormInput v-model="postRegistroGasto.conceptoGastoId" id="conceptoGastoId" required />
-
-
                       </CCol>
                       <CCol :md="12">
                         <CFormLabel for="nombre">Cuenta de banco</CFormLabel>
@@ -105,7 +89,6 @@
                           </option>
                         </CFormSelect>
                       </CCol>
-
                     </div>
                   </CCol>
                 </div>
@@ -116,27 +99,29 @@
                   </textarea>
                 </div>
               </div>
-
-
-
-
             </div>
           </div>
-
         </CForm>
-      
-        <CButton style="font-weight: bold" color="secondary" @click="openCodificacionGasto">Agregar detalle</CButton>
+
+          <CButton color="secondary" @click="openCodificacionGasto">Agregar detalle</CButton>
+
+
         <CSmartTable class="sticky-top" clickableRows :tableProps="{
           striped: true,
           hover: true,
         }" :tableHeadProps="{}" :activePage="1" header :items="postRegistroGasto.detalleRegistroGastos"
           :columns="detalleGastoColumns" columnFilter :footer="footer" itemsPerPageSelect :itemsPerPage="5" columnSorter
           :sorterValue="{ column: 'nombres', state: 'asc' }" pagination>
-   
         </CSmartTable>
       </CCardBody>
     </CModalBody>
-    <CButton style="font-weight: bold" color="info" @click="sendData">Agregar</CButton>
+    <CModalFooter>
+      <div>
+        <div class="d-inline p-2">
+          <CButton style="font-weight: bold" color="info" @click="sendData">Agregar</CButton>
+        </div>
+      </div>
+    </CModalFooter>
   </CModal>
   <SelectBeneficiario :isVisible="showBeneficiarioModal" @close="closeBeneficiarioModal" />
   <FormularioCodificacionGastoDialog @saveDetalle="saveDetalle" :registroGasto="postRegistroGasto"

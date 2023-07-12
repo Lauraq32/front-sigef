@@ -1,13 +1,11 @@
 <template>
   <CModal size="xl" fullscreen :visible="showModal" @close="closeModal" backdrop="static">
     <CModalHeader>
-      <CModalTitle>Documento del Gasto2</CModalTitle>
+      <CModalTitle>Detalle del Gasto</CModalTitle>
     </CModalHeader>
     <CModalBody>
-
       <CCardBody>
         <div class="row">
-
           <div class="col-4">
             <CForm :validated="isFormEventTypeValidated" ref="eventTypeForm">
               <div class="row">
@@ -41,7 +39,7 @@
 
                 <CCol :md="12">
                   <CFormLabel for="nombre" class="font-weight-bold">Monto Bruto</CFormLabel>
-                  <CFormInput :keypress="onlyNumber" @change="setBaseImponible" v-model="detalleRegistroGasto.montoBruto" id="nombre" required />
+                  <CFormInput :keypress="onlyDecimal" @change="setBaseImponible" v-model="detalleRegistroGasto.montoBruto" id="nombre" required />
                 </CCol>
                 <CCol :md="12">
                   <CFormLabel for="nombre" class="font-weight-bold">Fuente financiamiento: <span
