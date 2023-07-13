@@ -20,7 +20,7 @@ export default {
       meta: { label: 'Manejo de Usuarios' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/components/manejoUsuarios.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/pages/ManejoDeUsuario.vue'
         ),
     },
 
