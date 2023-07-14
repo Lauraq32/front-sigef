@@ -61,7 +61,7 @@
           <CCol>
             <CFormLabel for="postUsuario.password">Password</CFormLabel>
             <CFormInput
-            type="password"
+              type="password"
               :disabled="postUsuario.id"
               id="postUsuario.password"
               required
@@ -165,9 +165,11 @@ export default {
       this.clearForm()
     },
 
-    generateUserName(nombre, apellido) {
-      const nombreIniciales = nombre.charAt(0).toUpperCase()
-      const apellidoCompleto = apellido.replace(/\s+/g, '').toLowerCase()
+    generateByEmpleado(nombre, apellido) {
+      const primerNombre = nombre.split(' ')[0]
+      const primerApellido = apellido.split(' ')[0]
+      const nombreIniciales = primerNombre.charAt(0).toUpperCase()
+      const apellidoCompleto = primerApellido.replace(/\s+/g, '').toLowerCase()
       return nombreIniciales + apellidoCompleto
     },
 
@@ -188,7 +190,7 @@ export default {
     selectEmpleado(value) {
       if (value) {
         this.postUsuario.nombre = value.nombreCompleto
-        this.postUsuario.userName = this.generateUserName(
+        this.postUsuario.userName = this.generateByEmpleado(
           value.nombre,
           value.apellido,
         )
