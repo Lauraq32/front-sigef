@@ -1,7 +1,7 @@
 <template>
   <CModal :visible="usuarioModal" @close="closeModalUsuario" backdrop="static">
     <CModalHeader>
-      <CModalTitle>Manejo de Usuario</CModalTitle>
+      <CModalTitle>Usuarios</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -48,7 +48,9 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol>
-            <CFormLabel for="postUsuario.email">Correo Electronico</CFormLabel>
+            <CFormLabel for="postUsuario.email"
+              >Correo electr&oacute;nico</CFormLabel
+            >
             <CFormInput
               type="email"
               id="postUsuario.email"
@@ -59,7 +61,7 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol>
-            <CFormLabel for="postUsuario.password">Password</CFormLabel>
+            <CFormLabel for="postUsuario.password">Contraseña</CFormLabel>
             <CFormInput
               type="password"
               :disabled="postUsuario.id"
@@ -72,10 +74,10 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol>
-            <CFormLabel for="postUsuario.password">Rol</CFormLabel>
+            <CFormLabel for="postUsuario.rolId">Rol</CFormLabel>
             <CFormInput
               :disabled="postUsuario.id"
-              id="postUsuario.password"
+              id="postUsuario.rolId"
               required
               v-model="postUsuario.rolId"
             >
@@ -101,7 +103,7 @@ import { CModalFooter, CButton } from '@coreui/vue-pro'
 import Api from '@/modules/administrativo/Usuario/services/AdministrativoServices'
 
 export default {
-  name: 'CargosModal',
+  name: 'modalManejoDeUsuarios',
   components: {
     CModal,
     CModalFooter,

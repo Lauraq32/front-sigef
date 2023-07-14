@@ -17,7 +17,7 @@ export default {
     {
       path: 'manejoUsuarios',
       name: 'ManejoUsuarios',
-      meta: { label: 'Manejo de Usuarios' },
+      meta: { label: 'Usuarios' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/pages/ManejoDeUsuario.vue'

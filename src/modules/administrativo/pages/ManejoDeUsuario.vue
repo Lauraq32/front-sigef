@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center mb-4">Manejo de Usuarios</h3>
+  <h3 class="text-center mb-4">Usuarios</h3>
   <CCard class="mb-4">
     <CCardBody class="table-headers justify-content-between">
       <div class="d-inline-flex gap-3 align-items-center">
@@ -282,7 +282,7 @@ export default {
       Swal.fire({
         position: 'center',
         icon: 'warning',
-        title: `Estás usted seguro que quieres activar este usuario?`,
+        title: `Estás usted seguro que quieres re-activar este usuario?`,
         showConfirmButton: true,
         confirmButtonText: 'Si',
         cancelButtonText: 'No',
