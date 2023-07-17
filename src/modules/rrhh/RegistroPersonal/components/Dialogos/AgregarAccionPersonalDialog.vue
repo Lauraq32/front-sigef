@@ -20,7 +20,7 @@
             </div>
             <div class="col-9 col-md-6">
               <CFormInput
-                @change="validarFechaDesde"
+                @change="validarFechaHasta"
                 required
                 id="validationCustom01"
                 v-model="fechaDesde"
@@ -83,6 +83,7 @@
             </div>
             <div class="col-9 col-md-6">
               <CFormInput
+                disabled
                 v-on:change="validarFechaHasta"
                 required
                 id="validationCustom04"
@@ -148,46 +149,45 @@ export default {
   data: () => {
     return {
       postAccionPersonal: {
-        fechaDesde: null,
+        fechaDesde: new Date(),
         tipoAccionId: null,
-        cantidad: 0,
-        fechaHasta: null,
+        cantidad: 1,
+        fechaHasta: new Date(),
         detalle: null,
       },
       isFormEventTypeValidated: false,
       isLowerSelectedInitDate: false,
       fechaHataValidation: false,
       isZeroEqualZero: false,
+      validarFecha: false,
     }
   },
 
   computed: {
     fechaDesde: {
       get() {
-        let date = this.postAccionPersonal.fechaDesde
+        let date = this.postAccionPersonal.fechaDesde ?? new Date()
         if (
           this.postAccionPersonal.fechaDesde !== null &&
           this.postAccionPersonal.fechaDesde?.toString() !== 'Invalid Date'
         ) {
           if (typeof this.postAccionPersonal.fechaDesde === 'string') {
-            date =
-              typeof date === 'string'
-                ? new Date(this.postAccionPersonal.fechaDesde)
-                : date
+            date = new Date(this.postAccionPersonal.fechaDesde)
             return date.toISOString().split('T')[0]
           }
         }
         return date?.toISOString()?.split('T')?.[0]
       },
       set(value) {
-        this.postAccionPersonal.fechaDesde = new Date(`${value}T00:00:00`)
-        this.validarFechaDesde()
+        return (this.postAccionPersonal.fechaDesde = new Date(
+          `${value}T00:00:00`,
+        ))
       },
     },
 
     fechaHasta: {
       get() {
-        let date = this.postAccionPersonal.fechaHasta
+        let date = this.postAccionPersonal.fechaDesde ?? new Date()
         if (
           this.postAccionPersonal.fechaHasta !== null &&
           this.postAccionPersonal.fechaHasta?.toString() !== 'Invalid Date'
@@ -211,43 +211,36 @@ export default {
     ...mapActions(useToastStore, ['show']),
     clearAccionPersonal() {
       this.$emit('clearModal', this.postAccionPersonal)
-    },
-
-    closeModal() {
-      this.$emit('close', false)
-    },
-    saveDataAccionPersonal(data) {
-      this.$emit('sendData', data)
-      this.clearAccionPersonal()
       this.isFormEventTypeValidated = false
       this.isLowerSelectedInitDate = false
       this.fechaHataValidation = false
       this.isZeroEqualZero = false
     },
+
+    closeModal() {
+      this.$emit('close', false)
+      this.clearAccionPersonal()
+    },
+    saveDataAccionPersonal(data) {
+      this.$emit('sendData', data)
+      this.clearAccionPersonal()
+    },
     sendData() {
       this.isFormEventTypeValidated = false
       if (
         this.$refs.eventTypeForm.$el.checkValidity() &&
-        !this.isLowerSelectedInitDate &&
         !this.fechaHataValidation
       ) {
         return this.saveDataAccionPersonal({ ...this.postAccionPersonal })
       }
       this.isFormEventTypeValidated = true
-    },
-
-    validarFechaDesde() {
-      const fechaDesde = new Date(this.postAccionPersonal.fechaDesde)
-      fechaDesde.setHours(0, 0, 0, 0)
-      const fechaActual = new Date()
-      fechaActual.setHours(0, 0, 0, 0)
-      if (fechaDesde < fechaActual) {
-        this.isLowerSelectedInitDate = true
-      } else {
-        this.isLowerSelectedInitDate = false
-      }
-
-      this.validarFechaHasta()
+      this.show({
+        content:
+          'Informaci&oacute;n incorrecta. Por favor revisar la informaci&oacute;n del formulario',
+        closable: true,
+        color: 'danger',
+        class: 'text-white',
+      })
     },
 
     validarFechaHasta() {
@@ -257,14 +250,43 @@ export default {
       fechaActual.setHours(0, 0, 0, 0)
       this.fechaHataValidation = fechaDesde < fechaActual
     },
+
+    calcularFechaHasta() {
+      if (
+        this.postAccionPersonal.fechaDesde ||
+        this.postAccionPersonal.cantidad
+      ) {
+        const fechaDesde = new Date(this.postAccionPersonal.fechaDesde)
+        const cantidad = parseInt(this.postAccionPersonal.cantidad)
+
+        const fechaHasta = new Date(
+          fechaDesde.getTime() + cantidad * 24 * 60 * 60 * 1000,
+        )
+
+        this.postAccionPersonal.fechaHasta = fechaHasta
+          .toISOString()
+          .substring(0, 10)
+      }
+    },
   },
 
   watch: {
     accionPersonal() {
-      this.postAccionPersonal = { ...this.accionPersonal, tipoAccionId: `${this.accionPersonal.tipoAccionId}` }
+      this.postAccionPersonal = {
+        ...this.accionPersonal,
+        tipoAccionId: `${this.accionPersonal.tipoAccionId}`,
+      }
     },
     tipoAcciones() {
-      this.postAccionPersonal.tipoAccionId = `${this.tipoAcciones?.[0].id}`;
+      this.postAccionPersonal.tipoAccionId = `${this.tipoAcciones?.[0].id}`
+    },
+    'postAccionPersonal.cantidad': function () {
+      if (this.postAccionPersonal.cantidad === 0) {
+        this.postAccionPersonal.fechaHasta = this.postAccionPersonal.fechaHasta
+      } else {
+        this.fechaHataValidation = false
+      }
+      this.calcularFechaHasta()
     },
   },
 

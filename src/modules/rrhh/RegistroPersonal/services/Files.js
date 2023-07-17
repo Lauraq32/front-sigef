@@ -8,13 +8,13 @@ class Files {
     }
     if (tag) {
       const tags = Object.keys(tag).reduce((list, key) => {
-        list.push(`tag=${tag[key]}`)
+        list.push(`${key}=${tag[key]}`)
         return list
       }, [])
 
       query = query ? `${query}&${tags.join('&')}` : `?${tags.join('&')}`
     }
-    return http.get(`files${query}`).then((response) => response.data.data)
+    return http.get(`files${query}`);
   }
 
   getFileById(id) {
@@ -34,7 +34,12 @@ class Files {
       return this.getFileById(files.pop().id)
     })
   }
+
+  saveFile(formData) {
+    return http.post(`files`, formData).then((response) => {
+      return response
+    });
+  }
 }
 
-
-export default new Files();
+export default new Files()

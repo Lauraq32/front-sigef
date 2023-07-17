@@ -143,7 +143,7 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Grupo de pago',
+            name: 'Grupos de pago',
             to: '/Ejecucion/grupoPago',
             icon: 'cilBuilding',
           },
@@ -198,7 +198,12 @@ export default [
             to: '/Ejecucion/ejecucionGastos',
             icon: 'cilChartPie',
           },
-
+          {
+            component: 'CNavItem',
+            name: 'Concepto del Gasto',
+            to: '/Ejecucion/conceptoGasto',
+            icon: 'cilChartPie',
+          },
           {
             component: 'CNavTitle',
             name: 'Reportes',
@@ -784,7 +789,7 @@ export default [
           {
             component: 'CNavItem',
             name: 'Inventario de útiles',
-            to: '/RRHHModule/inventario',
+            to: '/RRHHModule/utiles-laborales',
             icon: 'cilDollar',
           },
         ],
@@ -808,6 +813,24 @@ export default [
         name: 'Manejo usuarios',
         to: '/AdministrativoModule/manejoUsuarios',
         icon: 'cilPeoplePlus',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Misión y Visión',
+        to: '/AdministrativoModule/misionVision',
+        icon: 'cilInfo',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Metas',
+        to: '/AdministrativoModule/fp-meta-04',
+        icon: 'cilList',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Ayuntamiento',
+        to: '/AdministrativoModule/ayuntamiento',
+        icon: 'cilBuilding',
       },
     ],
   },

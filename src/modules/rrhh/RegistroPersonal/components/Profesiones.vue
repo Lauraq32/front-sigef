@@ -1,23 +1,11 @@
 <template>
-  <h3 class="text-center">Profesiones</h3>
-  <hr />
-  <div class="table-headers">
-    <div class="d-inline p-2">
+  <h3 class="text-center mb-4">Profesiones</h3>
+  <div class="table-headers mb-4 gap-1">
       <CButton
         color="info"
-        @click="
-          () => {
-            newProfesionesModal = true
-          }
-        "
-        >Agregar</CButton
-      >
-    </div>
-    <div class="d-inline p-2">
-      <CButton color="info">Imprimir</CButton>
-    </div>
+        @click="() => { newProfesionesModal = true }">Agregar</CButton>
+      <CButton color="secondary">Imprimir</CButton>
   </div>
-  <hr />
   <CSmartTable
     class="sticky-top"
     clickableRows
@@ -63,7 +51,7 @@ import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { mapActions } from 'pinia'
 import Api from '../services/RegistroPersonalServices'
-import ProfesionesDialogs from '../Dialogos/ProfesionesModal.vue'
+import ProfesionesDialogs from './Dialogos/ProfesionesModal.vue'
 import { useToastStore } from '@/store/toast'
 export default {
   components: {
@@ -91,7 +79,7 @@ export default {
         {
           label: 'Total Items',
           _props: {
-            colspan: 1,
+            colspan: 2,
             style: 'font-weight:bold;',
           },
         },
