@@ -44,14 +44,19 @@ export default {
       cargoModal: false,
       columns: [
         {
+          key: 'id',
+          label: 'ID',
+          _style: { width: '10%' },
+        },
+        {
           key: 'nombre',
           label: 'Posición o cargo',
-          _style: { width: '40%' },
+          _style: { width: '70%' },
         },
         {
           key: 'show_details',
           label: '',
-          _style: { width: '1%' },
+          _style: { width: '10%' },
           filter: false,
           sorter: false,
         },
@@ -71,6 +76,40 @@ export default {
     ...mapActions(useToastStore, ['show']),
     closeModal(payload) {
       this.cargoModal = payload
+    },
+    deleteCargo(id) {
+
+      this.$swal({
+        title: 'Estás seguro de realizar esta acción? ',
+        text: 'No podrás revertirlo',
+        icon: 'Confirmación',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Aceptar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Api.deleteCargo(id).then(() => {
+            this.show({
+              content: 'Registro eliminado correctamente',
+              closable: true,
+
+            })
+            setTimeout(() => this.getAllCargo(), 200)
+          }).catch((error) => {
+            this.show({
+              content: error.response.data.message,
+              closable: true,
+
+              color: 'danger'
+            })
+          })
+         
+        }
+
+      });
+      
     },
     getCargosById(item) {
       this.cargo = item

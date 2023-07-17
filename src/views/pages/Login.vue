@@ -122,7 +122,7 @@ export default {
           this.msg = (
             error?.response?.data?.message
             ?? error?.response?.data?.data
-            ?? "Ha ocurrido un error, por favor tratar m&aacute;s tarde o contacte el administrador"
+            ?? "Ha ocurrido un error, por favor trate m&aacute;s tarde o contacte a el administrador"
           );
         });
       

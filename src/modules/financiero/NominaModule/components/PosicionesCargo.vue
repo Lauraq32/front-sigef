@@ -1,6 +1,5 @@
 <template>
   <h3 class="text-center">Posiciones o Cargos</h3>
-
   <CargosTable
     :columns="columns"
     :footerItems="footerItem"

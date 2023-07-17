@@ -1,5 +1,5 @@
 <template >
-  <v-idle @idle="handleIdle" :duration="authInfo.sessionTimeLimit" :loop="false" />
+  <v-idle @idle="handleIdle" :duration="authInfo?.config?.sessionTimeLimit ?? authInfo.sessionTimeLimit ?? 300" :loop="false" />
 </template>
 
 <script>
