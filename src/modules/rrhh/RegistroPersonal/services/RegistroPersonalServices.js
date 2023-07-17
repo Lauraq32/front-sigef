@@ -3,10 +3,19 @@ import http from '@/Api/http-common';
 import { getAyuntamientoId } from '@/utils/logged-info';
 import FileApi from './Files';
 class RegistroPersonal {
+  //delete Cargo
+  deleteCargo(id){
+    return http.delete(`cargos/${id}`)
+  }
+  //put utils
+  putUtils(data,id) {
+    return http.put(`utiles-laborales/${id}`,data)
+  }
   //get
   tipoSangreList() {
     return http.get('tipos-sangre')
   }
+
 
   getAllTipoAcciones() {
     return http.get('tipo-acciones')
@@ -44,7 +53,7 @@ class RegistroPersonal {
   }
 
   getAyuntamientoById(id){
-    return http.get(`Ayuntamiento/${id}`)
+    return http.get(`ayuntamientos/${id}`)
   }
 
   getAllEmpleado(filter = {}) {

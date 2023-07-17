@@ -7,8 +7,8 @@ export default {
   children: [
    
     {
-      path: 'grupoNominass',
-      name: 'grupoNominass',
+      path: 'grupoNominas',
+      name: 'grupoNominas',
       meta: { label: 'Grupo Nóminas' },
       component: () =>
         import(
@@ -17,12 +17,12 @@ export default {
     },
 
     {
-      path: 'nominaGeneral',
-      name: 'grupoNominas',
+      path: 'nomina-general',
+      name: 'nominaGeneral',
       meta: { label: 'Nómina General' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/nominaG.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/pages/NominaGeneral.vue'
         ),
     },
     {

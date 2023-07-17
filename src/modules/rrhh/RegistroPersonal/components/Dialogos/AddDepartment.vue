@@ -355,10 +355,6 @@ export default {
         obj[ `${item.clasifica}-${item.source.mestProgId}-(${item.ctgFuenteId}/${item.ctgFuenteEspecificaId}/${item.ctgOrganismoFinanciadorId})`] = item;
         return obj;
       }, {});
-      console.log({
-        clasificadores,
-        uniqueClasificadores
-      });
       this.clasificadores = Object.values(uniqueClasificadores);
     })
   },
