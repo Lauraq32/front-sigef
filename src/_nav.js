@@ -310,7 +310,7 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Direccion o Dependecias',
+            name: 'Dirección o Dependencias',
             to: '/NominaModule/Programas',
             icon: 'cilChalkboardTeacher',
           },
@@ -323,7 +323,7 @@ export default [
           {
             component: 'CNavItem',
             name: 'Área de trabajo',
-            to: '/NominaModule/AreaDeTrabajo',
+            to: '/NominaModule/AreaTrabajo',
             icon: 'cilIdBadge',
           },
           {
@@ -348,13 +348,13 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Nomina Empleado',
+            name: 'Nómina Empleado',
             to: '/NominaModule/Nominas',
             icon: 'cilList',
           },
           {
             component: 'CNavItem',
-            name: 'Nomina General',
+            name: 'Nómina General',
             to: '/NominaModule/nominaGeneral',
             icon: 'cilList',
           },

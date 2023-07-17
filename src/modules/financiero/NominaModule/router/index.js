@@ -26,16 +26,16 @@ export default {
         ),
     },
     {
-      path: 'programas',
+      path: 'Programas',
       name: 'programas',
-      meta: { label: 'Programas' },
+      meta: { label: 'Dirección o Dependencias' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/Programas.vue'
         ),
     },
     {
-      path: 'departamentos',
+      path: 'Departamentos',
       name: 'departamentos',
       meta: { label: 'Departamentos' },
       component: () =>
@@ -44,8 +44,8 @@ export default {
         ),
     },
     {
-      path: 'areaDeTrabajo',
-      name: 'areaDeTrabajo',
+      path: 'AreaTrabajo',
+      name: 'AreaDeTrabajo',
       meta: { label: 'Área de Trabajo' },
       component: () =>
         import(
@@ -53,16 +53,16 @@ export default {
         ),
     },
     {
-      path: 'posicionesCargo',
+      path: 'PosicionesCargo',
       name: 'posicionesCargo',
-      meta: { label: 'Posiciones de Cargo' },
+      meta: { label: 'Posiciones o Cargos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/PosicionesCargo.vue'
         ),
     },
     {
-      path: 'sectores',
+      path: 'Sectores',
       name: 'sectores',
       meta: { label: 'Sectores' },
       component: () =>

@@ -1,6 +1,6 @@
 <template>
       
-  <h3 class="text-center">Direccion o Dependencias</h3>
+  <h3 class="text-center">Dirección o Dependencias</h3>
 
   <div class="table-headers">
     <div class="d-inline p-2">
