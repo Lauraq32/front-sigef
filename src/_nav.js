@@ -204,6 +204,7 @@ export default [
             to: '/Ejecucion/conceptoGasto',
             icon: 'cilChartPie',
           },
+
           {
             component: 'CNavTitle',
             name: 'Reportes',
@@ -324,12 +325,6 @@ export default [
             name: 'Área de trabajo',
             to: '/NominaModule/AreaDeTrabajo',
             icon: 'cilIdBadge',
-          },
-          {
-            component: 'CNavItem',
-            name: 'Tipo de sangre',
-            to: '/NominaModule/TipoSangre',
-            icon: 'cilHealing',
           },
           {
             component: 'CNavItem',
