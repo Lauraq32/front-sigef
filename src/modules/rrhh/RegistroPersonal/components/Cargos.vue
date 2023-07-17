@@ -4,38 +4,22 @@
     <CButton color="info" @click="() => { cargoModal = true }">Agregar</CButton>
     <CButton color="secondary">Imprimir</CButton>
   </div>
-  <CSmartTable
-    class="sticky-top"
-    clickableRows
-    :tableProps="{
-      striped: true,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    header
-    :items="cargos"
-    :columns="columns"
-    :footer="footerItem"
-    columnFilter
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'nombre', state: 'asc' }"
-    pagination
-  >
-  <template #show_details="{ item }">
-      <td class="py-2">
-        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="getCargosById(item)">Editar</CButton>
+  <CSmartTable class="sticky-top" clickableRows :tableProps="{
+    striped: true,
+    hover: true,
+  }" :tableHeadProps="{}" :activePage="1" header :items="cargos" :columns="columns" :footer="footerItem" columnFilter
+    itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'nombre', state: 'asc' }" pagination>
+    <template #show_details="{ item }">
+
+      <td class="px-4">
+        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="getCargosById(item)">Editar
+        </CButton>
+        <CButton class="mt-1" color="danger" variant="outline" square size="sm" @click="deleteCargo(item.id)">Eliminar
+        </CButton>
       </td>
     </template>
   </CSmartTable>
-  <CargosModal
-    :cargoModal="cargoModal"
-    @close-modal="closeModal"
-    @post-cargo="saveCargo"
-    :cargoToUpdate="cargo"
-  />
+  <CargosModal :cargoModal="cargoModal" @close-modal="closeModal" @post-cargo="saveCargo" :cargoToUpdate="cargo" />
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
@@ -59,17 +43,17 @@ export default {
         {
           key: 'id',
           label: 'ID',
-          _style: { width: '5%' },
+          _style: { width: '10%' },
         },
         {
           key: 'nombre',
           label: 'Posición o cargo',
-          _style: { width: '40%' },
+          _style: { width: '70%' },
         },
         {
           key: 'show_details',
           label: '',
-          _style: { width: '1%' },
+          _style: { width: '10%' },
           filter: false,
           sorter: false,
         },
@@ -89,6 +73,40 @@ export default {
     ...mapActions(useToastStore, ['show']),
     closeModal(payload) {
       this.cargoModal = payload
+    },
+    deleteCargo(id) {
+
+      this.$swal({
+        title: 'Estás seguro de realizar esta acción? ',
+        text: 'No podrás revertirlo',
+        icon: 'Confirmación',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Aceptar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Api.deleteCargo(id).then(() => {
+            this.show({
+              content: 'Registro eliminado correctamente',
+              closable: true,
+
+            })
+            setTimeout(() => this.getAllCargo(), 200)
+          }).catch((error) => {
+            this.show({
+              content: error.response.data.message,
+              closable: true,
+
+              color: 'danger'
+            })
+          })
+         
+        }
+
+      });
+      
     },
     getCargosById(item) {
       this.cargo = item;

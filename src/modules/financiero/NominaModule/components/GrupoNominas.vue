@@ -1,6 +1,6 @@
 <template>
       
-  <h3 class="text-center">Grupo nomina</h3>
+  <h3 class="text-center">Grupo Nóminas</h3>
 
   <div class="table-headers">
     <div class="d-inline p-2">
@@ -186,7 +186,7 @@ export default {
         { key: 'id', label: 'Código', _style: { width: '40%' } },
         {
           key: 'nombre',
-          label: 'Grupo Nomina',
+          label: 'Grupo Nómina',
           _style: { width: '40%' },
         },
         {

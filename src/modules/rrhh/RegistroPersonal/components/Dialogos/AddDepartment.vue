@@ -38,29 +38,29 @@
           </CContainer>
 
           <div>
-            <CFormLabel>Nombre Depto. &oacute; N&oacute;mina</CFormLabel>
-            <CFormInput required v-model="newDepartment.nombre"> </CFormInput>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+            <CFormLabel>Programa</CFormLabel>
+            <CFormSelect
+              required
+              :modelValue="`${newDepartment.programaDivisionId}`"
+              @update:modelValue="handleProgramaChange"
+            >
+              <option :value="'0'">Selecionar Programa</option>
+              <option
+                v-for="programa in programas"
+                :value="`${programa.id}`"
+                :key="programa.id"
+              >
+                {{ programa.nombre }}
+              </option>
+            </CFormSelect>
           </div>
 
-          <CContainer>
+          <CContainer class="mt-2">
             <CRow>
               <CCol :md="6">
-                <CFormLabel>Programa</CFormLabel>
-                <CFormSelect
-                  required
-                  :modelValue="`${newDepartment.programaDivisionId}`"
-                  @update:modelValue="handleProgramaChange"
-                >
-                  <option :value="'0'">Selecionar Programa</option>
-                  <option
-                    v-for="programa in programas"
-                    :value="`${programa.id}`"
-                    :key="programa.id"
-                  >
-                    {{ programa.nombre }}
-                  </option>
-                </CFormSelect>
+                <CFormLabel>Nombre Depto. &oacute; N&oacute;mina</CFormLabel>
+                <CFormInput required v-model="newDepartment.nombre"> </CFormInput>
+                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
               </CCol>
 
               <CCol :md="6">
@@ -72,7 +72,7 @@
                     :value="`${grupo.id}`"
                     :key="grupo.id"
                   >
-                    {{ grupo.nombre }}
+                    {{ grupo.descripcion }}
                   </option>
                 </CFormSelect>
               </CCol>
@@ -355,10 +355,6 @@ export default {
         obj[ `${item.clasifica}-${item.source.mestProgId}-(${item.ctgFuenteId}/${item.ctgFuenteEspecificaId}/${item.ctgOrganismoFinanciadorId})`] = item;
         return obj;
       }, {});
-      console.log({
-        clasificadores,
-        uniqueClasificadores
-      });
       this.clasificadores = Object.values(uniqueClasificadores);
     })
   },
