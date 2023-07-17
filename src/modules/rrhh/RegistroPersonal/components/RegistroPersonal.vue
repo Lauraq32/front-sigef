@@ -257,16 +257,11 @@ export default {
               })
             }).catch(e => {
               this.show({
-                content: e.response.data.message,
+                content: e.response.data,
                 closable: true,
                 color:'danger'
               })
             })
-
-
-
-            // this.selectedEmployee = item
-            // this.showModalDoc = true
           },
         },
       ],
@@ -284,7 +279,7 @@ export default {
         })
       }).catch(e=>{
         this.show({
-          content: e.response.data.message,
+          content: e.response.data,
           closable: true,
           color:'danger'
         })
