@@ -31,6 +31,7 @@
             "
             >Reporte</CButton
           >
+          <CButton color="info" variant="outline" @click="setEmpleadosToBeneficiarios">Pasar a Beneficiarios</CButton>
         </div>
       </div>
     </CCardBody>
@@ -280,7 +281,7 @@ export default {
         {
           label: 'Pasar a Beneficiario',
           clickHandler: (item) => {
-            Api.setEmpleadoToBeneficiario(item.id).then(response => {
+            Api.setEmpleadoToBeneficiario(item.id).then(() => {
               this.show({
                 content: 'Datos procesados correctamente',
                 closable: true,
@@ -302,7 +303,7 @@ export default {
     ...mapActions(useToastStore, ['show']),
 
     setEmpleadosToBeneficiarios() {
-      Api.setAllEmpleadosToBeneficiario().then(response => {
+      Api.setAllEmpleadosToBeneficiario().then(() => {
         this.show({
           content: 'Datos procesados correctamente',
           closable: true,
