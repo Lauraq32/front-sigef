@@ -1,53 +1,27 @@
 <template>
   <h3 class="text-center mb-4">Direcci&oacute;n Dependencia</h3>
-  <div class="table-headers mb-4">
+  <div class="table-headers mb-4 gap-1">
       <CButton
         color="info"
         @click=" () => { newDireccionDependeciaModal = true }">Agregar</CButton>
       <CButton color="secondary">Imprimir</CButton>
   </div>
-  <CSmartTable
-    class="sticky-top"
-    clickableRows
-    :tableProps="{
-      striped: true,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    header
-    :footer="footerItem"
-    :items="direccionDependecia"
+  <DireccionDepenciaTable
     :columns="columns"
-    columnFilter
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'nombre', state: 'asc' }"
-    pagination
-  >
-    <template #show_details="{ item }">
-      <td class="py-2">
-        <CButton
-          class="mt-1"
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="editDireccionDependecia(item)"
-          >Editar</CButton
-        >
-      </td>
-    </template>
-  </CSmartTable>
+    :footerItems="footerItem"
+    :items="direccionDependecia"
+    :showButtons="true"
+    @edit="editDireccionDependecia"
+  />
   <DireccionDependeciaDialogs
     :newDireccionDependeciaModal="newDireccionDependeciaModal"
     @close-modal="closeModal"
     @post-direccionDependecia="saveDireccionDependecia"
-    :direccionDependeciaId="direccionDependeciaId"
+    :direccionDependecia="direccionDependeciaObject"
   />
 </template>
 <script>
-import { CSmartTable } from '@coreui/vue-pro'
+import DireccionDepenciaTable from '@/modules/rrhh/RegistroPersonal/components/DireccionDepenciaTable.vue'
 import { CModal } from '@coreui/vue'
 import { mapActions } from 'pinia'
 import { useToastStore } from '@/store/toast'
@@ -55,18 +29,25 @@ import DireccionDependeciaDialogs from './Dialogos/DireccionDependenciaModal.vue
 import Api from '../services/RegistroPersonalServices'
 export default {
   components: {
-    CSmartTable,
+    DireccionDepenciaTable,
     CModal,
     DireccionDependeciaDialogs,
   },
   data: () => {
     return {
       direccionDependecia: [],
-      direccionDependeciaId: null,
       newDireccionDependeciaModal: false,
+      direccionDependeciaObject: {
+        nombre: '',
+        estructura: '',
+      },
       columns: [
         { key: 'nombre', label: 'Nombre', _style: { width: '40%' } },
-        { key: 'estructura', label: 'Estructura Programática', _style: { width: '40%' } },
+        {
+          key: 'estructura',
+          label: 'Estructura Programática',
+          _style: { width: '40%' },
+        },
         {
           key: 'show_details',
           label: '',
@@ -94,15 +75,19 @@ export default {
   methods: {
     ...mapActions(useToastStore, ['show']),
     closeModal() {
-      this.newDireccionDependeciaModal = false
+      this.newDireccionDependeciaModal = false;
+      this.direccionDependeciaObject= {
+        nombre: '',
+        estructura: '',
+      }
     },
     editDireccionDependecia(item) {
-      this.direccionDependeciaId = item.id
+      this.direccionDependeciaObject = item;
       this.newDireccionDependeciaModal = true
     },
     saveDireccionDependecia(payload) {
-      if (this.direccionDependeciaId != null) {
-        Api.putDireccionDependecia(this.direccionDependeciaId, payload)
+      if (payload.id) {
+        Api.putDireccionDependecia(payload.id, payload)
           .then(() => {
             this.show({
               content: 'Registro actualizado correctamente',

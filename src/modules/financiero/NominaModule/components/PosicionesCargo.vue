@@ -1,6 +1,6 @@
 <template>
       
-  <h3 class="text-center">Posición o Cargo</h3>
+  <h3 class="text-center">Posiciones o Cargos</h3>
  
   <div class="table-headers">
     <div class="d-inline p-2">
@@ -246,7 +246,7 @@ export default {
         { key: 'id', label: 'Código', _style: { width: '40%' } },
         {
           key: 'nombre',
-          label: 'Posición o Cargo',
+          label: 'Posiciones o Cargos',
           _style: { width: '40%' },
         },
         {

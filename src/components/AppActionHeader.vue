@@ -44,7 +44,7 @@ import { useAuthStore } from '@/store/AuthStore';
 import FileSelector from '@/components/FileSelector.vue';
 
 export default {
-    name: 'AppAccionHeader',
+    name: 'AppActionHeader',
     components: {
         FileSelector,
     },

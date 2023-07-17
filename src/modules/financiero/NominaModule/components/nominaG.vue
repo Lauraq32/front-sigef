@@ -1,8 +1,6 @@
 <template>
-  <h3 class="text-center">Nomina general</h3>
-  <hr />
-
-  <div class="row">
+  <h3 class="text-center">Nómina general</h3>
+  <div class="row my-5">
     <div class="col-9">
       <div class="row">
         <div class="col-3">
@@ -12,16 +10,13 @@
                 <CFormLabel for="validationCustom01">Año</CFormLabel>
                 <CFormInput type="number" min="1900" max="2099" step="1" value="2023" v-model="nominaGneral.Anio"
                   id="validationCustom01" />
-
                 <CFormFeedback valid> Exito! </CFormFeedback>
                 <CFormFeedback invalid>
                   Favor agregar el campo
                 </CFormFeedback>
               </CCol>
             </div>
-            <div class="col-6" style="    position: relative;
-      left: -42px;
-  ">
+            <div class="col-6" style=" position: relative; left: -42px;">
               <CCol :md="9">
                 <CFormLabel for="validationCustom01">Mes</CFormLabel>
                 <CFormSelect v-model="nominaGneral.Mes" id="validationCustom05">
@@ -42,10 +37,7 @@
             </div>
           </div>
         </div>
-
-        <div class="col-3" style="    position: relative;
-      left: -84px;
-  ">
+        <div class="col-3" style=" position: relative; left: -84px;">
           <CCol :md="9">
             <CFormLabel for="validationCustom01">Tipo de contracto</CFormLabel>
             <CFormSelect v-model="nominaGneral.TipoContrato" id="validationCustom05">
@@ -54,8 +46,7 @@
             </CFormSelect>
           </CCol>
         </div>
-        <div class="col-3" style="position: relative;
-      left: -175px;">
+        <div class="col-3" style="position: relative; left: -175px;">
           <CCol :md="9">
             <CFormLabel for="validationCustom01">Forma de pago</CFormLabel>
             <CFormSelect v-model="nominaGneral.FormaPago" id="validationCustom05">
@@ -64,51 +55,34 @@
             </CFormSelect>
           </CCol>
         </div>
-
         <div class="col-3">
-          <CButton style="
-                font-weight: bold;
-                position: relative;
-                top: 31px;
-                left: -265px;
-              " color="info" @click="
-                () => {
-
-                  getNominaGeneral()
-                }
-              ">Filtrar</CButton>
+          <CButton style="font-weight: bold; position: relative; top: 31px; left: -265px;" color="info"
+            @click="() => { getNominaGeneral() }">Filtrar</CButton>
         </div>
       </div>
     </div>
-
     <div class="col-3" style="position: relative; top: 16px">
       <div>
         <div class="d-inline p-2">
-          <CButton style="font-weight: bold" color="info" @click="
-            imprimriPorTPago
-          ">Imprimir Todos</CButton>
+          <CButton style="font-weight: bold" color="info" @click="() => { showImprimirModal = true }">Imprimir Dio mio
+          </CButton>
         </div>
         <div class="d-inline p-2">
-          <CButton style="font-weight: bold" class="ml-5" color="info" @click="
-            () => {
-              klk()
-              clearModal1()
-              lgDemo1 = true
-            }
-          ">Generar Nomina</CButton>
+          <CButton style="font-weight: bold" class="ml-5" color="info" @click="() => {
+            klk()
+            clearModal1()
+            lgDemo1 = true
+          }
+            ">Generar Nomina</CButton>
         </div>
         <div class="d-inline p-2">
           <CButton style="font-weight: bold" @click="volver" color="info">Volver</CButton>
         </div>
       </div>
     </div>
-
-
   </div>
-
-  <hr />
   <CSmartTable class="sticky-top" clickableRows :tableProps="{
-   striped: true,
+    striped: true,
     hover: true,
 
   }" :tableHeadProps="{}" :activePage="1" header :items="nominag" :columns="columns" columnFilter itemsPerPageSelect
@@ -146,24 +120,23 @@
       </td>
     </template>
     <template #show_details="{ item }">
-      <td class="py-1">
+      
       <td class="py-1">
         <CButton @click="toggleDetail2()" class="mt-1" color="primary" variant="outline" square size="sm">
           {{ Boolean(item._toggled) ? 'Hide' : 'Imprimir' }}
         </CButton>
       </td>
       <td class="py-1">
-        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="
-          () => {
-            clearModal2()
-            reportes = true
-            toggleDetail2(item)
-          }
-        ">
+        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="() => {
+          clearModal2()
+          reportes = true
+          toggleDetail2(item)
+        }
+          ">
           {{ Boolean(item._toggled) ? 'Hide' : 'Cons/Nomina' }}
         </CButton>
       </td>
-      </td>
+      
 
     </template>
     <template #details="{ item }">
@@ -180,11 +153,10 @@
     </template>
   </CSmartTable>
 
-  <CModal size="xl" :visible="lgDemo" @close="
-    () => {
-      lgDemo = false
-    }
-  ">
+  <CModal size="xl" :visible="lgDemo" @close="() => {
+    lgDemo = false
+  }
+    ">
     <CModalHeader>
       <CModalTitle>Formulario de empleados</CModalTitle>
     </CModalHeader>
@@ -192,30 +164,27 @@
       <div class="row">
         <CNav variant="tabs" role="tablist">
           <CNavItem>
-            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 1" @click="
-              () => {
-                tabPaneActiveKey = 1
-              }
-            ">
+            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 1" @click="() => {
+              tabPaneActiveKey = 1
+            }
+              ">
               General
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 2" @click="
-              () => {
-                tabPaneActiveKey = 2
-              }
-            ">
+            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 2" @click="() => {
+              tabPaneActiveKey = 2
+            }
+              ">
               Otros ingresos
             </CNavLink>
           </CNavItem>
 
           <CNavItem>
-            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 5" @click="
-              () => {
-                tabPaneActiveKey = 5
-              }
-            ">
+            <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 5" @click="() => {
+              tabPaneActiveKey = 5
+            }
+              ">
               Acumulado anual
             </CNavLink>
           </CNavItem>
@@ -1126,11 +1095,10 @@
       </button>
     </div>
   </CModal>
-  <CModal size="xl" :visible="lgDemo1" @close="
-    () => {
-      lgDemo1 = false
-    }
-  ">
+  <CModal size="xl" :visible="lgDemo1" @close="() => {
+    lgDemo1 = false
+  }
+    ">
     <CModalHeader>
       <CModalTitle>Generar Nomina</CModalTitle>
     </CModalHeader>
@@ -1278,20 +1246,18 @@
             <div class="col-5">
               <CNav variant="tabs" role="tablist">
                 <CNavItem>
-                  <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 1" @click="
-                    () => {
-                      tabPaneActiveKey = 1
-                    }
-                  ">
+                  <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 1" @click="() => {
+                    tabPaneActiveKey = 1
+                  }
+                    ">
                     Retenciones
                   </CNavLink>
                 </CNavItem>
                 <CNavItem>
-                  <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 2" @click="
-                    () => {
-                      tabPaneActiveKey = 2
-                    }
-                  ">
+                  <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 2" @click="() => {
+                    tabPaneActiveKey = 2
+                  }
+                    ">
                     Profile
                   </CNavLink>
                 </CNavItem>
@@ -1690,11 +1656,10 @@
     </CModalBody>
   </CModal>
 
-  <CModal @close="
-    () => {
-      reportes = false
-    }
-  " size="xl" :backdrop="false" :keyboard="false" :visible="reportes">
+  <CModal @close="() => {
+    reportes = false
+  }
+    " size="xl" :backdrop="false" :keyboard="false" :visible="reportes">
     <CModalHeader>
       <CModalTitle>Consultar Nomina</CModalTitle>
     </CModalHeader>
@@ -1784,7 +1749,7 @@
 
     </CModalFooter>
     <CSmartTable class="sticky-top" clickableRows :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
 
     }" :tableHeadProps="{}" :activePage="1" header :items="getEmpleadosDep" :columns="columns2" itemsPerPageSelect
@@ -1812,13 +1777,12 @@
         <td class="py-1">
         <td class="py-1">
         <td class="py-1">
-          <CButton color="primary" variant="outline" square size="sm" @click="
-            () => {
-              toggleDetail3(item, index)
-              reportes = false
-              consulEmple = true
-            }
-          ">
+          <CButton color="primary" variant="outline" square size="sm" @click="() => {
+            toggleDetail3(item, index)
+            reportes = false
+            consulEmple = true
+          }
+            ">
             {{ Boolean(item._toggled) ? 'Hide' : 'Cons/Nom Empleado' }}
           </CButton>
         </td>
@@ -1850,12 +1814,11 @@
     </CModalFooter>
   </CModal>
 
-  <CModal @close="
-    () => {
+  <CModal @close="() => {
 
-      consulEmple = false
-    }
-  " size="xl" :backdrop="false" :keyboard="false" :visible="consulEmple">
+    consulEmple = false
+  }
+    " size="xl" :backdrop="false" :keyboard="false" :visible="consulEmple">
     <CModalHeader>
       <CModalTitle>Consultas de Nominas del empleado</CModalTitle>
     </CModalHeader>
@@ -1864,7 +1827,7 @@
     </CModalBody>
 
     <CSmartTable class="sticky-top" clickableRows :tableProps="{
-     striped: true,
+      striped: true,
       hover: true,
 
     }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header :items="getEmpleadosDep1" :columns="columns3"
@@ -1904,6 +1867,7 @@
       <CButton color="secondary" @click="cerrar">Close</CButton>
     </CModalFooter>
   </CModal>
+  <ModalImprimirNomina :showModal="showImprimirModal" />
 </template>
 
 <script>
@@ -1913,7 +1877,7 @@ import { CModal } from '@coreui/vue'
 import { mapStores } from 'pinia'
 import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
-
+import ModalImprimirNomina from './dialogos/ModalImprimirTodosNomina.vue'
 import { useToastStore } from '@/store/toast'
 import Api from '../services/NominaServices'
 import router from '@/router'
@@ -1922,11 +1886,13 @@ export default {
   components: {
     CSmartTable,
     CModal,
-
+    ModalImprimirNomina
   },
+
 
   data: function () {
     return {
+      showImprimirModal: false,
       consulEmple: false,
       nominag: [],
       reportes: false,
@@ -2509,27 +2475,20 @@ export default {
 
     },
     klk() {
-      Api.getDepartamentoById(this.departamentos[0].id).then((response) => {
+      Api.getDepartamentoById(2).then((response) => {
         this.clasificador = response.data.data.ctgClasificadorId
         this.programid1 = response.data.data.programaDivisionId
         this.estructuras = response.data.data.estructura
-
       })
     },
     changeDepartamento(e) {
-
       this.departamentosId = e.target.value
-
       Api.getDepartamentoById(e.target.value).then((response) => {
         this.clasificador = response.data.data.ctgClasificadorId
         this.programid1 = response.data.data.programaDivisionId
         this.estructuras = response.data.data.estructura
-
-
       })
-
     },
-
     addField(prueba) {
       prueba.push({})
     },
@@ -2537,7 +2496,6 @@ export default {
     deleteField(index, prueba) {
       prueba.splice(index, 1)
     },
-
     formatDate(fechaIngreso) {
       return new Date(fechaIngreso).toLocaleDateString('en-GB', {
         day: '2-digit',
@@ -2545,12 +2503,10 @@ export default {
         year: 'numeric',
       })
     },
-
     cerrar() {
       this.consulEmple = false
       this.AbrirToggle()
     },
-
     formatDate1(fecha) {
       return new Date(fecha).toLocaleDateString('en-GB', {
         day: '2-digit',
@@ -2558,14 +2514,9 @@ export default {
         year: 'numeric',
       })
     },
-
-
     focusInput() {
-
       this.$refs.name.$el.focus()
-
     },
-
     focusInput1() {
       if (!this.focus) {
         this.focusInput()
@@ -2574,15 +2525,12 @@ export default {
     close() {
       this.lgDemo = false
     },
-
     closes() {
       this.lgDemo1 = false
     },
-
     closess() {
       this.reportes = false
     },
-
     sumaIngresos() {
       this.Acumulado = [
         parseInt(this.postEmpleado.eneroIngreso),
@@ -2598,14 +2546,10 @@ export default {
         parseInt(this.postEmpleado.noviembreIngreso),
         parseInt(this.postEmpleado.diciembreIngreso),
       ]
-
-
       this.unionIngresos = this.Acumulado.reduce((a, b) => {
         return a + b
       })
-
       this.resultadoIngresos = this.unionIngresos / 12
-
     },
     ...mapActions(useRegistroStore, [
       'getNomina',
@@ -2614,14 +2558,11 @@ export default {
       'addEmpleado',
       'getnominag',
     ]),
-
     submiNomina() {
       Api.postNomina(this.postNomina).then((response) => {
         this.postNomina.afpMonto = this.postEmpleado.afpFijo
-
       })
     },
-
     submiGeneraNomina() {
       Api.postnominaGeneral(
         this.$ayuntamientoId,
@@ -2631,7 +2572,6 @@ export default {
         this.postGenerarNomina.FormaPago,
         this.postGenerarNomina.TipoContrato,
       ).then((response) => {
-
       })
     },
     submiFormConf() {
@@ -2639,14 +2579,11 @@ export default {
       if (this.id) {
         Api.putConfiguracionNomina(this.id, this.postConfiguracionNomina).then(
           (response) => {
-
             this.lgDemo = false
             this.show({
               content: 'Registro añadido correctamente',
               closable: true,
             })
-
-            // setTimeout(this.getEmpleado, 500)
             this.postConfiguracionNomina = {
               id: 0,
               ayuntamientoId: this.$ayuntamientoId,
@@ -2710,7 +2647,6 @@ export default {
             }
           },
         )
-        // setTimeout(this.getEmpleado, 500)
       } else {
         Api.postConfiguracionNomina(this.postConfiguracionNomina).then((response) => {
           this.show({
@@ -2734,7 +2670,6 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
-        //const form = event.currentTarget
         this.lgDemo = true
           // setTimeout(this.getEmpleado, 500)
           ; (this.postConfiguracionNomina = {
@@ -3064,7 +2999,6 @@ export default {
       }
       this.validatedCustom01 = true
     },
-
     getBadge(status) {
       switch (status) {
         case 'Active':
@@ -3079,12 +3013,7 @@ export default {
           'primary'
       }
     },
-
-
-
     toggleDetails(item) {
-
-
       if (item.postConfiguracionNomina !== 0 || item.variacion !== 0) {
         this.formuladoValue = true
       } else {
@@ -3092,80 +3021,51 @@ export default {
       }
       this.edit = true
       this.lgDemo = true
-
       Api.getConfiguracionNominabyid(item.id).then((response) => {
         this.postConfiguracionNomina = response.data.data
-
         this.id = item.id
-
       })
     },
-
     AbrirToggle() {
       if (this.consulEmple == false) {
         this.reportes = true
       }
     },
-
     toggleDetail2(item) {
-
-
       Api.getNominaGeneralById(item.id).then((response) => {
-
         this.idDep = item.departamentoId
         this.getFiltro = response.data.data
-
-
-
         Api.getNominaByDepartamento(item.id).then((response) => {
           this.getEmpleadosDep = response.data.data
-
         })
       })
-
     },
-
     toggleDetail3(item) {
-
-
       Api.getNominaGeneralById(item.id).then((response) => {
-
         this.idDep = item.departamentoId
         this.getFiltro = response.data.data
-
-
-
         Api.getNominaPorEmpleado(item.id).then((response) => {
           this.getEmpleadosDep1 = response.data.data
-
         })
       })
-
     },
   },
-
   mounted() {
-
     Api.getPocision().then((response) => {
       pocision = response.data.data
     })
-
     Api.getDepartamento().then((response) => {
       departamento = response.data.data
     })
-
     Api.getProgramaDivision().then((response) => {
       this.programaDivision = response.data.data
     })
-
     Api.getnominaGeneral(this.nominaGneral).then((response) => {
       this.nominag = response.data.data
     })
-
     Api.getEmpleadosPorDepartamentos(this.getEmpleado).then((response) => {
       this.getEmpleadosDep = response.data.data
     })
-
     Api.getProgramaDivision().then((response) => {
       this.programaDivision = response.data.data
     }),
@@ -3184,20 +3084,15 @@ export default {
     Api.getProgramaDivision().then((response) => {
       this.programa = response.data.data
     })
-
     Api.getProgramaDivision().then((response) => {
       this.programaDivision = response.data.data
       this.postGenerarNomina.ProgramaDivision = this.programaDivision[0].id
-
-
       Api.getDepartamentoByProgramaId(this.programaDivision[0].id).then(
         (response) => {
           this.departamentos = response.data.data
           this.postGenerarNomina.DepartamentoId = this.departamentos[0].id
-
         },
       )
-
     })
   },
 }
