@@ -328,7 +328,7 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Posiciones/Cargo',
+            name: 'Posiciones/ Cargos',
             to: '/NominaModule/PosicionesCargo',
             icon: 'cilAddressBook',
           },

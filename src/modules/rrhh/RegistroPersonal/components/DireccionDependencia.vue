@@ -6,39 +6,13 @@
         @click=" () => { newDireccionDependeciaModal = true }">Agregar</CButton>
       <CButton color="secondary">Imprimir</CButton>
   </div>
-  <CSmartTable
-    class="sticky-top"
-    clickableRows
-    :tableProps="{
-      striped: true,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    header
-    :footer="footerItem"
-    :items="direccionDependecia"
+  <DireccionDepenciaTable
     :columns="columns"
-    columnFilter
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'nombre', state: 'asc' }"
-    pagination
-  >
-    <template #show_details="{ item }">
-      <td class="py-2">
-        <CButton
-          class="mt-1"
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="editDireccionDependecia(item)"
-          >Editar</CButton
-        >
-      </td>
-    </template>
-  </CSmartTable>
+    :footerItems="footerItem"
+    :items="direccionDependecia"
+    :showButtons="true"
+    @edit="editDireccionDependecia"
+  />
   <DireccionDependeciaDialogs
     :newDireccionDependeciaModal="newDireccionDependeciaModal"
     @close-modal="closeModal"
@@ -47,7 +21,7 @@
   />
 </template>
 <script>
-import { CSmartTable } from '@coreui/vue-pro'
+import DireccionDepenciaTable from '@/modules/rrhh/RegistroPersonal/components/DireccionDepenciaTable.vue'
 import { CModal } from '@coreui/vue'
 import { mapActions } from 'pinia'
 import { useToastStore } from '@/store/toast'
@@ -55,7 +29,7 @@ import DireccionDependeciaDialogs from './Dialogos/DireccionDependenciaModal.vue
 import Api from '../services/RegistroPersonalServices'
 export default {
   components: {
-    CSmartTable,
+    DireccionDepenciaTable,
     CModal,
     DireccionDependeciaDialogs,
   },
@@ -69,7 +43,11 @@ export default {
       },
       columns: [
         { key: 'nombre', label: 'Nombre', _style: { width: '40%' } },
-        { key: 'estructura', label: 'Estructura Programática', _style: { width: '40%' } },
+        {
+          key: 'estructura',
+          label: 'Estructura Programática',
+          _style: { width: '40%' },
+        },
         {
           key: 'show_details',
           label: '',
