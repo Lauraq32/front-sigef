@@ -113,6 +113,7 @@ import router from '@/router'
 import { formatPrice } from '../../../../utils/format';
 import FormulacionIngresoDialog from "../gasto/FormulacionIngresoDialog.vue";
 import AppAccionHeader from "../../../../components/AppActionHeader.vue";
+import { showReport } from '@/utils/util'
 
 export default {
   components: {
@@ -126,8 +127,8 @@ export default {
       ingresos: [],
       institucionesOtorgantes: [],
       postIngreso: {
-        anioFiscalId: this.$fiscalYearId,
-        ayuntamientoId: this.$ayuntamientoId,
+        anioFiscalId: this.LoginInfo.fiscalYearId ?? 0,
+        ayuntamientoId: this.LoginInfo.ayuntamientoId ?? 0,
         ctgClasificadorId: '',
         instOtorga: '0000',
         ctaControl: '',
@@ -245,7 +246,7 @@ export default {
   methods: {
     ...mapActions(useToastStore, ['show']),
     downloadFile() {
-      Api.downloadIngreso(this.$ayuntamientoId, this.$fiscalYearId)
+      Api.downloadIngreso()
       .then((response) => {
         const fileURL = window.URL.createObjectURL(new Blob([response.data ?? response]));
         const fURL = document.createElement('a');
@@ -284,8 +285,8 @@ export default {
           const presIngrsoMasivo = [];
           data.map((item) => {
             presIngrsoMasivo.push({
-              anioFiscalId:  this.authInfo.currentFiscalYearId,
-              ayuntamientoId: this.authInfo.user.ayuntamiento.id,
+              anioFiscalId: this.LoginInfo.fiscalYearId ?? 0,
+              ayuntamientoId: this.LoginInfo.ayuntamientoId ?? 0,
               ctgClasificadorId: `${Object.values(item)[2]}${Object.values(item)[3]
                 }${Object.values(item)[4]}${Object.values(item)[5]
                 }${Object.values(item)[6].toString().padStart(2, 0)}`,
@@ -341,8 +342,8 @@ export default {
 
     cleanModalData() {
       this.postIngreso = {
-        anioFiscalId: this.authInfo.user.ayuntamiento.id,
-        ayuntamientoId: this.authInfo.currentFiscalYearId,
+        anioFiscalId: this.authInfo.user?.ayuntamiento?.id ?? 0,
+        ayuntamientoId: this.authInfo.currentFiscalYearId ?? 0,
         ctgClasificadorId: null,
         instOtorga: '0000',
         ctaControl: '',
@@ -405,13 +406,27 @@ export default {
       this.postIngreso.ctaControl = item.control;
     },
 
-    IngresoReport() {
-      window
-        .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?/FormulacionEjecucionP/Rep_Formulacion_Ingresos&rs:Command=Render&CAPITULO_AYTO=${this.authInfo.user.ayuntamiento.id}&ANO=${this.authInfo.currentFiscalYearId}`,
-          '_blank',
-        )
-        .focus()
+    async IngresoReport() {
+      try {
+        await showReport({
+          folderName: 'fep',
+          reportName: 'Rep_Formulacion_Ingresos',
+          params: [{
+            name: "CAPITULO_AYTO",
+            value: "majorityId"
+          },{
+            name: "ANO",
+            value: "fiscalYear"
+          }]
+        });
+      } catch (error) {
+        this.show({
+          content: error,
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        })
+      }
     },
     deleteItem(item) {
       this.$swal({

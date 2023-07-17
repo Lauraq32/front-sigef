@@ -9,7 +9,7 @@
 </template>
   
 <script>
-    import { ref, watchEffect, watch } from "vue";
+    import { ref, watchEffect } from "vue";
     export default {
     name: "DropZone",
     emits: ["fileSelected"],
