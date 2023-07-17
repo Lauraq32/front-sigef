@@ -64,6 +64,7 @@
     <div class="col-3" style="position: relative; top: 16px">
       <div>
         <div class="d-inline p-2">
+          <CButton style="font-weight: bold" color="info" @click="imprimriPorTPago">Imprimir Todos</CButton>
           <CButton style="font-weight: bold" color="info" @click="() => { showImprimirModal = true }">Imprimir Dio mio
           </CButton>
         </div>

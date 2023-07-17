@@ -43,7 +43,7 @@ class NominaApi {
   }
 
   getGrupoNomina() {
-    return http.get('GrupoNomina')
+    return http.get('grupo-nomina')
   }
 
   getAreaTrabajo() {
@@ -63,7 +63,7 @@ class NominaApi {
   }
 
   getGrupoNominaById(value) {
-    return http.get(`GrupoNomina/${value}`)
+    return http.get(`grupo-nomina/${value}`)
   }
 
   getSalarioById(id) {
@@ -124,7 +124,6 @@ class NominaApi {
       `Nomina/GenerarNomina?AyuntamientoId=${ayuntamiento}&Fecha=${fecha}&TipoContrato=${TipoContrato}&ProgramaDivision=${programa}&DepartamentoId=${departamento}&FormaPago=${tipoPago}`,
     )
   }
-
   getNominasGeneral(params) {
     params = CreateQueryParam(params);
     return http.get(`nominas?${params}`)
@@ -155,7 +154,7 @@ class NominaApi {
   }
 
   postGrupoNomina(data) {
-    return http.post('GrupoNomina', data)
+    return http.post('grupo-nomina', data)
   }
 
   postAreaTrabajo(data) {
@@ -185,7 +184,7 @@ class NominaApi {
   }
 
   putGrupoNomina(id, data) {
-    return http.put(`GrupoNomina/${id}`, data)
+    return http.put(`grupo-nomina/${id}`, data)
   }
 
   putDepartamento(id, data) {
@@ -214,6 +213,9 @@ class NominaApi {
     return http.delete(`Sector/${id}?ayuntamiento=${getAyuntamientoId()}`)
   }
 
+  deleteGrupoNomina(id) {
+    return http.delete(`grupo-nomina/${id}`)
+  }
   createNomina(data) {
     return http.post('nominas', data)
   }
