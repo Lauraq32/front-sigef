@@ -7,8 +7,8 @@ export default {
   children: [
    
     {
-      path: 'grupoNominass',
-      name: 'grupoNominass',
+      path: 'grupoNominas',
+      name: 'grupoNominas',
       meta: { label: 'Grupo Nóminas' },
       component: () =>
         import(
@@ -17,8 +17,8 @@ export default {
     },
 
     {
-      path: 'nominaGeneral',
-      name: 'grupoNominas',
+      path: 'nomina-general',
+      name: 'nominaGeneral',
       meta: { label: 'Nómina General' },
       component: () =>
         import(
@@ -26,16 +26,16 @@ export default {
         ),
     },
     {
-      path: 'programas',
+      path: 'Programas',
       name: 'programas',
-      meta: { label: 'Programas' },
+      meta: { label: 'Dirección o Dependencias' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/Programas.vue'
         ),
     },
     {
-      path: 'departamentos',
+      path: 'Departamentos',
       name: 'departamentos',
       meta: { label: 'Departamentos' },
       component: () =>
@@ -44,8 +44,8 @@ export default {
         ),
     },
     {
-      path: 'areaDeTrabajo',
-      name: 'areaDeTrabajo',
+      path: 'AreaTrabajo',
+      name: 'AreaDeTrabajo',
       meta: { label: 'Área de Trabajo' },
       component: () =>
         import(
@@ -53,16 +53,16 @@ export default {
         ),
     },
     {
-      path: 'posicionesCargo',
+      path: 'PosicionesCargo',
       name: 'posicionesCargo',
-      meta: { label: 'Posiciones de Cargo' },
+      meta: { label: 'Posiciones o Cargos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/PosicionesCargo.vue'
         ),
     },
     {
-      path: 'sectores',
+      path: 'Sectores',
       name: 'sectores',
       meta: { label: 'Sectores' },
       component: () =>
@@ -95,6 +95,15 @@ export default {
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/ConfiguracionModulo.vue'
+        ),
+    },
+    {
+      path: 'TipoSangre',
+      name: 'tipoSangre',
+      meta: { label: 'TipoSangre' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/tipoSangre.vue'
         ),
     },
 

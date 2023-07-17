@@ -1,9 +1,9 @@
 import http from '@/Api/http-common'
 
-class UsuariosApi {
+class Administrativo {
   getUsuarioList() {
     return http.get('/login/listarUsuarios')
   }
 }
 
-export default new UsuariosApi()
+export default new Administrativo()

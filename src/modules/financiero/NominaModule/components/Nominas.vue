@@ -2721,7 +2721,7 @@ export default {
       }
     },
     nominaGnerallink() {
-      router.push({ name: 'grupoNominas' })
+      router.push({ name: 'nominaGeneral' })
     },
     clearModal1() {
       Api.getProgramaDivision().then((response) => {
