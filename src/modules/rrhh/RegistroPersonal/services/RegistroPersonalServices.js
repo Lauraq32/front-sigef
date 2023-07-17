@@ -265,6 +265,9 @@ class RegistroPersonal {
   listDepartamento(programaId){
     return http.get(`departamentos?compat=true&ProgramaDivisionId=${programaId}`)
   }
+  reactivarEmpleado(id){
+    return http.patch(`empleados/${id}/re-activado`)
+  }
 }
 
 export default new RegistroPersonal()
