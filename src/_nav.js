@@ -295,12 +295,12 @@ export default [
         to: '/NominaModule',
         icon: 'cilMoney',
         items: [
-          {
-            component: 'CNavItem',
-            name: 'Clasificadores nómina',
-            to: '/NominaModule/clasificadoresNomina',
-            icon: 'cilBook',
-          },
+          // {
+          //   component: 'CNavItem',
+          //   name: 'Clasificadores nómina',
+          //   to: '/NominaModule/clasificadoresNomina',
+          //   icon: 'cilBook',
+          // },
           {
             component: 'CNavItem',
             name: 'Grupo nóminas',
@@ -312,12 +312,6 @@ export default [
             name: 'Dirección o Dependencias',
             to: '/NominaModule/Programas',
             icon: 'cilChalkboardTeacher',
-          },
-          {
-            component: 'CNavItem',
-            name: 'Departamentos',
-            to: '/NominaModule/Departamentos',
-            icon: 'cilBuilding',
           },
           {
             component: 'CNavItem',
@@ -348,19 +342,25 @@ export default [
             name: 'Procesos',
           },
           {
+            component: 'CNavItem',
+            name: 'Nómina General',
+            to: '/NominaModule/nominaGeneral',
+            icon: 'cilList',
+          },
+          {
             component: 'CNavTitle',
             name: 'Consultas',
           },
           {
             component: 'CNavItem',
-            name: 'Nómina Empleado',
-            to: '/NominaModule/Nominas',
-            icon: 'cilList',
+            name: 'Departamentos',
+            to: '/NominaModule/Departamentos',
+            icon: 'cilBuilding',
           },
           {
             component: 'CNavItem',
-            name: 'Nómina General',
-            to: '/NominaModule/nominaGeneral',
+            name: 'Nómina Empleado',
+            to: '/NominaModule/Nominas',
             icon: 'cilList',
           },
           {
