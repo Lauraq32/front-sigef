@@ -1,5 +1,5 @@
 <template>
-    <CModal @close="closeModal" size="lg" :visible="showModal" backdrop="static">
+    <CModal @close="closeModal" size="sm" :visible="showModal" backdrop="static">
         <CModalHeader>
             <CModalTitle>Concepto de Gasto</CModalTitle>
         </CModalHeader>
@@ -13,7 +13,7 @@
                 </div>
             </CModalBody>
             <CModalFooter>
-                <button @click="sendData" class="btn btn-info btn-block mt-1">Agregar</button>
+                <button @click="sendData" class="btn btn-info btn-block mt-1">Guardar</button>
             </CModalFooter>
 
         </CForm>
@@ -22,13 +22,12 @@
 </template>
 <script>
 
-import Api from '../services/EjecucionServices'
+import Api from '../../services/EjecucionServices'
 import { mapActions, mapStores, mapState } from 'pinia'
 
 import { CIcon } from '@coreui/icons-vue'
 import { useToastStore } from '@/store/toast'
 import { useAuthStore } from '@/store/AuthStore'
-import router from '@/router'
 
 export default {
     components: {
@@ -57,10 +56,6 @@ export default {
             }
         },
 
-        goToGasto() {
-            router.push({ name: 'Formulacion Gasto' })
-        },
-
         getConceptoGasto() {
             Api.getConceptoGasto().then((response) => {
                 this.cenceptoGastos = response.data.data
@@ -78,17 +73,13 @@ export default {
         saveConceptoGasto() {
             this.$emit('post-conceptoGasto', {
                 ...this.conceptoGasto
-            })
-        this.closeModal()
+            });
         }
     },
 
     watch: {
         conceptoGastoItem() {
             this.conceptoGasto = this.conceptoGastoItem
-        },
-        showModal() {
-            this.clearForm()
         }
     },
 

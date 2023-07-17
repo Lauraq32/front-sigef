@@ -43,7 +43,7 @@ export default {
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/pages/ayuntamiento.vue'
         ),
     },
-    
+
     {
       path: 'misionVision',
       name: 'MisionVision',
@@ -51,6 +51,15 @@ export default {
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/pages/misionVision.vue'
+        ),
+    },
+    {
+      path: 'serviciosPersonales',
+      name: 'serviciosPersonales',
+      meta: { label: 'Detalle servicios Personales' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/pages/ServiciosPersonales.vue'
         ),
     },
 
@@ -63,3 +72,4 @@ export default {
     // },
   ],
 }
+

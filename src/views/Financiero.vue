@@ -370,7 +370,7 @@ export default {
       this.$router.push({ name: 'comprobanteIngreso' })
     },
     gotToPrueba3() {
-      this.$router.push({ name: 'nominas' })
+      this.$router.push({ name: 'nominaGeneral' })
     },
     gotToPrueba4() {
       this.$router.push({ name: 'cuentasContables' })

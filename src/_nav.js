@@ -304,12 +304,12 @@ export default [
           {
             component: 'CNavItem',
             name: 'Grupo nóminas',
-            to: '/NominaModule/grupoNominass',
+            to: '/NominaModule/grupoNominas',
             icon: 'cilIdCard',
           },
           {
             component: 'CNavItem',
-            name: 'Direccion o Dependecias',
+            name: 'Dirección o Dependencias',
             to: '/NominaModule/Programas',
             icon: 'cilChalkboardTeacher',
           },
@@ -322,7 +322,7 @@ export default [
           {
             component: 'CNavItem',
             name: 'Área de trabajo',
-            to: '/NominaModule/AreaDeTrabajo',
+            to: '/NominaModule/AreaTrabajo',
             icon: 'cilIdBadge',
           },
           {
@@ -333,7 +333,7 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Posiciones/Cargo',
+            name: 'Posiciones/Cargos',
             to: '/NominaModule/PosicionesCargo',
             icon: 'cilAddressBook',
           },
@@ -353,13 +353,13 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Nomina Empleado',
+            name: 'Nómina Empleado',
             to: '/NominaModule/Nominas',
             icon: 'cilList',
           },
           {
             component: 'CNavItem',
-            name: 'Nomina General',
+            name: 'Nómina General',
             to: '/NominaModule/nominaGeneral',
             icon: 'cilList',
           },
@@ -812,6 +812,12 @@ export default [
         component: 'CNavItem',
         name: 'Manejo usuarios',
         to: '/AdministrativoModule/manejoUsuarios',
+        icon: 'cilPeoplePlus',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Servicios Personales',
+        to: '/AdministrativoModule/serviciosPersonales',
         icon: 'cilPeoplePlus',
       },
       {

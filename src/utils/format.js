@@ -10,6 +10,30 @@ const formatDate = (fechaIngreso) => {
   })
 }
 
+const estructura = (estructura) => {
+  if (!estructura) return;
+  const pnap = estructura.substring(0, 2);
+  const programa = estructura.substring(2, 4);
+  const proyecto = estructura.substring(4, 6);
+  const actObra = estructura.substring(6, 10);
+  return { pnap, programa, proyecto, actObra };
+}
+
+const getConfiguracionNomina = (configuracionNomina) => {
+  var configuracionNominaIngreso = Object.keys(configuracionNomina).filter((text) => text.match(/textoing|textoegr/i)).reduce((acc, current) => {
+    acc.push({
+      index: current.slice(-2),
+      key: current,
+      value: configuracionNomina[current],
+      type: current.match(/textoing/i) ? "ingreso" : "retencion",
+      divide: configuracionNomina[`factorDivicion${current.slice(-5)}`],
+      retention: configuracionNomina[`retencion${current.slice(-2)}Id`]
+    });
+    return acc;
+  }, []);
+  return configuracionNominaIngreso;
+}
+
 const formatPhoneNumber = (value) => {
   const cleanedPhoneNumber = value.replace(/\D/g, '')
   const formattedNumber = cleanedPhoneNumber.replace(
@@ -24,6 +48,6 @@ const formatNumber = (value) => {
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   return val
-}
+}  
 
-export { formatPrice, formatDate, formatNumber, formatPhoneNumber }
+export { formatPrice, formatDate, estructura, getConfiguracionNomina , formatNumber, formatPhoneNumber }

@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import http from '@/Api/http-common'
 import { getAyuntamientoId } from '@/utils/logged-info'
+import { CreateQueryParam } from '@/utils/params-query';
 class NominaApi {
   //-----------------------------CLASIFICADORES---------------------------------------//
   //get
@@ -21,7 +22,7 @@ class NominaApi {
   }
 
   getProgramaDivision() {
-    return http.get(`ProgramaDivision?AyuntamientoId=${getAyuntamientoId()}`)
+    return http.get("programas-division")
   }
 
   getEmpleadoById(value) {
@@ -36,8 +37,9 @@ class NominaApi {
     return http.get(`Empleado/Departamento/${id}`)
   }
 
-  getDepartamento() {
-    return http.get('Departamento')
+  getDepartamento(params = {}) {
+    params = CreateQueryParam(params);
+    return http.get(`departamentos?${params}`)
   }
 
   getGrupoNomina() {
@@ -49,7 +51,7 @@ class NominaApi {
   }
 
   getConfiguracionNomina() {
-    return http.get('ConfiguracionNomina')
+    return http.get('configuracion-nomina')
   }
 
   getAllCuentaBanco() {
@@ -123,16 +125,9 @@ class NominaApi {
     )
   }
 
-  getnominaGeneral(Nomina) {
-    return http.get(
-      `Nomina/NominaGeneral?AyuntamientoId=${
-        Nomina.AyuntamientoId ? Nomina.AyuntamientoId : null
-      }&TipoContrato=${
-        Nomina.TipoContrato ? Nomina.TipoContrato : null
-      }&FormaPago=${Nomina.FormaPago ? Nomina.FormaPago : null}&Mes=${
-        Nomina.Mes
-      }&Anio=${Nomina.Anio}`,
-    )
+  getNominasGeneral(params) {
+    params = CreateQueryParam(params);
+    return http.get(`nominas?${params}`)
   }
 
   getNominaPorEmpleado(id) {
@@ -217,6 +212,10 @@ class NominaApi {
 
   deleteSector(id) {
     return http.delete(`Sector/${id}?ayuntamiento=${getAyuntamientoId()}`)
+  }
+
+  createNomina(data) {
+    return http.post('nominas', data)
   }
 }
 
