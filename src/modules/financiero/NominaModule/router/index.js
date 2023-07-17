@@ -105,15 +105,6 @@ export default {
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/ConfiguracionModulo.vue'
         ),
     },
-    {
-      path: 'TipoSangre',
-      name: 'tipoSangre',
-      meta: { label: 'TipoSangre' },
-      component: () =>
-        import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/tipoSangre.vue'
-        ),
-    },
 
     //  {
     //     path: '',
