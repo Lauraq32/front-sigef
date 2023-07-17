@@ -383,6 +383,10 @@ export default {
               name: 'ID_AYUNTAMIENTO',
               value: 'majorityId',
             },
+            {
+              name: 'ANIO',
+              value: 'fiscalYear',
+            },
           ]
           await showReport(reportParam)
         }
