@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Dirección o Dependencia</h3>
+  <h3 class="text-center mb-4">Dirección o Dependencia</h3>
   <DireccionDepenciaTable
     :columns="columns"
     :footerItems="footerItem"

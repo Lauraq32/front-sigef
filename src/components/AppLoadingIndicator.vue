@@ -1,6 +1,6 @@
 <template>
-    <div v-if="isVisible" class="loading-indicator-container">
-        <span class="fs-3 lds-dual-ring">Espere ...</span>
+    <div v-if="isVisible" class="loading-indicator-container" aria-live="polite" :aria-hidden="isVisible" aria-labelledby="indicatorText">
+        <span class="fs-3 lds-dual-ring" id="indicatorText">Espere ...</span>
     </div>
 </template>
 <script>
@@ -27,6 +27,7 @@
     top: 0;
     bottom: 0;
     right: 0;
+    cursor: progress;
 }
 .lds-dual-ring:after {
   content: " ";
@@ -36,7 +37,7 @@
   margin: 8px;
   border-radius: 50%;
   border: 6px solid rgb(187, 156, 223);
-  border-color: rgb(187, 156, 223) transparent rgb(215, 197, 236) transparent;
+  border-color: rgb(141, 125, 230) transparent rgb(215, 197, 236) transparent;
   animation: lds-dual-ring 1.2s linear infinite;
 }
 @keyframes lds-dual-ring {
