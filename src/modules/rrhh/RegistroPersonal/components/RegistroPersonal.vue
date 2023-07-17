@@ -31,6 +31,7 @@
             "
             >Reporte</CButton
           >
+          <CButton color="info" variant="outline" @click="setEmpleadosToBeneficiarios">Pasar a Beneficiarios</CButton>
         </div>
       </div>
     </CCardBody>
@@ -277,6 +278,23 @@ export default {
             this.showModalDoc = true
           },
         },
+        {
+          label: 'Pasar a Beneficiario',
+          clickHandler: (item) => {
+            Api.setEmpleadoToBeneficiario(item.id).then(() => {
+              this.show({
+                content: 'Datos procesados correctamente',
+                closable: true,
+              })
+            }).catch(e => {
+              this.show({
+                content: e.response.data,
+                closable: true,
+                color:'danger'
+              })
+            })
+          },
+        },
       ],
     }
   },
@@ -284,10 +302,25 @@ export default {
   methods: {
     ...mapActions(useToastStore, ['show']),
 
+    setEmpleadosToBeneficiarios() {
+      Api.setAllEmpleadosToBeneficiario().then(() => {
+        this.show({
+          content: 'Datos procesados correctamente',
+          closable: true,
+        })
+      }).catch(e=>{
+        this.show({
+          content: e.response.data,
+          closable: true,
+          color:'danger'
+        })
+      })
+    },
+
     getRegistroPersonal(filter) {
       Api.getAllEmpleado(filter).then((response) => {
-        this.registroPersonal = response.data.data
-        this.footerItem[0].label = `Total Items: ${response.data.data.length}`
+        this.registroPersonal = response.data.data;
+        this.footerItem[0].label = `Total Items: ${response.data.data.length}`;
       })
     },
 

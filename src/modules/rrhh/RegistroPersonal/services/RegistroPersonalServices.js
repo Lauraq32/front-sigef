@@ -3,6 +3,14 @@ import http from '@/Api/http-common';
 import { getAyuntamientoId } from '@/utils/logged-info';
 import FileApi from './Files';
 class RegistroPersonal {
+  //Empleado a Beneficiario
+  setAllEmpleadosToBeneficiario(){
+    return http.put('empleados/beneficiarios')
+  }
+  setEmpleadoToBeneficiario(id){
+    return http.put(`empleados/${id}/beneficiarios`)
+  }
+
   //delete Cargo
   deleteCargo(id){
     return http.delete(`cargos/${id}`)
