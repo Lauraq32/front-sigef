@@ -374,6 +374,7 @@ export default {
       this.detalleRetencion.tipoRetencionId = this.tipoRetencionObj.code
       this.detalleRetencion.nombreRetencion = this.tipoRetencionObj.label
       this.detalleRetencion.montoAplicado = this.detalleRegistroGasto.montoBruto
+      this.detalleRegistroGasto.montoBruto = 0
       this.detalleRegistroGasto.detalleRetencion = [{ ...this.detalleRetencion }, ...this.detalleRegistroGasto.detalleRetencion]
       this.detalleRetencion = {
         fecha: '2023-07-07',
@@ -395,7 +396,7 @@ export default {
         type: Array,
         default: [],
       }
-   
+
     },
 
     saveDetalle() {
@@ -493,8 +494,9 @@ export default {
       this.detalleRegistroGasto.clasificadorId = item.clasificador
       this.detalleRegistroGasto.fuenteId = item.fuenteId
       if (this.registroGasto.etapa == 'Devengado') {
-        this.balanceDisponible = item.devengadoDisponible;
-        return;
+        if (item.devengadoEjecutado != item.devengadoDisponible)
+          this.balanceDisponible = item.devengadoDisponible;
+          return;
       }
 
       this.balanceDisponible = item.pagadoDisponible;
