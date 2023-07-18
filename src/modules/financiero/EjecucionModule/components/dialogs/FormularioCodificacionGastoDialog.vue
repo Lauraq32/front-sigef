@@ -37,27 +37,25 @@
 
                 <CCol :md="6">
                   <CFormLabel for="montoBruto" class="font-weight-bold">Monto Bruto</CFormLabel>
-                  <VueNumberFormat v-model:value="detalleRegistroGasto.montoBruto" @change="setBaseImponible" type="text" step="any"
-                        class="form-control text-end"
-                        :options="{
-                            precision: 2,
-                            prefix: '',
-                            decimal: '.',
-                            thousand: ',',
-                        }"></VueNumberFormat>
+                  <VueNumberFormat v-model:value="detalleRegistroGasto.montoBruto" @change="setBaseImponible" type="text"
+                    step="any" class="form-control text-end" :options="{
+                      precision: 2,
+                      prefix: '',
+                      decimal: '.',
+                      thousand: ',',
+                    }"></VueNumberFormat>
                   <!-- <CFormInput :keypress="onlyDecimal" @change="setBaseImponible" v-model="detalleRegistroGasto.montoBruto"
                     id="montoBruto" required /> -->
                 </CCol>
                 <CCol :md="6">
                   <CFormLabel for="baseImponible" class="font-weight-bold">Base Imponible</CFormLabel>
                   <VueNumberFormat v-model:value="detalleRetencion.baseImponible" type="text" step="any"
-                        class="form-control text-end"
-                        :options="{
-                            precision: 2,
-                            prefix: '',
-                            decimal: '.',
-                            thousand: ',',
-                        }"></VueNumberFormat>
+                    class="form-control text-end" :options="{
+                      precision: 2,
+                      prefix: '',
+                      decimal: '.',
+                      thousand: ',',
+                    }"></VueNumberFormat>
                   <!-- <CFormInput :keypress="onlyNumber" v-model="detalleRetencion.baseImponible" id="nombre" required /> -->
                 </CCol>
 
@@ -125,6 +123,11 @@
                     <template #montoAplicado="{ item, index }">
                       <td>
                         {{ formatPrice(item.montoAplicado) }}
+                      </td>
+                    </template>
+                    <template #valorAplicado="{ item, index }">
+                      <td>
+                        {{ formatPrice(item.valorAplicado) }}
                       </td>
                     </template>
                     <template #show_details="{ item, index }">
@@ -372,6 +375,27 @@ export default {
       this.detalleRetencion.nombreRetencion = this.tipoRetencionObj.label
       this.detalleRetencion.montoAplicado = this.detalleRegistroGasto.montoBruto
       this.detalleRegistroGasto.detalleRetencion = [{ ...this.detalleRetencion }, ...this.detalleRegistroGasto.detalleRetencion]
+      this.detalleRetencion = {
+        fecha: '2023-07-07',
+        beneficiarioId: 1,
+        tipoRetencionId: 0,
+        montoAplica: 0,
+        montoAplicado: 0,
+        valorAplicado: 0,
+        nombreRetencion: ''
+      }
+      this.tipoRetencionObj = {
+        require: true,
+        type: Array,
+        default: [],
+      }
+
+      this.delValor = {
+        require: true,
+        type: Array,
+        default: [],
+      }
+   
     },
 
     saveDetalle() {

@@ -166,7 +166,7 @@ export default {
       postRegistroGasto: {
         detalle: "",
         fecha: null,
-        etapa: 1,
+        etapa: 'Devengado',
         beneficiarioId: null,
         conceptoGastoId: 5,
         bancoId: null,
