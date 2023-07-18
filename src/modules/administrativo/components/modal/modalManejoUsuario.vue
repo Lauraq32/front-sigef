@@ -21,13 +21,25 @@
             ></v-select>
           </CCol>
           <CCol>
-            <CFormLabel for="postUsuario.nombre">Nombre</CFormLabel>
+            <CFormLabel for="postUsuario.nombre">Nombres</CFormLabel>
             <CFormInput
               :disabled="postUsuario.id"
               id="postUsuario.nombre"
               @keypress="onlyLetter"
               required
-              v-model="postUsuario.nombre"
+              v-model="nombreUser"
+            >
+            </CFormInput>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol>
+            <CFormLabel for="postUsuario.nombre">Apellidos</CFormLabel>
+            <CFormInput
+              :disabled="postUsuario.id"
+              id="postUsuario.nombre"
+              @keypress="onlyLetter"
+              required
+              v-model="apellidoUser"
             >
             </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -88,6 +100,7 @@
 import { CModal } from '@coreui/vue'
 import { CModalFooter, CButton } from '@coreui/vue-pro'
 import Api from '@/modules/administrativo/Usuario/services/AdministrativoServices'
+import { cibOpenstreetmap } from '@coreui/icons'
 
 export default {
   name: 'modalManejoDeUsuarios',
@@ -100,6 +113,8 @@ export default {
   data: function () {
     return {
       usuarioFormValidated: false,
+      nombreUser: '',
+      apellidoUser: '',
       postUsuario: {
         rolId: 1,
         empleadoId: '',
@@ -151,14 +166,6 @@ export default {
       this.clearForm()
     },
 
-    generateByEmpleado(nombre, apellido) {
-      const primerNombre = nombre.split(' ')[0]
-      const primerApellido = apellido.split(' ')[0]
-      const nombreIniciales = primerNombre.charAt(0).toUpperCase()
-      const apellidoCompleto = primerApellido.replace(/\s+/g, '').toLowerCase()
-      return nombreIniciales + apellidoCompleto
-    },
-
     getAllEmpleado() {
       Api.getAllEmpleado().then(({ data: { data } }) => {
         this.empleados = data.map((elem) => ({
@@ -171,32 +178,34 @@ export default {
       })
     },
 
-    generateUserName(nombre) {
-      const palabras = nombre.split(' ')
-
-      if (palabras.length >= 3) {
-        const primeraLetra = palabras[0][0].toUpperCase()
-        const terceraPalabra = palabras[2].toLowerCase()
-        this.postUsuario.userName = primeraLetra + terceraPalabra
-      } else if (palabras.length === 2) {
-        const primeraLetra = palabras[0][0].toUpperCase()
-        const segundaPalabra = palabras[1].toLowerCase()
-        this.postUsuario.userName = primeraLetra + segundaPalabra
-      } else {
-        this.postUsuario.userName = ''
-      }
+    generarNombreUsuario() {
+      const primerNombre = this.nombreUser.split(' ')[0]
+      const primerApellido = this.apellidoUser.split(' ')[0]
+      const nombreIniciales = primerNombre.charAt(0).toUpperCase()
+      const apellidoCompleto = primerApellido.replace(/\s+/g, '').toLowerCase()
+      this.postUsuario.userName = nombreIniciales + apellidoCompleto
     },
   },
 
   watch: {
-    'postUsuario.nombre'(newNombre) {
-      if (newNombre) {
-        this.generateUserName(newNombre)
-      }
+    nombreUser: {
+      immediate: true,
+      handler() {
+        this.generarNombreUsuario()
+        this.postUsuario.nombre = `${this.nombreUser} ${this.apellidoUser}`
+      },
+    },
+    apellidoUser: {
+      immediate: true,
+      handler() {
+        this.generarNombreUsuario()
+        this.postUsuario.nombre = `${this.nombreUser} ${this.apellidoUser}`
+      },
     },
     selectEmpleado(value) {
       if (value) {
-        this.postUsuario.nombre = value.nombreCompleto
+        this.nombreUser = value.nombre
+        this.apellidoUser = value.apellido
       }
     },
     usuarioModal() {
