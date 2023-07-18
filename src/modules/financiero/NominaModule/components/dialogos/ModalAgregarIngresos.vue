@@ -2,6 +2,7 @@
   <CModal @close="closeModal" size="md" :visible="showModal" backdrop="static">
     <CModalHeader>
       <CModalTitle>Configuracion Nomina (INGRESO)</CModalTitle>
+      
     </CModalHeader>
     <CModalBody>
       <CCardBody>
