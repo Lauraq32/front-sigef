@@ -1,7 +1,7 @@
 <template>
   <CModal size="xl" fullscreen :visible="showModal" @close="closeModal" backdrop="static">
     <CModalHeader>
-      <CModalTitle>Detalle del Gasto</CModalTitle>
+      <CModalTitle>Distribuci&oacute;n del Gasto</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -9,8 +9,8 @@
           <div class="col-4">
             <CForm :validated="isFormEventTypeValidated" ref="eventTypeForm">
               <div class="row">
-                <CCol :md="8">
-                  <CFormLabel for="nombre">Programa o Proyecto</CFormLabel>
+                <CCol :md="8" class="mb-3">
+                  <CFormLabel for="estructuraProgramatica">Programa o Proyecto</CFormLabel>
                   <div class="position-relative">
                     <input v-model="detalleRegistroGasto.estructuraProgramatica" ref="name" disabled required
                       class="form-control padding-input" type="text" id="displayNameProfesion" />
@@ -19,111 +19,123 @@
                     </span>
                   </div>
                 </CCol>
-                <CCol :md="4">
-                  <CFormLabel for="nombre" class="font-weight-bold">Etapa:</CFormLabel>
-                  <span>{{ registroGasto.etapa }}</span>
-                </CCol>
-                <CCol :md="12">
-                  <CFormLabel for="nombre" class="font-weight-bold">Administraci&oacute;n Municipal</CFormLabel>
-                  <CFormCheck type="radio" name="flexRadioDefault" id="flexRadioDefault1" label="Default radio" />
+                <CCol :md="4" class=" text-center">
+                  <CFormLabel for="etapa" class="d-block">Etapa:</CFormLabel>
+                  <span class="fw-bold">{{ registroGasto.etapa }}</span>
                 </CCol>
                 <hr>
                 <CCol :md="6">
-                  <CFormLabel for="nombre" class="font-weight-bold">Clasificador</CFormLabel>
-                  <CFormInput :keypress="onlyNumber" v-model="detalleRegistroGasto.clasificadorId" id="nombre" required />
+                  <CFormLabel for="clasificadorId" class="fw-bold">Clasificador</CFormLabel>
+                  <span> : {{ nombreClasificador }} </span>
+                  <CFormInput disabled :keypress="onlyNumber" v-model="detalleRegistroGasto.clasificadorId" id="nombre"
+                    required />
                 </CCol>
-                <CCol :md="6" class="border">
-                  <CFormLabel for="nombre" class="font-weight-bold">Balance disponible</CFormLabel>
-                  <label for="">{{ balanceDisponible }}</label>
+                <CCol :md="6" class="border text-center">
+                  <CFormLabel for="balanceDisponible" class="font-weight-bold ">Balance disponible</CFormLabel>
+                  <span class="d-block" style="font-weight: bold;">{{ formatPrice(balanceDisponible) }}</span>
                 </CCol>
 
-                <CCol :md="12">
-                  <CFormLabel for="nombre" class="font-weight-bold">Monto Bruto</CFormLabel>
-                  <CFormInput :keypress="onlyDecimal" @change="setBaseImponible" v-model="detalleRegistroGasto.montoBruto" id="nombre" required />
-                </CCol>
-                <CCol :md="12">
-                  <CFormLabel for="nombre" class="font-weight-bold">Fuente financiamiento: <span
-                      class="font-weight-bold">{{ ctgFuenteId }}</span> </CFormLabel>
-
-                </CCol>
-                <CCol :md="12">
-                  <CFormLabel for="nombre" class="font-weight-bold">Fuente Especifica: <span class="font-weight-bold">{{
-                    ctgFuenteEspecificaId }}</span></CFormLabel>
-
-                </CCol>
-                <CCol :md="12">
-                  <CFormLabel for="nombre" class="font-weight-bold">Organismo Financiador: <span
-                      class="font-weight-bold">{{ ctgOrganismoFinanciadorId }}</span></CFormLabel>
-
-                </CCol>
-                <CCol :md="12">
-                  <CFormLabel for="nombre" class="font-weight-bold">Base Imponible</CFormLabel>
-                  <CFormInput v-model="detalleRetencion.baseImponible" id="nombre" required />
+                <CCol :md="6">
+                  <CFormLabel for="montoBruto" class="font-weight-bold">Monto Bruto</CFormLabel>
+                  <VueNumberFormat v-model:value="detalleRegistroGasto.montoBruto" @change="setBaseImponible" type="text" step="any"
+                        class="form-control text-end"
+                        :options="{
+                            precision: 2,
+                            prefix: '',
+                            decimal: '.',
+                            thousand: ',',
+                        }"></VueNumberFormat>
+                  <!-- <CFormInput :keypress="onlyDecimal" @change="setBaseImponible" v-model="detalleRegistroGasto.montoBruto"
+                    id="montoBruto" required /> -->
                 </CCol>
                 <CCol :md="6">
-                  <CCol :md="12">
-
-                    <CFormLabel for="nombre">Tipo Retencion</CFormLabel>
-                    <v-select v-model="tipoRetencionObj" :options="tipoRetencionesList" @input="setRetencion"></v-select>
-                  </CCol>
+                  <CFormLabel for="baseImponible" class="font-weight-bold">Base Imponible</CFormLabel>
+                  <VueNumberFormat v-model:value="detalleRetencion.baseImponible" type="text" step="any"
+                        class="form-control text-end"
+                        :options="{
+                            precision: 2,
+                            prefix: '',
+                            decimal: '.',
+                            thousand: ',',
+                        }"></VueNumberFormat>
+                  <!-- <CFormInput :keypress="onlyNumber" v-model="detalleRetencion.baseImponible" id="nombre" required /> -->
                 </CCol>
+
+                <div class="border p-1 mb-3 mt-3">
+
+                  <div class="container">
+                    <div class="row">
+                      <div class="col d-flex justify-content-between">
+                        <span class="fw-bold">Fuente financiamiento: </span>
+                        <span>{{ detalleRegistroGasto.fuenteId }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="container">
+                    <div class="row">
+                      <div class="col d-flex justify-content-between">
+                        <span class="fw-bold">Fuente Especifica: </span>
+                        <span>{{
+                          detalleRegistroGasto.fuenteEspecificaId }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="container">
+                    <div class="row">
+                      <div class="col d-flex justify-content-between">
+                        <span class="fw-bold">Organismo Financiador: </span>
+                        <span>{{ detalleRegistroGasto.organismoFinanciadorId }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <CCol :md="6">
-                  <CFormLabel for="nombre" class="font-weight-bold">% o Valor</CFormLabel>
-                  <CFormInput v-model="detalleRetencion.montoAplica" id="nombre" required />
+                  <v-select v-model="tipoRetencionObj" :options="tipoRetencionesList" @input="setRetencion"></v-select>
+                </CCol>
+                <CCol :md="2">
+
+                  <VueNumberFormat v-model:value="detalleRetencion.montoAplica" type="text" class="form-control text-end"
+                    :options="{
+                      precision: 2,
+                      prefix: '',
+                      decimal: '.',
+                      thousand: ',',
+                    }">
+                  </VueNumberFormat>
+                </CCol>
+                <CCol :md="4">
+
+                  <v-select v-model="delValor" :options="RetencionesSelectList" @input="setRetencion"></v-select>
+                </CCol>
+
+                <CCol :md="6">
+                  <CButton class="fw-bold text-white" color="info" @click="saveRetencion">Guardar</CButton>
+
                 </CCol>
                 <CCol :md="12">
-                  <CCol :md="12">
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" value="Transferencia" name="flexRadioDefault"
-                        id="flexRadioDefault1">
-                      <label class="form-check-label" for="flexRadioDefault1">
-                        Total
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" value="Transferencia" name="flexRadioDefault"
-                        id="flexRadioDefault1">
-                      <label class="form-check-label" for="flexRadioDefault1">
-                        SubTotal
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" value="Transferencia" name="flexRadioDefault"
-                        id="flexRadioDefault1">
-                      <label class="form-check-label" for="flexRadioDefault1">
-                        Otros
-                      </label>
-                    </div>
-                  </CCol>
-
-                  <CCol :md="12">
-                    <CButton style="font-weight: bold" color="info" @click="saveRetencion">Guardar Retencion</CButton>
-
-                  </CCol>
-                </CCol>
-                <CCol :md="12">
-                  <CSmartTable class="sticky-top" clickableRows :tableProps="{
+                  <CSmartTable class="" clickableRows :tableProps="{
                     striped: true,
                     hover: true,
                   }" :tableHeadProps="{}" :activePage="1" header :items="detalleRegistroGasto.detalleRetencion"
-                    :columns="RetencionColumn" columnFilter :footer="footer" itemsPerPageSelect :itemsPerPage="5"
+                    :columns="RetencionColumn" columnFilter :footer="footer" itemsPerPageSelect :itemsPerPage="10"
                     columnSorter :sorterValue="{ column: 'nombres', state: 'asc' }" pagination>
+                    <template #montoAplicado="{ item, index }">
+                      <td>
+                        {{ formatPrice(item.montoAplicado) }}
+                      </td>
+                    </template>
                     <template #show_details="{ item, index }">
                       <td>
-                        <CDropdown>
-                          <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
-                          <CDropdownMenu>
-                            <CDropdownItem v-for="action in actions"
-                              @click="action.clickHandler && action.clickHandler(item)">{{
-                                action.label }}</CDropdownItem>
-                          </CDropdownMenu>
-                        </CDropdown>
+                        <CButton class="fw-bold text-white" color="danger" size="sm" @click="deleteRetencion">&times;
+                        </CButton>
                       </td>
                     </template>
                   </CSmartTable>
                 </CCol>
-                <CButton style="font-weight: bold;width: 100%;" color="info" @click="saveDetalle">Guardar Detalle
-                </CButton>
+
               </div>
             </CForm>
           </div>
@@ -133,8 +145,8 @@
                 striped: true,
                 hover: true,
               }" :tableHeadProps="{}" :activePage="1" header :items="mestProgList" :columns="clasificadoresTables"
-                columnFilter :footer="footer" itemsPerPageSelect :itemsPerPage="5" columnSorter
-                :sorterValue="{ column: 'nombres', state: 'asc' }" pagination>
+                :footer="footer" itemsPerPageSelect :itemsPerPage="10" :sorterValue="{ column: 'nombres', state: 'asc' }"
+                pagination>
                 <template #show_details="{ item, index }">
                   <td>
                     <CButton @click="selectMestProg(item)" color="primary" variant="outline" square size="sm">
@@ -142,6 +154,42 @@
                     </CButton>
                   </td>
                 </template>
+                <template #presupuestoBco="{ item, index }">
+                  <td>
+                    {{ formatPrice(item.presupuestoBco) }}
+                  </td>
+                </template>
+                <template #variacionBco="{ item, index }">
+                  <td>
+                    {{ formatPrice(item.variacionBco) }}
+                  </td>
+                </template>
+                <template #pActual="{ item, index }">
+                  <td>
+                    {{ formatPrice(item.pActual) }}
+                  </td>
+                </template>
+                <template #devengadoEjecutado="{ item, index }">
+                  <td>
+                    {{ formatPrice(item.devengadoEjecutado) }}
+                  </td>
+                </template>
+                <template #devengadoDisponible="{ item, index }">
+                  <td>
+                    {{ formatPrice(item.devengadoDisponible) }}
+                  </td>
+                </template>
+                <template #pagadoEjecutado="{ item, index }">
+                  <td>
+                    {{ formatPrice(item.pagadoEjecutado) }}
+                  </td>
+                </template>
+                <template #pagadoDisponible="{ item, index }">
+                  <td>
+                    {{ formatPrice(item.pagadoDisponible) }}
+                  </td>
+                </template>
+
               </CSmartTable>
             </CCol>
             <CCol :md="12">
@@ -150,7 +198,17 @@
         </div>
       </CCardBody>
     </CModalBody>
+    <CModalFooter>
+      <div>
+        <div class="d-inline p-2">
+          <CButton style="font-weight: bold;width: 100%;" color="info" @click="saveDetalle">Guardar Detalle
+          </CButton>
+        </div>
+      </div>
+    </CModalFooter>
+
   </CModal>
+
   <MestProgDialog @closeMestProg="closeMestProgDialog" :showModal="MestProgDialogProp" />
 </template>
     
@@ -162,7 +220,8 @@ import Api from '../../services/EjecucionServices'
 import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
 import MestProgDialog from './MestProgDialog.vue'
-import {onlyNumber} from '@/utils/validator'
+import { onlyNumber } from '@/utils/validator'
+import { formatPrice } from '@/utils/format'
 export default {
   name: 'FormularioCodificacionGasto',
   components: {
@@ -174,11 +233,22 @@ export default {
 
   data: function () {
     return {
+      formatPrice,
       TipoRetencionList: [{
         code: 0,
         label: 'Seleccionar',
       }],
-      tipoRetencionObj: null,
+      nombreClasificador: '',
+      delValor: {
+        require: true,
+        type: Array,
+        default: [],
+      },
+      tipoRetencionObj: {
+        require: true,
+        type: Array,
+        default: [],
+      },
       MestProgDialogProp: false,
       profesionesList: [],
       mestProgList: [],
@@ -196,7 +266,8 @@ export default {
         tipoRetencionId: 0,
         montoAplica: 0,
         montoAplicado: 0,
-        valorAplicado: 0
+        valorAplicado: 0,
+        nombreRetencion: ''
       },
       detalleRegistroGasto: {
         fecha: '2023-07-07',
@@ -214,12 +285,17 @@ export default {
         detalleRetencion: []
       },
 
+      RetencionesSelectList: [
+        { key: 'Total', label: 'del Total' },
+        { key: 'SubTotal', label: 'del SubTotal' },
+      ],
       RetencionColumn: [
 
-        { key: 'tipoRetencionId', label: 'Retencion' },
+        { key: 'nombreRetencion', label: 'Retencion' },
         { key: 'montoAplica', label: '% o valor' },
         { key: 'montoAplicado', label: 'Del Valor' },
         { key: 'valorAplicado', label: 'Valor Aplicado' },
+        { key: 'show_details', label: '' },
       ],
       clasificadoresByCuentaTables: [
         { key: 'clasificador', label: 'Clasificadores' },
@@ -229,20 +305,40 @@ export default {
 
         { key: 'totalDevengadoBco', label: 'Devengado.' },
         { key: 'totalPagadoBco', label: 'Pagado' },
-        { key: 'show_details', label: 'Seleccionar' },
+        { key: 'show_details', label: '' },
       ],
-      clasificadoresTables: [
-        { key: 'clasificador', label: 'Clasificadores' },
-        { key: 'nombre', label: 'Descripcion' },
-        { key: 'presupuestoBco', label: 'P/Original', _style: { display: 'none' } },
-        { key: 'variacionBco', label: 'Modific.', _style: { display: 'none' } },
-        { key: 'fuenteEspecificaId', label: 'fuenteEspecificaId.', _style: { display: 'none' } },
-        { key: 'fuenteId', label: 'fuenteId.', _style: { display: 'none' } },
-        { key: 'organismoFinanciadorId', label: 'organismoFinanciadorId.' },
-        { key: 'totalDevengadoBco', label: 'Devengado.' },
-        { key: 'totalPagadoBco', label: 'Pagado' },
-        { key: 'show_details', label: 'Seleccionar' },
-      ]
+      clasificadoresTables:
+        [
+
+          {
+            group: ' ',
+            children: [
+              { key: 'clasificador', label: 'Clasificador' },
+              { key: 'nombre', label: 'Descripcion' },
+              { key: 'presupuestoBco', label: 'P/Original' },
+              { key: 'variacionBco', label: 'Modific.' },
+              { key: 'pActual', label: 'P/Actual' },
+            ]
+          },
+          {
+            group: 'Devengado',
+            children: [
+              { key: 'devengadoEjecutado', label: 'Ejecutado.' },
+              { key: 'devengadoDisponible', label: 'Disponible.' },
+            ],
+            _props: { class: 'text-center' }
+          },
+          {
+            group: 'Pagado',
+            children: [
+              { key: 'pagadoEjecutado', label: 'Ejecutado' },
+              { key: 'pagadoDisponible', label: 'Disponible.' },
+            ],
+            _props: { class: 'text-center' }
+          },
+          { key: 'show_details', label: '' }
+
+        ]
     }
   },
   methods: {
@@ -271,7 +367,10 @@ export default {
       this.isFormEventTypeValidated = true
     },
     guardarRetencion() {
+      this.detalleRegistroGasto.neto = this.detalleRetencion.baseImponible
       this.detalleRetencion.tipoRetencionId = this.tipoRetencionObj.code
+      this.detalleRetencion.nombreRetencion = this.tipoRetencionObj.label
+      this.detalleRetencion.montoAplicado = this.detalleRegistroGasto.montoBruto
       this.detalleRegistroGasto.detalleRetencion = [{ ...this.detalleRetencion }, ...this.detalleRegistroGasto.detalleRetencion]
     },
 
@@ -283,11 +382,16 @@ export default {
       this.$emit('closeModal')
     },
 
+    deleteRetencion(item) {
+      this.detalleRegistroGasto.detalleRetencion.splice(this.detalleRegistroGasto.detalleRetencion.indexOf(item), 1);
+    },
+
     getMestProg(item) {
       if (item.length == 10) {
         Api.getRegistroGastoMesProg(item).then(response => {
           if (response.data.data.length > 1) {
-            var dataResponse = response.data.data.reduce((acc, current) => {
+            var clasificadores = response.data.data.filter(item => item.clasificador.length == 6)
+            var dataResponse = clasificadores.reduce((acc, current) => {
               acc.push({
                 clasificador: current.clasificador,
                 nombre: current.nombre,
@@ -295,9 +399,14 @@ export default {
                 organismoFinanciadorId: current.organismoFinanciadorId,
                 fuenteEspecificaId: current.fuenteEspecificaId,
                 presupuestoBco: current[`presupuestoBco${this.registroGasto.bancoId}`],
-                totalDevengadoBco: current[`totalDevengadoBco${this.registroGasto.bancoId}`],
+
                 totalPagadoBco: current[`totalPagadoBco${this.registroGasto.bancoId}`],
                 variacionBco: current[`variacionBco${this.registroGasto.bancoId}`],
+                pActual: current[`presupuestoBco${this.registroGasto.bancoId}`] + current[`variacionBco${this.registroGasto.bancoId}`],
+                devengadoEjecutado: current[`totalDevengadoBco${this.registroGasto.bancoId}`],
+                devengadoDisponible: (current[`presupuestoBco${this.registroGasto.bancoId}`] + current[`variacionBco${this.registroGasto.bancoId}`]) - current[`totalDevengadoBco${this.registroGasto.bancoId}`],
+                pagadoEjecutado: current[`totalPagadoBco${this.registroGasto.bancoId}`],
+                pagadoDisponible: current[`totalDevengadoBco${this.registroGasto.bancoId}`] - current[`totalPagadoBco${this.registroGasto.bancoId}`]
               });
               return acc;
             }, []);
@@ -325,7 +434,6 @@ export default {
     },
 
     getTipoRetenciones() {
-
       Api.getTipoRetencion().then(({ data: { data } }) => {
         this.tipoRetencionesList = data.map((elem) => ({
           code: elem.id,
@@ -336,17 +444,16 @@ export default {
         }))
         this.tipoRetencionesList.unshift({
           code: 0,
-          label: 'Seleccionar',
+          label: 'Tipo de retención',
         })
       })
     },
 
     setRetencion(data) {
       let retencion = data
+      console.log(retencion)
       this.detalleRetencion.tipoRetencionId = retencion.id
       if (retencion) {
-        this.detalleRetencion.montoAplica = retencion.porciento
-      } else {
         this.detalleRetencion.montoAplica = retencion.porciento
       }
     },
@@ -355,11 +462,20 @@ export default {
     },
 
     selectMestProg(item) {
+      console.log(item)
+      this.nombreClasificador = item.nombre
       this.detalleRegistroGasto.fuenteEspecificaId = item.fuenteEspecificaId
       this.detalleRegistroGasto.organismoFinanciadorId = item.organismoFinanciadorId
       this.detalleRegistroGasto.clasificadorId = item.clasificador
       this.detalleRegistroGasto.fuenteId = item.fuenteId
-      this.balanceDisponible = item.presupuestoBco
+      if (this.registroGasto.etapa == 'Devengado') {
+        this.balanceDisponible = item.devengadoDisponible;
+        return;
+      }
+
+      this.balanceDisponible = item.pagadoDisponible;
+
+
     }
   },
 
@@ -368,9 +484,12 @@ export default {
       this.detalleRetencion.montoAplica = value.porciento;
       switch (value.operacion) {
         case "Multiplicar":
+          this.detalleRetencion.valorAplicado = this.detalleRegistroGasto.montoBruto * (this.detalleRetencion.montoAplica / 100)
+          this.detalleRetencion.neto = this.detalleRetencion.valorAplicado
           break;
         case "Dividir":
           this.detalleRetencion.valorAplicado = this.detalleRegistroGasto.montoBruto / this.detalleRetencion.montoAplica
+          this.detalleRetencion.neto = this.detalleRetencion.valorAplicado
           break;
         default:
           break;
@@ -384,6 +503,7 @@ export default {
   },
   mounted() {
     this.getTipoRetenciones()
+
   }
 }
 </script>

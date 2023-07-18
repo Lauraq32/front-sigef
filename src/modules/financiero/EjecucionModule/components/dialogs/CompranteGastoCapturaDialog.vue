@@ -17,18 +17,11 @@
                         <CFormInput v-model="postRegistroGasto.fecha" type="date" id="fecha" required />
                       </CCol>
                       <CCol :md="6">
-                        <CFormLabel for="etapa">Etapa</CFormLabel>
-                        <CFormSelect v-model="postRegistroGasto.etapa" id="etapa">
-                          <option value="1">Devengado</option>
-                          <option value="2">Pagado</option>
-                          <option value="2">Variacion</option>
-                          <option value="2">Compromiso</option>
-                        </CFormSelect>
-                      </CCol>
-                      <CCol :md="6">
                         <CFormLabel for="nombre">Comprobante Modificado</CFormLabel>
                         <CFormInput @keypress="onlyNumber" id="nombre" required />
                       </CCol>
+
+
                       <CCol :md="6">
                         <CFormLabel for="Resolucion">Resoluci&oacute;n No.</CFormLabel>
                         <CFormInput id="Resolucion" required />
@@ -38,22 +31,31 @@
                         <CFormInput v-model="postRegistroGasto.fechaResolucion" type="date" id="fechaResolucion"
                           required />
                       </CCol>
-                      <CCol :md="12">
+                      <CCol :md="6">
+                        <CFormLabel for="etapa">Etapa</CFormLabel>
+                        <CFormSelect v-model="postRegistroGasto.etapa" id="etapa">
+                          <option value="Devengado">Devengado</option>
+                          <option value="Pagado">Pagado</option>
+                          <option value="Variacion">Variacion</option>
+                        </CFormSelect>
+                      </CCol>
+
+                      <CCol :md="6">
                         <CFormLabel for="formaPago">Forma de Pago</CFormLabel>
                         <div class="row">
-                          <div class="col-6">
+                          <div class="col-12">
                             <CFormSelect required v-model="postRegistroGasto.formaPago">
                               <option :key="0">Selecionar Cuenta de banco</option>
-                              <option value="cheque">
+                              <option value="Cheque">
                                 Cheque
                               </option>
-                              <option value="cargoBanco">
+                              <option value="CargoBancario">
                                 Cargo a Banco
                               </option>
-                              <option value="transferencia">
+                              <option value="Transferencia">
                                 Transferencia
                               </option>
-                              <option value="reversar">
+                              <option value="Reversar">
                                 Reversar
                               </option>
                             </CFormSelect>
@@ -103,7 +105,7 @@
           </div>
         </CForm>
 
-          <CButton color="secondary" @click="openCodificacionGasto">Agregar detalle</CButton>
+        <CButton color="secondary" @click="openCodificacionGasto">Agregar detalle</CButton>
 
 
         <CSmartTable class="sticky-top" clickableRows :tableProps="{
@@ -125,7 +127,7 @@
   </CModal>
   <SelectBeneficiario :isVisible="showBeneficiarioModal" @close="closeBeneficiarioModal" />
   <FormularioCodificacionGastoDialog @saveDetalle="saveDetalle" :registroGasto="postRegistroGasto"
-    :showModal="ShowCodificacionGastoModal" @close="closeCodificacionGasto" />
+    :showModal="ShowCodificacionGastoModal" @closeModal="closeCodificacionGasto" />
 </template>
   
 <script>
@@ -199,7 +201,18 @@ export default {
 
   methods: {
     saveDetalle(payload) {
+      console.log(payload)
+
+
+      let montoNeto = payload.detalleRetencion.map(detalle => (
+        detalle.valorAplicado
+      ))
+      this.postRegistroGasto.montoNeto = montoNeto.reduce(function (a, b) {
+        return a + b;
+      });
+      
       this.postRegistroGasto.detalleRegistroGastos = [payload, ...this.postRegistroGasto.detalleRegistroGastos]
+      this.postRegistroGasto.totalBruto = payload.montoBruto
     },
 
     getServiciosRequeridos() {
