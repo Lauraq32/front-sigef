@@ -61,19 +61,6 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol>
-            <CFormLabel for="postUsuario.password">Contraseña</CFormLabel>
-            <CFormInput
-              type="password"
-              :disabled="postUsuario.id"
-              id="postUsuario.password"
-              required
-              v-model="postUsuario.password"
-              placeholder="Ejemplo: Lma1234$"
-            >
-            </CFormInput>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol>
             <CFormLabel for="postUsuario.rolId">Rol</CFormLabel>
             <CFormInput
               :disabled="postUsuario.id"
@@ -114,12 +101,11 @@ export default {
     return {
       usuarioFormValidated: false,
       postUsuario: {
-        rolId: 0,
+        rolId: 1,
         empleadoId: '',
         nombre: null,
         userName: null,
         email: null,
-        password: null,
       },
       empleados: [],
     }
@@ -144,7 +130,6 @@ export default {
       }
       if (this.$refs.formRef.$el.checkValidity()) {
         this.$emit('post-usuario', { ...this.postUsuario })
-        this.clearForm()
         return
       }
       this.usuarioFormValidated = true
@@ -152,13 +137,12 @@ export default {
 
     clearForm() {
       this.postUsuario = {
-        rolId: 0,
+        rolId: 1,
         ayuntamientoId: 0,
         empleadoId: 0,
         nombre: null,
         userName: null,
         email: null,
-        password: null,
       }
     },
 
@@ -186,16 +170,33 @@ export default {
         }))
       })
     },
+
+    generateUserName(nombre) {
+      const palabras = nombre.split(' ')
+
+      if (palabras.length >= 3) {
+        const primeraLetra = palabras[0][0].toUpperCase()
+        const terceraPalabra = palabras[2].toLowerCase()
+        this.postUsuario.userName = primeraLetra + terceraPalabra
+      } else if (palabras.length === 2) {
+        const primeraLetra = palabras[0][0].toUpperCase()
+        const segundaPalabra = palabras[1].toLowerCase()
+        this.postUsuario.userName = primeraLetra + segundaPalabra
+      } else {
+        this.postUsuario.userName = ''
+      }
+    },
   },
 
   watch: {
+    'postUsuario.nombre'(newNombre) {
+      if (newNombre) {
+        this.generateUserName(newNombre)
+      }
+    },
     selectEmpleado(value) {
       if (value) {
         this.postUsuario.nombre = value.nombreCompleto
-        this.postUsuario.userName = this.generateByEmpleado(
-          value.nombre,
-          value.apellido,
-        )
       }
     },
     usuarioModal() {
