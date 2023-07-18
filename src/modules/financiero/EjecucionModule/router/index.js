@@ -44,7 +44,7 @@ export default {
     {
       path: 'grupoPago',
       name: 'grupoPago',
-      meta: { label: 'Grupo Pago' },
+      meta: { label: 'Grupos de Pago' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/GrupoPago.vue'
@@ -71,7 +71,7 @@ export default {
     {
       path: 'comprobanteIngreso',
       name: 'comprobanteIngreso',
-      meta: { label: 'Comprobante Ingreso' },
+      meta: { label: 'Comprobante de Ingresos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/ComprobanteIngreso.vue'
@@ -80,7 +80,7 @@ export default {
     {
       path: 'comprobanteGasto',
       name: 'comprobanteGasto',
-      meta: { label: 'Comprobante Gasto' },
+      meta: { label: 'Comprobante de Gastos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/ComprobanteGasto.vue'
@@ -122,11 +122,33 @@ export default {
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/Retenciones.vue'
         ),
     },
+    {
+      path: 'conceptoGasto',
+      name: 'conceptoGasto',
+      meta: { label: 'Conceptos de gastos' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/ConceptoGasto.vue'
+        ),
+    },
 
-    //  {
-    //     path: '',
-    //     name: 'no-entry',
-    //     component: () => import(/* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FormulacionModule/components/Prueba.vue'),
-    // },
+    {
+      path: 'catalogoDeFunciones',
+      name: 'catalogoDeFunciones',
+      meta: { label: 'Catalogo de Funciones' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '../components/CatalogoDeFunciones.vue'
+        ),
+    },
+    {
+      path: 'cuentaDeBanco',
+      name: 'cuentaDeBanco',
+      meta: { label: 'Cuenta de Banco' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '../components/cuentaDeBanco.vue'
+        ),
+    },
   ],
 }

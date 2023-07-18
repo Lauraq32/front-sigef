@@ -1,137 +1,53 @@
 <template>
-  <h3 class="text-center">Comprobantes de ingresos</h3>
-  <div>
-    <div class="table-headers">
-      <div class="p-2">
-        <CButton
-          style="font-weight: bold"
-          color="info"
-          @click="
-            () => {
-              lgDemo = true
-            }
-          "
-          >Agregar</CButton
-        >
-      </div>
-      <div class="p-2">
-        <CButton
-          color="info"
-          @click="
-            () => {
-              reportes = true
-            }
-          "
-          >Imprimir Ejecucion</CButton
-        >
-      </div>
-      <div class="p-2">
-        <CButton
-          color="info"
-          @click="
-            () => {
-              reportesExportarModal = true
-            }
-          "
-          >Exportar modificacion</CButton
-        >
-      </div>
-      <div class="p-2">
-        <CButton
-          color="info"
-          @click="
-            () => {
-              reportesExportarModalEjecucion = true
-            }
-          "
-          >Exportar Ejecucion</CButton
-        >
-      </div>
-    </div>
-  </div>
+  <h3 class="text-center">Comprobante de Ingresos</h3>
 
-  <CModal :backdrop="false" :keyboard="false" :visible="reportes">
-    <CModalHeader>
-      <CModalTitle>Exportar Variacion</CModalTitle>
-    </CModalHeader>
-    <CModalBody
-      ><CFormSelect v-model="mesReporte" id="validationCustom05">
-        <option>1-Enero</option>
-        <option>2-Febrero</option>
-        <option>3-Marzo</option>
-        <option>4-Abril</option>
-        <option>5-Mayo</option>
-        <option>6-Junio</option>
-        <option>7-Julio</option>
-        <option>8-Agosto</option>
-        <option>9-Septiembre</option>
-        <option>10-Octubre</option>
-        <option>11-Noviembre</option>
-        <option>12-Diciembre</option>
-      </CFormSelect></CModalBody
+  <AppActionHeader>
+    <CButton
+      v-if="!paramsFiltro"
+      @click="
+        () => {
+          showFiltro = true
+        }
+      "
     >
-    <CModalFooter>
-      <CButton color="secondary">Close</CButton>
-      <CButton color="primary" @click="imprimirReporte">Imprimir</CButton>
-    </CModalFooter>
-  </CModal>
-  <CModal
-    :backdrop="false"
-    :keyboard="false"
-    :visible="reportesExportarModalEjecucion"
-  >
-    <CModalHeader>
-      <CModalTitle>Exportar Ejecucion</CModalTitle>
-    </CModalHeader>
-    <CModalBody
-      ><CFormSelect v-model="mesReporte" id="validationCustom05">
-        <option>1-Enero</option>
-        <option>2-Febrero</option>
-        <option>3-Marzo</option>
-        <option>4-Abril</option>
-        <option>5-Mayo</option>
-        <option>6-Junio</option>
-        <option>7-Julio</option>
-        <option>8-Agosto</option>
-        <option>9-Septiembre</option>
-        <option>10-Octubre</option>
-        <option>11-Noviembre</option>
-        <option>12-Diciembre</option>
-      </CFormSelect></CModalBody
-    >
-    <CModalFooter>
-      <CButton color="secondary">Close</CButton>
-      <CButton color="primary" @click="exportarReporteEjecucion"
-        >Imprimir</CButton
+      <span> <CIcon icon="cilFilter" size="lg" /> Filtrar </span>
+    </CButton>
+    <CButton v-else @click="() => ((paramsFiltro = null), getIngresos())">
+      <span>
+        <CIcon icon="cilFilterX" style="color: red" size="lg" /> Resultados
+        filtrados</span
       >
-    </CModalFooter>
-  </CModal>
-  <CModal :backdrop="false" :keyboard="false" :visible="reportesExportarModal">
-    <CModalHeader>
-      <CModalTitle>Exportar Modificacion</CModalTitle>
-    </CModalHeader>
-    <CModalBody
-      ><CFormSelect v-model="mesReporte" id="validationCustom05">
-        <option>1-Enero</option>
-        <option>2-Febrero</option>
-        <option>3-Marzo</option>
-        <option>4-Abril</option>
-        <option>5-Mayo</option>
-        <option>6-Junio</option>
-        <option>7-Julio</option>
-        <option>8-Agosto</option>
-        <option>9-Septiembre</option>
-        <option>10-Octubre</option>
-        <option>11-Noviembre</option>
-        <option>12-Diciembre</option>
-      </CFormSelect></CModalBody
+    </CButton>
+
+    <CButton
+      color="info"
+      @click="
+        () => {
+          this.showModalReporte = true
+        }
+      "
     >
-    <CModalFooter>
-      <CButton color="secondary">Close</CButton>
-      <CButton color="primary" @click="exportarReporte">Imprimir</CButton>
-    </CModalFooter>
-  </CModal>
-  <CSmartTable class="sticky-top"
+      Reportes
+    </CButton>
+
+    <CButton
+      color="info"
+      @click="
+        () => {
+          showAddComprobanteIngreso = true
+        }
+      "
+      >Agregar</CButton
+    >
+    <div class="p-2">
+      <CButton color="secondary" @click="goToComprobanteGasto"
+        >Comprobante Gasto</CButton
+      >
+    </div>
+  </AppActionHeader>
+
+  <CSmartTable
+    class="sticky-top"
     clickableRows
     :tableProps="{
       striped: true,
@@ -147,7 +63,8 @@
     columnFilter
     :itemsPerPage="5"
     columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
+    no-items-label="No hay registros"
+    :sorterValue="{ column: 'etapa', state: 'asc' }"
     pagination
   >
     <template #fecha="{ item }">
@@ -155,547 +72,229 @@
         {{ formatDate(item.fecha) }}
       </td>
     </template>
+    <template #etapa="{ item }">
+      <td class="text-center text-uppercase">
+        <CBadge color="warning">{{ item.etapa }}</CBadge>
+      </td>
+    </template>
+
+    <template #estatus="{ item }">
+      <td class="text-center text-uppercase">
+        <CBadge :color="item.estatus ? 'success' : 'danger'">{{
+          item.estatus ? 'ACTIVO' : 'CANCELADO'
+        }}</CBadge>
+      </td>
+    </template>
+
     <template #totalValor="{ item }">
       <td class="text-end">
         {{ formatPrice(item.totalValor) }}
       </td>
     </template>
-    <template #show_details="{ item, index }">
-      <td class="py-1">
-        <CButton
-          class="mt-1"
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails1(item.transaccionId)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
-        </CButton>
-      </td>
-      <td class="py-1">
-        <CButton
-          class="mt-1"
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails2(item)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Detalle' }}
-        </CButton>
-      </td>
-      <td class="py-1">
-        <CButton
-          class="mt-1"
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="imprimirReporte1(item)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Imprimir' }}
-        </CButton>
+
+    <template #contribuyente="{ item }">
+      <td>
+        {{ item.contribuyente.descripcion }}
       </td>
     </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
+
+    <template #show_details="{ item }">
+      <td>
+        <CDropdown v-if="item.estatus">
+          <CDropdownToggle color="primary" variant="outline"
+            >Acciones</CDropdownToggle
+          >
+          <CDropdownMenu>
+            <CDropdownItem
+              v-for="action in buttonActions"
+              @click="action.clickHandler && action.clickHandler(item)"
+              >{{ action.label }}</CDropdownItem
+            >
+          </CDropdownMenu>
+        </CDropdown>
+      </td>
     </template>
   </CSmartTable>
-  <CModal
-    size="xl"
-    :visible="lgDemo"
-    @close="
-      () => {
-        lgDemo = false
-      }
-    "
-  >
-    <CModalHeader>
-      <CModalTitle>Comprobantes de ingresos</CModalTitle>
-    </CModalHeader>
-    <CModalBody>
-      <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
-          <CCol :md="2">
-            <CFormLabel for="validationCustom02">Fecha</CFormLabel>
-            <CFormInput
-              v-model="ingresoPost.fecha"
-              type="date"
-              id="validationCustom02"
-              required
-            />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="3">
-            <CFormLabel for="validationCustom04">Etapa</CFormLabel>
-            <CFormSelect v-model="ingresoPost.etapa" id="validationCustom05">
-              <option>INGRESOS</option>
-              <option>VARIACION</option>
-            </CFormSelect>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustom04">Recibo</CFormLabel>
-            <CFormInput
-              v-model="ingresoPost.compIngresosId"
-              id="validationCustom04"
-            >
-            </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
 
-          <CCol :md="2">
-            <CFormLabel for="validationCustom04">Contribuyente</CFormLabel>
-            <vue3-simple-typeahead
-              class="form-control"
-              v-model="ingresoPost.contribuyenteId"
-              id="validationCustom04"
-              placeholder="Escriba Aqui..."
-              :items="contribuyentesName"
-              :minInputLength="1"
-              :itemProjection="itemProjectionFunction"
-              @selectItem="selectItemEventHandler"
-              @onInput="onInputEventHandler"
-              @onFocus="onFocusEventHandler"
-              @onBlur="onBlurEventHandler"
-            >
-            </vue3-simple-typeahead>
-          </CCol>
+  <ModalAddComprobanteIngreso
+    @close-modal="closeModalComprobanteIngreso"
+    @addComprobanteIngreso="addComprobanteIngreso"
+    :showModal="showAddComprobanteIngreso"
+    :contribuyentesName="contribuyentesName"
+    :payloadRegistroIngreso="ingresoPost"
+    @actualizar-table="getIngresos"
+  />
 
-          <CCol :md="2">
-            <CButton
-              style="position: relative; top: 31px"
-              color="info"
-              @click="volver"
-              >Contribuyentes</CButton
-            >
-          </CCol>
-          <hr />
-          <CCol :md="11">
-            <CFormLabel for="validationCustom04">Detalle</CFormLabel>
-            <CFormTextarea
-              v-model="ingresoPost.detalle"
-              id="validationCustom04"
-            ></CFormTextarea>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <div style="padding: 6px">
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
-              Guardar
-            </button>
-          </div>
+  <ContenedorArchivos
+    :showModal="showModalDoc"
+    :tagKeyName="'ejecucionIngresosId'"
+    :tagValueName="`${selectedIngreso?.id}-${selectedIngreso?.numeroComprobante}`"
+    @closeModal="closeContenedorModal"
+  />
 
-          <div class="modal-footer"></div>
-        </CForm>
-      </CCardBody>
-    </CModalBody>
-  </CModal>
-  <CModal
-    size="xl"
-    :visible="lgDemo1"
-    @close="
-      () => {
-        lgDemo1 = false
-        reload()
-      }
-    "
-  >
-    <CModalHeader>
-      <CModalTitle>Comprobantes de ingresos</CModalTitle>
-    </CModalHeader>
-    <CModalBody>
-      <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-              >Anunc. y Carteles</CButton
-            >
-          </CCol>
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-              >Certific. vida y cost.</CButton
-            >
-          </CCol>
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-              >Arrend. Terrenos</CButton
-            >
-          </CCol>
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-              >Certific. animales</CButton
-            >
-          </CCol>
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-              >Transferencia 60%</CButton
-            >
-          </CCol>
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-              >Transferencia 40%</CButton
-            >
-          </CCol>
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-            ></CButton>
-          </CCol>
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-            ></CButton>
-          </CCol>
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-            ></CButton>
-          </CCol>
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-            ></CButton>
-          </CCol>
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-            ></CButton>
-          </CCol>
-          <CCol :md="2">
-            <CButton
-              style="font-weight: bold"
-              color="Light"
-              @click="IngresoReport"
-            ></CButton>
-          </CCol>
-          <hr />
-          <CCol :md="2">
-            <CFormLabel for="validationCustom01">Clasificador</CFormLabel>
-            <CFormInput
-              v-model="detalleRegistroPost.ctgClasificadorId"
-              id="validationCustom01"
-              required
-            />
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="1">
-            <button
-              class="btn btn-primary"
-              style="margin-top: 32px"
-              v-on:click="getClasificador"
-            >
-              Buscar
-            </button>
-          </CCol>
-          <CCol :md="5">
-            <CFormLabel for="validationCustom02">Denominación</CFormLabel>
-            <CFormInput v-model="detalle" id="validationCustom02" disabled />
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustom04">Valor</CFormLabel>
-            <CFormInput
-              v-model="detalleRegistroPost.valor"
-              id="validationCustom04"
-              type="number"
-            >
-            </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2" class="mt-5">
-            <CButton
-              style="font-weight: bold"
-              color="outline-primary"
-              v-on:click="GuardarDetalle"
-              >+Adicionar</CButton
-            >
-          </CCol>
-          <div class="modal-footer"></div>
-        </CForm>
-        <CSmartTable class="sticky-top"
-          clickableRows
-          :tableProps="{
-            striped: true,
-            hover: true,
-          }"
-          :tableHeadProps="{}"
-          :activePage="1"
-          footer
-          header
-          :items="detalleRegistroIngresos"
-          :columns="columns2"
-          itemsPerPageSelect
-          :itemsPerPage="5"
-          columnSorter
-          :sorterValue="{ column: 'status', state: 'asc' }"
-          pagination
-        >
-          <template #valor="{ item }">
-            <td>
-              {{ formatPrice(item.valor) }}
-            </td>
-          </template>
-          <template #nombre="{ item }">
-            <td>
-              {{ item.ctgClasificador.nombre }}
-            </td>
-          </template>
-          Borre el index de aquí
-          <template #show_details="{ item }">
-            <td class="py-2">
-              <CButton
-                color="primary"
-                variant="outline"
-                square
-                size="sm"
-                @click="toggleDetails1()"
-              >
-                {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
-              </CButton>
-            </td>
-          </template>
-          <template #details="{ item }">
-            <CCollapse :visible="this.details.includes(item._id)">
-              <CCardBody>
-                <h4>
-                  {{ item.username }}
-                </h4>
-                <p class="text-muted">User since: {{ item.registered }}</p>
-                <CButton size="sm" color="info" class="">
-                  User Settings
-                </CButton>
-                <CButton size="sm" color="danger" class="ml-1">
-                  Delete
-                </CButton>
-              </CCardBody>
-            </CCollapse>
-          </template>
-        </CSmartTable>
-        <h5>Total del Comprobante: {{ formatPrice(totales) }}</h5>
-      </CCardBody>
-    </CModalBody>
-  </CModal>
+  <FiltroRegistroIngreso :showFiltro="showFiltro" @close="closeFiltro" />
+  <ReporteRegistroIngreso
+    :showModalReporte="showModalReporte"
+    @closeModalReporte="closeModalReporte"
+    @imprimir-report="imprimirReporte"
+  />
 </template>
 
 <script>
-import { useRegistroStore } from '../store/Ejecucion/registroIngreso'
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
-import { useEjecucionIngresoStore } from '../store/Ejecucion/ejecucionIngresos'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
-import axios from 'axios'
 import Api from '../services/EjecucionServices'
-import { mapStores, mapActions, mapState } from 'pinia'
-
+import { mapActions } from 'pinia'
 import { useToastStore } from '@/store/toast'
 import SimpleTypeahead from 'vue3-simple-typeahead'
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
 import router from '@/router'
+import AppActionHeader from '@/components/AppActionHeader.vue'
+import ModalAddComprobanteIngreso from './Dialogos/ModalAddComprobanteIngreso.vue'
+import { formatDate, formatPrice } from '@/utils/format'
+import ContenedorArchivos from '@/components/ContenedorArchivosModel.vue'
+import { filter } from '@/utils/validator'
+import FiltroRegistroIngreso from './filtroRegistroIngreso.vue'
+import ReporteRegistroIngreso from './reportesRegistroIngreso.vue'
+import { showReport } from '@/utils/util'
 
 export default {
   components: {
     CSmartTable,
     CModal,
     SimpleTypeahead,
+    AppActionHeader,
+    ModalAddComprobanteIngreso,
+    ContenedorArchivos,
+    FiltroRegistroIngreso,
+    ReporteRegistroIngreso,
   },
 
   data: function () {
     return {
-      itemsCount: null,
-      mesReporte: 1,
-      parametroReporte: '',
-      reportes: false,
-      reportesExportarModal: false,
-      reportesExportarModalEjecucion: false,
+      selectedIngreso: {},
+      filter,
+      formatDate,
+      formatPrice,
+      showFiltro: false,
+      showModalReporte: false,
+      paramsFiltro: null,
+      showAddComprobanteIngreso: false,
+      showModalDoc: false,
       ingresosList: [],
       contribuyentesList: [],
       contribuyentesName: [],
-      totales: null,
-      id: null,
-      validatedCustom01: null,
-      lgDemo: false,
-      lgDemo1: false,
-      detalle: '',
-      detalleRegistroIngresos: [],
-      detalleRegistroPost: {
-        ayuntamientoId: this.$ayuntamientoId,
-        anioFiscalId: this.$fiscalYearId,
-        transaccionId: 0,
-        ctgClasificadorId: '',
-        ctgFuenteId: '',
-        ctgFuenteEspecificaId: '',
-        ctgOrganismoFinanciadorId: '',
-        fecha: new Date(Date.now()),
-        etapa: '',
-        institucionOrtongate: '',
-        valor: 0,
-        estatus: 'A',
-      },
-      ingresoPost: {
-        transaccionId: 0,
-        ayuntamientoId: this.$ayuntamientoId,
-        anioFiscalId: this.$fiscalYearId,
-        numeroComprobante: 0,
-        compIngresosId: '',
-        etapa: 'INGRESOS',
-        contribuyenteId: 0,
-        detalle: '',
-        fecha: new Date(Date.now()),
-        totalValor: 0,
-        estatus: 'A',
-      },
+
       columns: [
         {
           key: 'numeroComprobante',
           label: '#Comp',
-          _style: { width: '5%' },
-        },
-
-        { key: 'fecha', label: 'Fecha', _style: { width: '5%' } },
-        { key: 'etapa', label: 'Etapa', _style: { width: '8%' } },
-        { key: 'compIngresosId', label: 'Recibo', _style: { width: '5%' } },
-        {
-          key: 'contribuyenteId',
-          label: 'Contribuyente',
           _style: { width: '10%' },
         },
-        { key: 'detalle', label: 'Detalle', _style: { width: '40%' } },
-        { key: 'totalValor', label: 'Valor', _style: { width: '20%' } },
+
+        { key: 'fecha', label: 'Fecha', _style: { width: '10%' } },
+        { key: 'etapa', label: 'Etapa', _style: { width: '10%' } },
+        {
+          key: 'codigoIngresoTalonario',
+          label: 'No. Recibo',
+          _style: { width: '10%' },
+        },
+        {
+          key: 'contribuyente',
+          label: 'Contribuyente',
+          _style: { width: '25%' },
+        },
+        { key: 'detalle', label: 'Detalle', _style: { width: '25%' } },
+        { key: 'totalValor', label: 'Valor', _style: { width: '10%' } },
+        { key: 'estatus', label: 'Estatus', _style: { width: '10%' } },
         {
           key: 'show_details',
           label: '',
           _style: { width: '1%' },
           filter: false,
           sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
         },
       ],
       footerItem: [
         {
           label: 'Total items',
           _props: {
-            color: '',
             colspan: 1,
             style: 'font-weight:bold;',
           },
         },
-      ],
-      details: [],
-      columns2: [
+
         {
-          key: 'ctgClasificadorId',
-          label: 'Clasificador',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'nombre',
-          label: 'Descripción',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'ctgFuenteId',
-          label: 'Fuentes de financiamiento',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'ctgFuenteEspecificaId',
-          label: 'Fuente específica',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'ctgOrganismoFinanciadorId',
-          label: 'Organismo de financiamiento',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'valor',
-          label: 'valor',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'show_details',
           label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
+          _props: {
+            colspan: 6,
+            style: 'font-weight:bold; text-align:right',
+          },
+        },
+        {
+          label: '',
+          _props: {
+            colspan: 9,
+          },
+        },
+      ],
+
+      buttonActions: [
+        {
+          label: 'Cancelar',
+          clickHandler: (value) => {
+            this.cancelarRegistroIngreso(value)
+          },
+        },
+
+        {
+          label: 'Asociar documentos',
+          clickHandler: (item) => {
+            this.showModalDoc = true
+            this.selectedIngreso = { ...item }
+          },
+        },
+
+        {
+          label: 'Imprimir 8 1/2 x 11',
+          clickHandler: (value) => {
+            this.printReportReciboIngreso(value)
+          },
+        },
+
+        {
+          label: 'Imprimir 8 1/2 x 5.5',
+          clickHandler: (value) => {
+            this.printReportComprobanteIngreso(value)
+          },
         },
       ],
     }
   },
-  computed: {
-    ...mapStores(useEjecucionIngresoStore),
-    ...mapState(useEjecucionIngresoStore, ['ingresosList']),
-  },
+
   methods: {
     ...mapActions(useToastStore, ['show']),
-    volver() {
-      router.push({ name: 'Contribuyentes' })
+
+    closeModalComprobanteIngreso() {
+      this.showAddComprobanteIngreso = false
     },
 
-    imprimirReporte() {
-      window
-        .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Ingresos_Ejecucion&rs:Command=Render&CAPITULO_AYTO=${this.$ayuntamientoId}&ANO=2022&PERIODO=${this.mesReporte.split('-')[0]}`,
-          '_blank',
-        )
-        .focus()
+    closeFiltro(params) {
+      if (params) {
+        this.getIngresos(params)
+        this.paramsFiltro = params
+      }
+      this.showFiltro = false
     },
+
+    closeModalReporte() {
+      this.showModalReporte = false
+    },
+
+    goToComprobanteGasto() {
+      router.push({ name: 'comprobanteGasto' })
+    },
+
     exportarReporte() {
       this.downloadFile()
     },
@@ -742,224 +341,141 @@ export default {
       )
       this.mesReporte = 1
     },
-    imprimirReporte1(item) {
-      window
-        .open(
-          `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Recibo_Ingresos_A1&rs:Command=Render&CAPITULO_AYTO=${this.$ayuntamientoId}&ID_COMP_INGRESOS=${item.transaccionId}`,
-          '_blank',
-        )
-        .focus()
-    },
-    formatDate(fecha) {
-      return new Date(fecha).toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-      })
-    },
-    ...mapActions(useEjecucionIngresoStore, [
-      'addIngresos',
-      'getIngresos',
-      'addIngresoDetalle',
-    ]),
-    getContribuyentes() {
-      Api.getContribuyente().then((response) => {
-        this.contribuyentesList = response.data.data
 
-        this.contribuyentesList.map((contribuyente) => {
-          this.contribuyentesName.push(
-            `${contribuyente.id}-${contribuyente.nombre}`,
-          )
+    async printReportReciboIngreso(item) {
+      try {
+        await showReport({
+          folderName: 'fep',
+          reportName: 'Rep_Recibo_Ingresos_A1',
+          params: [
+            {
+              name: 'ID_TRANSACCION',
+              value: item.id,
+            },
+            {
+              name: 'CAPITULO_AYTO',
+              value: 'majorityId',
+            },
+          ],
         })
-      })
-    },
-    selectItemEventHandler(id) {
-      this.ingresoPost.contribuyenteId = id.split('-')[0]
-    },
-    formatPrice(value) {
-      let val = (value / 1).toFixed(2).replace('.', '.')
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-    },
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
+      } catch (error) {
+        this.show({
+          content: error,
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        })
       }
-      this.validatedCustom01 = true
     },
-    getTotalIngreso(id) {
-      Api.getComprobanteIngresoTotal(id).then((response) => {
-        this.totales = response.data.data.totalValor
+
+    async imprimirReporte(payload) {
+      const reportParam = {
+        folderName: 'fep',
+        params: [],
+      }
+      try {
+        if (payload.selectedOption === 'option1') {
+          reportParam.reportName = 'Rep_Listado_Documento_Ingresos'
+          reportParam.params = [
+            {
+              name: 'FECHA_DESDE',
+              value: payload.fechaDesde,
+            },
+            {
+              name: 'FECHA_HASTA',
+              value: payload.fechaHasta,
+            },
+            {
+              name: 'ID_AYUNTAMIENTO',
+              value: 'majorityId',
+            },
+            {
+              name: 'ANIO',
+              value: 'fiscalYear',
+            },
+          ]
+          await showReport(reportParam)
+        }
+      } catch (error) {
+        this.show({
+          content: error,
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        })
+      }
+    },
+
+    async printReportComprobanteIngreso(item) {
+      try {
+        await showReport({
+          folderName: 'fep',
+          reportName: 'Rep_Comprobante_Ingresos_A1',
+          params: [
+            {
+              name: 'ID_TRANSACCION',
+              value: item.id,
+            },
+            {
+              name: 'CAPITULO_AYTO',
+              value: 'majorityId',
+            },
+          ],
+        })
+      } catch (error) {
+        this.show({
+          content: error,
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        })
+      }
+    },
+
+    getIngresos(params = { estatus: true }) {
+      Api.getRegistroIngreso(params).then((response) => {
+        this.ingresosList = response.data.data
+        this.footerItem[0].label = `Total items: ${this.ingresosList.length}`
+        this.footerItem[1].label = formatPrice(
+          this.ingresosList.reduce(
+            (acc, item) => acc + Number(item.totalValor),
+            0,
+          ),
+        )
       })
     },
-    Guardar() {
-      if (this.id != null) {
-        Api.putIngresoCabecera(this.id, this.ingresoPost)
-          .then((response) => {
-            this.show({
-              content: 'Registro añadido correctamente',
-              closable: true,
-            })
-            this.clearModal2()
+
+    cancelarRegistroIngreso(item) {
+      this.$swal({
+        title: 'Estás seguro de realizar esta acción? ',
+        text: 'No podrás revertirlo',
+        icon: 'Confirmación',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Aceptar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Api.deleteRegistroIngreso(item.id).then((response) => {
             setTimeout(this.getIngresos, 500)
-          })
-          .catch((error) => {
             this.show({
-              content: 'Error al enviar el formulario',
+              content: 'Registro cancelado correctamente',
               closable: true,
-              color: 'danger',
-              class: 'text-white',
+              time: 7_000,
             })
           })
-      } else {
-        this.addIngresos(this.ingresoPost)
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          text: 'Datos agregados con exito',
-          title: 'Agregado',
-          showConfirmButton: false,
-          timer: 1500,
-        })
-        this.clearModal2()
-        setTimeout(this.getIngresos, 500)
-      }
-      event.preventDefault()
-      event.stopPropagation()
-    },
-    GuardarDetalle() {
-      this.addIngresoDetalle(this.detalleRegistroPost)
-      //this.toggleDetails1(this.id)
-      Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        text: 'Datos agregados con exito',
-        title: 'Agregado',
-        showConfirmButton: false,
-        timer: 1500,
-      })
-      setTimeout(this.getDetalle(this.id), 500)
-      setTimeout(this.getTotalIngreso(this.id), 500)
-      this.getIngresos()
-      this.clearModal1()
-      event.preventDefault()
-      event.stopPropagation()
-    },
-    reload() {
-      window.location.reload()
-    },
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
-    getDetalle(id) {
-      Api.getRegistroIngresoDetalle(id).then((response) => {
-        this.detalleRegistroIngresos = response.data.data
+        }
       })
     },
-    clearModal1() {
-      ;(this.detalleRegistroPost.detalleRegistroPostctgClasificadorId = ''),
-        (this.detalleRegistroPost.ctgFuenteId = ''),
-        (this.detalleRegistroPost.ctgClasificadorId = '')
-      ;(this.detalleRegistroPost.ctgFuenteEspecificaId = ''),
-        (this.detalleRegistroPost.ctgOrganismoFinanciadorId = ''),
-        (this.detalleRegistroPost.fecha = new Date(Date.now())),
-        (this.detalleRegistroPost.etapa = 'INGRESOS'),
-        (this.detalleRegistroPost.institucionOrtongate = ''),
-        (this.detalleRegistroPost.valor = 0),
-        (this.detalleRegistroPost.estatus = 'A')
-      this.detalle = ''
-    },
-    clearModal2() {
-      this.ingresoPost = {
-        transaccionId: 0,
-        ayuntamientoId: this.$ayuntamientoId,
-        anioFiscalId: this.$fiscalYearId,
-        numeroComprobante: 0,
-        compIngresosId: '',
-        etapa: 'INGRESOS',
-        contribuyenteId: 0,
-        detalle: '',
-        fecha: new Date(Date.now()),
-        totalValor: 0,
-        estatus: 'A',
-      }
-    },
-    toggleDetails1(id) {
-      this.getDetalle(id)
 
-      this.id = id
-      this.getTotalIngreso(this.id)
-      this.getDetalle(id)
-      Api.getIngresoById(
-        id,
-        this.$fiscalYearId,
-        this.$ayuntamientoId,
-      ).then((response) => {
-        Api.getContribuyenteById(response.data.data.contribuyenteId).then(
-          (response) => {
-            this.ingresoPost.contribuyenteId = response.data.data.id
-          },
-        )
-        this.ingresoPost = response.data.data
-        this.detalleRegistroPost.transaccionId =
-          response.data.data.transaccionId
-      }),
-        (this.lgDemo = true)
-    },
-    toggleDetails2(item) {
-      this.getDetalle(item)
-
-      this.id = item.transaccionId
-      this.getTotalIngreso(this.id)
-      this.getDetalle(item.transaccionId)
-      this.detalleRegistroPost.etapa = item.etapa
-      Api.getIngresoById(
-        item.transaccionId,
-        this.$fiscalYearId,
-        this.$ayuntamientoId,
-      ).then((response) => {
-        this.ingresoPost = response.data.data
-        this.detalleRegistroPost.transaccionId =
-          response.data.data.transaccionId
-      }),
-        (this.lgDemo1 = true)
-    },
-    getClasificador() {
-      Api.getIngresoClasificadorById(
-        this.detalleRegistroPost.ctgClasificadorId,
-      ).then((response) => {
-        this.detalle = response.data.data.detalle
-        this.detalleRegistroPost.ctgFuenteId = response.data.data.ctgFuenteId
-        this.detalleRegistroPost.ctgFuenteEspecificaId =
-          response.data.data.ctgFuenteEspecificaId
-        this.detalleRegistroPost.ctgOrganismoFinanciadorId =
-          response.data.data.ctgOrganismoFinanciadorId
-        this.detalleRegistroPost.institucionOrtongate =
-          response.data.data.instOtorga
-      })
+    closeContenedorModal(payload) {
+      this.showModalDoc = payload
     },
   },
 
   mounted() {
     this.getIngresos()
-    this.getContribuyentes()
-    Api.getIngresoAll().then((response) => {
-      this.ingresosList = response.data.data
-      this.itemsCount = this.ingresosList.length
-      this.footerItem[0].label = `Total items: ${this.itemsCount}`
-    })
   },
 }
 </script>

@@ -11,7 +11,15 @@ class FormulacionApi {
 
   //-----------------------------CLASIFICADORES---------------------------------------//
   //Obtener listado de Clasificadores
-  getListarClasificadores() {
+  getListarClasificadores(origin) {
+    if (origin === 'gastos') {
+      return http.get('/CtgClasificador/presupuesto-gastos')
+    }
+    
+    if (origin === 'ingresos') {
+      return http.get('/CtgClasificador/presupuesto-ingresos')
+    }
+    
     return http.get('/CtgClasificador')
   }
   getListarOrganismo() {

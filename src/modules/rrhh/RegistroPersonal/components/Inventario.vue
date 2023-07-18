@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center mb-3">Inventario</h3>
+  <h3 class="text-center mb-3">Inventario de &Uacute;tiles</h3>
 
   <div class="table-headers">
     <div class="d-inline p-2">
@@ -34,6 +34,7 @@
     columnSorter
     :sorterValue="{ column: 'descripcion', state: 'asc' }"
     pagination
+    no-items-label="No hay útiles registrados"
   >
     <template #cantidad="{ item }">
       <td class="text-end">
@@ -42,65 +43,33 @@
     </template>
 
     <template #show_details="{ item }">
-      <CDropdown>
-        <CDropdownToggle color="primary" variant="outline"
-          >Acciones</CDropdownToggle
+      <td>
+        <CButton
+          color="info" variant="outline"
+          @click="
+            () => {
+              inventarioSeleccionado = item;
+              showInventario = true;
+            }"
         >
-        <CDropdownMenu>
-          <CDropdownItem
-            @click="
-              () => {
-                showModalUtilsLaboral(item)
-                inventarioSeleccionado = item
-              }
-            "
-            >Agregar Útiles</CDropdownItem
-          >
-          <CDropdownItem
-            @click="
-              () => {
-                showModalEvento(item)
-                getUtilInventario(item)
-                inventarioSeleccionado = item
-              }
-            "
-            >Agregar Movimientos</CDropdownItem
-          >
-        </CDropdownMenu>
-      </CDropdown>
+          Editar
+        </CButton>
+      </td>
     </template>
   </CSmartTable>
 
   <InventarioDialog
+    :inventario="inventarioSeleccionado"
     :showModal="showInventario"
     @closeModal="closeModal"
     @saveInventario="saveInventario"
-  />
-
-  <UtilesLaboralesDialog
-    :utilesInventatio="utilesInventatio"
-    :showModal="showAgregarCantidad"
-    :inventario="inventarioSeleccionado"
-    @closeModal="closeModal"
-    @saveUtilesLaborales="saveUtilesLaborales"
-  />
-
-  <EventoInventarioDialog
-    :inventario="inventarioSeleccionado"
-    :showModal="showEvento"
-    :empleados="empleados"
-    :utils="utils"
-    @closeModal="closeModal"
-    @saveEvents="saveEventos"
   />
 </template>
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/RegistroPersonalServices'
-import UtilesLaboralesDialog from './Dialogos/UtilesLaboralesDialogs.vue'
-import EventoInventarioDialog from './Dialogos/EventosInventarioDialogs.vue'
-import InventarioDialog from './Dialogos/InventarioDialogs.vue'
+import InventarioDialog from './Dialogos/InventarioDialog.vue'
 import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
 import { formatNumber } from '@/utils/format'
@@ -109,23 +78,18 @@ export default {
   components: {
     CSmartTable,
     CModal,
-    UtilesLaboralesDialog,
-    EventoInventarioDialog,
     InventarioDialog,
   },
   data: () => {
     return {
       formatNumber,
-      empleados: [],
       inventario: [],
-      utils: [],
-      inventarioSeleccionado: {},
-      utilesInventatio: [],
-      validatedCustom01: null,
+      inventarioSeleccionado: {
+        descripcion: null,
+        tipo: 'deducible',
+        cantidad: 1
+      },
       showInventario: false,
-      showAgregarCantidad: false,
-      showInventario: false,
-      showEvento: false,
 
       columns: [
         { key: 'descripcion', label: 'Descripción', _style: { width: '60%' } },
@@ -160,70 +124,43 @@ export default {
     },
 
     closeModal(close) {
-      this.showAgregarCantidad = close
-      this.showEvento = close
-      this.showInventario = close
-    },
-
-    showModalEvento(item) {
-      this.showEvento = true
-      this.id = item.id
-    },
-
-    showModalUtilsLaboral(item) {
-      this.showAgregarCantidad = true
-      this.id = item.id
-      this.getUtilesInventario(this.id)
-    },
-
-    saveUtilesLaborales(payload) {
-      Api.postInventarioById(this.id, payload)
-        .then((response) => {
-          setTimeout(this.getInventario, 500)
-          setTimeout(this.getUtilesInventario(this.id), 500)
-          this.show({
-            content: response.data,
-            closable: true,
-          })
-        })
-        .catch((error) => {
-          this.show({
-            content: error.data,
-            closable: true,
-            color: 'danger',
-            class: 'text-white',
-          })
-        })
-    },
-
-    saveEventos(payload) {
-      Api.postEventos(this.id, payload)
-        .then(() => {
-          setTimeout(this.getInventario, 500)
-          this.show({
-            content: 'Registro añadido correctamente',
-            closable: true,
-          })
-          this.showEvento = false
-        })
-        .catch((error) => {
-          this.show({
-            content: error.data,
-            closable: true,
-            color: 'danger',
-            class: 'text-white',
-          })
-        })
+      this.showInventario = close;
+      this.inventarioSeleccionado = {
+        descripcion: null,
+        tipo: 'deducible',
+        cantidad: 1
+      };
     },
 
     saveInventario(payload) {
+      if (payload.id) {
+        return void (Api.putInventario(payload.id, payload)
+        .then(() => {
+          setTimeout(this.getInventario, 500)
+          this.show({
+            content: 'Registro modificado',
+            closable: true,
+            time: 3000,
+          });
+          this.closeModal(false);
+        })
+        .catch((error) => {
+          this.show({
+            content: error.data,
+            closable: true,
+            color: 'danger',
+            class: 'text-white',
+          })
+        }));
+      }
+
       Api.postInventario(payload)
         .then(() => {
           setTimeout(this.getInventario, 500)
           this.show({
-            content: 'Registro Agregado',
+            content: 'Registro agregado',
             closable: true,
-            time: 30000,
+            time: 3000,
           })
         })
         .catch((error) => {
@@ -233,42 +170,11 @@ export default {
             color: 'danger',
             class: 'text-white',
           })
-        })
-    },
-
-    getEmpleados() {
-      Api.getAllEmpleado().then(({ data: { data } }) => {
-        this.empleados = data.map((elem) => ({
-          code: elem.id,
-          label: `(${elem.codigo})  ${elem.nombres}  `,
-        }))
-        this.empleados.unshift({
-          code: '',
-          label: 'Seleccionar',
-        })
-      })
-    },
-
-    getUtilInventario(item) {
-      Api.getInventarioById(item.id).then(({ data: { data } }) => {
-        this.utilesInventatio = data
-        this.utils = data.map((elem) => ({
-          code: elem.id,
-          label: `(${elem.id})  ${elem.descripcion}  `,
-          cantidad: elem.cantidad,
-        }))
-      })
-    },
-
-    getUtilesInventario(item) {
-      Api.getInventarioById(item).then(({ data: { data } }) => {
-        this.utilesInventatio = data
-      })
-    },
+        });
+    }
   },
   mounted() {
     this.getInventario()
-    this.getEmpleados()
   },
 }
 </script>

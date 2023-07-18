@@ -9,7 +9,6 @@ export default [
     name: 'Financiero',
     to: '/financiero',
     icon: 'cilBank',
-
   },
 
   {
@@ -52,7 +51,6 @@ export default [
         to: '/financiero',
         icon: 'cilChartLine',
         items: [
-
           {
             component: 'CNavItem',
             name: 'Clasificadores',
@@ -82,6 +80,12 @@ export default [
             name: 'Organismos',
             to: '/FinancieroModule/organismos',
             icon: 'cilBuilding',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Catalogo de Funciones',
+            to: '/FinancieroModule/catalogoDeFunciones',
+            icon: 'cilExcerpt',
           },
           {
             component: 'CNavTitle',
@@ -119,7 +123,6 @@ export default [
         to: '/Ejecucion',
         icon: 'cilChartPie',
         items: [
-
           {
             component: 'CNavItem',
             name: 'Año fiscal',
@@ -146,7 +149,7 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Grupo de pago',
+            name: 'Grupos de pago',
             to: '/Ejecucion/grupoPago',
             icon: 'cilBuilding',
           },
@@ -164,18 +167,24 @@ export default [
             icon: 'cilCalculator',
           },
           {
+            component: 'CNavItem',
+            name: 'Catalogo de Funciones',
+            to: '/Ejecucion/catalogoDeFunciones',
+            icon: 'cilExcerpt',
+          },
+          {
             component: 'CNavTitle',
             name: 'Procesos',
           },
           {
             component: 'CNavItem',
-            name: 'Comprobante de ingreso',
+            name: 'Comprobante de Ingresos',
             to: '/Ejecucion/comprobanteIngreso',
             icon: 'cilNotes',
           },
           {
             component: 'CNavItem',
-            name: 'Comprobante de gasto',
+            name: 'Comprobante de Gastos',
             to: '/Ejecucion/comprobanteGasto',
             icon: 'cilNotes',
           },
@@ -191,21 +200,38 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Ejecución ingreso',
+            name: 'Presupuesto de Ingresos',
             to: '/Ejecucion/ejecucionIngreso',
             icon: 'cilChartPie',
           },
           {
             component: 'CNavItem',
-            name: 'Ejecución gasto',
+            name: 'Presupuesto de Gastos',
             to: '/Ejecucion/ejecucionGastos',
             icon: 'cilChartPie',
           },
-
+          {
+            component: 'CNavItem',
+            name: 'Cuentas de Banco',
+            to: '/Ejecucion/cuentaDeBanco',
+            icon: 'cilAddressBook',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Concepto del Gasto',
+            to: '/Ejecucion/conceptoGasto',
+            icon: 'cilChartPie',
+          },
 
           {
             component: 'CNavTitle',
             name: 'Reportes',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Sección de Informes',
+            to: '/Ejecucion/conceptoGasto',
+            icon: 'cilInbox',
           },
           {
             component: 'CNavTitle',
@@ -219,7 +245,6 @@ export default [
         to: '/ActivoFijoModule',
         icon: 'cilCouch',
         items: [
-
           {
             component: 'CNavItem',
             name: 'Categorías',
@@ -295,7 +320,6 @@ export default [
         to: '/NominaModule',
         icon: 'cilMoney',
         items: [
-
           {
             component: 'CNavItem',
             name: 'Clasificadores nómina',
@@ -382,7 +406,6 @@ export default [
         to: '/ContabilidadModule',
         icon: 'cilDollar',
         items: [
-
           {
             component: 'CNavItem',
             name: 'Cuentas contables',
@@ -443,7 +466,6 @@ export default [
         to: '/ConciliacionBancaria',
         icon: 'cilBank',
         items: [
-
           {
             component: 'CNavItem',
             name: 'Cuentas de bancos ',
@@ -545,7 +567,6 @@ export default [
         to: '/FacturacionCobrosModule',
         icon: 'cilCreditCard',
         items: [
-
           {
             component: 'CNavItem',
             name: 'Arbitrios-Impustos-Tazas',
@@ -625,10 +646,8 @@ export default [
             to: '/FacturacionCobrosModule/FacturasPorLote',
             icon: 'cilList',
           },
-
-        ]
+        ],
       },
-
 
       {
         component: 'CNavItem',
@@ -636,7 +655,6 @@ export default [
         to: '/CuentasPorPagarModule',
         icon: 'cilNotes',
         items: [
-
           {
             component: 'CNavItem',
             name: 'Suplidores',
@@ -651,7 +669,7 @@ export default [
           },
           {
             component: 'CNavTitle',
-            name: 'Procesos'
+            name: 'Procesos',
           },
           {
             component: 'CNavItem',
@@ -667,11 +685,11 @@ export default [
           },
           {
             component: 'CNavTitle',
-            name: 'Consultas'
+            name: 'Consultas',
           },
           {
             component: 'CNavTitle',
-            name: 'Reportes'
+            name: 'Reportes',
           },
           {
             component: 'CNavItem',
@@ -685,7 +703,7 @@ export default [
             to: '/CuentasPorPagarModule/condensado',
             icon: 'cilList',
           },
-        ]
+        ],
       },
     ],
   },
@@ -707,7 +725,6 @@ export default [
         to: '/PlanAnual/planAnual',
         icon: 'cil-notes',
       },
-
     ],
   },
   {
@@ -791,7 +808,7 @@ export default [
           {
             component: 'CNavItem',
             name: 'Inventario de útiles',
-            to: '/RRHHModule/inventario',
+            to: '/RRHHModule/utiles-laborales',
             icon: 'cilDollar',
           },
         ],
@@ -815,6 +832,30 @@ export default [
         name: 'Manejo usuarios',
         to: '/AdministrativoModule/manejoUsuarios',
         icon: 'cilPeoplePlus',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Servicios Personales',
+        to: '/AdministrativoModule/serviciosPersonales',
+        icon: 'cilPeoplePlus',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Misión y Visión',
+        to: '/AdministrativoModule/misionVision',
+        icon: 'cilInfo',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Metas',
+        to: '/AdministrativoModule/fp-meta-04',
+        icon: 'cilList',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Ayuntamiento',
+        to: '/AdministrativoModule/ayuntamiento',
+        icon: 'cilBuilding',
       },
     ],
   },
