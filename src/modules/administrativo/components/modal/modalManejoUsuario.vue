@@ -159,6 +159,8 @@ export default {
         userName: null,
         email: null,
       }
+      this.nombreUser = ''
+      this.apellidoUser = ''
     },
 
     closeModalUsuario() {
