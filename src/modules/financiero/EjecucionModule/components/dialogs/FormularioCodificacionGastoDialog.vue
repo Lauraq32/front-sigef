@@ -494,9 +494,11 @@ export default {
       this.detalleRegistroGasto.clasificadorId = item.clasificador
       this.detalleRegistroGasto.fuenteId = item.fuenteId
       if (this.registroGasto.etapa == 'Devengado') {
-        if (item.devengadoEjecutado != item.devengadoDisponible)
+        if (item.devengadoEjecutado != item.devengadoDisponible) {
           this.balanceDisponible = item.devengadoDisponible;
           return;
+        }
+
       }
 
       this.balanceDisponible = item.pagadoDisponible;
