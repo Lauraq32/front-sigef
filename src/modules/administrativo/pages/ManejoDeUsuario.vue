@@ -161,8 +161,8 @@ export default {
               closable: true,
               color: 'inherit',
             })
-            setTimeout(this.getUsuarios, 500);
-            this.usuarioToUpdate = {};
+            setTimeout(this.getUsuarios, 500)
+            this.usuarioToUpdate = {}
           })
           .catch((error) => {
             this.show({
@@ -181,7 +181,7 @@ export default {
               color: 'inherit',
             })
             setTimeout(this.getUsuarios, 500)
-            this.usuarioToUpdate = {};
+            this.usuarioToUpdate = {}
           })
           .catch((error) => {
             this.show({
@@ -194,8 +194,8 @@ export default {
       }
     },
 
-    getUsuarios(params = { estado: true }) {
-      Api.getUsuarioList(params).then((response) => {
+    getUsuarios(target) {
+      Api.getUsuarioList(target).then((response) => {
         this.listUsuarios = response.data.data
         this.footerItem[0].label = `Total Items: ${response.data.data.length}`
       })
@@ -267,7 +267,11 @@ export default {
                 closable: true,
                 color: 'inherit',
               })
-              setTimeout(this.getUsuarios, 500)
+              setTimeout(
+                () =>
+                  this.handleFilterUserByStatus({ target: { value: 'true' } }),
+                500,
+              )
             })
             .catch((error) => {
               this.show({
@@ -301,7 +305,11 @@ export default {
                 closable: true,
                 color: 'inherit',
               })
-              setTimeout(this.getUsuarios, 500)
+              setTimeout(
+                () =>
+                  this.handleFilterUserByStatus({ target: { value: 'false' } }),
+                500,
+              )
             })
             .catch((error) => {
               this.show({
