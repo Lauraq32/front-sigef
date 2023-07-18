@@ -77,6 +77,7 @@ import { formatPrice } from '../../../../utils/format'
 import { useToastStore } from '@/store/toast'
 import FormulacionGastoDialog from "../gasto/FormulacionGastoDialog";
 import AppAccionHeader from "../../../../components/AppActionHeader.vue";
+import { showReport } from '@/utils/util'
 
 export default {
   components: {
@@ -85,6 +86,7 @@ export default {
     FormulacionGastoDialog,
     AppAccionHeader
   },
+  inject: ['LoginInfo'],
   data: function () {
     return {
       formulacionGasto: {},
@@ -166,10 +168,10 @@ export default {
           })
           const wsname = wb.SheetNames[0]
           const ws = wb.Sheets[wsname]
-          const data = XLSX.utils.sheet_to_json(ws);
-          const proyectosList = [];
-          let pnap = '00';
-          let programa = '00';
+          const data = XLSX.utils.sheet_to_json(ws)
+          const proyectosList = []
+          let pnap = '00'
+          let programa = '00'
           data.map((item) => {
             if (Object.values(item)[2] < 90) {
               pnap = '00'
@@ -180,13 +182,14 @@ export default {
             }
 
             proyectosList.push({
-              AyuntamientoId: this.$ayuntamientoId,
-              AnioFiscalId: this.$fiscalYearId,
+              AnioFiscalId: this.LoginInfo.fiscalYearId ?? 0,
+              AyuntamientoId: this.LoginInfo.ayuntamientoId ?? 0,
+
               MestProgId: `0011${Object.values(item)[4]
                 .toString()
                 .padStart(2, 0)}${Object.values(item)[5]
-                .toString()
-                .padStart(4, 0)}`,
+                  .toString()
+                  .padStart(4, 0)}`,
 
               PNAP: pnap,
               Programa: programa,
@@ -213,9 +216,9 @@ export default {
               this.show({
                 content: 'Registro añadido correctamente',
                 closable: true,
-                time: 15_000
-              });
-              this.loadData();
+                time: 15_000,
+              })
+              this.loadData()
             })
             .catch(({response}) => {
               this.show({
@@ -228,12 +231,12 @@ export default {
             })
           } else {
             this.show({
-                content: 'No se encontraron registros',
-                closable: true,
-                color: 'danger',
-                class: 'text-white',
-                time: 15_000
-            });
+              content: 'No se encontraron registros',
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+              time: 15_000,
+            })
           }
         }
 
@@ -245,7 +248,7 @@ export default {
       this.file = event.target.files ? event.target.files[0] : null
       if (this.file) {
         const reader = new FileReader()
-
+        
         reader.onload = (e) => {
           const bstr = e.target.result
           const wb = XLSX.read(bstr, {
@@ -255,8 +258,8 @@ export default {
           })
           const wsname = wb.SheetNames[0]
           const ws = wb.Sheets[wsname]
-          const data = XLSX.utils.sheet_to_json(ws);
-          const pregastoMasivo = [];
+          const data = XLSX.utils.sheet_to_json(ws)
+          const pregastoMasivo = []
           data.map((item) => {
             if (Object.values(item)[2] < 90) {
               this.pnap = '00'
@@ -268,18 +271,16 @@ export default {
 
             pregastoMasivo.push({
               presGastoId: 0,
-              ayuntamientoId: this.$ayuntamientoId,
-              anioFiscalId: this.$fiscalYearId,
+              anioFiscalId: this.LoginInfo.fiscalYearId ?? 0,
+              ayuntamientoId: this.LoginInfo.ayuntamientoId ?? 0,
               mestProgId: `${this.pnap}${this.programa}${Object.values(item)[4]
                 .toString()
                 .padStart(2, 0)}${Object.values(item)[5]
-                .toString()
-                .padStart(4, 0)}`,
-              ctgClasificadorId: `${Object.values(item)[6]}${
-                Object.values(item)[7]
-              }${Object.values(item)[8]}${
-                Object.values(item)[9]
-              }${Object.values(item)[10].toString().padStart(2, 0)}`,
+                  .toString()
+                  .padStart(4, 0)}`,
+              ctgClasificadorId: `${Object.values(item)[6]}${Object.values(item)[7]
+                }${Object.values(item)[8]}${Object.values(item)[9]
+                }${Object.values(item)[10].toString().padStart(2, 0)}`,
               cControl: `${Object.values(item)[8]}`,
               auxiliar: `${Object.values(item)[10].toString().padStart(2, 0)}`,
               ctgFuenteId: `${Object.values(item)[15]}`,
@@ -292,36 +293,32 @@ export default {
               tipoGasto: '',
               oriBco1: 0,
               estimadoBco1: 0,
-              presupuestoBco1: `${
-                Object.values(item)[11] == 'P' ? Object.values(item)[18] : 0
-              }`,
+              presupuestoBco1: `${Object.values(item)[11] == 'P' ? Object.values(item)[18] : 0
+                }`,
               variacionBco1: 0,
               totalDevengadoBco1: 0,
               disponiblePagadoBco1: 0,
               totalPagadoBco1: 0,
               oriBco2: 0,
               estimadoBco2: 0,
-              presupuestoBco2: `${
-                Object.values(item)[11] == 'S' ? Object.values(item)[18] : 0
-              }`,
+              presupuestoBco2: `${Object.values(item)[11] == 'S' ? Object.values(item)[18] : 0
+                }`,
               variacionBco2: 0,
               totalDevengadoBco2: 0,
               disponiblePagadoBco2: 0,
               totalPagadoBco2: 0,
               oriBco3: 0,
               estimadoBco3: 0,
-              presupuestoBco3: `${
-                Object.values(item)[11] == 'I' ? Object.values(item)[18] : 0
-              }`,
+              presupuestoBco3: `${Object.values(item)[11] == 'I' ? Object.values(item)[18] : 0
+                }`,
               variacionBco3: 0,
               totalDevengadoBco3: 0,
               disponiblePagadoBco3: 0,
               totalPagadoBco3: 0,
               oriBco4: 0,
               estimadoBco4: 0,
-              presupuestoBco4: `${
-                Object.values(item)[11] == 'E' ? Object.values(item)[18] : 0
-              }`,
+              presupuestoBco4: `${Object.values(item)[11] == 'E' ? Object.values(item)[18] : 0
+                }`,
               variacionBco4: 0,
               totalDevengadoBco4: 0,
               disponiblePagadoBco4: 0,
@@ -339,11 +336,19 @@ export default {
             })
           })
           pregastoMasivo.forEach((item) => {
-            Api.getEstruturaProgramaticaById(item.mestProgId).then(
-              (response) => {
+            Api.getEstruturaProgramaticaById(item.mestProgId)
+            .then( (response) => {
                 item.nombre = response.data.data?.nombre ?? '';
-              },
-            )
+            })
+            .catch(error => {
+              this.show({
+                content: error.response.data,
+                closable: true,
+                color: 'danger',
+                class: 'text-white',
+                time: 7_000
+              })
+            });
           })
 
           if (pregastoMasivo.length) {
@@ -365,12 +370,12 @@ export default {
             })
           } else {
             this.show({
-                content: 'No se encontraron registros',
-                closable: true,
-                color: 'danger',
-                class: 'text-white',
-                time: 15_000
-            });
+              content: 'No se encontraron registros',
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+              time: 15_000,
+            })
           }
         }
 
@@ -381,74 +386,93 @@ export default {
       if (data.presGastoDto.id) {
         return Api.updateFormulacion(data.presGastoDto.id, data)
       }
-      return this.addGasto(data);
+      return this.addGasto(data)
     },
-    IngresoReport() {
-      window.open(
-        `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fReportes%2fRep_Gastos_Formulacion_FP08&rs:Command=Render&ANO=${this.$fiscalYearId}&CAPITULO_AYTO=${this.$ayuntamientoId}&FONDO=P`,
-        '_blank',
-      );
+    async IngresoReport() {
+      try {
+        await showReport({
+          folderName: 'fep',
+          reportName: 'Rep_Formulacion_Gastos_FP08',
+          params: [{
+            name: "CAPITULO_AYTO",
+            value: "majorityId"
+          },{
+            name: "ANO",
+            value: "fiscalYear"
+          }]
+        });
+      } catch (error) {
+        this.show({
+          content: error,
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        })
+      }
     },
 
     cargarEstructuras() {
       Api.cargarEstructuras()
-      .then(() => {
-        this.loadData();
-        this.show({
-            content: "Cargar realizada correctamente",
-            time: 15_000
-        });
-      })
-      .catch(error => {
-        this.show({
+        .then(() => {
+          this.loadData()
+          this.show({
+            content: 'Cargar realizada correctamente',
+            time: 15_000,
+          })
+        })
+        .catch((error) => {
+          this.show({
             content: error.response.data,
             closable: true,
             color: 'danger',
             class: 'text-white',
-        });
-      });
+          })
+        })
     },
 
     toggleDetails(item) {
-      this.formulacionGasto = {...item};
-      this.showFormulacionDialog = true;
+      this.formulacionGasto = { ...item }
+      this.showFormulacionDialog = true
     },
     onFormulacionGastoDialogClose(data) {
       if (data) {
-        const { detallePresGastos, ...rest } = data;
-        rest.totalPresupuesto = detallePresGastos.reduce((acc, detalle) => acc + detalle.totalOriginal, 0);
+        const { detallePresGastos, ...rest } = data
+        rest.totalPresupuesto = detallePresGastos.reduce(
+          (acc, detalle) => acc + detalle.totalOriginal,
+          0,
+        )
         this.guardarFormulacionGasto({
           detallePresGastoDtos: detallePresGastos,
-          presGastoDto: rest 
+          presGastoDto: rest,
         })
-        .then((response) => {
+          .then((response) => {
             this.show({
-                content: response.data.message,
-                closable: true,
-            });
-            this.formulacionGasto = {};
-            this.showFormulacionDialog = false;
-            
-            this.loadData();
+              content: response.data.message,
+              closable: true,
+            })
+            this.formulacionGasto = {}
+            this.showFormulacionDialog = false
+
+            this.loadData()
           })
           .catch((error) => {
             this.show({
-                content: error.response.data,
-                closable: true,
-                color: 'danger',
-                class: 'text-white',
-            });
+              content: error.response.data,
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+            })
           })
       } else {
-        this.formulacionGasto = {};
-        this.showFormulacionDialog = false;
+        this.formulacionGasto = {}
+        this.showFormulacionDialog = false
       }
     },
     setNuevoFormulacionGasto() {
       this.formulacionGasto = {
         clasifica: '',
-        ayuntamientoId: this.$ayuntamientoId,
-        anioFiscalId: this.$fiscalYearId,
+        anioFiscalId: this.LoginInfo.fiscalYearId ?? 0,
+        ayuntamientoId: this.LoginInfo.ayuntamientoId ?? 0,
         mestprogId: '',
         costObra: 0,
         pnap: '',
@@ -465,16 +489,16 @@ export default {
         modContatro: 'n',
         asignadoA: 0,
         asignadoA: 0,
-        fecha: (new Date()).toISOString(),
+        fecha: new Date().toISOString(),
         detallePresGastos: [],
-      };
-      this.showFormulacionDialog = true;
+      }
+      this.showFormulacionDialog = true
     },
     loadData() {
       setTimeout(() => {
-        this.getListarGastos();
-      }, 200);
-    }
+        this.getListarGastos()
+      }, 200)
+    },
   },
 
   computed: {
@@ -522,9 +546,10 @@ export default {
       return actions;
     }
   },
-  inject: ['LoginInfo'],
   mounted() {
-    this.loadData();
+    this.getListarGastos()
+    this.footerItem[0].label = `Total items: ${this.gastoListCount}`
+    this.loadData()
   },
   watch: {
     prepGastoList() {
@@ -536,24 +561,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.file-select {
-  display: flex;
-  overflow: hidden;
-  position: relative;
-  align-items: center;
-  background-color: #375b80;
-  color: white;
-}
-
-.file-select > .label {
-  margin-left: 0.1rem;
-}
-
-.file-select > input[type='file'] {
-  visibility: hidden;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-</style>

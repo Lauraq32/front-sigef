@@ -4,40 +4,30 @@
             <div class="d-flex gap-3">
                 <div class="d-flex flex-column align-items-center" v-if="showFiscalYearList">
                     <label class="form-label col-auto col-form-label" for="fiscalYearSelect">A&ntilde;o Fiscal</label>
-                    <CFormSelect id="fiscalYearSelect" v-model.number="nominaGeneral.anio" @change="setFiscalYear($event)"
-                        aria-label="Selecionar año fiscal" :options="fiscalYearList">
+                    <CFormSelect id="fiscalYearSelect" @change="setFiscalYear($event)" aria-label="Selecionar año fiscal"
+                        :options="fiscalYearList">
                     </CFormSelect>
                 </div>
                 <div class="d-flex flex-column align-items-center">
                     <label class="form-label col-auto col-form-label" for="Mes">Mes</label>
-                    <CFormSelect v-model.number="nominaGeneral.mes" id="mes">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                        <option>9</option>
-                        <option>10</option>
-                        <option>11</option>
-                        <option>12</option>
+                    <CFormSelect id="formaPago" v-model.number="nominaGeneral.mes">
+                        <template v-for="mesData of meses">
+                            <option :value="mesData.id">{{ mesData.nombre }}</option>
+                        </template>
                     </CFormSelect>
                 </div>
                 <div class="d-flex flex-column align-items-center">
                     <label class="form-label col-auto col-form-label" for="tipoContrato">Tipo de contracto</label>
                     <CFormSelect v-model="nominaGeneral.tipoContrato" id="tipoContrato">
                         <option selected value="">--Selecciona--</option>
-                        <option>Tipo de contrato 1</option>
-                        <option>Tipo de contrato 2</option>
+                        <option>Fijo</option>
+                        <option>Temporal</option>
                     </CFormSelect>
                 </div>
                 <div class="d-flex flex-column align-items-center">
                     <label class="form-label col-auto col-form-label" for="formaPago">Forma de pago</label>
                     <CFormSelect v-model="nominaGeneral.formaPago" id="formaPago">
                         <option selected value="">--Selecciona--</option>
-                        <option>EFECTIVO</option>
                         <option>BANCO</option>
                         <option>CHEQUE</option>
                     </CFormSelect>
@@ -115,16 +105,27 @@ export default {
         this.selectedFiscalYear = `${this.authInfo.currentFiscalYearId}`;
     },
     setup() {
-        const authStore = useAuthStore();
-        const { user, currentFiscalYearId } = authStore.authInfo;
         const nominaGeneral = {
-            ayuntamientoId: user.ayuntamiento.id,
-            anio: currentFiscalYearId,
             mes: new Date().getMonth() + 1,
             tipoContrato: '',
             formaPago: '',
         };
-        return { nominaGeneral }
+        const meses = [
+            { id: 0, nombre: "Todos" },
+            { id: 1, nombre: "Enero" },
+            { id: 2, nombre: "Febrero" },
+            { id: 3, nombre: "Marzo" },
+            { id: 4, nombre: "Abril" },
+            { id: 5, nombre: "Mayo" },
+            { id: 6, nombre: "Junio" },
+            { id: 7, nombre: "Julio" },
+            { id: 8, nombre: "Agosto" },
+            { id: 9, nombre: "Septiembre" },
+            { id: 10, nombre: "Octubre" },
+            { id: 11, nombre: "Noviembre" },
+            { id: 12, nombre: "Diciembre" },
+        ]
+        return { nominaGeneral, meses }
     },
 }
 </script>

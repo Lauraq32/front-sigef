@@ -34,4 +34,20 @@ const getConfiguracionNomina = (configuracionNomina) => {
   return configuracionNominaIngreso;
 }
 
-export { formatPrice, formatDate, estructura, getConfiguracionNomina }
+const formatPhoneNumber = (value) => {
+  const cleanedPhoneNumber = value.replace(/\D/g, '')
+  const formattedNumber = cleanedPhoneNumber.replace(
+    /(\d{3})(\d{3})(\d{4})/,
+    '($1) $2-$3',
+  )
+  return formattedNumber
+}
+
+const formatNumber = (value) => {
+  let val = Math.round(value)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  return val
+}  
+
+export { formatPrice, formatDate, estructura, getConfiguracionNomina , formatNumber, formatPhoneNumber }

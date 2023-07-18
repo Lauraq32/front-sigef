@@ -1,14 +1,12 @@
 <template>
-      
-  <h3 class="text-center">Grupo nomina</h3>
-
+  <h3 class="text-center">Grupo Nómina</h3>
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton
         color="info"
         @click="
           () => {
-            lgDemo = true
+            showGrupoNomina = true
           }
         "
         >Agregar</CButton
@@ -16,7 +14,8 @@
     </div>
   </div>
 
-  <CSmartTable class="sticky-top"
+  <CSmartTable
+    class="sticky-top"
     clickableRows
     :tableProps="{
       striped: true,
@@ -26,173 +25,90 @@
     :activePage="1"
     :footer="footerItem"
     header
-    :items="grupoNomina"
+    :items="grupoNominas"
     :columns="columns"
     itemsPerPageSelect
     columnFilter
     :itemsPerPage="5"
     columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
+    :sorterValue="{ state: 'asc' }"
     pagination
   >
-    <template #status="{ item }">
+    <template #estructuraProgramatica="{ item }">
       <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
+        {{ item.estructuraProgramatica?.id }}
       </td>
     </template>
+
     <template #show_details="{ item }">
-      <td class="py-1">
+      <td class="py-1 d-flex gap-1">
         <CButton
           class="mt-1"
           color="primary"
           variant="outline"
           square
           size="sm"
-          @click="toggleDetails(item)"
+          @click="editarGrupoNomina(item)"
         >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Editar' }}
+          Editar
+        </CButton>
+
+        <CButton
+          class="mt-1"
+          color="danger"
+          variant="outline"
+          square
+          size="sm"
+          @click="cancelarGrupoNomina(item)"
+        >
+          Eliminar
         </CButton>
       </td>
     </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
-    </template>
   </CSmartTable>
-  <CModal
-    size="md"
-    :visible="lgDemo"
-    @close="
-      () => {
-        lgDemo = false
-      }
-    "
-  >
-    <CModalHeader>
-      <CModalTitle>Grupo Nomina</CModalTitle>
-    </CModalHeader>
-    <CModalBody>
-      <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
-          <div class="row">
-            <div class="col-6">
-              <CCol :md="8">
-                <CFormLabel for="validationCustom02">Codigo</CFormLabel>
-                <input
-                  disabled
-                  type="text"
-                  class="form-control"
-                  v-model="postGrupoNominas.id"
-                  id="exampleInputEmail1"
-                />
 
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-            </div>
-            <div class="col-4" style="position: relative; left: 115px">
-              <CCol :md="5">
-                <CFormLabel for="validationCustom02"
-                  >Id_Ayuntamiento</CFormLabel
-                >
-                <input
-                  style="position: relative; left: 25px"
-                  disabled
-                  type="text"
-                  class="form-control"
-                  v-model="postGrupoNominas.id"
-                  id="exampleInputEmail1"
-                />
-                <CFormFeedback valid> Exito! </CFormFeedback>
-                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-              </CCol>
-            </div>
-          </div>
-          <CCol :md="11">
-            <CFormLabel for="validationCustom01">Nombre</CFormLabel>
-            <CFormInput
-              v-model="postGrupoNominas.nombre"
-              id="validationCustom01"
-              required
-            />
-
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-              v-on:click="close"
-            >
-              Close
-            </button>
-            <button
-              v-on:click="submitForm"
-              type="button"
-              class="btn btn-primary"
-            >
-              Guardar
-            </button>
-          </div>
-        </CForm>
-      </CCardBody>
-    </CModalBody>
-  </CModal>
+  <ModalGrupoNomina
+    :showModal="showGrupoNomina"
+    :grupoNomina="grupoNomina"
+    @close-modal="closeGrupoNomina"
+    @postGrupoNomina="guardarGrupoNomina"
+    @editarGrupoNomina="editarGrupoNomina"
+  />
 </template>
 
 <script>
-import { useRegistroStore } from '../store/Nomina/grupoNomina'
-
 import { CSmartTable } from '@coreui/vue-pro'
-import { CModal } from '@coreui/vue'
-import { mapStores } from 'pinia'
-import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
- 
+import ModalGrupoNomina from './dialogos/ModalGrupoNomina.vue'
 import { useToastStore } from '@/store/toast'
 import Api from '../services/NominaServices'
 
 export default {
   components: {
     CSmartTable,
-    CModal,
-      
+    ModalGrupoNomina,
   },
 
   data: function () {
     return {
-      postGrupoNominas: {
-        nombre: null,
-        variacion: 0,
-        ayuntamientoId: this.$ayuntamientoId,
-      },
-
+      grupoNominas: [],
+      grupoNomina: {},
       columns: [
-        { key: 'id', label: 'Código', _style: { width: '40%' } },
+        { key: 'id', label: 'Código', _style: { width: '15%' } },
         {
-          key: 'nombre',
-          label: 'Grupo Nomina',
-          _style: { width: '40%' },
+          key: 'descripcion',
+          label: 'Grupo Nómina',
+          _style: { width: '50%' },
+        },
+        {
+          key: 'estructuraProgramatica',
+          label: 'Estructura Programática',
+          _style: { width: '25%' },
         },
         {
           key: 'show_details',
           label: '',
-          _style: { width: '1%' },
+          _style: { width: '10' },
           filter: false,
           sorter: false,
         },
@@ -201,125 +117,109 @@ export default {
         {
           label: 'Total Items',
           _props: {
-            color: '',
-            colspan: 1,
+            colspan: 5,
             style: 'font-weight:bold;',
           },
         },
-
       ],
-
-      details: [],
-
-      validatedCustom01: null,
-      lgDemo: false,
+      showGrupoNomina: false,
     }
   },
 
-  computed: {
-    ...mapStores(useRegistroStore),
-    ...mapState(useRegistroStore, ['grupoNomina']),
-  },
-
   methods: {
-    ...mapActions(useRegistroStore, ['getGNomina', 'addGrupoNomina']),
     ...mapActions(useToastStore, ['show']),
 
-    submitForm() {
-      if (this.id) {
-        Api.putGrupoNomina(this.id, this.postGrupoNominas).then((response) => {
-          this.lgDemo = false
-          this.show({
-            content: response.data.message,
-            closable: true,
-            color: 'success',
-          })
-          setTimeout(this.getGNomina, 500)
-          this.postGrupoNominas = {
-            nombre: null,
-            variacion: 0,
-            ayuntamientoId: this.$ayuntamientoId,
-          }
-        })
-        setTimeout(this.getGNomina, 500)
-      } else {
-        setTimeout(this.getGNomina, 500)
-        Api.postGrupoNomina(this.postGrupoNominas)
+    closeGrupoNomina() {
+      this.showGrupoNomina = false
+    },
+
+    guardarGrupoNomina(payload) {
+      if (payload.id) {
+        Api.putGrupoNomina(payload.id, payload)
           .then((response) => {
-                 this.show({
-              content: 'Registro añadido correctamente',
-              closable: true,
-            })
-          })
-           .catch((error) => {
+            setTimeout(this.getGrupoNomina, 500)
             this.show({
-              content: 'Error al enviar el formulario',
+              content: response.data.message,
+              closable: true,
+              time: 7_000,
+            })
+            this.closeGrupoNomina()
+          })
+          .catch((error) => {
+            this.show({
+              content: error.response.data,
               closable: true,
               color: 'danger',
               class: 'text-white',
+              time: 7_000,
             })
           })
-        this.lgDemo = true
-        setTimeout(this.getGNomina, 500)
-        ;(this.postGrupoNominas = {
-          nombre: null,
-          variacion: 0,
-          ayuntamientoId: this.$ayuntamientoId,
-        }),
-          (this.validatedCustom01 = false)
-        event.preventDefault()
-        event.stopPropagation()
-        setTimeout(this.getGNomina, 500)
-      }
-    },
-
-    close() {
-      this.lgDemo = false
-    },
-
-    toggleDetails(item) {
-      if (item.grupoNomina !== 0 || item.variacion !== 0) {
-        this.formuladoValue = true
       } else {
-        this.formuladoValue = false
+        Api.postGrupoNomina({
+          ...payload,
+          estructuraProgramaticaId:
+            payload.estructuraProgramatica?.id ??
+            payload.estructuraProgramaticaId,
+        })
+          .then(() => {
+            setTimeout(this.getGrupoNomina, 500)
+            this.show({
+              content: 'Registro añadido correctamente',
+              closable: true,
+              time: 7_000,
+            })
+          })
+          .catch((error) => {
+            this.show({
+              content: error.response.data,
+              closable: true,
+              color: 'danger',
+              class: 'text-white',
+              time: 7_000,
+            })
+          })
       }
-      this.edit = true
-      this.lgDemo = true
-      console.log(item.id)
-      Api.getGrupoNominaById(item.id).then((response) => {
-        this.postGrupoNominas = response.data.data
+    },
 
-        this.id = item.id
+    editarGrupoNomina(item) {
+      this.showGrupoNomina = true
+      this.grupoNomina = item
+    },
+
+    getGrupoNomina() {
+      Api.getGrupoNomina().then((response) => {
+        this.grupoNominas = response.data.data
+        this.footerItem[0].label = `Total Items: ${response.data.data.length}`
       })
     },
 
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
-
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
+    cancelarGrupoNomina(item) {
+      this.$swal({
+        title: 'Estás seguro que quieres realizar esta acción? ',
+        text: 'No podrás revertirlo',
+        icon: 'Confirmación',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Aceptar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Api.deleteGrupoNomina(item.id).then(() => {
+            this.show({
+              content: 'Registro cancelado correctamente',
+              closable: true,
+              time: 7_000,
+            })
+            setTimeout(this.getGrupoNomina, 500)
+          })
+        }
+      })
     },
   },
 
   mounted() {
-    this.getGNomina()
+    this.getGrupoNomina()
   },
 }
 </script>

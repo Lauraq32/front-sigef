@@ -1,86 +1,62 @@
 <template>
-  <h3 class="text-center">Cargos</h3>
-  <hr />
-  <div class="table-headers">
-    <div class="d-inline p-2">
-      <CButton
-        color="info"
-        @click="
-          () => {
-            cargoModal = true
-          }
-        "
-        >Agregar</CButton
-      >
-    </div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info"
-        >Imprimir</CButton
-      >
-    </div>
+  <h3 class="text-center mb-4">Cargos</h3>
+  <div class="table-headers mb-4 gap-1">
+    <CButton
+      color="info"
+      @click="
+        () => {
+          cargoModal = true
+        }
+      "
+      >Agregar</CButton
+    >
+    <CButton color="secondary">Imprimir</CButton>
   </div>
-  <hr />
-  <CSmartTable
-    class="sticky-top"
-    clickableRows
-    :tableProps="{
-      striped: true,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    header
-    :items="cargos"
+  <CargosTable
     :columns="columns"
-    :footer="footerItem"
-    columnFilter
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'posicion', state: 'asc' }"
-    pagination
-  >
-  <template #show_details="{ item }">
-      <td class="py-2">
-        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="getCargosById(item)">Editar</CButton>
-      </td>
-    </template>
-  </CSmartTable>
+    :footerItems="footerItem"
+    :items="cargos"
+    :showButtons="true"
+    @edit="getCargosById"
+  />
   <CargosModal
     :cargoModal="cargoModal"
     @close-modal="closeModal"
     @post-cargo="saveCargo"
-    :cargoId="cargoId"
+    :cargoToUpdate="cargo"
   />
 </template>
 <script>
-import { CSmartTable } from '@coreui/vue-pro'
-import { CModal } from '@coreui/vue'
-import CargosModal from '../Dialogos/CargosModal.vue'
+import CargosTable from '@/modules/rrhh/RegistroPersonal/components/CargosTable.vue'
+import CargosModal from './Dialogos/CargosModal.vue'
 import { mapActions } from 'pinia'
 import Api from '../services/RegistroPersonalServices'
 import { useToastStore } from '@/store/toast'
 export default {
   components: {
-    CSmartTable,
-    CModal,
     CargosModal,
+    CargosTable,
   },
   data: () => {
     return {
-      cargoId: null,
+      cargo: null,
       cargos: [],
       cargoModal: false,
       columns: [
         {
-          key: 'posicion',
+          key: 'id',
+          label: 'ID',
+          _style: { width: '10%' },
+        },
+        {
+          key: 'nombre',
           label: 'Posición o cargo',
-          _style: { width: '40%' },
+          _style: { width: '70%' },
         },
         {
           key: 'show_details',
           label: '',
-          _style: { width: '1%' },
+          _style: { width: '10%' },
           filter: false,
           sorter: false,
         },
@@ -89,7 +65,7 @@ export default {
         {
           label: 'Total Items',
           _props: {
-            colspan: 1,
+            colspan: 3,
             style: 'font-weight:bold;',
           },
         },
@@ -101,13 +77,47 @@ export default {
     closeModal(payload) {
       this.cargoModal = payload
     },
+    deleteCargo(id) {
+
+      this.$swal({
+        title: 'Estás seguro de realizar esta acción? ',
+        text: 'No podrás revertirlo',
+        icon: 'Confirmación',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Aceptar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Api.deleteCargo(id).then(() => {
+            this.show({
+              content: 'Registro eliminado correctamente',
+              closable: true,
+
+            })
+            setTimeout(() => this.getAllCargo(), 200)
+          }).catch((error) => {
+            this.show({
+              content: error.response.data.message,
+              closable: true,
+
+              color: 'danger'
+            })
+          })
+         
+        }
+
+      });
+      
+    },
     getCargosById(item) {
-      this.cargoId = item.id
+      this.cargo = item
       this.cargoModal = true
     },
     saveCargo(payload) {
-      if (this.cargoId != null) {
-        Api.updateCargo(this.cargoId, payload)
+      if (payload.id != null) {
+        Api.updateCargo(payload.id, payload)
           .then(() => {
             this.show({
               content: 'Registro actualizado correctamente',

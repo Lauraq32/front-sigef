@@ -1,8 +1,7 @@
 <template>
-  <h3 class="text-center">Áreas de trabajo</h3>
-  <hr />
-  <div class="table-headers">
-    <div class="d-inline p-2">
+  <h3 class="text-center mb-4">Áreas de trabajo</h3>
+  <div class="table-headers mb-4">
+    <div class="d-flex p-2 gap-1">
       <CButton
         color="info"
         @click="
@@ -14,46 +13,16 @@
       >
     </div>
     <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info"
-        >Imprimir</CButton
-      >
+      <CButton style="font-weight: bold" color="info">Imprimir</CButton>
     </div>
   </div>
-  <hr />
-  <CSmartTable
-    class="sticky-top"
-    clickableRows
-    :tableProps="{
-      striped: true,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    :footer="footerItem"
-    header
-    :items="AreasTrabajos"
+  <AreaTrabajoTable
     :columns="columns"
-    columnFilter
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'descripcion', state: 'asc' }"
-    pagination
-  >
-    <template #show_details="{ item }">
-      <td class="py-2">
-        <CButton
-          class="mt-1"
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="editAreaTrabajo(item)"
-          >Editar</CButton
-        >
-      </td>
-    </template>
-  </CSmartTable>
+    :footerItems="footerItem"
+    :items="AreasTrabajos"
+    :showButtons="true"
+    @edit="editAreaTrabajo"
+  />
   <AreaTrabajoModal
     :newAreaTrabajoModal="newAreaTrabajoModal"
     @close-modal="closeModal"
@@ -63,8 +32,8 @@
 </template>
 
 <script>
-import AreaTrabajoModal from '../Dialogos/AreaTrabajoModal.vue'
-import { CSmartTable } from '@coreui/vue-pro'
+import AreaTrabajoModal from './Dialogos/AreaTrabajoModal.vue'
+import AreaTrabajoTable from '@/modules/rrhh/RegistroPersonal/components/AreaTrabajoTable.vue'
 import { CModal } from '@coreui/vue'
 import Api from '../services/RegistroPersonalServices'
 import { useToastStore } from '@/store/toast'
@@ -72,7 +41,7 @@ import { mapActions } from 'pinia'
 
 export default {
   components: {
-    CSmartTable,
+    AreaTrabajoTable,
     CModal,
     AreaTrabajoModal,
   },
@@ -95,7 +64,7 @@ export default {
         {
           label: 'Total Items',
           _props: {
-            colspan: 1,
+            colspan: 8,
             style: 'font-weight:bold;',
           },
         },

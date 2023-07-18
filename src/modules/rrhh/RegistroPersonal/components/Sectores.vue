@@ -1,8 +1,6 @@
 <template>
-  <h3 class="text-center">Sectores</h3>
-  <hr />
+  <h3 class="text-center mb-4">Sectores</h3>
   <div class="table-headers">
-    <div class="d-inline p-2">
       <CButton
         color="info"
         @click="
@@ -12,35 +10,14 @@
         "
         >Agregar</CButton
       >
-    </div>
   </div>
-  <hr />
-  <CSmartTable
-    class="sticky-top"
-    clickableRows
-    :tableProps="{
-      striped: true,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    :footer="footerItem"
-    header
-    :items="sectores"
+  <SectorTable
     :columns="columns"
-    columnFilter
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'nombre', state: 'asc' }"
-    pagination
-  >
-  <template #show_details="{ item }">
-      <td class="py-2">
-        <CButton class="mt-1" color="primary" variant="outline" square size="sm" @click="editSector(item)">Editar</CButton>
-      </td>
-    </template>
-  </CSmartTable>
+    :footerItems="footerItem"
+    :items="sectores"
+    :showButtons="true"
+    @edit="editSector"
+  />
   <SectoresModal
     :newSectorModal="newSectorModal"
     @close-modal="closeModal"
@@ -50,15 +27,15 @@
 </template>
 
 <script>
-import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import { mapActions } from 'pinia'
+import SectorTable from '@/modules/rrhh/RegistroPersonal/components/SectoresTable.vue'
 import { useToastStore } from '@/store/toast'
-import SectoresModal from '../Dialogos/SectoresModal.vue'
+import SectoresModal from './Dialogos/SectoresModal.vue'
 import Api from '../services/RegistroPersonalServices'
 export default {
   components: {
-    CSmartTable,
+    SectorTable,
     CModal,
     SectoresModal,
   },

@@ -6,7 +6,7 @@ import DefaultLayout from '@/layouts/DefaultLayout'
 
 //prueba router
 import testModuleRouter from '../modules/financiero/FormulacionModule/router'
-import AdministrativoModule from '../modules/administrativo/Usuario/router'
+import AdministrativoModule from '../modules/administrativo/router'
 import RRHHModule from '../modules/rrhh/RegistroPersonal/router'
 import EjecucionModule from '../modules/financiero/EjecucionModule/router'
 import ActivoFijoModule from '../modules/financiero/ActivoFijoModule/router'
@@ -141,6 +141,17 @@ const routes = [
       },
     },
     children: [
+      {
+        path: 'empleados/:id',
+        name: 'empleadosReports',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () =>
+          import(
+            /* webpackChunkName: "dashboard" */ '@/components/Report/RRHH/ReportsTemplate/EmpleadosReports.vue'
+          ),
+      },
       {
         path: '/',
         name: 'Login',
