@@ -1,49 +1,43 @@
 <template>
-  <h3 class="text-center">Tipo de sangre</h3>
-
-  <div class="table-headers">
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-        >Imprimir</CButton
-      >
-    </div>
+  <h3 class="text-center mb-4">Tipo de Sangre</h3>
+  
+  <div class="table-headers mb-4">
+    <CButton color="secondary">Imprimir</CButton>
   </div>
-  <hr />
-  <TipoSangreTable
-    class="sticky-top"
-    :columns="columns"
-    :footerItems="footerItem"
+  <CSmartTable class="sticky-top"
+    clickableRows
+    :tableProps="{
+      striped: true,
+      hover: true,
+    }"
+    :tableHeadProps="{}"
+    :activePage="1"
+    footer="footerItem"
+    header
     :items="sangres"
+    :columns="columns"
+    columnFilter
+    columnSorter
+    :sorterValue="{ column: 'nombre', state: 'asc' }"
   >
-  </TipoSangreTable>
+  </CSmartTable>
 </template>
 
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { CModal } from '@coreui/vue'
 import Api from '../services/RegistroPersonalServices'
-import TipoSangreTable from '@/modules/rrhh/RegistroPersonal/components/TipoSangreTable.vue'
 
 export default {
   components: {
     CSmartTable,
     CModal,
-    TipoSangreTable,
   },
   data: () => {
     return {
       sangres: [],
       columns: [
         { key: 'nombre', label: 'Tipo de Sangre', _style: { width: '40%' } },
-      ],
-      footerItem: [
-        {
-          label: 'Total Items',
-          _props: {
-            colspan: 1,
-            style: 'font-weight:bold;',
-          },
-        },
       ],
     }
   },
@@ -52,7 +46,7 @@ export default {
       Api.tipoSangreList().then((response) => {
         this.sangres = response.data.data
       })
-    },
+    }
   },
   mounted() {
     this.getAllSangre()

@@ -204,6 +204,7 @@ export default [
             to: '/Ejecucion/conceptoGasto',
             icon: 'cilChartPie',
           },
+
           {
             component: 'CNavTitle',
             name: 'Reportes',
