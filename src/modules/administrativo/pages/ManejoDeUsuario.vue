@@ -159,9 +159,9 @@ export default {
             this.show({
               content: response.data,
               closable: true,
-              color: 'inherit',
             })
             setTimeout(this.getUsuarios, 500)
+            this.usuarioToUpdate = {}
           })
           .catch((error) => {
             this.show({
@@ -177,9 +177,10 @@ export default {
             this.show({
               content: response.data,
               closable: true,
-              color: 'inherit',
             })
+            Swal.fire({ text: response.data.message })
             setTimeout(this.getUsuarios, 500)
+            this.usuarioToUpdate = {}
           })
           .catch((error) => {
             this.show({
@@ -192,8 +193,8 @@ export default {
       }
     },
 
-    getUsuarios(params = { estado: true }) {
-      Api.getUsuarioList(params).then((response) => {
+    getUsuarios(target) {
+      Api.getUsuarioList(target).then((response) => {
         this.listUsuarios = response.data.data
         this.footerItem[0].label = `Total Items: ${response.data.data.length}`
       })
@@ -214,7 +215,7 @@ export default {
       Swal.fire({
         position: 'center',
         icon: 'warning',
-        title: `Estás usted seguro que quieres resetearla clave de este usuario?`,
+        title: `Está usted seguro que quieres resetear la clave de este usuario?`,
         showConfirmButton: true,
         confirmButtonText: 'Si',
         cancelButtonText: 'No',
@@ -229,8 +230,8 @@ export default {
               this.show({
                 content: response.data,
                 closable: true,
-                color: 'inherit',
               })
+              Swal.fire({ text: response.data.message })
               setTimeout(this.getUsuarios, 500)
             })
             .catch((error) => {
@@ -248,7 +249,7 @@ export default {
       Swal.fire({
         position: 'center',
         icon: 'warning',
-        title: `Estás usted seguro que quieres cancelar este usuario?`,
+        title: `Está usted seguro que quieres cancelar este usuario?`,
         showConfirmButton: true,
         confirmButtonText: 'Si',
         cancelButtonText: 'No',
@@ -265,7 +266,11 @@ export default {
                 closable: true,
                 color: 'inherit',
               })
-              setTimeout(this.getUsuarios, 500)
+              setTimeout(
+                () =>
+                  this.handleFilterUserByStatus({ target: { value: 'true' } }),
+                500,
+              )
             })
             .catch((error) => {
               this.show({
@@ -282,7 +287,7 @@ export default {
       Swal.fire({
         position: 'center',
         icon: 'warning',
-        title: `Estás usted seguro que quieres re-activar este usuario?`,
+        title: `Está usted seguro que quieres re-activar este usuario?`,
         showConfirmButton: true,
         confirmButtonText: 'Si',
         cancelButtonText: 'No',
@@ -299,7 +304,11 @@ export default {
                 closable: true,
                 color: 'inherit',
               })
-              setTimeout(this.getUsuarios, 500)
+              setTimeout(
+                () =>
+                  this.handleFilterUserByStatus({ target: { value: 'false' } }),
+                500,
+              )
             })
             .catch((error) => {
               this.show({

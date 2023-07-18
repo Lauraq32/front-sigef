@@ -21,13 +21,25 @@
             ></v-select>
           </CCol>
           <CCol>
-            <CFormLabel for="postUsuario.nombre">Nombre</CFormLabel>
+            <CFormLabel for="postUsuario.nombre">Nombres</CFormLabel>
             <CFormInput
               :disabled="postUsuario.id"
               id="postUsuario.nombre"
               @keypress="onlyLetter"
               required
-              v-model="postUsuario.nombre"
+              v-model="nombreUser"
+            >
+            </CFormInput>
+            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+          </CCol>
+          <CCol>
+            <CFormLabel for="postUsuario.nombre">Apellidos</CFormLabel>
+            <CFormInput
+              :disabled="postUsuario.id"
+              id="postUsuario.nombre"
+              @keypress="onlyLetter"
+              required
+              v-model="apellidoUser"
             >
             </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
@@ -61,19 +73,6 @@
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <CCol>
-            <CFormLabel for="postUsuario.password">Contraseña</CFormLabel>
-            <CFormInput
-              type="password"
-              :disabled="postUsuario.id"
-              id="postUsuario.password"
-              required
-              v-model="postUsuario.password"
-              placeholder="Ejemplo: Lma1234$"
-            >
-            </CFormInput>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol>
             <CFormLabel for="postUsuario.rolId">Rol</CFormLabel>
             <CFormInput
               :disabled="postUsuario.id"
@@ -101,6 +100,7 @@
 import { CModal } from '@coreui/vue'
 import { CModalFooter, CButton } from '@coreui/vue-pro'
 import Api from '@/modules/administrativo/Usuario/services/AdministrativoServices'
+import { cibOpenstreetmap } from '@coreui/icons'
 
 export default {
   name: 'modalManejoDeUsuarios',
@@ -113,13 +113,14 @@ export default {
   data: function () {
     return {
       usuarioFormValidated: false,
+      nombreUser: '',
+      apellidoUser: '',
       postUsuario: {
-        rolId: 0,
+        rolId: 1,
         empleadoId: '',
         nombre: null,
         userName: null,
         email: null,
-        password: null,
       },
       empleados: [],
     }
@@ -144,7 +145,6 @@ export default {
       }
       if (this.$refs.formRef.$el.checkValidity()) {
         this.$emit('post-usuario', { ...this.postUsuario })
-        this.clearForm()
         return
       }
       this.usuarioFormValidated = true
@@ -152,27 +152,20 @@ export default {
 
     clearForm() {
       this.postUsuario = {
-        rolId: 0,
+        rolId: 1,
         ayuntamientoId: 0,
         empleadoId: 0,
         nombre: null,
         userName: null,
         email: null,
-        password: null,
       }
+      this.nombreUser = ''
+      this.apellidoUser = ''
     },
 
     closeModalUsuario() {
       this.$emit('close-modal', false)
       this.clearForm()
-    },
-
-    generateByEmpleado(nombre, apellido) {
-      const primerNombre = nombre.split(' ')[0]
-      const primerApellido = apellido.split(' ')[0]
-      const nombreIniciales = primerNombre.charAt(0).toUpperCase()
-      const apellidoCompleto = primerApellido.replace(/\s+/g, '').toLowerCase()
-      return nombreIniciales + apellidoCompleto
     },
 
     getAllEmpleado() {
@@ -186,16 +179,35 @@ export default {
         }))
       })
     },
+
+    generarNombreUsuario() {
+      const primerNombre = this.nombreUser.split(' ')[0]
+      const primerApellido = this.apellidoUser.split(' ')[0]
+      const nombreIniciales = primerNombre.charAt(0).toUpperCase()
+      const apellidoCompleto = primerApellido.replace(/\s+/g, '').toLowerCase()
+      this.postUsuario.userName = nombreIniciales + apellidoCompleto
+    },
   },
 
   watch: {
+    nombreUser: {
+      immediate: true,
+      handler() {
+        this.generarNombreUsuario()
+        this.postUsuario.nombre = `${this.nombreUser} ${this.apellidoUser}`
+      },
+    },
+    apellidoUser: {
+      immediate: true,
+      handler() {
+        this.generarNombreUsuario()
+        this.postUsuario.nombre = `${this.nombreUser} ${this.apellidoUser}`
+      },
+    },
     selectEmpleado(value) {
       if (value) {
-        this.postUsuario.nombre = value.nombreCompleto
-        this.postUsuario.userName = this.generateByEmpleado(
-          value.nombre,
-          value.apellido,
-        )
+        this.nombreUser = value.nombre
+        this.apellidoUser = value.apellido
       }
     },
     usuarioModal() {
