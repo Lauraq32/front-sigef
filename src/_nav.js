@@ -344,7 +344,7 @@ export default [
           {
             component: 'CNavItem',
             name: 'Nómina General',
-            to: '/NominaModule/nominaGeneral',
+            to: '/NominaModule/nomina-general',
             icon: 'cilList',
           },
           {
