@@ -126,6 +126,7 @@ import {
   cilPlus,
   cilMinus,
   cilTrash,
+  cilSave,
   cilInfo,
   cilFilter,
   cilFilterX
@@ -267,6 +268,7 @@ export const iconsSet = Object.assign(
     cibCcAmex,
     cibBitcoin,
     cilTrash,
+    cilSave,
     cilFilter,
     cilFilterX
   },
