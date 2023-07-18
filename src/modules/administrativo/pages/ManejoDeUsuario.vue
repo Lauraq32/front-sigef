@@ -159,7 +159,6 @@ export default {
             this.show({
               content: response.data,
               closable: true,
-              color: 'inherit',
             })
             setTimeout(this.getUsuarios, 500)
             this.usuarioToUpdate = {}
@@ -178,8 +177,8 @@ export default {
             this.show({
               content: response.data,
               closable: true,
-              color: 'inherit',
             })
+            Swal.fire({ text: response.data.message })
             setTimeout(this.getUsuarios, 500)
             this.usuarioToUpdate = {}
           })
@@ -231,8 +230,8 @@ export default {
               this.show({
                 content: response.data,
                 closable: true,
-                color: 'inherit',
               })
+              Swal.fire({ text: response.data.message })
               setTimeout(this.getUsuarios, 500)
             })
             .catch((error) => {
