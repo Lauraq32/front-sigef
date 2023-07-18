@@ -22,6 +22,8 @@
               </CNavLink>
             </CNavItem>
 
+
+
             <CNavItem>
               <CNavLink
                 href="javascript:void(0);"
@@ -59,6 +61,22 @@
                 "
               >
                 Otras Informaciones
+              </CNavLink>
+            </CNavItem>
+            <CNavItem v-if="isNomina">
+              <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 6" @click="() => {
+                tabPaneActiveKey = 6
+              }
+                ">
+                Pestaña Ingresos y retenciones
+              </CNavLink>
+            </CNavItem>
+            <CNavItem v-if="isNomina">
+              <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 7" @click="() => {
+                tabPaneActiveKey = 7
+              }
+                ">
+                Pestaña acumulado Anual
               </CNavLink>
             </CNavItem>
           </CNav>
@@ -736,6 +754,117 @@
                   </CCol>
                 </CCol>
               </div>
+            </CTabPane>
+            <CTabPane role="tabpanel" aria-labelledby="profile-tab" :visible="tabPaneActiveKey === 6">
+              <div>
+
+                <div class="row">
+                  <div class="col-6">
+                    <p>Sueldo Fijo: {{postEmpleado.sueldo}}</p>
+                    <p>Horas extras</p>
+                    <p>Serv. Especiles:</p>
+                  </div>
+
+                  <div class="col-6">
+                    <CFormLabel for="correo1">Basura</CFormLabel>
+                    <CFormInput id="correo2" v-model="postEmpleado.correoElectronico2" />
+                    <CFormLabel for="correo1">Funeraria</CFormLabel>
+                    <CFormInput id="correo2" v-model="postEmpleado.correoElectronico2" />
+                    <CFormLabel for="correo1">Comp. SFS</CFormLabel>
+                    <CFormInput id="correo2" v-model="postEmpleado.correoElectronico2" />
+                    <CFormLabel for="correo1">Coop-Herrera</CFormLabel>
+                    <CFormInput id="correo2" v-model="postEmpleado.correoElectronico2" />
+                    <CFormLabel for="correo1">Coop. Empres.</CFormLabel>
+                    <CFormInput id="correo2" v-model="postEmpleado.correoElectronico2" />
+                    <CFormLabel for="correo1">Adicional</CFormLabel>
+                    <CFormInput id="correo2" v-model="postEmpleado.correoElectronico2" />
+                    <CFormLabel for="correo1">Asoc Serv. p</CFormLabel>
+                    <CFormInput id="correo2" v-model="postEmpleado.correoElectronico2" />
+
+                    <h3>Total Descuentos:</h3>
+
+                  </div>
+
+                </div>
+
+
+
+              </div>
+            </CTabPane>
+            <CTabPane role="tabpanel" aria-labelledby="profile-tab" :visible="tabPaneActiveKey === 7">
+              <div class="row">
+                <div class="col-4">
+                  <div class="row">
+                    <div class="col-12">
+                      <CFormLabel for="correo1">enero</CFormLabel>
+                      <CFormInput id="correo2" v-model="postEmpleado.eneroIngreso" />
+                    </div>
+                    <div class="col-12">
+                      <CFormLabel for="correo1">febrero</CFormLabel>
+                      <CFormInput id="correo2" v-model="postEmpleado.febreroIngreso" />
+                    </div>
+                    <div class="col-12">
+                      <CFormLabel for="correo1">marzo</CFormLabel>
+                      <CFormInput id="correo2" v-model="postEmpleado.marzoIngreso" />
+                    </div>
+                    <div class="col-12">
+                      <CFormLabel for="correo1">abril</CFormLabel>
+                      <CFormInput id="correo2" v-model="postEmpleado.abrilIngreso" />
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-4">
+                  <div class="row">
+                    <div class="col-12">
+                      <CFormLabel for="correo1">mayo</CFormLabel>
+                      <CFormInput id="correo2" v-model="postEmpleado.mayoIngreso" />
+                    </div>
+                    <div class="col-12">
+                      <CFormLabel for="correo1">junio</CFormLabel>
+                      <CFormInput id="correo2" v-model="postEmpleado.junioIngreso" />
+                    </div>
+                    <div class="col-12">
+                      <CFormLabel for="correo1">julio</CFormLabel>
+                      <CFormInput id="correo2" v-model="postEmpleado.julioIngreso" />
+                    </div>
+                    <div class="col-12">
+                      <CFormLabel for="correo1">agosto</CFormLabel>
+                      <CFormInput id="correo2" v-model="postEmpleado.agostoIngreso" />
+                    </div>
+                  </div>
+
+                </div>
+
+
+                <div class="col-4">
+                  <div class="row">
+                    <div class="col-12">
+                      <CFormLabel for="correo1">septiembre</CFormLabel>
+                      <CFormInput id="correo2" v-model="postEmpleado.septiembreIngreso" />
+                    </div>
+                    <div class="col-12">
+                      <CFormLabel for="correo1">octubre</CFormLabel>
+                      <CFormInput id="correo2" v-model="postEmpleado.octubreIngreso" />
+                    </div>
+                    <div class="col-12">
+                      <CFormLabel for="correo1">noviembre </CFormLabel>
+                      <CFormInput id="correo2" v-model="postEmpleado.noviembreIngreso" />
+                    </div>
+                    <div class="col-12">
+                      <CFormLabel for="correo1">diciembre</CFormLabel>
+                      <CFormInput id="correo2" v-model="postEmpleado.diciembreIngreso" />
+                    </div>
+                  </div>
+
+
+                </div>
+
+
+              </div>
+
+
+
             </CTabPane>
           </CTabContent>
         </div>
