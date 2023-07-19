@@ -296,48 +296,6 @@ export default [
         to: '/NominaModule',
         icon: 'cilMoney',
         items: [
-          // {
-          //   component: 'CNavItem',
-          //   name: 'Clasificadores nómina',
-          //   to: '/NominaModule/clasificadoresNomina',
-          //   icon: 'cilBook',
-          // },
-          {
-            component: 'CNavItem',
-            name: 'Grupo nóminas',
-            to: '/NominaModule/grupoNominas',
-            icon: 'cilIdCard',
-          },
-          {
-            component: 'CNavItem',
-            name: 'Dirección o Dependencias',
-            to: '/NominaModule/Programas',
-            icon: 'cilChalkboardTeacher',
-          },
-          {
-            component: 'CNavItem',
-            name: 'Área de trabajo',
-            to: '/NominaModule/AreaTrabajo',
-            icon: 'cilIdBadge',
-          },
-          {
-            component: 'CNavItem',
-            name: 'Tipo de sangre',
-            to: '/NominaModule/TipoSangre',
-            icon: 'cilHealing',
-          },
-          {
-            component: 'CNavItem',
-            name: 'Posiciones/Cargos',
-            to: '/NominaModule/PosicionesCargo',
-            icon: 'cilAddressBook',
-          },
-          {
-            component: 'CNavItem',
-            name: 'Sectores',
-            to: '/NominaModule/Sectores',
-            icon: 'cilMap',
-          },
           {
             component: 'CNavTitle',
             name: 'Procesos',
@@ -354,15 +312,51 @@ export default [
           },
           {
             component: 'CNavItem',
+            name: 'Nómina Empleado',
+            to: '/NominaModule/nominaEmpleado',
+            icon: 'cilPeople',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Grupo nóminas',
+            to: '/NominaModule/grupoNominas',
+            icon: 'cilIdCard',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Dirección o Dependencias',
+            to: '/NominaModule/Programas',
+            icon: 'cilChalkboardTeacher',
+          },
+          {
+            component: 'CNavItem',
             name: 'Departamentos',
             to: '/NominaModule/Departamentos',
             icon: 'cilBuilding',
           },
           {
             component: 'CNavItem',
-            name: 'Nómina Empleado',
-            to: '/NominaModule/Nominas',
-            icon: 'cilList',
+            name: 'Área de trabajo',
+            to: '/NominaModule/AreaTrabajo',
+            icon: 'cilIdBadge',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Posiciones/Cargos',
+            to: '/NominaModule/PosicionesCargo',
+            icon: 'cilAddressBook',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Sectores',
+            to: '/NominaModule/Sectores',
+            icon: 'cilMap',
+          },
+          {
+            component: 'CNavItem',
+            name: 'Tipo de sangre',
+            to: '/NominaModule/TipoSangre',
+            icon: 'cilHealing',
           },
           {
             component: 'CNavTitle',
@@ -372,12 +366,6 @@ export default [
             component: 'CNavItem',
             name: 'Configuración general',
             to: '/NominaModule/ConfiguracionGeneral',
-            icon: 'cilList',
-          },
-          {
-            component: 'CNavItem',
-            name: 'Configuración del módulo',
-            to: '/NominaModule/ConfiguracionModulo',
             icon: 'cilList',
           },
         ],
@@ -721,13 +709,7 @@ export default [
         to: '/rrhh',
         icon: 'cilHome',
       },
-      {
-        component: 'CNavItem',
-        name: 'Registro de personal',
-        to: '/financiero',
-        icon: 'cilGroup',
-
-        items: [
+      
           {
             component: 'CNavItem',
             name: 'Dirección o dependencia',
@@ -779,24 +761,23 @@ export default [
             component: 'CNavItem',
             name: 'Registro personal',
             to: '/RRHHModule/registroEmpleados',
-            icon: 'cilDollar',
+            icon: 'cilGroup',
           },
           {
             component: 'CNavItem',
             name: 'Reclutamiento o solicitudes',
             to: '/RRHHModule/reclutamiento',
-            icon: 'cilDollar',
+            icon: 'cilNotes',
           },
           {
             component: 'CNavItem',
             name: 'Inventario de útiles',
             to: '/RRHHModule/utiles-laborales',
-            icon: 'cilDollar',
+            icon: 'cilTruck',
           },
         ],
       },
-    ],
-  },
+
   {
     component: 'CNavItem',
     name: 'Administrativo',

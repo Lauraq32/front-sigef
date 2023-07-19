@@ -79,7 +79,7 @@
 <script>
 import { CSmartTable } from '@coreui/vue-pro'
 import { mapActions } from 'pinia'
-import ModalGrupoNomina from './dialogos/ModalGrupoNomina.vue'
+import ModalGrupoNomina from '../components/dialogos/ModalGrupoNomina.vue'
 import { useToastStore } from '@/store/toast'
 import Api from '../services/NominaServices'
 

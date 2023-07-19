@@ -5,14 +5,13 @@ export default {
   component: () =>
     import('@/modules/financiero/NominaModule/layout/TemplateLayout.vue'),
   children: [
-   
     {
       path: 'grupoNominas',
       name: 'grupoNominas',
       meta: { label: 'Grupo Nóminas' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/GrupoNominas.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/pages/GrupoNominas.vue'
         ),
     },
 
@@ -31,7 +30,7 @@ export default {
       meta: { label: 'Dirección o Dependencias' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/Programas.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/pages/DireccionDependencia.vue'
         ),
     },
     {
@@ -40,7 +39,7 @@ export default {
       meta: { label: 'Departamentos' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/Departamentos.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/pages/Departamento.vue'
         ),
     },
     {
@@ -49,7 +48,7 @@ export default {
       meta: { label: 'Área de Trabajo' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/AreaDeTrabajo.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/pages/AreaDeTrabajo.vue'
         ),
     },
     {
@@ -58,7 +57,7 @@ export default {
       meta: { label: 'Posiciones o Cargos' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/PosicionesCargo.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/pages/Cargos.vue'
         ),
     },
     {
@@ -67,16 +66,7 @@ export default {
       meta: { label: 'Sectores' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/Sectores.vue'
-        ),
-    },
-    {
-      path: 'nominas',
-      name: 'nominas',
-      meta: { label: 'Nóminas' },
-      component: () =>
-        import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/Nominas.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/pages/Sectores.vue'
         ),
     },
     {
@@ -89,19 +79,22 @@ export default {
         ),
     },
     {
-      path: 'configuracionModulo',
-      name: 'configuracionModulo',
-      meta: { label: 'Configuración Modulo' },
+      path: 'TipoSangre',
+      name: 'TipoSangre',
+      meta: { label: 'Tipos de Sangres' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/ConfiguracionModulo.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/pages/tipoSangre.vue'
         ),
     },
-
-    //  {
-    //     path: '',
-    //     name: 'no-entry',
-    //     component: () => import(/* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FormulacionModule/components/Prueba.vue'),
-    // },
+    {
+      path: 'nominaEmpleado',
+      name: 'nominaEmpleado',
+      meta: { label: 'Empleados' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/pages/nominaEmpleado.vue'
+        ),
+    },
   ],
 }

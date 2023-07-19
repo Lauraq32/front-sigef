@@ -1,5 +1,7 @@
 <template>
-  <h3 class="text-center mb-4">Registro de Empleados</h3>
+  <h3 class="text-center mb-4">
+    {{ isNomina ? 'Empleados' : 'Registro de Empleados' }}
+  </h3>
 
   <CCard class="mb-4">
     <CCardBody class="table-headers justify-content-between">
@@ -31,7 +33,13 @@
             "
             >Reporte</CButton
           >
-          <CButton color="info" variant="outline" @click="setEmpleadosToBeneficiarios">Pasar a Beneficiarios</CButton>
+          <CButton
+            v-if="isNomina"
+            color="info"
+            variant="outline"
+            @click="setEmpleadosToBeneficiarios"
+            >Pasar a Beneficiarios</CButton
+          >
         </div>
       </div>
     </CCardBody>
@@ -50,6 +58,7 @@
     @post-personal="submitForm"
     @close-modal="closeRegistroPersonalModal"
     :empleado="selectedEmployee"
+    :isNomina="isNomina"
   />
 
   <TarjetaEmpleadoDialogs
@@ -280,18 +289,36 @@ export default {
         },
         {
           label: 'Pasar a Beneficiario',
+          visible: this.isNomina,
           clickHandler: (item) => {
-            Api.setEmpleadoToBeneficiario(item.id).then(() => {
-              this.show({
-                content: 'Datos procesados correctamente',
-                closable: true,
-              })
-            }).catch(e => {
-              this.show({
-                content: e.response.data,
-                closable: true,
-                color:'danger'
-              })
+            Swal.fire({
+              position: 'center',
+              icon: 'warning',
+              title: `Está usted seguro que quieres pasar este empleado a beneficiarios?`,
+              showConfirmButton: true,
+              confirmButtonText: 'Si',
+              cancelButtonText: 'No',
+              showCancelButton: true,
+              allowEscapeKey: false,
+              allowOutsideClick: false,
+              customClass: 'btns',
+            }).then((answer) => {
+              if (answer.isConfirmed) {
+                Api.setEmpleadoToBeneficiario(item.id)
+                  .then(() => {
+                    this.show({
+                      content: 'Datos procesados correctamente',
+                      closable: true,
+                    })
+                  })
+                  .catch((e) => {
+                    this.show({
+                      content: e.response.data,
+                      closable: true,
+                      color: 'danger',
+                    })
+                  })
+              }
             })
           },
         },
@@ -303,24 +330,41 @@ export default {
     ...mapActions(useToastStore, ['show']),
 
     setEmpleadosToBeneficiarios() {
-      Api.setAllEmpleadosToBeneficiario().then(() => {
-        this.show({
-          content: 'Datos procesados correctamente',
-          closable: true,
-        })
-      }).catch(e=>{
-        this.show({
-          content: e.response.data,
-          closable: true,
-          color:'danger'
-        })
+      Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: `Está usted seguro que quieres pasar todos los empleados a beneficiarios?`,
+        showConfirmButton: true,
+        confirmButtonText: 'Si',
+        cancelButtonText: 'No',
+        showCancelButton: true,
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        customClass: 'btns',
+      }).then((answer) => {
+        if (answer.isConfirmed) {
+          Api.setAllEmpleadosToBeneficiario()
+            .then(() => {
+              this.show({
+                content: 'Datos procesados correctamente',
+                closable: true,
+              })
+            })
+            .catch((e) => {
+              this.show({
+                content: e.response.data,
+                closable: true,
+                color: 'danger',
+              })
+            })
+        }
       })
     },
 
     getRegistroPersonal(filter) {
       Api.getAllEmpleado(filter).then((response) => {
-        this.registroPersonal = response.data.data;
-        this.footerItem[0].label = `Total Items: ${response.data.data.length}`;
+        this.registroPersonal = response.data.data
+        this.footerItem[0].label = `Total Items: ${response.data.data.length}`
       })
     },
 
@@ -515,10 +559,11 @@ export default {
                 closable: true,
                 color: 'inherit',
               })
-              setTimeout(() =>
-                this.getRegistroPersonal({
-                  status: 'inactivo',
-                }),
+              setTimeout(
+                () =>
+                  this.getRegistroPersonal({
+                    status: 'inactivo',
+                  }),
                 500,
               )
             })
@@ -534,6 +579,14 @@ export default {
       })
     },
   },
+
+  props: {
+    isNomina: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
   mounted() {
     this.getRegistroPersonal()
   },

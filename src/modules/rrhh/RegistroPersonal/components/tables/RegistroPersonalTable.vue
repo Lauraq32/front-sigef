@@ -68,6 +68,8 @@
           <CDropdownMenu>
             <CDropdownItem
               v-for="action in actions"
+              :disabled="!(action.visible === undefined || action.visible)"
+              v-show="action.visible === undefined || action.visible"
               @click="action.clickHandler && action.clickHandler(item)"
               >{{ action.label }}</CDropdownItem
             >
@@ -78,6 +80,8 @@
         <CButton
           class="btn btn-outline-success"
           v-for="action in inactivoActions"
+          :disabled="!(action.visible === undefined || action.visible)"
+          v-show="action.visible === undefined || action.visible"
           @click="action.clickHandler && action.clickHandler(item)"
           >{{ action.label }}
         </CButton>

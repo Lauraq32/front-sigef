@@ -276,6 +276,9 @@ class RegistroPersonal {
   reactivarEmpleado(id){
     return http.patch(`empleados/${id}/re-activado`)
   }
+  getConfiguracionNomina() {
+    return http.get('configuracion-nomina')
+  }
 }
 
 export default new RegistroPersonal()
