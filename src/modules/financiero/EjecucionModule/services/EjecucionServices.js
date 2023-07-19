@@ -9,6 +9,10 @@ class Ejecucion {
     return http.get('CtgMestProg')
   }
 
+  registroGastoConfirmation(id){
+    return http.patch(`registros-gasto/${id}/confirmation`)
+  }
+
   getTipoRetenciones(){
     return http.get('tipos-retenciones')
   }
@@ -17,8 +21,8 @@ class Ejecucion {
     return http.delete(`registros-gasto/${id}`)
   }
   //Comprobante Gasto
-  getRegistroGasto(){
-    return http.get('registros-gasto')
+  getRegistroGasto(params){
+    return http.get(`registros-gasto${filter(params)}`)
   }
   postRegistroGasto(data){
     return http.post('registros-gasto',data)

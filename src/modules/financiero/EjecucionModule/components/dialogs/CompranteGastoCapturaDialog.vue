@@ -84,7 +84,7 @@
                       </CCol>
                       <CCol :md="12">
                         <CFormLabel for="nombre">Cuenta de banco</CFormLabel>
-                        <CFormSelect required v-model="postRegistroGasto.bancoId">
+                        <CFormSelect required v-model="postRegistroGasto.bancoId" @change="getCuentabanco">
                           <option :key="0">Selecionar Cuenta de banco</option>
                           <option v-for="cuenta in cuentasBanco" :value="`${cuenta.bancoId}`" :key="cuenta.bancoId">
                             {{ cuenta.nombreCuenta }}
@@ -127,7 +127,7 @@
   </CModal>
   <SelectBeneficiario :isVisible="showBeneficiarioModal" @close="closeBeneficiarioModal" />
   <FormularioCodificacionGastoDialog @saveDetalle="saveDetalle" :registroGasto="postRegistroGasto"
-    :showModal="ShowCodificacionGastoModal" @closeModal="closeCodificacionGasto" />
+    :cuentaBanco="cuentaBanco" :showModal="ShowCodificacionGastoModal" @closeModal="closeCodificacionGasto" />
 </template>
   
 <script>
@@ -139,6 +139,7 @@ import FormularioCodificacionGastoDialog from './FormularioCodificacionGastoDial
 import CuentaService from '@/modules/rrhh/RegistroPersonal/services/DeparmentServices'
 import { useToastStore } from '@/store/toast'
 import { onlyNumber } from '@/utils/validator'
+import { mapActions } from 'pinia'
 
 import Api from '../../services/EjecucionServices'
 import { props } from 'vue-number-format'
@@ -157,6 +158,7 @@ export default {
       cuentasBanco: [],
       isFormEventTypeValidated: false,
       detalleGasto: [],
+      cuentaBanco: '',
       displayBeneficiario: null,
       showBeneficiarioModal: false,
       ShowCodificacionGastoModal: false,
@@ -200,17 +202,18 @@ export default {
   },
 
   methods: {
+    ...mapActions(useToastStore, ['show']),
+    getCuentabanco(e) {
+      this.cuentaBanco = Array.from(e.target).filter(cuenta => cuenta.value == e.target.value)[0].label
+    },
     saveDetalle(payload) {
-      console.log(payload)
-
-
       let montoNeto = payload.detalleRetencion.map(detalle => (
         detalle.valorAplicado
       ))
       this.postRegistroGasto.montoNeto = montoNeto.reduce(function (a, b) {
         return a + b;
       });
-      
+
       this.postRegistroGasto.detalleRegistroGastos = [payload, ...this.postRegistroGasto.detalleRegistroGastos]
       this.postRegistroGasto.totalBruto = payload.montoBruto
     },
@@ -241,7 +244,15 @@ export default {
       this.showBeneficiarioModal = true;
     },
     openCodificacionGasto() {
-      this.ShowCodificacionGastoModal = true
+      if (this.postRegistroGasto.bancoId) {
+        this.ShowCodificacionGastoModal = true
+        return;
+      }
+      this.show({
+        content: 'Debe de seleccionar una cuenta',
+        closable: true,
+        color: 'danger'
+      })
     },
 
     sendData() {

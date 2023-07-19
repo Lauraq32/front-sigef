@@ -1,7 +1,18 @@
 <template>
   <AppActionHeader :actions="pageActions">
+    <template #left-options>
+      <div class="d-inline-flex gap-3 align-items-center">
+        <label class="form-label col-auto col-form-label">Estado</label>
+        <CFormSelect class="d-block" style="width: 9rem;" id="userStatusSelect" @change="handleFilterGastoByStatus"
+          aria-label="Selecionar estatus del usuario" :options="filtroOption" />
+      </div>
+
+
+    </template>
+
     <CButton color="primary" @click="showComprobanteDialog">Agregar</CButton>
     <CButton color="secondary" @click="goToComprobanteIngreso">Ir a Comprobante ingreso</CButton>
+
   </AppActionHeader>
   <CSmartTable class="sticky-top" clickableRows :tableProps="{
     striped: true,
@@ -12,10 +23,10 @@
     <template #show_details="{ item, index }">
       <td>
         <CDropdown>
-          <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
+          <CDropdownToggle color="primary" variant="outline" @click="itemActions(item.estado)">Acciones</CDropdownToggle>
           <CDropdownMenu>
-            <CDropdownItem v-for="action in actions" @click="action.clickHandler && action.clickHandler(item)">{{
-              action.label }}</CDropdownItem>
+            <CDropdownItem v-for="action in actions" @click="action.clickHandler && action.clickHandler(item)">
+              {{ action.label }}</CDropdownItem>
           </CDropdownMenu>
         </CDropdown>
       </td>
@@ -36,12 +47,12 @@
         {{ item.beneficiario.descripcion }}
       </td>
     </template>
-    <template #estatus="{ item }">
+    <template #estado="{ item }">
       <td>
 
-        <CBadge :color="item.estatus ? 'success' : 'danger'">{{
+        <CBadge :color="item.estado === 'Abierto' || item.estado === 'Confirmado' ? 'success' : 'danger'">{{
 
-          item.estatus ? 'ACTIVO' : 'CANCELADO'
+          item.estado
 
         }}</CBadge>
 
@@ -86,8 +97,16 @@ export default {
       formatDate,
       gasto: {},
       tableData: [],
+      filterValue: 'true',
+      filtroOption: [
+        { label: 'Abierto', value: 'Abierto' },
+        { label: 'Confirmado', value: 'Confirmado' },
+        { label: 'Cerrado', value: 'Cerrado' },
+        { label: 'Cancelado', value: 'Cancelado' },
+      ],
 
       tableColumns: [
+        { key: 'estado', label: 'Estado', filter: false, sorter: false, },
         { key: 'numeroComprobante', label: 'Numero Comprobante' },
         { key: 'formaPago', label: 'Forma de pago' },
         { key: 'fecha', label: 'Fecha' },
@@ -96,7 +115,6 @@ export default {
         { key: 'beneficiario', label: 'Beneficiario' },
         { key: 'totalBruto', label: 'Total' },
         { key: 'montoNeto', label: 'Monto Neto' },
-        { key: 'estatus', label: 'Estatus' },
         { key: 'bancoId', label: 'Banco' },
         {
           key: 'show_details',
@@ -105,7 +123,38 @@ export default {
           sorter: false,
         },],
       actions: [
+
+      ]
+
+      ,
+      ComprobanteoDialog: false,
+      FormularioCodificacionGastoDialog: false,
+    }
+  },
+  methods: {
+    ...mapActions(useToastStore, ['show']),
+
+    handleFilterGastoByStatus({ target }) {
+      this.getRegistroGasto({
+        estado: target.value,
+      })
+      this.filterValue = target.value
+    },
+
+    itemActions(estadoItem) {
+      const actions = [
+
         {
+          label: 'Imprimir',
+          clickHandler: (item) => {
+
+          }
+        },
+
+      ]
+
+      if (estadoItem == 'Abierto') {
+        actions.push({
           label: 'Cancelar',
           clickHandler: (item) => {
             Swal.fire({
@@ -131,61 +180,94 @@ export default {
                   this.show({
                     content: error.message,
                     closable: true,
-                    color:'danger'
+                    color: 'danger'
                   })
                 })
               }
             });
           }
         },
-        {
-          label: 'Duplicar Pagado',
-          clickHandler: (item) => {
-            Api.putRegistroGastoPagado(item.id).then(() => {
-              this.show({
-                content: 'Registro Duplicado con exito',
-                closable: true,
-              })
-              this.getRegistroGasto()
-            }).catch(error => {
-              this.show({
-                    content: error.message,
-                    closable: true,
-                    color:'danger'
+
+          {
+            label: 'Confirmar',
+
+            clickHandler: (item) => {
+              Swal.fire({
+                denyButtonText: 'No',
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                title: 'Estás seguro que deseas confirmar este registro?',
+                text: 'No podrás revertirlo',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, Confirmar!',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  Api.registroGastoConfirmation(item.id).then((response) => {
+                    this.show({
+                      content: 'Registro confirmado con exito',
+                      closable: true,
+                    })
+                    this.getRegistroGasto()
+                  }).catch((error) => {
+                    this.show({
+                      content: error.message,
+                      closable: true,
+                    })
                   })
-            })
-          }
-        },
-        {
-          label: 'Duplicar Devengado',
-          clickHandler: (item) => {
-            Api.putRegistroGastoDevengado(item.id).then(() => {
-              this.show({
-                content: 'Registro Duplicado con exito',
-                closable: true,
-              })
-              this.getRegistroGasto()
-            }).catch(error => {
+                }
+              });
+            }
 
-            })
-          }
-        },
-        {
-          label: 'Imprimir',
-          clickHandler: (item) => {
+          },
+          {
+            label: 'Generar Cheque',
+            clickHandler: (item) => {
 
-          }
-        },
+            }
+          },
 
-      ]
+        );
+      }
 
-      ,
-      ComprobanteoDialog: false,
-      FormularioCodificacionGastoDialog: false,
-    }
-  },
-  methods: {
-    ...mapActions(useToastStore, ['show']),
+      if (estadoItem == 'Confirmado') {
+        actions.push(
+          {
+            label: 'Generar Cheque',
+            clickHandler: (item) => {
+
+            }
+          },
+          {
+            label: 'cerrar',
+            clickHandler: (item) => {
+
+            }
+          },
+
+        );
+
+      }
+
+      if (estadoItem == 'Cancelado') {
+        actions.push(
+
+
+        );
+      }
+
+      if (estadoItem == 'Cerrado') {
+        actions.push(
+
+
+        );
+      }
+
+      this.actions = actions;
+    },
+
 
     closeComprobanteDialog() {
       this.ComprobanteoDialog = false
@@ -216,7 +298,6 @@ export default {
       } else {
         Api.postRegistroGasto(payload)
           .then((response) => {
-            console.log(response)
             this.show({
               content: 'Registro añadido correctamente',
               closable: true,
@@ -242,8 +323,8 @@ export default {
       this.FormularioCodificacionGastoDialog = true
     },
 
-    getRegistroGasto() {
-      Api.getRegistroGasto().then((response) => {
+    getRegistroGasto(params = { estado: 'Abierto' }) {
+      Api.getRegistroGasto(params).then((response) => {
         this.tableData = response.data.data
       })
     },
@@ -252,6 +333,8 @@ export default {
     }
   },
   computed: {
+
+
     pageActions() {
       const actions = [
         {

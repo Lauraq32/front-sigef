@@ -9,6 +9,9 @@
                 <div class="form-label col-auto col-form-label">
                     <CBadge class="d-block mt-1" :color="determineColor(text)" v-for="text of selectedFiscalYearInfo">{{ text }}</CBadge>
                 </div>
+                <div>
+                    <slot name="left-options"></slot>
+                </div>
             </div>
             <div class="d-flex gap-3 align-items-center">
                 <slot></slot>

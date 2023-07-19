@@ -25,8 +25,8 @@
                 </CCol>
                 <hr>
                 <CCol :md="6">
-                  <CFormLabel for="clasificadorId" class="fw-bold">Clasificador</CFormLabel>
-                  <span> : {{ nombreClasificador }} </span>
+                  <CFormLabel for="clasificadorId" >Clasificador</CFormLabel>
+                  
                   <CFormInput disabled :keypress="onlyNumber" v-model="detalleRegistroGasto.clasificadorId" id="nombre"
                     required />
                 </CCol>
@@ -34,8 +34,10 @@
                   <CFormLabel for="balanceDisponible" class="font-weight-bold ">Balance disponible</CFormLabel>
                   <span class="d-block" style="font-weight: bold;">{{ formatPrice(balanceDisponible) }}</span>
                 </CCol>
-
-                <CCol :md="6">
+                <CCol :md="12" class="mt-3 p-2 bg-light bg-clasificador text-center">
+                  <span class="fw-bold"> {{ nombreClasificador }} </span>
+                </CCol>
+                <CCol :md="6" class="mt-3">
                   <CFormLabel for="montoBruto" class="font-weight-bold">Monto Bruto</CFormLabel>
                   <VueNumberFormat v-model:value="detalleRegistroGasto.montoBruto" @change="setBaseImponible" type="text"
                     step="any" class="form-control text-end" :options="{
@@ -47,7 +49,7 @@
                   <!-- <CFormInput :keypress="onlyDecimal" @change="setBaseImponible" v-model="detalleRegistroGasto.montoBruto"
                     id="montoBruto" required /> -->
                 </CCol>
-                <CCol :md="6">
+                <CCol :md="6" class="mt-3">
                   <CFormLabel for="baseImponible" class="font-weight-bold">Base Imponible</CFormLabel>
                   <VueNumberFormat v-model:value="detalleRetencion.baseImponible" type="text" step="any"
                     class="form-control text-end" :options="{
@@ -59,7 +61,7 @@
                   <!-- <CFormInput :keypress="onlyNumber" v-model="detalleRetencion.baseImponible" id="nombre" required /> -->
                 </CCol>
 
-                <div class="border p-1 mb-3 mt-3">
+                <!-- <div class="border p-1 mb-3 mt-3">
 
                   <div class="container">
                     <div class="row">
@@ -89,37 +91,46 @@
                       </div>
                     </div>
                   </div>
-                </div>
-                <CCol :md="6">
-                  <v-select v-model="tipoRetencionObj" :options="tipoRetencionesList" @input="setRetencion"></v-select>
-                </CCol>
-                <CCol :md="2">
+                </div> -->
+                <fieldset :disabled="registroGasto.etapa !== 'Pagado'">
+                  <legend>Retenciones</legend>
+                  <div class="row">
 
-                  <VueNumberFormat v-model:value="detalleRetencion.montoAplica" type="text" class="form-control text-end"
-                    :options="{
-                      precision: 2,
-                      prefix: '',
-                      decimal: '.',
-                      thousand: ',',
-                    }">
-                  </VueNumberFormat>
-                </CCol>
-                <CCol :md="4">
+                    <CCol :md="6">
+                      <v-select :disabled="registroGasto.etapa !== 'Pagado' || this.detalleRegistroGasto.montoBruto == 0" v-model="tipoRetencionObj"
+                        :options="tipoRetencionesList" @input="setRetencion"></v-select>
+                    </CCol>
+                    <CCol :md="2">
 
-                  <v-select v-model="delValor" :options="RetencionesSelectList" @input="setRetencion"></v-select>
-                </CCol>
+                      <VueNumberFormat v-model:value="detalleRetencion.montoAplica" type="text"
+                        class="form-control text-end" :options="{
+                          precision: 2,
+                          prefix: '',
+                          decimal: '.',
+                          thousand: ',',
+                        }">
+                      </VueNumberFormat>
+                    </CCol>
+                    <CCol :md="4">
 
-                <CCol :md="6">
-                  <CButton class="fw-bold text-white" color="info" @click="saveRetencion">Guardar</CButton>
+                      <v-select :disabled="registroGasto.etapa !== 'Pagado' || this.detalleRegistroGasto.montoBruto == 0" v-model="delValor"
+                        :options="RetencionesSelectList" @input="setRetencion"></v-select>
+                    </CCol>
 
-                </CCol>
+                    <CCol :md="6">
+                      <CButton class="fw-bold text-white" color="info" @click="saveRetencion">Guardar</CButton>
+
+                    </CCol>
+                  </div>
+                </fieldset>
+
                 <CCol :md="12">
                   <CSmartTable class="" clickableRows :tableProps="{
                     striped: true,
                     hover: true,
                   }" :tableHeadProps="{}" :activePage="1" header :items="detalleRegistroGasto.detalleRetencion"
-                    :columns="RetencionColumn" columnFilter :footer="footer" itemsPerPageSelect :itemsPerPage="10"
-                    columnSorter :sorterValue="{ column: 'nombres', state: 'asc' }" pagination>
+                    :columns="RetencionColumn" columnFilter :footer="footerItemRetenciones" 
+                    :itemsPerPage="10" columnSorter :sorterValue="{ column: 'nombres', state: 'asc' }" pagination>
                     <template #montoAplicado="{ item, index }">
                       <td>
                         {{ formatPrice(item.montoAplicado) }}
@@ -144,11 +155,13 @@
           </div>
           <div class="col-8">
             <CCol :md="12">
+              <h5 >Cuenta Banco: <span class="fw-bold">{{cuentaBanco}}</span> </h5>
+              <!-- mestProgList.length > 10 ? true : false  -->
               <CSmartTable class="" clickableRows :tableProps="{
                 striped: true,
                 hover: true,
               }" :tableHeadProps="{}" :activePage="1" header :items="mestProgList" :columns="clasificadoresTables"
-                :footer="footer" itemsPerPageSelect :itemsPerPage="10" :sorterValue="{ column: 'nombres', state: 'asc' }"
+                :footer="footer"   :sorterValue="{ column: 'nombres', state: 'asc' }"
                 pagination>
                 <template #show_details="{ item, index }">
                   <td>
@@ -294,14 +307,15 @@ export default {
       ],
       RetencionColumn: [
 
-        { key: 'nombreRetencion', label: 'Retencion' },
-        { key: 'montoAplica', label: '% o valor' },
-        { key: 'montoAplicado', label: 'Del Valor' },
-        { key: 'valorAplicado', label: 'Valor Aplicado' },
-        { key: 'show_details', label: '' },
+        { key: 'nombreRetencion', label: 'Retencion', filter: false, sort: false },
+        { key: 'montoAplica', label: '% o valor', filter: false, sort: false },
+        { key: 'montoAplicado', label: 'Del Valor', filter: false, sort: false },
+        { key: 'valorAplicado', label: 'Valor Aplicado', filter: false, sort: false },
+        { key: 'show_details', label: '', filter: false, sort: false },
       ],
       clasificadoresByCuentaTables: [
         { key: 'clasificador', label: 'Clasificadores' },
+        { key: 'OFin', label: 'O/Fin' },
         { key: 'nombre', label: 'Descripcion' },
         { key: 'presupuestoBco', label: 'P/Original' },
         { key: 'variacionBco', label: 'Modific.' },
@@ -309,6 +323,34 @@ export default {
         { key: 'totalDevengadoBco', label: 'Devengado.' },
         { key: 'totalPagadoBco', label: 'Pagado' },
         { key: 'show_details', label: '' },
+      ],
+      footerItemRetenciones: [
+        {
+          label: '',
+          _props: {
+            color: '',
+            colspan: 2,
+            style: 'font-weight:bold;',
+          },
+        },
+        {
+          label: '',
+          _props: {
+            color: '',
+            colspan: 1,
+            style: 'font-weight:bold;',
+          },
+        },
+
+        {
+          label: '',
+          _props: {
+            color: '',
+            colspan: 2,
+            style: 'font-weight:bold;',
+          },
+        },
+
       ],
       clasificadoresTables:
         [
@@ -318,6 +360,7 @@ export default {
             children: [
               { key: 'clasificador', label: 'Clasificador' },
               { key: 'nombre', label: 'Descripcion' },
+              { key: 'OFin', label: 'O/Fin' },
               { key: 'presupuestoBco', label: 'P/Original' },
               { key: 'variacionBco', label: 'Modific.' },
               { key: 'pActual', label: 'P/Actual' },
@@ -374,8 +417,15 @@ export default {
       this.detalleRetencion.tipoRetencionId = this.tipoRetencionObj.code
       this.detalleRetencion.nombreRetencion = this.tipoRetencionObj.label
       this.detalleRetencion.montoAplicado = this.detalleRegistroGasto.montoBruto
-      this.detalleRegistroGasto.montoBruto = 0
+      // this.detalleRegistroGasto.montoBruto = 0
       this.detalleRegistroGasto.detalleRetencion = [{ ...this.detalleRetencion }, ...this.detalleRegistroGasto.detalleRetencion]
+      // this.detalleRegistroGasto.detalleRetencion.map(retencion => {
+      this.footerItemRetenciones[2].label = this.formatPrice(Number(this.detalleRetencion.valorAplicado) + Number(this.footerItemRetenciones[2].label))
+      this.footerItemRetenciones[1].label = this.formatPrice(Number(this.detalleRegistroGasto.montoBruto) - Number(this.footerItemRetenciones[2].label))
+      // this.footerItemRetenciones[1].label = this.formatPrice(this.footerItemRetenciones[1].label)
+      // })
+
+
       this.detalleRetencion = {
         fecha: '2023-07-07',
         beneficiarioId: 1,
@@ -409,6 +459,8 @@ export default {
 
     deleteRetencion(item) {
       this.detalleRegistroGasto.detalleRetencion.splice(this.detalleRegistroGasto.detalleRetencion.indexOf(item), 1);
+      this.footerItemRetenciones[2].label = this.formatPrice(Number(this.detalleRetencion.valorAplicado) + Number(this.footerItemRetenciones[2].label))
+      this.footerItemRetenciones[1].label = this.formatPrice(Number(this.detalleRegistroGasto.montoBruto) - Number(this.footerItemRetenciones[2].label))
     },
 
     getMestProg(item) {
@@ -424,14 +476,14 @@ export default {
                 organismoFinanciadorId: current.organismoFinanciadorId,
                 fuenteEspecificaId: current.fuenteEspecificaId,
                 presupuestoBco: current[`presupuestoBco${this.registroGasto.bancoId}`],
-
+                OFin: `${current.fuenteId}/${current.organismoFinanciadorId}/${current.fuenteEspecificaId}`,
                 totalPagadoBco: current[`totalPagadoBco${this.registroGasto.bancoId}`],
                 variacionBco: current[`variacionBco${this.registroGasto.bancoId}`],
                 pActual: current[`presupuestoBco${this.registroGasto.bancoId}`] + current[`variacionBco${this.registroGasto.bancoId}`],
-                devengadoEjecutado: current[`totalDevengadoBco${this.registroGasto.bancoId}`],
-                devengadoDisponible: (current[`presupuestoBco${this.registroGasto.bancoId}`] + current[`variacionBco${this.registroGasto.bancoId}`]) - current[`totalDevengadoBco${this.registroGasto.bancoId}`],
-                pagadoEjecutado: current[`totalPagadoBco${this.registroGasto.bancoId}`],
-                pagadoDisponible: current[`totalDevengadoBco${this.registroGasto.bancoId}`] - current[`totalPagadoBco${this.registroGasto.bancoId}`]
+                devengadoEjecutado: this.registroGasto.etapa == 'Devengado' ? current[`totalDevengadoBco${this.registroGasto.bancoId}`] : 0,
+                devengadoDisponible: this.registroGasto.etapa == 'Devengado' ? (current[`presupuestoBco${this.registroGasto.bancoId}`] + current[`variacionBco${this.registroGasto.bancoId}`]) - current[`totalDevengadoBco${this.registroGasto.bancoId}`] : 0,
+                pagadoEjecutado: this.registroGasto.etapa == 'Pagado' ? current[`totalPagadoBco${this.registroGasto.bancoId}`] : 0,
+                pagadoDisponible: this.registroGasto.etapa == 'Pagado' ? current[`totalDevengadoBco${this.registroGasto.bancoId}`] - current[`totalPagadoBco${this.registroGasto.bancoId}`] : 0
               });
               return acc;
             }, []);
@@ -476,18 +528,25 @@ export default {
 
     setRetencion(data) {
       let retencion = data
-      console.log(retencion)
       this.detalleRetencion.tipoRetencionId = retencion.id
       if (retencion) {
         this.detalleRetencion.montoAplica = retencion.porciento
       }
     },
     setBaseImponible(event) {
-      this.detalleRetencion.baseImponible = event.target.value
+      if (this.balanceDisponible > event.target.value) {
+        this.detalleRetencion.baseImponible = event.target.value
+        return;
+      }
+      this.show({
+        content: 'No puede superar el balance disponible',
+        closable: true,
+        color: 'danger'
+      })
+      this.detalleRegistroGasto.montoBruto = 0;
     },
 
     selectMestProg(item) {
-      console.log(item)
       this.nombreClasificador = item.nombre
       this.detalleRegistroGasto.fuenteEspecificaId = item.fuenteEspecificaId
       this.detalleRegistroGasto.organismoFinanciadorId = item.organismoFinanciadorId
@@ -508,15 +567,17 @@ export default {
   },
 
   watch: {
+ 
     tipoRetencionObj(value) {
+
       this.detalleRetencion.montoAplica = value.porciento;
       switch (value.operacion) {
         case "Multiplicar":
-          this.detalleRetencion.valorAplicado = this.detalleRegistroGasto.montoBruto * (this.detalleRetencion.montoAplica / 100)
+          this.detalleRetencion.valorAplicado = value.calculada ? this.detalleRegistroGasto.montoBruto * (this.detalleRetencion.montoAplica / 100) : this.detalleRegistroGasto.montoBruto + this.detalleRetencion.montoAplica
           this.detalleRetencion.neto = this.detalleRetencion.valorAplicado
           break;
         case "Dividir":
-          this.detalleRetencion.valorAplicado = this.detalleRegistroGasto.montoBruto / this.detalleRetencion.montoAplica
+          this.detalleRetencion.valorAplicado = value.calculada ? this.detalleRegistroGasto.montoBruto / 1.10 : this.detalleRegistroGasto.montoBruto + this.detalleRetencion.montoAplica
           this.detalleRetencion.neto = this.detalleRetencion.valorAplicado
           break;
         default:
@@ -527,7 +588,8 @@ export default {
 
   props: {
     showModal: Boolean,
-    registroGasto: Object
+    registroGasto: Object,
+    cuentaBanco:String
   },
   mounted() {
     this.getTipoRetenciones()
@@ -536,6 +598,10 @@ export default {
 }
 </script>
 <style>
+.bg-clasificador{
+  
+  --cui-light-rgb: 225,225,225 
+}
 .big-modal {
   width: calc(100vw - 2rem);
   margin: 1rem;
