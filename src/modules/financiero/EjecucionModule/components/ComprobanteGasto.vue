@@ -82,6 +82,7 @@ import { formatDate } from '@/utils/format'
 import router from '@/router'
 import Swal from 'sweetalert2';
 import BancoIdServices from '@/modules/financiero/ConciliacionBancaria/services/ConciliacionServices'
+import { showReport } from '@/utils/util'
 export default {
   components: {
     CompranteGastoCapturaDialog,
@@ -141,13 +142,83 @@ export default {
       this.filterValue = target.value
     },
 
+    async printReportComprobanteGasto(item) {
+
+      try {
+
+        await showReport({
+          folderName: 'fep',
+          reportName: 'Rep_Comprobante_Gasto_F815',
+          params: [
+            {
+              name: 'id',
+              value: item.id,
+            },
+            {
+              name: 'id_ayuntamiento',
+              value: 'majorityId',
+            },
+            {
+              name: 'anio',
+              value: 'fiscalYear',
+            },
+          ],
+        })
+      } catch (error) {
+        this.show({
+          content: error,
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        })
+      }
+    },
+    async printReportComprobanteGastoPorGrupoBeneficiario(item) {
+
+      try {
+
+        await showReport({
+          folderName: 'fep',
+          reportName: 'Rep_Gasto_Por_Beneficiario',
+          params: [
+            {
+              name: 'id',
+              value: item.id,
+            },
+            {
+              name: 'id_ayuntamiento',
+              value: 'majorityId',
+            },
+            {
+              name: 'anio',
+              value: 'fiscalYear',
+            },
+          ],
+        })
+      } catch (error) {
+        this.show({
+          content: error,
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        })
+      }
+    },
+
     itemActions(estadoItem) {
       const actions = [
 
         {
           label: 'Imprimir',
           clickHandler: (item) => {
+            this.printReportComprobanteGasto(item)
+          }
+        },
 
+        {
+          label: 'Beneficiarios Pago x grupo',
+          clickHandler: (item) => {
+            this.printReportComprobanteGastoPorGrupoBeneficiario(item)
           }
         },
 
