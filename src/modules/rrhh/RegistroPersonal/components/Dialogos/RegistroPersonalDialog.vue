@@ -359,24 +359,38 @@
                 </div>
                 <div class="col-4 border p-3">
                   <h3>Datos laborales</h3>
-                  <CCol :md="12">
-                    <CFormLabel for="fechaIngreso">Fecha ingreso</CFormLabel>
-                    <CFormInput
-                      @change="validarFechaDesde"
-                      v-model="fechaIngreso"
-                      type="date"
-                      id="fechaIngreso"
-                      required
-                    />
-                    <CFormFeedback
-                      invalid
-                      :style="{
-                        display: isLowerSelectedInitDate ? 'flex' : 'none',
-                      }"
+                  <div class="row">
+                    <CCol :md="6">
+                      <CFormLabel for="fechaIngreso">Fecha ingreso</CFormLabel>
+                      <CFormInput
+                        @change="validarFechaDesde"
+                        v-model="fechaIngreso"
+                        type="date"
+                        id="fechaIngreso"
+                        required
+                      />
+                      <CFormFeedback
+                        invalid
+                        :style="{
+                          display: isLowerSelectedInitDate ? 'flex' : 'none',
+                        }"
+                      >
+                        La fecha no puede ser mayor a la fecha actual
+                      </CFormFeedback>
+                    </CCol>
+                    <CCol
+                      v-if="isNomina"
+                      :md="6"
+                      class="d-flex justify-content-center align-items-end"
                     >
-                      La fecha no puede ser mayor a la fecha actual
-                    </CFormFeedback>
-                  </CCol>
+                      <CFormCheck
+                        id="flexCheckIndeterminate"
+                        label="Activo en Nómina?"
+                        v-model="postEmpleado.estaEnNomina"
+                      />
+                    </CCol>
+                  </div>
+
                   <CCol :md="12">
                     <CFormLabel for="Recomendado">Recomendado por</CFormLabel>
                     <CFormInput
@@ -532,51 +546,40 @@
                         <option>CHEQUE</option>
                       </CFormSelect>
                     </CCol>
-                    <CCol :md="12" v-if="postEmpleado.formaPago === 'BANCO'">
-                      <CFormLabel for="cuentaBanco">No. Cuenta</CFormLabel>
-                      <CFormInput
-                        v-on:keypress="onlyNumber($event)"
-                        type="text"
-                        v-model="postEmpleado.numeroCuenta"
-                        id="cuentaBanco"
-                        required
-                        :disabled="!isNomina"
-                      />
-                    </CCol>
                   </div>
+                    <div class="row ">
+                      <CCol
+                        :class="{'col-md-6': postEmpleado.formaPago === 'BANCO'}"
+                      >
+                        <CFormLabel for="sueldo">Sueldo actual</CFormLabel>
+                        <CurrencyInput
+                          id="sueldo"
+                          v-model="postEmpleado.sueldo"
+                          class="text-end"
+                          required
+                          :options="{
+                            locale: 'en-US',
+                            currency: 'DOP',
+                            precision: 2,
+                            currencyDisplay: 'hidden',
+                          }"
+                        />
+                      </CCol>
 
-                  <CCol :md="12">
-                    <CFormLabel for="sueldo">Sueldo actual</CFormLabel>
-                    <CurrencyInput
-                      id="sueldo"
-                      v-model="postEmpleado.sueldo"
-                      class="text-end"
-                      required
-                      :options="{
-                        locale: 'en-US',
-                        currency: 'DOP',
-                        precision: 2,
-                        currencyDisplay: 'hidden',
-                      }"
-                    />
-                  </CCol>
-                  <CCol>
-                    <CFormLabel for="estado">Estatus</CFormLabel>
-                    <CFormSelect
-                      required
-                      v-model="postEmpleado.estado"
-                      id="estado"
-                      :disabled="!postEmpleado.id"
-                    >
-                      <option value="activo">Activo</option>
-                      <option value="inactivo">Inactivo</option>
-                      <option value="liquidado">Liquidado</option>
-                      <option value="vacaciones">Vacaciones</option>
-                    </CFormSelect>
-                  </CCol>
+                      <CCol :md="6" v-if="postEmpleado.formaPago === 'BANCO'">
+                        <CFormLabel for="cuentaBanco">No. Cuenta</CFormLabel>
+                        <CFormInput
+                          v-on:keypress="onlyNumber($event)"
+                          type="text"
+                          v-model="postEmpleado.numeroCuenta"
+                          id="cuentaBanco"
+                          required
+                        />
+                      </CCol>
+                    </div>
                 </div>
 
-                <div class="col-3">
+                <div class="col-3 mb-5">
                   <div
                     class="position-relative flex justify-content-center border border-dark w-100 mt-4"
                     style="height: 200px"
@@ -604,6 +607,78 @@
                       @change="saveFile"
                       class="position-absolute top-50 start-50 translate-middle input-wrapper w-100 h-100 opacity-0"
                     />
+                  </div>
+                  <div v-if="isNomina" class="mt-4">
+                    <h3>Retenciones de Ley</h3>
+
+                    <CCol>
+                      <CFormLabel for="estado">Estatus</CFormLabel>
+                      <CFormSelect
+                        required
+                        v-model="postEmpleado.estado"
+                        id="estado"
+                        :disabled="!postEmpleado.id"
+                      >
+                        <option value="activo">Activo</option>
+                        <option value="inactivo">Inactivo</option>
+                        <option value="liquidado">Liquidado</option>
+                        <option value="vacaciones">Vacaciones</option>
+                      </CFormSelect>
+                    </CCol>
+
+                    <CCol>
+                      <CFormLabel for="Impuesto S.R.">Impuesto S.R.</CFormLabel>
+                      <CFormInput
+                        id="Impuesto S.R."
+                        v-on:keypress="onlyNumber($event)"
+                      />
+                    </CCol>
+
+                    <div class="row mt-2">
+                      <CCol :md="6">
+                        <CFormLabel for="arsInput">ARS</CFormLabel>
+                        <CFormInput
+                          id="arsInput"
+                          v-on:keypress="onlyNumber($event)"
+                        />
+                      </CCol>
+                      <CCol
+                        :md="6"
+                        class="d-flex justify-content-center align-items-end"
+                      >
+                        <CFormCheck
+                          id="flexCheckIndeterminate"
+                          label="Automático?"
+                        />
+                      </CCol>
+                    </div>
+                    <div class="row">
+                      <CCol :md="6">
+                        <CFormLabel for="afpinput">AFP</CFormLabel>
+                        <CFormInput
+                          id="afpinput"
+                          v-on:keypress="onlyNumber($event)"
+                        />
+                      </CCol>
+                      <CCol
+                        :md="6"
+                        class="d-flex justify-content-center align-items-end"
+                      >
+                        <CFormCheck
+                          id="flexCheckIndeterminate"
+                          label="Automático?"
+                        />
+                      </CCol>
+                    </div>
+
+                    <CCol>
+                      <CFormLabel for="F.Reingreso">F.Reingreso</CFormLabel>
+                      <CFormInput
+                        id="F.Reingreso"
+                        type="date"
+                        v-model="postEmpleado.fechaReingreso"
+                      />
+                    </CCol>
                   </div>
                 </div>
               </div>
@@ -1242,6 +1317,7 @@ export default {
         correoElectronico2: null,
         recomendadoPor: null,
         idImagenPerfil: undefined,
+        estaEnNomina: false,
       },
 
       tableConfiguracionNominaRetencion: [
