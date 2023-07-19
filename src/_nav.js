@@ -131,20 +131,14 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Configuración ingreso',
-            to: '/Ejecucion/configuracionIngreso',
-            icon: 'cilMoney',
-          },
-          {
-            component: 'CNavItem',
-            name: 'Tipo retenciones',
+            name: 'Tipos de Retenciones',
             to: '/Ejecucion/tiposRetenciones',
             icon: 'cilWallet',
           },
           {
             component: 'CNavItem',
-            name: 'Tipo gastos',
-            to: '/Ejecucion/destinoGastos',
+            name: 'Concepto del Gasto',
+            to: '/Ejecucion/conceptoGasto',
             icon: 'cilLibraryBuilding',
           },
           {
@@ -162,13 +156,13 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Beneficiario por grupo',
+            name: 'Beneficiarios x grupos',
             to: '/Ejecucion/beneficiarioGrupo',
             icon: 'cilCalculator',
           },
           {
             component: 'CNavItem',
-            name: 'Catalogo de Funciones',
+            name: 'Catálogo de Funciones',
             to: '/Ejecucion/catalogoDeFunciones',
             icon: 'cilExcerpt',
           },
@@ -189,26 +183,8 @@ export default [
             icon: 'cilNotes',
           },
           {
-            component: 'CNavItem',
-            name: 'Transferencia de datos',
-            to: '/Ejecucion/transferenciaDatos',
-            icon: 'cidChartLine',
-          },
-          {
             component: 'CNavTitle',
             name: 'Consultas',
-          },
-          {
-            component: 'CNavItem',
-            name: 'Presupuesto de Ingresos',
-            to: '/Ejecucion/ejecucionIngreso',
-            icon: 'cilChartPie',
-          },
-          {
-            component: 'CNavItem',
-            name: 'Presupuesto de Gastos',
-            to: '/Ejecucion/ejecucionGastos',
-            icon: 'cilChartPie',
           },
           {
             component: 'CNavItem',
@@ -216,13 +192,6 @@ export default [
             to: '/Ejecucion/cuentaDeBanco',
             icon: 'cilAddressBook',
           },
-          {
-            component: 'CNavItem',
-            name: 'Concepto del Gasto',
-            to: '/Ejecucion/conceptoGasto',
-            icon: 'cilChartPie',
-          },
-
           {
             component: 'CNavTitle',
             name: 'Reportes',
@@ -234,8 +203,10 @@ export default [
             icon: 'cilInbox',
           },
           {
-            component: 'CNavTitle',
-            name: 'Configuración',
+            component: 'CNavItem',
+            name: 'Transferencia de datos',
+            to: '/Ejecucion/transferenciaDatos',
+            icon: 'cidChartLine',
           },
         ],
       },

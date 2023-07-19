@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center mb-4">Conceptos de Gastos</h3>
+  <h3 class="text-center mb-4">Concepto del Gasto</h3>
 
   <div class="table-headers">
     <div class="d-inline p-2">
