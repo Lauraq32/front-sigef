@@ -54,7 +54,7 @@ export default {
     {
       path: 'beneficiarioGrupo',
       name: 'beneficiarioGrupo',
-      meta: { label: 'Beneficiarios x grupos' },
+      meta: { label: 'Beneficiarios x Grupos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/BeneficiarioGrupo.vue'
@@ -127,7 +127,7 @@ export default {
     {
       path: 'catalogoDeFunciones',
       name: 'catalogoDeFunciones',
-      meta: { label: 'Catalogo de Funciones' },
+      meta: { label: 'Catálogo de Funciones' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '../components/CatalogoDeFunciones.vue'

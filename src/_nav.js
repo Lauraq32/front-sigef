@@ -143,7 +143,7 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Grupos de pago',
+            name: 'Grupos de Pago',
             to: '/Ejecucion/grupoPago',
             icon: 'cilBuilding',
           },
@@ -156,7 +156,7 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Beneficiarios x grupos',
+            name: 'Beneficiarios x Grupos',
             to: '/Ejecucion/beneficiarioGrupo',
             icon: 'cilCalculator',
           },
