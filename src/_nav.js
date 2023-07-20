@@ -445,7 +445,7 @@ export default [
           {
             component: 'CNavItem',
             name: 'Cuentas de bancos ',
-            to: '/ConciliacionBancaria/CuentasDebanco',
+            to: '/ConciliacionBancaria/cuentasbanco',
             icon: 'cilBalanceScale',
           },
 

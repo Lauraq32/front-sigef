@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 
-import http from '@/Api/http-common';
-import { getAyuntamientoId } from "../../../../utils/logged-info";
+import http from '@/Api/http-common'
+import { getAyuntamientoId } from '../../../../utils/logged-info'
 class Conciliacion {
   //-----------------------------CLASIFICADORES---------------------------------------//
   //get
@@ -11,6 +11,10 @@ class Conciliacion {
 
   getAllDepositos() {
     return http.get('ConciliacionDeposito')
+  }
+
+  getBancos() {
+    return http.get('cuentas-banco')
   }
 
   getAllNotaDebitoById(BancoId) {
@@ -26,62 +30,56 @@ class Conciliacion {
   }
 
   getCuentaById(BancoId) {
-    return http.get(`ConciliacionCuentaBanco/GetCuentaById/${getAyuntamientoId()}/${BancoId}`)
+    return http.get(
+      `ConciliacionCuentaBanco/GetCuentaById/${getAyuntamientoId()}/${BancoId}`,
+    )
   }
 
   getAllHistorico(BancoId, Fecha) {
-    return http.get(`ConciliacionHistorico/${getAyuntamientoId()}/${BancoId}/${Fecha}`)
+    return http.get(
+      `ConciliacionHistorico/${getAyuntamientoId()}/${BancoId}/${Fecha}`,
+    )
   }
 
   getAllHistoricos(BancoId, Fecha) {
-    return http.get(`ConciliacionHistorico/GetHistorico/${getAyuntamientoId()}/${BancoId}/${Fecha}`)
-  }
-  
-  getAllCuentaBanco() {
     return http.get(
-      `ConciliacionCuentaBanco/${getAyuntamientoId()}`,
+      `ConciliacionHistorico/GetHistorico/${getAyuntamientoId()}/${BancoId}/${Fecha}`,
     )
+  }
+
+  getAllCuentaBanco() {
+    return http.get(`ConciliacionCuentaBanco/${getAyuntamientoId()}`)
   }
 
   getDepositoById(BancoId) {
-    return http.get(
-      `ConciliacionDeposito/${getAyuntamientoId()}/${BancoId}`,
-    )
+    return http.get(`ConciliacionDeposito/${getAyuntamientoId()}/${BancoId}`)
   }
 
   postDeposito(data) {
-    return http.post(
-      'ConciliacionDeposito', data)
+    return http.post('ConciliacionDeposito', data)
   }
 
   generarCuentas() {
-    return http.post(
-      `ConciliacionCuentaBanco/${getAyuntamientoId()}`,
-    )
+    return http.post(`ConciliacionCuentaBanco/${getAyuntamientoId()}`)
   }
 
   postHistoricoBanco(data) {
-    return http.post(
-      'ConciliacionHistorico', data)
+    return http.post('ConciliacionHistorico', data)
   }
 
   postCuentaBancoConciliacion(data) {
-    return http.post(
-      'ConciliacionCuentaBanco', data)
+    return http.post('cuentas-banco', data)
   }
 
   postNotaDebito(data) {
-    return http.post(
-      'ConciliacionDebito', data)
+    return http.post('ConciliacionDebito', data)
   }
   postNotaCredito(data) {
-    return http.post(
-      'ConciliacionCredito', data)
+    return http.post('ConciliacionCredito', data)
   }
 
   postCheque(data) {
-    return http.post(
-      'ConciliacionCheque', data)
+    return http.post('ConciliacionCheque', data)
   }
 
   getBeneficiariosById(id) {
@@ -100,8 +98,11 @@ class Conciliacion {
     return http.put(`Beneficiarios/${id}`)
   }
 
-  putConciliacioncuentaBanco(BancoId,data) {
-    return http.put(`ConciliacionCuentaBanco/${getAyuntamientoId()}/${BancoId}`,data)
+  putConciliacioncuentaBanco(BancoId, data) {
+    return http.put(
+      `cuentas-banco/${getAyuntamientoId()}/${BancoId}`,
+      data,
+    )
   }
 
   //delete
