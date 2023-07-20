@@ -498,7 +498,7 @@ export default {
       }
     },
     setMontoBruto(event) {
-      if (this.balanceDisponible > event.target.value ) {
+      if (this.balanceDisponible >  Number(event.target.value))  {
         this.detalleRetencion.baseImponible = event.target.value
         return;
       }

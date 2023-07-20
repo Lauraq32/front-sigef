@@ -1,7 +1,7 @@
 <template>
   <CModal size="xl" :visible="showModal" @close="closeModal" backdrop="static">
     <CModalHeader>
-      <CModalTitle>Documento del Gasto</CModalTitle>
+      <CModalTitle>Documento del Gasto (815)</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
@@ -16,10 +16,7 @@
                         <CFormLabel for="fecha">Fecha</CFormLabel>
                         <CFormInput v-model="fechaGasto" type="date" id="fecha" required />
                       </CCol>
-                      <CCol :md="6">
-                        <CFormLabel for="nombre">Comprobante Modificado</CFormLabel>
-                        <CFormInput @keypress="onlyNumber" id="nombre" />
-                      </CCol>
+
 
 
                       <CCol :md="6">
@@ -27,24 +24,23 @@
                         <CFormInput id="Resolucion" />
                       </CCol>
                       <CCol :md="6">
-                        <CFormLabel for="fechaResolucion">Fecha Resoluci&oacute;n</CFormLabel>
-                        <CFormInput v-model="postRegistroGasto.fechaResolucion" type="date" id="fechaResolucion"
-                           />
-                      </CCol>
-                      <CCol :md="6">
                         <CFormLabel for="etapa">Etapa</CFormLabel>
-                        <CFormSelect v-model="postRegistroGasto.etapa" id="etapa">
+                        <CFormSelect @change="changeEtapa" v-model="postRegistroGasto.etapa" id="etapa">
                           <option value="Devengado">Devengado</option>
                           <option value="Pagado">Pagado</option>
                           <option value="Variacion">Variacion</option>
                         </CFormSelect>
+                      </CCol>
+                      <CCol :md="6">
+                        <CFormLabel for="fechaResolucion">Fecha Resoluci&oacute;n</CFormLabel>
+                        <CFormInput v-model="postRegistroGasto.fechaResolucion" type="date" id="fechaResolucion" />
                       </CCol>
 
                       <CCol :md="6">
                         <CFormLabel for="formaPago">Forma de Pago</CFormLabel>
                         <div class="row">
                           <div class="col-12">
-                            <CFormSelect required v-model="postRegistroGasto.formaPago">
+                            <CFormSelect @change="changeFormaPago" :disabled="disableFormaPago" v-model="postRegistroGasto.formaPago">
                               <option :key="0">Selecionar Cuenta de banco</option>
                               <option value="Cheque">
                                 Cheque
@@ -61,6 +57,12 @@
                             </CFormSelect>
                           </div>
                         </div>
+                      </CCol>
+
+
+                      <CCol :md="6">
+                        <CFormLabel for="nombre">Comprobante Modificado</CFormLabel>
+                        <CFormInput :disabled="disabledComprobante" @keypress="onlyNumber" id="nombre" />
                       </CCol>
                     </div>
                   </CCol>
@@ -162,6 +164,8 @@ export default {
   data: function () {
     return {
       onlyNumber,
+      disableFormaPago:false,
+      disabledComprobante:true,
       cuentasBanco: [],
       isFormEventTypeValidated: false,
       detalleGasto: [],
@@ -202,7 +206,7 @@ export default {
       detalleGastoColumns: [
         { key: 'estructuraProgramatica', label: 'Estructura Programatica', _style: { width: '40%' } },
         { key: 'clasificadorId', label: 'Clasificador' },
-        { key: 'fuenteEspecificaId', label: 'Fuente especifica' },
+        { key: 'fuenteEspecificaId', label: 'Fuente Especifica' },
         { key: 'organismoFinanciadorId', label: 'Organismo Financiador' },
         { key: 'montoBruto', label: 'Monto' },
       ]
@@ -211,6 +215,23 @@ export default {
 
   methods: {
     ...mapActions(useToastStore, ['show']),
+
+    changeEtapa(e){
+      console.log(e.target.value)
+      if(e.target.value == 'Variacion'){
+        this.disableFormaPago = true
+        return;
+      }
+      this.disableFormaPago = false;
+    },
+    changeFormaPago(e){
+      console.log(e.target.value)
+      if(e.target.value == 'Reversar'){
+        this.disabledComprobante = false
+        return;
+      }
+      this.disabledComprobante = true;
+    },
     getCuentabanco(e) {
       this.cuentaBanco = Array.from(e.target).filter(cuenta => cuenta.value == e.target.value)[0].label
     },

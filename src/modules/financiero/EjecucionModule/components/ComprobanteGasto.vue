@@ -1,4 +1,5 @@
 <template>
+  <h3 class="text-center mb-3">Comprobante de Gasto</h3>
   <AppActionHeader :actions="pageActions">
     <template #left-options>
       <div class="d-inline-flex gap-3 align-items-center">
@@ -113,11 +114,11 @@ export default {
       tableColumns: [
         { key: 'estado', label: '', filter: false, sorter: false, },
         { key: 'numeroComprobante', label: 'Número Comprobante' },
-        { key: 'formaPago', label: 'Forma de pago' },
         { key: 'fecha', label: 'Fecha' },
         { key: 'etapa', label: 'Etapa' },
-        { key: 'conceptoGasto', label: 'Concepto Gasto' },
+        { key: 'formaPago', label: 'Forma de Pago' },
         { key: 'beneficiario', label: 'Beneficiario' },
+        { key: 'conceptoGasto', label: 'Concepto Gasto' },
         { key: 'montoBruto', label: 'Monto Bruto' },
         { key: 'montoNeto', label: 'Monto Neto' },
         { key: 'banco', label: 'Banco' },
