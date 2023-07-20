@@ -254,7 +254,7 @@ export default {
                   this.getRegistroGasto()
                 }).catch((error) => {
                   this.show({
-                    content: error.response.data,
+                    content: error.response.data.message,
                     closable: true,
                     color: 'danger'
                   })
@@ -289,7 +289,7 @@ export default {
                     this.getRegistroGasto()
                   }).catch((error) => {
                     this.show({
-                      content: error.message,
+                      content: error.response.data.message,
                       closable: true,
                     })
                   })
@@ -298,13 +298,7 @@ export default {
             }
 
           },
-          {
-            label: 'Generar Cheque',
-            clickHandler: (item) => {
-
-            }
-          },
-
+         
         );
       }
 
@@ -313,13 +307,13 @@ export default {
           {
             label: 'Generar Cheque',
             clickHandler: (item) => {
-
+              this.registroGastoGenerarCheque(item.id)
             }
           },
           {
-            label: 'cerrar',
+            label: 'Cerrar',
             clickHandler: (item) => {
-
+              this.registroGastoGenerarCerrar(item.id)
             }
           },
 
@@ -344,6 +338,67 @@ export default {
       this.actions = actions;
     },
 
+    registroGastoGenerarCheque(id) {
+      Swal.fire({
+        denyButtonText: 'No',
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        title: 'Estás seguro que deseas generar el chque este registro?',
+        text: 'No podrás revertirlo',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Confirmar!',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Api.registroGastoPayCheck(id).then((response) => {
+            this.show({
+              content: 'Cheque generado con exito',
+              closable: true,
+            })
+            this.getRegistroGasto()
+          }).catch((error) => {
+            this.show({
+              content: error.response.data.message,
+              closable: true,
+            })
+          })
+        }
+      });
+    },
+    registroGastoGenerarCerrar(id) {
+      Swal.fire({
+        denyButtonText: 'No',
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        title: 'Estás seguro que deseas cerrar este registro?',
+        text: 'No podrás revertirlo',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Confirmar!',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Api.registroGastoClosing(id).then((response) => {
+            this.show({
+              content: 'Registro cerrado con exito',
+              closable: true,
+            })
+            this.getRegistroGasto()
+          }).catch((error) => {
+            console.log(error);
+            this.show({
+              content: error.response.data.message,
+              closable: true,
+              color:'danger'
+            })
+          })
+        }
+      });
+    },
+
 
     closeComprobanteDialog() {
       this.ComprobanteoDialog = false
@@ -362,7 +417,7 @@ export default {
           })
           .catch((error) => {
             this.show({
-              content: error.response.data,
+              content: error.response.data.message,
               closable: true,
               color: 'danger',
               class: 'text-white',
@@ -380,7 +435,7 @@ export default {
           })
           .catch((error) => {
             this.show({
-              content: error.response.data,
+              content: error.response.data.message,
               closable: true,
               color: 'danger',
               class: 'text-white',

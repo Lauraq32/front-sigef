@@ -12,6 +12,12 @@ class Ejecucion {
   registroGastoConfirmation(id){
     return http.patch(`registros-gasto/${id}/confirmation`)
   }
+  registroGastoPayCheck(id){
+    return http.patch(`registros-gasto/${id}/paycheck`)
+  }
+  registroGastoClosing(id){
+    return http.patch(`registros-gasto/${id}/closing`)
+  }
 
   getTipoRetenciones(){
     return http.get('tipos-retenciones')
