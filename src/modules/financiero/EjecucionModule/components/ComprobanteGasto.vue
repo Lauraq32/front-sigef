@@ -18,7 +18,7 @@
     striped: true,
     hover: true,
   }" :tableHeadProps="{}" :activePage="1" header :items="tableData" :columns="tableColumns" columnFilter
-    :footer="footer" itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'nombres', state: 'asc' }"
+    :footer="footer" itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'numeroComprobante', state: 'asc' }"
     pagination>
     <template #show_details="{ item, index }">
       <td>
@@ -86,7 +86,6 @@ import Api from '../services/EjecucionServices'
 import { formatDate } from '@/utils/format'
 import router from '@/router'
 import Swal from 'sweetalert2';
-import BancoIdServices from '@/modules/financiero/ConciliacionBancaria/services/ConciliacionServices'
 import { showReport } from '@/utils/util'
 export default {
   components: {
@@ -113,7 +112,7 @@ export default {
 
       tableColumns: [
         { key: 'estado', label: '', filter: false, sorter: false, },
-        { key: 'numeroComprobante', label: 'Numero Comprobante' },
+        { key: 'numeroComprobante', label: 'Número Comprobante' },
         { key: 'formaPago', label: 'Forma de pago' },
         { key: 'fecha', label: 'Fecha' },
         { key: 'etapa', label: 'Etapa' },
