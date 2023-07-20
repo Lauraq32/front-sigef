@@ -39,59 +39,25 @@
                 </CCol>
                 <CCol :md="6" class="mt-3">
                   <CFormLabel for="montoBruto" class="font-weight-bold">Monto Bruto</CFormLabel>
-                  <VueNumberFormat v-model:value="detalleRegistroGasto.montoBruto" @change="setBaseImponible" type="text"
+                  <VueNumberFormat v-model:value="detalleRegistroGasto.montoBruto" @change="setMontoBruto" type="text"
                     step="any" class="form-control text-end" :options="{
                       precision: 2,
                       prefix: '',
                       decimal: '.',
                       thousand: ',',
                     }"></VueNumberFormat>
-                  <!-- <CFormInput :keypress="onlyDecimal" @change="setBaseImponible" v-model="detalleRegistroGasto.montoBruto"
-                    id="montoBruto" required /> -->
                 </CCol>
                 <CCol :md="6" class="mt-3">
                   <CFormLabel for="baseImponible" class="font-weight-bold">Base Imponible</CFormLabel>
-                  <VueNumberFormat v-model:value="detalleRetencion.baseImponible" type="text" step="any"
+                  <VueNumberFormat v-model:value="detalleRetencion.baseImponible" @change="setBaseImponible" type="text" step="any"
                     class="form-control text-end" :options="{
                       precision: 2,
                       prefix: '',
                       decimal: '.',
                       thousand: ',',
                     }"></VueNumberFormat>
-                  <!-- <CFormInput :keypress="onlyNumber" v-model="detalleRetencion.baseImponible" id="nombre" required /> -->
+                
                 </CCol>
-
-                <!-- <div class="border p-1 mb-3 mt-3">
-
-                  <div class="container">
-                    <div class="row">
-                      <div class="col d-flex justify-content-between">
-                        <span class="fw-bold">Fuente financiamiento: </span>
-                        <span>{{ detalleRegistroGasto.fuenteId }}</span>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div class="container">
-                    <div class="row">
-                      <div class="col d-flex justify-content-between">
-                        <span class="fw-bold">Fuente Especifica: </span>
-                        <span>{{
-                          detalleRegistroGasto.fuenteEspecificaId }}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="container">
-                    <div class="row">
-                      <div class="col d-flex justify-content-between">
-                        <span class="fw-bold">Organismo Financiador: </span>
-                        <span>{{ detalleRegistroGasto.organismoFinanciadorId }}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div> -->
                 <fieldset :disabled="registroGasto.etapa !== 'Pagado'">
                   <legend>Retenciones</legend>
                   <div class="row">
@@ -156,7 +122,7 @@
           <div class="col-8">
             <CCol :md="12">
               <h5 >Cuenta Banco: <span class="fw-bold">{{cuentaBanco}}</span> </h5>
-              <!-- mestProgList.length > 10 ? true : false  -->
+        
               <CSmartTable class="" clickableRows :tableProps="{
                 striped: true,
                 hover: true,
@@ -417,13 +383,10 @@ export default {
       this.detalleRetencion.tipoRetencionId = this.tipoRetencionObj.code
       this.detalleRetencion.nombreRetencion = this.tipoRetencionObj.label
       this.detalleRetencion.montoAplicado = this.detalleRegistroGasto.montoBruto
-      // this.detalleRegistroGasto.montoBruto = 0
       this.detalleRegistroGasto.detalleRetencion = [{ ...this.detalleRetencion }, ...this.detalleRegistroGasto.detalleRetencion]
-      // this.detalleRegistroGasto.detalleRetencion.map(retencion => {
       this.footerItemRetenciones[2].label = this.formatPrice(Number(this.detalleRetencion.valorAplicado) + Number(this.footerItemRetenciones[2].label))
       this.footerItemRetenciones[1].label = this.formatPrice(Number(this.detalleRegistroGasto.montoBruto) - Number(this.footerItemRetenciones[2].label))
-      // this.footerItemRetenciones[1].label = this.formatPrice(this.footerItemRetenciones[1].label)
-      // })
+ 
 
 
       this.detalleRetencion = {
@@ -533,8 +496,8 @@ export default {
         this.detalleRetencion.montoAplica = retencion.porciento
       }
     },
-    setBaseImponible(event) {
-      if (this.balanceDisponible > event.target.value) {
+    setMontoBruto(event) {
+      if (this.balanceDisponible > event.target.value ) {
         this.detalleRetencion.baseImponible = event.target.value
         return;
       }
@@ -546,6 +509,18 @@ export default {
       this.detalleRegistroGasto.montoBruto = 0;
     },
 
+    setBaseImponible(event) {
+      if (this.balanceDisponible > event.target.value ) {
+        return;
+      }
+      this.show({
+        content: 'No puede superar el balance disponible',
+        closable: true,
+        color: 'danger'
+      })
+      this.detalleRegistroGasto.baseImponible = 0;
+    },
+
     selectMestProg(item) {
       this.nombreClasificador = item.nombre
       this.detalleRegistroGasto.fuenteEspecificaId = item.fuenteEspecificaId
@@ -553,7 +528,7 @@ export default {
       this.detalleRegistroGasto.clasificadorId = item.clasificador
       this.detalleRegistroGasto.fuenteId = item.fuenteId
       if (this.registroGasto.etapa == 'Devengado') {
-        if (item.devengadoEjecutado != item.devengadoDisponible) {
+        if (item.devengadoEjecutado !== item.devengadoDisponible) {
           this.balanceDisponible = item.devengadoDisponible;
           return;
         }

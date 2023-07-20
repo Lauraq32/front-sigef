@@ -42,6 +42,11 @@
         {{ item.conceptoGasto.descripcion }}
       </td>
     </template>
+    <template #banco="{ item, index }">
+      <td>
+        {{ item.banco.descripcion }}
+      </td>
+    </template>
     <template #beneficiario="{ item, index }">
       <td>
         {{ item.beneficiario.descripcion }}
@@ -50,7 +55,7 @@
     <template #estado="{ item }">
       <td>
 
-        <CBadge :color="item.estado === 'Abierto' || item.estado === 'Confirmado' ? 'success' : 'danger'">{{
+        <CBadge :color="item.estado === 'Abierto' || item.estado === 'Confirmado' ? 'success' : 'info'">{{
 
           item.estado
 
@@ -107,16 +112,16 @@ export default {
       ],
 
       tableColumns: [
-        { key: 'estado', label: 'Estado', filter: false, sorter: false, },
+        { key: 'estado', label: '', filter: false, sorter: false, },
         { key: 'numeroComprobante', label: 'Numero Comprobante' },
         { key: 'formaPago', label: 'Forma de pago' },
         { key: 'fecha', label: 'Fecha' },
         { key: 'etapa', label: 'Etapa' },
         { key: 'conceptoGasto', label: 'Concepto Gasto' },
         { key: 'beneficiario', label: 'Beneficiario' },
-        { key: 'totalBruto', label: 'Total' },
+        { key: 'montoBruto', label: 'Monto Bruto' },
         { key: 'montoNeto', label: 'Monto Neto' },
-        { key: 'bancoId', label: 'Banco' },
+        { key: 'banco', label: 'Banco' },
         {
           key: 'show_details',
           label: '',
@@ -216,7 +221,7 @@ export default {
         },
 
         {
-          label: 'Beneficiarios Pago x grupo',
+          label: 'Reporte Pago Beneficiarios x grupo',
           clickHandler: (item) => {
             this.printReportComprobanteGastoPorGrupoBeneficiario(item)
           }
@@ -249,7 +254,7 @@ export default {
                   this.getRegistroGasto()
                 }).catch((error) => {
                   this.show({
-                    content: error.message,
+                    content: error.response.data,
                     closable: true,
                     color: 'danger'
                   })
@@ -343,10 +348,7 @@ export default {
     closeComprobanteDialog() {
       this.ComprobanteoDialog = false
     },
-    // editarGasto(item) {
-    //   this.ComprobanteoDialog = true;
-    //   this.postRegistroGasto = item
-    // },
+
     submitForm(payload) {
       if (payload.id != null) {
         Api.putRegistroGasto(payload.id, payload)
