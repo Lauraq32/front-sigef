@@ -29,7 +29,7 @@
                       <CCol :md="6">
                         <CFormLabel for="fechaResolucion">Fecha Resoluci&oacute;n</CFormLabel>
                         <CFormInput v-model="postRegistroGasto.fechaResolucion" type="date" id="fechaResolucion"
-                          required />
+                           />
                       </CCol>
                       <CCol :md="6">
                         <CFormLabel for="etapa">Etapa</CFormLabel>
