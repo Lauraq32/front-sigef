@@ -14,22 +14,22 @@
                     <div class="row">
                       <CCol :md="6">
                         <CFormLabel for="fecha">Fecha</CFormLabel>
-                        <CFormInput v-model="postRegistroGasto.fecha" type="date" id="fecha" required />
+                        <CFormInput v-model="fechaGasto" type="date" id="fecha" required />
                       </CCol>
                       <CCol :md="6">
                         <CFormLabel for="nombre">Comprobante Modificado</CFormLabel>
-                        <CFormInput @keypress="onlyNumber" id="nombre" required />
+                        <CFormInput @keypress="onlyNumber" id="nombre" />
                       </CCol>
 
 
                       <CCol :md="6">
                         <CFormLabel for="Resolucion">Resoluci&oacute;n No.</CFormLabel>
-                        <CFormInput id="Resolucion" required />
+                        <CFormInput id="Resolucion" />
                       </CCol>
                       <CCol :md="6">
                         <CFormLabel for="fechaResolucion">Fecha Resoluci&oacute;n</CFormLabel>
                         <CFormInput v-model="postRegistroGasto.fechaResolucion" type="date" id="fechaResolucion"
-                          required />
+                           />
                       </CCol>
                       <CCol :md="6">
                         <CFormLabel for="etapa">Etapa</CFormLabel>
@@ -80,7 +80,13 @@
                       </CCol>
                       <CCol :md="12">
                         <CFormLabel for="conceptoGastoId">Por Concepto de</CFormLabel>
-                        <CFormInput v-model="postRegistroGasto.conceptoGastoId" id="conceptoGastoId" required />
+
+                        <CFormSelect required v-model="postRegistroGasto.conceptoGastoId">
+                          <option :key="0">Selecionar concepto</option>
+                          <option v-for="concepto in conceptosGasto " :value="`${concepto.id}`" :key="concepto.id">
+                            {{ concepto.descripcion }}
+                          </option>
+                        </CFormSelect>
                       </CCol>
                       <CCol :md="12">
                         <CFormLabel for="nombre">Cuenta de banco</CFormLabel>
@@ -155,10 +161,12 @@ export default {
 
   data: function () {
     return {
+      onlyNumber,
       cuentasBanco: [],
       isFormEventTypeValidated: false,
       detalleGasto: [],
       cuentaBanco: '',
+      conceptosGasto: [],
       displayBeneficiario: null,
       showBeneficiarioModal: false,
       ShowCodificacionGastoModal: false,
@@ -170,7 +178,7 @@ export default {
         fecha: null,
         etapa: 'Devengado',
         beneficiarioId: null,
-        conceptoGastoId: 5,
+        conceptoGastoId: null,
         bancoId: null,
         numeroCheque: "1",
         totalBruto: 0,
@@ -222,7 +230,13 @@ export default {
       CuentaService.getCuentasDeBancos().then(response => {
         this.cuentasBanco = response.data.data
       })
+      Api.getConceptoGastos().then(response => {
+        this.conceptosGasto = response.data.data
+      })
+
     },
+
+
 
 
 
@@ -267,6 +281,30 @@ export default {
       this.$emit('post-gasto', {
         ...this.postRegistroGasto
       })
+    },
+  },
+  computed: {
+    fechaGasto: {
+      get() {
+        let date = this.postRegistroGasto.fecha ?? new Date()
+        if (
+          this.postRegistroGasto.fecha !== null &&
+          this.postRegistroGasto.fecha?.toString() !== 'Invalid Date'
+        ) {
+          if (typeof this.postRegistroGasto.fecha === 'string') {
+            date = new Date(this.postRegistroGasto.fecha)
+            return date.toISOString().split('T')[0]
+          }
+        }
+        return date?.toISOString()?.split('T')?.[0]
+      },
+
+      set(value) {
+        return (this.postRegistroGasto.fecha = new Date(
+          `${value}T00:00:00`,
+        ))
+      },
+
     },
   },
 

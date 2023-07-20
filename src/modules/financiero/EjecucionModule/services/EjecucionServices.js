@@ -19,6 +19,10 @@ class Ejecucion {
     return http.patch(`registros-gasto/${id}/closing`)
   }
 
+  getConceptoGastos(){
+    return http.get('conceptos-gasto?status=true')
+  }
+
   getTipoRetenciones(){
     return http.get('tipos-retenciones')
   }
@@ -256,9 +260,6 @@ class Ejecucion {
     return http.delete(`Beneficiarios/${id}`)
   }
   //Concepto de gastos
-  getConceptoGasto() {
-    return http.get('conceptos-gasto')
-  }
   getConceptoGastoById(id) {
     return http.get(`conceptos-gasto/${id}`)
   }

@@ -376,6 +376,7 @@ export default {
       if (this.$refs.eventTypeForm.$el.checkValidity()) {
         this.saveDetalle()
       }
+      this.closeModal()
       this.isFormEventTypeValidated = true
     },
     guardarRetencion() {
@@ -563,6 +564,7 @@ export default {
 
   props: {
     showModal: Boolean,
+
     registroGasto: Object,
     cuentaBanco:String
   },
