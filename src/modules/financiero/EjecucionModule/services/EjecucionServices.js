@@ -1,9 +1,58 @@
 /* eslint-disable prettier/prettier */
 import http from '@/Api/http-common'
 import { getAyuntamientoId, getFiscalYearId } from '@/utils/logged-info'
+
 import { filter } from '@/utils/validator'
 class Ejecucion {
-  //-----------------------------CLASIFICADORES---------------------------------------//
+
+  getMestProg(){
+    return http.get('CtgMestProg')
+  }
+
+  registroGastoConfirmation(id){
+    return http.patch(`registros-gasto/${id}/confirmation`)
+  }
+  registroGastoPayCheck(id){
+    return http.patch(`registros-gasto/${id}/paycheck`)
+  }
+  registroGastoClosing(id){
+    return http.patch(`registros-gasto/${id}/closing`)
+  }
+
+  getTipoRetenciones(){
+    return http.get('tipos-retenciones')
+  }
+
+  deleteRegistroGasto(id){
+    return http.delete(`registros-gasto/${id}`)
+  }
+  //Comprobante Gasto
+  getRegistroGasto(params){
+    return http.get(`registros-gasto${filter(params)}`)
+  }
+  postRegistroGasto(data){
+    return http.post('registros-gasto',data)
+  }
+  putRegistroGastoPagado(id){
+    return http.put(`registros-gasto/${id}/pagado`)
+  }
+  putRegistroGastoDevengado(id){
+    return http.put(`registros-gasto/${id}/devengado`)
+  }
+  getRegistroGastoById(id){
+    return http.get(`registros-gasto/${id}
+    `)
+  }
+  getRegistroGastoDetalles(expeseRecordId){
+    return http.get(`registros-gasto/${expeseRecordId}/detalles`)
+  }
+  getRegistroGastoClasificador(){
+    return http.get('registros-gasto/Clasifica')
+  }
+  getRegistroGastoMesProg(mestProg){
+    return http.get(`registros-gasto/estructura-programatica/${mestProg}`)
+  }
+
   //get
   getBeneficiarios() {
     return http.get('Beneficiarios')
@@ -43,6 +92,17 @@ class Ejecucion {
     return http.get(`Sector/${id}`)
   }
 
+  getIngresoAll() {
+    return http.get(
+      `RegistroIngreso?anio=${getFiscalYearId()}&ayuntamientoId=${getAyuntamientoId()}`,
+    )
+  }
+
+  getIngresoById(id, anioFiscalId, ayuntamientoId) {
+    return http.get(
+      `/RegistroIngreso/${id}?anio=${anioFiscalId}&ayuntamientoId=${ayuntamientoId}`,
+    )
+  }
   getRegistroGastobyid(id) {
     return http.get(`RegistroGasto/${id}`)
   }
@@ -79,11 +139,6 @@ class Ejecucion {
     )
   }
 
-  getRegistroGastoDetalle(id) {
-    return http.get(
-      `RegistroGasto/Detalle?anio=${user?.currentFiscalYearId}&AyuntamientoId=${user?.user.ayuntamiento.id}&id=${id}`,
-    )
-  }
 
   downloadGastoModificacion(value) {
     return http.get(`export-file/ingresos-modificacion?mes=${value}`)
@@ -92,18 +147,13 @@ class Ejecucion {
     return http.get(`export-file/ingresos-ejecucion?mes=${value}`)
   }
   //Get tipo retenciones
-  getTipoRetencion(id) {
+  getTipoRetencion() {
     return http.get(
-      `TipoRetencion?Ayuntamiento=${getAyuntamientoId()}&id=${id}`,
+      `tipos-retenciones`,
     )
   }
   getTipoRetencionById(id) {
     return http.get(`TipoRetencion/${id}?Ayuntamiento=${getAyuntamientoId()}`)
-  }
-  getRegistroGastoDetalleMesprog(id) {
-    return http.get(
-      `RegistroGasto/Mesprog?anio=${getFiscalYearId()}&AyuntamientoId=${getAyuntamientoId()}&Mesprog=${id}`,
-    )
   }
 
   //post
@@ -151,14 +201,6 @@ class Ejecucion {
     return http.put(`RegistroGasto/${id}`, data)
   }
 
-  getRegistroGasto() {
-    return http.get(
-      `RegistroGasto?anio=${getFiscalYearId()}&AyuntamientoId=${getAyuntamientoId()}`,
-    )
-  }
-  postRegistroGasto(post) {
-    return http.post(`RegistroGasto`, post)
-  }
   getClasificador(Clasificador) {
     return http.get(`PresIngreso/GetClasificadorById/${Clasificador}`)
   }
