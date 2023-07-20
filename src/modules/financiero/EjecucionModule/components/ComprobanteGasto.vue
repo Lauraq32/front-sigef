@@ -388,7 +388,6 @@ export default {
             })
             this.getRegistroGasto()
           }).catch((error) => {
-            console.log(error);
             this.show({
               content: error.response.data.message,
               closable: true,
