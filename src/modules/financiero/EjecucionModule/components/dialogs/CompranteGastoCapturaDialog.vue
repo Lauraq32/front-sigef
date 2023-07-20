@@ -14,17 +14,17 @@
                     <div class="row">
                       <CCol :md="6">
                         <CFormLabel for="fecha">Fecha</CFormLabel>
-                        <CFormInput v-model="postRegistroGasto.fecha" type="date" id="fecha" required />
+                        <CFormInput v-model="fechaGasto" type="date" id="fecha" required />
                       </CCol>
                       <CCol :md="6">
                         <CFormLabel for="nombre">Comprobante Modificado</CFormLabel>
-                        <CFormInput @keypress="onlyNumber" id="nombre"  />
+                        <CFormInput @keypress="onlyNumber" id="nombre" />
                       </CCol>
 
 
                       <CCol :md="6">
                         <CFormLabel for="Resolucion">Resoluci&oacute;n No.</CFormLabel>
-                        <CFormInput id="Resolucion"  />
+                        <CFormInput id="Resolucion" />
                       </CCol>
                       <CCol :md="6">
                         <CFormLabel for="fechaResolucion">Fecha Resoluci&oacute;n</CFormLabel>
@@ -80,7 +80,7 @@
                       </CCol>
                       <CCol :md="12">
                         <CFormLabel for="conceptoGastoId">Por Concepto de</CFormLabel>
-                      
+
                         <CFormSelect required v-model="postRegistroGasto.conceptoGastoId">
                           <option :key="0">Selecionar concepto</option>
                           <option v-for="concepto in conceptosGasto " :value="`${concepto.id}`" :key="concepto.id">
@@ -166,7 +166,7 @@ export default {
       isFormEventTypeValidated: false,
       detalleGasto: [],
       cuentaBanco: '',
-      conceptosGasto:[],
+      conceptosGasto: [],
       displayBeneficiario: null,
       showBeneficiarioModal: false,
       ShowCodificacionGastoModal: false,
@@ -233,10 +233,10 @@ export default {
       Api.getConceptoGastos().then(response => {
         this.conceptosGasto = response.data.data
       })
-       
+
     },
 
-  
+
 
 
 
@@ -281,6 +281,30 @@ export default {
       this.$emit('post-gasto', {
         ...this.postRegistroGasto
       })
+    },
+  },
+  computed: {
+    fechaGasto: {
+      get() {
+        let date = this.postRegistroGasto.fecha ?? new Date()
+        if (
+          this.postRegistroGasto.fecha !== null &&
+          this.postRegistroGasto.fecha?.toString() !== 'Invalid Date'
+        ) {
+          if (typeof this.postRegistroGasto.fecha === 'string') {
+            date = new Date(this.postRegistroGasto.fecha)
+            return date.toISOString().split('T')[0]
+          }
+        }
+        return date?.toISOString()?.split('T')?.[0]
+      },
+
+      set(value) {
+        return (this.postRegistroGasto.fecha = new Date(
+          `${value}T00:00:00`,
+        ))
+      },
+
     },
   },
 
