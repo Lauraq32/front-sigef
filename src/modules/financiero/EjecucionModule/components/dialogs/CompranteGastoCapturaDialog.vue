@@ -208,7 +208,7 @@ export default {
       detalleGastoColumns: [
         { key: 'estructuraProgramatica', label: 'Estructura Programatica', _style: { width: '40%' } },
         { key: 'clasificadorId', label: 'Clasificador' },
-        { key: 'fuenteEspecificaId', label: 'Fuente Especifica' },
+        { key: 'fuenteEspecificaId', label: 'Fuente Específica' },
         { key: 'organismoFinanciadorId', label: 'Organismo Financiador' },
         { key: 'montoBruto', label: 'Monto' },
       ]

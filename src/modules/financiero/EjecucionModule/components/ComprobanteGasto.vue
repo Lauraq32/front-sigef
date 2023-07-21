@@ -211,7 +211,6 @@ export default {
     },
 
     itemActions(estadoItem) {
-      console.log(estadoItem.estado)
       const actions = [
 
         {
