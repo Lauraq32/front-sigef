@@ -31,7 +31,7 @@
           :itemsPerPage="7"
           :items-per-page-options="[5, 10, 20]"
           columnSorter
-          :sorterValue="{ column: 'status', state: 'asc' }"
+          :sorterValue="{ column: 'clasifica', state: 'asc' }"
           pagination
         >
           <template #show_details="{ item }">
