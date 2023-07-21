@@ -7,7 +7,8 @@
       <CHeaderNav class="d-md-flex me-auto align-items-center">
         <CNavItem style="font-size: 20px">
           <img
-            style="width: 60px"
+            height="50"
+            width="50"
             :src="
               !url
                 ? 'https://media.istockphoto.com/id/874179328/es/vector/rep%C3%BAblica-dominicana.jpg?s=612x612&w=0&k=20&c=f5hftAqUGumB63g_FJL6gazxw41Ks0MTxNhTfl453XY='
