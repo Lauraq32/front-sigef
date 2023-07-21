@@ -108,7 +108,7 @@
                     <div class="col-9">
                       <CCol :md="12">
                         <CFormInput v-model="postEmpleado.nombre" id="nombres" required
-                          v-on:keypress="onlyLetter($event)" />
+                          v-on:keypress="onlyLetter($event)" maxlength="30"/>
                       </CCol>
                     </div>
                   </div>
@@ -120,7 +120,7 @@
                     <div class="col-9">
                       <CCol :md="12">
                         <CFormInput required v-model="postEmpleado.apellido" id="apellidos"
-                          v-on:keypress="onlyLetter($event)" />
+                          v-on:keypress="onlyLetter($event)" maxlength="30"/>
                       </CCol>
                     </div>
                   </div>
@@ -152,11 +152,7 @@
                     </div>
                     <div class="col-9">
                       <CCol :md="12">
-                        <CFormInput
-                          v-model="postEmpleado.direccion"
-                          id="direccion"
-                          required
-                        />
+                        <CFormInput v-model="postEmpleado.direccion" id="direccion" required  maxlength="50"/>
                       </CCol>
                     </div>
                   </div>
@@ -192,7 +188,7 @@
                     <div class="col-9">
                       <CCol :md="12">
                         <CFormInput v-on:keypress="onlyNumber($event)" v-model="postEmpleado.telefono" id="telefono"
-                          maxlength="13" type="text" />
+                          maxlength="13" />
                       </CCol>
                     </div>
                   </div>
@@ -254,11 +250,8 @@
                     </div>
                     <div class="col-9">
                       <CCol :md="12">
-                        <CFormInput
-                          v-model="postEmpleado.lugarNacimiento"
-                          id="lugarNacimiento"
-                          v-on:keypress="onlyLetter($event)"
-                        />
+                        <CFormInput v-model="postEmpleado.lugarNacimiento" id="lugarNacimiento"
+                          v-on:keypress="onlyLetter($event)"  maxlength="20"/>
                       </CCol>
                     </div>
                   </div>
@@ -268,7 +261,7 @@
                       <CFormLabel for="dependientes">Dependientes</CFormLabel>
                     </div>
                     <div class="col-9">
-                      <CFormInput v-model="postEmpleado.dependientes" type="number" id="dependientes" required
+                      <CFormInput v-model="postEmpleado.dependientes" v-on:keypress="onlyNumber($event)" id="dependientes" required
                         maxlength="3" />
                     </div>
                   </div>
@@ -309,12 +302,8 @@
                   </CCol>
                   <CCol :md="12">
                     <CFormLabel for="Recomendado">Recomendado por</CFormLabel>
-                    <CFormInput
-                      v-model="postEmpleado.recomendadoPor"
-                      type="text"
-                      id="Recomendado"
-                      v-on:keypress="onlyLetter($event)"
-                    />
+                    <CFormInput v-model="postEmpleado.recomendadoPor" type="text" id="Recomendado"
+                      v-on:keypress="onlyLetter($event)"  maxlength="50"/>
                   </CCol>
                   <CCol :md="12">
                     <CFormLabel for="programaDivisionId"
@@ -448,11 +437,12 @@
 
                   <CCol :md="12">
                     <CFormLabel for="sueldo">Sueldo actual</CFormLabel>
-                    <CFormInput
-                      type="number"
-                      v-model="postEmpleado.sueldo"
+                    <CurrencyInput
                       id="sueldo"
+                      v-model="postEmpleado.sueldo"
+                      class="text-end"
                       required
+                      :options="{ locale: 'en-US', currency: 'DOP', precision: 2, currencyDisplay: 'hidden'}"
                     />
                   </CCol>
                   <CCol>
@@ -524,7 +514,7 @@
                   <h3>Otros</h3>
                   <CCol>
                     <CFormLabel for="emergenciaTelefono">Otros</CFormLabel>
-                    <CFormInput id="emergenciaTelefono" type="text" v-model="postEmpleado.observacion" />
+                    <CFormInput id="emergenciaTelefono" type="text" v-model="postEmpleado.observacion" :maxlength="100"/>
                   </CCol>
                 </div>
               </div>
@@ -542,22 +532,16 @@
 
                   <CCol>
                     <CFormLabel for="emergenciaNombre">Nombres</CFormLabel>
-                    <CFormInput
-                      v-model="postEmpleado.emergenciaNombre"
-                      id="emergenciaNombre"
-                    />
+                    <CFormInput v-model="postEmpleado.emergenciaNombre" id="emergenciaNombre" :maxlength="40"/>
                   </CCol>
                   <CCol>
                     <CFormLabel for="emergenciaTelefono">Tel&eacute;fono</CFormLabel>
                     <CFormInput v-on:keypress="onlyNumber($event)" v-model="postEmpleado.emergenciaTelefono"
-                      id="emergenciaTelefono" type="number" maxlength="13" />
+                      id="emergenciaTelefono" maxlength="13" />
                   </CCol>
                   <CCol>
                     <CFormLabel for="emergenciaDireccion">Dirección</CFormLabel>
-                    <CFormInput
-                      v-model="postEmpleado.emergenciaDireccion"
-                      id="emergenciaDireccion"
-                    />
+                    <CFormInput v-model="postEmpleado.emergenciaDireccion" id="emergenciaDireccion"  :maxlength="40"/>
                   </CCol>
                   <CCol>
                     <CFormLabel for="emergenciaParentezco"
@@ -737,12 +721,12 @@
                       <CCol :md="6">
                         <CFormLabel for="correo1">Correo Electr&oacute;nico 1</CFormLabel>
                         <CFormInput id="correo1" v-model="postEmpleado.correoElectronico"
-                          pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" />
+                          pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"  :maxlength="40"/>
                       </CCol>
                       <CCol :md="6">
                         <CFormLabel for="correo1">Correo Electr&oacute;nico 2</CFormLabel>
                         <CFormInput id="correo2" v-model="postEmpleado.correoElectronico2"
-                          pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" />
+                          pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"  :maxlength="40"/>
                       </CCol>
                     </div>
                   </CCol>
@@ -770,11 +754,11 @@ import apiSectores from '../../../../financiero/NominaModule/services/NominaServ
 import configuraciones from '@/utils/configuraciones'
 import { onlyLetter, onlyNumber, calculateAge } from '@/utils/validator'
 import vSelect from 'vue-select'
-import fileApi from '../../services/Files'
 import 'vue-select/dist/vue-select.css'
 import { useToastStore } from '@/store/toast'
 import { mapActions, mapStores } from 'pinia'
 import { CCol } from '@coreui/vue-pro'
+import CurrencyInput from '@/utils/CurrencyInput.vue';
 
 export default {
   name: 'RegistroPersonalDialog',
@@ -783,6 +767,7 @@ export default {
     moment,
     vSelect,
     CCol,
+    CurrencyInput
   },
   emits: ['close-modal', 'post-personal'],
   data: function () {
@@ -954,28 +939,16 @@ export default {
         const reader = new FileReader()
         this.profilePhoto = file
         reader.onload = (evt) => {
-          this.imageUrl = evt.target.result
-          const formData = new FormData()
-          formData.append('file', file)
-          formData.append('empleadoId', this.empleado.id)
-          formData.append('profileImage', 1)
-          formData.append('uploaded', new Date().toISOString())
-          formData.append('public', true)
-          fileApi
-            .saveFile(formData)
-            .then((response) => {
-              this.postEmpleado.idImagenPerfil = response.data.data[0].id
-            })
-            .catch(console.log)
-        }
-        reader.readAsDataURL(file)
+          this.imageUrl = evt.target.result;
+        };
+        reader.readAsDataURL(file);
       }
     },
 
     checkDocument(e) {
       if (this.postEmpleado.tipoDocumento === 'cedula') {
-        this.cedulaMax = 11;
-        return onlyNumber(e);
+        this.cedulaMax = 11
+        return onlyNumber(e)
       }
     },
 
@@ -1068,7 +1041,8 @@ export default {
       }
 
       this.$emit('post-personal', {
-        ...this.postEmpleado,
+        payload: { ...this.postEmpleado },
+        profilePhoto: this.profilePhoto
       })
     },
 
@@ -1079,22 +1053,21 @@ export default {
     clearModal() {
       const currentDate = new Date()
       currentDate.setFullYear(currentDate.getFullYear() - 19)
-
+      this.tabPaneActiveKey = 1
       this.postEmpleado = {
-        ayuntamientoId: this.$ayuntamientoId,
         codigo: null,
         nombre: null,
         apellido: null,
         tipoDocumento: 'cedula',
         codigoIdentidad: null,
         direccion: null,
-        sectorId: 0,
+        sectorId: '',
         telefono: null,
         celular: null,
         fechaNacimiento: currentDate,
         lugarNacimiento: null,
         estadoCivil: '',
-        sexo: 'M',
+        sexo: '',
         dependientes: 0,
         fechaIngreso: null,
         fechaSalida: '1970-01-01T00:00:00',
@@ -1188,6 +1161,21 @@ export default {
         return true
       }
     },
+    loadData() {
+      this.clearModal();
+      if (Object.keys(this.empleado).length && this.showModal) {
+        this.postEmpleado = { ...this.empleado };
+        this.imageUrl = this.empleado.idImagenPerfil ? `${process.env.VUE_APP_API_URL}/api/files/public/${this.empleado.idImagenPerfil ?? -1}` : '';
+
+        if (this.empleado.programaDivisionId) {
+          this.getListDepartamento({
+            target: {
+              value: this.empleado.programaDivisionId
+            }
+          });
+        }
+      }
+    }
   },
 
   mounted() {
@@ -1262,22 +1250,13 @@ export default {
 
   watch: {
     empleado(newData) {
-      this.clearModal()
-      if (newData && this.showModal) {
-        this.postEmpleado = { ...newData }
-        this.imageUrl = newData.idImagenPerfil
-          ? `${process.env.VUE_APP_API_URL}/api/files/public/${
-              newData.idImagenPerfil ?? -1
-            }`
-          : ''
-
-        if (newData.programaDivisionId) {
-          this.getListDepartamento({
-            target: {
-              value: newData.programaDivisionId,
-            },
-          })
-        }
+      if (newData) {
+        this.loadData();
+      }
+    },
+    showModal(newData) {
+      if (newData) {
+        this.loadData();
       }
     },
   },

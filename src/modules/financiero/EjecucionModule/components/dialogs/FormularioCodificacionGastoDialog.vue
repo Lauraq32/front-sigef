@@ -137,43 +137,75 @@
                 </template>
                 <template #presupuestoBco="{ item, index }">
                   <td>
-                    {{ formatPrice(item.presupuestoBco) }}
+                    {{ item.presupuestoBco != 0  ? formatPrice(item.presupuestoBco) : '' }}
                   </td>
                 </template>
                 <template #variacionBco="{ item, index }">
                   <td>
-                    {{ formatPrice(item.variacionBco) }}
+                    {{ item.variacionBco  != 0  ? formatPrice(item.variacionBco) : '' }}
                   </td>
                 </template>
                 <template #pActual="{ item, index }">
                   <td>
-                    {{ formatPrice(item.pActual) }}
+                    {{ item.pActual != 0 ? formatPrice(item.pActual) : '' }}
                   </td>
                 </template>
                 <template #devengadoEjecutado="{ item, index }">
                   <td>
-                    {{ formatPrice(item.devengadoEjecutado) }}
+                    {{ item.devengadoEjecutado != 0 ? formatPrice(item.devengadoEjecutado) : ''  }}
                   </td>
                 </template>
                 <template #devengadoDisponible="{ item, index }">
                   <td>
-                    {{ formatPrice(item.devengadoDisponible) }}
+                    {{ item.devengadoDisponible != 0  ? formatPrice(item.devengadoDisponible) : '' }}
                   </td>
                 </template>
                 <template #pagadoEjecutado="{ item, index }">
                   <td>
-                    {{ formatPrice(item.pagadoEjecutado) }}
+                    {{ item.pagadoEjecutado != 0  ? formatPrice(item.pagadoEjecutado) : '' }}
                   </td>
                 </template>
                 <template #pagadoDisponible="{ item, index }">
                   <td>
-                    {{ formatPrice(item.pagadoDisponible) }}
+                    {{ item.pagadoDisponible != 0  ? formatPrice(item.pagadoDisponible) : '' }}
                   </td>
                 </template>
 
               </CSmartTable>
             </CCol>
-            <CCol :md="12">
+            <CCol :md="12" class="border p-2">
+              <h4 class="text-center mb-3">Fondos del Gasto (Cta./Banco) en los que el clasificador seleccionado fue
+                presupuestado</h4>
+              <div class="row">
+                <div class="col-2">
+                  <div class="row">
+                    <div class="col-12 fw-bold">
+                      <h6> Cta Banco</h6>
+                    </div>
+                    <div class="col-12 fw-bold">
+                      <h6> Pres Original</h6>
+                    </div>
+                  </div>
+
+
+                </div>
+                <div class="col-10">
+                  <div class="row">
+                    <div class="col-3 fw-bold text-center">Personal</div>
+                    <div class="col-3 fw-bold text-center">Servicio</div>
+                    <div class="col-3 fw-bold text-center">Inversi&oacute;n</div>
+                    <div class="col-3 fw-bold text-center">E/S/Genero</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-3 text-center fw-semibold">{{ cuentasClasificadores[0] }}</div>
+                    <div class="col-3 text-center fw-semibold">{{ cuentasClasificadores[1] }}</div>
+                    <div class="col-3 text-center fw-semibold">{{ cuentasClasificadores[2] }}</div>
+                    <div class="col-3 text-center fw-semibold">{{ cuentasClasificadores[3] }}</div>
+                  </div>
+
+                </div>
+
+              </div>
             </CCol>
           </div>
         </div>
@@ -230,6 +262,7 @@ export default {
         type: Array,
         default: [],
       },
+      cuentasClasificadores: [],
       MestProgDialogProp: false,
       profesionesList: [],
       mestProgList: [],
@@ -439,6 +472,9 @@ export default {
         Api.getRegistroGastoMesProg(item).then(response => {
           if (response.data.data.length > 1) {
             var clasificadores = response.data.data.filter(item => item.clasificador.length == 6)
+
+
+
             var dataResponse = clasificadores.reduce((acc, current) => {
               acc.push({
                 clasificador: current.clasificador,
@@ -446,6 +482,10 @@ export default {
                 fuenteId: current.fuenteId,
                 organismoFinanciadorId: current.organismoFinanciadorId,
                 fuenteEspecificaId: current.fuenteEspecificaId,
+                cuenta1: current.presupuestoBco1,
+                cuenta2: current.presupuestoBco2,
+                cuenta3: current.presupuestoBco3,
+                cuenta4: current.presupuestoBco4,
                 presupuestoBco: current[`presupuestoBco${this.registroGasto.bancoId}`],
                 OFin: `${current.fuenteId}/${current.organismoFinanciadorId}/${current.fuenteEspecificaId}`,
                 totalPagadoBco: current[`totalPagadoBco${this.registroGasto.bancoId}`],
@@ -530,11 +570,16 @@ export default {
     },
 
     selectMestProg(item) {
+      this.cuentasClasificadores[0] = this.formatPrice(item.cuenta1)
+      this.cuentasClasificadores[1] = this.formatPrice(item.cuenta2)
+      this.cuentasClasificadores[2] = this.formatPrice(item.cuenta3)
+      this.cuentasClasificadores[3] = this.formatPrice(item.cuenta4)
       this.nombreClasificador = item.nombre
       this.detalleRegistroGasto.fuenteEspecificaId = item.fuenteEspecificaId
       this.detalleRegistroGasto.organismoFinanciadorId = item.organismoFinanciadorId
       this.detalleRegistroGasto.clasificadorId = item.clasificador
       this.detalleRegistroGasto.fuenteId = item.fuenteId
+
       if (this.registroGasto.etapa == 'Devengado') {
         if (item.devengadoEjecutado !== item.devengadoDisponible) {
           this.balanceDisponible = item.devengadoDisponible;

@@ -77,6 +77,7 @@ import { formatPrice } from '../../../../utils/format'
 import { useToastStore } from '@/store/toast'
 import FormulacionGastoDialog from "../gasto/FormulacionGastoDialog";
 import AppAccionHeader from "../../../../components/AppActionHeader.vue";
+import { showReport } from '@/utils/util'
 
 export default {
   components: {
@@ -85,6 +86,7 @@ export default {
     FormulacionGastoDialog,
     AppAccionHeader
   },
+  inject: ['LoginInfo'],
   data: function () {
     return {
       formulacionGasto: {},
@@ -180,8 +182,9 @@ export default {
             }
 
             proyectosList.push({
-              AyuntamientoId: this.$ayuntamientoId,
-              AnioFiscalId: this.$fiscalYearId,
+              AnioFiscalId: this.LoginInfo.fiscalYearId ?? 0,
+              AyuntamientoId: this.LoginInfo.ayuntamientoId ?? 0,
+
               MestProgId: `0011${Object.values(item)[4]
                 .toString()
                 .padStart(2, 0)}${Object.values(item)[5]
@@ -245,7 +248,7 @@ export default {
       this.file = event.target.files ? event.target.files[0] : null
       if (this.file) {
         const reader = new FileReader()
-
+        
         reader.onload = (e) => {
           const bstr = e.target.result
           const wb = XLSX.read(bstr, {
@@ -268,8 +271,8 @@ export default {
 
             pregastoMasivo.push({
               presGastoId: 0,
-              ayuntamientoId: this.$ayuntamientoId,
-              anioFiscalId: this.$fiscalYearId,
+              anioFiscalId: this.LoginInfo.fiscalYearId ?? 0,
+              ayuntamientoId: this.LoginInfo.ayuntamientoId ?? 0,
               mestProgId: `${this.pnap}${this.programa}${Object.values(item)[4]
                 .toString()
                 .padStart(2, 0)}${Object.values(item)[5]
@@ -333,11 +336,19 @@ export default {
             })
           })
           pregastoMasivo.forEach((item) => {
-            Api.getEstruturaProgramaticaById(item.mestProgId).then(
-              (response) => {
+            Api.getEstruturaProgramaticaById(item.mestProgId)
+            .then( (response) => {
                 item.nombre = response.data.data?.nombre ?? '';
-              },
-            )
+            })
+            .catch(error => {
+              this.show({
+                content: error.response.data,
+                closable: true,
+                color: 'danger',
+                class: 'text-white',
+                time: 7_000
+              })
+            });
           })
 
           if (pregastoMasivo.length) {
@@ -377,12 +388,27 @@ export default {
       }
       return this.addGasto(data)
     },
-    IngresoReport() {
-      console.log(this.$loggedInfo);
-      window.open(
-        `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?/FormulacionEjecucionP/Rep_Formulacion_Gastos_FP08&rs:Command=Render&CAPITULO_AYTO=${this.$loggedInfo.user.ayuntamiento.id}&ANO=${this.$loggedInfo.currentFiscalYearId}`,
-        '_blank',
-      )
+    async IngresoReport() {
+      try {
+        await showReport({
+          folderName: 'fep',
+          reportName: 'Rep_Formulacion_Gastos_FP08',
+          params: [{
+            name: "CAPITULO_AYTO",
+            value: "majorityId"
+          },{
+            name: "ANO",
+            value: "fiscalYear"
+          }]
+        });
+      } catch (error) {
+        this.show({
+          content: error,
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        })
+      }
     },
 
     cargarEstructuras() {
@@ -445,8 +471,8 @@ export default {
     setNuevoFormulacionGasto() {
       this.formulacionGasto = {
         clasifica: '',
-        ayuntamientoId: this.$ayuntamientoId,
-        anioFiscalId: this.$fiscalYearId,
+        anioFiscalId: this.LoginInfo.fiscalYearId ?? 0,
+        ayuntamientoId: this.LoginInfo.ayuntamientoId ?? 0,
         mestprogId: '',
         costObra: 0,
         pnap: '',
@@ -520,7 +546,6 @@ export default {
       return actions;
     }
   },
-  inject: ['LoginInfo'],
   mounted() {
     this.getListarGastos()
     this.footerItem[0].label = `Total items: ${this.gastoListCount}`

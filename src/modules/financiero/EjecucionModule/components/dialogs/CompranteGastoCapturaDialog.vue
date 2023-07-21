@@ -14,10 +14,10 @@
                     <div class="row">
                       <CCol :md="6">
                         <CFormLabel for="fecha">Fecha</CFormLabel>
-                        <CFormInput v-model="fechaGasto" type="date" id="fecha" required />
+                        <AppDateField class="form-control" v-model="postRegistroGasto.fecha"/>
                       </CCol>
 
-
+                     
 
                       <CCol :md="6">
                         <CFormLabel for="Resolucion">Resoluci&oacute;n No.</CFormLabel>
@@ -33,7 +33,7 @@
                       </CCol>
                       <CCol :md="6">
                         <CFormLabel for="fechaResolucion">Fecha Resoluci&oacute;n</CFormLabel>
-                        <CFormInput v-model="postRegistroGasto.fechaResolucion" type="date" id="fechaResolucion" />
+                        <AppDateField class="form-control" v-model="postRegistroGasto.fechaResolucion" />
                       </CCol>
 
                       <CCol :md="6">
@@ -146,6 +146,7 @@ import { CIcon } from '@coreui/icons-vue'
 import SelectBeneficiario from './SelectBeneficiario.vue'
 import FormularioCodificacionGastoDialog from './FormularioCodificacionGastoDialog.vue'
 import CuentaService from '@/modules/rrhh/RegistroPersonal/services/DeparmentServices'
+import AppDateField from '@/components/AppDateField.vue'
 import { useToastStore } from '@/store/toast'
 import { onlyNumber } from '@/utils/validator'
 import { mapActions } from 'pinia'
@@ -157,6 +158,7 @@ export default {
   components: {
     CSmartTable,
     CModal,
+    AppDateField,
     CIcon,
     SelectBeneficiario,
     FormularioCodificacionGastoDialog
@@ -180,7 +182,7 @@ export default {
       reclutamientoObject: {},
       postRegistroGasto: {
         detalle: "",
-        fecha: null,
+        fecha: new Date(),
         etapa: 'Devengado',
         beneficiarioId: null,
         conceptoGastoId: null,
@@ -316,31 +318,7 @@ export default {
       })
     },
   },
-  computed: {
-    fechaGasto: {
-      get() {
-        let date = this.postRegistroGasto.fecha ?? new Date()
-        if (
-          this.postRegistroGasto.fecha !== null &&
-          this.postRegistroGasto.fecha?.toString() !== 'Invalid Date'
-        ) {
-          if (typeof this.postRegistroGasto.fecha === 'string') {
-            date = new Date(this.postRegistroGasto.fecha)
-            return date.toISOString().split('T')[0]
-          }
-        }
-        return date?.toISOString()?.split('T')?.[0]
-      },
-
-      set(value) {
-        return (this.postRegistroGasto.fecha = new Date(
-          `${value}T00:00:00`,
-        ))
-      },
-
-    },
-  },
-
+ 
   props: {
     showModal: Boolean,
   },
