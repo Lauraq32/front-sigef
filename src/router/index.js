@@ -89,7 +89,7 @@ const routes = [
       },
 
       {
-        path: '/AdministrativoModule',
+        path: '/administrativo',
         ...AdministrativoModule,
       },
       {

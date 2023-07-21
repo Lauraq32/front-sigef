@@ -1,9 +1,8 @@
 export default {
-  name: 'AdministrativoModule',
-  redirect: '/AdministrativoModule/manejoUsuarios',
+  name: 'administrativo',
+  redirect: '/administrativo/usuarios',
   meta: { label: 'Administrativo' },
-  component: () =>
-    import('@/modules/administrativo/layout/TemplateLayout.vue'),
+  component: () => import('@/modules/administrativo/layout/TemplateLayout.vue'),
   children: [
     {
       path: 'fp-meta-04',
@@ -15,7 +14,7 @@ export default {
         ),
     },
     {
-      path: 'manejoUsuarios',
+      path: 'usuarios',
       name: 'ManejoUsuarios',
       meta: { label: 'Usuarios' },
       component: () =>
@@ -23,17 +22,6 @@ export default {
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/pages/ManejoDeUsuario.vue'
         ),
     },
-
-    {
-      path: 'serviciosPersonales',
-      name: 'serviciosPersonales',
-      meta: { label: 'Detalle servicios Personales' },
-      component: () =>
-        import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/components/DetalleServiciosPersonales.vue'
-        ),
-    },
-
     {
       path: 'ayuntamiento',
       name: 'ayuntamiento',
@@ -45,7 +33,7 @@ export default {
     },
 
     {
-      path: 'misionVision',
+      path: 'mision-vision',
       name: 'MisionVision',
       meta: { label: 'Misión y Visión' },
       component: () =>
@@ -54,7 +42,7 @@ export default {
         ),
     },
     {
-      path: 'serviciosPersonales',
+      path: 'servicios-personales',
       name: 'serviciosPersonales',
       meta: { label: 'Detalle servicios Personales' },
       component: () =>
@@ -63,13 +51,14 @@ export default {
         ),
     },
 
-
-
-    //  {
-    //     path: '',
-    //     name: 'no-entry',
-    //     component: () => import(/* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FormulacionModule/components/Prueba.vue'),
-    // },
+    {
+      path: 'perfil-usuario',
+      name: 'Perfil',
+      meta: { label: 'Perfil de Usuario' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/pages/perfil.vue'
+        ),
+    },
   ],
 }
-

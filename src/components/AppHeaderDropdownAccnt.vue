@@ -5,7 +5,9 @@
       <CAvatar :src="avatar" size="md" />
     </CDropdownToggle>
     <CDropdownMenu class="pt-0">
-      <CDropdownItem> <CIcon icon="cil-user" /> Perfil </CDropdownItem>
+      <CDropdownItem  @click="goToPerfil" >
+        <CIcon icon="cil-user"/> Perfil
+      </CDropdownItem>
       <CDropdownDivider />
       <div @click="logOut">
         <CDropdownItem>
@@ -23,20 +25,22 @@ import { clearLoggedInfo } from '@/utils/logged-info'
 import { useAuthStore } from '@/store/AuthStore'
 import CIcon from '@coreui/icons-vue'
 export default {
-    name: "AppHeaderDropdownAccnt",
-    setup() {
-        const authStore = useAuthStore();
-        const userName = authStore.authInfo.user.email;
-        const logOut = () => {
-            clearLoggedInfo();
-            router.push({ name: "Login" });
-        };
-        return {
-            avatar: avatar,
-            logOut,
-            userName,
-        };
-    },
-    components: { CIcon }
+  name: "AppHeaderDropdownAccnt",
+  setup() {
+    const authStore = useAuthStore();
+    const userName = authStore.authInfo.user.email;
+    const goToPerfil = () => { router.push({ name: 'Perfil' }) }
+    const logOut = () => {
+      clearLoggedInfo();
+      router.push({ name: "Login" });
+    };
+    return {
+      avatar: avatar,
+      logOut,
+      userName,
+      goToPerfil,
+    };
+  },
+  components: { CIcon }
 }
 </script>
