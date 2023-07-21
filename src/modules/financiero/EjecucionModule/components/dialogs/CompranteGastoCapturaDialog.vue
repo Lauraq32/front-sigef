@@ -40,7 +40,8 @@
                         <CFormLabel for="formaPago">Forma de Pago</CFormLabel>
                         <div class="row">
                           <div class="col-12">
-                            <CFormSelect @change="changeFormaPago" :disabled="disableFormaPago" v-model="postRegistroGasto.formaPago">
+                            <CFormSelect @change="changeFormaPago" :disabled="disableFormaPago"
+                              v-model="postRegistroGasto.formaPago">
                               <option :key="0">Selecionar Cuenta de banco</option>
                               <option value="Cheque">
                                 Cheque
@@ -164,8 +165,8 @@ export default {
   data: function () {
     return {
       onlyNumber,
-      disableFormaPago:false,
-      disabledComprobante:true,
+      disableFormaPago: false,
+      disabledComprobante: true,
       cuentasBanco: [],
       isFormEventTypeValidated: false,
       detalleGasto: [],
@@ -216,17 +217,17 @@ export default {
   methods: {
     ...mapActions(useToastStore, ['show']),
 
-    changeEtapa(e){
+    changeEtapa(e) {
       console.log(e.target.value)
-      if(e.target.value == 'Variacion'){
+      if (e.target.value == 'Variacion') {
         this.disableFormaPago = true
         return;
       }
       this.disableFormaPago = false;
     },
-    changeFormaPago(e){
+    changeFormaPago(e) {
       console.log(e.target.value)
-      if(e.target.value == 'Reversar'){
+      if (e.target.value == 'Reversar') {
         this.disabledComprobante = false
         return;
       }
@@ -236,15 +237,20 @@ export default {
       this.cuentaBanco = Array.from(e.target).filter(cuenta => cuenta.value == e.target.value)[0].label
     },
     saveDetalle(payload) {
-      let montoNeto = payload.detalleRetencion.map(detalle => (
-        detalle.valorAplicado
-      ))
-      this.postRegistroGasto.montoNeto = montoNeto.reduce(function (a, b) {
-        return a + b;
-      });
+      if (payload.detalleRetencion.length > 1) {
+        let montoNeto = payload.detalleRetencion.map(detalle => (
+          detalle.valorAplicado
+        ))
+        this.postRegistroGasto.montoNeto = montoNeto.reduce(function (a, b) {
+          return a + b;
+        });
 
+        this.postRegistroGasto.detalleRegistroGastos = [payload, ...this.postRegistroGasto.detalleRegistroGastos]
+        this.postRegistroGasto.totalBruto = payload.montoBruto
+        return;
+      }
       this.postRegistroGasto.detalleRegistroGastos = [payload, ...this.postRegistroGasto.detalleRegistroGastos]
-      this.postRegistroGasto.totalBruto = payload.montoBruto
+
     },
 
     getServiciosRequeridos() {
