@@ -505,7 +505,7 @@ export default {
       }
     },
     setMontoBruto(event) {
-      if (this.balanceDisponible > Number(event.target.value.replaceAll(',', ''))) {
+      if (this.balanceDisponible >= Number(event.target.value.replaceAll(',', ''))) {
         this.detalleRetencion.baseImponible = event.target.value
         return;
       }
