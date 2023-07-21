@@ -210,9 +210,12 @@ export default {
       detalleGastoColumns: [
         { key: 'estructuraProgramatica', label: 'Estructura Programatica', _style: { width: '40%' } },
         { key: 'clasificadorId', label: 'Clasificador' },
+        { key: 'fuenteId', label: 'Fuente' },
         { key: 'fuenteEspecificaId', label: 'Fuente Específica' },
         { key: 'organismoFinanciadorId', label: 'Organismo Financiador' },
-        { key: 'montoBruto', label: 'Monto' },
+        { key: 'montoBruto', label: 'Monto Bruto' },
+        { key: 'retenciones', label: 'Retención' },
+        { key: 'neto', label: 'Neto' },
       ]
     }
   },

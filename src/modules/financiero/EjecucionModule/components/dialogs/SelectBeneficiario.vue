@@ -56,8 +56,9 @@
                         striped: true,
                         hover: true,
                     }" :tableHeadProps="{}" :activePage="1" tableFilter header :items="grupoBeneficiarios"
-                        :columns="grupoBeneficiariosColumns" itemsPerPageSelect :itemsPerPage="5" :items-per-page-options="[5, 10, 20]"
-                        columnSorter :sorterValue="{ column: 'status', state: 'asc' }" pagination>
+                        :columns="grupoBeneficiariosColumns" itemsPerPageSelect :itemsPerPage="5"
+                        :items-per-page-options="[5, 10, 20]" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
+                        pagination>
                         <template #show_details="{ item }">
                             <td class="py-2">
                                 <div class="d-flex justify-content-around">
@@ -100,6 +101,8 @@ const beneficiarios = ref([])
 const grupoBeneficiarios = ref([])
 const columns = [
     { key: 'id', label: 'Id' },
+    { key: 'rncCedPas', label: 'Identificación' },
+    { key: 'tipoDcto', label: 'Tipo Documento' },
     { key: 'nombre', label: 'Nombre' },
 
     {
@@ -131,7 +134,7 @@ const closeDialog = (data) => {
 
 const selectBeneficiarioPorGrupo = (item) => {
     Api.getGrupoCompensacionBeneficiario(item.id).then(response => {
-        closeDialog({grupoBeneficiarioId:item.id,beneficiarioId:response.data.data[0].id,beneficiarioNombre:item.descripcion})
+        closeDialog({ grupoBeneficiarioId: item.id, beneficiarioId: response.data.data[0].id, beneficiarioNombre: item.descripcion })
     })
 }
 
