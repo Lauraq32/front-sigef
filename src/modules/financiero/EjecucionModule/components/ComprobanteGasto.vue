@@ -19,12 +19,12 @@
     striped: true,
     hover: true,
   }" :tableHeadProps="{}" :activePage="1" header :items="tableData" :columns="tableColumns" columnFilter
-    :footer="footer" itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'numeroComprobante', state: 'asc' }"
-    pagination>
+    :footer="footer" itemsPerPageSelect :itemsPerPage="5" columnSorter
+    :sorterValue="{ column: 'numeroComprobante', state: 'asc' }" pagination>
     <template #show_details="{ item, index }">
       <td>
         <CDropdown>
-          <CDropdownToggle color="primary" variant="outline" @click="itemActions(item.estado)">Acciones</CDropdownToggle>
+          <CDropdownToggle color="primary" variant="outline" @click="itemActions(item)">Acciones</CDropdownToggle>
           <CDropdownMenu>
             <CDropdownItem v-for="action in actions" @click="action.clickHandler && action.clickHandler(item)">
               {{ action.label }}</CDropdownItem>
@@ -211,6 +211,7 @@ export default {
     },
 
     itemActions(estadoItem) {
+      console.log(estadoItem.estado)
       const actions = [
 
         {
@@ -219,17 +220,39 @@ export default {
             this.printReportComprobanteGasto(item)
           }
         },
-
-        {
-          label: 'Reporte Pago Beneficiarios x grupo',
-          clickHandler: (item) => {
-            this.printReportComprobanteGastoPorGrupoBeneficiario(item)
-          }
-        },
-
       ]
 
-      if (estadoItem == 'Abierto') {
+      if (estadoItem.cantidadPagoXGrupo > 1 && estadoItem.totalPagoXGrupo > 1) {
+        actions.push(
+          {
+            label: 'Reporte Pago Beneficiarios x grupo',
+            clickHandler: (item) => {
+              this.printReportComprobanteGastoPorGrupoBeneficiario(item)
+            }
+          },
+        )
+      }
+
+      if (estadoItem.estado == 'Confirmado') {
+        actions.push(
+          {
+            label: 'Generar Cheque',
+            clickHandler: (item) => {
+              this.registroGastoGenerarCheque(item.id)
+            }
+          },
+          {
+            label: 'Cerrar',
+            clickHandler: (item) => {
+              this.registroGastoGenerarCerrar(item.id)
+            }
+          },
+
+        );
+
+      }
+
+      if (estadoItem.estado == 'Abierto') {
         actions.push({
           label: 'Cancelar',
           clickHandler: (item) => {
@@ -298,11 +321,11 @@ export default {
             }
 
           },
-         
+
         );
       }
 
-      if (estadoItem == 'Confirmado') {
+      if (estadoItem.estado == 'Confirmado') {
         actions.push(
           {
             label: 'Generar Cheque',
@@ -321,14 +344,14 @@ export default {
 
       }
 
-      if (estadoItem == 'Cancelado') {
+      if (estadoItem.estado == 'Cancelado') {
         actions.push(
 
 
         );
       }
 
-      if (estadoItem == 'Cerrado') {
+      if (estadoItem.estado == 'Cerrado') {
         actions.push(
 
 
@@ -391,7 +414,7 @@ export default {
             this.show({
               content: error.response.data.message,
               closable: true,
-              color:'danger'
+              color: 'danger'
             })
           })
         }

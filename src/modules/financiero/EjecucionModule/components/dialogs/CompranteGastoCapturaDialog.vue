@@ -184,6 +184,7 @@ export default {
         etapa: 'Devengado',
         beneficiarioId: null,
         conceptoGastoId: null,
+        grupoCompensacionId: null,
         bancoId: null,
         numeroCheque: "1",
         totalBruto: 0,
@@ -218,7 +219,6 @@ export default {
     ...mapActions(useToastStore, ['show']),
 
     changeEtapa(e) {
-      console.log(e.target.value)
       if (e.target.value == 'Variacion') {
         this.disableFormaPago = true
         return;
@@ -226,7 +226,6 @@ export default {
       this.disableFormaPago = false;
     },
     changeFormaPago(e) {
-      console.log(e.target.value)
       if (e.target.value == 'Reversar') {
         this.disabledComprobante = false
         return;
@@ -268,6 +267,13 @@ export default {
 
 
     closeBeneficiarioModal(payload) {
+      if (payload.grupoBeneficiarioId) {
+        this.displayBeneficiario = payload.beneficiarioNombre
+        this.postRegistroGasto.grupoCompensacionId = payload.grupoBeneficiarioId
+        this.postRegistroGasto.beneficiarioId = payload.beneficiarioId
+        this.showBeneficiarioModal = false;
+        return;
+      }
       this.displayBeneficiario = payload.nombre
       this.postRegistroGasto.beneficiarioId = payload.id
       this.showBeneficiarioModal = false;
