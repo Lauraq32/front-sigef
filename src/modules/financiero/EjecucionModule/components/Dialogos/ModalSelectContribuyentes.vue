@@ -5,30 +5,14 @@
     </CModalHeader>
     <CModalBody>
       <CCardBody>
-        <CSmartTable
-          clickableRows
-          :tableProps="{
-            striped: true,
-            hover: true,
-          }"
-          :tableHeadProps="{}"
-          :activePage="1"
-          header
-          :items="contribuyentesList"
-          :columns="columns"
-          itemsPerPageSelect
-          :itemsPerPage="5"
-          :sorterValue="{ column: 'status', state: 'asc' }"
-          pagination
-        >
+        <CSmartTable clickableRows :tableProps="{
+          striped: true,
+          hover: true,
+        }" :tableHeadProps="{}" :activePage="1" header :items="contribuyentesList" :columns="columns"
+          itemsPerPageSelect :itemsPerPage="5" :sorterValue="{ column: 'nombre', state: 'asc' }" pagination>
           <template #show_details="{ item, index }">
             <td class="py-2">
-              <CButton
-                color="primary"
-                variant="outline"
-                @click="setContribuyente(item)"
-                >Seleccionar</CButton
-              >
+              <CButton color="primary" variant="outline" @click="setContribuyente(item)">Seleccionar</CButton>
             </td>
           </template>
         </CSmartTable>
@@ -58,8 +42,9 @@ export default {
       displayNameContribuyente: '',
       reclutamientoObject: {},
       columns: [
-        { key: 'nombre', label: 'Nombre', _style: { width: '50%' } },
-
+        { key: 'tipoDocumento', label: 'Tipo Documento', _style: { width: '10%' } },
+        { key: 'documento', label: 'Cédula', _style: { width: '15%' } },
+        { key: 'nombre', label: 'Nombre', _style: { width: '70%' } },
         {
           key: 'show_details',
           label: '',
