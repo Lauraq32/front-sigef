@@ -174,6 +174,20 @@
               </CSmartTable>
             </CCol>
             <CCol :md="12">
+              <h3>holaa</h3>
+              <div class="row">
+                  <div class="col-4">
+                    <h4>Un texto grande</h4>
+                  </div>
+                  <div class="col-8">
+                    <div class="col-4">una cuenta</div>
+                    <div class="col-4">una cuenta</div>
+                    <div class="col-4">una cuenta</div>
+                    <div class="col-4">una cuenta</div>
+             
+                  </div>
+                  
+              </div>
             </CCol>
           </div>
         </div>
