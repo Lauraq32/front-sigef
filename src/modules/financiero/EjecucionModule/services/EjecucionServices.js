@@ -254,6 +254,9 @@ class Ejecucion {
   getGrupoCompensacionList(){
     return http.get('grupos-compensacion')
   }
+  getGrupoCompensacionBeneficiario(id){
+    return http.get(`grupos-compensacion/${id}/beneficiarios`)
+  }
   //Delete 
 
   deleteBeneficiarios(id){

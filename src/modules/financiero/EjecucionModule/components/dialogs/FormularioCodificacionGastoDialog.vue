@@ -25,13 +25,13 @@
                 </CCol>
                 <hr>
                 <CCol :md="6">
-                  <CFormLabel for="clasificadorId" >Clasificador</CFormLabel>
-                  
+                  <CFormLabel for="clasificadorId">Clasificador</CFormLabel>
+
                   <CFormInput disabled :keypress="onlyNumber" v-model="detalleRegistroGasto.clasificadorId" id="nombre"
                     required />
                 </CCol>
                 <CCol :md="6" class="border text-center">
-                  <CFormLabel for="balanceDisponible" class="font-weight-bold ">Balance disponible</CFormLabel>
+                  <CFormLabel for="balanceDisponible" class="font-weight-bold ">Balance Disponible</CFormLabel>
                   <span class="d-block" style="font-weight: bold;">{{ formatPrice(balanceDisponible) }}</span>
                 </CCol>
                 <CCol :md="12" class="mt-3 p-2 bg-light bg-clasificador text-center">
@@ -49,22 +49,22 @@
                 </CCol>
                 <CCol :md="6" class="mt-3">
                   <CFormLabel for="baseImponible" class="font-weight-bold">Base Imponible</CFormLabel>
-                  <VueNumberFormat v-model:value="detalleRetencion.baseImponible" @change="setBaseImponible" type="text" step="any"
-                    class="form-control text-end" :options="{
+                  <VueNumberFormat v-model:value="detalleRetencion.baseImponible" @change="setBaseImponible" type="text"
+                    step="any" class="form-control text-end" :options="{
                       precision: 2,
                       prefix: '',
                       decimal: '.',
                       thousand: ',',
                     }"></VueNumberFormat>
-                
+
                 </CCol>
                 <fieldset :disabled="registroGasto.etapa !== 'Pagado'">
                   <legend>Retenciones</legend>
                   <div class="row">
 
                     <CCol :md="6">
-                      <v-select :disabled="registroGasto.etapa !== 'Pagado' || this.detalleRegistroGasto.montoBruto == 0" v-model="tipoRetencionObj"
-                        :options="tipoRetencionesList" @input="setRetencion"></v-select>
+                      <v-select :disabled="registroGasto.etapa !== 'Pagado' || this.detalleRegistroGasto.montoBruto == 0"
+                        v-model="tipoRetencionObj" :options="tipoRetencionesList" @input="setRetencion"></v-select>
                     </CCol>
                     <CCol :md="2">
 
@@ -79,8 +79,8 @@
                     </CCol>
                     <CCol :md="4">
 
-                      <v-select :disabled="registroGasto.etapa !== 'Pagado' || this.detalleRegistroGasto.montoBruto == 0" v-model="delValor"
-                        :options="RetencionesSelectList" @input="setRetencion"></v-select>
+                      <v-select :disabled="registroGasto.etapa !== 'Pagado' || this.detalleRegistroGasto.montoBruto == 0"
+                        v-model="delValor" :options="RetencionesSelectList" @input="setRetencion"></v-select>
                     </CCol>
 
                     <CCol :md="6">
@@ -95,8 +95,8 @@
                     striped: true,
                     hover: true,
                   }" :tableHeadProps="{}" :activePage="1" header :items="detalleRegistroGasto.detalleRetencion"
-                    :columns="RetencionColumn" columnFilter :footer="footerItemRetenciones" 
-                    :itemsPerPage="10" columnSorter :sorterValue="{ column: 'nombres', state: 'asc' }" pagination>
+                    :columns="RetencionColumn" columnFilter :footer="footerItemRetenciones" :itemsPerPage="10"
+                    columnSorter :sorterValue="{ column: 'nombres', state: 'asc' }" pagination>
                     <template #montoAplicado="{ item, index }">
                       <td>
                         {{ formatPrice(item.montoAplicado) }}
@@ -121,14 +121,13 @@
           </div>
           <div class="col-8">
             <CCol :md="12">
-              <h5 >Cuenta Banco: <span class="fw-bold">{{cuentaBanco}}</span> </h5>
-        
+              <h5>Cuenta Banco: <span class="fw-bold">{{ cuentaBanco }}</span> </h5>
+
               <CSmartTable class="" clickableRows :tableProps="{
                 striped: true,
                 hover: true,
               }" :tableHeadProps="{}" :activePage="1" header :items="mestProgList" :columns="clasificadoresTables"
-                :footer="footer"   :sorterValue="{ column: 'nombres', state: 'asc' }"
-                pagination>
+                :footer="footer" :sorterValue="{ column: 'nombres', state: 'asc' }" pagination>
                 <template #show_details="{ item, index }">
                   <td>
                     <CButton @click="selectMestProg(item)" color="primary" variant="outline" square size="sm">
@@ -380,14 +379,22 @@ export default {
       this.isFormEventTypeValidated = true
     },
     guardarRetencion() {
-      this.detalleRegistroGasto.neto = this.detalleRetencion.baseImponible
-      this.detalleRetencion.tipoRetencionId = this.tipoRetencionObj.code
-      this.detalleRetencion.nombreRetencion = this.tipoRetencionObj.label
-      this.detalleRetencion.montoAplicado = this.detalleRegistroGasto.montoBruto
-      this.detalleRegistroGasto.detalleRetencion = [{ ...this.detalleRetencion }, ...this.detalleRegistroGasto.detalleRetencion]
-      this.footerItemRetenciones[2].label = this.formatPrice(Number(this.detalleRetencion.valorAplicado) + Number(this.footerItemRetenciones[2].label))
-      this.footerItemRetenciones[1].label = this.formatPrice(Number(this.detalleRegistroGasto.montoBruto) - Number(this.footerItemRetenciones[2].label))
- 
+      if (this.tipoRetencionObj.code) {
+        this.detalleRegistroGasto.neto = this.detalleRetencion.baseImponible
+        this.detalleRetencion.tipoRetencionId = this.tipoRetencionObj.code
+        this.detalleRetencion.nombreRetencion = this.tipoRetencionObj.label
+        this.detalleRetencion.montoAplicado = this.detalleRegistroGasto.montoBruto
+        this.detalleRegistroGasto.detalleRetencion = [{ ...this.detalleRetencion }, ...this.detalleRegistroGasto.detalleRetencion]
+        this.footerItemRetenciones[2].label = this.formatPrice(Number(this.detalleRetencion.valorAplicado) + Number(this.footerItemRetenciones[2].label))
+        this.footerItemRetenciones[1].label = this.formatPrice(Number(this.detalleRegistroGasto.montoBruto) - Number(this.footerItemRetenciones[2].label))
+        return
+      }
+      this.show({
+        content: 'Debe elegir un tipo de Retención',
+        closable: true,
+        color: 'danger'
+      })
+
 
 
       this.detalleRetencion = {
@@ -498,7 +505,7 @@ export default {
       }
     },
     setMontoBruto(event) {
-      if (this.balanceDisponible > event.target.value ) {
+      if (this.balanceDisponible >= Number(event.target.value.replaceAll(',', ''))) {
         this.detalleRetencion.baseImponible = event.target.value
         return;
       }
@@ -511,7 +518,7 @@ export default {
     },
 
     setBaseImponible(event) {
-      if (this.balanceDisponible > event.target.value ) {
+      if (this.balanceDisponible > event.target.value) {
         return;
       }
       this.show({
@@ -543,7 +550,7 @@ export default {
   },
 
   watch: {
- 
+
     tipoRetencionObj(value) {
 
       this.detalleRetencion.montoAplica = value.porciento;
@@ -566,7 +573,7 @@ export default {
     showModal: Boolean,
 
     registroGasto: Object,
-    cuentaBanco:String
+    cuentaBanco: String
   },
   mounted() {
     this.getTipoRetenciones()
@@ -575,10 +582,11 @@ export default {
 }
 </script>
 <style>
-.bg-clasificador{
-  
-  --cui-light-rgb: 225,225,225 
+.bg-clasificador {
+
+  --cui-light-rgb: 225, 225, 225
 }
+
 .big-modal {
   width: calc(100vw - 2rem);
   margin: 1rem;
