@@ -10,7 +10,7 @@
                 striped: true,
                 hover: true,
             }" :tableHeadProps="{}" :activePage="1" header :items="mestProgList" :columns="columns" columnFilter
-                itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
+                itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'numero', state: 'asc' }"
                 pagination>
                 <template #status="{ item }">
                     <td>
@@ -45,7 +45,7 @@ export default {
         return {
             mestProgList: [],
             columns: [
-                { key: 'numero', label: 'Numero Estructura' },
+                { key: 'numero', label: 'Estructura Programática' },
                 { key: 'nombre', label: 'Nombre' },
                 { key: 'pnap', label: 'Pnap' },
                 { key: 'programa', label: 'Programa' },
