@@ -17,12 +17,6 @@
                         <AppDateField class="form-control" v-model="postRegistroGasto.fecha"/>
                       </CCol>
 
-                     
-
-                      <CCol :md="6">
-                        <CFormLabel for="Resolucion">Resoluci&oacute;n No.</CFormLabel>
-                        <CFormInput id="Resolucion" />
-                      </CCol>
                       <CCol :md="6">
                         <CFormLabel for="etapa">Etapa</CFormLabel>
                         <CFormSelect @change="changeEtapa" v-model="postRegistroGasto.etapa" id="etapa">
@@ -31,6 +25,12 @@
                           <option value="Variacion">Variacion</option>
                         </CFormSelect>
                       </CCol>
+
+                      <CCol :md="6">
+                        <CFormLabel for="Resolucion">Resoluci&oacute;n No.</CFormLabel>
+                        <CFormInput id="Resolucion" />
+                      </CCol>
+                     
                       <CCol :md="6">
                         <CFormLabel for="fechaResolucion">Fecha Resoluci&oacute;n</CFormLabel>
                         <AppDateField class="form-control" v-model="postRegistroGasto.fechaResolucion" />
