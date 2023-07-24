@@ -11,6 +11,14 @@ class RegistroPersonal {
     return http.put(`empleados/${id}/beneficiarios`)
   }
 
+  getRentencionesByEmpleado(id){
+    return http.get(`empleados/${id}/retenciones`)
+  }
+
+  getIngresosByEmpleado(id){
+    return http.get(`empleados/${id}/ingresos`)
+  }
+
   //delete Cargo
   deleteCargo(id){
     return http.delete(`cargos/${id}`)

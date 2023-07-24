@@ -9,90 +9,56 @@
         <div class="row">
           <CNav variant="tabs" role="tablist">
             <CNavItem>
-              <CNavLink
-                href="javascript:void(0);"
-                :active="tabPaneActiveKey === 1"
-                @click="
-                  () => {
-                    tabPaneActiveKey = 1
-                  }
-                "
-              >
+              <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 1" @click="() => {
+                tabPaneActiveKey = 1
+              }
+                ">
                 General
               </CNavLink>
             </CNavItem>
             <CNavItem>
-              <CNavLink
-                href="javascript:void(0);"
-                :active="tabPaneActiveKey === 3"
-                @click="
-                  () => {
-                    tabPaneActiveKey = 3
-                  }
-                "
-              >
+              <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 3" @click="() => {
+                tabPaneActiveKey = 3
+              }
+                ">
                 Observaci&oacute;n
               </CNavLink>
             </CNavItem>
             <CNavItem>
-              <CNavLink
-                href="javascript:void(0);"
-                :active="tabPaneActiveKey === 4"
-                @click="
-                  () => {
-                    tabPaneActiveKey = 4
-                  }
-                "
-              >
+              <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 4" @click="() => {
+                tabPaneActiveKey = 4
+              }
+                ">
                 Historial Cl&iacute;nico
               </CNavLink>
             </CNavItem>
             <CNavItem>
-              <CNavLink
-                href="javascript:void(0);"
-                :active="tabPaneActiveKey === 5"
-                @click="
-                  () => {
-                    tabPaneActiveKey = 5
-                  }
-                "
-              >
+              <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 5" @click="() => {
+                tabPaneActiveKey = 5
+              }
+                ">
                 Otras Informaciones
               </CNavLink>
             </CNavItem>
             <CNavItem v-if="isNomina">
-              <CNavLink
-                href="javascript:void(0);"
-                :active="tabPaneActiveKey === 6"
-                @click="
-                  () => {
-                    tabPaneActiveKey = 6
-                  }
-                "
-              >
+              <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 6" @click="() => {
+                tabPaneActiveKey = 6
+              }
+                ">
                 Ingresos y retenciones
               </CNavLink>
             </CNavItem>
             <CNavItem v-if="isNomina">
-              <CNavLink
-                href="javascript:void(0);"
-                :active="tabPaneActiveKey === 7"
-                @click="
-                  () => {
-                    tabPaneActiveKey = 7
-                  }
-                "
-              >
+              <CNavLink href="javascript:void(0);" :active="tabPaneActiveKey === 7" @click="() => {
+                tabPaneActiveKey = 7
+              }
+                ">
                 Acumulado Anual
               </CNavLink>
             </CNavItem>
           </CNav>
           <CTabContent>
-            <CTabPane
-              role="tabpanel"
-              aria-labelledby="home-tab"
-              :visible="tabPaneActiveKey === 1"
-            >
+            <CTabPane role="tabpanel" aria-labelledby="home-tab" :visible="tabPaneActiveKey === 1">
               <div class="row">
                 <div class="col-5 border p-3">
                   <h3>Datos generales</h3>
@@ -102,16 +68,8 @@
                     </div>
                     <div class="col-4">
                       <CCol :md="12">
-                        <CFormInput
-                          required
-                          ref="name"
-                          type="text"
-                          class="form-control"
-                          v-model="postEmpleado.codigo"
-                          id="codigo"
-                          :maxlength="9"
-                          :disabled="postEmpleado.id"
-                        />
+                        <CFormInput required ref="name" type="text" class="form-control" v-model="postEmpleado.codigo"
+                          id="codigo" :maxlength="9" :disabled="postEmpleado.id" />
                       </CCol>
                     </div>
                   </div>
@@ -121,25 +79,16 @@
                       <CFormLabel for="tipoDocumento">Documento</CFormLabel>
                     </div>
                     <div class="col-4">
-                      <CFormSelect
-                        v-model="postEmpleado.tipoDocumento"
-                        v-on:change="changeDocument()"
-                        required
-                        id="validationCtipoDocumentoustom05"
-                      >
+                      <CFormSelect v-model="postEmpleado.tipoDocumento" v-on:change="changeDocument()" required
+                        id="validationCtipoDocumentoustom05">
                         <option disabled selected value="">Seleccionar</option>
                         <option value="cedula">C&eacute;dula</option>
                         <option value="Pasaporte">Pasaporte</option>
                       </CFormSelect>
                     </div>
                     <div class="col-5">
-                      <CFormInput
-                        v-model="postEmpleado.codigoIdentidad"
-                        :maxlength="cedulaMax"
-                        id="codigoIdentidad"
-                        v-on:keypress="checkDocument($event)"
-                        required
-                      />
+                      <CFormInput v-model="postEmpleado.codigoIdentidad" :maxlength="cedulaMax" id="codigoIdentidad"
+                        v-on:keypress="checkDocument($event)" required />
                     </div>
                   </div>
 
@@ -149,13 +98,8 @@
                     </div>
                     <div class="col-9">
                       <CCol :md="12">
-                        <CFormInput
-                          v-model="postEmpleado.nombre"
-                          id="nombres"
-                          required
-                          v-on:keypress="onlyLetter($event)"
-                          maxlength="30"
-                        />
+                        <CFormInput v-model="postEmpleado.nombre" id="nombres" required v-on:keypress="onlyLetter($event)"
+                          maxlength="30" />
                       </CCol>
                     </div>
                   </div>
@@ -166,13 +110,8 @@
                     </div>
                     <div class="col-9">
                       <CCol :md="12">
-                        <CFormInput
-                          required
-                          v-model="postEmpleado.apellido"
-                          id="apellidos"
-                          v-on:keypress="onlyLetter($event)"
-                          maxlength="30"
-                        />
+                        <CFormInput required v-model="postEmpleado.apellido" id="apellidos"
+                          v-on:keypress="onlyLetter($event)" maxlength="30" />
                       </CCol>
                     </div>
                   </div>
@@ -183,11 +122,7 @@
                     </div>
                     <div class="col-9">
                       <CCol :md="12">
-                        <CFormSelect
-                          v-model="postEmpleado.sexo"
-                          id="sexo"
-                          required
-                        >
+                        <CFormSelect v-model="postEmpleado.sexo" id="sexo" required>
                           <option disabled selected value="">
                             Seleccionar
                           </option>
@@ -204,12 +139,7 @@
                     </div>
                     <div class="col-9">
                       <CCol :md="12">
-                        <CFormInput
-                          v-model="postEmpleado.direccion"
-                          id="direccion"
-                          required
-                          maxlength="50"
-                        />
+                        <CFormInput v-model="postEmpleado.direccion" id="direccion" required maxlength="50" />
                       </CCol>
                     </div>
                   </div>
@@ -220,17 +150,9 @@
                     </div>
                     <div class="col-9">
                       <CCol :md="12">
-                        <CFormSelect
-                          v-model="postEmpleado.sectorId"
-                          id="sectorId"
-                          required
-                        >
+                        <CFormSelect v-model="postEmpleado.sectorId" id="sectorId" required>
                           <option value="" disabled selected>Seleccione</option>
-                          <option
-                            v-for="sect in this.sector"
-                            :key="sect.id"
-                            :value="sect.id"
-                          >
+                          <option v-for="sect in this.sector" :key="sect.id" :value="sect.id">
                             {{ sect.nombre }}
                           </option>
                         </CFormSelect>
@@ -244,12 +166,8 @@
                     </div>
                     <div class="col-9">
                       <CCol :md="12">
-                        <CFormInput
-                          v-on:keypress="onlyNumber($event)"
-                          v-model="postEmpleado.telefono"
-                          id="telefono"
-                          maxlength="13"
-                        />
+                        <CFormInput v-on:keypress="onlyNumber($event)" v-model="postEmpleado.telefono" id="telefono"
+                          maxlength="13" />
                       </CCol>
                     </div>
                   </div>
@@ -260,12 +178,8 @@
                     </div>
                     <div class="col-9">
                       <CCol :md="12">
-                        <CFormSelect
-                          v-model="postEmpleado.estadoCivil"
-                          id="estadoCivil"
-                          aria-placeholder="Estado"
-                          required
-                        >
+                        <CFormSelect v-model="postEmpleado.estadoCivil" id="estadoCivil" aria-placeholder="Estado"
+                          required>
                           <option disabled selected value="">
                             Seleccionar
                           </option>
@@ -278,24 +192,16 @@
 
                   <div class="row mt-3">
                     <div class="col-3">
-                      <CFormLabel for="fechaNacimiento"
-                        >Fecha
-                        <span title="Nacimiento">nacto.</span></CFormLabel
-                      >
+                      <CFormLabel for="fechaNacimiento">Fecha
+                        <span title="Nacimiento">nacto.</span>
+                      </CFormLabel>
                     </div>
                     <div class="col-9">
                       <CCol :md="12">
-                        <CFormInput
-                          v-model="fechaNacimiento"
-                          type="date"
-                          id="fechaNacimiento"
-                        />
-                        <CFormFeedback
-                          invalid
-                          :style="{
-                            display: !isEmployeeAdult ? 'flex' : 'none',
-                          }"
-                        >
+                        <CFormInput v-model="fechaNacimiento" type="date" id="fechaNacimiento" />
+                        <CFormFeedback invalid :style="{
+                          display: !isEmployeeAdult ? 'flex' : 'none',
+                        }">
                           El empleado no cumple la mayor&iacute;a de edad
                         </CFormFeedback>
                       </CCol>
@@ -304,19 +210,14 @@
 
                   <div class="row mt-3">
                     <div class="col-3">
-                      <CFormLabel for="lugarNacimiento"
-                        >Lugar
-                        <span title="Nacimiento">nacto.</span></CFormLabel
-                      >
+                      <CFormLabel for="lugarNacimiento">Lugar
+                        <span title="Nacimiento">nacto.</span>
+                      </CFormLabel>
                     </div>
                     <div class="col-9">
                       <CCol :md="12">
-                        <CFormInput
-                          v-model="postEmpleado.lugarNacimiento"
-                          id="lugarNacimiento"
-                          v-on:keypress="onlyLetter($event)"
-                          maxlength="20"
-                        />
+                        <CFormInput v-model="postEmpleado.lugarNacimiento" id="lugarNacimiento"
+                          v-on:keypress="onlyLetter($event)" maxlength="20" />
                       </CCol>
                     </div>
                   </div>
@@ -326,13 +227,8 @@
                       <CFormLabel for="dependientes">Dependientes</CFormLabel>
                     </div>
                     <div class="col-9">
-                      <CFormInput
-                        v-model="postEmpleado.dependientes"
-                        v-on:keypress="onlyNumber($event)"
-                        id="dependientes"
-                        required
-                        maxlength="3"
-                      />
+                      <CFormInput v-model="postEmpleado.dependientes" v-on:keypress="onlyNumber($event)" id="dependientes"
+                        required maxlength="3" />
                     </div>
                   </div>
                   <div class="row mt-3">
@@ -340,17 +236,10 @@
                       <CFormLabel for="discapacidad">Discapacidad</CFormLabel>
                     </div>
                     <div class="col-9">
-                      <CFormSelect
-                        v-model="postEmpleado.discapacidad"
-                        id="discapacidad"
-                        required
-                      >
+                      <CFormSelect v-model="postEmpleado.discapacidad" id="discapacidad" required>
                         <option value="" disabled selected>Seleccione</option>
-                        <option
-                          v-for="discapacidad in this.discapacidadList"
-                          :key="discapacidad.id"
-                          :value="discapacidad.id"
-                        >
+                        <option v-for="discapacidad in this.discapacidadList" :key="discapacidad.id"
+                          :value="discapacidad.id">
                           {{ discapacidad.configValue }}
                         </option>
                       </CFormSelect>
@@ -362,124 +251,65 @@
                   <div class="row">
                     <CCol :md="6">
                       <CFormLabel for="fechaIngreso">Fecha ingreso</CFormLabel>
-                      <CFormInput
-                        @change="validarFechaDesde"
-                        v-model="fechaIngreso"
-                        type="date"
-                        id="fechaIngreso"
-                        required
-                      />
-                      <CFormFeedback
-                        invalid
-                        :style="{
-                          display: isLowerSelectedInitDate ? 'flex' : 'none',
-                        }"
-                      >
+                      <CFormInput @change="validarFechaDesde" v-model="fechaIngreso" type="date" id="fechaIngreso"
+                        required />
+                      <CFormFeedback invalid :style="{
+                        display: isLowerSelectedInitDate ? 'flex' : 'none',
+                      }">
                         La fecha no puede ser mayor a la fecha actual
                       </CFormFeedback>
                     </CCol>
-                    <CCol
-                      v-if="isNomina"
-                      :md="6"
-                      class="d-flex justify-content-center align-items-end"
-                    >
-                      <CFormCheck
-                        id="flexCheckIndeterminate"
-                        label="Activo en Nómina?"
-                        v-model="postEmpleado.estaEnNomina"
-                      />
+                    <CCol v-if="isNomina" :md="6" class="d-flex justify-content-center align-items-end">
+                      <CFormCheck id="flexCheckIndeterminate" label="Activo en Nómina?"
+                        v-model="postEmpleado.estaEnNomina" />
                     </CCol>
                   </div>
 
                   <CCol :md="12">
                     <CFormLabel for="Recomendado">Recomendado por</CFormLabel>
-                    <CFormInput
-                      v-model="postEmpleado.recomendadoPor"
-                      type="text"
-                      id="Recomendado"
-                      v-on:keypress="onlyLetter($event)"
-                      maxlength="50"
-                    />
+                    <CFormInput v-model="postEmpleado.recomendadoPor" type="text" id="Recomendado"
+                      v-on:keypress="onlyLetter($event)" maxlength="50" />
                   </CCol>
                   <CCol :md="12">
-                    <CFormLabel for="programaDivisionId"
-                      >Dirección o dependencia</CFormLabel
-                    >
-                    <CFormSelect
-                      v-model="postEmpleado.programaDivisionId"
-                      id="programaDivisionId"
-                      @change="getListDepartamento($event)"
-                      required
-                    >
+                    <CFormLabel for="programaDivisionId">Dirección o dependencia</CFormLabel>
+                    <CFormSelect v-model="postEmpleado.programaDivisionId" id="programaDivisionId"
+                      @change="getListDepartamento($event)" required>
                       <option value="" disabled selected>Seleccione</option>
-                      <option
-                        v-for="programa in this.programaDivision"
-                        :key="programa.id"
-                        :value="programa.id"
-                      >
+                      <option v-for="programa in this.programaDivision" :key="programa.id" :value="programa.id">
                         {{ programa.nombre }}
                       </option>
                     </CFormSelect>
                   </CCol>
                   <CCol>
                     <CFormLabel for="departamentoId">Departamento</CFormLabel>
-                    <v-select
-                      required
-                      id="validationCustom03"
-                      v-model="selectedDepartamento"
-                      :options="departamentoList"
-                    ></v-select>
+                    <v-select required id="validationCustom03" v-model="selectedDepartamento"
+                      :options="departamentoList"></v-select>
                   </CCol>
 
                   <CCol :md="12">
                     <CFormLabel for="areaTrabajoId">Área de trabajo</CFormLabel>
-                    <CFormSelect
-                      v-model="postEmpleado.areaTrabajoId"
-                      id="areaTrabajoId"
-                      required
-                    >
+                    <CFormSelect v-model="postEmpleado.areaTrabajoId" id="areaTrabajoId" required>
                       <option value="" disabled selected>Seleccione</option>
-                      <option
-                        v-for="area in this.areaTrabajo"
-                        :key="area.id"
-                        :value="area.id"
-                      >
+                      <option v-for="area in this.areaTrabajo" :key="area.id" :value="area.id">
                         {{ area.descripcion }}
                       </option>
                     </CFormSelect>
                   </CCol>
                   <CCol :md="12">
                     <CFormLabel for="posicionId">Cargos</CFormLabel>
-                    <CFormSelect
-                      v-model="postEmpleado.posicionId"
-                      id="posicionId"
-                      required
-                    >
+                    <CFormSelect v-model="postEmpleado.posicionId" id="posicionId" required>
                       <option value="" disabled selected>Seleccione</option>
-                      <option
-                        v-for="cargo in this.posicionCargo"
-                        :key="cargo.id"
-                        :value="cargo.id"
-                      >
+                      <option v-for="cargo in this.posicionCargo" :key="cargo.id" :value="cargo.id">
                         {{ cargo.nombre }}
                       </option>
                     </CFormSelect>
                   </CCol>
                   <CCol :md="12">
-                    <CFormLabel for="posicionId"
-                      >Grupo Ocupaci&oacute;n</CFormLabel
-                    >
-                    <CFormSelect
-                      v-model="postEmpleado.grupoOcupacional"
-                      id="posicionId"
-                      required
-                    >
+                    <CFormLabel for="posicionId">Grupo Ocupaci&oacute;n</CFormLabel>
+                    <CFormSelect v-model="postEmpleado.grupoOcupacional" id="posicionId" required>
                       <option value="" disabled selected>Seleccione</option>
-                      <option
-                        v-for="ocupacion in this.grupoOcupacion"
-                        :key="ocupacion.configKey"
-                        :value="ocupacion.configKey"
-                      >
+                      <option v-for="ocupacion in this.grupoOcupacion" :key="ocupacion.configKey"
+                        :value="ocupacion.configKey">
                         {{ ocupacion.configValue }}
                       </option>
                     </CFormSelect>
@@ -487,14 +317,8 @@
 
                   <div class="row">
                     <CCol :md="6">
-                      <CFormLabel for="tipoContrato"
-                        >Tipo de contrato</CFormLabel
-                      >
-                      <CFormSelect
-                        v-model="postEmpleado.tipoContrato"
-                        id="tipoContrato"
-                        required
-                      >
+                      <CFormLabel for="tipoContrato">Tipo de contrato</CFormLabel>
+                      <CFormSelect v-model="postEmpleado.tipoContrato" id="tipoContrato" required>
                         <option disabled selected value="">Seleccionar</option>
                         <option>Temporal</option>
                         <option>Fijo</option>
@@ -502,11 +326,7 @@
                     </CCol>
                     <CCol :md="6">
                       <CFormLabel for="turno">Turno</CFormLabel>
-                      <CFormSelect
-                        v-model="postEmpleado.turno"
-                        id="turno"
-                        required
-                      >
+                      <CFormSelect v-model="postEmpleado.turno" id="turno" required>
                         <option disabled selected value="">Seleccionar</option>
                         <option>DIURNO</option>
                         <option>NOCTURNO</option>
@@ -518,11 +338,7 @@
                   <div class="row">
                     <CCol :md="6">
                       <CFormLabel for="periodoPago">Tipo cobro</CFormLabel>
-                      <CFormSelect
-                        v-model="postEmpleado.periodoPago"
-                        id="periodoPago"
-                        required
-                      >
+                      <CFormSelect v-model="postEmpleado.periodoPago" id="periodoPago" required>
                         <option disabled selected value="">Seleccionar</option>
                         <option>MENSUAL</option>
                         <option>QUINCENAL</option>
@@ -530,95 +346,54 @@
                     </CCol>
                     <CCol :md="6">
                       <CFormLabel for="formaPago">Tipo de pago</CFormLabel>
-                      <CFormSelect
-                        required
-                        v-model="postEmpleado.formaPago"
-                        id="formaPago"
-                        @change="
-                          () =>
-                            postEmpleado.formaPago === 'BANCO'
-                              ? (postEmpleado.numeroCuenta = '')
-                              : ''
-                        "
-                      >
+                      <CFormSelect required v-model="postEmpleado.formaPago" id="formaPago" @change="() =>
+                        postEmpleado.formaPago === 'BANCO'
+                          ? (postEmpleado.numeroCuenta = '')
+                          : ''
+                        ">
                         <option disabled selected value="">Seleccionar</option>
                         <option>BANCO</option>
                         <option>CHEQUE</option>
                       </CFormSelect>
                     </CCol>
                   </div>
-                    <div class="row ">
-                      <CCol
-                        :class="{'col-md-6': postEmpleado.formaPago === 'BANCO'}"
-                      >
-                        <CFormLabel for="sueldo">Sueldo actual</CFormLabel>
-                        <CurrencyInput
-                          id="sueldo"
-                          v-model="postEmpleado.sueldo"
-                          class="text-end"
-                          required
-                          :options="{
-                            locale: 'en-US',
-                            currency: 'DOP',
-                            precision: 2,
-                            currencyDisplay: 'hidden',
-                          }"
-                        />
-                      </CCol>
+                  <div class="row ">
+                    <CCol :class="{ 'col-md-6': postEmpleado.formaPago === 'BANCO' }">
+                      <CFormLabel for="sueldo">Sueldo actual</CFormLabel>
+                      <CurrencyInput id="sueldo" v-model="postEmpleado.sueldo" class="text-end" required :options="{
+                        locale: 'en-US',
+                        currency: 'DOP',
+                        precision: 2,
+                        currencyDisplay: 'hidden',
+                      }" />
+                    </CCol>
 
-                      <CCol :md="6" v-if="postEmpleado.formaPago === 'BANCO'">
-                        <CFormLabel for="cuentaBanco">No. Cuenta</CFormLabel>
-                        <CFormInput
-                          v-on:keypress="onlyNumber($event)"
-                          type="text"
-                          v-model="postEmpleado.numeroCuenta"
-                          id="cuentaBanco"
-                          required
-                        />
-                      </CCol>
-                    </div>
+                    <CCol :md="6" v-if="postEmpleado.formaPago === 'BANCO'">
+                      <CFormLabel for="cuentaBanco">No. Cuenta</CFormLabel>
+                      <CFormInput v-on:keypress="onlyNumber($event)" type="text" v-model="postEmpleado.numeroCuenta"
+                        id="cuentaBanco" required />
+                    </CCol>
+                  </div>
                 </div>
 
                 <div class="col-3 mb-5">
-                  <div
-                    class="position-relative flex justify-content-center border border-dark w-100 mt-4"
-                    style="height: 200px"
-                  >
-                    <label
-                      class="position-absolute top-50 start-50 translate-middle fs-5 upload-label"
-                      style="font-weight: bolder"
-                      for="employeeProfileImage"
-                      v-if="empleado.id"
-                      >Click aqu&iacute; para agregar imagen</label
-                    >
-                    <img
-                      loading="lazy"
-                      v-if="empleado.id"
-                      class="h-100"
-                      :src="imageUrl"
-                      alt="imagen de perfil del empleado"
-                      style="opacity: 0.8"
-                    />
-                    <input
-                      v-if="empleado.id"
-                      id="employeeProfileImage"
-                      accept="image/png, image/jpeg"
-                      type="file"
+                  <div class="position-relative flex justify-content-center border border-dark w-100 mt-4"
+                    style="height: 200px">
+                    <label class="position-absolute top-50 start-50 translate-middle fs-5 upload-label"
+                      style="font-weight: bolder" for="employeeProfileImage" v-if="empleado.id">Click aqu&iacute; para
+                      agregar imagen</label>
+                    <img loading="lazy" v-if="empleado.id" class="h-100" :src="imageUrl"
+                      alt="imagen de perfil del empleado" style="opacity: 0.8" />
+                    <input v-if="empleado.id" id="employeeProfileImage" accept="image/png, image/jpeg" type="file"
                       @change="saveFile"
-                      class="position-absolute top-50 start-50 translate-middle input-wrapper w-100 h-100 opacity-0"
-                    />
+                      class="position-absolute top-50 start-50 translate-middle input-wrapper w-100 h-100 opacity-0" />
                   </div>
                   <div v-if="isNomina" class="mt-4">
                     <h3>Retenciones de Ley</h3>
 
                     <CCol>
                       <CFormLabel for="estado">Estatus</CFormLabel>
-                      <CFormSelect
-                        required
-                        v-model="postEmpleado.estado"
-                        id="estado"
-                        :disabled="!postEmpleado.id"
-                      >
+                      <CFormSelect required v-model="postEmpleado.estado" id="estado" :disabled="!postEmpleado.id">
                         <option value="activo">Activo</option>
                         <option value="inactivo">Inactivo</option>
                         <option value="liquidado">Liquidado</option>
@@ -628,121 +403,65 @@
 
                     <CCol>
                       <CFormLabel for="Impuesto S.R.">Impuesto S.R.</CFormLabel>
-                      <CFormInput
-                        id="Impuesto S.R."
-                        v-on:keypress="onlyNumber($event)"
-                      />
+                      <CFormInput id="Impuesto S.R." v-on:keypress="onlyNumber($event)" />
                     </CCol>
 
                     <div class="row mt-2">
                       <CCol :md="6">
                         <CFormLabel for="arsInput">ARS</CFormLabel>
-                        <CFormInput
-                          id="arsInput"
-                          v-on:keypress="onlyNumber($event)"
-                        />
+                        <CFormInput id="arsInput" v-on:keypress="onlyNumber($event)" />
                       </CCol>
-                      <CCol
-                        :md="6"
-                        class="d-flex justify-content-center align-items-end"
-                      >
-                        <CFormCheck
-                          id="flexCheckIndeterminate"
-                          label="Automático?"
-                        />
+                      <CCol :md="6" class="d-flex justify-content-center align-items-end">
+                        <CFormCheck id="flexCheckIndeterminate" label="Automático?" />
                       </CCol>
                     </div>
                     <div class="row">
                       <CCol :md="6">
                         <CFormLabel for="afpinput">AFP</CFormLabel>
-                        <CFormInput
-                          id="afpinput"
-                          v-on:keypress="onlyNumber($event)"
-                        />
+                        <CFormInput id="afpinput" v-on:keypress="onlyNumber($event)" />
                       </CCol>
-                      <CCol
-                        :md="6"
-                        class="d-flex justify-content-center align-items-end"
-                      >
-                        <CFormCheck
-                          id="flexCheckIndeterminate"
-                          label="Automático?"
-                        />
+                      <CCol :md="6" class="d-flex justify-content-center align-items-end">
+                        <CFormCheck id="flexCheckIndeterminate" label="Automático?" />
                       </CCol>
                     </div>
 
                     <CCol>
                       <CFormLabel for="F.Reingreso">F.Reingreso</CFormLabel>
-                      <CFormInput
-                        id="F.Reingreso"
-                        type="date"
-                        v-model="postEmpleado.fechaReingreso"
-                      />
+                      <CFormInput id="F.Reingreso" type="date" v-model="postEmpleado.fechaReingreso" />
                     </CCol>
                   </div>
                 </div>
               </div>
             </CTabPane>
 
-            <CTabPane
-              role="tabpanel"
-              aria-labelledby="contact-tab"
-              :visible="tabPaneActiveKey === 3"
-            >
+            <CTabPane role="tabpanel" aria-labelledby="contact-tab" :visible="tabPaneActiveKey === 3">
               <div class="row">
                 <div class="col-4 border">
                   <CCol>
-                    <CFormLabel for="licenciaConducir"
-                      >Licencia de conducir</CFormLabel
-                    >
-                    <CFormInput
-                      v-model="postEmpleado.licenciaConducir"
-                      maxlength="12"
-                      id="licenciaConducir"
-                      v-on:keypress="onlyNumber($event)"
-                    />
+                    <CFormLabel for="licenciaConducir">Licencia de conducir</CFormLabel>
+                    <CFormInput v-model="postEmpleado.licenciaConducir" maxlength="12" id="licenciaConducir"
+                      v-on:keypress="onlyNumber($event)" />
                   </CCol>
                   <CCol>
-                    <CFormLabel for="fechaExpiracionLicencia"
-                      >Fecha expiraci&oacute;n licencia de conducir</CFormLabel
-                    >
-                    <CFormInput
-                      v-model="postEmpleado.fechaExpiracionLicencia"
-                      type="date"
-                      id="fechaExpiracionLicencia"
-                    />
+                    <CFormLabel for="fechaExpiracionLicencia">Fecha expiraci&oacute;n licencia de conducir</CFormLabel>
+                    <CFormInput v-model="postEmpleado.fechaExpiracionLicencia" type="date" id="fechaExpiracionLicencia" />
                   </CCol>
                   <CCol>
-                    <CFormLabel for="fechaExpitaTarjeta"
-                      >Fecha expira tarjeta del banco:</CFormLabel
-                    >
-                    <CFormInput
-                      v-model="postEmpleado.fechaExpitaTarjeta"
-                      type="date"
-                      id="fechaExpitaTarjeta"
-                    />
+                    <CFormLabel for="fechaExpitaTarjeta">Fecha expira tarjeta del banco:</CFormLabel>
+                    <CFormInput v-model="postEmpleado.fechaExpitaTarjeta" type="date" id="fechaExpitaTarjeta" />
                   </CCol>
                 </div>
                 <div class="col-4 border p-3">
                   <h3>Otros</h3>
                   <CCol>
                     <CFormLabel for="emergenciaTelefono">Otros</CFormLabel>
-                    <CFormInput
-                      id="emergenciaTelefono"
-                      type="text"
-                      v-model="postEmpleado.observacion"
-                      :maxlength="100"
-                    />
+                    <CFormInput id="emergenciaTelefono" type="text" v-model="postEmpleado.observacion" :maxlength="100" />
                   </CCol>
                 </div>
               </div>
             </CTabPane>
 
-            <CTabPane
-              role="tabpanel"
-              aria-labelledby="profile-tab"
-              :visible="tabPaneActiveKey === 4"
-            >
+            <CTabPane role="tabpanel" aria-labelledby="profile-tab" :visible="tabPaneActiveKey === 4">
               <div class="row">
                 <div class="col-6 border p-3">
                   <h3>En caso de emergencia comunicarse con</h3>
@@ -750,39 +469,20 @@
 
                   <CCol>
                     <CFormLabel for="emergenciaNombre">Nombres</CFormLabel>
-                    <CFormInput
-                      v-model="postEmpleado.emergenciaNombre"
-                      id="emergenciaNombre"
-                      :maxlength="40"
-                    />
+                    <CFormInput v-model="postEmpleado.emergenciaNombre" id="emergenciaNombre" :maxlength="40" />
                   </CCol>
                   <CCol>
-                    <CFormLabel for="emergenciaTelefono"
-                      >Tel&eacute;fono</CFormLabel
-                    >
-                    <CFormInput
-                      v-on:keypress="onlyNumber($event)"
-                      v-model="postEmpleado.emergenciaTelefono"
-                      id="emergenciaTelefono"
-                      maxlength="13"
-                    />
+                    <CFormLabel for="emergenciaTelefono">Tel&eacute;fono</CFormLabel>
+                    <CFormInput v-on:keypress="onlyNumber($event)" v-model="postEmpleado.emergenciaTelefono"
+                      id="emergenciaTelefono" maxlength="13" />
                   </CCol>
                   <CCol>
                     <CFormLabel for="emergenciaDireccion">Dirección</CFormLabel>
-                    <CFormInput
-                      v-model="postEmpleado.emergenciaDireccion"
-                      id="emergenciaDireccion"
-                      :maxlength="40"
-                    />
+                    <CFormInput v-model="postEmpleado.emergenciaDireccion" id="emergenciaDireccion" :maxlength="40" />
                   </CCol>
                   <CCol>
-                    <CFormLabel for="emergenciaParentezco"
-                      >Parentezco</CFormLabel
-                    >
-                    <CFormSelect
-                      v-model="postEmpleado.emergenciaParentezco"
-                      id="emergenciaParentezco"
-                    >
+                    <CFormLabel for="emergenciaParentezco">Parentezco</CFormLabel>
+                    <CFormSelect v-model="postEmpleado.emergenciaParentezco" id="emergenciaParentezco">
                       <option value="" disabled selected>Seleccione</option>
                       <option>Padre</option>
                       <option>Madre</option>
@@ -798,16 +498,9 @@
 
                   <CCol>
                     <CFormLabel for="tipoSangreId">Tipo Sangre</CFormLabel>
-                    <CFormSelect
-                      v-model="postEmpleado.tipoSangreId"
-                      id="tipoSangreId"
-                    >
+                    <CFormSelect v-model="postEmpleado.tipoSangreId" id="tipoSangreId">
                       <option value="" disabled selected>Seleccione</option>
-                      <option
-                        v-for="sangre in this.tipoSangre"
-                        :key="sangre.id"
-                        :value="sangre.id"
-                      >
+                      <option v-for="sangre in this.tipoSangre" :key="sangre.id" :value="sangre.id">
                         {{ sangre.nombre }}
                       </option>
                     </CFormSelect>
@@ -815,10 +508,7 @@
 
                   <CCol>
                     <CFormLabel for="tipoSangreId">Al&eacute;rgico</CFormLabel>
-                    <CFormSelect
-                      v-model="postEmpleado.emergenciaAlergico"
-                      id="emergenciaAlergico"
-                    >
+                    <CFormSelect v-model="postEmpleado.emergenciaAlergico" id="emergenciaAlergico">
                       <option value="" disabled selected>Seleccione</option>
                       <option>Si</option>
                       <option>No</option>
@@ -827,23 +517,15 @@
 
                   <CCol>
                     <CFormLabel for="tipoSangreId">Diab&eacute;tico</CFormLabel>
-                    <CFormSelect
-                      v-model="postEmpleado.emergenciaDiabetico"
-                      id="emergenciaDiabetico"
-                    >
+                    <CFormSelect v-model="postEmpleado.emergenciaDiabetico" id="emergenciaDiabetico">
                       <option value="" disabled selected>Seleccione</option>
                       <option>Si</option>
                       <option>No</option>
                     </CFormSelect>
                   </CCol>
                   <CCol>
-                    <CFormLabel for="tipoSangreId"
-                      >Insulino Dependiente</CFormLabel
-                    >
-                    <CFormSelect
-                      v-model="postEmpleado.emergenciaInsodepend"
-                      id="emergenciaInsodepend"
-                    >
+                    <CFormLabel for="tipoSangreId">Insulino Dependiente</CFormLabel>
+                    <CFormSelect v-model="postEmpleado.emergenciaInsodepend" id="emergenciaInsodepend">
                       <option value="" disabled selected>Seleccione</option>
                       <option>Si</option>
                       <option>No</option>
@@ -851,13 +533,8 @@
                   </CCol>
 
                   <CCol>
-                    <CFormLabel for="presión"
-                      >Nivel de presi&oacute;n</CFormLabel
-                    >
-                    <CFormSelect
-                      id="emergenciaPresionAlta"
-                      v-model="postEmpleado.emergenciaPresionAlta"
-                    >
+                    <CFormLabel for="presión">Nivel de presi&oacute;n</CFormLabel>
+                    <CFormSelect id="emergenciaPresionAlta" v-model="postEmpleado.emergenciaPresionAlta">
                       <option value="" disabled selected>Seleccione</option>
                       <option>Normal</option>
                       <option>Alta</option>
@@ -866,13 +543,8 @@
                   </CCol>
 
                   <CCol>
-                    <CFormLabel for="emergenciaParentezco"
-                      >En tratamiento</CFormLabel
-                    >
-                    <CFormSelect
-                      v-model="postEmpleado.emergenciaEnTratamiento"
-                      id="emergenciaEnTratamiento"
-                    >
+                    <CFormLabel for="emergenciaParentezco">En tratamiento</CFormLabel>
+                    <CFormSelect v-model="postEmpleado.emergenciaEnTratamiento" id="emergenciaEnTratamiento">
                       <option value="" disabled selected>Seleccione</option>
                       <option>Si</option>
                       <option>No</option>
@@ -881,164 +553,118 @@
                   <h3>Intervención quir&uacute;rgica(m&aacute;s reciente)</h3>
 
                   <CCol>
-                    <CFormLabel for="diagnostico"
-                      >Detalle diagnostico</CFormLabel
-                    >
-                    <CFormTextarea
-                      v-model="postEmpleado.emergenciaDiagnostico"
-                      id="diagnostico"
-                    />
+                    <CFormLabel for="diagnostico">Detalle diagnostico</CFormLabel>
+                    <CFormTextarea v-model="postEmpleado.emergenciaDiagnostico" id="diagnostico" />
                   </CCol>
                 </div>
               </div>
             </CTabPane>
 
-            <CTabPane
-              role="tabpanel"
-              aria-labelledby="profile-tab"
-              :visible="tabPaneActiveKey === 5"
-            >
+            <CTabPane role="tabpanel" aria-labelledby="profile-tab" :visible="tabPaneActiveKey === 5">
               <div class="row">
                 <CCol :md="12">
                   <div class="row">
                     <CCol :md="6">
                       <CFormLabel for="nivelEscolar">Nivel Escolar</CFormLabel>
-                      <CFormSelect
-                        @change="validateNivelEscolar($event)"
-                        v-model="postEmpleado.nivelEscolar"
-                        id="nivelEscolar"
-                      >
+                      <CFormSelect @change="validateNivelEscolar($event)" v-model="postEmpleado.nivelEscolar"
+                        id="nivelEscolar">
                         <option value="" disabled selected>Seleccione</option>
-                        <option
-                          v-for="nivelEscolar in this.nivelEscolarList"
-                          :key="nivelEscolar.id"
-                          :value="nivelEscolar.id"
-                        >
+                        <option v-for="nivelEscolar in this.nivelEscolarList" :key="nivelEscolar.id"
+                          :value="nivelEscolar.id">
                           {{ nivelEscolar.configValue }}
                         </option>
                       </CFormSelect>
                     </CCol>
                     <CCol :md="6">
-                      <CFormLabel for="areaTematica"
-                        >&Aacute;rea Tem&aacute;tica</CFormLabel
-                      >
-                      <CFormSelect
-                        :disabled="areaTematicaField"
-                        v-model="postEmpleado.areaTematica"
-                        id="areaTematica"
-                      >
+                      <CFormLabel for="areaTematica">&Aacute;rea Tem&aacute;tica</CFormLabel>
+                      <CFormSelect :disabled="areaTematicaField" v-model="postEmpleado.areaTematica" id="areaTematica">
                         <option value="" disabled selected>Seleccione</option>
-                        <option
-                          v-for="areaTematica in this.areaTematicaList"
-                          :key="areaTematica.id"
-                          :value="areaTematica.id"
-                        >
+                        <option v-for="areaTematica in this.areaTematicaList" :key="areaTematica.id"
+                          :value="areaTematica.id">
                           {{ areaTematica.configValue }}
                         </option>
                       </CFormSelect>
                     </CCol>
                   </div>
                   <CCol :md="12">
-                    <CFormLabel for="tituloObtenido"
-                      >T&iacute;tulo Obtenido</CFormLabel
-                    >
-                    <CFormInput
-                      :disabled="tituloField"
-                      v-model="postEmpleado.tituloObtenido"
-                      id="tituloObtenido"
-                    />
+                    <CFormLabel for="tituloObtenido">T&iacute;tulo Obtenido</CFormLabel>
+                    <CFormInput :disabled="tituloField" v-model="postEmpleado.tituloObtenido" id="tituloObtenido" />
                   </CCol>
 
                   <CCol :md="12">
                     <div class="row">
                       <CCol :md="6">
-                        <CFormLabel for="correo1"
-                          >Correo Electr&oacute;nico 1</CFormLabel
-                        >
-                        <CFormInput
-                          id="correo1"
-                          v-model="postEmpleado.correoElectronico"
-                          pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-                          :maxlength="40"
-                        />
+                        <CFormLabel for="correo1">Correo Electr&oacute;nico 1</CFormLabel>
+                        <CFormInput id="correo1" v-model="postEmpleado.correoElectronico"
+                          pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" :maxlength="40" />
                       </CCol>
                       <CCol :md="6">
-                        <CFormLabel for="correo1"
-                          >Correo Electr&oacute;nico 2</CFormLabel
-                        >
-                        <CFormInput
-                          id="correo2"
-                          v-model="postEmpleado.correoElectronico2"
-                          pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-                          :maxlength="40"
-                        />
+                        <CFormLabel for="correo1">Correo Electr&oacute;nico 2</CFormLabel>
+                        <CFormInput id="correo2" v-model="postEmpleado.correoElectronico2"
+                          pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" :maxlength="40" />
                       </CCol>
                     </div>
                   </CCol>
                 </CCol>
               </div>
             </CTabPane>
-            <CTabPane
-              role="tabpanel"
-              aria-labelledby="profile-tab"
-              :visible="tabPaneActiveKey === 6"
-            >
+            <CTabPane role="tabpanel" aria-labelledby="profile-tab" :visible="tabPaneActiveKey === 6">
               <div>
                 <div class="row">
                   <div class="col-6">
-                    <CSmartTable
-                      clickableRows
-                      :tableProps="{
-                        striped: true,
-                        hover: true,
-                      }"
-                      :tableHeadProps="{}"
-                      :activePage="1"
-                      header
-                      :items="dataConfiguracionNominaIngresos"
-                      :columns="tableConfiguracionNominaIngresos"
-                      :sorterValue="{ column: 'status', state: 'asc' }"
-                      pagination
-                    >
-                      <template #nombre="{ item }">
+                    <CSmartTable clickableRows :tableProps="{
+                      striped: true,
+                      hover: true,
+                    }" :tableHeadProps="{}" :activePage="1" header :items="dataConfiguracionNominaIngresos"
+                      :columns="tableConfiguracionNominaIngresos" :sorterValue="{ column: 'status', state: 'asc' }"
+                      pagination>
+                      <template #checked="{ item }">
                         <td>
-                          {{ item.nombre }}
-                        </td>
-                        <td>
-                          <CFormInput
-                            v-on:keypress="onlyLetter"
-                            v-model="item.nombre"
-                          />
+                          <div class="row">
+                            <div class="col-7">
+                              <CFormCheck :disabled="!item.checked" :checked="!item.checked"   name="flexRadioDefault" id="flexRadioDefault1" />
+                              {{ item.nombre }}
+                            </div>
+                            <div class="col-5">
+                              <CurrencyInput id="sueldo" :disabled="!item.checked" v-model="item.monto" class="text-end"
+                                :options="{
+                                  locale: 'en-US',
+                                  currency: 'DOP',
+                                  precision: 2,
+                                  currencyDisplay: 'hidden',
+                                }" />
+                            </div>
+                          </div>
                         </td>
                       </template>
                     </CSmartTable>
                   </div>
 
                   <div class="col-6">
-                    <CSmartTable
-                      clickableRows
-                      :tableProps="{
-                        striped: true,
-                        hover: true,
-                      }"
-                      :tableHeadProps="{}"
-                      :activePage="1"
-                      header
-                      :items="dataConfiguracionNomina"
-                      :columns="tableConfiguracionNominaRetencion"
-                      :sorterValue="{ column: 'status', state: 'asc' }"
-                      pagination
-                    >
-                      <template #nombre="{ item }">
+                    <CSmartTable clickableRows :tableProps="{
+                      striped: true,
+                      hover: true,
+                    }" :tableHeadProps="{}" :activePage="1" header :items="dataConfiguracionNomina"
+                      :columns="tableConfiguracionNominaRetencion" :sorterValue="{ column: 'status', state: 'asc' }"
+                      pagination>
+
+                      <template #checked="{ item }">
                         <td>
-                          {{ item.nombre }}
-                        </td>
-                        <td>
-                          <CFormInput
-                            v-on:keypress="onlyLetter"
-                            :disabled="item.categoriaRetencion == 'LEY'"
-                            v-model="item.nombre"
-                          />
+                          <div class="row">
+                            <div class="col-7">
+                              <CFormCheck :disabled="item.isLey" :checked="item.isLey" name="flexRadioDefault" id="flexRadioDefault1" />
+                              {{ item.nombre }}
+                            </div>
+                            <div class="col-5">
+                              <CurrencyInput id="sueldo" class="text-end "  :disabled="item.isLey" v-model="item.monto"
+                                :options="{
+                                  locale: 'en-US',
+                                  currency: 'DOP',
+                                  precision: 2,
+                                  currencyDisplay: 'hidden',
+                                }" />
+                            </div>
+                          </div>
                         </td>
                       </template>
                     </CSmartTable>
@@ -1046,41 +672,25 @@
                 </div>
               </div>
             </CTabPane>
-            <CTabPane
-              role="tabpanel"
-              aria-labelledby="profile-tab"
-              :visible="tabPaneActiveKey === 7"
-            >
+            <CTabPane role="tabpanel" aria-labelledby="profile-tab" :visible="tabPaneActiveKey === 7">
               <div class="row">
                 <div class="col-4">
                   <div class="row">
                     <div class="col-12">
                       <CFormLabel for="correo1">enero</CFormLabel>
-                      <CFormInput
-                        id="correo2"
-                        v-model="postEmpleado.eneroIngreso"
-                      />
+                      <CFormInput id="correo2" v-model="postEmpleado.eneroIngreso" />
                     </div>
                     <div class="col-12">
                       <CFormLabel for="correo1">febrero</CFormLabel>
-                      <CFormInput
-                        id="correo2"
-                        v-model="postEmpleado.febreroIngreso"
-                      />
+                      <CFormInput id="correo2" v-model="postEmpleado.febreroIngreso" />
                     </div>
                     <div class="col-12">
                       <CFormLabel for="correo1">marzo</CFormLabel>
-                      <CFormInput
-                        id="correo2"
-                        v-model="postEmpleado.marzoIngreso"
-                      />
+                      <CFormInput id="correo2" v-model="postEmpleado.marzoIngreso" />
                     </div>
                     <div class="col-12">
                       <CFormLabel for="correo1">abril</CFormLabel>
-                      <CFormInput
-                        id="correo2"
-                        v-model="postEmpleado.abrilIngreso"
-                      />
+                      <CFormInput id="correo2" v-model="postEmpleado.abrilIngreso" />
                     </div>
                   </div>
                 </div>
@@ -1088,31 +698,19 @@
                   <div class="row">
                     <div class="col-12">
                       <CFormLabel for="correo1">mayo</CFormLabel>
-                      <CFormInput
-                        id="correo2"
-                        v-model="postEmpleado.mayoIngreso"
-                      />
+                      <CFormInput id="correo2" v-model="postEmpleado.mayoIngreso" />
                     </div>
                     <div class="col-12">
                       <CFormLabel for="correo1">junio</CFormLabel>
-                      <CFormInput
-                        id="correo2"
-                        v-model="postEmpleado.junioIngreso"
-                      />
+                      <CFormInput id="correo2" v-model="postEmpleado.junioIngreso" />
                     </div>
                     <div class="col-12">
                       <CFormLabel for="correo1">julio</CFormLabel>
-                      <CFormInput
-                        id="correo2"
-                        v-model="postEmpleado.julioIngreso"
-                      />
+                      <CFormInput id="correo2" v-model="postEmpleado.julioIngreso" />
                     </div>
                     <div class="col-12">
                       <CFormLabel for="correo1">agosto</CFormLabel>
-                      <CFormInput
-                        id="correo2"
-                        v-model="postEmpleado.agostoIngreso"
-                      />
+                      <CFormInput id="correo2" v-model="postEmpleado.agostoIngreso" />
                     </div>
                   </div>
                 </div>
@@ -1120,31 +718,19 @@
                   <div class="row">
                     <div class="col-12">
                       <CFormLabel for="correo1">septiembre</CFormLabel>
-                      <CFormInput
-                        id="correo2"
-                        v-model="postEmpleado.septiembreIngreso"
-                      />
+                      <CFormInput id="correo2" v-model="postEmpleado.septiembreIngreso" />
                     </div>
                     <div class="col-12">
                       <CFormLabel for="correo1">octubre</CFormLabel>
-                      <CFormInput
-                        id="correo2"
-                        v-model="postEmpleado.octubreIngreso"
-                      />
+                      <CFormInput id="correo2" v-model="postEmpleado.octubreIngreso" />
                     </div>
                     <div class="col-12">
                       <CFormLabel for="correo1">noviembre </CFormLabel>
-                      <CFormInput
-                        id="correo2"
-                        v-model="postEmpleado.noviembreIngreso"
-                      />
+                      <CFormInput id="correo2" v-model="postEmpleado.noviembreIngreso" />
                     </div>
                     <div class="col-12">
                       <CFormLabel for="correo1">diciembre</CFormLabel>
-                      <CFormInput
-                        id="correo2"
-                        v-model="postEmpleado.diciembreIngreso"
-                      />
+                      <CFormInput id="correo2" v-model="postEmpleado.diciembreIngreso" />
                     </div>
                   </div>
                 </div>
@@ -1155,9 +741,7 @@
       </CModalBody>
     </CForm>
     <CModalFooter>
-      <CButton color="secondary" data-bs-dismiss="modal" @click="closeModal"
-        >Cerrar</CButton
-      >
+      <CButton color="secondary" data-bs-dismiss="modal" @click="closeModal">Cerrar</CButton>
       <CButton color="info" @click="sendData">Guardar</CButton>
     </CModalFooter>
   </CModal>
@@ -1259,6 +843,27 @@ export default {
         inicioVacaciones: '1970-01-01T00:00:00',
         finVacaciones: '1970-01-01T00:00:00',
         activoNomina: true,
+        retencionList: [
+          {
+            id: 0,
+            retencion: {
+              id: "string",
+              descripcion: "string"
+            },
+            esFijo: true,
+            montoFijo: 0
+          }
+        ],
+        ingresoList: [
+          {
+            id: 0,
+            tipoIngreso: {
+              id: "string",
+              descripcion: "string"
+            },
+            monto: 0
+          }
+        ],
         ingreso2: 0.0,
         ingreso3: 0.0,
         ingreso4: 0.0,
@@ -1319,20 +924,22 @@ export default {
         idImagenPerfil: undefined,
         estaEnNomina: false,
       },
+      ingresoEmpleados: [],
+      retencionesEmpleados: [],
 
       tableConfiguracionNominaRetencion: [
         {
-          key: 'nombre',
-          label: 'Retenciones',
-          _style: { width: '30%' },
+          key: 'checked',
+          label: 'Nombre',
+          _style: { width: '100%' },
         },
       ],
 
       tableConfiguracionNominaIngresos: [
         {
-          key: 'nombre',
-          label: 'Ingresos',
-          _style: { width: '30%' },
+          key: 'checked',
+          label: 'Nombre',
+          _style: { width: '100%' },
         },
       ],
     }
@@ -1340,12 +947,48 @@ export default {
 
   methods: {
     ...mapActions(useToastStore, ['show']),
-    getConfiguracionNominaApi() {
-      Api.getConfiguracionNomina().then((response) => {
-        this.dataConfiguracionNomina = response.data.data.retencion
-        this.dataConfiguracionNominaIngresos = response.data.data.tipoIngreso
-      })
+
+    async getAllRetenciones() {
+      const [configuracionNomina, retencionesEmpleado, ingresosEmpleado] = await Promise.all([
+        Api.getConfiguracionNomina().then(resp => resp.data.data),
+        Api.getRentencionesByEmpleado(this.empleado?.id ?? 0).then(resp => resp.data.data),
+        Api.getIngresosByEmpleado(this.empleado?.id ?? 0).then(resp => resp.data.data)
+      ]);
+      this.dataConfiguracionNomina = configuracionNomina.retencion.map((data) => {
+        const retencionEmpleado = retencionesEmpleado.find((re) => re.retencion.id === data.tipoRetencionId)
+        return ({
+          id: retencionEmpleado?.id ?? 0,
+          checked: Boolean(retencionEmpleado),
+          isLey: data.categoriaRetencion === 'LEY',
+          monto: retencionEmpleado?.montoFijo ?? data.monto,
+          esFijo: retencionEmpleado?.esFijo ?? data.esPorcentage,
+          nombre: data.nombre,
+          tipoRetencionId: Boolean(data.tipoRetencionId) ? data.tipoRetencionId : undefined,
+          retencion: Boolean(data.tipoRetencionId) ? { id: data.tipoRetencionId } : undefined
+        });
+      });
+      this.dataConfiguracionNominaIngresos = configuracionNomina.tipoIngreso.map((data) => {
+        const ingresoEmpleado = ingresosEmpleado.find((re) => re.tipoIngreso.id === data.id)
+        return ({
+          id: ingresoEmpleado?.id ?? 0,
+          checked: data.esNovedad,
+          monto: ingresoEmpleado?.monto ?? 0,
+          nombre: data.nombre,
+          id: Boolean(data.id) ? data.id : undefined,
+          tipoIngreso: Boolean(data.id) ? { id: data.id } : undefined
+        });
+      });
+      this.dataConfiguracionNominaIngresos.unshift(
+        {
+          id: 0,
+          opcional: true,
+          checked: true,
+          monto: this.empleado.sueldo,
+          nombre: 'Sueldo',
+        }
+      )
     },
+
     validarFechaDesde() {
       const fechaDesde = new Date(this.postEmpleado.fechaIngreso)
       fechaDesde.setHours(0, 0, 0, 0)
@@ -1486,7 +1129,11 @@ export default {
       }
 
       this.$emit('post-personal', {
-        payload: { ...this.postEmpleado },
+        payload: {
+          ...this.postEmpleado,
+          retencionList: this.dataConfiguracionNomina.filter(x => x.checked),
+          ingresoList: this.dataConfiguracionNominaIngresos.filter(x => x.checked)
+        },
         profilePhoto: this.profilePhoto,
       })
     },
@@ -1611,9 +1258,8 @@ export default {
       if (Object.keys(this.empleado).length && this.showModal) {
         this.postEmpleado = { ...this.empleado }
         this.imageUrl = this.empleado.idImagenPerfil
-          ? `${process.env.VUE_APP_API_URL}/api/files/public/${
-              this.empleado.idImagenPerfil ?? -1
-            }`
+          ? `${process.env.VUE_APP_API_URL}/api/files/public/${this.empleado.idImagenPerfil ?? -1
+          }`
           : ''
 
         if (this.empleado.programaDivisionId) {
@@ -1629,7 +1275,7 @@ export default {
 
   mounted() {
     this.cargaInformacionRequerida()
-    this.getConfiguracionNominaApi()
+    this.getAllRetenciones()
   },
 
   computed: {
@@ -1700,9 +1346,12 @@ export default {
 
   watch: {
     empleado(newData) {
+      this.getAllRetenciones()
       if (newData) {
         this.loadData()
+
       }
+
     },
     showModal(newData) {
       if (newData) {
@@ -1730,7 +1379,7 @@ input::file-selector-button {
   border-radius: 6px;
 }
 
-input[type='file']:focus + label {
+input[type='file']:focus+label {
   outline: 2px solid;
   /* example focus style */
 }
