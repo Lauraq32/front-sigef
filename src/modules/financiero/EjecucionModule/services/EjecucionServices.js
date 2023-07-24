@@ -9,6 +9,10 @@ class Ejecucion {
     return http.get('CtgMestProg')
   }
 
+  getMestProgBadgered(){
+    return http.get('PresGasto/prog-estructure-badgeted')
+  }
+
   registroGastoConfirmation(id){
     return http.patch(`registros-gasto/${id}/confirmation`)
   }

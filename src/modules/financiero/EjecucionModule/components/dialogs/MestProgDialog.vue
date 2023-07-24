@@ -45,7 +45,7 @@ export default {
         return {
             mestProgList: [],
             columns: [
-                { key: 'numero', label: 'Estructura Programática' },
+                { key: 'mestProgId', label: 'Estructura Programática' },
                 { key: 'nombre', label: 'Nombre' },
                 { key: 'pnap', label: 'Pnap' },
                 { key: 'programa', label: 'Programa' },
@@ -66,7 +66,7 @@ export default {
             this.$emit('closeMestProg', data);
         },
         getMestProg() {
-            Api.getMestProg().then((response) => {
+            Api.getMestProgBadgered().then((response) => {
                 this.mestProgList = response.data.data
             })
         }
