@@ -59,7 +59,7 @@
 
                 </CCol>
                 <hr class="mt-4">
-                <fieldset  :disabled="registroGasto.etapa !== 'Pagado'">
+                <fieldset :disabled="registroGasto.etapa !== 'Pagado'">
                   <legend>Retenciones</legend>
                   <div class="row">
 
@@ -138,12 +138,12 @@
                 </template>
                 <template #presupuestoBco="{ item, index }">
                   <td>
-                    {{ item.presupuestoBco != 0  ? formatPrice(item.presupuestoBco) : '' }}
+                    {{ item.presupuestoBco != 0 ? formatPrice(item.presupuestoBco) : '' }}
                   </td>
                 </template>
                 <template #variacionBco="{ item, index }">
                   <td>
-                    {{ item.variacionBco  != 0  ? formatPrice(item.variacionBco) : '' }}
+                    {{ item.variacionBco != 0 ? formatPrice(item.variacionBco) : '' }}
                   </td>
                 </template>
                 <template #pActual="{ item, index }">
@@ -153,22 +153,22 @@
                 </template>
                 <template #devengadoEjecutado="{ item, index }">
                   <td>
-                    {{ item.devengadoEjecutado != 0 ? formatPrice(item.devengadoEjecutado) : ''  }}
+                    {{ item.devengadoEjecutado != 0 ? formatPrice(item.devengadoEjecutado) : '' }}
                   </td>
                 </template>
                 <template #devengadoDisponible="{ item, index }">
                   <td>
-                    {{ item.devengadoDisponible != 0  ? formatPrice(item.devengadoDisponible) : '' }}
+                    {{ item.devengadoDisponible != 0 ? formatPrice(item.devengadoDisponible) : '' }}
                   </td>
                 </template>
                 <template #pagadoEjecutado="{ item, index }">
                   <td>
-                    {{ item.pagadoEjecutado != 0  ? formatPrice(item.pagadoEjecutado) : '' }}
+                    {{ item.pagadoEjecutado != 0 ? formatPrice(item.pagadoEjecutado) : '' }}
                   </td>
                 </template>
                 <template #pagadoDisponible="{ item, index }">
                   <td>
-                    {{ item.pagadoDisponible != 0  ? formatPrice(item.pagadoDisponible) : '' }}
+                    {{ item.pagadoDisponible != 0 ? formatPrice(item.pagadoDisponible) : '' }}
                   </td>
                 </template>
 
@@ -396,7 +396,7 @@ export default {
     closeMestProgDialog(data) {
       this.detalleRegistroGasto.funcionId = data.ctgFuncionId;
       this.ctgFuenteId = data.ctgFuncionId
-      this.detalleRegistroGasto.estructuraProgramatica = data.numero
+      this.detalleRegistroGasto.estructuraProgramatica = data.mestProgId
       this.getMestProg(data.mestProgId)
       this.MestProgDialogProp = false;
     },
@@ -408,6 +408,30 @@ export default {
       this.isFormEventTypeValidated = false
       if (this.$refs.eventTypeForm.$el.checkValidity()) {
         this.saveDetalle()
+        this.detalleRetencion = {
+          fecha: '2023-07-07',
+          beneficiarioId: 1,
+          tipoRetencionId: 0,
+          montoAplica: 0,
+          montoAplicado: 0,
+          valorAplicado: 0,
+          nombreRetencion: ''
+        },
+          this.detalleRegistroGasto = {
+            fecha: '2023-07-07',
+            bancoId: 1,
+            estructuraProgramatica: "",
+            clasificadorId: "",
+            fuenteId: "",
+            fuenteEspecificaId: "",
+            organismoFinanciadorId: "",
+            funcionId: "",
+            montoBruto: 0,
+            baseImponible: 0,
+            retenciones: 0,
+            neto: 0,
+            detalleRetencion: []
+          }
       }
       this.closeModal()
       this.isFormEventTypeValidated = true
@@ -470,56 +494,56 @@ export default {
 
     getMestProg(item) {
 
-        Api.getRegistroGastoMesProg(item).then(response => {
-          if (response.data.data.length > 1) {
-            var clasificadores = response.data.data.filter(item => item.clasificador.length == 6)
+      Api.getRegistroGastoMesProg(item).then(response => {
+        if (response.data.data.length > 1) {
+          var clasificadores = response.data.data.filter(item => item.clasificador.length == 6)
 
 
 
-            var dataResponse = clasificadores.reduce((acc, current) => {
-              acc.push({
-                clasificador: current.clasificador,
-                nombre: current.nombre,
-                fuenteId: current.fuenteId,
-                organismoFinanciadorId: current.organismoFinanciadorId,
-                fuenteEspecificaId: current.fuenteEspecificaId,
-                cuenta1: current.presupuestoBco1,
-                cuenta2: current.presupuestoBco2,
-                cuenta3: current.presupuestoBco3,
-                cuenta4: current.presupuestoBco4,
-                presupuestoBco: current[`presupuestoBco${this.registroGasto.bancoId}`],
-                OFin: `${current.fuenteId}/${current.organismoFinanciadorId}/${current.fuenteEspecificaId}`,
-                totalPagadoBco: current[`totalPagadoBco${this.registroGasto.bancoId}`],
-                variacionBco: current[`variacionBco${this.registroGasto.bancoId}`],
-                pActual: current[`presupuestoBco${this.registroGasto.bancoId}`] + current[`variacionBco${this.registroGasto.bancoId}`],
-                devengadoEjecutado: this.registroGasto.etapa == 'Devengado' ? current[`totalDevengadoBco${this.registroGasto.bancoId}`] : 0,
-                devengadoDisponible: this.registroGasto.etapa == 'Devengado' ? (current[`presupuestoBco${this.registroGasto.bancoId}`] + current[`variacionBco${this.registroGasto.bancoId}`]) - current[`totalDevengadoBco${this.registroGasto.bancoId}`] : 0,
-                pagadoEjecutado: this.registroGasto.etapa == 'Pagado' ? current[`totalPagadoBco${this.registroGasto.bancoId}`] : 0,
-                pagadoDisponible: this.registroGasto.etapa == 'Pagado' ? current[`totalDevengadoBco${this.registroGasto.bancoId}`] - current[`totalPagadoBco${this.registroGasto.bancoId}`] : 0
-              });
-              return acc;
-            }, []);
-            this.mestProgList = dataResponse;
+          var dataResponse = clasificadores.reduce((acc, current) => {
+            acc.push({
+              clasificador: current.clasificador,
+              nombre: current.nombre,
+              fuenteId: current.fuenteId,
+              organismoFinanciadorId: current.organismoFinanciadorId,
+              fuenteEspecificaId: current.fuenteEspecificaId,
+              cuenta1: current.presupuestoBco1,
+              cuenta2: current.presupuestoBco2,
+              cuenta3: current.presupuestoBco3,
+              cuenta4: current.presupuestoBco4,
+              presupuestoBco: current[`presupuestoBco${this.registroGasto.bancoId}`],
+              OFin: `${current.fuenteId}/${current.organismoFinanciadorId}/${current.fuenteEspecificaId}`,
+              totalPagadoBco: current[`totalPagadoBco${this.registroGasto.bancoId}`],
+              variacionBco: current[`variacionBco${this.registroGasto.bancoId}`],
+              pActual: current[`presupuestoBco${this.registroGasto.bancoId}`] + current[`variacionBco${this.registroGasto.bancoId}`],
+              devengadoEjecutado: this.registroGasto.etapa == 'Devengado' ? current[`totalDevengadoBco${this.registroGasto.bancoId}`] : 0,
+              devengadoDisponible: this.registroGasto.etapa == 'Devengado' ? (current[`presupuestoBco${this.registroGasto.bancoId}`] + current[`variacionBco${this.registroGasto.bancoId}`]) - current[`totalDevengadoBco${this.registroGasto.bancoId}`] : 0,
+              pagadoEjecutado: this.registroGasto.etapa == 'Pagado' ? current[`totalPagadoBco${this.registroGasto.bancoId}`] : 0,
+              pagadoDisponible: this.registroGasto.etapa == 'Pagado' ? current[`totalDevengadoBco${this.registroGasto.bancoId}`] - current[`totalPagadoBco${this.registroGasto.bancoId}`] : 0
+            });
+            return acc;
+          }, []);
+          this.mestProgList = dataResponse;
 
-            this.show({
-              content: 'Data encontrada con exito',
-              closable: true,
-            })
-          } else {
-            this.show({
-              content: 'No se encontraron datos',
-              closable: true,
-              color: 'danger'
-            })
-            this.mestProgList = []
-          }
+          this.show({
+            content: 'Data encontrada con exito',
+            closable: true,
+          })
+        } else {
+          this.show({
+            content: 'No se encontraron datos',
+            closable: true,
+            color: 'danger'
+          })
+          this.mestProgList = []
+        }
 
-        }).catch(error => this.show({
-          content: error.message,
-          closable: true,
-          color: 'danger'
-        }))
-      
+      }).catch(error => this.show({
+        content: error.message,
+        closable: true,
+        color: 'danger'
+      }))
+
     },
 
     getTipoRetenciones() {
