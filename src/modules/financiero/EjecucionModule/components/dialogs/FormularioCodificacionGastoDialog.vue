@@ -58,7 +58,8 @@
                     }"></VueNumberFormat>
 
                 </CCol>
-                <fieldset :disabled="registroGasto.etapa !== 'Pagado'">
+                <hr class="mt-4">
+                <fieldset  :disabled="registroGasto.etapa !== 'Pagado'">
                   <legend>Retenciones</legend>
                   <div class="row">
 
@@ -127,7 +128,7 @@
                 striped: true,
                 hover: true,
               }" :tableHeadProps="{}" :activePage="1" header :items="mestProgList" :columns="clasificadoresTables"
-                :footer="footer" :sorterValue="{ column: 'nombres', state: 'asc' }" pagination>
+                :footer="footer" :sorterValue="{ column: 'clasificador', state: 'asc' }" pagination>
                 <template #show_details="{ item, index }">
                   <td>
                     <CButton @click="selectMestProg(item)" color="primary" variant="outline" square size="sm">
@@ -396,7 +397,7 @@ export default {
       this.detalleRegistroGasto.funcionId = data.ctgFuncionId;
       this.ctgFuenteId = data.ctgFuncionId
       this.detalleRegistroGasto.estructuraProgramatica = data.numero
-      this.getMestProg(data.numero)
+      this.getMestProg(data.mestProgId)
       this.MestProgDialogProp = false;
     },
 
@@ -468,7 +469,7 @@ export default {
     },
 
     getMestProg(item) {
-      if (item.length == 10) {
+
         Api.getRegistroGastoMesProg(item).then(response => {
           if (response.data.data.length > 1) {
             var clasificadores = response.data.data.filter(item => item.clasificador.length == 6)
@@ -518,7 +519,7 @@ export default {
           closable: true,
           color: 'danger'
         }))
-      }
+      
     },
 
     getTipoRetenciones() {

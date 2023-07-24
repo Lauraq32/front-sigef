@@ -72,6 +72,7 @@
   <CompranteGastoCapturaDialog :showModal="ComprobanteoDialog" @post-gasto="submitForm"
     @close-modal="closeComprobanteDialog" />
   <FormularioCodificacionGastoDialog :showModal="FormularioCodificacionGastoDialog" />
+  <ContenedorArchivosModel :showModal="showFileModal" :tagKeyName="tagKeyName"  :tagValueName="tagValueName" />
 </template>
 <script>
 
@@ -88,18 +89,23 @@ import { formatDate } from '@/utils/format'
 import router from '@/router'
 import Swal from 'sweetalert2';
 import { showReport } from '@/utils/util'
+import ContenedorArchivosModel from '@/components/ContenedorArchivosModel.vue'
 export default {
   components: {
     CompranteGastoCapturaDialog,
     FormularioCodificacionGastoDialog,
     AppActionHeader,
     ComprobanteGastoTable,
-    CSmartTable
+    CSmartTable,
+    ContenedorArchivosModel
   },
   data: function () {
     return {
       comprobante: {
       },
+      tagKeyName: 'ComprobanteGastoId',
+      tagValueName: null,
+      showFileModal: false,
       formatDate,
       gasto: {},
       tableData: [],
@@ -217,6 +223,12 @@ export default {
           label: 'Imprimir',
           clickHandler: (item) => {
             this.printReportComprobanteGasto(item)
+          }
+        },
+        {
+          label: 'Adjuntar Archivo',
+          clickHandler: (item) => {
+            this.adjuntarArchivo(item)
           }
         },
       ]
@@ -358,6 +370,11 @@ export default {
       }
 
       this.actions = actions;
+    },
+
+    adjuntarArchivo(item){
+      this.showFileModal = true
+      this.tagValueName = item.id
     },
 
     registroGastoGenerarCheque(id) {

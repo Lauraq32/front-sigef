@@ -36,7 +36,12 @@ class Files {
   }
 
   saveFile(formData) {
-    return http.post(`files`, formData).then((response) => {
+    return http.post(`files`, formData, {
+      headers: {
+        ...http.defaults.headers,
+        "Content-Type": "multipart/form-data"
+      }
+    }).then((response) => {
       return response
     });
   }
