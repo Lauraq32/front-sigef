@@ -6,7 +6,7 @@
 <script>
 import Api from '@/modules/financiero/EjecucionModule/services/EjecucionServices'
 import { CSmartTable } from '@coreui/vue-pro'
-import TablecatalogoDeFunciones from '@/modules/financiero/EjecucionModule/components/Table/TableCatalogoFunciones.vue'
+import TablecatalogoDeFunciones from '@/modules/financiero/EjecucionModule/components/tables/TableCatalogoFunciones.vue'
 export default {
   name: 'catalogoDeFunciones',
   components: {

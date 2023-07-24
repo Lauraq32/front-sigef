@@ -60,6 +60,11 @@
                 {{ item.nombre }}
             </td>
           </template>
+          <template #cControl="{item}">
+            <td>
+                {{ item.cControl  ?? '' }}
+            </td>
+          </template>
         </CSmartTable>
     </CModalBody>
   </CModal>
@@ -127,8 +132,9 @@ watchEffect(() => {
   if (allClasificator.value.length === 0) {
     Api.getListarClasificadores(props.origin)
       .then((response) => {
-        allClasificator.value = response.data.data;
-        clasificadores.value = allClasificator.value.filter(props.filtered);
+        const clasificatorList = response.data.data;
+        clasificadores.value = clasificatorList.filter(props.filtered);
+        allClasificator.value = clasificatorList;
         isLoading.value = false;
         autoSelectClasificator(props.term);
       })
