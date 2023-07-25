@@ -6,7 +6,7 @@ export default {
     import('@/modules/financiero/NominaModule/layout/TemplateLayout.vue'),
   children: [
     {
-      path: 'grupoNominas',
+      path: 'grupo-nominas',
       name: 'grupoNominas',
       meta: { label: 'Grupo Nóminas' },
       component: () =>
@@ -25,7 +25,7 @@ export default {
         ),
     },
     {
-      path: 'Programas',
+      path: 'programas',
       name: 'programas',
       meta: { label: 'Dirección o Dependencias' },
       component: () =>
@@ -34,7 +34,7 @@ export default {
         ),
     },
     {
-      path: 'Departamentos',
+      path: 'departamentos',
       name: 'departamentos',
       meta: { label: 'Departamentos' },
       component: () =>
@@ -43,7 +43,7 @@ export default {
         ),
     },
     {
-      path: 'AreaTrabajo',
+      path: 'area-trabajo',
       name: 'AreaDeTrabajo',
       meta: { label: 'Área de Trabajo' },
       component: () =>
@@ -52,7 +52,7 @@ export default {
         ),
     },
     {
-      path: 'PosicionesCargo',
+      path: 'posiciones-cargo',
       name: 'posicionesCargo',
       meta: { label: 'Posiciones o Cargos' },
       component: () =>
@@ -61,7 +61,7 @@ export default {
         ),
     },
     {
-      path: 'Sectores',
+      path: 'sectores',
       name: 'sectores',
       meta: { label: 'Sectores' },
       component: () =>
@@ -70,7 +70,7 @@ export default {
         ),
     },
     {
-      path: 'configuracionGeneral',
+      path: 'configuracion-nomina',
       name: 'configuracionGeneral',
       meta: { label: 'Configuración General' },
       component: () =>
@@ -79,7 +79,7 @@ export default {
         ),
     },
     {
-      path: 'TipoSangre',
+      path: 'tipo-sangre',
       name: 'TipoSangre',
       meta: { label: 'Tipos de Sangres' },
       component: () =>
@@ -88,7 +88,7 @@ export default {
         ),
     },
     {
-      path: 'nominaEmpleado',
+      path: 'empleados',
       name: 'nominaEmpleado',
       meta: { label: 'Empleados' },
       component: () =>
