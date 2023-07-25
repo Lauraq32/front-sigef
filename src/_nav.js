@@ -319,7 +319,7 @@ export default [
           {
             component: 'CNavItem',
             name: 'Grupo nóminas',
-            to: '/NominaModule/grupo-nominas',
+            to: '/NominaModule/grupos-nomina',
             icon: 'cilIdCard',
           },
           {
@@ -337,7 +337,7 @@ export default [
           {
             component: 'CNavItem',
             name: 'Área de trabajo',
-            to: '/NominaModule/area-trabajo',
+            to: '/NominaModule/areas-trabajo',
             icon: 'cilIdBadge',
           },
           {

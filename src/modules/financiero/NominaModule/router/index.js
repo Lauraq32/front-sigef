@@ -6,7 +6,7 @@ export default {
     import('@/modules/financiero/NominaModule/layout/TemplateLayout.vue'),
   children: [
     {
-      path: 'grupo-nominas',
+      path: 'grupos-nomina',
       name: 'grupoNominas',
       meta: { label: 'Grupo Nóminas' },
       component: () =>
@@ -43,7 +43,7 @@ export default {
         ),
     },
     {
-      path: 'area-trabajo',
+      path: 'areas-trabajo',
       name: 'AreaDeTrabajo',
       meta: { label: 'Área de Trabajo' },
       component: () =>
