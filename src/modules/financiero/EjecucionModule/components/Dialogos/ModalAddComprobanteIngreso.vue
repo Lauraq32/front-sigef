@@ -374,7 +374,7 @@ export default {
     },
 
     addComprobanteIngreso() {
-      this.$emit('add-comprobante')
+      this.$emit('add-comprobante', { ...this.ingresoPost })
     },
 
     sendData() {

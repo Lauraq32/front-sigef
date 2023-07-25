@@ -85,7 +85,7 @@
 
   <ModalAddComprobanteIngreso :ingresoPost="ingresoPost" @close-modal="closeModalComprobanteIngreso"
     @add-comprobante="addComprobante" :showModal="showAddComprobanteIngreso" :contribuyentesName="contribuyentesName"
-    :payloadRegistroIngreso="ingresoPost" @actualizar-table="getIngresos" />
+    :payloadRegistroIngreso="ingresoPost" />
 
   <ContenedorArchivos :showModal="showModalDoc" :tagKeyName="'ejecucionIngresosId'"
     :tagValueName="`${selectedIngreso?.id}-${selectedIngreso?.numeroComprobante}`" @closeModal="closeContenedorModal" />
@@ -443,11 +443,11 @@ export default {
       this.showModalDoc = payload
     },
 
-    addComprobante() {
-      Api.postIngresos(this.ingresoPost)
+    addComprobante(payload) {
+      Api.postIngresos(payload)
         .then((response) => {
           this.clearModalIngresos()
-          this.$emit('actualizar-table')
+          this.getIngresos()
           this.show({
             content: response.data,
             closable: true,
