@@ -1,5 +1,5 @@
 <template>
-    <h3 class="text-center mb-5">Perfil de suario</h3>
+    <h3 class="text-center mb-5">Perfil de Usuario</h3>
 
     <CCard>
         <CCardBody>
