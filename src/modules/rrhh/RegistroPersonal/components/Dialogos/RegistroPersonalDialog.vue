@@ -622,11 +622,12 @@
                         <td>
                           <div class="row">
                             <div class="col-7">
-                              <CFormCheck :disabled="!item.checked" :checked="!item.checked"   name="flexRadioDefault" id="flexRadioDefault1" />
+                              <CFormCheck :disabled="!item.esNovedad" :checked="item.checked" v-model="item.checked"
+                                name="flexRadioDefault" id="flexRadioDefault1" />
                               {{ item.nombre }}
                             </div>
                             <div class="col-5">
-                              <CurrencyInput id="sueldo" :disabled="!item.checked" v-model="item.monto" class="text-end"
+                              <CurrencyInput id="sueldo" :disabled="!item.esNovedad" v-model="item.monto" class="text-end"
                                 :options="{
                                   locale: 'en-US',
                                   currency: 'DOP',
@@ -652,11 +653,12 @@
                         <td>
                           <div class="row">
                             <div class="col-7">
-                              <CFormCheck :disabled="item.isLey" :checked="item.isLey" name="flexRadioDefault" id="flexRadioDefault1" />
+                              <CFormCheck :disabled="item.isLey" :checked="item.checked" v-model="item.checked"
+                                name="flexRadioDefault" id="flexRadioDefault1" />
                               {{ item.nombre }}
                             </div>
                             <div class="col-5">
-                              <CurrencyInput id="sueldo" class="text-end "  :disabled="item.isLey" v-model="item.monto"
+                              <CurrencyInput id="sueldo" class="text-end " :disabled="item.isLey" v-model="item.monto"
                                 :options="{
                                   locale: 'en-US',
                                   currency: 'DOP',
@@ -673,66 +675,20 @@
               </div>
             </CTabPane>
             <CTabPane role="tabpanel" aria-labelledby="profile-tab" :visible="tabPaneActiveKey === 7">
-              <div class="row">
-                <div class="col-4">
-                  <div class="row">
-                    <div class="col-12">
-                      <CFormLabel for="correo1">enero</CFormLabel>
-                      <CFormInput id="correo2" v-model="postEmpleado.eneroIngreso" />
-                    </div>
-                    <div class="col-12">
-                      <CFormLabel for="correo1">febrero</CFormLabel>
-                      <CFormInput id="correo2" v-model="postEmpleado.febreroIngreso" />
-                    </div>
-                    <div class="col-12">
-                      <CFormLabel for="correo1">marzo</CFormLabel>
-                      <CFormInput id="correo2" v-model="postEmpleado.marzoIngreso" />
-                    </div>
-                    <div class="col-12">
-                      <CFormLabel for="correo1">abril</CFormLabel>
-                      <CFormInput id="correo2" v-model="postEmpleado.abrilIngreso" />
-                    </div>
+              <div class="container mt-4">
+                <div class="row">
+                  <div class="col-3"></div>
+                  <div class="col-6">
+                    <h2 class="text-center mb-4">Listado de Sueldos</h2>
+                    <ul class="list-group">
+                      <li v-for="datosSueldo in pagoNominas"
+                        class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>{{ datosSueldo.month }}</span>
+                        <span>Sueldo: <b>{{ formatPrice(datosSueldo.sueldo) }}</b> </span>
+                      </li>
+                    </ul>
                   </div>
-                </div>
-                <div class="col-4">
-                  <div class="row">
-                    <div class="col-12">
-                      <CFormLabel for="correo1">mayo</CFormLabel>
-                      <CFormInput id="correo2" v-model="postEmpleado.mayoIngreso" />
-                    </div>
-                    <div class="col-12">
-                      <CFormLabel for="correo1">junio</CFormLabel>
-                      <CFormInput id="correo2" v-model="postEmpleado.junioIngreso" />
-                    </div>
-                    <div class="col-12">
-                      <CFormLabel for="correo1">julio</CFormLabel>
-                      <CFormInput id="correo2" v-model="postEmpleado.julioIngreso" />
-                    </div>
-                    <div class="col-12">
-                      <CFormLabel for="correo1">agosto</CFormLabel>
-                      <CFormInput id="correo2" v-model="postEmpleado.agostoIngreso" />
-                    </div>
-                  </div>
-                </div>
-                <div class="col-4">
-                  <div class="row">
-                    <div class="col-12">
-                      <CFormLabel for="correo1">septiembre</CFormLabel>
-                      <CFormInput id="correo2" v-model="postEmpleado.septiembreIngreso" />
-                    </div>
-                    <div class="col-12">
-                      <CFormLabel for="correo1">octubre</CFormLabel>
-                      <CFormInput id="correo2" v-model="postEmpleado.octubreIngreso" />
-                    </div>
-                    <div class="col-12">
-                      <CFormLabel for="correo1">noviembre </CFormLabel>
-                      <CFormInput id="correo2" v-model="postEmpleado.noviembreIngreso" />
-                    </div>
-                    <div class="col-12">
-                      <CFormLabel for="correo1">diciembre</CFormLabel>
-                      <CFormInput id="correo2" v-model="postEmpleado.diciembreIngreso" />
-                    </div>
-                  </div>
+                  <div class="col-3"></div>
                 </div>
               </div>
             </CTabPane>
@@ -754,13 +710,14 @@ import moment from 'moment'
 import Api from '../../services/RegistroPersonalServices'
 import apiSectores from '../../../../financiero/NominaModule/services/NominaServices'
 import configuraciones from '@/utils/configuraciones'
-import { onlyLetter, onlyNumber, calculateAge } from '@/utils/validator'
+import { onlyLetter, onlyNumber, calculateAge, } from '@/utils/validator'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
 import { useToastStore } from '@/store/toast'
 import { mapActions, mapStores } from 'pinia'
 import { CCol } from '@coreui/vue-pro'
 import CurrencyInput from '@/utils/CurrencyInput.vue'
+import { formatPrice } from '@/utils/format'
 
 export default {
   name: 'RegistroPersonalDialog',
@@ -778,6 +735,7 @@ export default {
     currentDate.setFullYear(currentDate.getFullYear() - 19)
 
     return {
+      formatPrice,
       dataConfiguracionNominaIngresos: [],
       dataConfiguracionNomina: [],
       isLowerSelectedInitDate: false,
@@ -843,27 +801,8 @@ export default {
         inicioVacaciones: '1970-01-01T00:00:00',
         finVacaciones: '1970-01-01T00:00:00',
         activoNomina: true,
-        retencionList: [
-          {
-            id: 0,
-            retencion: {
-              id: "string",
-              descripcion: "string"
-            },
-            esFijo: true,
-            montoFijo: 0
-          }
-        ],
-        ingresoList: [
-          {
-            id: 0,
-            tipoIngreso: {
-              id: "string",
-              descripcion: "string"
-            },
-            monto: 0
-          }
-        ],
+        retencionList: [],
+        ingresoList: [],
         ingreso2: 0.0,
         ingreso3: 0.0,
         ingreso4: 0.0,
@@ -942,12 +881,13 @@ export default {
           _style: { width: '100%' },
         },
       ],
+
+      pagoNominas: []
     }
   },
 
   methods: {
     ...mapActions(useToastStore, ['show']),
-
     async getAllRetenciones() {
       const [configuracionNomina, retencionesEmpleado, ingresosEmpleado] = await Promise.all([
         Api.getConfiguracionNomina().then(resp => resp.data.data),
@@ -955,27 +895,26 @@ export default {
         Api.getIngresosByEmpleado(this.empleado?.id ?? 0).then(resp => resp.data.data)
       ]);
       this.dataConfiguracionNomina = configuracionNomina.retencion.map((data) => {
-        const retencionEmpleado = retencionesEmpleado.find((re) => re.retencion.id === data.tipoRetencionId)
+        const retencionEmpleado = retencionesEmpleado.find((re) => re.retencion.id === data.id)
         return ({
-          id: retencionEmpleado?.id ?? 0,
-          checked: Boolean(retencionEmpleado),
+          id: 0,
+          checked: Boolean(retencionEmpleado) || data.categoriaRetencion === 'LEY',
           isLey: data.categoriaRetencion === 'LEY',
           monto: retencionEmpleado?.montoFijo ?? data.monto,
-          esFijo: retencionEmpleado?.esFijo ?? data.esPorcentage,
+          esFijo: retencionEmpleado?.esFijo || data.esPorcentage,
           nombre: data.nombre,
-          tipoRetencionId: Boolean(data.tipoRetencionId) ? data.tipoRetencionId : undefined,
-          retencion: Boolean(data.tipoRetencionId) ? { id: data.tipoRetencionId } : undefined
+          retencionId: Boolean(data.id) ? data.id : 0
         });
       });
       this.dataConfiguracionNominaIngresos = configuracionNomina.tipoIngreso.map((data) => {
         const ingresoEmpleado = ingresosEmpleado.find((re) => re.tipoIngreso.id === data.id)
         return ({
-          id: ingresoEmpleado?.id ?? 0,
-          checked: data.esNovedad,
+          id: 0,
+          checked: !data.esNovedad,
+          esNovedad: data.esNovedad,
           monto: ingresoEmpleado?.monto ?? 0,
           nombre: data.nombre,
-          id: Boolean(data.id) ? data.id : undefined,
-          tipoIngreso: Boolean(data.id) ? { id: data.id } : undefined
+          tipoIngresoId: Boolean(data.id) ? data.id : 0
         });
       });
       this.dataConfiguracionNominaIngresos.unshift(
@@ -983,10 +922,22 @@ export default {
           id: 0,
           opcional: true,
           checked: true,
+          esNovedad: false,
           monto: this.empleado.sueldo,
           nombre: 'Sueldo',
         }
       )
+    },
+
+    getPagoNomina() {
+      Api.getIngresosByPagosnomina(this.empleado.id).then((response) => {
+        this.pagoNominas = response.data.data.map((data) => {
+          return {
+            month: data.month,
+            sueldo: data.finalAcount
+          }
+        })
+      })
     },
 
     validarFechaDesde() {
@@ -1132,7 +1083,7 @@ export default {
         payload: {
           ...this.postEmpleado,
           retencionList: this.dataConfiguracionNomina.filter(x => x.checked),
-          ingresoList: this.dataConfiguracionNominaIngresos.filter(x => x.checked)
+          ingresoList: this.dataConfiguracionNominaIngresos.filter(x => x.checked && !x.opcional)
         },
         profilePhoto: this.profilePhoto,
       })
@@ -1345,8 +1296,19 @@ export default {
   },
 
   watch: {
+    'postEmpleado.sueldo'(value) {
+      this.dataConfiguracionNominaIngresos.forEach(x => {
+        if (!x.esNovedad && x.nombre === 'Sueldo') {
+          x.monto = value
+        }
+      });
+
+      this.dataConfiguracionNominaIngresos = [...this.dataConfiguracionNominaIngresos]
+    },
+
     empleado(newData) {
       this.getAllRetenciones()
+      this.getPagoNomina()
       if (newData) {
         this.loadData()
 
