@@ -1,5 +1,5 @@
 <template>
-    <h3 class="text-center mb-5">Perfil de suario</h3>
+    <h3 class="text-center mb-5">Perfil de Usuario</h3>
 
     <CCard>
         <CCardBody>
@@ -61,10 +61,10 @@
                 </CRow>
 
                 <CRow class="mb-2">
-                    <CFormLabel for="dataPassword.passwordNuevo2" class="fw-semibold col-sm-3 col-form-label mt-3">Repetir
-                        Contraseña
+                    <CFormLabel for="dataPassword.passwordNuevo2" class="fw-semibold col-sm-3 col-form-label mt-2">Repetir
+                        contraseña
                     </CFormLabel>
-                    <div class="col-sm-3 mt-3">
+                    <div class="col-sm-3 mt-2">
                         <CFormInput v-model="dataPassword.passwordNuevo2" required class="fw-semibold" type="password"
                             id="dataPassword.passwordNuevo2" />
                         <CFormFeedback invalid
