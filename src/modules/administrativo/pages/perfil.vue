@@ -3,7 +3,7 @@
 
     <CCard>
         <CCardBody>
-            <CCardTitle class="mb-4">Informaci&oacute;n del empleado</CCardTitle>
+            <CCardTitle class="mb-4">Informaci&oacute;n del Empleado</CCardTitle>
             <CCardText><label class="fw-semibold col-3">C&oacute;digo:</label> {{ empleado.codigo }}</CCardText>
             <CCardText> <label class="fw-semibold col-3">Nombre:</label> {{ `${empleado.nombre} ${empleado.apellido}` }}
             </CCardText>
@@ -23,7 +23,7 @@
     <CCard class="mt-5">
 
         <CCardBody>
-            <CCardTitle class="mb-4">Informaci&oacute;n del ayuntamiento</CCardTitle>
+            <CCardTitle class="mb-4">Informaci&oacute;n del Ayuntamiento</CCardTitle>
             <CCardText><label class="fw-semibold col-3">C&oacute;digo:</label> {{ ayuntInfo.codigo }}</CCardText>
             <CCardText><label class="fw-semibold col-3">Descripci&oacute;n:</label> {{ ayuntInfo.descripcion }}
             </CCardText>
@@ -35,7 +35,7 @@
 
     <CCard class="mt-5">
         <CCardBody>
-            <CCardTitle class="mb-4">Informaci&oacute;n del usuario</CCardTitle>
+            <CCardTitle class="mb-4">Informaci&oacute;n del Usuario</CCardTitle>
             <CCardText><label class="fw-semibold col-3">Correo electr&oacute;nico:</label> {{ usuario.email }}</CCardText>
             <CCardText><label class="fw-semibold col-3">Nombre de usuario:</label> {{ usuario.userName }}</CCardText>
 
@@ -138,8 +138,10 @@ const changedPassword = () => {
 }
 
 const clearPassWord = () => {
+    isFormEventTypeValidated.value = false
     dataPassword.passwordActual = null,
         dataPassword.passwordNuevo = null
+    dataPassword.passwordNuevo2 = null
 }
 
 onMounted(async () => {
