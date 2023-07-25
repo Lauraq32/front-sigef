@@ -447,7 +447,7 @@ export default {
       Api.postIngresos(payload)
         .then((response) => {
           this.clearModalIngresos()
-          this.getIngresos()
+          setTimeout(this.getIngresos, 500)
           this.show({
             content: response.data,
             closable: true,
