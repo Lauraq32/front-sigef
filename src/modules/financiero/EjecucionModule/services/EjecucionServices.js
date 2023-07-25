@@ -13,6 +13,10 @@ class Ejecucion {
     return http.get('PresGasto/prog-estructure-badgeted')
   }
 
+  getRegistroGastoById(id){
+    return http.get(`registros-gasto/${id}`)
+  }
+
   registroGastoConfirmation(id){
     return http.patch(`registros-gasto/${id}/confirmation`)
   }
@@ -46,10 +50,6 @@ class Ejecucion {
   }
   putRegistroGastoDevengado(id){
     return http.put(`registros-gasto/${id}/devengado`)
-  }
-  getRegistroGastoById(id){
-    return http.get(`registros-gasto/${id}
-    `)
   }
   getRegistroGastoDetalles(expeseRecordId){
     return http.get(`registros-gasto/${expeseRecordId}/detalles`)
@@ -110,9 +110,6 @@ class Ejecucion {
     return http.get(
       `/RegistroIngreso/${id}?anio=${anioFiscalId}&ayuntamientoId=${ayuntamientoId}`,
     )
-  }
-  getRegistroGastobyid(id) {
-    return http.get(`RegistroGasto/${id}`)
   }
 
   getIngresoById(id) {

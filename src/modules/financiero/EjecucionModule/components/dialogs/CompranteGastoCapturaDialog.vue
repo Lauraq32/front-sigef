@@ -5,7 +5,7 @@
     </CModalHeader>
     <CModalBody>
       <CCardBody>
-        <CForm :validated="isFormEventTypeValidated" ref="eventTypeForm">
+        <CForm class="needs-validation" novalidate :validated="isFormEventTypeValidated" ref="eventTypeForm">
           <div class="row">
             <div class="col-12">
               <div class="row">
@@ -14,12 +14,12 @@
                     <div class="row">
                       <CCol :md="6">
                         <CFormLabel for="fecha">Fecha</CFormLabel>
-                        <AppDateField class="form-control" v-model="postRegistroGasto.fecha"/>
+                        <AppDateField class="form-control" v-model="postRegistroGasto.fecha" />
                       </CCol>
 
                       <CCol :md="6">
                         <CFormLabel for="etapa">Etapa</CFormLabel>
-                        <CFormSelect @change="changeEtapa" v-model="postRegistroGasto.etapa" id="etapa">
+                        <CFormSelect @change="changeEtapa" v-model="postRegistroGasto.etapa" id="etapa" required>
                           <option value="Devengado">Devengado</option>
                           <option value="Pagado">Pagado</option>
                           <option value="Variacion">Variacion</option>
@@ -30,10 +30,10 @@
                         <CFormLabel for="Resolucion">Resoluci&oacute;n No.</CFormLabel>
                         <CFormInput id="Resolucion" />
                       </CCol>
-                     
+
                       <CCol :md="6">
                         <CFormLabel for="fechaResolucion">Fecha Resoluci&oacute;n</CFormLabel>
-                        <AppDateField class="form-control" v-model="postRegistroGasto.fechaResolucion" />
+                        <AppDateField class="form-control" v-model="postRegistroGasto.fechaResolucion"  />
                       </CCol>
 
                       <CCol :md="6">
@@ -123,20 +123,44 @@
         }" :tableHeadProps="{}" :activePage="1" header :items="postRegistroGasto.detalleRegistroGastos"
           :columns="detalleGastoColumns" columnFilter :footer="footer" itemsPerPageSelect :itemsPerPage="5" columnSorter
           :sorterValue="{ column: 'nombres', state: 'asc' }" pagination>
+          <template #show_details="{ item, index }">
+            <td>
+              <CButton class="fw-bold text-white" color="danger" size="sm" @click="deleteDetalle(item)">&times;
+              </CButton>
+            </td>
+          </template>
+          <template #montoBruto="{ item, index }">
+            <td class="text-end">
+              {{formatPrice(item.montoBruto)}}
+            </td>
+          </template>
+          
+          <template #montoRetenciones="{ item, index }">
+            <td class="text-end">
+              {{formatPrice(item.montoRetenciones)}}
+            </td>
+          </template>
+          
+          <template #montoNeto="{ item, index }">
+            <td class="text-end">
+              {{formatPrice(item.montoNeto)}}
+            </td>
+          </template>
         </CSmartTable>
+
+
       </CCardBody>
+      <SelectBeneficiario :isVisible="showBeneficiarioModal" @close="closeBeneficiarioModal" />
+      <FormularioCodificacionGastoDialog @saveDetalle="saveDetalle" :registroGasto="postRegistroGasto"
+        :cuentaBanco="cuentaBanco" :showModal="ShowCodificacionGastoModal" @closeModal="closeCodificacionGasto" />
     </CModalBody>
     <CModalFooter>
-      <div>
-        <div class="d-inline p-2">
-          <CButton style="font-weight: bold" color="info" @click="sendData">Agregar</CButton>
-        </div>
-      </div>
+      <CButton color="secondary" data-bs-dismiss="modal" v-on:click="closeModal">
+        Cerrar
+      </CButton>
+      <CButton color="info" @click="sendData">Agregar</CButton>
     </CModalFooter>
   </CModal>
-  <SelectBeneficiario :isVisible="showBeneficiarioModal" @close="closeBeneficiarioModal" />
-  <FormularioCodificacionGastoDialog @saveDetalle="saveDetalle" :registroGasto="postRegistroGasto"
-    :cuentaBanco="cuentaBanco" :showModal="ShowCodificacionGastoModal" @closeModal="closeCodificacionGasto" />
 </template>
   
 <script>
@@ -150,6 +174,7 @@ import AppDateField from '@/components/AppDateField.vue'
 import { useToastStore } from '@/store/toast'
 import { onlyNumber } from '@/utils/validator'
 import { mapActions } from 'pinia'
+import { formatPrice } from '@/utils/format'
 
 import Api from '../../services/EjecucionServices'
 import { props } from 'vue-number-format'
@@ -166,6 +191,7 @@ export default {
 
   data: function () {
     return {
+      formatPrice,
       onlyNumber,
       disableFormaPago: false,
       disabledComprobante: true,
@@ -208,14 +234,16 @@ export default {
         detalleRegistroGastos: []
       },
       detalleGastoColumns: [
-        { key: 'estructuraProgramatica', label: 'Estructura Programatica', _style: { width: '40%' } },
+        { key: 'estructuraProgramatica', label: 'Estructura Programática', _style: { width: '40%' } },
         { key: 'clasificadorId', label: 'Clasificador' },
         { key: 'fuenteId', label: 'Fuente' },
         { key: 'fuenteEspecificaId', label: 'Fuente Específica' },
         { key: 'organismoFinanciadorId', label: 'Organismo Financiador' },
         { key: 'montoBruto', label: 'Monto Bruto' },
-        { key: 'retenciones', label: 'Retención' },
-        { key: 'neto', label: 'Neto' },
+        { key: 'montoRetenciones', label: 'Retención' },
+        { key: 'montoNeto', label: 'Neto' },
+        { key: 'show_details', label: '', filter: false, sort: false },
+
       ]
     }
   },
@@ -230,6 +258,9 @@ export default {
       }
       this.disableFormaPago = false;
     },
+    deleteDetalle(item) {
+      this.postRegistroGasto.detalleRegistroGastos.splice(this.postRegistroGasto.detalleRegistroGastos.indexOf(item), 1);
+    },
     changeFormaPago(e) {
       if (e.target.value == 'Reversar') {
         this.disabledComprobante = false
@@ -241,7 +272,7 @@ export default {
       this.cuentaBanco = Array.from(e.target).filter(cuenta => cuenta.value == e.target.value)[0].label
     },
     saveDetalle(payload) {
-      if (payload.detalleRetencion.length > 1) {
+      if (payload.detalleRetencion.length > 0) {
         let montoNeto = payload.detalleRetencion.map(detalle => (
           detalle.valorAplicado
         ))
@@ -266,10 +297,6 @@ export default {
       })
 
     },
-
-
-
-
 
     closeBeneficiarioModal(payload) {
       if (payload.grupoBeneficiarioId) {
@@ -321,9 +348,25 @@ export default {
       })
     },
   },
- 
+
+  watch: {
+    postGasto(newValue) {
+      console.log(newValue);
+      if (newValue) {
+        this.postRegistroGasto = { ...newValue, conceptoGastoId: newValue.conceptoGasto.id, bancoId: newValue.banco.id, beneficiarioId: newValue.beneficiario.id,tipoGastoId: newValue.tipoGasto.id }
+        this.displayBeneficiario = newValue.beneficiario.descripcion
+        this.cuentaBanco = newValue.banco.descripcion
+      
+        this.postRegistroGasto.detalleRegistroGastos.map(detalle => {
+          detalle.id = 0
+        })
+      }
+    }
+  },
+
   props: {
     showModal: Boolean,
+    postGasto: Object
   },
   mounted() {
     this.getServiciosRequeridos()

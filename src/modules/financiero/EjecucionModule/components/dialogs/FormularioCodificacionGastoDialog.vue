@@ -7,7 +7,7 @@
       <CCardBody>
         <div class="row">
           <div class="col-4">
-            <CForm :validated="isFormEventTypeValidated" ref="eventTypeForm">
+            <CForm class="needs-validation" novalidate :validated="isFormEventTypeValidated" ref="gastoForm">
               <div class="row">
                 <CCol :md="8" class="mb-3">
                   <CFormLabel for="estructuraProgramatica">Programa o Proyecto</CFormLabel>
@@ -127,7 +127,7 @@
               <CSmartTable class="" clickableRows :tableProps="{
                 striped: true,
                 hover: true,
-              }" :tableHeadProps="{}" :activePage="1" header :items="mestProgList" :columns="clasificadoresTables"
+              }" :tableHeadProps="{}" :activePage="1" header :items="mestProgList" :columns="clasificadoresTables" items-per-page="7"
                 :footer="footer" :sorterValue="{ column: 'clasificador', state: 'asc' }" pagination>
                 <template #show_details="{ item, index }">
                   <td>
@@ -211,19 +211,21 @@
           </div>
         </div>
       </CCardBody>
+      <MestProgDialog @closeMestProg="closeMestProgDialog" :showModal="MestProgDialogProp" />
     </CModalBody>
     <CModalFooter>
-      <div>
-        <div class="d-inline p-2">
-          <CButton style="font-weight: bold;width: 100%;" color="info" @click="saveDetalle">Guardar Detalle
-          </CButton>
-        </div>
-      </div>
+
+      <CButton color="secondary" data-bs-dismiss="modal" v-on:click="closeModal">
+        Cerrar
+      </CButton>
+      <CButton color="info" @click="saveDetalles">Guardar Detalle
+      </CButton>
+
     </CModalFooter>
 
   </CModal>
 
-  <MestProgDialog @closeMestProg="closeMestProgDialog" :showModal="MestProgDialogProp" />
+  
 </template>
     
 <script>
@@ -287,16 +289,16 @@ export default {
       detalleRegistroGasto: {
         fecha: '2023-07-07',
         bancoId: 1,
-        estructuraProgramatica: "",
-        clasificadorId: "",
+        estructuraProgramatica: null,
+        clasificadorId: null,
         fuenteId: "",
         fuenteEspecificaId: "",
         organismoFinanciadorId: "",
         funcionId: "",
         montoBruto: 0,
         baseImponible: 0,
-        retenciones: 0,
-        neto: 0,
+        montoRetenciones: 0,
+        montoNeto: 0,
         detalleRetencion: []
       },
 
@@ -404,41 +406,16 @@ export default {
     saveRetencion() {
       this.guardarRetencion()
     },
-    saveDetalle() {
+    saveDetalles() {
       this.isFormEventTypeValidated = false
-      if (this.$refs.eventTypeForm.$el.checkValidity()) {
+      if (this.$refs.gastoForm.$el.checkValidity()) {
         this.saveDetalle()
-        this.detalleRetencion = {
-          fecha: '2023-07-07',
-          beneficiarioId: 1,
-          tipoRetencionId: 0,
-          montoAplica: 0,
-          montoAplicado: 0,
-          valorAplicado: 0,
-          nombreRetencion: ''
-        },
-          this.detalleRegistroGasto = {
-            fecha: '2023-07-07',
-            bancoId: 1,
-            estructuraProgramatica: "",
-            clasificadorId: "",
-            fuenteId: "",
-            fuenteEspecificaId: "",
-            organismoFinanciadorId: "",
-            funcionId: "",
-            montoBruto: 0,
-            baseImponible: 0,
-            retenciones: 0,
-            neto: 0,
-            detalleRetencion: []
-          }
       }
-      this.closeModal()
       this.isFormEventTypeValidated = true
     },
     guardarRetencion() {
       if (this.tipoRetencionObj.code) {
-        this.detalleRegistroGasto.neto = this.detalleRetencion.baseImponible
+        this.detalleRegistroGasto.montoNeto = this.detalleRetencion.baseImponible
         this.detalleRetencion.tipoRetencionId = this.tipoRetencionObj.code
         this.detalleRetencion.nombreRetencion = this.tipoRetencionObj.label
         this.detalleRetencion.montoAplicado = this.detalleRegistroGasto.montoBruto
@@ -478,8 +455,41 @@ export default {
 
     },
 
+    clearForm() {
+      this.balanceDisponible = 0;
+      this.detalleRetencion = {
+        fecha: '2023-07-07',
+        beneficiarioId: 1,
+        tipoRetencionId: 0,
+        montoAplica: 0,
+        montoAplicado: 0,
+        valorAplicado: 0,
+        nombreRetencion: ''
+      },
+        this.detalleRegistroGasto = {
+          fecha: '2023-07-07',
+          bancoId: 1,
+          estructuraProgramatica: null,
+          clasificadorId: null,
+          fuenteId: "",
+          fuenteEspecificaId: "",
+          organismoFinanciadorId: "",
+          funcionId: "",
+          montoBruto: 0,
+          baseImponible: 0,
+          montoRetenciones: 0,
+          montoNeto: 0,
+          detalleRetencion: []
+        }
+    },
+
     saveDetalle() {
-      this.$emit('saveDetalle', { ...this.detalleRegistroGasto })
+      if (this.detalleRegistroGasto.estructuraProgramatica && this.detalleRegistroGasto.clasificadorId && this.detalleRegistroGasto.montoBruto) {
+        this.$emit('saveDetalle', { ...this.detalleRegistroGasto })
+        this.clearForm()
+        this.closeModal()
+      }
+
     },
 
     closeModal() {
@@ -627,11 +637,11 @@ export default {
       switch (value.operacion) {
         case "Multiplicar":
           this.detalleRetencion.valorAplicado = value.calculada ? this.detalleRegistroGasto.montoBruto * (this.detalleRetencion.montoAplica / 100) : this.detalleRegistroGasto.montoBruto + this.detalleRetencion.montoAplica
-          this.detalleRetencion.neto = this.detalleRetencion.valorAplicado
+          this.detalleRetencion.montoNeto = this.detalleRetencion.valorAplicado
           break;
         case "Dividir":
           this.detalleRetencion.valorAplicado = value.calculada ? this.detalleRegistroGasto.montoBruto / 1.10 : this.detalleRegistroGasto.montoBruto + this.detalleRetencion.montoAplica
-          this.detalleRetencion.neto = this.detalleRetencion.valorAplicado
+          this.detalleRetencion.montoNeto = this.detalleRetencion.valorAplicado
           break;
         default:
           break;
@@ -639,9 +649,9 @@ export default {
     }
   },
 
+
   props: {
     showModal: Boolean,
-
     registroGasto: Object,
     cuentaBanco: String
   },
