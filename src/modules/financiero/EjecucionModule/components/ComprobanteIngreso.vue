@@ -2,71 +2,43 @@
   <h3 class="text-center">Comprobante de Ingresos</h3>
 
   <AppActionHeader>
-    <CButton
-      v-if="!paramsFiltro"
-      @click="
-        () => {
-          showFiltro = true
-        }
-      "
-    >
-      <span> <CIcon icon="cilFilter" size="lg" /> Filtrar </span>
+    <CButton v-if="!paramsFiltro" @click="() => {
+      showFiltro = true
+    }
+      ">
+      <span>
+        <CIcon icon="cilFilter" size="lg" /> Filtrar
+      </span>
     </CButton>
     <CButton v-else @click="() => ((paramsFiltro = null), getIngresos())">
       <span>
         <CIcon icon="cilFilterX" style="color: red" size="lg" /> Resultados
-        filtrados</span
-      >
+        filtrados
+      </span>
     </CButton>
 
-    <CButton
-      color="info"
-      @click="
-        () => {
-          this.showModalReporte = true
-        }
-      "
-    >
+    <CButton color="info" @click="() => {
+      this.showModalReporte = true
+    }
+      ">
       Reportes
     </CButton>
 
-    <CButton
-      color="info"
-      @click="
-        () => {
-          showAddComprobanteIngreso = true
-        }
-      "
-      >Agregar</CButton
-    >
+    <CButton color="info" @click="() => {
+      showAddComprobanteIngreso = true
+    }
+      ">Agregar</CButton>
     <div class="p-2">
-      <CButton color="secondary" @click="goToComprobanteGasto"
-        >Comprobante Gasto</CButton
-      >
+      <CButton color="secondary" @click="goToComprobanteGasto">Comprobante Gasto</CButton>
     </div>
   </AppActionHeader>
 
-  <CSmartTable
-    class="sticky-top"
-    clickableRows
-    :tableProps="{
-      striped: true,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    header
-    :items="ingresosList"
-    :columns="columns"
-    :footer="footerItem"
-    itemsPerPageSelect
-    columnFilter
-    :itemsPerPage="5"
-    columnSorter
-    no-items-label="No hay registros"
-    :sorterValue="{ column: 'etapa', state: 'asc' }"
-    pagination
-  >
+  <CSmartTable class="sticky-top" clickableRows :tableProps="{
+    striped: true,
+    hover: true,
+  }" :tableHeadProps="{}" :activePage="1" header :items="ingresosList" :columns="columns" :footer="footerItem"
+    itemsPerPageSelect columnFilter :itemsPerPage="5" columnSorter no-items-label="No hay registros"
+    :sorterValue="{ column: 'etapa', state: 'asc' }" pagination>
     <template #fecha="{ item }">
       <td>
         {{ formatDate(item.fecha) }}
@@ -101,43 +73,26 @@
     <template #show_details="{ item }">
       <td>
         <CDropdown v-if="item.estatus">
-          <CDropdownToggle color="primary" variant="outline"
-            >Acciones</CDropdownToggle
-          >
+          <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
           <CDropdownMenu>
-            <CDropdownItem
-              v-for="action in buttonActions"
-              @click="action.clickHandler && action.clickHandler(item)"
-              >{{ action.label }}</CDropdownItem
-            >
+            <CDropdownItem v-for="action in buttonActions" @click="action.clickHandler && action.clickHandler(item)">{{
+              action.label }}</CDropdownItem>
           </CDropdownMenu>
         </CDropdown>
       </td>
     </template>
   </CSmartTable>
 
-  <ModalAddComprobanteIngreso
-    @close-modal="closeModalComprobanteIngreso"
-    @addComprobanteIngreso="addComprobanteIngreso"
-    :showModal="showAddComprobanteIngreso"
-    :contribuyentesName="contribuyentesName"
-    :payloadRegistroIngreso="ingresoPost"
-    @actualizar-table="getIngresos"
-  />
+  <ModalAddComprobanteIngreso :ingresoPost="ingresoPost" @close-modal="closeModalComprobanteIngreso"
+    @add-comprobante="addComprobante" :showModal="showAddComprobanteIngreso" :contribuyentesName="contribuyentesName"
+    :payloadRegistroIngreso="ingresoPost" />
 
-  <ContenedorArchivos
-    :showModal="showModalDoc"
-    :tagKeyName="'ejecucionIngresosId'"
-    :tagValueName="`${selectedIngreso?.id}-${selectedIngreso?.numeroComprobante}`"
-    @closeModal="closeContenedorModal"
-  />
+  <ContenedorArchivos :showModal="showModalDoc" :tagKeyName="'ejecucionIngresosId'"
+    :tagValueName="`${selectedIngreso?.id}-${selectedIngreso?.numeroComprobante}`" @closeModal="closeContenedorModal" />
 
   <FiltroRegistroIngreso :showFiltro="showFiltro" @close="closeFiltro" />
-  <ReporteRegistroIngreso
-    :showModalReporte="showModalReporte"
-    @closeModalReporte="closeModalReporte"
-    @imprimir-report="imprimirReporte"
-  />
+  <ReporteRegistroIngreso :showModalReporte="showModalReporte" @closeModalReporte="closeModalReporte"
+    @imprimir-report="imprimirReporte" />
 </template>
 
 <script>
@@ -184,6 +139,21 @@ export default {
       ingresosList: [],
       contribuyentesList: [],
       contribuyentesName: [],
+      ingresoPost: {
+        codigoIngresoTalonario: null,
+        etapa: 'Ingreso',
+        contribuyenteId: 0,
+        contribuyente: {
+          nombre: null,
+          tipoDocumento: null,
+          documento: null,
+          telefono: null,
+          direccion: null,
+        },
+        detalle: `RESUMEN DE INGRESO ${formatDate(new Date())}`,
+        fecha: new Date().toISOString(),
+        detalleRegistroIngresos: [],
+      },
 
       columns: [
         {
@@ -219,7 +189,7 @@ export default {
         {
           label: 'Total items',
           _props: {
-            colspan: 1,
+            colspan: 3,
             style: 'font-weight:bold;',
           },
         },
@@ -227,14 +197,14 @@ export default {
         {
           label: '',
           _props: {
-            colspan: 6,
+            colspan: 4,
             style: 'font-weight:bold; text-align:right',
           },
         },
         {
           label: '',
           _props: {
-            colspan: 9,
+            colspan: 2,
           },
         },
       ],
@@ -471,6 +441,45 @@ export default {
 
     closeContenedorModal(payload) {
       this.showModalDoc = payload
+    },
+
+    addComprobante(payload) {
+      Api.postIngresos(payload)
+        .then((response) => {
+          this.clearModalIngresos()
+          setTimeout(this.getIngresos, 500)
+          this.show({
+            content: response.data,
+            closable: true,
+          })
+        })
+        .catch(({ response }) => {
+          this.show({
+            content: response.data,
+            closable: true,
+            color: 'danger',
+            class: 'text-white',
+          })
+        })
+    },
+
+    clearModalIngresos() {
+      this.id = null
+      this.ingresoPost = {
+        codigoIngresoTalonario: null,
+        etapa: 'Ingreso',
+        contribuyenteId: 0,
+        contribuyente: {
+          nombre: null,
+          tipoDocumento: null,
+          documento: null,
+          telefono: null,
+          direccion: null,
+        },
+        detalle: `RESUMEN DE INGRESO ${formatDate(new Date())}`,
+        fecha: new Date(),
+        detalleRegistroIngresos: [],
+      }
     },
   },
 
