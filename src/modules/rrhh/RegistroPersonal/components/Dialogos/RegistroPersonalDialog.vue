@@ -45,7 +45,7 @@
                 tabPaneActiveKey = 6
               }
                 ">
-                Ingresos y retenciones
+                Ingresos y Retenciones
               </CNavLink>
             </CNavItem>
             <CNavItem v-if="isNomina">
@@ -198,7 +198,7 @@
                     </div>
                     <div class="col-9">
                       <CCol :md="12">
-                        <CFormInput v-model="fechaNacimiento" type="date" id="fechaNacimiento" />
+                        <AppDateField class="form-control" v-model="postEmpleado.fechaNacimiento" />
                         <CFormFeedback invalid :style="{
                           display: !isEmployeeAdult ? 'flex' : 'none',
                         }">
@@ -251,17 +251,21 @@
                   <div class="row">
                     <CCol :md="6">
                       <CFormLabel for="fechaIngreso">Fecha ingreso</CFormLabel>
-                      <CFormInput @change="validarFechaDesde" v-model="fechaIngreso" type="date" id="fechaIngreso"
-                        required />
+                      <AppDateField required @change="validarFechaDesde" class="form-control"
+                        v-model="postEmpleado.fechaIngreso" />
                       <CFormFeedback invalid :style="{
                         display: isLowerSelectedInitDate ? 'flex' : 'none',
                       }">
                         La fecha no puede ser mayor a la fecha actual
                       </CFormFeedback>
                     </CCol>
-                    <CCol v-if="isNomina" :md="6" class="d-flex justify-content-center align-items-end">
-                      <CFormCheck id="flexCheckIndeterminate" label="Activo en Nómina?"
-                        v-model="postEmpleado.estaEnNomina" />
+                    <CCol v-if="isNomina" :md="6" class="d-flex align-items-end">
+                      <div>
+                        <CBadge color="warning">
+                          <CFormCheck id="flexCheckIndeterminate" label="Activo en Nómina?" class="formcheck fw-bold"
+                            v-model="postEmpleado.estaEnNomina" />
+                        </CBadge>
+                      </div>
                     </CCol>
                   </div>
 
@@ -409,19 +413,21 @@
                     <div class="row mt-2">
                       <CCol :md="6">
                         <CFormLabel for="arsInput">ARS</CFormLabel>
-                        <CFormInput id="arsInput" v-on:keypress="onlyNumber($event)" />
+                        <CFormInput :disabled="postEmpleado.arsCalculado" id="arsInput"
+                          v-on:keypress="onlyNumber($event)" />
                       </CCol>
                       <CCol :md="6" class="d-flex justify-content-center align-items-end">
-                        <CFormCheck id="flexCheckIndeterminate" label="Automático?" />
+                        <CFormCheck v-model="postEmpleado.arsCalculado" id="flexCheckIndeterminate" label="Automático?" />
                       </CCol>
                     </div>
                     <div class="row">
                       <CCol :md="6">
                         <CFormLabel for="afpinput">AFP</CFormLabel>
-                        <CFormInput id="afpinput" v-on:keypress="onlyNumber($event)" />
+                        <CFormInput :disabled="postEmpleado.afpCalculado" id="afpinput"
+                          v-on:keypress="onlyNumber($event)" />
                       </CCol>
                       <CCol :md="6" class="d-flex justify-content-center align-items-end">
-                        <CFormCheck id="flexCheckIndeterminate" label="Automático?" />
+                        <CFormCheck v-model="postEmpleado.afpCalculado" id="flexCheckIndeterminate" label="Automático?" />
                       </CCol>
                     </div>
 
@@ -444,11 +450,11 @@
                   </CCol>
                   <CCol>
                     <CFormLabel for="fechaExpiracionLicencia">Fecha expiraci&oacute;n licencia de conducir</CFormLabel>
-                    <CFormInput v-model="postEmpleado.fechaExpiracionLicencia" type="date" id="fechaExpiracionLicencia" />
+                    <AppDateField class="form-control" v-model="postEmpleado.fechaExpiracionLicencia" />
                   </CCol>
                   <CCol>
                     <CFormLabel for="fechaExpitaTarjeta">Fecha expira tarjeta del banco:</CFormLabel>
-                    <CFormInput v-model="postEmpleado.fechaExpitaTarjeta" type="date" id="fechaExpitaTarjeta" />
+                    <AppDateField class="form-control" v-model="postEmpleado.fechaExpitaTarjeta" />
                   </CCol>
                 </div>
                 <div class="col-4 border p-3">
@@ -622,8 +628,8 @@
                         <td>
                           <div class="row">
                             <div class="col-7">
-                              <CFormCheck :disabled="!item.esNovedad" :checked="item.checked" v-model="item.checked"
-                                name="flexRadioDefault" id="flexRadioDefault1" />
+                              <CFormCheck :disabled="!item.esNovedad" :checked="item.checked || item.monto > 0"
+                                v-model="item.checked" name="flexRadioDefault" id="flexRadioDefault1" />
                               {{ item.nombre }}
                             </div>
                             <div class="col-5">
@@ -653,8 +659,8 @@
                         <td>
                           <div class="row">
                             <div class="col-7">
-                              <CFormCheck :disabled="item.isLey" :checked="item.checked" v-model="item.checked"
-                                name="flexRadioDefault" id="flexRadioDefault1" />
+                              <CFormCheck :disabled="item.isLey" :checked="item.checked || item.monto > 0"
+                                v-model="item.checked" name="flexRadioDefault" id="flexRadioDefault1" />
                               {{ item.nombre }}
                             </div>
                             <div class="col-5">
@@ -718,6 +724,7 @@ import { mapActions, mapStores } from 'pinia'
 import { CCol } from '@coreui/vue-pro'
 import CurrencyInput from '@/utils/CurrencyInput.vue'
 import { formatPrice } from '@/utils/format'
+import AppDateField from '@/components/AppDateField.vue'
 
 export default {
   name: 'RegistroPersonalDialog',
@@ -728,6 +735,7 @@ export default {
     CCol,
     CurrencyInput,
     CSmartTable,
+    AppDateField
   },
   emits: ['close-modal', 'post-personal'],
   data: function () {
@@ -947,7 +955,6 @@ export default {
       fechaActual.setHours(0, 0, 0, 0)
       if (fechaDesde > fechaActual) {
         this.isLowerSelectedInitDate = true
-        this.fechaIngreso = null
       } else {
         this.isLowerSelectedInitDate = false
       }
@@ -1094,6 +1101,7 @@ export default {
     },
 
     clearModal() {
+      this.isLowerSelectedInitDate = false
       const currentDate = new Date()
       currentDate.setFullYear(currentDate.getFullYear() - 19)
       this.tabPaneActiveKey = 1
@@ -1232,53 +1240,6 @@ export default {
   computed: {
     ...mapStores(useToastStore),
 
-    fechaIngreso: {
-      get() {
-        let date = null
-        if (
-          this.postEmpleado.fechaIngreso !== null &&
-          this.postEmpleado.fechaIngreso?.toString() !== 'Invalid Date'
-        ) {
-          date = this.postEmpleado.fechaIngreso
-          if (typeof this.postEmpleado.fechaIngreso === 'string') {
-            date = new Date(this.postEmpleado.fechaIngreso)
-            return date.toISOString().split('T')[0]
-          }
-        }
-        if (this.postEmpleado.fechaIngreso == null) {
-          return null
-        } else {
-          return date.toISOString().split('T')[0]
-        }
-      },
-      set(value) {
-        return (this.postEmpleado.fechaIngreso =
-          value == null ? null : new Date(`${value}T00:00:00`))
-      },
-    },
-
-    fechaNacimiento: {
-      get() {
-        let date = null
-        if (
-          this.postEmpleado.fechaNacimiento !== null &&
-          this.postEmpleado.fechaNacimiento?.toString() !== 'Invalid Date'
-        ) {
-          date = this.postEmpleado.fechaNacimiento
-          if (typeof this.postEmpleado.fechaNacimiento === 'string') {
-            date = new Date(this.postEmpleado.fechaNacimiento)
-            return date.toISOString().split('T')[0]
-          }
-        }
-        return date?.toISOString()?.split('T')?.[0]
-      },
-      set(value) {
-        return (this.postEmpleado.fechaNacimiento = new Date(
-          `${value}T00:00:00`,
-        ))
-      },
-    },
-
     selectedDepartamento: {
       get() {
         return this.departamentoList.find(
@@ -1333,6 +1294,17 @@ export default {
 }
 </script>
 <style>
+.formcheck {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 2px;
+}
+
+.formcheck label {
+  margin: 0;
+}
+
 input::file-selector-button {
   font-weight: bold;
   color: black;
