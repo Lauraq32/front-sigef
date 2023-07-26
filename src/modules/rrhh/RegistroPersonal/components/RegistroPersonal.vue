@@ -1,25 +1,54 @@
 <template>
-  <h3 class="text-center mb-4">Mantenimientos Empleados</h3>
+  <h3 class="text-center mb-4">Registro de Empleados</h3>
 
-  <div class="table-headers">
-    <div class="d-flex gap-1 mb-2">
-      <CButton color="info" @click="showModal">Agregar</CButton>
-      <CButton color="secondary">Imprimir Reporte</CButton>
-    </div>
-  </div>
+  <CCard class="mb-4">
+    <CCardBody class="table-headers justify-content-between">
+      <div class="d-inline-flex gap-3 align-items-center">
+        <CFormLabel class="form-label col-auto col-form-label"
+          >Filtro:</CFormLabel
+        >
+        <CFormSelect
+          id="empleoyeeStatusSelect"
+          @change="handleFilterEmployeeByStatus"
+          aria-label="Selecionar estatus del empleado"
+          :options="[
+            { label: 'Activo', value: 'activo' },
+            { label: 'Inactivo', value: 'inactivo' },
+            { label: 'Vacaciones', value: 'vacaciones' },
+          ]"
+        />
+      </div>
+
+      <div>
+        <div class="d-flex gap-1">
+          <CButton color="info" @click="showModal">Agregar</CButton>
+          <CButton
+            color="secondary"
+            @click="
+              () => {
+                reportes = true
+              }
+            "
+            >Reporte</CButton
+          >
+        </div>
+      </div>
+    </CCardBody>
+  </CCard>
 
   <RegistroPersonalTable
     :tableData="registroPersonal"
     :tableColumns="columns"
     :actions="buttonActions"
     :footer="footerItem"
+    :inactivoActions="inactivoActions"
   />
 
   <RegistroPersonalDialog
     :showModal="showRegistroPersonalModal"
     @post-personal="submitForm"
     @close-modal="closeRegistroPersonalModal"
-    :empleadoId="selectedEmployee?.id"
+    :empleado="selectedEmployee"
   />
 
   <TarjetaEmpleadoDialogs
@@ -39,10 +68,11 @@
     @closeModal="closeTipoNovedad"
   />
 
-  <ContenedorArchivosRRHH
+  <ContenedorArchivosModel
     :showModal="showModalDoc"
-    :empleado="selectedEmployee"
-    @custom-event="closeContenedorModal"
+    :tagKeyName="'empleadoId'"
+    :tagValueName="selectedEmployee?.id"
+    @closeModal="closeContenedorModal"
   />
 
   <EducacionDialog
@@ -50,25 +80,59 @@
     :employeeInfo="selectedEmployee"
     @closeModal="() => (showEducacion = false)"
   />
+
+  <UtilesLaboralesDialog
+    :showModal="showUtilesLaboralesDialog"
+    :employeeInfo="selectedEmployee"
+    @closeModal="() => (showUtilesLaboralesDialog = false)"
+  />
+
+  <!-- Reportes -->
+  <CModal :backdrop="true" :keyboard="false" :visible="reportes">
+    <CModalHeader :close-button="false">
+      <CModalTitle>Reportes</CModalTitle>
+    </CModalHeader>
+    <CModalBody>
+      <label for="typeReport">Seleccione el reporte</label>
+      <CFormSelect v-model="reporteDepto" id="typeReport">
+        <option :value="1">Empleados por nombre</option>
+        <option :value="2">Empleados por apellido</option>
+        <option :value="3">Empleados por cargo</option>
+        <option :value="4">Empleados por departamento</option>
+      </CFormSelect>
+    </CModalBody>
+    <CModalFooter>
+      <CButton
+        color="secondary"
+        @click="
+          () => {
+            reportes = false
+          }
+        "
+        >Cerrar</CButton
+      >
+      <CButton color="primary" @click="imprimirReporte">Ver</CButton>
+    </CModalFooter>
+  </CModal>
 </template>
 
 <script>
-import { useAuthStore } from '@/store/AuthStore'
 import { CModal } from '@coreui/vue'
-import { mapStores } from 'pinia'
-import { mapState } from 'pinia'
 import { mapActions } from 'pinia'
 import Api from '../services/RegistroPersonalServices'
+import fileApi from '../services/Files'
 import EmpleadoReports from '@/components/Report/RRHH/ReportsTemplate/EmpleadosReports.vue'
 import { useToastStore } from '@/store/toast'
 import RegistroPersonalDialog from '../components/Dialogos/RegistroPersonalDialog.vue'
 import RegistroPersonalTable from '../components/tables/RegistroPersonalTable.vue'
 import EducacionDialog from './Dialogos/EducacionDialog.vue'
-import ContenedorArchivosRRHH from './ContenedorArchivosRRHH.vue'
+import ContenedorArchivosModel from '@/components/ContenedorArchivosModel.vue'
 import AccionPersonalDialog from './Dialogos/AccionPersonalDialog.vue'
+import UtilesLaboralesDialog from './Dialogos/UtilesLaboralesDialog.vue'
 import TipoNovedadDialog from './TipoNovedades.vue'
 import TarjetaEmpleadoDialogs from '../components/Dialogos/TarjetaEmpleado.vue'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
+import { showReport } from '@/utils/util'
 
 export default {
   components: {
@@ -77,66 +141,86 @@ export default {
     RegistroPersonalDialog,
     AccionPersonalDialog,
     AccionPersonalDialog,
-    ContenedorArchivosRRHH,
+    ContenedorArchivosModel,
     TipoNovedadDialog,
     RegistroPersonalDialog,
     TarjetaEmpleadoDialogs,
     EmpleadoReports,
     EducacionDialog,
+    UtilesLaboralesDialog,
   },
 
   data: function () {
     return {
       selectedEmployee: {},
       showModalDoc: false,
+      accionPersonal: [],
       showAccionPersonal: false,
       showTipoNovedad: false,
       newTarjetaEmpleadoModal: false,
-      showRegistroPersonalModal: false,
+      showTarjeta: false,
+      showModalRepots: false,
+      employeeInfo: {},
       showEducacion: false,
+      employeeInfo: null,
+      showRegistroPersonalModal: false,
+      showUtilesLaboralesDialog: false,
       registroPersonal: [],
-
+      reporteDepto: '1',
+      reportes: false,
       columns: [
-        { key: 'codigo', label: 'Código', _style: { width: '15%' } },
-        { key: 'apellidos', label: 'Apellido', _style: { width: '15%' } },
-        { key: 'nombres', label: 'Nombre', _style: { width: '15%' } },
+        { key: 'codigo', label: 'Código', _style: { width: '5%' } },
+        { key: 'apellido', label: 'Apellido', _style: { width: '15%' } },
+        { key: 'nombre', label: 'Nombre', _style: { width: '15%' } },
         {
           key: 'codigoIdentidad',
           label: 'Cédula/Pasaporte',
-          _style: { width: '15%' },
+          _style: { width: '10%' },
         },
         {
-          key: 'programaDivision',
-          label: 'Programa',
+          key: 'departamenteName',
+          label: 'Departamento',
           _style: { width: '20%' },
         },
         { key: 'posicion', label: 'Cargo', _style: { width: '10%' } },
         {
           key: 'fechaIngreso',
-          label: 'Fecha ingreso',
-          _style: { width: '15%' },
+          label: 'Fecha Ingreso',
+          _style: { width: '10%' },
         },
-
-        { key: 'sexo', label: 'Sexo', _style: { width: '20%' } },
-
+        { key: 'sexo', label: 'Sexo', _style: { width: '5%' } },
+        {
+          key: 'estado',
+          label: 'Estado',
+          _style: { width: '7%' },
+          filter: false,
+          sorter: false,
+        },
         {
           key: 'show_details',
           label: '',
           filter: false,
           sorter: false,
+          _style: { width: '3%' },
         },
       ],
-
       footerItem: [
         {
           label: 'Total Items',
           _props: {
-            colspan: 9,
+            colspan: 10,
             style: 'font-weight:bold;',
           },
         },
       ],
-
+      inactivoActions: [
+        {
+          label: 'Reactivar',
+          clickHandler: (value) => {
+            this.reactivarEmpleado(value)
+          },
+        },
+      ],
       buttonActions: [
         {
           label: 'Editar',
@@ -151,16 +235,23 @@ export default {
           },
         },
         {
-          label: 'Evaluación',
+          label: 'Acción personal',
           clickHandler: (value) => {
+            this.selectedEmployee = value
             this.showAccionPersonal = true
+          },
+        },
+        {
+          label: 'Tabla de acciones',
+          clickHandler: (value) => {
+            this.showTipoNovedad = true
             this.selectedEmployee = value
           },
         },
         {
-          label: 'Eventualidad',
+          label: 'Útiles laborales',
           clickHandler: (value) => {
-            this.showTipoNovedad = true
+            this.showUtilesLaboralesDialog = true
             this.selectedEmployee = value
           },
         },
@@ -193,13 +284,15 @@ export default {
   methods: {
     ...mapActions(useToastStore, ['show']),
 
-    getRegistroPersonal() {
-      Api.getAllEmpleado().then((response) => {
+    getRegistroPersonal(filter) {
+      Api.getAllEmpleado(filter).then((response) => {
         this.registroPersonal = response.data.data
+        this.footerItem[0].label = `Total Items: ${response.data.data.length}`
       })
     },
 
     closeRegistroPersonalModal() {
+      this.selectedEmployee = {}
       this.showRegistroPersonalModal = false
     },
 
@@ -210,35 +303,40 @@ export default {
       this.showRegistroPersonalModal = true
     },
 
-    imprimirReporte() {
-      if (this.reporteDepto.split('-')[0] == 1) {
-        window
-          .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Nombre&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
-            '_blank',
-          )
-          .focus()
-      } else if (this.reporteDepto.split('-')[0] == 2) {
-        window
-          .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Apellidos&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
-            '_blank',
-          )
-          .focus()
-      } else if (this.reporteDepto.split('-')[0] == 3) {
-        window
-          .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Empleados_por_Cargo&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
-            '_blank',
-          )
-          .focus()
-      } else if (this.reporteDepto.split('-')[0] == 4) {
-        window
-          .open(
-            `http://lmd-server-01/ReportServer/Pages/ReportViewer.aspx?%2fRRHH%2fRep_Departamentos&rs:Command=Render&ID_AYUNTAMIENTO=${this.$ayuntamientoId}`,
-            '_blank',
-          )
-          .focus()
+    async imprimirReporte() {
+      const reportParam = {
+        folderName: 'rrhh',
+        params: [
+          {
+            name: 'ID_AYUNTAMIENTO',
+            value: 'majorityId',
+          },
+        ],
+      }
+
+      try {
+        if (this.reporteDepto === '1') {
+          reportParam.reportName = 'Rep_Empleados_por_Nombre'
+        }
+        if (this.reporteDepto === '2') {
+          reportParam.reportName = 'Rep_Empleados_por_Apellidos'
+        }
+        if (this.reporteDepto === '3') {
+          reportParam.reportName = 'Rep_Empleados_por_Cargo'
+        }
+        if (this.reporteDepto === '4') {
+          reportParam.reportName = 'Rep_Empleados_por_Departamento'
+        }
+        await showReport(reportParam)
+
+        this.reportes = false
+      } catch (error) {
+        this.show({
+          content: error,
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        })
       }
     },
 
@@ -254,20 +352,26 @@ export default {
     },
 
     toggleDetails(item) {
-      this.showModal()
       this.selectedEmployee = item
+      this.showModal()
     },
 
-    submitForm(payload) {
-      if (payload.id != null) {
-        Api.putEmpleado(payload.id, payload)
-          .then(() => {
-            this.show({
-              content: 'Registro actualizado correctamente',
-              closable: true,
+    async submitForm({ payload, profilePhoto }) {
+      if (payload.id) {
+        this.saveProfilePhoto(profilePhoto, payload.idImagenPerfil, payload.id)
+          .then((imageId) => {
+            if (imageId) {
+              payload.idImagenPerfil = imageId
+            }
+
+            return Api.putEmpleado(payload.id, payload).then(() => {
+              this.show({
+                content: 'Registro actualizado correctamente',
+                closable: true,
+              })
+              this.closeRegistroPersonalModal()
+              setTimeout(this.getRegistroPersonal, 200)
             })
-            this.closeRegistroPersonalModal()
-            setTimeout(this.getRegistroPersonal, 500)
           })
           .catch((error) => {
             this.show({
@@ -278,7 +382,7 @@ export default {
             })
           })
       } else {
-        Api.postEmpleado(payload)
+        Api.postEmpleados(payload)
           .then(() => {
             this.show({
               content: 'Registro añadido correctamente',
@@ -302,13 +406,14 @@ export default {
       Swal.fire({
         position: 'center',
         icon: 'warning',
-        title: `Estás usted seguro que quieres inactivar este empleado?`,
+        title: `Estás usted seguro que quieres eliminar este empleado?`,
         showConfirmButton: true,
         confirmButtonText: 'Si',
         cancelButtonText: 'No',
         showCancelButton: true,
         allowEscapeKey: false,
         allowOutsideClick: false,
+        customClass: 'btns',
       }).then((answer) => {
         if (answer.isConfirmed) {
           Api.deleteEmpleado(item.id)
@@ -331,24 +436,73 @@ export default {
         }
       })
     },
-  },
 
-  computed: {
-    ...mapStores(useAuthStore),
-    ...mapState(useAuthStore, ['authInfo']),
-  },
+    handleFilterEmployeeByStatus({ target }) {
+      this.getRegistroPersonal({
+        status: target.value,
+      })
+    },
+    saveProfilePhoto(file, fallback, empleadoId) {
+      if (!file || fallback) {
+        return Promise.resolve(fallback ?? 0)
+      }
 
+      return new Promise((res, rej) => {
+        const formData = new FormData()
+        formData.append('file', file)
+        formData.append('empleadoId', empleadoId)
+        formData.append('profileImage', 1)
+        formData.append('uploaded', new Date().toISOString())
+        formData.append('public', true)
+
+        fileApi
+          .saveFile(formData)
+          .then((response) => res(response.data.data[0].id))
+          .catch(rej)
+      })
+    },
+    reactivarEmpleado(item) {
+      Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: `Estás usted seguro que quieres reactivar este empleado?`,
+        showConfirmButton: true,
+        confirmButtonText: 'Si',
+        cancelButtonText: 'No',
+        showCancelButton: true,
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        customClass: 'btns',
+      }).then((answer) => {
+        if (answer.isConfirmed) {
+          Api.reactivarEmpleado(item.id)
+            .then((response) => {
+              this.show({
+                content: response.data.message,
+                closable: true,
+                color: 'inherit',
+              })
+              setTimeout(() =>
+                this.getRegistroPersonal({
+                  status: 'inactivo',
+                }),
+                500,
+              )
+            })
+            .catch((error) => {
+              this.show({
+                content: error.response.data,
+                closable: true,
+                color: 'danger',
+                class: 'text-white',
+              })
+            })
+        }
+      })
+    },
+  },
   mounted() {
     this.getRegistroPersonal()
-    Api.getAllEmpleado().then((response) => {
-      this.registroPersonal = response.data.data
-      this.footerItem[0].label = `Total Items: ${response.data.data.length}`
-    })
-  },
-  watch: {
-    showRegistroPersonalModal() {
-      this.getRegistroPersonal()
-    },
   },
 }
 </script>

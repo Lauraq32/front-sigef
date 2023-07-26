@@ -29,9 +29,9 @@
         {{ item.posicion.nombre }}
       </td>
     </template>
-    <template #programaDivision="{ item }">
+    <template #departamenteName="{ item }">
       <td>
-        {{ item.programaDivision.nombre }}
+        {{ item.departamento.nombre }}
       </td>
     </template>
 
@@ -45,25 +45,44 @@
         {{ formatDate(item.fechaNacimiento) }}
       </td>
     </template>
+    <template #estado="{ item }">
+      <td :colspan="item.estatus ? 1 : 2">
+        <CBadge class="text-uppercase" :color="determineColor(item.estado)">{{
+          item.estado
+        }}</CBadge>
+      </td>
+    </template>
 
     <template #formaPago="{ item }">
       <td>
         {{ item.formaPago }}
       </td>
     </template>
+
     <template #show_details="{ item }">
       <td v-if="item.estatus">
         <CDropdown>
-          <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
+          <CDropdownToggle color="primary" variant="outline"
+            >Acciones</CDropdownToggle
+          >
           <CDropdownMenu>
-            <CDropdownItem v-for="action in actions" @click="action.clickHandler && action.clickHandler(item)">{{ action.label }}</CDropdownItem>
+            <CDropdownItem
+              v-for="action in actions"
+              @click="action.clickHandler && action.clickHandler(item)"
+              >{{ action.label }}</CDropdownItem
+            >
           </CDropdownMenu>
         </CDropdown>
       </td>
       <td v-else>
-        <CBadge color="danger">Inactivo</CBadge>
+        <CButton
+          class="btn btn-outline-success"
+          v-for="action in inactivoActions"
+          @click="action.clickHandler && action.clickHandler(item)"
+          >{{ action.label }}
+        </CButton>
       </td>
-    </template> 
+    </template>
   </CSmartTable>
 </template>
 <script>
@@ -74,12 +93,24 @@ export default {
   name: 'RegistroPersonalTable',
   components: {
     CSmartTable,
-
   },
   data: () => {
     return {
-      formatDate
+      formatDate,
     }
+  },
+
+  methods: {
+    determineColor(badgeText) {
+      if (/inactivo/i.test(badgeText)) {
+        return 'danger'
+      }
+      if (/activo/i.test(badgeText)) {
+        return 'success'
+      }
+
+      return 'warning'
+    },
   },
 
   props: {
@@ -87,9 +118,7 @@ export default {
     tableColumns: Array,
     footer: Array,
     actions: Array,
-  }
-
+    inactivoActions: Array,
+  },
 }
 </script>
-
-  

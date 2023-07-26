@@ -134,7 +134,7 @@
         (clasificator) =>
         (clasificator.tipo ===
             'DETALLE' && clasificator.origen === 'INGRESO' && clasificator?.clasifica?.toString().match(/^(1|3)/g))
-    " :term="formulacionIngreso.ctgClasificadorId" @close="selectClasificator" />
+    " :term="formulacionIngreso.ctgClasificadorId" @close="selectClasificator"/>
 </template>
 <script setup>
 import { CModal } from '@coreui/vue'

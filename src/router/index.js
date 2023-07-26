@@ -6,7 +6,7 @@ import DefaultLayout from '@/layouts/DefaultLayout'
 
 //prueba router
 import testModuleRouter from '../modules/financiero/FormulacionModule/router'
-import AdministrativoModule from '../modules/administrativo/Usuario/router'
+import AdministrativoModule from '../modules/administrativo/router'
 import RRHHModule from '../modules/rrhh/RegistroPersonal/router'
 import EjecucionModule from '../modules/financiero/EjecucionModule/router'
 import ActivoFijoModule from '../modules/financiero/ActivoFijoModule/router'

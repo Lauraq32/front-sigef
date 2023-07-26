@@ -1,5 +1,5 @@
 <template>
-  <CModal size="md" :visible="cargoModal" backdrop="static">
+  <CModal :visible="cargoModal" backdrop="static">
     <CModalHeader>
       <CModalTitle>Cargo</CModalTitle>
     </CModalHeader>
@@ -12,11 +12,8 @@
           ref="formRef"
         >
           <CCol :md="12">
-            <CFormLabel for="validationCustomUsername"
-              >Posici&oacute;n o cargo</CFormLabel
-            >
-            <CFormInput type="text" required v-model="cargo.posicion" id="validationCustom04">
-            </CFormInput>
+            <CFormLabel for="validationCustomUsername">Posici&oacute;n o cargo</CFormLabel>
+            <CFormInput type="text" required v-model="cargo.nombre" id="validationCustom04"></CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
           <div class="modal-footer">
@@ -38,20 +35,19 @@
   </CModal>
 </template>
 <script>
-import { CModal } from '@coreui/vue'
-import Api from '../../services/RegistroPersonalServices'
+import { CModal } from '@coreui/vue';
 
 export default {
   name: 'CargosModal',
   components: {
     CModal,
   },
-
+  emits: ['post-cargo', 'close-modal'],
   data: function () {
     return {
       cargosFormValidated: false,
       cargo: {
-        posicion: '',
+        nombre: '',
       },
     }
   },
@@ -69,7 +65,7 @@ export default {
 
     clearForm() {
       this.cargo = {
-        posicion: '',
+        nombre: '',
       }
     },
 
@@ -77,25 +73,20 @@ export default {
       this.$emit('close-modal', false)
       this.clearForm()
     },
-
-    getCargosByIds(id) {
-      Api.getCargobyid(id).then((response) => {
-        this.cargo = response.data.data
-      })
-    },
   },
 
   watch: {
-    cargoId(newId) {
-      if (newId) {
-        this.getCargosByIds(newId)
+    cargoToUpdate(newCargo) {
+      console.log(newCargo, this.cargoToUpdate);
+      if (newCargo) {
+        this.cargo = { ...newCargo };
       }
     },
   },
 
   props: {
     cargoModal: Boolean,
-    cargoId: null,
+    cargoToUpdate: null,
   },
 }
 </script>

@@ -3,9 +3,15 @@ import { clearLoggedInfo,  getFiscalYearId, getLoggedInfo, getAyuntamientoId, fi
 
 export function loggedInfo(app) {
     const info = reactive({
-        fiscalYearId: getFiscalYearId(),
-        ayuntamientoId: getAyuntamientoId(),
-        loggedInfo: getLoggedInfo(),
+        get fiscalYearId() {
+            return getFiscalYearId()
+        },
+        get ayuntamientoId() {
+            return getAyuntamientoId()
+        },
+        get loggedInfo() {
+            return getLoggedInfo()
+        },
         get isFiscalYearCloseOrApproved() {
             const data = fiscalYearInfo();
             return /cerrado/i.test(data?.estatus) || data?.esAprobado;

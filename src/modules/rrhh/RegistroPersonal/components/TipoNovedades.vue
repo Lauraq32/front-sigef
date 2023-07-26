@@ -270,8 +270,10 @@ export default {
   },
 
   watch: {
-    showModal() {
-      this.getTipoAcciones()
+    showModal(value) {
+      if (value) {
+        this.getTipoAcciones()
+      }
     },
   },
 

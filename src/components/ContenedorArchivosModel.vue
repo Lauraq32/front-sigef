@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CModal backdrop="static" size="lg" :visible="showModal">
+    <CModal backdrop="static" size="lg" :visible="showModal" @close="closeModal()">
       <CModalHeader>
         <CModalTitle>Captura de Im&aacute;genes Asociadas al Documento</CModalTitle>
       </CModalHeader>
@@ -14,12 +14,12 @@
           }" :tableHeadProps="{}" :activePage="1" :footer="footerItem" header :items="documentos" :columns="columns"
           tableFilter :itemsPerPage="7" table-filter-label="Filtrar:" table-filter-placeholder="Nombre, fecha, tipo de imagen" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
           pagination>
-          <template #createdAt="{ item, index }">
+          <template #createdAt="{ item }">
             <td class="py-2">
                 {{ formatDate(item.createdAt) }}
               </td>
           </template>
-          <template #show_details="{ item, index }">
+          <template #show_details="{ item }">
               <td class="py-2">
                 <CButton color="primary" variant="outline" square size="sm" @click="seeImage(item.id)">
                   Ver
@@ -29,7 +29,7 @@
         </CSmartTable>
       </CModalBody>
       <CModalFooter>
-        <CButton color="secondary" @click="onClick">Cerrar</CButton>
+        <CButton color="secondary" @click="closeModal()">Cerrar</CButton>
       </CModalFooter>
     </CModal>
     <CModal backdrop="static" size="lg" :visible="showModalSaveDocument" @close="closeModalSaveDocument">
@@ -64,8 +64,7 @@
 <script>
 import { ref } from "vue";
 import { CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter } from '@coreui/vue'
-import Api from '../services/RegistroPersonalServices'
-import ApiFile from '../services/Files'
+import ApiFile from '../modules/rrhh/RegistroPersonal/services/Files'
 import { CSmartTable, CButton, CCollapsePlugin, CForm } from '@coreui/vue-pro'
 import { CIcon } from '@coreui/icons-vue'
 import DropZone from "@/components/DropZone.vue"
@@ -89,12 +88,9 @@ export default {
   data: function () {
     return {
       filedata: {},
-      lgDemo5: false,
       fullscreenDemo: false,
       visible: false,
-      file: null,
       showModalSaveDocument: false,
-      postEmpleado: {},
       documentos: [],
       typeDocument: '',
       fileName: '',
@@ -113,7 +109,8 @@ export default {
       optionsSelect: [
         "Documento Personal",
         "Certificado",
-        "Documento Estudio",
+        "Documento de Estudio",
+        "Contrato",
         "Otros"
       ],
       columns: [
@@ -154,54 +151,85 @@ export default {
       this.clearForm();
     },
     sendData() {
-      this.isFormEventTypeValidated = false
+      this.isFormEventTypeValidated = false;
       if (this.$refs.eventTypeForm.$el.checkValidity()) {
         return this.postDocumentos()
       }
-      this.isFormEventTypeValidated = true
+      this.isFormEventTypeValidated = true;
+
+      if (!this.dropzoneFile) {
+        this.show({
+          content: "Para guardar un registro, debe tener un documento asociado",
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        });
+      }
     },
     postDocumentos() {
-      if (this.empleado.id && this.dropzoneFile) {
+      if (this.tagKeyName && this.tagValueName && this.dropzoneFile) {
         const formData = new FormData()
-        formData.append('empleadoId', this.empleado.id)
+        formData.append(this.tagKeyName, this.tagValueName)
         formData.append('fileCustomName', this.fileName)
         formData.append('fileCustomDescription', this.fileDescription)
         formData.append('fileCustomtype', this.typeDocument)
         formData.append('file', this.dropzoneFile)
-        Api.postFiles(formData).then(() => {
-          this.getFileById(this.empleado.id)
+        ApiFile.saveFile(formData).then(() => {
+          this.getFilesByRelationKey(this.tagKeyName, this.tagValueName)
           this.show({
             content: "Imagen guardada correctamente",
             closable: true,
           });
           this.clearForm();
-        }).catch((e) => console.log('error', e))
+        }).catch((e) => {
+          this.show({
+            content: e.response.data,
+            closable: true,
+            color: 'danger',
+            class: 'text-white',
+          });
+        });
       }
-    },
-    onClick() {
-      this.$emit('custom-event', false)
+
+      if (!this.dropzoneFile) {
+        this.show({
+          content: "Para guardar un registro, debe tener un documento asociado",
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        });
+      }
+
     },
     clearForm(){
       this.fileName = '';
       this.fileDescription = '';
       this.dropzoneFile = null;
     },
-    handleFileChange(event) {
-      this.filedata = event.target.files[0]
-    },
     toggle(index) {
       this.documentos[index].visible = !this.documentos[index].visible
     },
-    getFileById(id) {
-      Api.getFileById(id).then((response) => {
-        this.documentos = response.data.data
-        this.footerItem[0].label = `Total Items ${this.documentos.length}`
+    getFilesByRelationKey(key, id) {
+      ApiFile.getFiles({
+        tag: { [key]: id }
+      }).then((response) => {
+        this.documentos = response.data.data?.filter(image => !image.fileTags.find(tag => `${tag.key}-${tag.value}` === "profileImage-1"));
+        this.footerItem[0].label = `Total Items ${this.documentos.length}`;
       })
     },
     seeImage(id){
-      ApiFile.getFileById(id).then((response) => {
+      ApiFile.getFileById(id)
+      .then((response) => {
         window.open(response, "_blank")
       })
+      .catch(err => {
+        this.show({
+          content: "No se pudo leer el documento",
+          closable: true,
+          color: 'danger',
+          class: 'text-white',
+        });
+      });
     },
   },
   setup() {
@@ -212,13 +240,16 @@ export default {
     return { dropzoneFile, selectedFile };
   },
   watch: {
-    empleado() {
-      this.getFileById(this.empleado.id)
-    },
+    showModal() {
+      if (this.showModal && this.tagValueName && this.tagKeyName) {
+        this.getFilesByRelationKey(this.tagKeyName, this.tagValueName)
+      }
+    }
   },
   props: {
     showModal: Boolean,
-    empleado: Object,
+    tagKeyName: String,
+    tagValueName: 0
   },
 }
 </script>
