@@ -406,7 +406,7 @@
                     </CCol>
 
                     <CCol>
-                      <CFormLabel for="Impuesto S.R.">IRS</CFormLabel>
+                      <CFormLabel for="Impuesto S.R.">ISR</CFormLabel>
                       <CFormInput id="Impuesto S.R." v-on:keypress="onlyNumber($event)" />
                     </CCol>
 
