@@ -97,7 +97,7 @@
   <CompranteGastoCapturaDialog :showModal="ComprobanteoDialog" @post-gasto="submitForm"
     @close-modal="closeComprobanteDialog" :postGasto="postGasto" />
   <FormularioCodificacionGastoDialog :showModal="FormularioCodificacionGastoDialog" />
-  <ContenedorArchivosModel :showModal="showFileModal" :tagKeyName="tagKeyName" :tagValueName="tagValueName" />
+  <ContenedorArchivosModel @closeModal="closeContenedorModal" :showModal="showFileModal" :tagKeyName="tagKeyName" :tagValueName="tagValueName" />
 </template>
 <script>
 
@@ -178,6 +178,9 @@ export default {
   methods: {
     ...mapActions(useToastStore, ['show']),
 
+    closeContenedorModal() {
+      this.showFileModal = false;
+    },
     closeFiltro(params) {
       if (params) {
         this.getRegistroGasto(params)
