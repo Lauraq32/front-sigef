@@ -19,7 +19,7 @@
           <option value="">Todas las etapas</option>
           <option value="Devengado">Devengado</option>
           <option value="Pagado">Pagado</option>
-          <option value="Variacion">Variacion</option>
+          <option value="Variacion">Variaci&oacute;n</option>
         </CFormSelect>
       </div>
       <div class="m-2">
