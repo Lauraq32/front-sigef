@@ -42,7 +42,7 @@
   />
 
   <AddDepartment
-    :is-nomina="true"
+    :is-nomina="isNomina"
     :modal-title="this.deparmentModalTitle"
     :departamento="this.departamento"
     :showModal="showAddDeptModal"
@@ -63,6 +63,12 @@ export default {
     AddDepartment,
     DepartmentsTable,
     CFormLabel,
+  },
+  props:{
+    isNomina: {
+      type: Boolean,
+      default: false
+    }
   },
   data: () => {
     return {

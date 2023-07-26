@@ -1,10 +1,16 @@
 <template>
   <h3 class="text-center mb-4">Profesiones</h3>
   <div class="table-headers mb-4 gap-1">
-      <CButton
-        color="info"
-        @click="() => { newProfesionesModal = true }">Agregar</CButton>
-      <CButton color="secondary">Imprimir</CButton>
+    <CButton
+      color="info"
+      @click="
+        () => {
+          newProfesionesModal = true
+        }
+      "
+      >Agregar</CButton
+    >
+    <CButton color="secondary">Imprimir</CButton>
   </div>
   <CSmartTable
     class="sticky-top"

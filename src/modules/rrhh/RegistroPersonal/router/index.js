@@ -71,7 +71,7 @@ export default {
     },
     {
       path: 'tipoSangre',
-      name: 'TipoSangre',
+      name: 'tipoSangre',
       meta: { label: 'Tipo de Sangre' },
       component: () =>
         import(

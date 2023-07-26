@@ -6,27 +6,18 @@ export default {
     import('@/modules/financiero/NominaModule/layout/TemplateLayout.vue'),
   children: [
     {
-      path: 'clasificadoresNomina',
-      name: 'clasificadoresNomina',
-      meta: { label: 'Clasificadores Nómina' },
-      component: () =>
-        import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/ClasificadoresNomina.vue'
-        ),
-    },
-    {
-      path: 'grupoNominass',
-      name: 'grupoNominass',
+      path: 'grupos-nomina',
+      name: 'grupoNominas',
       meta: { label: 'Grupo Nóminas' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/GrupoNominas.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/pages/GrupoNominas.vue'
         ),
     },
 
     {
-      path: 'nominaGeneral',
-      name: 'grupoNominas',
+      path: 'nomina-general',
+      name: 'nominaGeneral',
       meta: { label: 'Nómina General' },
       component: () =>
         import(
@@ -36,10 +27,10 @@ export default {
     {
       path: 'programas',
       name: 'programas',
-      meta: { label: 'Programas' },
+      meta: { label: 'Dirección o Dependencias' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/Programas.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/pages/DireccionDependencia.vue'
         ),
     },
     {
@@ -48,25 +39,25 @@ export default {
       meta: { label: 'Departamentos' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/Departamentos.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/pages/Departamento.vue'
         ),
     },
     {
-      path: 'areaDeTrabajo',
-      name: 'areaDeTrabajo',
+      path: 'areas-trabajo',
+      name: 'AreaDeTrabajo',
       meta: { label: 'Área de Trabajo' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/AreaDeTrabajo.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/pages/AreaDeTrabajo.vue'
         ),
     },
     {
-      path: 'posicionesCargo',
+      path: 'posiciones-cargo',
       name: 'posicionesCargo',
-      meta: { label: 'Posiciones de Cargo' },
+      meta: { label: 'Posiciones o Cargos' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/PosicionesCargo.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/pages/Cargos.vue'
         ),
     },
     {
@@ -75,20 +66,11 @@ export default {
       meta: { label: 'Sectores' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/Sectores.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/pages/Sectores.vue'
         ),
     },
     {
-      path: 'nominas',
-      name: 'nominas',
-      meta: { label: 'Nóminas' },
-      component: () =>
-        import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/Nominas.vue'
-        ),
-    },
-    {
-      path: 'configuracionGeneral',
+      path: 'configuracion-nomina',
       name: 'configuracionGeneral',
       meta: { label: 'Configuración General' },
       component: () =>
@@ -97,19 +79,22 @@ export default {
         ),
     },
     {
-      path: 'configuracionModulo',
-      name: 'configuracionModulo',
-      meta: { label: 'Configuración Modulo' },
+      path: 'tipo-sangre',
+      name: 'TipoSangre',
+      meta: { label: 'Tipos de Sangres' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/ConfiguracionModulo.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/pages/tipoSangre.vue'
         ),
     },
-
-    //  {
-    //     path: '',
-    //     name: 'no-entry',
-    //     component: () => import(/* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FormulacionModule/components/Prueba.vue'),
-    // },
+    {
+      path: 'empleados',
+      name: 'nominaEmpleado',
+      meta: { label: 'Empleados' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/pages/nominaEmpleado.vue'
+        ),
+    },
   ],
 }

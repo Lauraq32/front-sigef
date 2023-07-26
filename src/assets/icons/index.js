@@ -126,6 +126,11 @@ import {
   cilPlus,
   cilMinus,
   cilTrash,
+  cilSave,
+  cilInfo,
+  cilFilter,
+  cilFilterX,
+  cilTruck
 } from '@coreui/icons-pro'
 
 export const iconsSet = Object.assign(
@@ -226,6 +231,7 @@ export const iconsSet = Object.assign(
     cilCreditCard,
     cilPlus,
     cilMinus,
+    cilInfo,
   },
   {
     cifUs,
@@ -262,7 +268,11 @@ export const iconsSet = Object.assign(
     cibCcApplePay,
     cibCcAmex,
     cibBitcoin,
-    cilTrash
+    cilTrash,
+    cilSave,
+    cilFilter,
+    cilFilterX,
+    cilTruck
   },
   {
     cisCheckCircle,
