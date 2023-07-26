@@ -9,7 +9,8 @@
             </CCardText>
             <CCardText> <label class="fw-semibold col-3">C&eacute;dula:</label> {{ empleado.codigoIdentidad }}</CCardText>
             <CCardText> <label class="fw-semibold col-3">Direcci&oacute;n:</label> {{ empleado.direccion }}</CCardText>
-            <CCardText> <label class="fw-semibold col-3">Genero:</label> {{ empleado.sexo === 'M' ? 'Masculino' : 'Femenino'
+            <CCardText> <label class="fw-semibold col-3">G&eacute;nero:</label> {{ empleado.sexo === 'M' ? 'Masculino' :
+                'Femenino'
             }}
             </CCardText>
             <CCardText> <label class="fw-semibold col-3">Grupo ocupacional:</label> {{ empleado.grupoOcupacional }}
@@ -28,7 +29,7 @@
             <CCardText><label class="fw-semibold col-3">Descripci&oacute;n:</label> {{ ayuntInfo.descripcion }}
             </CCardText>
             <CCardText><label class="fw-semibold col-3">RNC:</label> {{ ayuntInfo.rnc }}</CCardText>
-            <CCardText><label class="fw-semibold col-3">T&eacute;lefono:</label> {{ formatPhoneNumber(ayuntInfo.telefono
+            <CCardText><label class="fw-semibold col-3">Tel&eacute;fono:</label> {{ formatPhoneNumber(ayuntInfo.telefono
                 ?? '') }}</CCardText>
         </CCardBody>
     </CCard>
