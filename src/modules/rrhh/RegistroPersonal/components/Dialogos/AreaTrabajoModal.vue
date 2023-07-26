@@ -1,28 +1,14 @@
 <template>
-  <CModal
-    size="sm"
-    :visible="newAreaTrabajoModal"
-    backdrop="static"
-    style="width: 25%"
-  >
+  <CModal v-if="!isNomina" size="sm" @close="closeModal" :visible="newAreaTrabajoModal" backdrop="static" style="width: 25%">
     <CModalHeader>
       <CModalTitle>Área de trabajo</CModalTitle>
     </CModalHeader>
     <CModalBody>
       <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="areaTrabajoValidated"
-          ref="formRef"
-        >
+        <CForm class="row g-3 needs-validation" novalidate :validated="areaTrabajoValidated" ref="formRef">
           <CCol :md="12">
             <CFormLabel for="validationCustom04">Área de trabajo</CFormLabel>
-            <CFormInput
-              required
-              v-model="areaTrabajoObject.descripcion"
-              id="validationCustom04"
-            >
+            <CFormInput required v-model="areaTrabajoObject.descripcion" id="validationCustom04">
             </CFormInput>
             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
           </CCol>
@@ -83,16 +69,17 @@ export default {
     areaTrabajoId(newId) {
       if (newId) {
         Api.getAreaTrabajoById(newId)
-        .then((response) => {
-          this.areaTrabajoObject = response.data.data
-        });
+          .then((response) => {
+            this.areaTrabajoObject = response.data.data
+          });
       }
     },
   },
 
   props: {
     newAreaTrabajoModal: Boolean,
-    areaTrabajoId: Number
+    areaTrabajoId: Number,
+    isNomina: Boolean
   },
 }
 </script>

@@ -1,34 +1,20 @@
 <template>
-  <h3 class="text-center mb-4">Áreas de trabajo</h3>
-  <div class="table-headers mb-4">
+  <h3 class="text-center mb-4">Áreas de Trabajo</h3>
+  <div v-if="!isNomina" class="table-headers mb-4">
     <div class="d-flex p-2 gap-1">
-      <CButton
-        color="info"
-        @click="
-          () => {
-            newAreaTrabajoModal = true
-          }
-        "
-        >Agregar</CButton
-      >
+      <CButton color="info" @click="() => {
+        newAreaTrabajoModal = true
+      }
+        ">Agregar</CButton>
     </div>
     <div class="d-inline p-2">
       <CButton style="font-weight: bold" color="info">Imprimir</CButton>
     </div>
   </div>
-  <AreaTrabajoTable
-    :columns="columns"
-    :footerItems="footerItem"
-    :items="AreasTrabajos"
-    :showButtons="true"
-    @edit="editAreaTrabajo"
-  />
-  <AreaTrabajoModal
-    :newAreaTrabajoModal="newAreaTrabajoModal"
-    @close-modal="closeModal"
-    @post-areaTrabajo="saveAreaTrabajo"
-    :areaTrabajoId="areaTrabajoId"
-  />
+  <AreaTrabajoTable :columns="columns" :isNomina="isNomina" :footerItems="footerItem" :items="AreasTrabajos"
+    :showButtons="true" @edit="editAreaTrabajo" />
+  <AreaTrabajoModal :newAreaTrabajoModal="newAreaTrabajoModal" :isNomina="isNomina" @close-modal="closeModal"
+    @post-areaTrabajo="saveAreaTrabajo" :areaTrabajoId="areaTrabajoId" />
 </template>
 
 <script>
@@ -44,6 +30,9 @@ export default {
     AreaTrabajoTable,
     CModal,
     AreaTrabajoModal,
+  },
+  props: {
+    isNomina: Boolean
   },
   data: () => {
     return {

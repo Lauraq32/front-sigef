@@ -305,9 +305,9 @@ export default {
             }).then((answer) => {
               if (answer.isConfirmed) {
                 Api.setEmpleadoToBeneficiario(item.id)
-                  .then(() => {
+                  .then((response) => {
                     this.show({
-                      content: 'Datos procesados correctamente',
+                      content: response.data,
                       closable: true,
                     })
                   })
@@ -344,9 +344,9 @@ export default {
       }).then((answer) => {
         if (answer.isConfirmed) {
           Api.setAllEmpleadosToBeneficiario()
-            .then(() => {
+            .then((response) => {
               this.show({
-                content: 'Datos procesados correctamente',
+                content: response.data,
                 closable: true,
               })
             })

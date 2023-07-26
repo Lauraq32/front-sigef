@@ -1,5 +1,5 @@
 <template>
-  <areaDeTrabajo />
+  <areaDeTrabajo :isNomina="true" />
 </template>
 
 <script>
