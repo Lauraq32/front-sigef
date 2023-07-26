@@ -1101,6 +1101,7 @@ export default {
     },
 
     clearModal() {
+      this.isLowerSelectedInitDate = false
       const currentDate = new Date()
       currentDate.setFullYear(currentDate.getFullYear() - 19)
       this.tabPaneActiveKey = 1
