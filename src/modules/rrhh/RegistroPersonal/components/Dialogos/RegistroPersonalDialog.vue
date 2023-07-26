@@ -198,7 +198,7 @@
                     </div>
                     <div class="col-9">
                       <CCol :md="12">
-                        <CFormInput v-model="fechaNacimiento" type="date" id="fechaNacimiento" />
+                        <AppDateField class="form-control" v-model="postEmpleado.fechaNacimiento" />
                         <CFormFeedback invalid :style="{
                           display: !isEmployeeAdult ? 'flex' : 'none',
                         }">
@@ -251,8 +251,8 @@
                   <div class="row">
                     <CCol :md="6">
                       <CFormLabel for="fechaIngreso">Fecha ingreso</CFormLabel>
-                      <CFormInput @change="validarFechaDesde" v-model="fechaIngreso" type="date" id="fechaIngreso"
-                        required />
+                      <AppDateField required @change="validarFechaDesde" class="form-control"
+                        v-model="postEmpleado.fechaIngreso" />
                       <CFormFeedback invalid :style="{
                         display: isLowerSelectedInitDate ? 'flex' : 'none',
                       }">
@@ -628,8 +628,8 @@
                         <td>
                           <div class="row">
                             <div class="col-7">
-                              <CFormCheck :disabled="!item.esNovedad" :checked="item.checked || item.monto > 0" v-model="item.checked"
-                                name="flexRadioDefault" id="flexRadioDefault1" />
+                              <CFormCheck :disabled="!item.esNovedad" :checked="item.checked || item.monto > 0"
+                                v-model="item.checked" name="flexRadioDefault" id="flexRadioDefault1" />
                               {{ item.nombre }}
                             </div>
                             <div class="col-5">
@@ -955,7 +955,6 @@ export default {
       fechaActual.setHours(0, 0, 0, 0)
       if (fechaDesde > fechaActual) {
         this.isLowerSelectedInitDate = true
-        this.fechaIngreso = null
       } else {
         this.isLowerSelectedInitDate = false
       }
@@ -1239,53 +1238,6 @@ export default {
 
   computed: {
     ...mapStores(useToastStore),
-
-    fechaIngreso: {
-      get() {
-        let date = null
-        if (
-          this.postEmpleado.fechaIngreso !== null &&
-          this.postEmpleado.fechaIngreso?.toString() !== 'Invalid Date'
-        ) {
-          date = this.postEmpleado.fechaIngreso
-          if (typeof this.postEmpleado.fechaIngreso === 'string') {
-            date = new Date(this.postEmpleado.fechaIngreso)
-            return date.toISOString().split('T')[0]
-          }
-        }
-        if (this.postEmpleado.fechaIngreso == null) {
-          return null
-        } else {
-          return date.toISOString().split('T')[0]
-        }
-      },
-      set(value) {
-        return (this.postEmpleado.fechaIngreso =
-          value == null ? null : new Date(`${value}T00:00:00`))
-      },
-    },
-
-    fechaNacimiento: {
-      get() {
-        let date = null
-        if (
-          this.postEmpleado.fechaNacimiento !== null &&
-          this.postEmpleado.fechaNacimiento?.toString() !== 'Invalid Date'
-        ) {
-          date = this.postEmpleado.fechaNacimiento
-          if (typeof this.postEmpleado.fechaNacimiento === 'string') {
-            date = new Date(this.postEmpleado.fechaNacimiento)
-            return date.toISOString().split('T')[0]
-          }
-        }
-        return date?.toISOString()?.split('T')?.[0]
-      },
-      set(value) {
-        return (this.postEmpleado.fechaNacimiento = new Date(
-          `${value}T00:00:00`,
-        ))
-      },
-    },
 
     selectedDepartamento: {
       get() {
