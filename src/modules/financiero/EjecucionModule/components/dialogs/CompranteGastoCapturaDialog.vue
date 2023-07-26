@@ -22,7 +22,7 @@
                         <CFormSelect @change="changeEtapa" v-model="postRegistroGasto.etapa" id="etapa" required>
                           <option value="Devengado">Devengado</option>
                           <option value="Pagado">Pagado</option>
-                          <option value="Variacion">Variacion</option>
+                          <option value="Variacion">Variaci&oacute;n</option>
                         </CFormSelect>
                       </CCol>
 

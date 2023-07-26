@@ -7,10 +7,21 @@
         <CFormSelect class="d-block" style="width: 9rem;" id="userStatusSelect" @change="handleFilterGastoByStatus"
           aria-label="Selecionar estatus del usuario" :options="filtroOption" />
       </div>
-
-
     </template>
-
+    <CButton v-if="!paramsFiltro" @click="() => {
+        showFiltro = true
+      }
+      ">
+      <span>
+        <CIcon icon="cilFilter" size="lg" /> Filtrar
+      </span>
+    </CButton>
+    <CButton v-else @click="() => ((paramsFiltro = null), getRegistroGasto())">
+      <span>
+        <CIcon icon="cilFilterX" style="color: red" size="lg" /> Resultados
+        filtrados
+      </span>
+    </CButton>
     <CButton color="primary" @click="showComprobanteDialog">Agregar</CButton>
     <CButton color="secondary" @click="goToComprobanteIngreso">Ir a Comprobante ingreso</CButton>
 
@@ -78,11 +89,11 @@
         {{ formatPrice(item.montoNeto) }}
       </td>
     </template>
-    
+
 
   </CSmartTable>
 
-
+  <FiltroRegistroGasto :showFiltro="showFiltro" @close="closeFiltro" />
   <CompranteGastoCapturaDialog :showModal="ComprobanteoDialog" @post-gasto="submitForm"
     @close-modal="closeComprobanteDialog" :postGasto="postGasto" />
   <FormularioCodificacionGastoDialog :showModal="FormularioCodificacionGastoDialog" />
@@ -104,9 +115,11 @@ import router from '@/router'
 import Swal from 'sweetalert2';
 import { showReport } from '@/utils/util'
 import ContenedorArchivosModel from '@/components/ContenedorArchivosModel.vue'
+import FiltroRegistroGasto from '../components/dialogs/filtroRegistroGasto.vue'
 import { formatPrice } from '@/utils/format'
 export default {
   components: {
+    FiltroRegistroGasto,
     CompranteGastoCapturaDialog,
     FormularioCodificacionGastoDialog,
     AppActionHeader,
@@ -119,6 +132,8 @@ export default {
       formatPrice,
       comprobante: {
       },
+      paramsFiltro:null,
+      showFiltro:false,
       tagKeyName: 'ComprobanteGastoId',
       tagValueName: null,
       showFileModal: false,
@@ -162,6 +177,14 @@ export default {
   },
   methods: {
     ...mapActions(useToastStore, ['show']),
+
+    closeFiltro(params) {
+      if (params) {
+        this.getRegistroGasto(params)
+        this.paramsFiltro = params
+      }
+      this.showFiltro = false
+    },
 
     handleFilterGastoByStatus({ target }) {
       this.getRegistroGasto({
