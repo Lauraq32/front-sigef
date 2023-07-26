@@ -12,20 +12,14 @@
             {{ cuenta.nombreCuenta }}
           </option>
         </CFormSelect>
-        <!-- <CFormSelect v-model="filtroValue.CuentaBanco" @change="filtrarElementos">
-          <option value="">Todas las etapas</option>
-          <option value="ingreso">Ingreso</option>
-          <option value="variacion">Variación</option>
-          <option value="compromiso">Compromiso</option>
-        </CFormSelect> -->
       </div>
       <div class="m-2">
         <CFormLabel>Etapa</CFormLabel>
         <CFormSelect v-model="filtroValue.etapa" @change="filtrarElementos">
           <option value="">Todas las etapas</option>
-          <option value="ingreso">Ingreso</option>
-          <option value="variacion">Variación</option>
-          <option value="compromiso">Compromiso</option>
+          <option value="Devengado">Devengado</option>
+          <option value="Pagado">Pagado</option>
+          <option value="Variacion">Variacion</option>
         </CFormSelect>
       </div>
       <div class="m-2">
