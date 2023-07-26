@@ -20,7 +20,7 @@
     hover: true,
   }" :tableHeadProps="{}" :activePage="1" header :items="tableData" :columns="tableColumns" columnFilter
     :footer="footer" itemsPerPageSelect :itemsPerPage="5" columnSorter
-    :sorterValue="{ column: 'numeroComprobante', state: 'asc' }" pagination>
+    :sorterValue="{ column: 'numeroComprobante', state: 'desc' }" pagination>
     <template #show_details="{ item, index }">
       <td>
         <CDropdown>
@@ -53,6 +53,7 @@
         {{ item.beneficiario.descripcion }}
       </td>
     </template>
+
     <template #estado="{ item }">
       <td>
 
@@ -65,6 +66,19 @@
       </td>
 
     </template>
+
+    <template class="text-end" #montoBruto="{ item }">
+      <td>
+        {{ formatPrice(item.montoBruto) }}
+      </td>
+    </template>
+
+    <template class="text-end" #montoNeto="{ item }">
+      <td>
+        {{ formatPrice(item.montoNeto) }}
+      </td>
+    </template>
+    
 
   </CSmartTable>
 
@@ -90,6 +104,7 @@ import router from '@/router'
 import Swal from 'sweetalert2';
 import { showReport } from '@/utils/util'
 import ContenedorArchivosModel from '@/components/ContenedorArchivosModel.vue'
+import { formatPrice } from '@/utils/format'
 export default {
   components: {
     CompranteGastoCapturaDialog,
@@ -101,6 +116,7 @@ export default {
   },
   data: function () {
     return {
+      formatPrice,
       comprobante: {
       },
       tagKeyName: 'ComprobanteGastoId',

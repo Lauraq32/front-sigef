@@ -353,12 +353,16 @@ export default {
     postGasto(newValue) {
       console.log(newValue);
       if (newValue) {
-        this.postRegistroGasto = { ...newValue, conceptoGastoId: newValue.conceptoGasto.id, bancoId: newValue.banco.id, beneficiarioId: newValue.beneficiario.id,tipoGastoId: newValue.tipoGasto.id }
+        this.postRegistroGasto = { ...newValue, conceptoGastoId: newValue.conceptoGasto.id, bancoId: newValue.banco.id, beneficiarioId: newValue.beneficiario.id}
         this.displayBeneficiario = newValue.beneficiario.descripcion
         this.cuentaBanco = newValue.banco.descripcion
       
         this.postRegistroGasto.detalleRegistroGastos.map(detalle => {
           detalle.id = 0
+          detalle.detalleRetencion.forEach((item) => {
+            item.beneficiarioId = item.beneficiario.id
+            item.tipoRetencionId = item.tipoRetencion.id
+          })
         })
       }
     }

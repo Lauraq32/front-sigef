@@ -127,8 +127,8 @@
               <CSmartTable class="" clickableRows :tableProps="{
                 striped: true,
                 hover: true,
-              }" :tableHeadProps="{}" :activePage="1" header :items="mestProgList" :columns="clasificadoresTables" items-per-page="7"
-                :footer="footer" :sorterValue="{ column: 'clasificador', state: 'asc' }" pagination>
+              }" :tableHeadProps="{}" :activePage="1" header :items="mestProgList" :columns="clasificadoresTables"
+                items-per-page="7" :footer="footer" :sorterValue="{ column: 'clasificador', state: 'asc' }" pagination>
                 <template #show_details="{ item, index }">
                   <td>
                     <CButton @click="selectMestProg(item)" color="primary" variant="outline" square size="sm">
@@ -224,8 +224,6 @@
     </CModalFooter>
 
   </CModal>
-
-  
 </template>
     
 <script>
@@ -487,8 +485,18 @@ export default {
       if (this.detalleRegistroGasto.estructuraProgramatica && this.detalleRegistroGasto.clasificadorId && this.detalleRegistroGasto.montoBruto) {
         this.$emit('saveDetalle', { ...this.detalleRegistroGasto })
         this.clearForm()
-        this.closeModal()
+        this.show({
+        content: 'Detalle guardado con éxito',
+        closable: true,
+      })
+   
+        return
       }
+      this.show({
+        content: 'Debe llenar los campos requeridos',
+        closable: true,
+        color:'danger'
+      })
 
     },
 
