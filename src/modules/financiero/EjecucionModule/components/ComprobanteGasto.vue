@@ -20,7 +20,7 @@
     hover: true,
   }" :tableHeadProps="{}" :activePage="1" header :items="tableData" :columns="tableColumns" columnFilter
     :footer="footer" itemsPerPageSelect :itemsPerPage="5" columnSorter
-    :sorterValue="{ column: 'numeroComprobante', state: 'asc' }" pagination>
+    :sorterValue="{ column: 'numeroComprobante', state: 'desc' }" pagination>
     <template #show_details="{ item, index }">
       <td>
         <CDropdown>
@@ -53,6 +53,7 @@
         {{ item.beneficiario.descripcion }}
       </td>
     </template>
+
     <template #estado="{ item }">
       <td>
 
@@ -66,13 +67,26 @@
 
     </template>
 
+    <template class="text-end" #montoBruto="{ item }">
+      <td>
+        {{ formatPrice(item.montoBruto) }}
+      </td>
+    </template>
+
+    <template class="text-end" #montoNeto="{ item }">
+      <td>
+        {{ formatPrice(item.montoNeto) }}
+      </td>
+    </template>
+    
+
   </CSmartTable>
 
 
   <CompranteGastoCapturaDialog :showModal="ComprobanteoDialog" @post-gasto="submitForm"
-    @close-modal="closeComprobanteDialog" />
+    @close-modal="closeComprobanteDialog" :postGasto="postGasto" />
   <FormularioCodificacionGastoDialog :showModal="FormularioCodificacionGastoDialog" />
-  <ContenedorArchivosModel :showModal="showFileModal" :tagKeyName="tagKeyName"  :tagValueName="tagValueName" />
+  <ContenedorArchivosModel :showModal="showFileModal" :tagKeyName="tagKeyName" :tagValueName="tagValueName" />
 </template>
 <script>
 
@@ -90,6 +104,7 @@ import router from '@/router'
 import Swal from 'sweetalert2';
 import { showReport } from '@/utils/util'
 import ContenedorArchivosModel from '@/components/ContenedorArchivosModel.vue'
+import { formatPrice } from '@/utils/format'
 export default {
   components: {
     CompranteGastoCapturaDialog,
@@ -101,6 +116,7 @@ export default {
   },
   data: function () {
     return {
+      formatPrice,
       comprobante: {
       },
       tagKeyName: 'ComprobanteGastoId',
@@ -110,6 +126,7 @@ export default {
       gasto: {},
       tableData: [],
       filterValue: 'true',
+      postGasto: {},
       filtroOption: [
         { label: 'Abierto', value: 'Abierto' },
         { label: 'Confirmado', value: 'Confirmado' },
@@ -216,9 +233,19 @@ export default {
       }
     },
 
+    getGastoById(id) {
+      Api.getRegistroGastoById(id).then((response) => {
+        this.postGasto = { ...response.data.data }
+        this.ComprobanteoDialog = true;
+      })
+    },
+
     itemActions(estadoItem) {
       const actions = [
-
+        {
+          label: 'Duplicar',
+          clickHandler: async (item) => await this.getGastoById(item.id)
+        },
         {
           label: 'Imprimir',
           clickHandler: (item) => {
@@ -372,7 +399,7 @@ export default {
       this.actions = actions;
     },
 
-    adjuntarArchivo(item){
+    adjuntarArchivo(item) {
       this.showFileModal = true
       this.tagValueName = item.id
     },
@@ -443,43 +470,23 @@ export default {
     },
 
     submitForm(payload) {
-      if (payload.id != null) {
-        Api.putRegistroGasto(payload.id, payload)
-          .then(() => {
-            this.show({
-              content: 'Registro actualizado correctamente',
-              closable: true,
-            })
-            this.closeComprobanteDialog()
-            setTimeout(this.getRegistroGasto, 500)
+      Api.postRegistroGasto(payload)
+        .then((response) => {
+          this.show({
+            content: 'Registro añadido correctamente',
+            closable: true,
           })
-          .catch((error) => {
-            this.show({
-              content: error.response.data.message,
-              closable: true,
-              color: 'danger',
-              class: 'text-white',
-            })
+          setTimeout(this.getRegistroGasto, 500)
+          this.closeComprobanteDialog()
+        })
+        .catch((error) => {
+          this.show({
+            content: error.response.data,
+            closable: true,
+            color: 'danger',
+            class: 'text-white',
           })
-      } else {
-        Api.postRegistroGasto(payload)
-          .then((response) => {
-            this.show({
-              content: 'Registro añadido correctamente',
-              closable: true,
-            })
-            setTimeout(this.getRegistroGasto, 500)
-            this.closeComprobanteDialog()
-          })
-          .catch((error) => {
-            this.show({
-              content: error.response.data.message,
-              closable: true,
-              color: 'danger',
-              class: 'text-white',
-            })
-          })
-      }
+        })
     },
 
     showComprobanteDialog() {
