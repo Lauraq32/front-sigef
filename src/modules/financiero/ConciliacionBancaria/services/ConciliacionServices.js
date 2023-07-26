@@ -3,8 +3,6 @@
 import http from '@/Api/http-common';
 import { getAyuntamientoId } from "../../../../utils/logged-info";
 class Conciliacion {
-  //-----------------------------CLASIFICADORES---------------------------------------//
-  //get
   getBeneficiarios() {
     return http.get('Beneficiarios')
   }
@@ -104,7 +102,11 @@ class Conciliacion {
     return http.put(`ConciliacionCuentaBanco/${getAyuntamientoId()}/${BancoId}`,data)
   }
 
-  //delete
+  //Debito
+  getNotasDebito(bandoId, filter) {
+    return http.get(`conciliacion-debito/banco/${bandoId}`)
+  }
+
 }
 
 export default new Conciliacion()

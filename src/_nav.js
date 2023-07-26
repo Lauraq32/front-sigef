@@ -443,7 +443,6 @@ export default [
         to: '/ConciliacionBancaria',
         icon: 'cilBank',
         items: [
-
           {
             component: 'CNavItem',
             name: 'Cuentas de bancos ',
@@ -476,7 +475,7 @@ export default [
           {
             component: 'CNavItem',
             name: 'Notas de débito',
-            to: '/ConciliacionBancaria/NotasDebito',
+            to: '/ConciliacionBancaria/notas-debito',
             icon: 'cilBarChart',
           },
           {
