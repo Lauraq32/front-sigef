@@ -235,7 +235,6 @@ export default {
 
     getGastoById(id) {
       Api.getRegistroGastoById(id).then((response) => {
-        console.log(response)
         this.postGasto = { ...response.data.data }
         this.ComprobanteoDialog = true;
       })
@@ -471,7 +470,6 @@ export default {
     },
 
     submitForm(payload) {
-      console.log(payload);
       Api.postRegistroGasto(payload)
         .then((response) => {
           this.show({

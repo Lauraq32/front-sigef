@@ -351,7 +351,6 @@ export default {
 
   watch: {
     postGasto(newValue) {
-      console.log(newValue);
       if (newValue) {
         this.postRegistroGasto = { ...newValue, conceptoGastoId: newValue.conceptoGasto.id, bancoId: newValue.banco.id, beneficiarioId: newValue.beneficiario.id}
         this.displayBeneficiario = newValue.beneficiario.descripcion
