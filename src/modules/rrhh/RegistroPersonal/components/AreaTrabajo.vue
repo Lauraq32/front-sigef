@@ -1,6 +1,6 @@
 <template>
   <h3 class="text-center mb-4">Áreas de Trabajo</h3>
-  <div class="table-headers mb-4">
+  <div v-if="!isNomina" class="table-headers mb-4">
     <div class="d-flex p-2 gap-1">
       <CButton color="info" @click="() => {
         newAreaTrabajoModal = true
@@ -13,7 +13,7 @@
   </div>
   <AreaTrabajoTable :columns="columns" :isNomina="isNomina" :footerItems="footerItem" :items="AreasTrabajos"
     :showButtons="true" @edit="editAreaTrabajo" />
-  <AreaTrabajoModal :newAreaTrabajoModal="newAreaTrabajoModal" @close-modal="closeModal"
+  <AreaTrabajoModal :newAreaTrabajoModal="newAreaTrabajoModal" :isNomina="isNomina" @close-modal="closeModal"
     @post-areaTrabajo="saveAreaTrabajo" :areaTrabajoId="areaTrabajoId" />
 </template>
 

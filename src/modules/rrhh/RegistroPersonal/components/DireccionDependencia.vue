@@ -1,13 +1,14 @@
 <template>
   <h3 class="text-center mb-4">Direcci&oacute;n o Dependencia</h3>
-  <div class="table-headers mb-4 gap-1">
+  <div v-if="!isNomina" class="table-headers mb-4 gap-1">
     <CButton color="info" @click="() => { newDireccionDependeciaModal = true }">Agregar</CButton>
     <CButton color="secondary">Imprimir</CButton>
   </div>
   <DireccionDepenciaTable :columns="columns" :isNomina="isNomina" :footerItems="footerItem" :items="direccionDependecia"
     :showButtons="true" @edit="editDireccionDependecia" />
-  <DireccionDependeciaDialogs :newDireccionDependeciaModal="newDireccionDependeciaModal" @close-modal="closeModal"
-    @post-direccionDependecia="saveDireccionDependecia" :direccionDependecia="direccionDependeciaObject" />
+  <DireccionDependeciaDialogs :isNomina="isNomina" :newDireccionDependeciaModal="newDireccionDependeciaModal"
+    @close-modal="closeModal" @post-direccionDependecia="saveDireccionDependecia"
+    :direccionDependecia="direccionDependeciaObject" />
 </template>
 <script>
 import DireccionDepenciaTable from '@/modules/rrhh/RegistroPersonal/components/DireccionDepenciaTable.vue'
@@ -24,7 +25,7 @@ export default {
   },
 
   props: {
-    isNomina: Boolean
+    isNomina: Boolean,
   },
   data: () => {
     return {
