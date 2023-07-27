@@ -393,7 +393,7 @@
                       @change="saveFile"
                       class="position-absolute top-50 start-50 translate-middle input-wrapper w-100 h-100 opacity-0" />
                   </div>
-                  <div v-if="isNomina" class="mt-4">
+                  <div class="mt-4">
                     <h3 v-show="false">Retenciones de Ley</h3>
 
                     <CCol>
@@ -434,13 +434,10 @@
                             label="Automático?" />
                         </CCol>
                       </div>
-
                     </div>
-
                     <CCol>
                       <CFormLabel for="F.Reingreso">F.Reingreso</CFormLabel>
-                      <CFormInput :disabled="!postEmpleado.id || isNomina" id="F.Reingreso" type="date"
-                        v-model="postEmpleado.fechaReingreso" />
+                      <AppDateField disabled class="form-control" v-model="postEmpleado.fechaReingreso" />
                     </CCol>
                   </div>
                 </div>
@@ -895,7 +892,7 @@ export default {
       tableConfiguracionNominaRetencion: [
         {
           key: 'checked',
-          label: 'Nombre',
+          label: 'Retenciones',
           _style: { width: '100%' },
         },
       ],
@@ -903,7 +900,7 @@ export default {
       tableConfiguracionNominaIngresos: [
         {
           key: 'checked',
-          label: 'Nombre',
+          label: 'Ingresos',
           _style: { width: '100%' },
         },
       ],
