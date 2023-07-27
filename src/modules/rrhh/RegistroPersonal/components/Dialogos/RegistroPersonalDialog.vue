@@ -385,12 +385,13 @@
                   <div class="position-relative flex justify-content-center border border-dark w-100 mt-4"
                     style="height: 200px">
                     <label class="position-absolute top-50 start-50 translate-middle fs-5 upload-label"
-                      style="font-weight: bolder" for="employeeProfileImage" v-if="empleado.id">Click aqu&iacute; para
+                      style="font-weight: bolder" for="employeeProfileImage" v-if="empleado.id" v-show="!isNomina">Click
+                      aqu&iacute; para
                       agregar imagen</label>
                     <img loading="lazy" v-if="empleado.id" class="h-100" :src="imageUrl"
                       alt="imagen de perfil del empleado" style="opacity: 0.8" />
-                    <input v-if="empleado.id" id="employeeProfileImage" accept="image/png, image/jpeg" type="file"
-                      @change="saveFile"
+                    <input :disabled="isNomina" v-if="empleado.id" id="employeeProfileImage"
+                      accept="image/png, image/jpeg" type="file" @change="saveFile"
                       class="position-absolute top-50 start-50 translate-middle input-wrapper w-100 h-100 opacity-0" />
                   </div>
                   <div class="mt-4">
