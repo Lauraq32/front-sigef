@@ -182,6 +182,7 @@ export default {
       inactivoActions: [
         {
           label: 'Reactivar',
+          visible: !this.isNomina,
           clickHandler: (item) => {
             this.empleadoReingresado = item
             this.confirmacionreactivarEmpleado()
