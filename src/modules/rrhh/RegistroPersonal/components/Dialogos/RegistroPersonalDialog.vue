@@ -404,36 +404,41 @@
                         <option value="vacaciones">Vacaciones</option>
                       </CFormSelect>
                     </CCol>
+                    <div v-show="false">
+                      <CCol>
+                        <CFormLabel for="Impuesto S.R.">ISR</CFormLabel>
+                        <CFormInput id="Impuesto S.R." v-on:keypress="onlyNumber($event)" />
+                      </CCol>
 
-                    <CCol>
-                      <CFormLabel for="Impuesto S.R.">ISR</CFormLabel>
-                      <CFormInput id="Impuesto S.R." v-on:keypress="onlyNumber($event)" />
-                    </CCol>
+                      <div class="row mt-2">
+                        <CCol :md="6">
+                          <CFormLabel for="arsInput">ARS</CFormLabel>
+                          <CFormInput :disabled="postEmpleado.arsCalculado" id="arsInput"
+                            v-on:keypress="onlyNumber($event)" />
+                        </CCol>
+                        <CCol :md="6" class="d-flex justify-content-center align-items-end">
+                          <CFormCheck v-model="postEmpleado.arsCalculado" id="flexCheckIndeterminate"
+                            label="Automático?" />
+                        </CCol>
+                      </div>
+                      <div class="row">
+                        <CCol :md="6">
+                          <CFormLabel for="afpinput">AFP</CFormLabel>
+                          <CFormInput :disabled="postEmpleado.afpCalculado" id="afpinput"
+                            v-on:keypress="onlyNumber($event)" />
+                        </CCol>
+                        <CCol :md="6" class="d-flex justify-content-center align-items-end">
+                          <CFormCheck v-model="postEmpleado.afpCalculado" id="flexCheckIndeterminate"
+                            label="Automático?" />
+                        </CCol>
+                      </div>
 
-                    <div class="row mt-2">
-                      <CCol :md="6">
-                        <CFormLabel for="arsInput">ARS</CFormLabel>
-                        <CFormInput :disabled="postEmpleado.arsCalculado" id="arsInput"
-                          v-on:keypress="onlyNumber($event)" />
-                      </CCol>
-                      <CCol :md="6" class="d-flex justify-content-center align-items-end">
-                        <CFormCheck v-model="postEmpleado.arsCalculado" id="flexCheckIndeterminate" label="Automático?" />
-                      </CCol>
-                    </div>
-                    <div class="row">
-                      <CCol :md="6">
-                        <CFormLabel for="afpinput">AFP</CFormLabel>
-                        <CFormInput :disabled="postEmpleado.afpCalculado" id="afpinput"
-                          v-on:keypress="onlyNumber($event)" />
-                      </CCol>
-                      <CCol :md="6" class="d-flex justify-content-center align-items-end">
-                        <CFormCheck v-model="postEmpleado.afpCalculado" id="flexCheckIndeterminate" label="Automático?" />
-                      </CCol>
                     </div>
 
                     <CCol>
                       <CFormLabel for="F.Reingreso">F.Reingreso</CFormLabel>
-                      <CFormInput id="F.Reingreso" type="date" v-model="postEmpleado.fechaReingreso" />
+                      <CFormInput :disabled="!postEmpleado.id" id="F.Reingreso" type="date"
+                        v-model="postEmpleado.fechaReingreso" />
                     </CCol>
                   </div>
                 </div>
@@ -725,6 +730,7 @@ import { CCol } from '@coreui/vue-pro'
 import CurrencyInput from '@/utils/CurrencyInput.vue'
 import { formatPrice } from '@/utils/format'
 import AppDateField from '@/components/AppDateField.vue'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 export default {
   name: 'RegistroPersonalDialog',
@@ -961,6 +967,10 @@ export default {
     },
     sendData() {
       this.isFormEventTypeValidated = false
+      if (this.isNomina && this.postEmpleado.estaEnNomina == false) {
+        Swal.fire('Debe activar el empleado a nomina')
+        return
+      }
       if (
         this.$refs.employeeForm.$el.checkValidity() &&
         this.isEmployeeAdult &&
