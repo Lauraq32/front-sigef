@@ -52,7 +52,9 @@ export function filter(params) {
   let query = ''
   if (params) {
     const tags = Object.keys(params).reduce((list, key) => {
-      list.push(`${key}=${params[key]}`)
+      if(params[key]){
+        list.push(`${key}=${params[key]}`)
+      }
       return list
     }, [])
 

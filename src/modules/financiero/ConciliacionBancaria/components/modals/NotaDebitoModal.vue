@@ -12,7 +12,7 @@
                     </div>
                     <div>
                         <label for="fecha" class="font-weight-bold">Fecha</label>
-                        <AppDateField v-model="notaDebito.fecha" id="fecha" required />
+                        <AppDateField class="form-control" v-model="notaDebito.fecha" id="fecha" required />
                     </div>
                     <div>
                         <label for="valor" class="font-weight-bold">Valor</label>
@@ -46,7 +46,10 @@
 import { onlyNumber } from '@/utils/validator';
 import { CModal, CForm } from '@coreui/vue';
 import { CFormInput } from '@coreui/vue-pro';
-import AppDateField from "@/components/AppDateField.vue"
+import AppDateField from "@/components/AppDateField.vue";
+import ConciliacionApi from "../../services/ConciliacionServices";
+import { mapActions } from 'pinia';
+import { useToastStore } from '@/store/toast';
 
 export default {
     components: { CModal, CForm, CFormInput, AppDateField },
@@ -62,11 +65,20 @@ export default {
             },
             isFormEventTypeValidated: false,
             AppDateField,
-            onlyNumber
+            onlyNumber,
         }
     },
     props: {
         modalNotaDebito: Boolean,
+        bancoId: Number,
+        notaDebitoProp: {
+                documento: "",
+                fecha: "",
+                auxiliar: "",
+                valor: "",
+                estatus: "TRANSITO",
+                detalle: ""
+            }
     },
     methods: {
         closeModalNotaDebito() {
@@ -76,13 +88,36 @@ export default {
         sendData() {
             this.isFormEventTypeValidated = false
             if (this.$refs.eventTypeForm.$el.checkValidity()) {
-                this.createNotaDebito();
+                this.saveNotaDebito();
             }
             this.isFormEventTypeValidated = true
         },
+        saveNotaDebito(){
+            if(!this.notaDebito?.secuencial) {
+                this.createNotaDebito();
+                return;
+            }
+            this.editNotaDebito();
+        },
         createNotaDebito(){
-            console.log(this.notaDebito);
-            this.cleanForm();
+            ConciliacionApi.createNotaDebito(this.bancoId, this.notaDebito).then(({data}) => {
+                this.show({
+                        content: data.message || "Registro guardado",
+                        closable: true,
+                    });
+                this.cleanForm();
+                this.$emit('saveNotaDebito', {bancoId: this.bancoId});
+            });
+        },
+        editNotaDebito(){
+            ConciliacionApi.editNotaDebito(this.notaDebito.secuencial ,this.bancoId, this.notaDebito).then(({data}) => {
+                this.show({
+                        content: data.message || "Registro editado",
+                        closable: true,
+                    });
+                this.cleanForm();
+                this.$emit('saveNotaDebito', {bancoId: this.bancoId});
+            });
         },
         cleanForm() {
             this.notaDebito = {
@@ -93,6 +128,12 @@ export default {
                 estatus: "TRANSITO",
                 detalle: ""
             }
+        },
+        ...mapActions(useToastStore, ['show']),
+    },
+    watch: {
+        notaDebitoProp() {
+            this.notaDebito = {...this.notaDebitoProp};
         }
     }
 }

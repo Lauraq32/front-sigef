@@ -1,6 +1,6 @@
 <template>
     <CContainer>
-        <CreditoDebitoHeader textBanco="Debito" @sendDataFilter="getDataFilter" />
+        <CreditoDebitoHeader textBanco="Debito" @sendDataFilter="getDataFilter" @sendBancoId="getBancoId" />
         <div class="mt-3">
             <div class="d-flex align-item-end justify-content-end">
                 <CButton size="md" color="primary" @click="() => showNotaDebitoModal = true">Adicionar +</CButton>
@@ -8,8 +8,13 @@
             <CSmartTable class="sticky-top mt-2" clickableRows :tableProps="{
                 striped: true,
                 hover: true,
-            }" :tableHeadProps="{}" :activePage="1" header :items="[]" :columns="tableColumnsNotaDebito"
+            }" :tableHeadProps="{}" :activePage="1" header :items="notasDebitoDate" :columns="tableColumnsNotaDebito"
                 :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }" pagination>
+                <template #fecha="{ item }">
+                    <td>
+                        {{ formatDate(item.fecha) }}
+                    </td>
+                </template>
                 <template #show_details="{ item }">
                     <td class="py-2">
                         <CDropdown>
@@ -25,50 +30,94 @@
             </CSmartTable>
         </div>
     </CContainer>
-    <NotaDebitoModal :modalNotaDebito="showNotaDebitoModal" @closeModalNotaDebito="closeNotaDebitoMoadl"/>
+    <NotaDebitoModal :modalNotaDebito="showNotaDebitoModal" :bancoId="bancoId" :notaDebitoProp="notaDebito" @closeModalNotaDebito="closeNotaDebitoMoadl" @saveNotaDebito="getDataFilter" />
 </template>
 
 <script>
 import { CContainer, CSmartTable } from "@coreui/vue-pro";
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 import CreditoDebitoHeader from "../components/CreditoDebitoHeader.vue";
 import NotaDebitoModal from "../components/modals/NotaDebitoModal.vue";
 import ConciliacionApi from "../services/ConciliacionServices";
+import { formatDate } from "@/utils/format";
+import { mapActions } from 'pinia';
+import { useToastStore } from '@/store/toast';
 
 export default {
     components: { CContainer, CSmartTable, CreditoDebitoHeader, NotaDebitoModal },
     methods: {
         getDataFilter(data) {
-            ConciliacionApi.getNotasDebito();
+            this.bancoId = data.bancoId;
+            ConciliacionApi.getNotasDebito(this.bancoId, data).then((response) => {
+                this.notasDebitoDate = response.data.data;
+            });
+        },
+        getBancoId(bancoId) {
+            this.getDataFilter({bancoId})
         },
         closeNotaDebitoMoadl(value) {
             this.showNotaDebitoModal = value;
-        }
+        },
+        ...mapActions(useToastStore, ['show']),
     },
     data: function () {
         return {
             showNotaDebitoModal: false,
+            bancoId: 0,
+            notasDebitoDate: [],
+            notaDebito: null,
             tableColumnsNotaDebito: [
-                { key: "a", label: "No. Cuenta", _style: { width: "12%" } },
-                { key: "e", label: "Fecha", _style: { width: "15%" } },
-                { key: "i", label: "Concepto", _style: { width: "25%" } },
-                { key: "o", label: "Valor", _style: { width: "10%" } },
-                { key: "u", label: "Detalle", _style: { width: "20%" } },
-                { key: "d", label: "Estatus", _style: { width: "10%" } },
+                { key: "documento", label: "No. Documento", _style: { width: "12%" } },
+                { key: "fecha", label: "Fecha", _style: { width: "15%" } },
+                { key: "auxiliar", label: "Concepto", _style: { width: "25%" } },
+                { key: "valor", label: "Valor", _style: { width: "10%" } },
+                { key: "detalle", label: "Detalle", _style: { width: "20%" } },
+                { key: "estatus", label: "Estatus", _style: { width: "10%" } },
                 { key: 'show_details', label: '', _style: { width: '8%' }, filter: false, sorter: false }
             ],
             buttonActions: [
                 {
                     label: 'Editar',
                     clickHandler: (item) => {
+                        console.log(item);
+                        this.notaDebito = item;
+                        this.showNotaDebitoModal = true;
                     },
                 },
                 {
                     label: 'Eliminar',
                     clickHandler: (item) => {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'warning',
+                            title: `Estás usted seguro que quieres eliminar este empleado?`,
+                            showConfirmButton: true,
+                            confirmButtonText: 'Si',
+                            cancelButtonText: 'No',
+                            showCancelButton: true,
+                            allowEscapeKey: false,
+                            allowOutsideClick: false,
+                            customClass: 'btns',
+                        }).then((answer) => {
+                            if (answer.isConfirmed) { 
+                                ConciliacionApi.deleteNotaDebito(item.secuencial, item.bancoId).then((_) => {
+                                    this.show({
+                                        content: "Registro eliminado",
+                                        closable: true,
+                                        color: 'success'
+                                    });
+                                    this.getDataFilter({ bancoId: this.bancoId })
+                                });
+                            }
+                        })
                     },
                 },
             ],
+            formatDate
         }
+    },
+    mounted() {
+        this.getDataFilter({ bancoId: 1 })
     }
 }
 </script>

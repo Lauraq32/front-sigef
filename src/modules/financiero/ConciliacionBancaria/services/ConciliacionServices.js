@@ -2,6 +2,7 @@
 
 import http from '@/Api/http-common';
 import { getAyuntamientoId } from "../../../../utils/logged-info";
+import { filter } from "@/utils/validator";
 class Conciliacion {
   getBeneficiarios() {
     return http.get('Beneficiarios')
@@ -103,8 +104,26 @@ class Conciliacion {
   }
 
   //Debito
-  getNotasDebito(bandoId, filter) {
-    return http.get(`conciliacion-debito/banco/${bandoId}`)
+  getNotasDebito(bandoId, filters) {
+    filters = filter(filters);
+    return http.get(`conciliacion-debito/banco/${bandoId}${filters}`);
+  }
+
+  createNotaDebito(bandoId, data) {
+    return http.post(`conciliacion-debito/banco/${bandoId}`, data);
+  }
+
+  editNotaDebito(secuencial, bancoId, data){
+    return http.put(`conciliacion-debito/${secuencial}/banco/${bancoId}`, data);
+  }
+
+  deleteNotaDebito(secuencial, bancoId){
+    return http.delete(`conciliacion-debito/${secuencial}/banco/${bancoId}`);
+  }
+
+  //Cuenta banco
+  getCuentasBanco(){
+    return http.get("cuentas-banco");
   }
 
 }
