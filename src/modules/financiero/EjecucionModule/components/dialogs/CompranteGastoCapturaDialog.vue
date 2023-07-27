@@ -272,7 +272,6 @@ export default {
       this.cuentaBanco = Array.from(e.target).filter(cuenta => cuenta.value == e.target.value)[0].label
     },
     saveDetalle(payload) {
-      console.log(payload)
       if (payload.detalleRetencion.length > 0) {  
         let montoNeto = payload.detalleRetencion.map(detalle => (
           detalle.valorAplicado
