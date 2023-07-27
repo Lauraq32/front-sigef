@@ -988,42 +988,18 @@ export default {
         }).then((result) => {
           if (result.isConfirmed) {
             this.postEmpleado.estaEnNomina = true
-            if (
-              this.$refs.employeeForm.$el.checkValidity() &&
-              this.isEmployeeAdult &&
-              !this.isLowerSelectedInitDate
-            ) {
-              return this.saveRegistroPersonal()
-            }
-            this.isFormEventTypeValidated = true
-            this.show({
-              content:
-                'Informaci&oacute;n incorrecta. Por favor revisar la informaci&oacute;n del formulario',
-              closable: true,
-              color: 'danger',
-              class: 'text-white',
-            })
+            this.confirmData()
           } else if (result.isDenied) {
             this.postEmpleado.estaEnNomina = false
-            if (
-              this.$refs.employeeForm.$el.checkValidity() &&
-              this.isEmployeeAdult &&
-              !this.isLowerSelectedInitDate
-            ) {
-              return this.saveRegistroPersonal()
-            }
-            this.isFormEventTypeValidated = true
-            this.show({
-              content:
-                'Informaci&oacute;n incorrecta. Por favor revisar la informaci&oacute;n del formulario',
-              closable: true,
-              color: 'danger',
-              class: 'text-white',
-            })
+            this.confirmData()
           }
         })
         return
       }
+      this.confirmData()
+    },
+
+    confirmData() {
       if (
         this.$refs.employeeForm.$el.checkValidity() &&
         this.isEmployeeAdult &&
@@ -1039,7 +1015,6 @@ export default {
         color: 'danger',
         class: 'text-white',
       })
-
     },
 
     saveFile(event) {
