@@ -2,7 +2,7 @@
     <CModal size="lg" backdrop="static" :visible="showModal" @close="closeDialog()">
         <CModalHeader>
             <CModalTitle>
-                Estructura Programatica
+                Estructura Programática
             </CModalTitle>
         </CModalHeader>
         <CModalBody>

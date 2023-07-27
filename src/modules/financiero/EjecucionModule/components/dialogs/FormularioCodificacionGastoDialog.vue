@@ -306,7 +306,7 @@ export default {
       ],
       RetencionColumn: [
 
-        { key: 'nombreRetencion', label: 'Retencion', filter: false, sort: false },
+        { key: 'nombreRetencion', label: 'Retención', filter: false, sort: false },
         { key: 'montoAplica', label: '% o valor', filter: false, sort: false },
         { key: 'montoAplicado', label: 'Del Valor', filter: false, sort: false },
         { key: 'valorAplicado', label: 'Valor Aplicado', filter: false, sort: false },
@@ -315,7 +315,7 @@ export default {
       clasificadoresByCuentaTables: [
         { key: 'clasificador', label: 'Clasificadores' },
         { key: 'OFin', label: 'O/Fin' },
-        { key: 'nombre', label: 'Descripcion' },
+        { key: 'nombre', label: 'Descripción' },
         { key: 'presupuestoBco', label: 'P/Original' },
         { key: 'variacionBco', label: 'Modific.' },
 

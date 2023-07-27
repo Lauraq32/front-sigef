@@ -215,7 +215,7 @@ export default {
         grupoCompensacionId: null,
         bancoId: null,
         numeroCheque: "1",
-        totalBruto: 0,
+        montoBruto: 0,
         montoNeto: 0,
         fechaResolucion: null,
         numeroResolucion: "1",
@@ -272,7 +272,7 @@ export default {
       this.cuentaBanco = Array.from(e.target).filter(cuenta => cuenta.value == e.target.value)[0].label
     },
     saveDetalle(payload) {
-      if (payload.detalleRetencion.length > 0) {
+      if (payload.detalleRetencion.length > 0) {  
         let montoNeto = payload.detalleRetencion.map(detalle => (
           detalle.valorAplicado
         ))
@@ -281,9 +281,10 @@ export default {
         });
 
         this.postRegistroGasto.detalleRegistroGastos = [payload, ...this.postRegistroGasto.detalleRegistroGastos]
-        this.postRegistroGasto.totalBruto = payload.montoBruto
+    
         return;
       }
+      this.postRegistroGasto.montoBruto = payload.montoBruto
       this.postRegistroGasto.detalleRegistroGastos = [payload, ...this.postRegistroGasto.detalleRegistroGastos]
 
     },
