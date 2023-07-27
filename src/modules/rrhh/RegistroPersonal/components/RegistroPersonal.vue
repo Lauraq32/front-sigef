@@ -15,10 +15,10 @@
           ]" />
       </div>
 
-      <div v-if="!isNomina">
+      <div>
         <div class="d-flex gap-1">
-          <CButton color="info" @click="showModal">Agregar</CButton>
-          <CButton color="secondary" @click="() => {
+          <CButton v-if="!isNomina" color="info" @click="showModal">Agregar</CButton>
+          <CButton v-if="!isNomina" color="secondary" @click="() => {
             reportes = true
           }
             ">Reporte</CButton>
@@ -74,7 +74,8 @@
     </CModalFooter>
   </CModal>
 
-  <agregarFechaReingreso :showModalFechaIngreso="showModalFechaIngreso" @close-modal="closeModalReingreso" />
+  <agregarFechaReingreso :showModalFechaIngreso="showModalFechaIngreso" @close-modal="closeModalReingreso"
+    @activar-empleado="reactivarEmpleado" />
 </template>
 
 <script>
@@ -116,6 +117,7 @@ export default {
   data: function () {
     return {
       showModalFechaIngreso: false,
+      empleadoReingresado: {},
       selectedEmployee: {},
       showModalDoc: false,
       accionPersonal: [],
@@ -180,8 +182,9 @@ export default {
       inactivoActions: [
         {
           label: 'Reactivar',
-          clickHandler: (value) => {
-            this.reactivarEmpleado(value)
+          clickHandler: (item) => {
+            this.empleadoReingresado = item
+            this.confirmacionreactivarEmpleado()
           },
         },
       ],
@@ -190,6 +193,7 @@ export default {
           visible: true,
           label: 'Editar',
           clickHandler: (value) => {
+
             this.toggleDetails(value)
           },
         },
@@ -500,7 +504,7 @@ export default {
           .catch(rej)
       })
     },
-    reactivarEmpleado(item) {
+    confirmacionreactivarEmpleado() {
       Swal.fire({
         position: 'center',
         icon: 'warning',
@@ -515,31 +519,35 @@ export default {
       }).then((answer) => {
         if (answer.isConfirmed) {
           this.showModalFechaIngreso = true
-          Api.reactivarEmpleado(item.id)
-            .then((response) => {
-              this.show({
-                content: response.data.message,
-                closable: true,
-                color: 'inherit',
-              })
-              setTimeout(
-                () =>
-                  this.getRegistroPersonal({
-                    status: 'inactivo',
-                  }),
-                500,
-              )
-            })
-            .catch((error) => {
-              this.show({
-                content: error.response.data,
-                closable: true,
-                color: 'danger',
-                class: 'text-white',
-              })
-            })
         }
       })
+    },
+
+    reactivarEmpleado(payload) {
+      Api.reactivarEmpleado(this.empleadoReingresado.id, payload)
+        .then((response) => {
+          this.show({
+            content: response.data,
+            closable: true,
+            color: 'inherit',
+          })
+          setTimeout(
+            () =>
+              this.getRegistroPersonal({
+                status: 'inactivo',
+              }),
+            500,
+          )
+        })
+        .catch((error) => {
+          this.show({
+            content: error.response.data,
+            closable: true,
+            color: 'danger',
+            class: 'text-white',
+          })
+        })
+      this.showModalFechaIngreso = false
     },
 
     closeModalReingreso() {
