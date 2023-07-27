@@ -69,7 +69,7 @@
             <CDropdownItem
               v-for="action in actions"
               :disabled="!(action.visible === undefined || action.visible)"
-              v-show="action.visible === undefined || action.visible"
+              v-show="action.visible"
               @click="action.clickHandler && action.clickHandler(item)"
               >{{ action.label }}</CDropdownItem
             >

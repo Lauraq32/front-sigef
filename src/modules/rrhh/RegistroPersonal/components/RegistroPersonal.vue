@@ -6,96 +6,50 @@
   <CCard class="mb-4">
     <CCardBody class="table-headers justify-content-between">
       <div class="d-inline-flex gap-3 align-items-center">
-        <CFormLabel class="form-label col-auto col-form-label"
-          >Filtro:</CFormLabel
-        >
-        <CFormSelect
-          id="empleoyeeStatusSelect"
-          @change="handleFilterEmployeeByStatus"
-          aria-label="Selecionar estatus del empleado"
-          :options="[
+        <CFormLabel class="form-label col-auto col-form-label">Filtro:</CFormLabel>
+        <CFormSelect id="empleoyeeStatusSelect" @change="handleFilterEmployeeByStatus"
+          aria-label="Selecionar estatus del empleado" :options="[
             { label: 'Activo', value: 'activo' },
             { label: 'Inactivo', value: 'inactivo' },
             { label: 'Vacaciones', value: 'vacaciones' },
-          ]"
-        />
+          ]" />
       </div>
 
-      <div>
+      <div v-if="!isNomina">
         <div class="d-flex gap-1">
           <CButton color="info" @click="showModal">Agregar</CButton>
-          <CButton
-            color="secondary"
-            @click="
-              () => {
-                reportes = true
-              }
-            "
-            >Reporte</CButton
-          >
-          <CButton
-            v-if="isNomina"
-            color="info"
-            variant="outline"
-            @click="setEmpleadosToBeneficiarios"
-            >Pasar a Beneficiarios</CButton
-          >
+          <CButton color="secondary" @click="() => {
+            reportes = true
+          }
+            ">Reporte</CButton>
+          <CButton v-if="isNomina" color="info" variant="outline" @click="setEmpleadosToBeneficiarios">Pasar a
+            Beneficiarios</CButton>
         </div>
       </div>
     </CCardBody>
   </CCard>
 
-  <RegistroPersonalTable
-    :tableData="registroPersonal"
-    :tableColumns="columns"
-    :actions="buttonActions"
-    :footer="footerItem"
-    :inactivoActions="inactivoActions"
-  />
+  <RegistroPersonalTable :tableData="registroPersonal" :tableColumns="columns" :actions="buttonActions"
+    :footer="footerItem" :inactivoActions="inactivoActions" />
 
-  <RegistroPersonalDialog
-    :showModal="showRegistroPersonalModal"
-    @post-personal="submitForm"
-    @close-modal="closeRegistroPersonalModal"
-    :empleado="selectedEmployee"
-    :isNomina="isNomina"
-  />
+  <RegistroPersonalDialog :showModal="showRegistroPersonalModal" @post-personal="submitForm"
+    @close-modal="closeRegistroPersonalModal" :empleado="selectedEmployee" :isNomina="isNomina" />
 
-  <TarjetaEmpleadoDialogs
-    :newTarjetaEmpleadoModal="newTarjetaEmpleadoModal"
-    @close-modal="closeTarjetaEmpleadoModal"
-    :empleado="selectedEmployee"
-  />
+  <TarjetaEmpleadoDialogs :newTarjetaEmpleadoModal="newTarjetaEmpleadoModal" @close-modal="closeTarjetaEmpleadoModal"
+    :empleado="selectedEmployee" />
 
-  <AccionPersonalDialog
-    :showModal="showAccionPersonal"
-    @closeModal="closeAccionPersonal"
-    :empleado="selectedEmployee"
-  />
+  <AccionPersonalDialog :showModal="showAccionPersonal" @closeModal="closeAccionPersonal" :empleado="selectedEmployee" />
 
-  <TipoNovedadDialog
-    :showModal="showTipoNovedad"
-    @closeModal="closeTipoNovedad"
-  />
+  <TipoNovedadDialog :showModal="showTipoNovedad" @closeModal="closeTipoNovedad" />
 
-  <ContenedorArchivosModel
-    :showModal="showModalDoc"
-    :tagKeyName="'empleadoId'"
-    :tagValueName="selectedEmployee?.id"
-    @closeModal="closeContenedorModal"
-  />
+  <ContenedorArchivosModel :showModal="showModalDoc" :tagKeyName="'empleadoId'" :tagValueName="selectedEmployee?.id"
+    @closeModal="closeContenedorModal" />
 
-  <EducacionDialog
-    :showModal="showEducacion"
-    :employeeInfo="selectedEmployee"
-    @closeModal="() => (showEducacion = false)"
-  />
+  <EducacionDialog :showModal="showEducacion" :employeeInfo="selectedEmployee"
+    @closeModal="() => (showEducacion = false)" />
 
-  <UtilesLaboralesDialog
-    :showModal="showUtilesLaboralesDialog"
-    :employeeInfo="selectedEmployee"
-    @closeModal="() => (showUtilesLaboralesDialog = false)"
-  />
+  <UtilesLaboralesDialog :showModal="showUtilesLaboralesDialog" :employeeInfo="selectedEmployee"
+    @closeModal="() => (showUtilesLaboralesDialog = false)" />
 
   <!-- Reportes -->
   <CModal :backdrop="true" :keyboard="false" :visible="reportes">
@@ -112,18 +66,15 @@
       </CFormSelect>
     </CModalBody>
     <CModalFooter>
-      <CButton
-        color="secondary"
-        @click="
-          () => {
-            reportes = false
-          }
-        "
-        >Cerrar</CButton
-      >
+      <CButton color="secondary" @click="() => {
+        reportes = false
+      }
+        ">Cerrar</CButton>
       <CButton color="primary" @click="imprimirReporte">Ver</CButton>
     </CModalFooter>
   </CModal>
+
+  <agregarFechaReingreso :showModalFechaIngreso="showModalFechaIngreso" @close-modal="closeModalReingreso" />
 </template>
 
 <script>
@@ -143,10 +94,12 @@ import TipoNovedadDialog from './TipoNovedades.vue'
 import TarjetaEmpleadoDialogs from '../components/Dialogos/TarjetaEmpleado.vue'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { showReport } from '@/utils/util'
+import agregarFechaReingreso from '../components/Dialogos/agregarFechaReingreso.vue'
 
 export default {
   components: {
     RegistroPersonalTable,
+    agregarFechaReingreso,
     CModal,
     RegistroPersonalDialog,
     AccionPersonalDialog,
@@ -162,6 +115,7 @@ export default {
 
   data: function () {
     return {
+      showModalFechaIngreso: false,
       selectedEmployee: {},
       showModalDoc: false,
       accionPersonal: [],
@@ -233,18 +187,21 @@ export default {
       ],
       buttonActions: [
         {
+          visible: true,
           label: 'Editar',
           clickHandler: (value) => {
             this.toggleDetails(value)
           },
         },
         {
+          visible: !this.isNomina,
           label: 'Eliminar',
           clickHandler: (value) => {
             this.deleteEmp(value)
           },
         },
         {
+          visible: !this.isNomina,
           label: 'Acción personal',
           clickHandler: (value) => {
             this.selectedEmployee = value
@@ -252,6 +209,7 @@ export default {
           },
         },
         {
+          visible: !this.isNomina,
           label: 'Tabla de acciones',
           clickHandler: (value) => {
             this.showTipoNovedad = true
@@ -259,6 +217,7 @@ export default {
           },
         },
         {
+          visible: !this.isNomina,
           label: 'Útiles laborales',
           clickHandler: (value) => {
             this.showUtilesLaboralesDialog = true
@@ -266,6 +225,7 @@ export default {
           },
         },
         {
+          visible: !this.isNomina,
           label: 'Educación',
           clickHandler: (item) => {
             this.showEducacion = true
@@ -274,6 +234,7 @@ export default {
           },
         },
         {
+          visible: !this.isNomina,
           label: 'Tarjeta',
           clickHandler: (item) => {
             this.selectedEmployee = item
@@ -281,6 +242,7 @@ export default {
           },
         },
         {
+          visible: !this.isNomina,
           label: 'Ver Documentos',
           clickHandler: (item) => {
             this.selectedEmployee = item
@@ -552,6 +514,7 @@ export default {
         customClass: 'btns',
       }).then((answer) => {
         if (answer.isConfirmed) {
+          this.showModalFechaIngreso = true
           Api.reactivarEmpleado(item.id)
             .then((response) => {
               this.show({
@@ -578,6 +541,10 @@ export default {
         }
       })
     },
+
+    closeModalReingreso() {
+      this.showModalFechaIngreso = false
+    }
   },
 
   props: {
