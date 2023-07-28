@@ -125,7 +125,6 @@ export default {
                 {
                     label: 'Editar',
                     clickHandler: (item) => {
-                        console.log(item);
                         this.notaDebito = item;
                         this.showNotaDebitoModal = true;
                     },

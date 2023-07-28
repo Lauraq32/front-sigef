@@ -26,7 +26,7 @@
                     </div>
                     <div>
                         <label for="estatus" class="font-weight-bold">Estatus</label>
-                        <SelectEstatus v-model="notaDebito.estatus" />
+                        <SelectEstatus v-model="notaDebito.estatus" :all="false" />
                     </div>
                     <div>
                         <label for="unidadMedida" class="font-weight-bold">Detalle</label>
