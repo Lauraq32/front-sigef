@@ -1,6 +1,6 @@
 <template>
     <CContainer>
-        <CreditoDebitoHeader textBanco="Debito" @sendDataFilter="getDataFilter" @sendBancoId="getBancoId" />
+        <CreditoDebitoHeader textBanco="Débito" @sendDataFilter="getDataFilter" @sendBancoId="getBancoId" />
         <div class="mt-3">
             <div class="d-flex align-item-end justify-content-end">
                 <CButton size="md" color="primary" @click="() => showNotaDebitoModal = true">Adicionar +</CButton>
@@ -30,7 +30,8 @@
             </CSmartTable>
         </div>
     </CContainer>
-    <NotaDebitoModal :modalNotaDebito="showNotaDebitoModal" :bancoId="bancoId" :notaDebitoProp="notaDebito" @closeModalNotaDebito="closeNotaDebitoMoadl" @saveNotaDebito="getDataFilter" />
+    <NotaDebitoModal :modalNotaDebito="showNotaDebitoModal" :bancoId="bancoId" :notaDebitoProp="notaDebito"
+        @closeModalNotaDebito="closeNotaDebitoModal" @saveNotaDebito="saveNotaDebito" />
 </template>
 
 <script>
@@ -53,10 +54,48 @@ export default {
             });
         },
         getBancoId(bancoId) {
-            this.getDataFilter({bancoId})
+            this.getDataFilter({ bancoId });
         },
-        closeNotaDebitoMoadl(value) {
+        closeNotaDebitoModal(value) {
             this.showNotaDebitoModal = value;
+            this.cleanForm();
+        },
+        saveNotaDebito(notaDebito) {
+            if (!this.notaDebito?.secuencial) {
+                this.createNotaDebito(notaDebito);
+            } else {
+                this.editNotaDebito(notaDebito);
+            }
+        },
+        createNotaDebito(notaDebito) {
+            ConciliacionApi.createNotaDebito(this.bancoId, notaDebito).then(({ data }) => {
+                this.show({
+                    content: data.message || "Registro guardado",
+                    closable: true,
+                });
+                this.cleanForm();
+                this.getDataFilter({ bancoId: this.bancoId });
+            });
+        },
+        editNotaDebito(notaDebito) {
+            ConciliacionApi.editNotaDebito(notaDebito.secuencial, this.bancoId, notaDebito).then(({ data }) => {
+                this.show({
+                    content: data.message || "Registro editado",
+                    closable: true,
+                });
+                this.cleanForm();
+                this.getDataFilter({ bancoId: this.bancoId });
+            });
+        },
+        cleanForm() {
+            this.notaDebito = {
+                documento: "",
+                fecha: "",
+                auxiliar: "",
+                valor: "",
+                estatus: "TRANSITO",
+                detalle: ""
+            }
         },
         ...mapActions(useToastStore, ['show']),
     },
@@ -65,7 +104,14 @@ export default {
             showNotaDebitoModal: false,
             bancoId: 0,
             notasDebitoDate: [],
-            notaDebito: null,
+            notaDebito: {
+                documento: "",
+                fecha: "",
+                auxiliar: "",
+                valor: "",
+                estatus: "TRANSITO",
+                detalle: ""
+            },
             tableColumnsNotaDebito: [
                 { key: "documento", label: "No. Documento", _style: { width: "12%" } },
                 { key: "fecha", label: "Fecha", _style: { width: "15%" } },
@@ -99,7 +145,7 @@ export default {
                             allowOutsideClick: false,
                             customClass: 'btns',
                         }).then((answer) => {
-                            if (answer.isConfirmed) { 
+                            if (answer.isConfirmed) {
                                 ConciliacionApi.deleteNotaDebito(item.secuencial, item.bancoId).then((_) => {
                                     this.show({
                                         content: "Registro eliminado",

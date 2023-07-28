@@ -1,5 +1,5 @@
 <template>
-    <CModal @close="closeModalNotaDebito" backdrop="static"  size="md" :visible="modalNotaDebito">
+    <CModal @close="closeModalNotaDebito" backdrop="static" size="md" :visible="modalNotaDebito">
         <CModalHeader>
             <CModalTitle>Formulario de Notas de D&eacute;bito</CModalTitle>
         </CModalHeader>
@@ -8,7 +8,8 @@
                 <div class="d-flex flex-column justify-content-center gap-2">
                     <div>
                         <label for="documentoNumero" class="font-weight-bold">Documento No.</label>
-                        <CFormInput size="sm" @keypress="onlyNumber" id="documentoNumero" v-model.number="notaDebito.documento" type="number" required />
+                        <CFormInput size="sm" @keypress="onlyNumber" id="documentoNumero"
+                            v-model.number="notaDebito.documento" type="number" required />
                     </div>
                     <div>
                         <label for="fecha" class="font-weight-bold">Fecha</label>
@@ -16,19 +17,16 @@
                     </div>
                     <div>
                         <label for="valor" class="font-weight-bold">Valor</label>
-                        <CFormInput size="sm" @keypress="onlyNumber" id="valor" v-model.number="notaDebito.valor" type="number" required/>
+                        <CFormInput size="sm" @keypress="onlyNumber" id="valor" v-model.number="notaDebito.valor"
+                            type="number" required />
                     </div>
                     <div>
                         <label for="concepto" class="font-weight-bold">Concepto</label>
-                        <CFormInput size="sm" id="concepto" v-model="notaDebito.auxiliar" required/>
+                        <CFormInput size="sm" id="concepto" v-model="notaDebito.auxiliar" required />
                     </div>
                     <div>
                         <label for="estatus" class="font-weight-bold">Estatus</label>
-                        <CFormSelect id="estatus" v-model="notaDebito.estatus">
-                            <option>TRANSITO</option>
-                            <option>CONFIRMADO</option>
-                            <option>CANCELADO</option>
-                        </CFormSelect>
+                        <SelectEstatus v-model="notaDebito.estatus" />
                     </div>
                     <div>
                         <label for="unidadMedida" class="font-weight-bold">Detalle</label>
@@ -46,23 +44,16 @@
 import { onlyNumber } from '@/utils/validator';
 import { CModal, CForm } from '@coreui/vue';
 import { CFormInput } from '@coreui/vue-pro';
-import AppDateField from "@/components/AppDateField.vue";
-import ConciliacionApi from "../../services/ConciliacionServices";
 import { mapActions } from 'pinia';
 import { useToastStore } from '@/store/toast';
+import AppDateField from "@/components/AppDateField.vue";
+import SelectEstatus from "../SelectEstatus.vue"
 
 export default {
-    components: { CModal, CForm, CFormInput, AppDateField },
-    data: function() {
+    components: { CModal, CForm, CFormInput, AppDateField, SelectEstatus },
+    data: function () {
         return {
-            notaDebito: {
-                documento: "",
-                fecha: "",
-                auxiliar: "",
-                valor: "",
-                estatus: "TRANSITO",
-                detalle: ""
-            },
+            notaDebito: {},
             isFormEventTypeValidated: false,
             AppDateField,
             onlyNumber,
@@ -71,69 +62,27 @@ export default {
     props: {
         modalNotaDebito: Boolean,
         bancoId: Number,
-        notaDebitoProp: {
-                documento: "",
-                fecha: "",
-                auxiliar: "",
-                valor: "",
-                estatus: "TRANSITO",
-                detalle: ""
-            }
+        notaDebitoProp: Object
     },
     methods: {
         closeModalNotaDebito() {
             this.$emit('closeModalNotaDebito', false);
-            this.cleanForm();
         },
         sendData() {
             this.isFormEventTypeValidated = false
             if (this.$refs.eventTypeForm.$el.checkValidity()) {
-                this.saveNotaDebito();
+                this.$emit('saveNotaDebito', this.notaDebito);
             }
             this.isFormEventTypeValidated = true
         },
-        saveNotaDebito(){
-            if(!this.notaDebito?.secuencial) {
-                this.createNotaDebito();
-                return;
-            }
-            this.editNotaDebito();
-        },
-        createNotaDebito(){
-            ConciliacionApi.createNotaDebito(this.bancoId, this.notaDebito).then(({data}) => {
-                this.show({
-                        content: data.message || "Registro guardado",
-                        closable: true,
-                    });
-                this.cleanForm();
-                this.$emit('saveNotaDebito', {bancoId: this.bancoId});
-            });
-        },
-        editNotaDebito(){
-            ConciliacionApi.editNotaDebito(this.notaDebito.secuencial ,this.bancoId, this.notaDebito).then(({data}) => {
-                this.show({
-                        content: data.message || "Registro editado",
-                        closable: true,
-                    });
-                this.cleanForm();
-                this.$emit('saveNotaDebito', {bancoId: this.bancoId});
-            });
-        },
-        cleanForm() {
-            this.notaDebito = {
-                documento: "",
-                fecha: "",
-                auxiliar: "",
-                valor: "",
-                estatus: "TRANSITO",
-                detalle: ""
-            }
+        getEstatus(value) {
+            this.notaDebito.estatus = value;
         },
         ...mapActions(useToastStore, ['show']),
     },
     watch: {
         notaDebitoProp() {
-            this.notaDebito = {...this.notaDebitoProp};
+            this.notaDebito = { ...this.notaDebitoProp };
         }
     }
 }
