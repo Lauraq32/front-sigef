@@ -12,7 +12,8 @@
                             <CFormLabel for="validationCustom04">Catalgo</CFormLabel>
                         </div>
                         <div class="col-8">
-                            <CFormInput class="col-6" id="validationCustom04"> </CFormInput>
+                            <CFormInput v-model="data.contabilidadGubernamentalNumero" class="col-6"
+                                id="validationCustom04"> </CFormInput>
                             <CFormFeedback valid> Exito! </CFormFeedback>
                             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                         </div>
@@ -24,7 +25,10 @@
                             <CFormLabel for="validationCustom04">Banco</CFormLabel>
                         </div>
                         <div class="col-8">
-                            <CFormInput id="validationCustom04"> </CFormInput>
+                            <CFormSelect v-model="data.bancoId" id="validationCustom05">
+                                <option>1</option>
+                            </CFormSelect>
+                            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                             <CFormFeedback valid> Exito! </CFormFeedback>
                             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                         </div>
@@ -48,7 +52,7 @@
                             <CFormLabel for="validationCustom03">Direccion</CFormLabel>
                         </div>
                         <div class="col-8">
-                            <CFormInput v-model="data.numeroCuenta" id="validationCustom03" required />
+                            <CFormInput v-model="data.direccion" id="validationCustom03" required />
                             <CFormFeedback valid> Exito! </CFormFeedback>
                             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                         </div>
@@ -73,7 +77,7 @@
                             <CFormLabel for="validationCustom02">RNC</CFormLabel>
                         </div>
                         <div class="col-8">
-                            <CFormInput v-model="data.nombreCuenta" id="validationCustom02" required />
+                            <CFormInput v-model="data.rnc" id="validationCustom02" required />
                             <CFormFeedback valid> Exito! </CFormFeedback>
                             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                         </div>
@@ -101,7 +105,7 @@
                             <CFormLabel for="validationCustom05">Fecha Ultimo Corte</CFormLabel>
                         </div>
                         <div class="col-8">
-                            <CFormInput type="date" id="validationCustom05" required />
+                            <CFormInput v-model="data.fechaFinConciliacion" type="date" id="validationCustom05" required />
                         </div>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </div>
@@ -123,7 +127,7 @@
                             <CFormLabel for="validationCustom05">Balance según el libro</CFormLabel>
                         </div>
                         <div class="col-8">
-                            <CFormInput id="validationCustom05" required />
+                            <CFormInput v-model="data.balanceBanco" id="validationCustom05" required />
                         </div>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </div>
@@ -134,7 +138,7 @@
                             <CFormLabel for="validationCustom05">Ultimo Numero Fisico</CFormLabel>
                         </div>
                         <div class="col-8">
-                            <CFormInput id="validationCustom05" required />
+                            <CFormInput v-model="data.ultimoNumeroFisico" id="validationCustom05" required />
                         </div>
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </div>
@@ -158,11 +162,17 @@ const props = defineProps({
 const emit = defineEmits(['closeModal', 'sendData']);
 
 const data = reactive({
+    bancoId: 0,
     numeroCuenta: null,
     nombreCuenta: null,
-    cuentaContgub: null,
+    contabilidadGubernamentalNumero: null,
     modeloCheque: 0,
     detalle: null,
+    direccion: null,
+    rnc: 0,
+    fechaFinConciliacion: new Date(),
+    balanceBanco: 0,
+    ultimoNumeroFisico: 0
 })
 
 const closeModal = () => {
