@@ -61,8 +61,8 @@ export default {
     },
 
     {
-      path: 'sectorees',
-      name: 'Sectorees',
+      path: 'sectores',
+      name: 'sectoresRrhh',
       meta: { label: 'Sectores' },
       component: () =>
         import(
