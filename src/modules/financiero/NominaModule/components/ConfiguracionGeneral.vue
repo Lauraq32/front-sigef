@@ -101,16 +101,16 @@
             <h6><u>Nota</u></h6>
 
             <p>
-              Debe crear el concepto de la retencion en el modulo de ejecucion
+              Debe crear el concepto de la retenci&oacute;n en el modulo de ejecuci&oacute;n
               presupuestaria <br />
-              y luego, poner el codigo asignado en la casilla correspondiente
+              y luego, poner el c&oacute;digo asignado en la casilla correspondiente
             </p>
           </div>
 
           <div class="col-6 border  p-2">
             <div class="row mt-3">
               <div class="col-9">
-                <CFormLabel for="sueldoMensual" class="col-form-label">% Retencion ARS. (Empleado)</CFormLabel>
+                <CFormLabel for="sueldoMensual" class="col-form-label">% Retenci&oacute;n ARS. (Empleado)</CFormLabel>
               </div>
               <div class="col-3">
                 <CFormInput id="sueldoMensual" />
@@ -118,7 +118,7 @@
             </div>
             <div class="row mt-3">
               <div class="col-9">
-                <CFormLabel for="sueldoMensual" class="col-form-label">% Retencion ARS. Patrono</CFormLabel>
+                <CFormLabel for="sueldoMensual" class="col-form-label">% Retenci&oacute;n ARS. Patrono</CFormLabel>
               </div>
               <div class="col-3">
                 <CFormInput id="sueldoMensual" />
@@ -126,7 +126,7 @@
             </div>
             <div class="row mt-3">
               <div class="col-9">
-                <CFormLabel for="sueldoMensual" class="col-form-label">% Fondo Pension (Empleado)</CFormLabel>
+                <CFormLabel for="sueldoMensual" class="col-form-label">% Fondo Pensi&oacute;n (Empleado)</CFormLabel>
               </div>
               <div class="col-3">
                 <CFormInput id="sueldoMensual" />
@@ -134,7 +134,7 @@
             </div>
             <div class="row mt-3">
               <div class="col-9">
-                <CFormLabel for="sueldoMensual" class="col-form-label">% Fondo Pension Patrono</CFormLabel>
+                <CFormLabel for="sueldoMensual" class="col-form-label">% Fondo Pensi&oacute;n Patrono</CFormLabel>
               </div>
               <div class="col-3">
                 <CFormInput id="sueldoMensual" />
@@ -148,7 +148,7 @@
                 <CFormInput id="sueldoMensual" />
               </div>
 
-              <p>El tope de sueldo es obligatorio para el calculo de AFP.</p>
+              <p>El tope de sueldo es obligatorio para el c&aacute;lculo de AFP.</p>
             </div>
 
             <div class="row mb-2 mt-1">
@@ -161,14 +161,14 @@
             </div>
             <div class="border box-tall">
               <p class="mt-2 mx-2">
-                Segun la ley, las retenciones a los empleados, no deben pasar
+                Seg&uacute;n la ley, las retenciones a los empleados, no deben pasar
                 de un
                 <CFormInput v-model="sinNombrePorAhora" class="input-style" type="text" />
                 establecido de su sueldo bruto.
                 <br />
                 <br />
                 En caso de que las retenciones sobrepasen este pocentaje,
-                restar la diferencia de la siguiente retencion.
+                restar la diferencia de la siguiente retenci&oacute;n.
                 <CFormInput v-model="sinNombrePorAhora1" class="input-style" type="text" />
                 <br />
                 <br />

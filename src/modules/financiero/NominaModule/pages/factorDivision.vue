@@ -1,6 +1,6 @@
 <template>
     <CCardTitle class="mx-5 pb-4 d-flex justify-content-center">
-        <h5>Escala de Sueldos para Calculo del Impuesto Sobre la Renta</h5>
+        <h5>Escala de Sueldos para C&aacute;lculo del Impuesto Sobre la Renta</h5>
     </CCardTitle>
 
     <CForm>
@@ -74,7 +74,7 @@
 
                     <div class="row mt-3">
                         <div class="col-6">
-                            <CFormLabel for="excento">Retencion AFP</CFormLabel>
+                            <CFormLabel for="excento">Retenci&oacute;n AFP</CFormLabel>
                             <CFormInput id="excento" />
                         </div>
                         <div class="col-6">
@@ -85,7 +85,7 @@
 
                     <div class="row">
                         <div class="col-6">
-                            <CFormLabel for="excento">Retencion ARS</CFormLabel>
+                            <CFormLabel for="excento">Retenci&oacute;n ARS</CFormLabel>
                             <CFormInput id="excento" />
                         </div>
                         <div class="col-6">

@@ -750,7 +750,7 @@ export default [
       {
         component: 'CNavItem',
         name: 'Sectores',
-        to: '/RRHHModule/Sectorees',
+        to: '/RRHHModule/sectores',
         icon: 'cilGlobeAlt',
       },
       {
