@@ -25,12 +25,11 @@
                             <CFormLabel for="validationCustom04">Banco</CFormLabel>
                         </div>
                         <div class="col-8">
-                            <CFormSelect v-model="data.bancoId" id="validationCustom05">
-                                <option>1</option>
-                            </CFormSelect>
-                            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-                            <CFormFeedback valid> Exito! </CFormFeedback>
-                            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+                            <div class="col-8">
+                                <CFormInput v-model="data.direccion" id="validationCustom03" required />
+                                <CFormFeedback valid> Exito! </CFormFeedback>
+                                <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
+                            </div>
                         </div>
                     </div>
                 </CCol>
@@ -90,10 +89,10 @@
                         </div>
                         <div class="col-8">
                             <CFormSelect id="validationCustom05">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
+                                <option>1er. Modelo</option>
+                                <option>2do. Modelo</option>
+                                <option>3er. Modelo</option>
+                                <option>4to. Modelo</option>
                             </CFormSelect>
                             <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                         </div>
