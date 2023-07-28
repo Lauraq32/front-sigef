@@ -1,6 +1,6 @@
 <template>
     <CFormSelect :value="modelValue" @change="setEstatus">
-        <option value="">TODOS</option>
+        <option value="">{{ all ? 'TODOS' : 'Seleccionar'}}</option>
         <option>TRANSITO</option>
         <option>CONFIRMADO</option>
         <option>CANCELADO</option>
@@ -10,7 +10,11 @@
 <script>
 export default {
     props: {
-        modelValue: String
+        modelValue: String,
+        all: {
+            type: Boolean,
+            default: true,
+        }
     },
     methods: {
         setEstatus(e) {
