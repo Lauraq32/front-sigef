@@ -372,7 +372,7 @@ export default [
             component: 'CNavItem',
             name: ' Factor división',
             to: '/NominaModule/factor-division',
-            icon: 'cilSortDescending',
+            icon: 'cilTriangle',
           },
         ],
       },
