@@ -72,7 +72,7 @@ export default {
     {
       path: 'configuracion-nomina',
       name: 'configuracionGeneral',
-      meta: { label: 'Configuración General' },
+      meta: { label: 'Configuración Ingreso y Retenciones' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/components/ConfiguracionGeneral.vue'

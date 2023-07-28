@@ -364,9 +364,9 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Configuración general',
+            name: ' Ingresos y Retenciones',
             to: '/NominaModule/configuracion-nomina',
-            icon: 'cilList',
+            icon: 'cilSortDescending',
           },
         ],
       },
@@ -709,74 +709,74 @@ export default [
         to: '/rrhh',
         icon: 'cilHome',
       },
-      
-          {
-            component: 'CNavItem',
-            name: 'Dirección o dependencia',
-            to: '/RRHHModule/dependencia',
-            icon: 'cil-notes',
-          },
-          {
-            component: 'CNavItem',
-            name: 'Departamentos',
-            to: '/RRHHModule/departamentos',
-            icon: 'cilStorage',
-          },
-          {
-            component: 'CNavItem',
-            name: 'Áreas de trabajo',
-            to: '/RRHHModule/areaTrabajo',
-            icon: 'cilClipboard',
-          },
-          {
-            component: 'CNavItem',
-            name: 'Cargos',
-            to: '/RRHHModule/cargos',
-            icon: 'cilContact',
-          },
-          {
-            component: 'CNavItem',
-            name: 'Profesiones',
-            to: '/RRHHModule/profesiones',
-            icon: 'cil-pencil',
-          },
 
-          {
-            component: 'CNavItem',
-            name: 'Sectores',
-            to: '/RRHHModule/Sectorees',
-            icon: 'cilGlobeAlt',
-          },
-          {
-            component: 'CNavItem',
-            name: 'Tipo de sangre',
-            to: '/RRHHModule/tipoSangre',
-            icon: 'cilHealing',
-          },
-          {
-            component: 'CNavTitle',
-            name: 'Procesos',
-          },
-          {
-            component: 'CNavItem',
-            name: 'Registro personal',
-            to: '/RRHHModule/registroEmpleados',
-            icon: 'cilGroup',
-          },
-          {
-            component: 'CNavItem',
-            name: 'Reclutamiento o solicitudes',
-            to: '/RRHHModule/reclutamiento',
-            icon: 'cilNotes',
-          },
-          {
-            component: 'CNavItem',
-            name: 'Inventario de útiles',
-            to: '/RRHHModule/utiles-laborales',
-            icon: 'cilTruck',
-          },
-        ],
+      {
+        component: 'CNavItem',
+        name: 'Dirección o dependencia',
+        to: '/RRHHModule/dependencia',
+        icon: 'cil-notes',
       },
+      {
+        component: 'CNavItem',
+        name: 'Departamentos',
+        to: '/RRHHModule/departamentos',
+        icon: 'cilStorage',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Áreas de trabajo',
+        to: '/RRHHModule/areaTrabajo',
+        icon: 'cilClipboard',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Cargos',
+        to: '/RRHHModule/cargos',
+        icon: 'cilContact',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Profesiones',
+        to: '/RRHHModule/profesiones',
+        icon: 'cil-pencil',
+      },
+
+      {
+        component: 'CNavItem',
+        name: 'Sectores',
+        to: '/RRHHModule/Sectorees',
+        icon: 'cilGlobeAlt',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Tipo de sangre',
+        to: '/RRHHModule/tipoSangre',
+        icon: 'cilHealing',
+      },
+      {
+        component: 'CNavTitle',
+        name: 'Procesos',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Registro personal',
+        to: '/RRHHModule/registroEmpleados',
+        icon: 'cilGroup',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Reclutamiento o solicitudes',
+        to: '/RRHHModule/reclutamiento',
+        icon: 'cilNotes',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Inventario de útiles',
+        to: '/RRHHModule/utiles-laborales',
+        icon: 'cilTruck',
+      },
+    ],
+  },
 
   {
     component: 'CNavItem',
