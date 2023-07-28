@@ -9,7 +9,8 @@
                 <CForm class="needs-validation" novalidate :validated="grupoFormValidated" ref="formRef">
                     <CCol>
                         <CFormLabel for="postGrupo.descripcion">Descripci&oacute;n</CFormLabel>
-                        <CFormInput id="postGrupo.descripcion" v-model="postGrupo.descripcion" required />
+                        <CFormInput id="postGrupo.descripcion" v-model="postGrupo.descripcion" @keypress="onlyLetter"
+                            maxlength="20" required />
                         <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
                     </CCol>
                     <CCol>
@@ -19,8 +20,8 @@
                     </CCol>
                     <CCol>
                         <CFormLabel for="postGrupo.fechaFin">Fecha Fin</CFormLabel>
-                        <CFormInput type="date" id="postGrupo.fechaFin" :disabled="!postGrupo.id" v-model="fechaFin" @change="validarFechaHasta"
-                            required />
+                        <CFormInput type="date" id="postGrupo.fechaFin" :disabled="!postGrupo.id" v-model="fechaFin"
+                            @change="validarFechaHasta" required />
                         <CFormFeedback invalid :style="{ display: fechaHataValidation ? 'flex' : 'none' }">
                             La fecha no puede ser menor a la fecha inicio
                         </CFormFeedback>
@@ -39,21 +40,23 @@
 </template>
 <script>
 import { CModal } from '@coreui/vue';
-
+import { onlyLetter } from '@/utils/validator'
 export default {
     name: 'CargosModal',
     components: {
         CModal,
+        onlyLetter,
+
     },
     emits: ['post-grupo', 'close-modal'],
     data: function () {
         return {
+            onlyLetter,
             grupoFormValidated: false,
             postGrupo: {
-                descripcion: "",
+                descripcion: null,
                 fechaInicio: new Date(),
                 fechaFin: null
-
             },
             isLowerSelectedInitDate: false,
             fechaHataValidation: false,
@@ -63,7 +66,7 @@ export default {
     computed: {
         fechaInicio: {
             get() {
-                let date = this.postGrupo.fechaInicio
+                let date = this.postGrupo.fechaInicio ?? new Date()
                 if (
                     this.postGrupo.fechaInicio !== null &&
                     this.postGrupo.fechaInicio?.toString() !== 'Invalid Date'
@@ -85,7 +88,7 @@ export default {
 
         fechaFin: {
             get() {
-                let date = this.postGrupo.fechaFin
+                let date = this.postGrupo?.fechaFin 
                 if (
                     this.postGrupo.fechaFin !== null &&
                     this.postGrupo.fechaFin?.toString() !== 'Invalid Date'

@@ -37,6 +37,9 @@
         </CBadge>
       </td>
     </template>
+    <template>
+
+    </template>
   </CSmartTable>
   <BeneficiariosModal :beneficiarioToUpdate="beneficiarioToUpdate" :showModal="showBeneficiarioModal"
     @postBeneficiarios="submitForm" @close-modal="closeForm" />
@@ -74,7 +77,7 @@ export default {
           _style: { width: '15%' },
         },
         { key: 'rncCedPas', label: 'RNC/Cédula/Pasaporte', _style: { width: '12%' } },
-        { key: 'contacto', label: 'Contacto', _style: { width: '8%' } },
+        { key: 'contacto', label: 'Contacto', _style: { width: '10%' } },
         { key: 'email', label: 'Email', _style: { width: '20%' } },
         { key: 'telefono', label: 'Teléfono 1', _style: { width: '10%' } },
         { key: 'celular', label: 'Teléfono 2', _style: { width: '10%' } },
@@ -105,7 +108,26 @@ export default {
     ...mapActions(useToastStore, ['show']),
     getAllBeneficiarios() {
       Api.getBeneficiarios().then((response) => {
-        this.Beneficiarios = response.data.data
+        this.Beneficiarios = response.data.data.map(x=>{
+          return{
+
+            id: x.id,
+            nombre: x.nombre === null? '': x.nombre,
+            tipo: x.tipo === null ? '' : x.tipo,
+            tipoDcto: x.tipoDcto === null ? '' : x.tipoDcto,
+            rncCedPas: x.rncCedPas === null ? '' : x.rncCedPas,
+            ingreso: x.ingreso === null ? '' : x.ingreso,
+            direccion: x.direccion === null ? '' : x.direccion,
+            ciudad: x.ciudad === null ? '' : x.ciudad,
+            contacto: x.contacto === null ? '' : x.contacto,
+            telefono: x.telefono === null ? '' : x.telefono,
+            celular: x.celular === null ? '' : x.celular,
+            email: x.email === null ? '' : x.email,
+            estatus: x.estatus === null ? '' : x.estatus,
+            mensual: x.mensual === null ? '' : x.mensual,
+            recomienda: x.recomienda === null ? '' : x.recomienda,
+          }
+        })
       })
     },
 
@@ -137,9 +159,9 @@ export default {
         }
       })
     },
-
     closeForm() {
       this.showBeneficiarioModal = false
+      this.beneficiarioToUpdate = {}
     },
     submitForm(payload) {
       if (payload.id) {

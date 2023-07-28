@@ -28,7 +28,7 @@ class DeparmentServices {
   }
 
   getCuentasDeBancos() {
-    return httpClient.get(`/ConciliacionCuentaBanco/${getAyuntamientoId()}`)
+    return httpClient.get(`/cuentas-banco`)
   }
 
   getEstructurasProgramaticas() {

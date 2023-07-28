@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">Beneficiario por Grupo</h3>
+  <h3 class="text-center">Beneficiarios x Grupos</h3>
   <div class="table-headers">
     <div class="d-inline p-2">
       <CButton color="info" @click="() => {
@@ -108,6 +108,7 @@ export default {
     ...mapActions(useToastStore, ['show']),
     closeModal() {
       this.beneficiarioxGrupoModal = false
+      this.beneficiarioGroupToUpdate = {}
     },
     getAllBeneficiarioGrupo() {
       Api.getBeneficiariosGrupoList().then((response) => {

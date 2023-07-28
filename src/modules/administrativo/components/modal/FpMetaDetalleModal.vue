@@ -1,5 +1,5 @@
 <template>
-    <CModal @close="closeModalFpMetaDetalle" size="xl" :visible="modalFpMetaDetalle">
+    <CModal @close="closeModalFpMetaDetalle" backdrop="static"  size="md" :visible="modalFpMetaDetalle">
         <CModalHeader>
             <CModalTitle>Agregar Fp Metas Detalle</CModalTitle>
         </CModalHeader>
@@ -8,13 +8,13 @@
                 <div class="d-flex flex-column justify-content-center gap-2">
                     <div>
                         <label for="estimadoAnioActual" class="font-weight-bold">Estimado A&ntilde;o Actual</label>
-                        <CFormInput size="sm" id="estimadoAnioActual" v-model.number="fpMetaDetalle.estimadoAnioActual"
+                        <CFormInput size="sm" @keypress="onlyNumber" id="estimadoAnioActual" v-model.number="fpMetaDetalle.estimadoAnioActual"
                             type="number" required />
                     </div>
                     <div>
                         <label for="programadoAnioSiguiente" class="font-weight-bold">Programado A&ntilde;o
                             Siguiente</label>
-                        <CFormInput size="sm" id="programadoAnioSiguiente"
+                        <CFormInput size="sm" id="programadoAnioSiguiente" @keypress="onlyNumber"
                             v-model.number="fpMetaDetalle.programadoAnioSiguiente" type="number" required />
                     </div>
                     <div>
@@ -34,6 +34,7 @@
     </CModal>
 </template>
 <script>
+import { onlyNumber } from '@/utils/validator';
 import { CModal, CForm } from '@coreui/vue';
 import { CFormInput } from '@coreui/vue-pro';
 
@@ -46,7 +47,8 @@ export default {
                 estimadoAnioActual: null,
                 programadoAnioSiguiente: null
             },
-            isFormEventTypeValidated: false
+            isFormEventTypeValidated: false,
+            onlyNumber
         }
     },
     components: { CModal, CFormInput },

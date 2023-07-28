@@ -1,12 +1,12 @@
 <template>
-    <CModal @close="closeModalFpMeta" size="xl" :visible="modalFpMeta">
+    <CModal @close="closeModalFpMeta" backdrop="static" size="xl" :visible="modalFpMeta">
         <CModalHeader>
             <CModalTitle>Agregar Fp Metas</CModalTitle>
         </CModalHeader>
         <CModalBody>
             <CForm novalidate :validated="isFormEventTypeValidated" ref="eventTypeForm">
                 <div class="col-12">
-                    <CButton size="sm" color="primary" class="mb-3" @click="() => mestProgDialog = true">Buscar
+                    <CButton size="sm" color="secondary" class="mb-3" @click="() => mestProgDialog = true">Buscar
                         Estructura
                     </CButton>
                 </div>
@@ -31,10 +31,8 @@
                 <h6 class="my-2">Descripci&oacute;n</h6>
                 <CFormTextarea rows="4" v-model="fpMeta.descripcion" required></CFormTextarea>
                 <div class="col-12 border-bottom my-3 d-flex justify-content-between">
-                    <CButton size="sm" color="primary" class="mb-3" @click="() => showModalFpMetaDetalle = true">Agregar
+                    <CButton size="sm" color="secondary" class="mb-3" @click="() => showModalFpMetaDetalle = true">Agregar
                         Detalle
-                    </CButton>
-                    <CButton size="sm" color="success" class="mb-3" @click="sendData">Guardar todo
                     </CButton>
                 </div>
                 <div>
@@ -42,7 +40,7 @@
                         striped: true,
                         hover: true,
                     }" :tableHeadProps="{}" :activePage="1" header :items="fpMeta.fpMetaDetalles"
-                        :columns="tableColumnsFpMetaDetalles" itemsPerPageSelect :itemsPerPage="10" columnSorter
+                        :columns="tableColumnsFpMetaDetalles" :itemsPerPage="5" columnSorter
                         :sorterValue="{ column: 'status', state: 'asc' }" pagination>
                         <template #show_details="{ item }">
                             <td class="py-2">
@@ -57,9 +55,11 @@
             </CForm>
             <FpMetaDetalleModal :modalFpMetaDetalle="showModalFpMetaDetalle"
                 @closeModalFpMetaDetalle="closeFpMetaDetalleModal" @getFpMetaDetalles="addDetalleToFpMetaDetalle" />
-            <SelectMestProgDialog :showModal="mestProgDialog" @close="closeMestProgDialog" />
+            <SelectMestProgModal :showModal="mestProgDialog" @close="closeMestProgDialog" />
         </CModalBody>
         <CModalFooter>
+            <CButton size="sm" color="primary" class="mb-3" @click="sendData">Guardar todo
+            </CButton>
         </CModalFooter>
     </CModal>
 </template>
@@ -67,7 +67,7 @@
 import { CModal, CForm } from '@coreui/vue';
 import { CContainer, CFormTextarea, CSmartTable } from '@coreui/vue-pro';
 import FpMetaDetalleModal from "./FpMetaDetalleModal.vue"
-import SelectMestProgDialog from "./SelectMestProgDialog.vue"
+import SelectMestProgModal from "./SelectMestProgModal.vue"
 import { mapState, mapActions } from 'pinia';
 import { useToastStore } from '@/store/toast';
 import { useAuthStore } from '@/store/AuthStore';
@@ -77,10 +77,10 @@ export default {
     data: function () {
         return {
             tableColumnsFpMetaDetalles: [
-                { key: "descripcion", label: "Descripción", _style: { width: "35%" } },
-                { key: "unidadMedida", label: "Unidad Medida", _style: { width: "20%" } },
+                { key: "descripcion", label: "Descripción", _style: { width: "30%" } },
+                { key: "unidadMedida", label: "Unidad de Medida", _style: { width: "20%" } },
                 { key: "estimadoAnioActual", label: "Estimado Año Actual", _style: { width: "20%" } },
-                { key: "programadoAnioSiguiente", label: "Programado Año Siguiente", _style: { width: "20%" } },
+                { key: "programadoAnioSiguiente", label: "Programado Año Siguiente", _style: { width: "25%" } },
                 { key: 'show_details', label: '', _style: { width: '5s%' }, filter: false, sorter: false }
             ],
             showModalFpMetaDetalle: false,
@@ -117,7 +117,7 @@ export default {
             proyecto: "",
         },
     },
-    components: { CContainer, CFormTextarea, CSmartTable, CForm, CModal, FpMetaDetalleModal, SelectMestProgDialog, },
+    components: { CContainer, CFormTextarea, CSmartTable, CForm, CModal, FpMetaDetalleModal, SelectMestProgModal, },
     methods: {
         closeModalFpMeta() {
             this.$emit('closeModalFpMeta', false);
@@ -154,20 +154,26 @@ export default {
                     });
                 });
             } else {
-                this.fpMeta.fpMetaDetalles = this.fpMeta.fpMetaDetalles.filter((fpMetaDetalle) => fpMetaDetalle.id !== value.id);
+                this.fpMeta.fpMetaDetalles.splice(this.fpMeta.fpMetaDetalles.indexOf(value), 1);
             }
         },
         saveFpMeta() {
+            if (!Array.isArray(this.fpMeta.fpMetaDetalles) || !this.fpMeta.fpMetaDetalles.length) {
+                this.show({
+                    content: "Se debe de tener un detalle como mínimo",
+                    closable: true,
+                    color: 'danger'
+                });
+                return;
+            }
             if (!this.fpMeta.id) {
                 AdministrativoApi.createFpMetaAndDetalle(this.fpMeta).then(({ data }) => {
                     this.show({
                         content: data.message || "Registro guardado",
-                        closable: true,
-                        color: 'success'
+                        closable: true
                     });
                     this.$emit('update');
-                }).catch(({response}) => {
-                    debugger;
+                }).catch(({ response }) => {
                     this.show({
                         content: response.data.message,
                         closable: true,
@@ -180,8 +186,7 @@ export default {
                 this.clearFrom();
                 this.show({
                     content: data.message || "Registro guardado",
-                    closable: true,
-                    color: 'success'
+                    closable: true
                 });
             }).catch(({ response }) => {
                 this.show({

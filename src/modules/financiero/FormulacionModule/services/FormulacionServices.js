@@ -12,15 +12,22 @@ class FormulacionApi {
   //-----------------------------CLASIFICADORES---------------------------------------//
   //Obtener listado de Clasificadores
   getListarClasificadores(origin) {
+    let promise = null;
     if (origin === 'gastos') {
-      return http.get('/CtgClasificador/presupuesto-gastos')
+      promise = http.get('/CtgClasificador/presupuesto-gastos')
+    } else if (origin === 'ingresos') {
+      promise = http.get('/CtgClasificador/presupuesto-ingresos')
+    } else {
+      promise = http.get('/CtgClasificador')
     }
     
-    if (origin === 'ingresos') {
-      return http.get('/CtgClasificador/presupuesto-ingresos')
-    }
-    
-    return http.get('/CtgClasificador')
+    return promise.then(res => {
+      if (res.data.data.length > 0) {
+        return res;
+      }
+
+      return Promise.reject("No clasificadores found");
+    })
   }
   getListarOrganismo() {
     return http.get('/CtgOrganismoFinanciador')
