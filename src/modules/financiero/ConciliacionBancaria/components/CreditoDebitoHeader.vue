@@ -19,7 +19,7 @@
                     <label class="form-label col-auto col-form-label" for="cuentaNumero">Nota de {{ textBanco }}
                         No.:</label>
                     <CFormInput size="sm" @keypress="onlyNumber" id="cuentaNumero"
-                        v-model.number="creditoDebitoDate.notaDebitoNo" required />
+                        v-model.number="creditoDebitoDate.documentoNo" required />
                 </div>
                 <div class="d-flex flex-row gap-1 align-items-center">
                     <label class="form-label col-auto col-form-label" for="cuentaNumero">Estatus: </label>
@@ -62,7 +62,7 @@ export default {
         return {
             creditoDebitoDate: {
                 bancoId: 1,
-                notaDebitoNo: 0,
+                documentoNo: 0,
                 fechaDesde: null,
                 fechaHasta: null,
                 estatus: "TRANSITO"
