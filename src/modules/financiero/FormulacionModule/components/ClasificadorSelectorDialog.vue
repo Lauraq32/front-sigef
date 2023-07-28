@@ -31,7 +31,7 @@
           :itemsPerPage="7"
           :items-per-page-options="[5, 10, 20]"
           columnSorter
-          :sorterValue="{ column: 'status', state: 'asc' }"
+          :sorterValue="{ column: 'clasifica', state: 'asc' }"
           pagination
         >
           <template #show_details="{ item }">
@@ -58,6 +58,11 @@
           <template #nombre="{item}">
             <td :colspan="!origin ? 2: 1">
                 {{ item.nombre }}
+            </td>
+          </template>
+          <template #cControl="{item}">
+            <td>
+                {{ item.cControl  ?? '' }}
             </td>
           </template>
         </CSmartTable>
@@ -127,8 +132,9 @@ watchEffect(() => {
   if (allClasificator.value.length === 0) {
     Api.getListarClasificadores(props.origin)
       .then((response) => {
-        allClasificator.value = response.data.data;
-        clasificadores.value = allClasificator.value.filter(props.filtered);
+        const clasificatorList = response.data.data;
+        clasificadores.value = clasificatorList.filter(props.filtered);
+        allClasificator.value = clasificatorList;
         isLoading.value = false;
         autoSelectClasificator(props.term);
       })

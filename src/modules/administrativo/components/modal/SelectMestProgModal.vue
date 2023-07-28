@@ -6,6 +6,7 @@
             </CModalTitle>
         </CModalHeader>
         <CModalBody>
+
             <CSmartTable clickableRows :tableProps="{
                 striped: true,
                 hover: true,
@@ -56,6 +57,7 @@ export default {
                     _style: { width: '1%' },
                     filter: false,
                     sorter: false,
+                    // _props: { color: 'primary', class: 'fw-semibold'}
                 },
             ],
             details: [],
@@ -64,7 +66,7 @@ export default {
     methods: {
         closeDialog(data) {
 
-            this.$emit('closeMestProg', data);
+            this.$emit('close', data);
         },
         getMestProg() {
             Api.getMestProg().then((response) => {

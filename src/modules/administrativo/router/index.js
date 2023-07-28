@@ -1,9 +1,8 @@
 export default {
-  name: 'AdministrativoModule',
-  redirect: '/AdministrativoModule/manejoUsuarios',
+  name: 'administrativo',
+  redirect: '/administrativo/usuarios',
   meta: { label: 'Administrativo' },
-  component: () =>
-    import('@/modules/administrativo/layout/TemplateLayout.vue'),
+  component: () => import('@/modules/administrativo/layout/TemplateLayout.vue'),
   children: [
     {
       path: 'fp-meta-04',
@@ -15,25 +14,14 @@ export default {
         ),
     },
     {
-      path: 'manejoUsuarios',
+      path: 'usuarios',
       name: 'ManejoUsuarios',
-      meta: { label: 'Manejo de Usuarios' },
+      meta: { label: 'Usuarios' },
       component: () =>
         import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/components/manejoUsuarios.vue'
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/pages/ManejoDeUsuario.vue'
         ),
     },
-
-    {
-      path: 'serviciosPersonales',
-      name: 'serviciosPersonales',
-      meta: { label: 'Detalle servicios Personales' },
-      component: () =>
-        import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/components/DetalleServiciosPersonales.vue'
-        ),
-    },
-
     {
       path: 'ayuntamiento',
       name: 'ayuntamiento',
@@ -43,9 +31,9 @@ export default {
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/pages/ayuntamiento.vue'
         ),
     },
-    
+
     {
-      path: 'misionVision',
+      path: 'mision-vision',
       name: 'MisionVision',
       meta: { label: 'Misión y Visión' },
       component: () =>
@@ -53,13 +41,24 @@ export default {
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/pages/misionVision.vue'
         ),
     },
+    {
+      path: 'servicios-personales',
+      name: 'serviciosPersonales',
+      meta: { label: 'Detalle servicios Personales' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/pages/ServiciosPersonales.vue'
+        ),
+    },
 
-
-
-    //  {
-    //     path: '',
-    //     name: 'no-entry',
-    //     component: () => import(/* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FormulacionModule/components/Prueba.vue'),
-    // },
+    {
+      path: 'perfil-usuario',
+      name: 'Perfil',
+      meta: { label: 'Perfil de Usuario' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/administrativo/pages/perfil.vue'
+        ),
+    },
   ],
 }

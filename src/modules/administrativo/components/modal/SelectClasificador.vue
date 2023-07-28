@@ -2,14 +2,15 @@
     <CModal size="lg" backdrop="static" :visible="showModal" @close="closeDialog()">
         <CModalHeader>
             <CModalTitle>
-                Estructura Programatica
+                Clasificador del Gasto
             </CModalTitle>
         </CModalHeader>
         <CModalBody>
+
             <CSmartTable clickableRows :tableProps="{
                 striped: true,
                 hover: true,
-            }" :tableHeadProps="{}" :activePage="1" header :items="mestProgList" :columns="columns" columnFilter
+            }" :tableHeadProps="{}" :activePage="1" header :items="calsificadorList" :columns="columns" columnFilter
                 itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'status', state: 'asc' }"
                 pagination>
                 <template #status="{ item }">
@@ -43,19 +44,19 @@ export default {
     },
     data: () => {
         return {
-            mestProgList: [],
+            calsificadorList: [],
             columns: [
-                { key: 'numero', label: 'Numero Estructura' },
+                { key: 'clasifica', label: 'Clasificador' },
                 { key: 'nombre', label: 'Nombre' },
-                { key: 'pnap', label: 'Pnap' },
-                { key: 'programa', label: 'Programa' },
-                { key: 'proyecto', label: 'Proyecto' },
+                { key: 'ctgFuenteEspecificaId', label: 'Fuente Especifica' },
+                { key: 'ctgOrganismoFinanciadorId', label: 'Organismo Financiador' },
                 {
                     key: 'show_details',
                     label: '',
                     _style: { width: '1%' },
                     filter: false,
                     sorter: false,
+                    // _props: { color: 'primary', class: 'fw-semibold'}
                 },
             ],
             details: [],
@@ -63,17 +64,21 @@ export default {
     },
     methods: {
         closeDialog(data) {
-
-            this.$emit('closeMestProg', data);
+            if(data){
+                this.$emit('closeClasificador', data);
+                return
+            }
+            this.$emit('closeClasificador');
+            
         },
-        getMestProg() {
-            Api.getMestProg().then((response) => {
-                this.mestProgList = response.data.data
+        getClasificadores() {
+            Api.getClasificadorGasto().then((response) => {
+                this.calsificadorList = response.data.data
             })
         }
     },
     mounted() {
-        this.getMestProg()
+        this.getClasificadores()
     },
 
 }

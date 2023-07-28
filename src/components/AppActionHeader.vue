@@ -1,13 +1,18 @@
 <template>
     <CCard class="on-top mb-4">
         <CCardBody class="d-flex justify-content-between align-items-center">
-            <div class="d-inline-flex gap-3 align-items-center" v-if="showFiscalYearList">
-                <label class="form-label col-auto col-form-label" for="fiscalYearSelect">A&ntilde;o Fiscal</label>
-                <CFormSelect id="fiscalYearSelect" v-model="selectedFiscalYear" @change="setFiscalYear"
-                    aria-label="Selecionar año fiscal" :options="fiscalYearList">
-                </CFormSelect>
-                <div class="form-label col-auto col-form-label">
-                    <CBadge class="d-block mt-1" :color="determineColor(text)" v-for="text of selectedFiscalYearInfo">{{ text }}</CBadge>
+            <div class="d-inline-flex gap-3 align-items-center">
+                <section class="d-flex gap-1" v-if="showFiscalYearList">
+                    <label class="form-label col-auto col-form-label" for="fiscalYearSelect">A&ntilde;o Fiscal</label>
+                    <CFormSelect id="fiscalYearSelect" v-model="selectedFiscalYear" @change="setFiscalYear"
+                        aria-label="Selecionar año fiscal" :options="fiscalYearList">
+                    </CFormSelect>
+                    <div class="form-label col-auto col-form-label">
+                        <CBadge class="d-block mt-1" :color="determineColor(text)" v-for="text of selectedFiscalYearInfo">{{ text }}</CBadge>
+                    </div>
+                </section>
+                <div>
+                    <slot name="left-options"></slot>
                 </div>
             </div>
             <div class="d-flex gap-3 align-items-center">
@@ -17,17 +22,9 @@
                     <CDropdownToggle color="light">Acciones</CDropdownToggle>
                     <CDropdownMenu>
                         <CDropdownItem v-for="(action, index) in actions" :key="index" href="javascript:void(0)">
-                            <FileSelector v-if="action.type === 'upload'"
-                                :title="action.label"
-                                :key="index"
-                                :icon="action.icon"
-                                @fileSelected="catchFileSelection($event, action.accionHandler)"
-                            />
-                            <span
-                                class="d-inline-block w-100"
-                                v-else
-                                @click="action.accionHandler"
-                            >
+                            <FileSelector v-if="action.type === 'upload'" :title="action.label" :key="index"
+                                :icon="action.icon" @fileSelected="catchFileSelection($event, action.accionHandler)" />
+                            <span class="d-inline-block w-100" v-else @click="action.accionHandler">
                                 <CIcon v-if="action.icon" :icon="action.icon" size="sm" />
                                 {{ action.label }}
                             </span>
@@ -77,7 +74,7 @@ export default {
                     info: yearFiscal,
                 }
             })
-            .sort((first, second) => second.info.anio - first.info.anio)
+                .sort((first, second) => second.info.anio - first.info.anio)
         },
         selectedFiscalYearInfo() {
             const fy = this.fiscalYearList.find(fy => fy.value === Number(this.selectedFiscalYear));
@@ -115,7 +112,7 @@ export default {
 }
 </script>
 <style>
-    .on-top {
-        z-index: 1028;
-    }
+.on-top {
+    z-index: 1028;
+}
 </style>

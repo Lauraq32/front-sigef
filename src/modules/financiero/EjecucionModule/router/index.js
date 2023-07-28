@@ -14,19 +14,11 @@ export default {
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/AnoFiscal.vue'
         ),
     },
-    {
-      path: 'configuracionIngreso',
-      name: 'configuracionIngreso',
-      meta: { label: 'Configuración Ingreso' },
-      component: () =>
-        import(
-          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/ConfigEntradaIngreso.vue'
-        ),
-    },
+
     {
       path: 'tiposRetenciones',
       name: 'tiposRetenciones',
-      meta: { label: 'Tipos Retenciones' },
+      meta: { label: 'Tipos de Retenciones' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/TiposRetenciones.vue'
@@ -62,7 +54,7 @@ export default {
     {
       path: 'beneficiarioGrupo',
       name: 'beneficiarioGrupo',
-      meta: { label: 'Beneficiario Grupo' },
+      meta: { label: 'Beneficiarios x Grupos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/BeneficiarioGrupo.vue'
@@ -71,7 +63,7 @@ export default {
     {
       path: 'comprobanteIngreso',
       name: 'comprobanteIngreso',
-      meta: { label: 'Comprobante Ingreso' },
+      meta: { label: 'Comprobante de Ingresos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/ComprobanteIngreso.vue'
@@ -80,7 +72,7 @@ export default {
     {
       path: 'comprobanteGasto',
       name: 'comprobanteGasto',
-      meta: { label: 'Comprobante Gasto' },
+      meta: { label: 'Comprobante de Gastos' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/ComprobanteGasto.vue'
@@ -125,19 +117,30 @@ export default {
     {
       path: 'conceptoGasto',
       name: 'conceptoGasto',
-      meta: { label: 'Conceptos de gastos' },
+      meta: { label: 'Concepto del Gasto' },
       component: () =>
         import(
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/EjecucionModule/components/ConceptoGasto.vue'
         ),
     },
 
-
-
-    //  {
-    //     path: '',
-    //     name: 'no-entry',
-    //     component: () => import(/* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/FormulacionModule/components/Prueba.vue'),
-    // },
+    {
+      path: 'catalogoDeFunciones',
+      name: 'catalogoDeFunciones',
+      meta: { label: 'Catálogo de Funciones' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '../components/CatalogoDeFunciones.vue'
+        ),
+    },
+    {
+      path: 'cuentaDeBanco',
+      name: 'cuentaDeBanco',
+      meta: { label: 'Cuenta de Banco' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '../components/cuentaDeBanco.vue'
+        ),
+    },
   ],
 }
