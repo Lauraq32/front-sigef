@@ -107,7 +107,7 @@
             </p>
           </div>
 
-          <div class="col-6 border border-bottom-dark p-2">
+          <div class="col-6 border  p-2">
             <div class="row mt-3">
               <div class="col-9">
                 <CFormLabel for="sueldoMensual" class="col-form-label">% Retencion ARS. (Empleado)</CFormLabel>

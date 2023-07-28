@@ -368,6 +368,12 @@ export default [
             to: '/NominaModule/configuracion-nomina',
             icon: 'cilSortDescending',
           },
+          {
+            component: 'CNavItem',
+            name: ' Factor división',
+            to: '/NominaModule/factor-division',
+            icon: 'cilSortDescending',
+          },
         ],
       },
       {

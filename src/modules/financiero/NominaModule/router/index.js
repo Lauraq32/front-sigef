@@ -79,6 +79,15 @@ export default {
         ),
     },
     {
+      path: 'factor-division',
+      name: 'factorDivision',
+      meta: { label: 'Factor Division' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/NominaModule/pages/factorDivision.vue'
+        ),
+    },
+    {
       path: 'tipo-sangre',
       name: 'TipoSangre',
       meta: { label: 'Tipos de Sangres' },
