@@ -94,6 +94,15 @@ export default {
         import (
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ConciliacionBancaria/pages/NotaDebito.vue'
         )
+    },
+    {
+      path: "notas-credito",
+      name: "notasCredito",
+      meta: { label: "Notas de Creditos"},
+      component: () => 
+        import (
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ConciliacionBancaria/pages/NotaCredito.vue'
+        )
     }
   ],
 }

@@ -468,7 +468,7 @@ export default [
           {
             component: 'CNavItem',
             name: 'Notas de crédito',
-            to: '/ConciliacionBancaria/NotasCredito',
+            to: '/ConciliacionBancaria/notas-credito',
             icon: 'cilBarChart',
           },
           {

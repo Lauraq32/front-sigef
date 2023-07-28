@@ -121,6 +121,24 @@ class Conciliacion {
     return http.delete(`conciliacion-debito/${secuencial}/banco/${bancoId}`);
   }
 
+  //Credito
+  getNotasCredito(bandoId, filters) {
+    filters = filter(filters);
+    return http.get(`conciliacion-credito/banco/${bandoId}${filters}`);
+  }
+
+  createNotaCredito(bandoId, data) {
+    return http.post(`conciliacion-credito/banco/${bandoId}`, data);
+  }
+
+  editNotaCredito(secuencial, bancoId, data){
+    return http.put(`conciliacion-credito/${secuencial}/banco/${bancoId}`, data);
+  }
+
+  deleteNotaCredito(secuencial, bancoId){
+    return http.delete(`conciliacion-credito/${secuencial}/banco/${bancoId}`);
+  }
+
   //Cuenta banco
   getCuentasBanco(){
     return http.get("cuentas-banco");
