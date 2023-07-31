@@ -64,8 +64,8 @@
     </CSmartTable>
   </div>
   <ModalGenerarNomina :modalGenerarNomina="showModal" @changeValueModal="getCloseModalValue"
-    @close-modal="closeModalConfirmNomina" @update="() => filterByDate({})" />
-  <ModalconfirmNomina :showModal="showConfirmModal" :payload="dataNomina" />
+    @update="() => filterByDate({})" />
+  <ModalconfirmNomina :showModal="showConfirmModal" :payload="dataNomina" @close-modal="closeModalConfirmNomina" />
 </template>
 <script>
 import { useAuthStore } from '@/store/AuthStore';
