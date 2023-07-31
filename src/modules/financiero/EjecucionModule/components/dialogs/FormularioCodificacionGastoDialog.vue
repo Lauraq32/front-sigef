@@ -358,7 +358,7 @@ export default {
             group: ' ',
             children: [
               { key: 'clasificador', label: 'Clasificador' },
-              { key: 'nombre', label: 'Descripcion' },
+              { key: 'nombre', label: 'Descripción' },
               { key: 'OFin', label: 'O/Fin' },
               { key: 'presupuestoBco', label: 'P/Original' },
               { key: 'variacionBco', label: 'Modific.' },
@@ -483,6 +483,9 @@ export default {
 
     saveDetalle() {
       if (this.detalleRegistroGasto.estructuraProgramatica && this.detalleRegistroGasto.clasificadorId && this.detalleRegistroGasto.montoBruto) {
+        if(this.detalleRegistroGasto.detalleRetencion.length == 0){
+          this.detalleRegistroGasto.montoNeto = this.detalleRegistroGasto.montoBruto
+        }
         this.$emit('saveDetalle', { ...this.detalleRegistroGasto })
         this.clearForm()
         this.show({
@@ -534,10 +537,10 @@ export default {
               totalPagadoBco: current[`totalPagadoBco${this.registroGasto.bancoId}`],
               variacionBco: current[`variacionBco${this.registroGasto.bancoId}`],
               pActual: current[`presupuestoBco${this.registroGasto.bancoId}`] + current[`variacionBco${this.registroGasto.bancoId}`],
-              devengadoEjecutado: this.registroGasto.etapa == 'Devengado' ? current[`totalDevengadoBco${this.registroGasto.bancoId}`] : 0,
-              devengadoDisponible: this.registroGasto.etapa == 'Devengado' ? (current[`presupuestoBco${this.registroGasto.bancoId}`] + current[`variacionBco${this.registroGasto.bancoId}`]) - current[`totalDevengadoBco${this.registroGasto.bancoId}`] : 0,
-              pagadoEjecutado: this.registroGasto.etapa == 'Pagado' ? current[`totalPagadoBco${this.registroGasto.bancoId}`] : 0,
-              pagadoDisponible: this.registroGasto.etapa == 'Pagado' ? current[`totalDevengadoBco${this.registroGasto.bancoId}`] - current[`totalPagadoBco${this.registroGasto.bancoId}`] : 0
+              devengadoEjecutado:current[`totalDevengadoBco${this.registroGasto.bancoId}`] ,
+              devengadoDisponible:  (current[`presupuestoBco${this.registroGasto.bancoId}`] + current[`variacionBco${this.registroGasto.bancoId}`]) - current[`totalDevengadoBco${this.registroGasto.bancoId}`],
+              pagadoEjecutado:  current[`totalPagadoBco${this.registroGasto.bancoId}`] ,
+              pagadoDisponible: current[`totalDevengadoBco${this.registroGasto.bancoId}`] - current[`totalPagadoBco${this.registroGasto.bancoId}`] 
             });
             return acc;
           }, []);
