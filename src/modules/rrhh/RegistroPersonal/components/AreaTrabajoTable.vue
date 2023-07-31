@@ -1,34 +1,13 @@
 <template>
-  <CSmartTable
-    class="sticky-top"
-    clickableRows
-    :tableProps="{
-      striped: true,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    header
-    :footer="footerItems"
-    :items="items"
-    :columns="columns"
-    columnFilter
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'nombre', state: 'asc' }"
-    pagination
-  >
+  <CSmartTable class="sticky-top" clickableRows :tableProps="{
+    striped: true,
+    hover: true,
+  }" :tableHeadProps="{}" :activePage="1" header :footer="footerItems" :items="items" :columns="columns" columnFilter
+    :itemsPerPage="5" columnSorter :sorterValue="{ column: 'nombre', state: 'asc' }" pagination>
     <template #show_details="{ item }" v-if="showButtons">
-      <td class="py-2">
-        <CButton
-          class="mt-1"
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="editAreaTrabajo(item)"
-          >Editar</CButton
-        >
+      <td v-if="!isNomina" class="py-2">
+        <CButton  class="mt-1" color="primary" variant="outline" square size="sm" @click="editAreaTrabajo(item)">Editar
+        </CButton>
       </td>
     </template>
   </CSmartTable>
@@ -44,6 +23,7 @@ export default {
     footerItems: Array,
     items: Array,
     showButtons: Boolean,
+    isNomina: Boolean
   },
   emits: ['edit'],
   methods: {

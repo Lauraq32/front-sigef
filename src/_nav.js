@@ -312,7 +312,7 @@ export default [
           },
           {
             component: 'CNavItem',
-            name: 'Nómina empleados',
+            name: 'Empleados',
             to: '/NominaModule/empleados',
             icon: 'cilPeople',
           },

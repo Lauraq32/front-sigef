@@ -6,96 +6,50 @@
   <CCard class="mb-4">
     <CCardBody class="table-headers justify-content-between">
       <div class="d-inline-flex gap-3 align-items-center">
-        <CFormLabel class="form-label col-auto col-form-label"
-          >Filtro:</CFormLabel
-        >
-        <CFormSelect
-          id="empleoyeeStatusSelect"
-          @change="handleFilterEmployeeByStatus"
-          aria-label="Selecionar estatus del empleado"
-          :options="[
+        <CFormLabel class="form-label col-auto col-form-label">Filtro:</CFormLabel>
+        <CFormSelect id="empleoyeeStatusSelect" @change="handleFilterEmployeeByStatus"
+          aria-label="Selecionar estatus del empleado" :options="[
             { label: 'Activo', value: 'activo' },
             { label: 'Inactivo', value: 'inactivo' },
             { label: 'Vacaciones', value: 'vacaciones' },
-          ]"
-        />
+          ]" />
       </div>
 
       <div>
         <div class="d-flex gap-1">
-          <CButton color="info" @click="showModal">Agregar</CButton>
-          <CButton
-            color="secondary"
-            @click="
-              () => {
-                reportes = true
-              }
-            "
-            >Reporte</CButton
-          >
-          <CButton
-            v-if="isNomina"
-            color="info"
-            variant="outline"
-            @click="setEmpleadosToBeneficiarios"
-            >Pasar a Beneficiarios</CButton
-          >
+          <CButton v-if="!isNomina" color="info" @click="showModal">Agregar</CButton>
+          <CButton v-if="!isNomina" color="secondary" @click="() => {
+            reportes = true
+          }
+            ">Reporte</CButton>
+          <CButton v-if="isNomina" color="info" variant="outline" @click="setEmpleadosToBeneficiarios">Pasar a
+            Beneficiarios</CButton>
         </div>
       </div>
     </CCardBody>
   </CCard>
 
-  <RegistroPersonalTable
-    :tableData="registroPersonal"
-    :tableColumns="columns"
-    :actions="buttonActions"
-    :footer="footerItem"
-    :inactivoActions="inactivoActions"
-  />
+  <RegistroPersonalTable :tableData="registroPersonal" :tableColumns="columns" :actions="buttonActions"
+    :footer="footerItem" :inactivoActions="inactivoActions" />
 
-  <RegistroPersonalDialog
-    :showModal="showRegistroPersonalModal"
-    @post-personal="submitForm"
-    @close-modal="closeRegistroPersonalModal"
-    :empleado="selectedEmployee"
-    :isNomina="isNomina"
-  />
+  <RegistroPersonalDialog :showModal="showRegistroPersonalModal" @post-personal="submitForm"
+    @close-modal="closeRegistroPersonalModal" :empleado="selectedEmployee" :isNomina="isNomina" />
 
-  <TarjetaEmpleadoDialogs
-    :newTarjetaEmpleadoModal="newTarjetaEmpleadoModal"
-    @close-modal="closeTarjetaEmpleadoModal"
-    :empleado="selectedEmployee"
-  />
+  <TarjetaEmpleadoDialogs :newTarjetaEmpleadoModal="newTarjetaEmpleadoModal" @close-modal="closeTarjetaEmpleadoModal"
+    :empleado="selectedEmployee" />
 
-  <AccionPersonalDialog
-    :showModal="showAccionPersonal"
-    @closeModal="closeAccionPersonal"
-    :empleado="selectedEmployee"
-  />
+  <AccionPersonalDialog :showModal="showAccionPersonal" @closeModal="closeAccionPersonal" :empleado="selectedEmployee" />
 
-  <TipoNovedadDialog
-    :showModal="showTipoNovedad"
-    @closeModal="closeTipoNovedad"
-  />
+  <TipoNovedadDialog :showModal="showTipoNovedad" @closeModal="closeTipoNovedad" />
 
-  <ContenedorArchivosModel
-    :showModal="showModalDoc"
-    :tagKeyName="'empleadoId'"
-    :tagValueName="selectedEmployee?.id"
-    @closeModal="closeContenedorModal"
-  />
+  <ContenedorArchivosModel :showModal="showModalDoc" :tagKeyName="'empleadoId'" :tagValueName="selectedEmployee?.id"
+    @closeModal="closeContenedorModal" />
 
-  <EducacionDialog
-    :showModal="showEducacion"
-    :employeeInfo="selectedEmployee"
-    @closeModal="() => (showEducacion = false)"
-  />
+  <EducacionDialog :showModal="showEducacion" :employeeInfo="selectedEmployee"
+    @closeModal="() => (showEducacion = false)" />
 
-  <UtilesLaboralesDialog
-    :showModal="showUtilesLaboralesDialog"
-    :employeeInfo="selectedEmployee"
-    @closeModal="() => (showUtilesLaboralesDialog = false)"
-  />
+  <UtilesLaboralesDialog :showModal="showUtilesLaboralesDialog" :employeeInfo="selectedEmployee"
+    @closeModal="() => (showUtilesLaboralesDialog = false)" />
 
   <!-- Reportes -->
   <CModal :backdrop="true" :keyboard="false" :visible="reportes">
@@ -112,18 +66,16 @@
       </CFormSelect>
     </CModalBody>
     <CModalFooter>
-      <CButton
-        color="secondary"
-        @click="
-          () => {
-            reportes = false
-          }
-        "
-        >Cerrar</CButton
-      >
+      <CButton color="secondary" @click="() => {
+        reportes = false
+      }
+        ">Cerrar</CButton>
       <CButton color="primary" @click="imprimirReporte">Ver</CButton>
     </CModalFooter>
   </CModal>
+
+  <agregarFechaReingreso :showModalFechaIngreso="showModalFechaIngreso" @close-modal="closeModalReingreso"
+    @activar-empleado="reactivarEmpleado" />
 </template>
 
 <script>
@@ -143,10 +95,12 @@ import TipoNovedadDialog from './TipoNovedades.vue'
 import TarjetaEmpleadoDialogs from '../components/Dialogos/TarjetaEmpleado.vue'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { showReport } from '@/utils/util'
+import agregarFechaReingreso from '../components/Dialogos/agregarFechaReingreso.vue'
 
 export default {
   components: {
     RegistroPersonalTable,
+    agregarFechaReingreso,
     CModal,
     RegistroPersonalDialog,
     AccionPersonalDialog,
@@ -162,6 +116,8 @@ export default {
 
   data: function () {
     return {
+      showModalFechaIngreso: false,
+      empleadoReingresado: {},
       selectedEmployee: {},
       showModalDoc: false,
       accionPersonal: [],
@@ -226,25 +182,31 @@ export default {
       inactivoActions: [
         {
           label: 'Reactivar',
-          clickHandler: (value) => {
-            this.reactivarEmpleado(value)
+          visible: !this.isNomina,
+          clickHandler: (item) => {
+            this.empleadoReingresado = item
+            this.confirmacionreactivarEmpleado()
           },
         },
       ],
       buttonActions: [
         {
+          visible: true,
           label: 'Editar',
           clickHandler: (value) => {
+
             this.toggleDetails(value)
           },
         },
         {
+          visible: !this.isNomina,
           label: 'Eliminar',
           clickHandler: (value) => {
             this.deleteEmp(value)
           },
         },
         {
+          visible: !this.isNomina,
           label: 'Acción personal',
           clickHandler: (value) => {
             this.selectedEmployee = value
@@ -252,6 +214,7 @@ export default {
           },
         },
         {
+          visible: !this.isNomina,
           label: 'Tabla de acciones',
           clickHandler: (value) => {
             this.showTipoNovedad = true
@@ -259,6 +222,7 @@ export default {
           },
         },
         {
+          visible: !this.isNomina,
           label: 'Útiles laborales',
           clickHandler: (value) => {
             this.showUtilesLaboralesDialog = true
@@ -266,6 +230,7 @@ export default {
           },
         },
         {
+          visible: !this.isNomina,
           label: 'Educación',
           clickHandler: (item) => {
             this.showEducacion = true
@@ -274,6 +239,7 @@ export default {
           },
         },
         {
+          visible: !this.isNomina,
           label: 'Tarjeta',
           clickHandler: (item) => {
             this.selectedEmployee = item
@@ -281,6 +247,7 @@ export default {
           },
         },
         {
+          visible: !this.isNomina,
           label: 'Ver Documentos',
           clickHandler: (item) => {
             this.selectedEmployee = item
@@ -305,9 +272,9 @@ export default {
             }).then((answer) => {
               if (answer.isConfirmed) {
                 Api.setEmpleadoToBeneficiario(item.id)
-                  .then(() => {
+                  .then((response) => {
                     this.show({
-                      content: 'Datos procesados correctamente',
+                      content: response.data,
                       closable: true,
                     })
                   })
@@ -344,9 +311,9 @@ export default {
       }).then((answer) => {
         if (answer.isConfirmed) {
           Api.setAllEmpleadosToBeneficiario()
-            .then(() => {
+            .then((response) => {
               this.show({
-                content: 'Datos procesados correctamente',
+                content: response.data,
                 closable: true,
               })
             })
@@ -538,7 +505,7 @@ export default {
           .catch(rej)
       })
     },
-    reactivarEmpleado(item) {
+    confirmacionreactivarEmpleado() {
       Swal.fire({
         position: 'center',
         icon: 'warning',
@@ -552,32 +519,41 @@ export default {
         customClass: 'btns',
       }).then((answer) => {
         if (answer.isConfirmed) {
-          Api.reactivarEmpleado(item.id)
-            .then((response) => {
-              this.show({
-                content: response.data.message,
-                closable: true,
-                color: 'inherit',
-              })
-              setTimeout(
-                () =>
-                  this.getRegistroPersonal({
-                    status: 'inactivo',
-                  }),
-                500,
-              )
-            })
-            .catch((error) => {
-              this.show({
-                content: error.response.data,
-                closable: true,
-                color: 'danger',
-                class: 'text-white',
-              })
-            })
+          this.showModalFechaIngreso = true
         }
       })
     },
+
+    reactivarEmpleado(payload) {
+      Api.reactivarEmpleado(this.empleadoReingresado.id, payload)
+        .then((response) => {
+          this.show({
+            content: response.data,
+            closable: true,
+            color: 'inherit',
+          })
+          setTimeout(
+            () =>
+              this.getRegistroPersonal({
+                status: 'inactivo',
+              }),
+            500,
+          )
+        })
+        .catch((error) => {
+          this.show({
+            content: error.response.data,
+            closable: true,
+            color: 'danger',
+            class: 'text-white',
+          })
+        })
+      this.showModalFechaIngreso = false
+    },
+
+    closeModalReingreso() {
+      this.showModalFechaIngreso = false
+    }
   },
 
   props: {

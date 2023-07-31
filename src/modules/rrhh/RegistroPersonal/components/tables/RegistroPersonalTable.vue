@@ -1,24 +1,10 @@
 <template>
-  <CSmartTable
-    class="sticky-top"
-    clickableRows
-    :tableProps="{
-      striped: true,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    header
-    :items="tableData"
-    :columns="tableColumns"
-    columnFilter
-    :footer="footer"
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'nombres', state: 'asc' }"
-    pagination
-  >
+  <CSmartTable class="sticky-top" clickableRows :tableProps="{
+    striped: true,
+    hover: true,
+  }" :tableHeadProps="{}" :activePage="1" header :items="tableData" :columns="tableColumns" columnFilter
+    :footer="footer" itemsPerPageSelect :itemsPerPage="5" columnSorter :sorterValue="{ column: 'nombres', state: 'asc' }"
+    pagination>
     <template #sexo="{ item }">
       <td>
         {{ item.sexo == 'M' ? 'Masculino' : 'Femenino' }}
@@ -37,7 +23,7 @@
 
     <template #fechaIngreso="{ item }">
       <td>
-        {{ formatDate(item.fechaIngreso) }}
+        {{ formatDate(item.fechaReingreso) ?? formatDate(item.fechaIngreso) }}
       </td>
     </template>
     <template #fechaNacimiento="{ item }">
@@ -62,28 +48,18 @@
     <template #show_details="{ item }">
       <td v-if="item.estatus">
         <CDropdown>
-          <CDropdownToggle color="primary" variant="outline"
-            >Acciones</CDropdownToggle
-          >
+          <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
           <CDropdownMenu>
-            <CDropdownItem
-              v-for="action in actions"
-              :disabled="!(action.visible === undefined || action.visible)"
-              v-show="action.visible === undefined || action.visible"
-              @click="action.clickHandler && action.clickHandler(item)"
-              >{{ action.label }}</CDropdownItem
-            >
+            <CDropdownItem v-for="action in actions" :disabled="!(action.visible === undefined || action.visible)"
+              v-show="action.visible" @click="action.clickHandler && action.clickHandler(item)">{{ action.label }}
+            </CDropdownItem>
           </CDropdownMenu>
         </CDropdown>
       </td>
       <td v-else>
-        <CButton
-          class="btn btn-outline-success"
-          v-for="action in inactivoActions"
-          :disabled="!(action.visible === undefined || action.visible)"
-          v-show="action.visible === undefined || action.visible"
-          @click="action.clickHandler && action.clickHandler(item)"
-          >{{ action.label }}
+        <CButton class="btn btn-outline-success" v-for="action in inactivoActions"
+          :disabled="!(action.visible === undefined || action.visible)" v-show="action.visible"
+          @click="action.clickHandler && action.clickHandler(item)">{{ action.label }}
         </CButton>
       </td>
     </template>

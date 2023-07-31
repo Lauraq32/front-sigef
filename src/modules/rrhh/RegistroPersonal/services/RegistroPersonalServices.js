@@ -286,8 +286,8 @@ class RegistroPersonal {
       `departamentos?compat=true&ProgramaDivisionId=${programaId}`,
     )
   }
-  reactivarEmpleado(id) {
-    return http.patch(`empleados/${id}/re-activado`)
+  reactivarEmpleado(id, fecha) {
+    return http.patch(`empleados/${id}/re-activado/${fecha}`,)
   }
   getConfiguracionNomina() {
     return http.get('configuracion-nomina')
