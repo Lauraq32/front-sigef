@@ -69,11 +69,14 @@
 <script>
 import { useAuthStore } from '@/store/AuthStore';
 import { CSmartTable } from '@coreui/vue-pro'
+import { useToastStore } from '@/store/toast'
+import { mapActions } from 'pinia'
 import { mapState } from 'pinia';
 import NominaSelectFiscalYear from '../components/NominaSelectFiscalYear.vue';
 import ModalGenerarNomina from '../components/modal/ModalGenerarNomina.vue';
 import ApiNomina from '../services/NominaServices';
 import { formatDate, formatPrice } from '@/utils/format';
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 
 export default {
@@ -91,18 +94,58 @@ export default {
     ...mapState(useAuthStore, ['authInfo']),
   },
   methods: {
+    ...mapActions(useToastStore, ['show']),
     filterByDate(value) {
       ApiNomina.getNominasGeneral(value).then((response) => {
         this.dataNominaGeneral = response.data.data;
         this.footerItem[0].label = `Total Items: ${response.data.data.length}`
         this.footerItem[1].label = formatPrice(response.data.data.reduce((total, item) => total + item.totalBruto, 0))
         this.footerItem[2].label = formatPrice(response.data.data.reduce((total, item) => total + item.totalNeto, 0))
-        console.log(this.footerItem[1].label)
       })
     },
     getCloseModalValue(value) {
       this.showModal = value;
     },
+
+    confirmNomina(item) {
+      Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: `Está usted seguro que quiere confirmar esta nómina?`,
+        showConfirmButton: true,
+        confirmButtonText: 'Si',
+        cancelButtonText: 'No',
+        showCancelButton: true,
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        customClass: 'btns',
+      }).then((answer) => {
+        if (answer.isConfirmed) {
+          ApiNomina.confirmNomina(item.id).then((response) => {
+            this.show({
+              content: response.data,
+              closable: true,
+            })
+            setTimeout(this.filterByDate, 500)
+          })
+            .catch((error) => {
+              this.show({
+                content: error.response.data,
+                closable: true,
+                color: 'danger',
+                class: 'text-white',
+              })
+            })
+        }
+      })
+      ApiNomina.confirmNomina(item.id).then((response) => {
+        this.show({
+          content: response.data,
+          closable: true,
+        })
+      })
+    }
+
   },
   data: function () {
     return {
@@ -188,8 +231,8 @@ export default {
           },
           {
             label: 'Confirmar',
-            clickHandler: (value) => {
-              this.toggleDetails(value)
+            clickHandler: (item) => {
+              this.confirmNomina(item)
             },
           },
           {
