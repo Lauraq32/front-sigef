@@ -40,8 +40,7 @@
                                     <CFormLabel for="validationCustomUsername">Fecha 815s y Cheques:</CFormLabel>
                                 </div>
                                 <div style="width: 42%" class="col-6">
-                                    <CFormInput type="date" required id="validationCustom04">
-                                    </CFormInput>
+                                    <AppDateField class="form-control" />
                                 </div>
                             </div>
 
@@ -177,6 +176,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import ApiNomina from '../../services/NominaServices'
 import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
+import AppDateField from '@/components/AppDateField.vue'
 
 export default {
     name: 'ConfirmNomina',
@@ -185,6 +185,7 @@ export default {
         CModal,
         CModalFooter,
         CButton,
+        AppDateField,
     },
 
     data: function () {
