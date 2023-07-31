@@ -130,7 +130,8 @@ import {
   cilInfo,
   cilFilter,
   cilFilterX,
-  cilTruck
+  cilTruck,
+  cilShareAll
 } from '@coreui/icons-pro'
 
 export const iconsSet = Object.assign(
@@ -272,7 +273,8 @@ export const iconsSet = Object.assign(
     cilSave,
     cilFilter,
     cilFilterX,
-    cilTruck
+    cilTruck,
+    cilShareAll
   },
   {
     cisCheckCircle,

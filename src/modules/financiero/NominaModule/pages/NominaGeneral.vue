@@ -64,7 +64,8 @@
     </CSmartTable>
   </div>
   <ModalGenerarNomina :modalGenerarNomina="showModal" @changeValueModal="getCloseModalValue"
-    @update="() => filterByDate({})" />
+    @close-modal="closeModalConfirmNomina" @update="() => filterByDate({})" />
+  <ModalconfirmNomina :showModal="showConfirmModal" :payload="dataNomina" />
 </template>
 <script>
 import { useAuthStore } from '@/store/AuthStore';
@@ -77,13 +78,15 @@ import ModalGenerarNomina from '../components/modal/ModalGenerarNomina.vue';
 import ApiNomina from '../services/NominaServices';
 import { formatDate, formatPrice } from '@/utils/format';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
+import ModalconfirmNomina from '../components/dialogos/ModalConfirmNomina.vue'
 
 
 export default {
   components: {
     CSmartTable,
     NominaSelectFiscalYear,
-    ModalGenerarNomina
+    ModalGenerarNomina,
+    ModalconfirmNomina
   },
   mounted() {
     this.filterByDate({});
@@ -107,49 +110,16 @@ export default {
       this.showModal = value;
     },
 
-    confirmNomina(item) {
-      Swal.fire({
-        position: 'center',
-        icon: 'warning',
-        title: `Está usted seguro que quiere confirmar esta nómina?`,
-        showConfirmButton: true,
-        confirmButtonText: 'Si',
-        cancelButtonText: 'No',
-        showCancelButton: true,
-        allowEscapeKey: false,
-        allowOutsideClick: false,
-        customClass: 'btns',
-      }).then((answer) => {
-        if (answer.isConfirmed) {
-          ApiNomina.confirmNomina(item.id).then((response) => {
-            this.show({
-              content: response.data,
-              closable: true,
-            })
-            setTimeout(this.filterByDate, 500)
-          })
-            .catch((error) => {
-              this.show({
-                content: error.response.data,
-                closable: true,
-                color: 'danger',
-                class: 'text-white',
-              })
-            })
-        }
-      })
-      ApiNomina.confirmNomina(item.id).then((response) => {
-        this.show({
-          content: response.data,
-          closable: true,
-        })
-      })
+    closeModalConfirmNomina() {
+      this.showshowConfirmModal = false
     }
 
   },
   data: function () {
     return {
       showModal: false,
+      showConfirmModal: false,
+      dataNomina: {},
       dataNominaGeneral: [],
       tableNominaGeneral: [
         {
@@ -232,7 +202,8 @@ export default {
           {
             label: 'Confirmar',
             clickHandler: (item) => {
-              this.confirmNomina(item)
+              this.dataNomina = item
+              this.showConfirmModal = true
             },
           },
           {

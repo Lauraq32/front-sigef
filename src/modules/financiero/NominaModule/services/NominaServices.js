@@ -71,7 +71,7 @@ class NominaApi {
   }
 
   getDepartamentoById(id) {
-    return http.get(`Departamento/${id}`)
+    return http.get(`departamentos/${id}`)
   }
   getDepartamentoByProgramaId(id) {
     return http.get(`Departamento/Programa/${id}`)
@@ -91,6 +91,10 @@ class NominaApi {
 
   getProgramaDivisionbyid(id) {
     return http.get(`ProgramaDivision/${id}`)
+  }
+
+  getCuentaBanco(id) {
+    return http.get(`cuentas-banco/${id}`)
   }
 
   getNominaGeneralById(id) {
