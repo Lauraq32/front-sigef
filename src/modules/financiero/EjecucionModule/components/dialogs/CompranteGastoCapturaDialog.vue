@@ -251,6 +251,35 @@ export default {
   methods: {
     ...mapActions(useToastStore, ['show']),
 
+    clearForm(){
+      this.postRegistroGasto = {
+        detalle: "",
+        fecha: new Date(),
+        etapa: 'Devengado',
+        beneficiarioId: null,
+        conceptoGastoId: null,
+        grupoCompensacionId: null,
+        bancoId: null,
+        numeroCheque: "1",
+        montoBruto: 0,
+        montoNeto: 0,
+        fechaResolucion: null,
+        numeroResolucion: "1",
+        cantidadFacturaCXP: 1,
+        totalCXP: 1,
+        cantidadPagoXGrupo: 1,
+        totalPagoXGrupo: 1,
+        cantRetenci: 1,
+        totalRetenciones: 1,
+        documentoInicial: 1,
+        documentoFinal: 1,
+        cantidadDocumento: 1,
+        estatus: true,
+        formaPago: "Cheque",
+        tipoGastoId: 1,
+        detalleRegistroGastos: []
+      }
+    },
     changeEtapa(e) {
       if (e.target.value == 'Variacion') {
         this.disableFormaPago = true
@@ -351,6 +380,9 @@ export default {
   },
 
   watch: {
+    showModal(){
+      this.clearForm()
+    },
     postGasto(newValue) {
       if (newValue) {
         this.postRegistroGasto = { ...newValue, conceptoGastoId: newValue.conceptoGasto.id, bancoId: newValue.banco.id, beneficiarioId: newValue.beneficiario.id}
