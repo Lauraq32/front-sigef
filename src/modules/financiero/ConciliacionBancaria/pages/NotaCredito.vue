@@ -3,7 +3,7 @@
         <CreditoDebitoHeader textBanco="Crédito" @sendDataFilter="getDataFilter" @sendBancoId="getBancoId" />
         <div class="mt-3">
             <div class="d-flex align-item-end justify-content-end">
-                <CButton size="md" color="primary" @click="() => showNotaCreditoModal = true">Adicionar +</CButton>
+                <CButton size="md" color="info" @click="() => showNotaCreditoModal = true">Adicionar</CButton>
             </div>
             <CSmartTable class="sticky-top mt-2" clickableRows :tableProps="{
                 striped: true,
