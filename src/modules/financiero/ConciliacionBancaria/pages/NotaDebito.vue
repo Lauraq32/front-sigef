@@ -3,7 +3,7 @@
         <CreditoDebitoHeader textBanco="Débito" @sendDataFilter="getDataFilter" @sendBancoId="getBancoId" />
         <div class="mt-3">
             <div class="d-flex align-item-end justify-content-end">
-                <CButton size="md" color="primary" @click="() => showNotaDebitoModal = true">Adicionar +</CButton>
+                <CButton size="md" color="info" @click="() => showNotaDebitoModal = true">Adicionar</CButton>
             </div>
             <CSmartTable class="sticky-top mt-2" clickableRows :tableProps="{
                 striped: true,
@@ -135,7 +135,7 @@ export default {
                         Swal.fire({
                             position: 'center',
                             icon: 'warning',
-                            title: `Estás usted seguro que quieres eliminar este empleado?`,
+                            title: `Estás usted seguro que quieres eliminarlo?`,
                             showConfirmButton: true,
                             confirmButtonText: 'Si',
                             cancelButtonText: 'No',
