@@ -111,7 +111,7 @@ export default {
     },
 
     closeModalConfirmNomina() {
-      this.showshowConfirmModal = false
+      this.showConfirmModal = false
     }
 
   },
