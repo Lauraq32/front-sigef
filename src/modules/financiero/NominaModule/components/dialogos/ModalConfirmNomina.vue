@@ -218,7 +218,8 @@ export default {
                                 content: response.data,
                                 closable: true,
                             })
-                            setTimeout(this.filterByDate, 500)
+                            setTimeout(this.filterByDate({}), 500)
+                            this.closeModal()
                         })
                         .catch((error) => {
                             this.show({

@@ -196,7 +196,6 @@ export default {
           {
             label: 'Eliminar',
             clickHandler: (value) => {
-              this.toggleDetails(value)
             },
           },
           {
@@ -209,7 +208,6 @@ export default {
           {
             label: 'Detalle e imprimir',
             clickHandler: (value) => {
-              this.toggleDetails(value)
             },
           },
         ],
