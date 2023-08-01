@@ -135,7 +135,7 @@ export default {
                         Swal.fire({
                             position: 'center',
                             icon: 'warning',
-                            title: `Estás usted seguro que quieres eliminarlo?`,
+                            title: 'Estás seguro que quieres eliminar esta nota de débito?',
                             showConfirmButton: true,
                             confirmButtonText: 'Si',
                             cancelButtonText: 'No',
