@@ -230,6 +230,18 @@ class NominaApi {
   confirmNomina(id) {
     return http.patch(`nominas/${id}/confirmation`)
   }
+
+  validarEstructuraPresupuestada(
+    estructuraProgramatica,
+    clasificador,
+    fuenteFinanciador,
+    fuenteEspecifica,
+    organismoFinanciador,
+  ) {
+    return http.get(
+      `PresGasto/${estructuraProgramatica}/${clasificador}/${fuenteFinanciador}/${fuenteEspecifica}/${organismoFinanciador}`,
+    )
+  }
 }
 
 export default new NominaApi()

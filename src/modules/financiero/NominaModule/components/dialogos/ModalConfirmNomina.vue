@@ -55,7 +55,6 @@
                                     <CFormInput class="text-end" v-model="cuentaBanco.nombreCuenta" required
                                         id="validationCustom04">
                                     </CFormInput>
-
                                 </div>
                             </div>
                             <div class="row">
@@ -105,7 +104,7 @@
                                     <CFormLabel for="validationCustomUsername">Valor Bruto de la N&oacute;mina:</CFormLabel>
                                 </div>
                                 <div class="col-6 text-end inputTamano">
-                                    <span>{{ formatPrice(dataDepartamento.totalBruto) }}</span>
+                                    <span>{{ formatPrice(montoPresupuestado) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -146,7 +145,7 @@
                                 </div>
                             </div>
 
-                            <div style="margin-top: 100px;">
+                            <div style="margin-top: 100px">
                                 <h4>Nota:</h4>
                                 <span>Antes de presionar el boton de Guardar, debe estar seguro de
                                     que desea realizar esta acci&oacute;n ya que la misma no es
@@ -193,6 +192,8 @@ export default {
             formatPrice,
             dataDepartamento: {},
             cuentaBanco: {},
+            presupuestoBanco: 0,
+            montoPresupuestado: 0,
         }
     },
 
@@ -257,6 +258,13 @@ export default {
             ApiNomina.getDepartamentoById(this.payload.departamento.id).then(
                 (response) => {
                     this.dataDepartamento = response.data.data
+                    this.getPresupeustoBanco(
+                        this.dataDepartamento.estructura,
+                        this.dataDepartamento.clasificador.id,
+                        this.dataDepartamento.fuente.id,
+                        this.dataDepartamento.fuenteEspecifica.id,
+                        this.dataDepartamento.organismoFinanciador.id,
+                    )
                 },
             )
         },
@@ -265,9 +273,38 @@ export default {
             ApiNomina.getCuentaBanco(this.payload.cuentaBancoId).then((response) => {
                 this.cuentaBanco = response.data.data
             })
-        }
-    },
+        },
 
+        getPresupeustoBanco(
+            estructura,
+            clasificador,
+            fuente,
+            fuenteEspecifica,
+            organismoFinanciador,
+        ) {
+            ApiNomina.validarEstructuraPresupuestada(
+                estructura,
+                clasificador,
+                fuente,
+                fuenteEspecifica,
+                organismoFinanciador,
+            ).then((response) => {
+                this.presupuestoBanco = response.data.data;
+                this.obtenerTierPorBancoId();
+            });
+        },
+
+        obtenerTierPorBancoId() {
+            const presupuestos = [
+                (this.presupuestoBanco.presupuestoBco1 + this.presupuestoBanco.variacionBco1) - this.presupuestoBanco.totalPagadoBco1,
+                (this.presupuestoBanco.presupuestoBco2 + this.presupuestoBanco.variacionBco2) - this.presupuestoBanco.totalPagadoBco2,
+                (this.presupuestoBanco.presupuestoBco3 + this.presupuestoBanco.variacionBco3) - this.presupuestoBanco.totalPagadoBco3,
+                (this.presupuestoBanco.presupuestoBco4 + this.presupuestoBanco.variacionBco4) - this.presupuestoBanco.totalPagadoBco4
+            ];
+            this.montoPresupuestado = presupuestos[this.payload.cuentaBancoId - 1];
+        }
+
+    },
     props: {
         showModal: Boolean,
         payload: Object,
