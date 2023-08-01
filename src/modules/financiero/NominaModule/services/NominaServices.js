@@ -125,7 +125,7 @@ class NominaApi {
     )
   }
   getNominasGeneral(params) {
-    params = CreateQueryParam(params);
+    params = CreateQueryParam(params)
     return http.get(`nominas?${params}`)
   }
 
@@ -214,13 +214,17 @@ class NominaApi {
   }
 
   deleteConfiguracionNomina(data) {
-    return http.put('configuracion-nomina/cancelado',data)
+    return http.put('configuracion-nomina/cancelado', data)
   }
   deleteGrupoNomina(id) {
     return http.delete(`grupo-nomina/${id}`)
   }
   createNomina(data) {
     return http.post('nominas', data)
+  }
+
+  calculosPorcentage() {
+    return http.get(`configuracion-nomina/percentage`)
   }
 }
 
