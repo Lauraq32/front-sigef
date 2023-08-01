@@ -75,7 +75,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-6 fw-semibold">
-                                    <CFormLabel for="validationCustomUsername">Fuente Financiera:</CFormLabel>
+                                    <CFormLabel for="validationCustomUsername">Fuente Financ&iacute;era:</CFormLabel>
                                 </div>
                                 <div class="col-6 text-end inputTamano">
                                     <span>{{ dataDepartamento.fuente?.id ?? '' }}</span>
