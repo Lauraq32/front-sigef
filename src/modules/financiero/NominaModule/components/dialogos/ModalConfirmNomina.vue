@@ -236,6 +236,7 @@ export default {
 
         closeModal() {
             this.$emit('close-modal', false)
+            this.clearModal()
         },
 
         filterByDate(value) {
@@ -302,6 +303,13 @@ export default {
                 (this.presupuestoBanco.presupuestoBco4 + this.presupuestoBanco.variacionBco4) - this.presupuestoBanco.totalPagadoBco4
             ];
             this.montoPresupuestado = presupuestos[this.payload.cuentaBancoId - 1];
+        },
+
+        clearModal() {
+            this.dataDepartamento = {},
+                this.cuentaBanco = {},
+                this.presupuestoBanco = 0,
+                this.montoPresupuestado = 0
         }
 
     },
