@@ -200,7 +200,7 @@ export default {
     methods: {
         ...mapActions(useToastStore, ['show']),
         confirmNomina() {
-            if (this.montoPresupuestado < this.payload.totalNeto || this.montoPresupuestado === 0) {
+            if (this.montoPresupuestado < this.payload.totalBruto || this.montoPresupuestado === 0) {
                 Swal.fire('El monto total de la nómina es mayor al presupuesto existente para realizar el pago, por favor verifique.')
             } else {
                 Swal.fire({
