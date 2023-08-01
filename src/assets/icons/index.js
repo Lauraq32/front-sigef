@@ -131,7 +131,8 @@ import {
   cilFilter,
   cilFilterX,
   cilTruck,
-  cilShareAll
+  cilSortDescending,
+  cilTriangle,
 } from '@coreui/icons-pro'
 
 export const iconsSet = Object.assign(
@@ -274,10 +275,11 @@ export const iconsSet = Object.assign(
     cilFilter,
     cilFilterX,
     cilTruck,
-    cilShareAll
+    cilSortDescending,
+    cilTriangle,
   },
   {
     cisCheckCircle,
-    cisSearch
+    cisSearch,
   },
 )
