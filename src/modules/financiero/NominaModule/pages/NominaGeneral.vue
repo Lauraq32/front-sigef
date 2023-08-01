@@ -63,7 +63,7 @@
       </template>
     </CSmartTable>
   </div>
-  <ModalGenerarNomina :modalGenerarNomina="showModal" @changeValueModal="getCloseModalValue"
+  <ModalGenerarNomina :modalGenerarNomina="showModal" @changeValueModal="closeModalNominaGeneral"
     @update="() => filterByDate({})" />
   <ModalconfirmNomina :showModal="showConfirmModal" :payload="dataNomina" @close-modal="closeModalConfirmNomina" />
 </template>
@@ -106,8 +106,8 @@ export default {
         this.footerItem[2].label = formatPrice(response.data.data.reduce((total, item) => total + item.totalNeto, 0))
       })
     },
-    getCloseModalValue(value) {
-      this.showModal = value;
+    closeModalNominaGeneral() {
+      this.showModal = false;
     },
 
     closeModalConfirmNomina() {
