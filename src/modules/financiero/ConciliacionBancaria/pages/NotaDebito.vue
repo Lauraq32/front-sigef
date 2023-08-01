@@ -1,6 +1,6 @@
 <template>
     <CContainer>
-        <CreditoDebitoHeader textBanco="Débito" @sendDataFilter="getDataFilter" @sendBancoId="getBancoId" />
+        <CreditoDebitoHeader textBanco="Débito" @sendDataFilter="getDataFilter" @sendBancoId="(bancoId) => getDataFilter({ bancoId })" />
         <div class="mt-3">
             <div class="d-flex align-item-end justify-content-end">
                 <CButton size="md" color="info" @click="() => showNotaDebitoModal = true">Adicionar</CButton>
@@ -53,9 +53,6 @@ export default {
                 this.notasDebitoDate = response.data.data;
             });
         },
-        getBancoId(bancoId) {
-            this.getDataFilter({ bancoId });
-        },
         closeNotaDebitoModal(value) {
             this.showNotaDebitoModal = value;
             this.cleanForm();
@@ -75,6 +72,12 @@ export default {
                 });
                 this.cleanForm();
                 this.getDataFilter({ bancoId: this.bancoId });
+            }).catch((error) => {
+                this.show({
+                    content: error.response.data || "Error al guardar esta nota de débito",
+                    closable: true,
+                    color: 'danger'
+                });
             });
         },
         editNotaDebito(notaDebito) {
@@ -85,6 +88,12 @@ export default {
                 });
                 this.cleanForm();
                 this.getDataFilter({ bancoId: this.bancoId });
+            }).catch((error) => {
+                this.show({
+                    content: error.response.data || "Error al editar esta nota de débito",
+                    closable: true,
+                    color: 'danger'
+                });
             });
         },
         cleanForm() {
@@ -149,9 +158,14 @@ export default {
                                     this.show({
                                         content: "Registro eliminado",
                                         closable: true,
-                                        color: 'success'
                                     });
                                     this.getDataFilter({ bancoId: this.bancoId })
+                                }).catch((error) => {
+                                    this.show({
+                                        content: error.response.data || "Error al eliminar esta nota de débito",
+                                        closable: true,
+                                        color: 'danger'
+                                    });
                                 });
                             }
                         })

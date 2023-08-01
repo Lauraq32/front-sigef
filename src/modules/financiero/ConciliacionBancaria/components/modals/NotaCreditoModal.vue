@@ -75,9 +75,6 @@ export default {
             }
             this.isFormEventTypeValidated = true
         },
-        getEstatus(value) {
-            this.notaCredito.estatus = value;
-        },
         ...mapActions(useToastStore, ['show']),
     },
     watch: {

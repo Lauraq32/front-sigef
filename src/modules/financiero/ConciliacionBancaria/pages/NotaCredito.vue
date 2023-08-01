@@ -1,6 +1,6 @@
 <template>
     <CContainer>
-        <CreditoDebitoHeader textBanco="Crédito" @sendDataFilter="getDataFilter" @sendBancoId="getBancoId" />
+        <CreditoDebitoHeader textBanco="Crédito" @sendDataFilter="getDataFilter" @sendBancoId="(bancoId) => getDataFilter({ bancoId })" />
         <div class="mt-3">
             <div class="d-flex align-item-end justify-content-end">
                 <CButton size="md" color="info" @click="() => showNotaCreditoModal = true">Adicionar</CButton>
@@ -53,9 +53,6 @@ export default {
                 this.notasCreditoDate = response.data.data;
             });
         },
-        getBancoId(bancoId) {
-            this.getDataFilter({ bancoId });
-        },
         closeNotaCreditoModal(value) {
             this.showNotaCreditoModal = value;
             this.cleanForm();
@@ -75,7 +72,13 @@ export default {
                 });
                 this.cleanForm();
                 this.getDataFilter({ bancoId: this.bancoId });
-            });
+            }).catch((error) => {
+                this.show({
+                    content: error.response.data || "Error al guardar esta nota de crédito",
+                    closable: true,
+                    color: 'danger'
+                });
+            });;
         },
         editNotaCredito(notaCredito) {
             ConciliacionApi.editNotaCredito(notaCredito.secuencial, this.bancoId, notaCredito).then(({ data }) => {
@@ -85,6 +88,12 @@ export default {
                 });
                 this.cleanForm();
                 this.getDataFilter({ bancoId: this.bancoId });
+            }).catch((error) => {
+                this.show({
+                    content: error.response.data || "Error al editar esta nota de crédito",
+                    closable: true,
+                    color: 'danger'
+                });
             });
         },
         cleanForm() {
@@ -137,7 +146,7 @@ export default {
                         Swal.fire({
                             position: 'center',
                             icon: 'warning',
-                            title: `Estás usted seguro que quieres eliminarlo?`,
+                            title: `Estás seguro que quieres eliminar esta nota de crédito?`,
                             showConfirmButton: true,
                             confirmButtonText: 'Si',
                             cancelButtonText: 'No',
@@ -151,9 +160,14 @@ export default {
                                     this.show({
                                         content: "Registro eliminado",
                                         closable: true,
-                                        color: 'success'
                                     });
                                     this.getDataFilter({ bancoId: this.bancoId })
+                                }).catch((error) => {
+                                    this.show({
+                                        content: error.response.data || "Error al eliminar esta nota de crédito",
+                                        closable: true,
+                                        color: 'danger'
+                                    });
                                 });
                             }
                         })
