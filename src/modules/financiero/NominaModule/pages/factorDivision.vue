@@ -5,92 +5,100 @@
 
     <CForm>
         <div class="container">
-            <div class="d-flex justify-content-center ">
+            <div class="d-flex justify-content-center">
                 <div>
                     <div class="row">
                         <div class="col-md-5">
                             <CFormLabel for="excento">Excento Hasta:</CFormLabel>
-                            <CFormInput id="excento" />
+                            <CFormInput v-on:keypress="onlyNumber" id="excento" />
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-5">
-                            <CFormLabel for="excento">Sueldo Escala 1:</CFormLabel>
-                            <CFormInput id="excento" />
+                            <CFormLabel for="postFactorDivision.montoSueldoEscala1">Sueldo Escala 1:</CFormLabel>
+                            <CFormInput v-on:keypress="onlyNumber" v-model="postFactorDivision.montoSueldoEscala1"
+                                id="postFactorDivision.montoSueldoEscala1" />
                         </div>
 
                         <div class="input-group col-2">
                             <span class="input-group-text" id="basic-addon1">%</span>
-                            <input type="text" class="form-control" />
+                            <CFormInput v-on:keypress="onlyNumber" v-model="postFactorDivision.porcentajeISREscala1"
+                                type="text" class="form-control" />
                         </div>
 
                         <div class="col-5">
                             <CFormLabel for="excento">Valor Fijo</CFormLabel>
-                            <CFormInput id="excento" />
+                            <CFormInput v-on:keypress="onlyNumber" id="excento" />
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-5">
-                            <CFormLabel for="excento">Sueldo Escala 2:</CFormLabel>
-                            <CFormInput id="excento" />
+                            <CFormLabel for="postFactorDivision.montoSueldoEscala2">Sueldo Escala 2:</CFormLabel>
+                            <CFormInput v-on:keypress="onlyNumber" v-model="postFactorDivision.montoSueldoEscala2"
+                                id="postFactorDivision.montoSueldoEscala2" />
                         </div>
                         <div class="input-group col-2">
                             <span class="input-group-text" id="basic-addon1">%</span>
-                            <input type="text" class="form-control" />
+                            <CFormInput v-on:keypress="onlyNumber" v-model="postFactorDivision.porcentajeISREscala2"
+                                type="text" class="form-control" />
                         </div>
                         <div class="col-5 input-position">
-                            <CFormInput id="excento" />
+                            <CFormInput v-on:keypress="onlyNumber" id="excento" />
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-5">
-                            <CFormLabel for="excento">Sueldo Escala 3:</CFormLabel>
-                            <CFormInput id="excento" />
+                            <CFormLabel for="postFactorDivision.montoSueldoEscala3">Sueldo Escala 3:</CFormLabel>
+                            <CFormInput v-on:keypress="onlyNumber" v-model="postFactorDivision.montoSueldoEscala3"
+                                id="postFactorDivision.montoSueldoEscala3" />
                         </div>
                         <div class="input-group col-2">
                             <span class="input-group-text" id="basic-addon1">%</span>
-                            <input type="text" class="form-control" />
+                            <CFormInput v-on:keypress="onlyNumber" v-model="postFactorDivision.porcentajeISREscala3"
+                                type="text" class="form-control" />
                         </div>
                         <div class="col-5 input-position">
-                            <CFormInput id="excento" />
+                            <CFormInput v-on:keypress="onlyNumber" id="excento" />
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-5">
-                            <CFormLabel for="excento">Sueldo Escala 4:</CFormLabel>
-                            <CFormInput id="excento" />
+                            <CFormLabel for="postFactorDivision.montoSueldoEscala4">Sueldo Escala 4:</CFormLabel>
+                            <CFormInput v-on:keypress="onlyNumber" v-model="postFactorDivision.montoSueldoEscala4"
+                                id="postFactorDivision.montoSueldoEscala4" />
                         </div>
                         <div class="input-group col-2">
                             <span class="input-group-text" id="basic-addon1">%</span>
-                            <input type="text" class="form-control" />
+                            <CFormInput v-on:keypress="onlyNumber" v-model="postFactorDivision.porcentajeISREscala4"
+                                type="text" class="form-control" />
                         </div>
                         <div class="col-5 input-position">
-                            <CFormInput id="excento" />
+                            <CFormInput v-on:keypress="onlyNumber" id="excento" />
                         </div>
                     </div>
 
                     <div class="row mt-3">
                         <div class="col-6">
                             <CFormLabel for="excento">Retenci&oacute;n AFP</CFormLabel>
-                            <CFormInput id="excento" />
+                            <CFormInput v-on:keypress="onlyNumber" id="excento" />
                         </div>
                         <div class="col-6">
                             <CFormLabel for="excento">Hasta el sueldo</CFormLabel>
-                            <CFormInput id="excento" />
+                            <CFormInput v-on:keypress="onlyNumber" id="excento" />
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-6">
                             <CFormLabel for="excento">Retenci&oacute;n ARS</CFormLabel>
-                            <CFormInput id="excento" />
+                            <CFormInput v-on:keypress="onlyNumber" id="excento" />
                         </div>
                         <div class="col-6">
                             <CFormLabel for="excento">Hasta el sueldo</CFormLabel>
-                            <CFormInput id="excento" />
+                            <CFormInput v-on:keypress="onlyNumber" id="excento" />
                         </div>
                     </div>
 
@@ -101,7 +109,7 @@
                                     <CFormLabel for="sueldoMensual" class="col-form-label">Sueldo Mensual:</CFormLabel>
                                 </div>
                                 <div class="col-auto">
-                                    <CFormInput id="sueldoMensual" />
+                                    <CFormInput v-on:keypress="onlyNumber" id="sueldoMensual" />
                                 </div>
                             </div>
 
@@ -149,9 +157,10 @@
         </div>
     </CForm>
 </template>
-  
+
 <script>
 import { CFormInput, CFormLabel } from '@coreui/vue-pro'
+import { onlyNumber } from '@/utils/validator'
 export default {
     name: 'ConfiguracionRentaAndFactorDivision',
     components: {
@@ -160,14 +169,34 @@ export default {
     },
 
     data: function () {
-        return {}
+        return {
+            onlyNumber,
+            postFactorDivision: {
+                porcentajeARSEmpleado: 0,
+                porcentajeARSEmpleador: 0,
+                porcentajeAFPEmpleado: 0,
+                porcentajeAFPEmpleador: 0,
+                sueldoTopeAFP: 0,
+                porcentajeRiesgoLaboral: 0,
+                porcentajeMaximoRetencionEmpleado: 0,
+                retencionIdParaRestarExcedente: 0,
+                retencionIdParaRestarExcedente2: 0,
+                montoSueldoExcentoISR: 0,
+                montoSueldoEscala1: 0,
+                porcentajeISREscala1: 0,
+                montoSueldoEscala2: 0,
+                porcentajeISREscala2: 0,
+                montoSueldoEscala3: 0,
+                porcentajeISREscala3: 0,
+                montoSueldoEscala4: 0,
+                porcentajeISREscala4: 0,
+            },
+        }
     },
 
-    methods: {
-    },
+    methods: {},
 
-    props: {
-    },
+    props: {},
 }
 </script>
 <style>
@@ -182,4 +211,3 @@ export default {
     margin-top: 33px;
 }
 </style>
-  

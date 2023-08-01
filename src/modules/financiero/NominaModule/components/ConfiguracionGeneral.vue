@@ -113,7 +113,8 @@
                 <CFormLabel for="sueldoMensual" class="col-form-label">% Retenci&oacute;n ARS. (Empleado)</CFormLabel>
               </div>
               <div class="col-3">
-                <CFormInput id="sueldoMensual" />
+                <CFormInput class="text-end" v-on:keypress="onlyNumber"
+                  v-model="calculosPorcentajes.PorcentajeARSEmpleado" id="sueldoMensual" />
               </div>
             </div>
             <div class="row mt-3">
@@ -121,15 +122,18 @@
                 <CFormLabel for="sueldoMensual" class="col-form-label">% Retenci&oacute;n ARS. Patrono</CFormLabel>
               </div>
               <div class="col-3">
-                <CFormInput id="sueldoMensual" />
+                <CFormInput class="text-end" v-on:keypress="onlyNumber"
+                  v-model="calculosPorcentajes.PorcentajeARSEmpleador" id="sueldoMensual" />
               </div>
             </div>
             <div class="row mt-3">
               <div class="col-9">
-                <CFormLabel for="sueldoMensual" class="col-form-label">% Fondo Pensi&oacute;n (Empleado)</CFormLabel>
+                <CFormLabel for="sueldoMensual" class="col-form-label text-end">% Fondo Pensi&oacute;n (Empleado)
+                </CFormLabel>
               </div>
               <div class="col-3">
-                <CFormInput id="sueldoMensual" />
+                <CFormInput class="text-end" v-on:keypress="onlyNumber"
+                  v-model="calculosPorcentajes.PorcentajeAFPEmpleado" id="sueldoMensual" />
               </div>
             </div>
             <div class="row mt-3">
@@ -137,15 +141,17 @@
                 <CFormLabel for="sueldoMensual" class="col-form-label">% Fondo Pensi&oacute;n Patrono</CFormLabel>
               </div>
               <div class="col-3">
-                <CFormInput id="sueldoMensual" />
+                <CFormInput class="text-end" v-on:keypress="onlyNumber"
+                  v-model="calculosPorcentajes.PorcentajeAFPEmpleador" id="sueldoMensual" />
               </div>
             </div>
             <div class="row mt-3">
               <div class="col-7">
-                <CFormLabel for="sueldoMensual" class="col-form-label">Total Sueldo:</CFormLabel>
+                <CFormLabel for="sueldoMensual" class="col-form-label text-end">Tope Sueldo:</CFormLabel>
               </div>
               <div class="col-5">
-                <CFormInput id="sueldoMensual" />
+                <CFormInput class="text-end" v-on:keypress="onlyNumber" v-model="calculosPorcentajes.SueldoTopeAFP"
+                  id="sueldoMensual" />
               </div>
 
               <p>El tope de sueldo es obligatorio para el c&aacute;lculo de AFP.</p>
@@ -153,27 +159,31 @@
 
             <div class="row mb-2 mt-1">
               <div class="col-9">
-                <CFormLabel for="sueldoMensual" class="col-form-label">% Riesgo Laboral. Patrono</CFormLabel>
+                <CFormLabel for="sueldoMensual" class="col-form-label text-end">% Riesgo Laboral. Patrono</CFormLabel>
               </div>
               <div class="col-3">
-                <CFormInput id="sueldoMensual" />
+                <CFormInput class="text-end" v-on:keypress="onlyNumber"
+                  v-model="calculosPorcentajes.PorcentajeRiesgoLaboral" id="sueldoMensual" />
               </div>
             </div>
             <div class="border box-tall">
               <p class="mt-2 mx-2">
                 Seg&uacute;n la ley, las retenciones a los empleados, no deben pasar
                 de un
-                <CFormInput v-model="sinNombrePorAhora" class="input-style" type="text" />
+                <CFormInput v-on:keypress="onlyNumber" v-model="calculosPorcentajes.PorcentajeMaximoRetencionEmpleado"
+                  class="input-style text-end" />
                 establecido de su sueldo bruto.
                 <br />
                 <br />
                 En caso de que las retenciones sobrepasen este pocentaje,
                 restar la diferencia de la siguiente retenci&oacute;n.
-                <CFormInput v-model="sinNombrePorAhora1" class="input-style" type="text" />
+                <CFormInput v-on:keypress="onlyNumber" v-model="calculosPorcentajes.RetencionIdParaRestarExcedente"
+                  class="input-style text-center" />
                 <br />
                 <br />
                 si es = cero (0), rebajar de:
-                <CFormInput class="input-style" type="number" />
+                <CFormInput v-on:keypress="onlyNumber" v-model="calculosPorcentajes.RetencionIdParaRestarExcedente"
+                  class="input-style text-center" type="number" />
               </p>
             </div>
             <div class="mt-3 d-flex justify-content-end">
@@ -247,6 +257,26 @@ export default {
         },
       },
       getConfiguracionNomina,
+      calculosPorcentajes: {
+        porcentajeARSEmpleado: 0,
+        porcentajeARSEmpleador: 0,
+        porcentajeAFPEmpleado: 0,
+        porcentajeAFPEmpleador: 0,
+        sueldoTopeAFP: 0,
+        porcentajeRiesgoLaboral: 0,
+        porcentajeMaximoRetencionEmpleado: 0,
+        retencionIdParaRestarExcedente: 0,
+        retencionIdParaRestarExcedente2: 0,
+        montoSueldoExcentoISR: 0,
+        montoSueldoEscala1: 0,
+        porcentajeISREscala1: 0,
+        montoSueldoEscala2: 0,
+        porcentajeISREscala2: 0,
+        montoSueldoEscala3: 0,
+        porcentajeISREscala3: 0,
+        montoSueldoEscala4: 0,
+        porcentajeISREscala4: 0,
+      },
 
       tableConfiguracionNominaRetencion: [
         {
@@ -418,6 +448,12 @@ export default {
         },
       }
     },
+
+    getConfiguracionPorcentajes() {
+      ApiNomina.calculosPorcentage().then((response) => {
+        this.calculosPorcentajes = response.data.data
+      })
+    }
   },
 
   props: {
@@ -426,6 +462,7 @@ export default {
 
   mounted() {
     this.getConfiguracionNominaApi()
+    this.getConfiguracionPorcentajes()
   },
 }
 </script>
