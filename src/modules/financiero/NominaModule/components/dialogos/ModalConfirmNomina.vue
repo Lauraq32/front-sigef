@@ -104,7 +104,7 @@
                                     <CFormLabel for="validationCustomUsername">Valor Bruto de la N&oacute;mina:</CFormLabel>
                                 </div>
                                 <div class="col-6 text-end inputTamano">
-                                    <span>{{ formatPrice(montoPresupuestado) }}</span>
+                                    <span>{{ formatPrice(montoPresupuestado) ?? 0 }}</span>
                                 </div>
                             </div>
                         </div>
@@ -200,38 +200,42 @@ export default {
     methods: {
         ...mapActions(useToastStore, ['show']),
         confirmNomina() {
-            Swal.fire({
-                position: 'center',
-                icon: 'warning',
-                title: `Está usted seguro que quiere confirmar esta nómina?`,
-                showConfirmButton: true,
-                confirmButtonText: 'Si',
-                cancelButtonText: 'No',
-                showCancelButton: true,
-                allowEscapeKey: false,
-                allowOutsideClick: false,
-                customClass: 'btns',
-            }).then((answer) => {
-                if (answer.isConfirmed) {
-                    ApiNomina.confirmNomina(this.payload.id)
-                        .then((response) => {
-                            this.show({
-                                content: response.data,
-                                closable: true,
+            if (this.montoPresupuestado < this.payload.totalNeto || this.montoPresupuestado === 0) {
+                Swal.fire('El monto total de la nómina es mayor al presupuesto existente para realizar el pago, por favor verifique.')
+            } else {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    title: `Está usted seguro que quiere confirmar esta nómina?`,
+                    showConfirmButton: true,
+                    confirmButtonText: 'Si',
+                    cancelButtonText: 'No',
+                    showCancelButton: true,
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    customClass: 'btns',
+                }).then((answer) => {
+                    if (answer.isConfirmed) {
+                        ApiNomina.confirmNomina(this.payload.id)
+                            .then((response) => {
+                                this.show({
+                                    content: response.data,
+                                    closable: true,
+                                })
+                                setTimeout(this.filterByDate({}), 500)
+                                this.closeModal()
                             })
-                            setTimeout(this.filterByDate({}), 500)
-                            this.closeModal()
-                        })
-                        .catch((error) => {
-                            this.show({
-                                content: error.response.data,
-                                closable: true,
-                                color: 'danger',
-                                class: 'text-white',
+                            .catch((error) => {
+                                this.show({
+                                    content: error.response.data,
+                                    closable: true,
+                                    color: 'danger',
+                                    class: 'text-white',
+                                })
                             })
-                        })
-                }
-            })
+                    }
+                })
+            }
         },
 
         closeModal() {
@@ -296,13 +300,11 @@ export default {
         },
 
         obtenerTierPorBancoId() {
-            const presupuestos = [
-                (this.presupuestoBanco.presupuestoBco1 + this.presupuestoBanco.variacionBco1) - this.presupuestoBanco.totalPagadoBco1,
-                (this.presupuestoBanco.presupuestoBco2 + this.presupuestoBanco.variacionBco2) - this.presupuestoBanco.totalPagadoBco2,
-                (this.presupuestoBanco.presupuestoBco3 + this.presupuestoBanco.variacionBco3) - this.presupuestoBanco.totalPagadoBco3,
-                (this.presupuestoBanco.presupuestoBco4 + this.presupuestoBanco.variacionBco4) - this.presupuestoBanco.totalPagadoBco4
-            ];
-            this.montoPresupuestado = presupuestos[this.payload.cuentaBancoId - 1];
+            const bancoId = this.payload.cuentaBancoId;
+            const presupuesto = Number(this.presupuestoBanco[`presupuestoBco${bancoId}`] ?? 0);
+            const variacion = Number(this.presupuestoBanco[`variacionBco${bancoId}`] ?? 0);
+            const totalPagado = Number(this.presupuestoBanco[`totalPagadoBco${bancoId}`] ?? 0);
+            this.montoPresupuestado = presupuesto + variacion - totalPagado;
         },
 
         clearModal() {
