@@ -461,6 +461,12 @@ export default [
           },
           {
             component: 'CNavItem',
+            name: 'Cheques de nomina (cuenta activa)',
+            to: '/ConciliacionBancaria/Cheques-nomina',
+            icon: 'cilCalculator',
+          },
+          {
+            component: 'CNavItem',
             name: 'Depósitos',
             to: '/ConciliacionBancaria/Depositos',
             icon: 'cilBasketPlus',

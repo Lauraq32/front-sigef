@@ -27,6 +27,15 @@ export default {
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ConciliacionBancaria/components/ConciliacionBancaria.vue'
         ),
     },
+    {
+      path: 'Cheques-nomina',
+      name: 'Cheques Nomina',
+      meta: { label: 'Cheques Generados desde Nomina' },
+      component: () =>
+        import(
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ConciliacionBancaria/components/ChequesNomina.vue'
+        ),
+    },
 
     {
       path: 'cuentasDebanco',
