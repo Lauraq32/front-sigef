@@ -35,14 +35,12 @@
               </div>
             </div>
 
-
             <CTabContent>
               <CTabPane role="tabpanel" aria-labelledby="retenciones-tab" :visible="tabPaneActiveKey === 1">
                 <CSmartTable clickableRows :tableProps="{
                   striped: true,
                   hover: true,
-                }
-                  " :tableHeadProps="{}" :activePage="1" header :items="dataConfiguracionNomina"
+                }" :tableHeadProps="{}" :activePage="1" header :items="dataConfiguracionNomina"
                   :columns="tableConfiguracionNominaRetencion" :sorterValue="{ column: 'status', state: 'asc' }"
                   pagination>
                   <template #nombre="{ item }">
@@ -67,15 +65,12 @@
                     </td>
                   </template>
                 </CSmartTable>
-
-
               </CTabPane>
               <CTabPane role="tabpanel" aria-labelledby="ingresos-tab" :visible="tabPaneActiveKey === 2">
                 <CSmartTable clickableRows :tableProps="{
                   striped: true,
                   hover: true,
-                }
-                  " :tableHeadProps="{}" :activePage="1" header :items="dataConfiguracionNominaIngresos"
+                }" :tableHeadProps="{}" :activePage="1" header :items="dataConfiguracionNominaIngresos"
                   :columns="tableConfiguracionNominaIngresos" :sorterValue="{ column: 'status', state: 'asc' }"
                   pagination>
                   <template #nombre="{ item }">
@@ -93,21 +88,20 @@
                     </td>
                   </template>
                 </CSmartTable>
-
-
               </CTabPane>
             </CTabContent>
 
             <h6><u>Nota</u></h6>
 
             <p>
-              Debe crear el concepto de la retenci&oacute;n en el modulo de ejecuci&oacute;n
-              presupuestaria <br />
-              y luego, poner el c&oacute;digo asignado en la casilla correspondiente
+              Debe crear el concepto de la retenci&oacute;n en el modulo de
+              ejecuci&oacute;n presupuestaria <br />
+              y luego, poner el c&oacute;digo asignado en la casilla
+              correspondiente
             </p>
           </div>
 
-          <div class="col-6 border  p-2">
+          <div class="col-6 border p-2">
             <div class="row mt-3">
               <div class="col-9">
                 <CFormLabel for="sueldoMensual" class="col-form-label">% Retenci&oacute;n ARS. (Empleado)</CFormLabel>
@@ -154,7 +148,9 @@
                   id="sueldoMensual" />
               </div>
 
-              <p>El tope de sueldo es obligatorio para el c&aacute;lculo de AFP.</p>
+              <p>
+                El tope de sueldo es obligatorio para el c&aacute;lculo de AFP.
+              </p>
             </div>
 
             <div class="row mb-2 mt-1">
@@ -168,27 +164,27 @@
             </div>
             <div class="border box-tall">
               <p class="mt-2 mx-2">
-                Seg&uacute;n la ley, las retenciones a los empleados, no deben pasar
-                de un
-                <CFormInput v-on:keypress="onlyNumber" v-model="calculosPorcentajes.PorcentajeMaximoRetencionEmpleado"
-                  class="input-style text-end" />
+                Seg&uacute;n la ley, las retenciones a los empleados, no deben
+                pasar de un
+                <CFormInput v-on:keypress="onlyNumber" v-model="calculosPorcentajes.PorcentajeMaximoRetencionEmpleado
+                  " class="input-style text-end" />
                 establecido de su sueldo bruto.
                 <br />
                 <br />
-                En caso de que las retenciones sobrepasen este pocentaje,
-                restar la diferencia de la siguiente retenci&oacute;n.
+                En caso de que las retenciones sobrepasen este pocentaje, restar
+                la diferencia de la siguiente retenci&oacute;n.
                 <CFormInput v-on:keypress="onlyNumber" v-model="calculosPorcentajes.RetencionIdParaRestarExcedente"
                   class="input-style text-center" />
                 <br />
                 <br />
                 si es = cero (0), rebajar de:
-                <CFormInput v-on:keypress="onlyNumber" v-model="calculosPorcentajes.RetencionIdParaRestarExcedente"
+                <CFormInput v-on:keypress="onlyNumber" v-model="calculosPorcentajes.RetencionIdParaRestarExcedente2"
                   class="input-style text-center" type="number" />
               </p>
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <div>
-                <CButton color="info" @click="">Guardar</CButton>
+                <CButton color="info" @click="postRetencionesEmpleados">Guardar</CButton>
               </div>
             </div>
           </div>
@@ -196,8 +192,6 @@
       </div>
     </div>
   </CForm>
-
-
 
   <AddDialogRetencion :showModal="showAgregarIngresosRetencion" :payload="postIngresoRetencion" @close-modal="closeModal"
     @addRetencion="postRetenciones" />
@@ -258,24 +252,15 @@ export default {
       },
       getConfiguracionNomina,
       calculosPorcentajes: {
-        porcentajeARSEmpleado: 0,
-        porcentajeARSEmpleador: 0,
-        porcentajeAFPEmpleado: 0,
-        porcentajeAFPEmpleador: 0,
-        sueldoTopeAFP: 0,
-        porcentajeRiesgoLaboral: 0,
-        porcentajeMaximoRetencionEmpleado: 0,
-        retencionIdParaRestarExcedente: 0,
-        retencionIdParaRestarExcedente2: 0,
-        montoSueldoExcentoISR: 0,
-        montoSueldoEscala1: 0,
-        porcentajeISREscala1: 0,
-        montoSueldoEscala2: 0,
-        porcentajeISREscala2: 0,
-        montoSueldoEscala3: 0,
-        porcentajeISREscala3: 0,
-        montoSueldoEscala4: 0,
-        porcentajeISREscala4: 0,
+        PorcentajeARSEmpleado: 0,
+        PorcentajeARSEmpleador: 0,
+        PorcentajeAFPEmpleado: 0,
+        PorcentajeAFPEmpleador: 0,
+        SueldoTopeAFP: 0,
+        PorcentajeRiesgoLaboral: 0,
+        PorcentajeMaximoRetencionEmpleado: 0,
+        RetencionIdParaRestarExcedente: 0,
+        RetencionIdParaRestarExcedente2: 0,
       },
 
       tableConfiguracionNominaRetencion: [
@@ -452,6 +437,16 @@ export default {
     getConfiguracionPorcentajes() {
       ApiNomina.calculosPorcentage().then((response) => {
         this.calculosPorcentajes = response.data.data
+      })
+    },
+
+    postRetencionesEmpleados() {
+      ApiNomina.postRetencionesEmpleados(this.calculosPorcentajes).then((response) => {
+        this.show({
+          content: response.data,
+          closable: true,
+        })
+        setTimeout(this.getConfiguracionPorcentajes, 500)
       })
     }
   },

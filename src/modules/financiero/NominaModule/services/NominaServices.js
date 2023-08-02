@@ -226,6 +226,13 @@ class NominaApi {
   calculosPorcentage() {
     return http.get(`configuracion-nomina/percentage`)
   }
+
+  postFactorDivision(data) {
+    return http.post(`configuracion-nomina/percentage`, data)
+  }
+  postRetencionesEmpleados(data) {
+    return http.post(`configuracion-nomina/percentage-renteciones`, data)
+  }
 }
 
 export default new NominaApi()
