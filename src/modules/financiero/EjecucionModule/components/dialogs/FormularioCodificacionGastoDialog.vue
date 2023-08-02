@@ -454,6 +454,8 @@ export default {
     },
 
     clearForm() {
+      this.mestProgList = [],
+      this.tipoRetencionesList = [],
       this.balanceDisponible = 0;
       this.detalleRetencion = {
         fecha: '2023-07-07',
@@ -641,7 +643,9 @@ export default {
   },
 
   watch: {
-
+    showModal(){
+      this.clearForm()
+    },
     tipoRetencionObj(value) {
 
       this.detalleRetencion.montoAplica = value.porciento;

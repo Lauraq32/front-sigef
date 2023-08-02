@@ -250,6 +250,8 @@ export default {
     ...mapActions(useToastStore, ['show']),
 
     clearForm() {
+      this.displayBeneficiario = null
+      this.displayConceptoGasto = {},
       this.postRegistroGasto = {
         detalle: "",
         fecha: new Date(),
@@ -272,6 +274,7 @@ export default {
         documentoInicial: 1,
         documentoFinal: 1,
         cantidadDocumento: 1,
+        bancoId:0,
         estatus: true,
         formaPago: "Cheque",
         tipoGastoId: 1,
