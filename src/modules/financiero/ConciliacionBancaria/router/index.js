@@ -86,5 +86,23 @@ export default {
           /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ConciliacionBancaria/components/CortarChequesBancarios.vue'
         ),
     },
+    {
+      path: "notas-debito",
+      name: "notasDebito",
+      meta: { label: "Notas de Debitos"},
+      component: () => 
+        import (
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ConciliacionBancaria/pages/NotaDebito.vue'
+        )
+    },
+    {
+      path: "notas-credito",
+      name: "notasCredito",
+      meta: { label: "Notas de Creditos"},
+      component: () => 
+        import (
+          /* webpackChunkName: "daybook-no-entry" */ '@/modules/financiero/ConciliacionBancaria/pages/NotaCredito.vue'
+        )
+    }
   ],
 }

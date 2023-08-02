@@ -26,6 +26,10 @@ const formattedDate = computed({
   },
   set: (value) => {
     let date;
+    if(!value) {
+      emit('update:modelValue', null);
+      return;
+    }
     if (props.typeId === 'datetime-local') {
       date = new Date(`${value}:00`);
     }
