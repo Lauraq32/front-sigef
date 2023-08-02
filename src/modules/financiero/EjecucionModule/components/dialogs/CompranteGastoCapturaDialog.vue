@@ -33,7 +33,7 @@
 
                       <CCol :md="6">
                         <CFormLabel for="fechaResolucion">Fecha Resoluci&oacute;n</CFormLabel>
-                        <AppDateField class="form-control" v-model="postRegistroGasto.fechaResolucion"  />
+                        <AppDateField class="form-control" v-model="postRegistroGasto.fechaResolucion" />
                       </CCol>
 
                       <CCol :md="6">
@@ -83,13 +83,14 @@
                       </CCol>
                       <CCol :md="12">
                         <CFormLabel for="conceptoGastoId">Por Concepto de</CFormLabel>
-
-                        <CFormSelect required v-model="postRegistroGasto.conceptoGastoId">
+                        <v-select v-model="displayConceptoGasto" :options="conceptosGasto"
+                          :disabled="notAllowEdit"></v-select>
+                        <!-- <CFormSelect required v-model="postRegistroGasto.conceptoGastoId">
                           <option :key="0">Selecionar concepto</option>
                           <option v-for="concepto in conceptosGasto " :value="`${concepto.id}`" :key="concepto.id">
                             {{ concepto.descripcion }}
                           </option>
-                        </CFormSelect>
+                        </CFormSelect> -->
                       </CCol>
                       <CCol :md="12">
                         <CFormLabel for="nombre">Cuenta de banco</CFormLabel>
@@ -131,19 +132,19 @@
           </template>
           <template #montoBruto="{ item, index }">
             <td class="text-end">
-              {{formatPrice(item.montoBruto)}}
+              {{ formatPrice(item.montoBruto) }}
             </td>
           </template>
-          
+
           <template #montoRetenciones="{ item, index }">
             <td class="text-end">
-              {{formatPrice(item.montoRetenciones)}}
+              {{ formatPrice(item.montoRetenciones) }}
             </td>
           </template>
-          
+
           <template #montoNeto="{ item, index }">
             <td class="text-end">
-              {{formatPrice(item.montoNeto)}}
+              {{ formatPrice(item.montoNeto) }}
             </td>
           </template>
         </CSmartTable>
@@ -193,13 +194,18 @@ export default {
     return {
       formatPrice,
       onlyNumber,
+      displayConceptoGasto: {},
       disableFormaPago: false,
       disabledComprobante: true,
       cuentasBanco: [],
       isFormEventTypeValidated: false,
       detalleGasto: [],
       cuentaBanco: '',
-      conceptosGasto: [],
+      conceptosGasto: {
+        require: true,
+        type: Array,
+        default: [],
+      },
       displayBeneficiario: null,
       showBeneficiarioModal: false,
       ShowCodificacionGastoModal: false,
@@ -251,7 +257,19 @@ export default {
   methods: {
     ...mapActions(useToastStore, ['show']),
 
-    clearForm(){
+    // getInstitucionOtorgante() {
+     
+    // },
+    //   Api.getins().then(({data: { data }}) => {
+    //     this.institucionesOtorgantes = data.map(elem => ({
+    //         code: elem.code,
+    //         label: `${elem.code}-${elem.detail}`
+    //       })
+    //     );
+    //   })
+    // },
+
+    clearForm() {
       this.postRegistroGasto = {
         detalle: "",
         fecha: new Date(),
@@ -301,7 +319,7 @@ export default {
       this.cuentaBanco = Array.from(e.target).filter(cuenta => cuenta.value == e.target.value)[0].label
     },
     saveDetalle(payload) {
-      if (payload.detalleRetencion.length > 0) { 
+      if (payload.detalleRetencion.length > 0) {
         let montoNeto = payload.detalleRetencion.map(detalle => (
           detalle.valorAplicado
         ))
@@ -310,7 +328,7 @@ export default {
         });
 
         this.postRegistroGasto.detalleRegistroGastos = [payload, ...this.postRegistroGasto.detalleRegistroGastos]
-    
+
         return;
       }
       this.postRegistroGasto.montoBruto = payload.montoBruto
@@ -322,8 +340,13 @@ export default {
       CuentaService.getCuentasDeBancos().then(response => {
         this.cuentasBanco = response.data.data
       })
-      Api.getConceptoGastos().then(response => {
-        this.conceptosGasto = response.data.data
+
+
+      Api.getConceptoGastos().then(({ data: { data } }) => {
+        this.conceptosGasto = data.map(elem => ({
+          code: elem.id,
+          label: `${elem.id}-${elem.descripcion}`,
+        }))
       })
 
     },
@@ -373,6 +396,7 @@ export default {
     },
 
     saveGasto() {
+      this.postRegistroGasto.conceptoGastoId = this.displayConceptoGasto.code
       this.$emit('post-gasto', {
         ...this.postRegistroGasto
       })
@@ -380,15 +404,15 @@ export default {
   },
 
   watch: {
-    showModal(){
+    showModal() {
       this.clearForm()
     },
     postGasto(newValue) {
       if (newValue) {
-        this.postRegistroGasto = { ...newValue, conceptoGastoId: newValue.conceptoGasto.id, bancoId: newValue.banco.id, beneficiarioId: newValue.beneficiario.id}
+        this.postRegistroGasto = { ...newValue, conceptoGastoId: newValue.conceptoGasto.id, bancoId: newValue.banco.id, beneficiarioId: newValue.beneficiario.id }
         this.displayBeneficiario = newValue.beneficiario.descripcion
         this.cuentaBanco = newValue.banco.descripcion
-      
+
         this.postRegistroGasto.detalleRegistroGastos.map(detalle => {
           detalle.id = 0
           detalle.detalleRetencion.forEach((item) => {
