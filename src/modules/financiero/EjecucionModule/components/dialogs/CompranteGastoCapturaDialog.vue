@@ -85,12 +85,6 @@
                         <CFormLabel for="conceptoGastoId">Por Concepto de</CFormLabel>
                         <v-select v-model="displayConceptoGasto" :options="conceptosGasto"
                           :disabled="notAllowEdit"></v-select>
-                        <!-- <CFormSelect required v-model="postRegistroGasto.conceptoGastoId">
-                          <option :key="0">Selecionar concepto</option>
-                          <option v-for="concepto in conceptosGasto " :value="`${concepto.id}`" :key="concepto.id">
-                            {{ concepto.descripcion }}
-                          </option>
-                        </CFormSelect> -->
                       </CCol>
                       <CCol :md="12">
                         <CFormLabel for="nombre">Cuenta de banco</CFormLabel>
@@ -148,8 +142,6 @@
             </td>
           </template>
         </CSmartTable>
-
-
       </CCardBody>
       <SelectBeneficiario :isVisible="showBeneficiarioModal" @close="closeBeneficiarioModal" />
       <FormularioCodificacionGastoDialog @saveDetalle="saveDetalle" :registroGasto="postRegistroGasto"
@@ -256,18 +248,6 @@ export default {
 
   methods: {
     ...mapActions(useToastStore, ['show']),
-
-    // getInstitucionOtorgante() {
-     
-    // },
-    //   Api.getins().then(({data: { data }}) => {
-    //     this.institucionesOtorgantes = data.map(elem => ({
-    //         code: elem.code,
-    //         label: `${elem.code}-${elem.detail}`
-    //       })
-    //     );
-    //   })
-    // },
 
     clearForm() {
       this.postRegistroGasto = {
