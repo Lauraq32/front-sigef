@@ -65,7 +65,8 @@
   </div>
   <ModalGenerarNomina :modalGenerarNomina="showModal" @changeValueModal="closeModalNominaGeneral"
     @update="() => filterByDate({})" />
-  <ModalconfirmNomina :showModal="showConfirmModal" :payload="dataNomina" @close-modal="closeModalConfirmNomina" />
+  <ModalconfirmNomina :showModal="showConfirmModal" :payload="dataNomina" @close-modal="closeModalConfirmNomina"
+    @get-nomina="this.filterByDate({})" />
 </template>
 <script>
 import { useAuthStore } from '@/store/AuthStore';

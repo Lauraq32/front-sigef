@@ -227,8 +227,8 @@ class NominaApi {
     return http.post('nominas', data)
   }
 
-  confirmNomina(id) {
-    return http.patch(`nominas/${id}/confirmation`)
+  confirmNomina(id,data) {
+    return http.patch(`nominas/${id}/confirmation`,data)
   }
 
   validarEstructuraPresupuestada(

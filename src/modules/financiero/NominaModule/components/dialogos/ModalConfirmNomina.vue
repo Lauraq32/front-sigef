@@ -40,7 +40,7 @@
                                     <CFormLabel for="validationCustomUsername">Fecha 815s y Cheques:</CFormLabel>
                                 </div>
                                 <div style="width: 42%" class="col-6">
-                                    <AppDateField class="form-control" />
+                                    <AppDateField v-model="dataConfirmNomina.fechaCheque" class="form-control" />
                                 </div>
                             </div>
 
@@ -176,6 +176,7 @@ import ApiNomina from '../../services/NominaServices'
 import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
 import AppDateField from '@/components/AppDateField.vue'
+import { formatFechaIso } from '@/utils/format'
 
 export default {
     name: 'ConfirmNomina',
@@ -190,6 +191,10 @@ export default {
     data: function () {
         return {
             formatPrice,
+            formatFechaIso,
+            dataConfirmNomina: {
+                fechaCheque: new Date(),
+            },
             dataDepartamento: {},
             cuentaBanco: {},
             presupuestoBanco: 0,
@@ -200,8 +205,13 @@ export default {
     methods: {
         ...mapActions(useToastStore, ['show']),
         confirmNomina() {
-            if (this.montoPresupuestado < this.payload.totalBruto || this.montoPresupuestado === 0) {
-                Swal.fire('El monto total de la nómina es mayor al presupuesto existente para realizar el pago, por favor verifique.')
+            if (
+                this.montoPresupuestado < this.payload.totalBruto ||
+                this.montoPresupuestado === 0
+            ) {
+                Swal.fire(
+                    'El monto total de la nómina es mayor al presupuesto existente para realizar el pago, por favor verifique.',
+                )
             } else {
                 Swal.fire({
                     position: 'center',
@@ -216,13 +226,17 @@ export default {
                     customClass: 'btns',
                 }).then((answer) => {
                     if (answer.isConfirmed) {
-                        ApiNomina.confirmNomina(this.payload.id)
+                        ApiNomina.confirmNomina(this.payload.id, this.dataConfirmNomina)
                             .then((response) => {
+                                Swal.fire(
+                                    `No. Comprobante desvengado es: ${response.data.data.comprobanteDesvengando}\n\nNo. Comprobante pagado es: ${response.data.data.comprobantePagado}`,
+                                );
+
                                 this.show({
-                                    content: response.data,
+                                    content: 'Nómina confirmada correctamente',
                                     closable: true,
                                 })
-                                setTimeout(this.filterByDate({}), 500)
+                                setTimeout(this.$emit('get-nomina'), 500)
                                 this.closeModal()
                             })
                             .catch((error) => {
@@ -241,22 +255,6 @@ export default {
         closeModal() {
             this.$emit('close-modal', false)
             this.clearModal()
-        },
-
-        filterByDate(value) {
-            ApiNomina.getNominasGeneral(value).then((response) => {
-                this.dataNominaGeneral = response.data.data
-                this.footerItem[0].label = `Total Items: ${response.data.data.length}`
-                this.footerItem[1].label = formatPrice(
-                    response.data.data.reduce(
-                        (total, item) => total + item.totalBruto,
-                        0,
-                    ),
-                )
-                this.footerItem[2].label = formatPrice(
-                    response.data.data.reduce((total, item) => total + item.totalNeto, 0),
-                )
-            })
         },
 
         getDepartamentoById() {
@@ -294,26 +292,30 @@ export default {
                 fuenteEspecifica,
                 organismoFinanciador,
             ).then((response) => {
-                this.presupuestoBanco = response.data.data;
-                this.obtenerTierPorBancoId();
-            });
+                this.presupuestoBanco = response.data.data
+                this.obtenerTierPorBancoId()
+            })
         },
 
         obtenerTierPorBancoId() {
-            const bancoId = this.payload.cuentaBancoId;
-            const presupuesto = Number(this.presupuestoBanco[`presupuestoBco${bancoId}`] ?? 0);
-            const variacion = Number(this.presupuestoBanco[`variacionBco${bancoId}`] ?? 0);
-            const totalPagado = Number(this.presupuestoBanco[`totalPagadoBco${bancoId}`] ?? 0);
-            this.montoPresupuestado = presupuesto + variacion - totalPagado;
+            const bancoId = this.payload.cuentaBancoId
+            const presupuesto = Number(
+                this.presupuestoBanco[`presupuestoBco${bancoId}`] ?? 0,
+            )
+            const variacion = Number(
+                this.presupuestoBanco[`variacionBco${bancoId}`] ?? 0,
+            )
+            const totalPagado = Number(
+                this.presupuestoBanco[`totalPagadoBco${bancoId}`] ?? 0,
+            )
+            this.montoPresupuestado = presupuesto + variacion - totalPagado
         },
 
         clearModal() {
-            this.dataDepartamento = {},
-                this.cuentaBanco = {},
-                this.presupuestoBanco = 0,
-                this.montoPresupuestado = 0
-        }
-
+            this.dataDepartamento = {}
+            this.cuentaBanco = {}
+                ; (this.presupuestoBanco = 0), (this.montoPresupuestado = 0)
+        },
     },
     props: {
         showModal: Boolean,
