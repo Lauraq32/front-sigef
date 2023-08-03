@@ -71,7 +71,7 @@ class NominaApi {
   }
 
   getDepartamentoById(id) {
-    return http.get(`Departamento/${id}`)
+    return http.get(`departamentos/${id}`)
   }
   getDepartamentoByProgramaId(id) {
     return http.get(`Departamento/Programa/${id}`)
@@ -91,6 +91,10 @@ class NominaApi {
 
   getProgramaDivisionbyid(id) {
     return http.get(`ProgramaDivision/${id}`)
+  }
+
+  getCuentaBanco(id) {
+    return http.get(`cuentas-banco/${id}`)
   }
 
   getNominaGeneralById(id) {
@@ -125,7 +129,7 @@ class NominaApi {
     )
   }
   getNominasGeneral(params) {
-    params = CreateQueryParam(params);
+    params = CreateQueryParam(params)
     return http.get(`nominas?${params}`)
   }
 
@@ -214,13 +218,29 @@ class NominaApi {
   }
 
   deleteConfiguracionNomina(data) {
-    return http.put('configuracion-nomina/cancelado',data)
+    return http.put('configuracion-nomina/cancelado', data)
   }
   deleteGrupoNomina(id) {
     return http.delete(`grupo-nomina/${id}`)
   }
   createNomina(data) {
     return http.post('nominas', data)
+  }
+
+  confirmNomina(id,data) {
+    return http.patch(`nominas/${id}/confirmation`,data)
+  }
+
+  validarEstructuraPresupuestada(
+    estructuraProgramatica,
+    clasificador,
+    fuenteFinanciador,
+    fuenteEspecifica,
+    organismoFinanciador,
+  ) {
+    return http.get(
+      `PresGasto/${estructuraProgramatica}/${clasificador}/${fuenteFinanciador}/${fuenteEspecifica}/${organismoFinanciador}`,
+    )
   }
 }
 
