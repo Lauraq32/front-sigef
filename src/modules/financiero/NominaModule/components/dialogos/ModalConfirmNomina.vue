@@ -83,7 +83,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-6 fw-semibold">
-                                    <CFormLabel for="validationCustomUsername">Fuente Especifica:</CFormLabel>
+                                    <CFormLabel for="validationCustomUsername">Fuente Espec&Iacute;fica:</CFormLabel>
                                 </div>
                                 <div class="col-6 text-end inputTamano">
                                     <span>{{ dataDepartamento.fuenteEspecifica?.id ?? '' }}</span>
