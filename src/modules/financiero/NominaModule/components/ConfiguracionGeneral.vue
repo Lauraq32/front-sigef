@@ -94,7 +94,7 @@
             <h6><u>Nota</u></h6>
 
             <p>
-              Debe crear el concepto de la retenci&oacute;n en el modulo de
+              Debe crear el concepto de la retenci&oacute;n en el m&oacute;dulo de
               ejecuci&oacute;n presupuestaria <br />
               y luego, poner el c&oacute;digo asignado en la casilla
               correspondiente
