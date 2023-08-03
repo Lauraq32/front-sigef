@@ -10,7 +10,7 @@
                     <div class="row">
                         <div class="col-md-5">
                             <CFormLabel for="excento">Excento Hasta:</CFormLabel>
-                            <CFormInput v-on:keypress="onlyNumber" id="excento" />
+                            <CFormInput v-model="factorDivision.MontoSueldoExcentoISR" v-on:keypress="onlyNumber" id="excento" />
                         </div>
                     </div>
                     <div class="row">
@@ -191,6 +191,7 @@ export default {
                 PorcentajeRetencionARS: 0,
                 MontoMinRetencionAFP: 0,
                 MontoMinRetencionARS: 0,
+                MontoSueldoExcentoISR: 0,
             },
         }
     },
