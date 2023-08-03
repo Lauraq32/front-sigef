@@ -10,7 +10,8 @@
                     <div class="row">
                         <div class="col-md-5">
                             <CFormLabel for="excento">Excento Hasta:</CFormLabel>
-                            <CFormInput v-model="factorDivision.MontoSueldoExcentoISR" v-on:keypress="onlyNumber" id="excento" />
+                            <CFormInput v-model="factorDivision.MontoSueldoExcentoISR" v-on:keypress="onlyNumber"
+                                id="excento" />
                         </div>
                     </div>
                     <div class="row">
@@ -28,7 +29,9 @@
 
                         <div class="col-5">
                             <CFormLabel for="excento">Valor Fijo</CFormLabel>
-                            <CFormInput v-on:keypress="onlyNumber" id="excento" />
+                            <CFormInput disabled
+                                :value="(factorDivision.MontoSueldoEscala1 * factorDivision.PorcentajeISREscala1) / 100"
+                                v-on:keypress="onlyNumber" id="excento" />
                         </div>
                     </div>
 
@@ -44,7 +47,9 @@
                                 class="form-control" />
                         </div>
                         <div class="col-5 input-position">
-                            <CFormInput v-on:keypress="onlyNumber" id="excento" />
+                            <CFormInput disabled
+                                :value="(factorDivision.MontoSueldoEscala2 * factorDivision.PorcentajeISREscala2) / 100"
+                                v-on:keypress="onlyNumber" id="excento" />
                         </div>
                     </div>
 
@@ -60,7 +65,9 @@
                                 class="form-control" />
                         </div>
                         <div class="col-5 input-position">
-                            <CFormInput v-on:keypress="onlyNumber" id="excento" />
+                            <CFormInput disabled
+                                :value="(factorDivision.MontoSueldoEscala3 * factorDivision.PorcentajeISREscala3) / 100"
+                                v-on:keypress="onlyNumber" id="excento" />
                         </div>
                     </div>
 
@@ -76,7 +83,9 @@
                                 class="form-control" />
                         </div>
                         <div class="col-5 input-position">
-                            <CFormInput v-on:keypress="onlyNumber" id="excento" />
+                            <CFormInput disabled
+                                :value="(factorDivision.MontoSueldoEscala4 * factorDivision.PorcentajeISREscala4) / 100"
+                                v-on:keypress="onlyNumber" id="excento" />
                         </div>
                     </div>
 
@@ -113,15 +122,21 @@
                                     <CFormLabel for="sueldoMensual" class="col-form-label">Sueldo Mensual:</CFormLabel>
                                 </div>
                                 <div class="col-auto">
-                                    <CFormInput v-on:keypress="onlyNumber" id="sueldoMensual" />
+                                    <CurrencyInput class="form-control text-end" required id="presupuestoBco1"
+                                        v-model="sueldoCalculo" :options="{
+                                            locale: 'en-US',
+                                            currency: 'USD',
+                                            precision: 2,
+                                            currencyDisplay: 'hidden',
+                                        }" />
                                 </div>
                             </div>
 
                             <div class="mt-3">
-                                <CFormLabel for="excento">Sueldo Quincenal:</CFormLabel>
+                                <span>Sueldo Quincenal: {{ formatPrice(sueldoCalculo / 2) }}</span>
                             </div>
                             <div class="mt-3">
-                                <CFormLabel for="excento">Sueldo Anual:</CFormLabel>
+                                <span>Sueldo Anual: {{ formatPrice(sueldoCalculo * 12) }}</span>
                             </div>
                             <div class="mt-3">
                                 <CFormLabel for="excento">AFP Anual:</CFormLabel>
@@ -168,16 +183,21 @@ import { onlyNumber } from '@/utils/validator'
 import { mapActions } from 'pinia'
 import { useToastStore } from '@/store/toast'
 import ApiNomina from '../services/NominaServices'
+import { formatPrice } from '@/utils/format';
+import CurrencyInput from '@/utils/CurrencyInput.vue'
 export default {
     name: 'ConfiguracionRentaAndFactorDivision',
     components: {
         CFormLabel,
         CFormInput,
+        CurrencyInput,
     },
 
     data: function () {
         return {
             onlyNumber,
+            formatPrice,
+            sueldoCalculo: 0,
             factorDivision: {
                 MontoSueldoEscala1: 0,
                 PorcentajeISREscala1: 0,
