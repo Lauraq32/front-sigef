@@ -71,7 +71,7 @@ class NominaApi {
   }
 
   getDepartamentoById(id) {
-    return http.get(`Departamento/${id}`)
+    return http.get(`departamentos/${id}`)
   }
   getDepartamentoByProgramaId(id) {
     return http.get(`Departamento/Programa/${id}`)
@@ -91,6 +91,10 @@ class NominaApi {
 
   getProgramaDivisionbyid(id) {
     return http.get(`ProgramaDivision/${id}`)
+  }
+
+  getCuentaBanco(id) {
+    return http.get(`cuentas-banco/${id}`)
   }
 
   getNominaGeneralById(id) {
@@ -232,6 +236,22 @@ class NominaApi {
   }
   postRetencionesEmpleados(data) {
     return http.post(`configuracion-nomina/percentage-renteciones`, data)
+  }
+
+  confirmNomina(id, data) {
+    return http.patch(`nominas/${id}/confirmation`, data)
+  }
+
+  validarEstructuraPresupuestada(
+    estructuraProgramatica,
+    clasificador,
+    fuenteFinanciador,
+    fuenteEspecifica,
+    organismoFinanciador,
+  ) {
+    return http.get(
+      `PresGasto/${estructuraProgramatica}/${clasificador}/${fuenteFinanciador}/${fuenteEspecifica}/${organismoFinanciador}`,
+    )
   }
 }
 
