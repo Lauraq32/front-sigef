@@ -119,7 +119,7 @@
                                     </div>
                                     <div class="col-10">
                                         <CFormLabel for="validationCustomUsername">Generar 815 para esta n&oacute;mina
-                                            (Automatico)</CFormLabel>
+                                            (Autom&aacute;tico)</CFormLabel>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -228,15 +228,16 @@ export default {
                     if (answer.isConfirmed) {
                         ApiNomina.confirmNomina(this.payload.id, this.dataConfirmNomina)
                             .then((response) => {
+                                const { comprobantePagado, comprobanteDesvengando } = response.data.data
                                 Swal.fire(
-                                    `No. Comprobante desvengado es: ${response.data.data.comprobanteDesvengando}\n\nNo. Comprobante pagado es: ${response.data.data.comprobantePagado}`,
+                                    `Se crearon dos documentos: Comprobante Devengado ${comprobanteDesvengando} y comprobante de paga ${comprobantePagado}`,
                                 );
 
                                 this.show({
                                     content: 'Nómina confirmada correctamente',
                                     closable: true,
                                 })
-                                setTimeout(this.$emit('get-nomina'), 500)
+                                setTimeout(() => this.$emit('get-nomina'), 500)
                                 this.closeModal()
                             })
                             .catch((error) => {
@@ -292,23 +293,13 @@ export default {
                 fuenteEspecifica,
                 organismoFinanciador,
             ).then((response) => {
-                this.presupuestoBanco = response.data.data
-                this.obtenerTierPorBancoId()
+                const presupuestoBanco = response.data.data;
+                const bancoId = this.payload.cuentaBancoId;
+                const presupuesto = Number(presupuestoBanco[`presupuestoBco${bancoId}`] ?? 0);
+                const variacion = Number(presupuestoBanco[`variacionBco${bancoId}`] ?? 0);
+                const totalPagado = Number(presupuestoBanco[`totalPagadoBco${bancoId}`] ?? 0);
+                this.montoPresupuestado = presupuesto + variacion - totalPagado;
             })
-        },
-
-        obtenerTierPorBancoId() {
-            const bancoId = this.payload.cuentaBancoId
-            const presupuesto = Number(
-                this.presupuestoBanco[`presupuestoBco${bancoId}`] ?? 0,
-            )
-            const variacion = Number(
-                this.presupuestoBanco[`variacionBco${bancoId}`] ?? 0,
-            )
-            const totalPagado = Number(
-                this.presupuestoBanco[`totalPagadoBco${bancoId}`] ?? 0,
-            )
-            this.montoPresupuestado = presupuesto + variacion - totalPagado
         },
 
         clearModal() {
