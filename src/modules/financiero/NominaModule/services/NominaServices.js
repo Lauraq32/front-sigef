@@ -242,6 +242,10 @@ class NominaApi {
       `PresGasto/${estructuraProgramatica}/${clasificador}/${fuenteFinanciador}/${fuenteEspecifica}/${organismoFinanciador}`,
     )
   }
+
+  deleteNomina(id){
+    return http.delete(`nominas/${id}`)
+  }
 }
 
 export default new NominaApi()
