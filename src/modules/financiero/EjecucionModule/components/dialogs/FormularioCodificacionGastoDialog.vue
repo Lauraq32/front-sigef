@@ -12,7 +12,7 @@
                 <CCol :md="8" class="mb-3">
                   <CFormLabel for="estructuraProgramatica">Programa o Proyecto</CFormLabel>
                   <div class="position-relative">
-                    <input v-model="detalleRegistroGasto.estructuraProgramatica" ref="name" disabled required
+                    <input v-model="detalleRegistroGasto.estructuraProgramatica" @keyup="getMestProg" ref="name" required
                       class="form-control padding-input" type="text" id="displayNameProfesion" />
                     <span class="position-absolute icon-input">
                       <CIcon icon="cisSearch" size="xl" v-on:click="showMestProgDialog" />
@@ -49,7 +49,7 @@
                 </CCol>
                 <CCol :md="6" class="mt-3">
                   <CFormLabel for="baseImponible" class="font-weight-bold">Base Imponible</CFormLabel>
-                  <VueNumberFormat v-model:value="detalleRetencion.baseImponible" @change="setBaseImponible" type="text"
+                  <VueNumberFormat v-model:value="detalleRetencion.baseImponible"  type="text"
                     step="any" class="form-control text-end" :options="{
                       precision: 2,
                       prefix: '',
@@ -124,11 +124,11 @@
             <CCol :md="12">
               <h5>Cuenta Banco: <span class="fw-bold">{{ cuentaBanco }}</span> </h5>
 
-              <CSmartTable class="" clickableRows :tableProps="{
+              <CSmartTable class="" @row-click="selectMestProg" clickableRows :tableProps="{
                 striped: true,
                 hover: true,
               }" :tableHeadProps="{}" :activePage="1" header :items="mestProgList" :columns="clasificadoresTables"
-                items-per-page="7" :footer="footer" :sorterValue="{ column: 'clasificador', state: 'asc' }" pagination>
+                items-per-page="5" :footer="footer" :sorterValue="{ column: 'clasificador', state: 'asc' }" pagination>
                 <template #show_details="{ item, index }">
                   <td>
                     <CButton @click="selectMestProg(item)" color="primary" variant="outline" square size="sm">
@@ -516,8 +516,8 @@ export default {
     },
 
     getMestProg(item) {
-
-      Api.getRegistroGastoMesProg(item).then(response => {
+     console.log(this.detalleRegistroGasto.estructuraProgramatica )
+      Api.getRegistroGastoMesProg(item.length == 9 ? item : this.detalleRegistroGasto.estructuraProgramatica).then(response => {
         if (response.data.data.length > 1) {
           var clasificadores = response.data.data.filter(item => item.clasificador.length == 6)
 
@@ -605,17 +605,17 @@ export default {
       this.detalleRegistroGasto.montoBruto = 0;
     },
 
-    setBaseImponible(event) {
-      if (this.balanceDisponible > event.target.value) {
-        return;
-      }
-      this.show({
-        content: 'No puede superar el balance disponible',
-        closable: true,
-        color: 'danger'
-      })
-      this.detalleRegistroGasto.baseImponible = 0;
-    },
+    // setBaseImponible(event) {
+    //   if (this.balanceDisponible > event.target.value) {
+    //     return;
+    //   }
+    //   this.show({
+    //     content: 'No puede superar el balance disponible',
+    //     closable: true,
+    //     color: 'danger'
+    //   })
+    //   this.detalleRegistroGasto.baseImponible = 0;
+    // },
 
     selectMestProg(item) {
       this.cuentasClasificadores[0] = this.formatPrice(item.cuenta1)

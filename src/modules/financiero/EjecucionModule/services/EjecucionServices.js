@@ -40,7 +40,12 @@ class Ejecucion {
   }
   //Comprobante Gasto
   getRegistroGasto(params){
-    return http.get(`registros-gasto${filter(params)}`)
+    console.log(params)
+    if(params.estado != ''){
+      return http.get(`registros-gasto${filter(params)}`)
+    }else{
+      return http.get(`registros-gasto`)
+    }
   }
   postRegistroGasto(data){
     return http.post('registros-gasto',data)

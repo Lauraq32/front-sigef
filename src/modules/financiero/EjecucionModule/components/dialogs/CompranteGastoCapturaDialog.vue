@@ -19,7 +19,7 @@
 
                       <CCol :md="6">
                         <CFormLabel for="etapa">Etapa</CFormLabel>
-                        <CFormSelect @change="changeEtapa" v-model="postRegistroGasto.etapa" id="etapa" required>
+                        <CFormSelect :disabled="postRegistroGasto.detalleRegistroGastos.length > 0" @change="changeEtapa" v-model="postRegistroGasto.etapa" id="etapa" required>
                           <option value="Devengado">Devengado</option>
                           <option value="Pagado">Pagado</option>
                           <option value="Variacion">Variaci&oacute;n</option>

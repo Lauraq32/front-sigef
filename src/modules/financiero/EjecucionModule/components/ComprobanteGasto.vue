@@ -143,6 +143,7 @@ export default {
       filterValue: 'true',
       postGasto: {},
       filtroOption: [
+        { label: 'Todos', value: '' },
         { label: 'Abierto', value: 'Abierto' },
         { label: 'Confirmado', value: 'Confirmado' },
         { label: 'Cerrado', value: 'Cerrado' },
@@ -522,7 +523,7 @@ export default {
       this.FormularioCodificacionGastoDialog = true
     },
 
-    getRegistroGasto(params = { estado: 'Abierto' }) {
+    getRegistroGasto(params = { estado: '' }) {
       Api.getRegistroGasto(params).then((response) => {
         this.tableData = response.data.data
       })
