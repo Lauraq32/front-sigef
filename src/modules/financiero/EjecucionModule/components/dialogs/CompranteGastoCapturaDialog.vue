@@ -19,7 +19,9 @@
 
                       <CCol :md="6">
                         <CFormLabel for="etapa">Etapa</CFormLabel>
-                        <CFormSelect :disabled="postRegistroGasto.detalleRegistroGastos.length > 0" @change="changeEtapa" v-model="postRegistroGasto.etapa" id="etapa" required>
+                        <CFormSelect :disabled="postRegistroGasto.detalleRegistroGastos.length > 0" @change="changeEtapa"
+                          v-model="postRegistroGasto.etapa" id="etapa" required>
+
                           <option value="Devengado">Devengado</option>
                           <option value="Pagado">Pagado</option>
                           <option value="Variacion">Variaci&oacute;n</option>
@@ -116,7 +118,7 @@
           striped: true,
           hover: true,
         }" :tableHeadProps="{}" :activePage="1" header :items="postRegistroGasto.detalleRegistroGastos"
-          :columns="detalleGastoColumns" columnFilter :footer="footer" itemsPerPageSelect :itemsPerPage="5" columnSorter
+          :columns="detalleGastoColumns" columnFilter :footer="footerItem" itemsPerPageSelect :itemsPerPage="5" columnSorter
           :sorterValue="{ column: 'nombres', state: 'asc' }" pagination>
           <template #show_details="{ item, index }">
             <td>
@@ -242,7 +244,38 @@ export default {
         { key: 'montoNeto', label: 'Neto' },
         { key: 'show_details', label: '', filter: false, sort: false },
 
-      ]
+      ],
+      footerItem: [
+        {
+          label: 'Total',
+          _props: {
+            colspan: 4,
+            style: 'font-weight:bold;',
+          },
+        },
+        {
+          label: '',
+          _props: {
+            colspan: 2,
+            style: 'font-weight:bold;',
+          },
+        },
+        {
+          label: '',
+          _props: {
+            colspan: 2,
+            style: 'font-weight:bold;',
+          },
+        },
+        {
+          label: '',
+          _props: {
+            colspan: 2,
+            style: 'font-weight:bold;',
+          },
+        },
+
+      ],
     }
   },
 
@@ -252,34 +285,34 @@ export default {
     clearForm() {
       this.displayBeneficiario = null
       this.displayConceptoGasto = {},
-      this.postRegistroGasto = {
-        detalle: "",
-        fecha: new Date(),
-        etapa: 'Devengado',
-        beneficiarioId: null,
-        conceptoGastoId: null,
-        grupoCompensacionId: null,
-        bancoId: null,
-        numeroCheque: "1",
-        montoBruto: 0,
-        montoNeto: 0,
-        fechaResolucion: null,
-        numeroResolucion: "1",
-        cantidadFacturaCXP: 1,
-        totalCXP: 1,
-        cantidadPagoXGrupo: 1,
-        totalPagoXGrupo: 1,
-        cantRetenci: 1,
-        totalRetenciones: 1,
-        documentoInicial: 1,
-        documentoFinal: 1,
-        cantidadDocumento: 1,
-        bancoId:0,
-        estatus: true,
-        formaPago: "Cheque",
-        tipoGastoId: 1,
-        detalleRegistroGastos: []
-      }
+        this.postRegistroGasto = {
+          detalle: "",
+          fecha: new Date(),
+          etapa: 'Devengado',
+          beneficiarioId: null,
+          conceptoGastoId: null,
+          grupoCompensacionId: null,
+          bancoId: null,
+          numeroCheque: "1",
+          montoBruto: 0,
+          montoNeto: 0,
+          fechaResolucion: null,
+          numeroResolucion: "1",
+          cantidadFacturaCXP: 1,
+          totalCXP: 1,
+          cantidadPagoXGrupo: 1,
+          totalPagoXGrupo: 1,
+          cantRetenci: 1,
+          totalRetenciones: 1,
+          documentoInicial: 1,
+          documentoFinal: 1,
+          cantidadDocumento: 1,
+          bancoId: 0,
+          estatus: true,
+          formaPago: "Cheque",
+          tipoGastoId: 1,
+          detalleRegistroGastos: []
+        }
     },
     changeEtapa(e) {
       if (e.target.value == 'Variacion') {
@@ -413,6 +446,11 @@ export default {
   },
   mounted() {
     this.getServiciosRequeridos()
+    this.postRegistroGasto.detalleRegistroGastos.map((item) => {
+      this.footerItem[1].label += item.montoBruto
+      this.footerItem[2].label += item.montoRetenciones
+      this.footerItem[3].label += item.montoNeto
+    }) 
   }
 }
 </script>
