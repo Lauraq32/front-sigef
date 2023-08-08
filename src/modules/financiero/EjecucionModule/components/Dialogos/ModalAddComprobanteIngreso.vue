@@ -355,10 +355,6 @@ export default {
       this.clearModaComprobanteIngreso()
     },
 
-    closeModalIngresos(){
-      this.$emit('close-modal', false)
-    },
-
     closeModalContribuyentes() {
       this.showContribuyentesModal = false
     },
@@ -382,8 +378,7 @@ export default {
     },
 
     addComprobanteIngreso() {
-      this.$emit('add-comprobante', { ...this.ingresoPost })
-      this.closeModalIngresos()
+      this.$emit('add-comprobante', { ...this.ingresoPost })   
     },
 
     sendData() {
