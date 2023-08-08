@@ -116,6 +116,9 @@
                     <input v-model="detallePost.ctgClasificadorId" ref="clasificatorField" required
                       @keyup.enter.prevent="findClasificador" maxlength="6" class="form-control padding-input"
                       type="number" id="ctgClasificadorId" :disabled="notAllowEdit" />
+                    <CFormFeedback invalid :style="{ display: validarClasificador && showError ? 'flex' : 'none' }">
+                      Clasificador no existe
+                    </CFormFeedback>
                     <span class="position-absolute icon-input" v-if="!notAllowEdit">
                       <CIcon icon="cisSearch" size="xl" v-on:click="() => (showFindClasificadorModal = true)" />
                     </span>
@@ -220,8 +223,8 @@
           </td>
         </template>
       </CSmartTable>
-      <ClasificadorSelectorDialog :origin="'ingresos'" :isVisible="showFindClasificadorModal"
-        @close="selectClasificator" />
+      <ClasificadorSelectorDialog :term="detallePost.ctgClasificadorId" :origin="'ingresos'"
+        :isVisible="showFindClasificadorModal" @close="selectClasificator" />
 
       <contribuyentesDialog :showModal="showContribuyentesModal" @contribuyenteSeleccionado="setContribuyente"
         @closeModal="closeModalContribuyentes" />
@@ -270,6 +273,7 @@ export default {
       onlyNumber,
       formatDate,
       ingresosList: [],
+      showError: false,
       cedulaMax: 11,
       talonario: 10,
       validacionMonto: false,
@@ -351,6 +355,10 @@ export default {
       this.clearModaComprobanteIngreso()
     },
 
+    closeModalIngresos(){
+      this.$emit('close-modal', false)
+    },
+
     closeModalContribuyentes() {
       this.showContribuyentesModal = false
     },
@@ -358,10 +366,10 @@ export default {
     addDetalle() {
       this.isFormEventTypeValidatedDetalle = false
       this.validarEnviarMonto = true
-      this.validarMonto()
+      this.showError = true
       if (
         this.$refs.eventTypeFormDetalle.$el.checkValidity() &&
-        !this.validacionMonto
+        !this.validacionMonto && this.detallePost.ctgClasificadorId?.length >= 6
       ) {
         this.ingresoPost.detalleRegistroIngresos = [
           { ...this.detallePost },
@@ -375,6 +383,7 @@ export default {
 
     addComprobanteIngreso() {
       this.$emit('add-comprobante', { ...this.ingresoPost })
+      this.closeModalIngresos()
     },
 
     sendData() {
@@ -396,7 +405,6 @@ export default {
           ),
         })
       }
-
       this.isFormEventTypeValidated = true
     },
 
@@ -409,6 +417,7 @@ export default {
     },
 
     clearDetalle() {
+      this.showError = false
       this.isFormEventTypeValidatedDetalle = false
       this.detallePost = {
         ctgClasificadorId: null,
@@ -426,11 +435,22 @@ export default {
 
     clearModaComprobanteIngreso() {
       this.id = null
+      this.validacionMonto = false
+      this.showError = false
       this.sendDetalle = false
       this.isFormEventTypeValidated = false
       this.isFormEventTypeValidatedDetalle = false
-      this.ingresoPost = {
-
+      this.detallePost = {
+        ctgClasificadorId: null,
+        ctgFuenteId: null,
+        ctgFuenteEspecificaId: null,
+        ctgOrganismoFinanciadorId: null,
+        fecha: new Date().toISOString(),
+        etapa: 'Ingreso',
+        valor: 0,
+        nombre: null,
+        cantidad: 1,
+        institucionOrtongate: null,
       }
     },
 
@@ -492,6 +512,10 @@ export default {
     },
   },
   computed: {
+    validarClasificador() {
+      return String(this.detallePost.ctgClasificadorId).length < 6
+    },
+
     subTotal() {
       if (
         Number.isNaN(this.detallePost.cantidad) ||
