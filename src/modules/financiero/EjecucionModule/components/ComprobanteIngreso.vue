@@ -452,6 +452,7 @@ export default {
             content: response.data,
             closable: true,
           })
+          this.closeModalComprobanteIngreso()
         })
         .catch(({ response }) => {
           this.show({
