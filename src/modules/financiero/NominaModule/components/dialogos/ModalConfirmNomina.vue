@@ -163,7 +163,7 @@
                         </CButton>
                     </CModalFooter>
                 </CForm>
-                <CModal :visible="showConfirmModal" @close="showConfirmModal = false">
+                <CModal :visible="showConfirmModal" @close="closeModalComprobante">
                     <CModalHeader>
                         <h3>Confirmar N&oacute;mina</h3>
                     </CModalHeader>
@@ -181,7 +181,7 @@
                                     </div>
                                 </div>
                                 <CModalFooter>
-                                    <CButton class="btn btn-secondary" @click="showConfirmModal = false">
+                                    <CButton class="btn btn-secondary" @click="closeModalComprobante">
                                         Cancelar
                                     </CButton>
                                     <CButton class="btn btn-info btn-block mt-1" @click="confirmNomina">
@@ -227,7 +227,7 @@ export default {
             showConfirmModal: false,
             dataConfirmNomina: {
                 fechaCheque: new Date(),
-                numeroComprobante: 0,
+                numeroComprobante: null,
             },
             dataDepartamento: {},
             cuentaBanco: {},
@@ -300,7 +300,7 @@ export default {
                     const { comprobantePagado, comprobanteDesvengando } =
                         response.data.data
                     Swal.fire(
-                        `Se crearon dos documentos: Comprobante Devengado ${comprobanteDesvengando} y comprobante de paga ${comprobantePagado}`,
+                        `Se crearon dos documentos: Comprobante Devengado ${comprobanteDesvengando} y comprobante de pagado ${comprobantePagado}`,
                     )
                 })
                 .catch((error) => {
@@ -316,6 +316,10 @@ export default {
         closeModal() {
             this.$emit('close-modal', false)
             this.clearModal()
+        },
+
+        closeModalComprobante() {
+            this.showConfirmModal = false
         },
 
         getDepartamentoById() {
@@ -371,7 +375,10 @@ export default {
         clearModal() {
             this.dataDepartamento = {}
             this.cuentaBanco = {}
-                ; (this.presupuestoBanco = 0), (this.montoPresupuestado = 0)
+            this.presupuestoBanco = 0
+            this.montoPresupuestado = 0
+            this.dataConfirmNomina.fechaCheque = new Date()
+            this.dataConfirmNomina.numeroComprobante = null
         },
     },
     props: {
