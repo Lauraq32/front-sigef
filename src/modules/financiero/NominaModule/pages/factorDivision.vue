@@ -154,7 +154,7 @@
                         </div>
                         <div class="col-5">
                             <div class="mt-3">
-                                <span>Sueldo - AFP - ARS: {{ formatPrice(sueldoCalculo * 12) }}</span>
+                                <span>Sueldo - AFP - ARS: {{ formatPrice(sueldoAfpArsCalculo) }}</span>
                             </div>
                             <div class="mt-3">
                                 <span>ISR Anual: {{ formatPrice((sueldoCalculo * 12) * factorDivision.PorcentajeRetencionAFP
@@ -240,6 +240,9 @@ export default {
         },
         sueldoCalculoArsMensual() {
             return (this.sueldoCalculo * this.factorDivision.PorcentajeRetencionARS) / 100
+        },
+        sueldoAfpArsCalculo() {
+            return this.sueldoCalculadoAfpMensual + this.sueldoCalculoArsMensual
         }
 
     },
