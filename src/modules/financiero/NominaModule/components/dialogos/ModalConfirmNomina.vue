@@ -164,7 +164,6 @@
                     </CModalFooter>
                 </CForm>
                 <CModal :visible="showConfirmModal" @close="showConfirmModal = false">
-
                     <CModalHeader>
                         <h3>Confirmar N&oacute;mina</h3>
                     </CModalHeader>
@@ -228,7 +227,7 @@ export default {
             showConfirmModal: false,
             dataConfirmNomina: {
                 fechaCheque: new Date(),
-                numeroComprobante: null,
+                numeroComprobante: 0,
             },
             dataDepartamento: {},
             cuentaBanco: {},
@@ -242,7 +241,7 @@ export default {
         ...mapActions(useToastStore, ['show']),
 
         gotoComprobanteGasto() {
-            router.push({ name: "comprobanteGasto" })
+            router.push({ name: 'comprobanteGasto' })
         },
 
         confirmNomina() {
@@ -267,7 +266,10 @@ export default {
                     customClass: 'btns',
                 }).then((answer) => {
                     if (answer.isConfirmed) {
-                        ApiNomina.confirmNomina(this.payload.id, this.dataConfirmNomina.numeroComprobante)
+                        ApiNomina.confirmNomina(
+                            this.payload.id,
+                            this.dataConfirmNomina,
+                        )
                             .then(() => {
                                 this.show({
                                     content: 'Nómina confirmada correctamente',
@@ -290,12 +292,16 @@ export default {
         },
 
         generarComprobante() {
-            ApiNomina.generarComprobante(this.payload.id, this.dataConfirmNomina.fechaCheque)
+            ApiNomina.generarComprobante(
+                this.payload.id,
+                this.dataConfirmNomina,
+            )
                 .then((response) => {
-                    const { comprobantePagado, comprobanteDesvengando } = response.data.data
+                    const { comprobantePagado, comprobanteDesvengando } =
+                        response.data.data
                     Swal.fire(
                         `Se crearon dos documentos: Comprobante Devengado ${comprobanteDesvengando} y comprobante de paga ${comprobantePagado}`,
-                    );
+                    )
                 })
                 .catch((error) => {
                     this.show({
@@ -347,12 +353,18 @@ export default {
                 fuenteEspecifica,
                 organismoFinanciador,
             ).then((response) => {
-                const presupuestoBanco = response.data.data;
-                const bancoId = this.payload.cuentaBancoId;
-                const presupuesto = Number(presupuestoBanco[`presupuestoBco${bancoId}`] ?? 0);
-                const variacion = Number(presupuestoBanco[`variacionBco${bancoId}`] ?? 0);
-                const totalPagado = Number(presupuestoBanco[`totalPagadoBco${bancoId}`] ?? 0);
-                this.montoPresupuestado = presupuesto + variacion - totalPagado;
+                const presupuestoBanco = response.data.data
+                const bancoId = this.payload.cuentaBancoId
+                const presupuesto = Number(
+                    presupuestoBanco[`presupuestoBco${bancoId}`] ?? 0,
+                )
+                const variacion = Number(
+                    presupuestoBanco[`variacionBco${bancoId}`] ?? 0,
+                )
+                const totalPagado = Number(
+                    presupuestoBanco[`totalPagadoBco${bancoId}`] ?? 0,
+                )
+                this.montoPresupuestado = presupuesto + variacion - totalPagado
             })
         },
 
