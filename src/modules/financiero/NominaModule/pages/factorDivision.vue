@@ -133,36 +133,41 @@
                             </div>
 
                             <div class="mt-3">
-                                <span>Sueldo Quincenal: {{ formatPrice(sueldoCalculo / 2) }}</span>
+                                <span>Sueldo Quincenal: {{ formatPrice(sueldoQuicenal) }}</span>
                             </div>
                             <div class="mt-3">
-                                <span>Sueldo Anual: {{ formatPrice(sueldoCalculo * 12) }}</span>
+                                <span>Sueldo Anual: {{ formatPrice(sueldoAnual) }}</span>
                             </div>
                             <div class="mt-3">
-                                <CFormLabel for="excento">AFP Anual:</CFormLabel>
+                                <span>AFP Anual: {{ formatPrice(sueldoCalculadoAfpAnual) }}
+                                </span>
                             </div>
                             <div class="mt-3">
-                                <CFormLabel for="excento">AFP Mensual:</CFormLabel>
+                                <span>AFP Mensual: {{ formatPrice(sueldoCalculadoAfpMensual) }}</span>
                             </div>
                             <div class="mt-3">
-                                <CFormLabel for="excento">ARS Anual:</CFormLabel>
+                                <span>ARS Anual: {{ formatPrice(sueldoCalculoArsAnual) }}</span>
                             </div>
                             <div class="mt-3">
-                                <CFormLabel for="excento">ARS Mensual:</CFormLabel>
+                                <span>ARS Mensual: {{ formatPrice(sueldoCalculoArsMensual) }}</span>
                             </div>
                         </div>
                         <div class="col-5">
                             <div class="mt-3">
-                                <CFormLabel for="excento">Sueldo - AFP - ARS:</CFormLabel>
+                                <span>Sueldo - AFP - ARS: {{ formatPrice(sueldoCalculo * 12) }}</span>
                             </div>
                             <div class="mt-3">
-                                <CFormLabel for="excento">ISR Anual:</CFormLabel>
+                                <span>ISR Anual: {{ formatPrice((sueldoCalculo * 12) * factorDivision.PorcentajeRetencionAFP
+                                    * factorDivision.PorcentajeRetencionARS) }}</span>
                             </div>
                             <div class="mt-3">
-                                <CFormLabel for="excento">IRS Mensual:</CFormLabel>
+                                <span>IRS Mensual: {{ formatPrice(sueldoCalculo * factorDivision.PorcentajeRetencionAFP
+                                    * factorDivision.PorcentajeRetencionARS / 12) }}</span>
                             </div>
                             <div class="mt-3">
-                                <CFormLabel for="excento">IRS Quincenal:</CFormLabel>
+                                <span>IRS Quincenal: {{ formatPrice((sueldoCalculo / 2) *
+                                    factorDivision.PorcentajeRetencionAFP
+                                    * factorDivision.PorcentajeRetencionARS) }}</span>
                             </div>
                         </div>
                         <div class="mt-3 w-100 d-flex justify-content-end">
@@ -214,6 +219,29 @@ export default {
                 MontoSueldoExcentoISR: 0,
             },
         }
+    },
+
+    computed: {
+        sueldoAnual() {
+            return this.sueldoCalculo * 12
+        },
+        sueldoQuicenal() {
+            return this.sueldoCalculo / 2
+        },
+        sueldoCalculadoAfpAnual() {
+            return (this.sueldoAnual * this.factorDivision.PorcentajeRetencionAFP) / 100
+        },
+
+        sueldoCalculadoAfpMensual() {
+            return (this.sueldoCalculo * this.factorDivision.PorcentajeRetencionAFP) / 100
+        },
+        sueldoCalculoArsAnual() {
+            return (this.sueldoAnual * this.factorDivision.PorcentajeRetencionARS) / 100
+        },
+        sueldoCalculoArsMensual() {
+            return (this.sueldoCalculo * this.factorDivision.PorcentajeRetencionARS) / 100
+        }
+
     },
 
     methods: {
