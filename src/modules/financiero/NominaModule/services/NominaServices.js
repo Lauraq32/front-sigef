@@ -227,12 +227,26 @@ class NominaApi {
     return http.post('nominas', data)
   }
 
-  generarComprobante(id,data) {
-    return http.patch(`nominas/${id}/comprobantes`,data)
+  generarComprobante(id, data) {
+    return http.patch(`nominas/${id}/comprobantes`, data)
   }
 
-  confirmNomina(id,comprobante) {
-    return http.patch(`nominas/${id}/confirmation`,comprobante)
+  confirmNomina(id, comprobante) {
+    return http.patch(`nominas/${id}/confirmation`, comprobante)
+  }
+  calculosPorcentage() {
+    return http.get(`configuracion-nomina/percentage`)
+  }
+
+  postFactorDivision(data) {
+    return http.post(`configuracion-nomina/percentage`, data)
+  }
+  postRetencionesEmpleados(data) {
+    return http.post(`configuracion-nomina/percentage-renteciones`, data)
+  }
+
+  confirmNomina(id, data) {
+    return http.patch(`nominas/${id}/confirmation`, data)
   }
 
   validarEstructuraPresupuestada(
@@ -247,7 +261,7 @@ class NominaApi {
     )
   }
 
-  deleteNomina(id){
+  deleteNomina(id) {
     return http.delete(`nominas/${id}`)
   }
 }
