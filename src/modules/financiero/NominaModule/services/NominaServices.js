@@ -227,6 +227,13 @@ class NominaApi {
     return http.post('nominas', data)
   }
 
+  generarComprobante(id, data) {
+    return http.patch(`nominas/${id}/comprobantes`, data)
+  }
+
+  confirmNomina(id, comprobante) {
+    return http.patch(`nominas/${id}/confirmation`, comprobante)
+  }
   calculosPorcentage() {
     return http.get(`configuracion-nomina/percentage`)
   }
@@ -252,6 +259,10 @@ class NominaApi {
     return http.get(
       `PresGasto/${estructuraProgramatica}/${clasificador}/${fuenteFinanciador}/${fuenteEspecifica}/${organismoFinanciador}`,
     )
+  }
+
+  deleteNomina(id) {
+    return http.delete(`nominas/${id}`)
   }
 }
 

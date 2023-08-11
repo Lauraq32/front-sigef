@@ -1,5 +1,5 @@
 <template>
-    <CModal @close="closeModalGenerarNomina" size="xl" :visible="modalGenerarNomina">
+    <CModal backdrop="static" @close="closeModalGenerarNomina" size="xl" :visible="modalGenerarNomina">
         <CModalHeader>
             <CModalTitle>Generar N&oacute;mina</CModalTitle>
         </CModalHeader>
@@ -235,7 +235,6 @@ export default {
                 this.show({
                     content: 'La nomina ha sido generada',
                     closable: true,
-                    color: 'success'
                 });
                 this.$emit('update');
             }).catch((e) => {

@@ -1,23 +1,45 @@
 <template>
   <h3 class="text-center">N&oacute;mina General</h3>
   <NominaSelectFiscalYear @sendDataFilter="filterByDate">
-    <CButton style="font-weight: bold" color="info" @click="">Imprimir Todos</CButton>
-    <CButton style="font-weight: bold" class="ml-5" color="info" @click="() => showModal = true">Generar N&oacute;mina
+    <CButton style="font-weight: bold" color="info" @click=""
+      >Imprimir Todos</CButton
+    >
+    <CButton
+      style="font-weight: bold"
+      class="ml-5"
+      color="info"
+      @click="() => (showModal = true)"
+      >Generar N&oacute;mina
     </CButton>
   </NominaSelectFiscalYear>
   <div>
-    <CSmartTable class="sticky-top" clickableRows :tableProps="{
-      striped: true,
-      hover: true,
-
-    }" :tableHeadProps="{}" :activePage="1" header :items="dataNominaGeneral" :columns="tableNominaGeneral"
-      columnFilter itemsPerPageSelect :itemsPerPage="5" columnSorter :footer="footerItem"
-      :sorterValue="{ column: 'status', state: 'asc' }" pagination>
+    <CSmartTable
+      class="sticky-top"
+      clickableRows
+      :tableProps="{
+        striped: true,
+        hover: true,
+      }"
+      :tableHeadProps="{}"
+      :activePage="1"
+      header
+      :items="dataNominaGeneral"
+      :columns="tableNominaGeneral"
+      columnFilter
+      itemsPerPageSelect
+      :itemsPerPage="5"
+      columnSorter
+      :footer="footerItem"
+      :sorterValue="{ column: 'status', state: 'asc' }"
+      pagination
+    >
       <template #estatus="{ item }">
         <td>
-          <CBadge class="text-uppercase" :color="item.estatus === 'ABIERTA' ? 'success' : 'danger'">{{
-            item.estatus
-          }}</CBadge>
+          <CBadge
+            class="text-uppercase"
+            :color="item.estatus === 'ABIERTA' ? 'success' : 'danger'"
+            >{{ item.estatus }}</CBadge
+          >
         </td>
       </template>
       <template #totalNeto="{ item }">
@@ -53,47 +75,57 @@
       <template #show_details="{ item }">
         <td>
           <CDropdown>
-            <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
+            <CDropdownToggle color="primary" variant="outline"
+              >Acciones</CDropdownToggle
+            >
             <CDropdownMenu>
-              <CDropdownItem v-for="action in actionsTable" @click="action.clickHandler && action.clickHandler(item)">{{
-                action.label }}</CDropdownItem>
+              <CDropdownItem
+                v-for="action in actionsTable"
+                @click="action.clickHandler && action.clickHandler(item)"
+                >{{ action.label }}</CDropdownItem
+              >
             </CDropdownMenu>
           </CDropdown>
         </td>
       </template>
     </CSmartTable>
   </div>
-  <ModalGenerarNomina :modalGenerarNomina="showModal" @changeValueModal="closeModalNominaGeneral"
-    @update="() => filterByDate({})" />
-  <ModalconfirmNomina :showModal="showConfirmModal" :payload="dataNomina" @close-modal="closeModalConfirmNomina"
-    @get-nomina="this.filterByDate({})" />
+  <ModalGenerarNomina
+    :modalGenerarNomina="showModal"
+    @changeValueModal="closeModalNominaGeneral"
+    @update="() => filterByDate({})"
+  />
+  <ModalconfirmNomina
+    :showModal="showConfirmModal"
+    :payload="dataNomina"
+    @close-modal="closeModalConfirmNomina"
+    @get-nomina="this.filterByDate({})"
+  />
 </template>
 <script>
-import { useAuthStore } from '@/store/AuthStore';
+import { useAuthStore } from '@/store/AuthStore'
 import { CSmartTable } from '@coreui/vue-pro'
 import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
-import { mapState } from 'pinia';
-import NominaSelectFiscalYear from '../components/NominaSelectFiscalYear.vue';
-import ModalGenerarNomina from '../components/modal/ModalGenerarNomina.vue';
-import ApiNomina from '../services/NominaServices';
-import { formatDate, formatPrice } from '@/utils/format';
+import { mapState } from 'pinia'
+import NominaSelectFiscalYear from '../components/NominaSelectFiscalYear.vue'
+import ModalGenerarNomina from '../components/modal/ModalGenerarNomina.vue'
+import ApiNomina from '../services/NominaServices'
+import { formatDate, formatPrice } from '@/utils/format'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import ModalconfirmNomina from '../components/dialogos/ModalConfirmNomina.vue'
-
 
 export default {
   components: {
     CSmartTable,
     NominaSelectFiscalYear,
     ModalGenerarNomina,
-    ModalconfirmNomina
+    ModalconfirmNomina,
   },
   mounted() {
-    this.filterByDate({});
+    this.filterByDate({})
   },
-  setup() {
-  },
+  setup() {},
   computed: {
     ...mapState(useAuthStore, ['authInfo']),
   },
@@ -101,20 +133,61 @@ export default {
     ...mapActions(useToastStore, ['show']),
     filterByDate(value) {
       ApiNomina.getNominasGeneral(value).then((response) => {
-        this.dataNominaGeneral = response.data.data;
+        this.dataNominaGeneral = response.data.data
         this.footerItem[0].label = `Total Items: ${response.data.data.length}`
-        this.footerItem[1].label = formatPrice(response.data.data.reduce((total, item) => total + item.totalBruto, 0))
-        this.footerItem[2].label = formatPrice(response.data.data.reduce((total, item) => total + item.totalNeto, 0))
+        this.footerItem[1].label = formatPrice(
+          response.data.data.reduce(
+            (total, item) => total + item.totalBruto,
+            0,
+          ),
+        )
+        this.footerItem[2].label = formatPrice(
+          response.data.data.reduce((total, item) => total + item.totalNeto, 0),
+        )
       })
     },
     closeModalNominaGeneral() {
-      this.showModal = false;
+      this.showModal = false
     },
 
     closeModalConfirmNomina() {
       this.showConfirmModal = false
-    }
+    },
 
+    deleteNomina(item) {
+      Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: `Está usted seguro que quieres eliminar esta nómina?`,
+        showConfirmButton: true,
+        confirmButtonText: 'Si',
+        cancelButtonText: 'No',
+        showCancelButton: true,
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        customClass: 'btns',
+      }).then((answer) => {
+        if (answer.isConfirmed) {
+          ApiNomina.deleteNomina(item.id)
+            .then((response) => {
+              this.show({
+                content: "Nómina eliminada correctamente",
+                closable: true,
+                color: 'inherit',
+              })
+              setTimeout(() => this.filterByDate({}), 500)
+            })
+            .catch((error) => {
+              this.show({
+                content: error.response.data,
+                closable: true,
+                color: 'danger',
+                class: 'text-white',
+              })
+            })
+        }
+      })
+    },
   },
   data: function () {
     return {
@@ -126,7 +199,7 @@ export default {
         {
           key: 'fecha',
           label: 'Fecha',
-          _style: { width: '10%' }
+          _style: { width: '10%' },
         },
         {
           key: 'departamento',
@@ -174,12 +247,12 @@ export default {
         {
           key: 'comprobante',
           label: 'Comprobante',
-          _style: { width: '5%' }
+          _style: { width: '5%' },
         },
         {
           key: 'estatus',
           label: 'Estado',
-          _style: { width: '10%' }
+          _style: { width: '10%' },
         },
 
         {
@@ -192,26 +265,25 @@ export default {
       ],
       formatDate,
       formatPrice,
-      actionsTable:
-        [
-          {
-            label: 'Eliminar',
-            clickHandler: (value) => {
-            },
+      actionsTable: [
+        {
+          label: 'Cancelar',
+          clickHandler: (item) => {
+            this.deleteNomina(item)
           },
-          {
-            label: 'Confirmar',
-            clickHandler: (item) => {
-              this.dataNomina = item
-              this.showConfirmModal = true
-            },
+        },
+        {
+          label: 'Confirmar',
+          clickHandler: (item) => {
+            this.dataNomina = item
+            this.showConfirmModal = true
           },
-          {
-            label: 'Detalle e imprimir',
-            clickHandler: (value) => {
-            },
-          },
-        ],
+        },
+        {
+          label: 'Detalle e imprimir',
+          clickHandler: (value) => {},
+        },
+      ],
 
       footerItem: [
         {
@@ -244,6 +316,6 @@ export default {
         },
       ],
     }
-  }
+  },
 }
 </script>

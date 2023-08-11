@@ -113,7 +113,7 @@
                             <div>
                                 <div class="row">
                                     <div class="col-2">
-                                        <CButton>
+                                        <CButton @click="generarComprobante">
                                             <CIcon icon="cilShareAll" size="xl" />
                                         </CButton>
                                     </div>
@@ -124,7 +124,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-2">
-                                        <CButton>
+                                        <CButton @click="gotoComprobanteGasto">
                                             <CIcon icon="cilShareAll" style="color: #33a133" size="xl" />
                                         </CButton>
                                     </div>
@@ -158,11 +158,40 @@
                         <CButton class="btn btn-secondary" @click="closeModal">
                             Cerrar
                         </CButton>
-                        <CButton class="btn btn-info btn-block mt-1" @click="confirmNomina">
-                            Guardar
+                        <CButton class="btn btn-info btn-block mt-1" @click="showConfirmModal = true">
+                            Confirmar
                         </CButton>
                     </CModalFooter>
                 </CForm>
+                <CModal :visible="showConfirmModal" @close="closeModalComprobante">
+                    <CModalHeader>
+                        <h3>Confirmar N&oacute;mina</h3>
+                    </CModalHeader>
+                    <CModalBody>
+                        <CCardBody>
+                            <CForm class="row g-3 mt-2 needs-validation" novalidate :validated="confirmFormValidated"
+                                ref="formRefConfirm">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <CFormLabel for="validationCustomUsername">No. Comprobante</CFormLabel>
+                                    </div>
+                                    <div class="col-8">
+                                        <CFormInput @keypress="onlyNumber" required
+                                            v-model="dataConfirmNomina.numeroComprobante" />
+                                    </div>
+                                </div>
+                                <CModalFooter>
+                                    <CButton class="btn btn-secondary" @click="closeModalComprobante">
+                                        Cancelar
+                                    </CButton>
+                                    <CButton class="btn btn-info btn-block mt-1" @click="confirmNomina">
+                                        Guardar
+                                    </CButton>
+                                </CModalFooter>
+                            </CForm>
+                        </CCardBody>
+                    </CModalBody>
+                </CModal>
             </CCardBody>
         </CModalBody>
     </CModal>
@@ -177,6 +206,8 @@ import { useToastStore } from '@/store/toast'
 import { mapActions } from 'pinia'
 import AppDateField from '@/components/AppDateField.vue'
 import { formatFechaIso } from '@/utils/format'
+import { onlyNumber } from '@/utils/validator'
+import router from '@/router/index'
 
 export default {
     name: 'ConfirmNomina',
@@ -190,20 +221,29 @@ export default {
 
     data: function () {
         return {
+            onlyNumber,
             formatPrice,
             formatFechaIso,
+            showConfirmModal: false,
             dataConfirmNomina: {
                 fechaCheque: new Date(),
+                numeroComprobante: null,
             },
             dataDepartamento: {},
             cuentaBanco: {},
             presupuestoBanco: 0,
             montoPresupuestado: 0,
+            confirmFormValidated: false,
         }
     },
 
     methods: {
         ...mapActions(useToastStore, ['show']),
+
+        gotoComprobanteGasto() {
+            router.push({ name: 'comprobanteGasto' })
+        },
+
         confirmNomina() {
             if (
                 this.montoPresupuestado < this.payload.totalBruto ||
@@ -226,13 +266,11 @@ export default {
                     customClass: 'btns',
                 }).then((answer) => {
                     if (answer.isConfirmed) {
-                        ApiNomina.confirmNomina(this.payload.id, this.dataConfirmNomina)
-                            .then((response) => {
-                                const { comprobantePagado, comprobanteDesvengando } = response.data.data
-                                Swal.fire(
-                                    `Se crearon dos documentos: Comprobante Devengado ${comprobanteDesvengando} y comprobante de paga ${comprobantePagado}`,
-                                );
-
+                        ApiNomina.confirmNomina(
+                            this.payload.id,
+                            this.dataConfirmNomina,
+                        )
+                            .then(() => {
                                 this.show({
                                     content: 'Nómina confirmada correctamente',
                                     closable: true,
@@ -253,9 +291,35 @@ export default {
             }
         },
 
+        generarComprobante() {
+            ApiNomina.generarComprobante(
+                this.payload.id,
+                this.dataConfirmNomina,
+            )
+                .then((response) => {
+                    const { comprobantePagado, comprobanteDesvengando } =
+                        response.data.data
+                    Swal.fire(
+                        `Se crearon dos documentos: Comprobante Devengado ${comprobanteDesvengando} y comprobante de pagado ${comprobantePagado}`,
+                    )
+                })
+                .catch((error) => {
+                    this.show({
+                        content: error.response.data,
+                        closable: true,
+                        color: 'danger',
+                        class: 'text-white',
+                    })
+                })
+        },
+
         closeModal() {
             this.$emit('close-modal', false)
             this.clearModal()
+        },
+
+        closeModalComprobante() {
+            this.showConfirmModal = false
         },
 
         getDepartamentoById() {
@@ -293,19 +357,28 @@ export default {
                 fuenteEspecifica,
                 organismoFinanciador,
             ).then((response) => {
-                const presupuestoBanco = response.data.data;
-                const bancoId = this.payload.cuentaBancoId;
-                const presupuesto = Number(presupuestoBanco[`presupuestoBco${bancoId}`] ?? 0);
-                const variacion = Number(presupuestoBanco[`variacionBco${bancoId}`] ?? 0);
-                const totalPagado = Number(presupuestoBanco[`totalPagadoBco${bancoId}`] ?? 0);
-                this.montoPresupuestado = presupuesto + variacion - totalPagado;
+                const presupuestoBanco = response.data.data
+                const bancoId = this.payload.cuentaBancoId
+                const presupuesto = Number(
+                    presupuestoBanco[`presupuestoBco${bancoId}`] ?? 0,
+                )
+                const variacion = Number(
+                    presupuestoBanco[`variacionBco${bancoId}`] ?? 0,
+                )
+                const totalPagado = Number(
+                    presupuestoBanco[`totalPagadoBco${bancoId}`] ?? 0,
+                )
+                this.montoPresupuestado = presupuesto + variacion - totalPagado
             })
         },
 
         clearModal() {
             this.dataDepartamento = {}
             this.cuentaBanco = {}
-                ; (this.presupuestoBanco = 0), (this.montoPresupuestado = 0)
+            this.presupuestoBanco = 0
+            this.montoPresupuestado = 0
+            this.dataConfirmNomina.fechaCheque = new Date()
+            this.dataConfirmNomina.numeroComprobante = null
         },
     },
     props: {
