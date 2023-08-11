@@ -171,7 +171,7 @@ export default {
           ApiNomina.deleteNomina(item.id)
             .then((response) => {
               this.show({
-                content: "Nómina cancelada correctamente",
+                content: "Nómina eliminada correctamente",
                 closable: true,
                 color: 'inherit',
               })
