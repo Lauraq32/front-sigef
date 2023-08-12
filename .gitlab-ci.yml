@@ -62,7 +62,7 @@ deploy:
     stage: deploy
     before_script:
         - apk add curl
-        - curl $PORT_SERVICE_URL/ports/sigef-v1|$CI_COMMIT_REF_NAME -o port.txt
+        - curl $PORT_SERVICE_URL/ports/sigef-v1@$CI_COMMIT_REF_NAME -o port.txt
     script:
         - echo "deploy"
         - PORT_AVAILABLE=$(cat port.txt)
@@ -75,11 +75,11 @@ deploy:
 
 sending-on-teams:
     tags:
-        - docker-buildr
+        - docker-buildrS
     stage: .post
     before_script:
         - apk add curl
-        - curl $PORT_SERVICE_URL/ports/sigef-v1|$CI_COMMIT_REF_NAME -o port.txt
+        - curl $PORT_SERVICE_URL/ports/sigef-v1@$CI_COMMIT_REF_NAME -o port.txt
         - PORT_AVAILABLE=$(cat port.txt)
     script:
         - echo "sending-email"
