@@ -1,4 +1,4 @@
---- # --- # ---
+# --- # --- # ---
 workflow:
     rules:
         - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -15,7 +15,7 @@ stages:
 
 build:
     tags:
-        - docker-builder
+        - docker-buildr
     stage: build
     image: node:18.15-alpine
     before_script:
@@ -37,7 +37,7 @@ build:
 
 docker-image:
     tags:
-        - docker-builder
+        - docker-buildr
     stage: creating-docker-image
     before_script:
         - echo "$CI_JOB_TOKEN" | docker login -u $CI_REGISTRY_USER --password-stdin $REGISTRY_URL
@@ -58,7 +58,7 @@ docker-image:
 
 deploy:
     tags:
-        - docker-builder
+        - docker-buildr
     stage: deploy
     before_script:
         - apk add curl
@@ -75,7 +75,7 @@ deploy:
 
 sending-on-teams:
     tags:
-        - docker-builder
+        - docker-buildr
     stage: .post
     before_script:
         - apk add curl
