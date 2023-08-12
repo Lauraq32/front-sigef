@@ -75,7 +75,7 @@ deploy:
 
 sending-on-teams:
     tags:
-        - docker-buildrS
+        - docker-buildr
     stage: .post
     before_script:
         - apk add curl
