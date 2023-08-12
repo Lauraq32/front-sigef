@@ -1,200 +1,296 @@
 /* eslint-disable prettier/prettier */
-import http from '@/Api/http-common'
-import { getAyuntamientoId, getFiscalYearId } from '@/utils/logged-info'
+import http from '@/Api/http-common';
+import { getAyuntamientoId, getFiscalYearId } from '@/utils/logged-info';
+
+import { filter } from '@/utils/validator';
 class Ejecucion {
-  //-----------------------------CLASIFICADORES---------------------------------------//
-  //get
-  getBeneficiarios() {
-    return http.get('Beneficiarios')
-  }
+	getMestProg() {
+		return http.get('CtgMestProg');
+	}
 
-  getBeneficiariosById(id) {
-    return http.get(`Beneficiarios/${id}`)
-  }
+	getMestProgBadgered() {
+		return http.get('PresGasto/prog-estructure-badgeted');
+	}
 
-  getAnioFiscal() {
-    return http.get('anios-fiscales')
-  }
+	getRegistroGastoById(id) {
+		return http.get(`registros-gasto/${id}`);
+	}
 
-  getAnioFiscalbyid(id) {
-    return http.get(
-      `anios-fiscales/${getFiscalYearId()}?ayuntamientoId=${getAyuntamientoId()}`,
-    )
-  }
+	registroGastoConfirmation(id) {
+		return http.patch(`registros-gasto/${id}/confirmation`);
+	}
+	registroGastoPayCheck(id) {
+		return http.patch(`registros-gasto/${id}/paycheck`);
+	}
+	registroGastoClosing(id) {
+		return http.patch(`registros-gasto/${id}/closing`);
+	}
 
-  getSector() {
-    return http.get('Sector')
-  }
+	getConceptoGastos() {
+		return http.get('conceptos-gasto?status=true');
+	}
 
-  getContribuyente() {
-    return http.get(`Contribuyente/?ayuntamientoId=${getAyuntamientoId()}`)
-  }
+	getTipoRetenciones() {
+		return http.get('tipos-retenciones');
+	}
 
-  getContribuyenteById(id) {
-    return http.get(`Contribuyente/${id}`)
-  }
+	deleteRegistroGasto(id) {
+		return http.delete(`registros-gasto/${id}`);
+	}
+	//Comprobante Gasto
+	getRegistroGasto(params) {
+		return http.get(`registros-gasto${filter(params)}`);
+	}
+	postRegistroGasto(data) {
+		return http.post('registros-gasto', data);
+	}
+	putRegistroGastoPagado(id) {
+		return http.put(`registros-gasto/${id}/pagado`);
+	}
+	putRegistroGastoDevengado(id) {
+		return http.put(`registros-gasto/${id}/devengado`);
+	}
+	getRegistroGastoDetalles(expeseRecordId) {
+		return http.get(`registros-gasto/${expeseRecordId}/detalles`);
+	}
+	getRegistroGastoClasificador() {
+		return http.get('registros-gasto/Clasifica');
+	}
+	getRegistroGastoMesProg(mestProg) {
+		return http.get(`registros-gasto/estructura-programatica/${mestProg}`);
+	}
 
-  getSectorbyid(id) {
-    return http.get(`Sector/${id}`)
-  }
+	//get
+	getBeneficiarios() {
+		return http.get('Beneficiarios');
+	}
 
-  getRegistroGastobyid(id) {
-    return http.get(`RegistroGasto/${id}`)
-  }
+	getBeneficiariosById(id) {
+		return http.get(`Beneficiarios/${id}`);
+	}
 
-  getIngresoAll() {
-    return http.get(
-      `RegistroIngreso?anio=${getFiscalYearId()}&ayuntamientoId=${getAyuntamientoId()}`,
-    )
-  }
+	deleteBeneficiario(id) {
+		return http.delete(`Beneficiarios/${id}`);
+	}
 
-  getIngresoById(id, anioFiscalId, ayuntamientoId) {
-    return http.get(
-      `/RegistroIngreso/${id}?anio=${anioFiscalId}&ayuntamientoId=${ayuntamientoId}`,
-    )
-  }
+	getAnioFiscal() {
+		return http.get('anios-fiscales');
+	}
 
-  getIngresoByIdAndDetalle(id) {
-    return http.get(
-      `RegistroIngreso/Detalle/${id}?anio=${getFiscalYearId()}&AyuntamientoId=${getAyuntamientoId()}`,
-    )
-  }
+	getAnioFiscalbyid(id) {
+		return http.get(
+			`anios-fiscales/${id}?ayuntamientoId=${getAyuntamientoId()}`,
+		);
+	}
 
-  getComprobanteIngresoTotal(id) {
-    return http.get(
-      `RegistroIngreso/Totales?id=${id}&anio=${getFiscalYearId()}&AyuntamientoId=${getAyuntamientoId()}`,
-    )
-  }
+	getSector() {
+		return http.get('Sector');
+	}
 
-  getIngresoClasificadorById(id) {
-    return http.get(
-      `/RegistroIngreso/Detalle/Clasificadores?anio=${getFiscalYearId()}&AyuntamientoId=${getAyuntamientoId()}&id=${id}`,
-    )
-  }
+	getContribuyente() {
+		return http.get('contribuyentes');
+	}
 
-  getRegistroIngreso() {
-    return http.get('RegistroIngreso/Detalle/Clasificador/')
-  }
+	getContribuyenteById(id) {
+		return http.get(`contribuyentes/${id}`);
+	}
 
-  getRegistroIngresoDetalle(id) {
-    return http.get(
-      `RegistroIngreso/Detalle/RegistroIngreso?Transaccion=${id}&anio=${getFiscalYearId()}&AyuntamientoId=${getAyuntamientoId()}`,
-    )
-  }
+	getSectorbyid(id) {
+		return http.get(`Sector/${id}`);
+	}
 
-  getRegistroGastoDetalle(id) {
-    return http.get(
-      `RegistroGasto/Detalle?anio=${user?.currentFiscalYearId}&AyuntamientoId=${user?.user.ayuntamiento.id}&id=${id}`,
-    )
-  }
+	getIngresoAll() {
+		return http.get(
+			`RegistroIngreso?anio=${getFiscalYearId()}&ayuntamientoId=${getAyuntamientoId()}`,
+		);
+	}
 
-  downloadGastoModificacion(value) {
-    return http.get(
-      `export-file/ingresos-modificacion?mes=${value}`,
-    )
-  }
-  downloadGastoEjecucion(value) {
-    return http.get(
-      `export-file/ingresos-ejecucion?mes=${value}`,
-    )
-  }
-  //Get tipo retenciones
-  getTipoRetencion(id) {
-    return http.get(
-      `TipoRetencion?Ayuntamiento=${getAyuntamientoId()}&id=${id}`,
-    )
-  }
-  getTipoRetencionById(id) {
-    return http.get(`TipoRetencion/${id}?Ayuntamiento=${getAyuntamientoId()}`)
-  }
-  getRegistroGastoDetalleMesprog(id) {
-    return http.get(
-      `RegistroGasto/Mesprog?anio=${getFiscalYearId()}&AyuntamientoId=${getAyuntamientoId()}&Mesprog=${id}`,
-    )
-  }
+	getIngresoById(id, anioFiscalId, ayuntamientoId) {
+		return http.get(
+			`/RegistroIngreso/${id}?anio=${anioFiscalId}&ayuntamientoId=${ayuntamientoId}`,
+		);
+	}
 
-  //post
+	getIngresoByIdAndDetalle(id) {
+		return http.get(
+			`RegistroIngreso/Detalle/${id}?anio=${getFiscalYearId()}&AyuntamientoId=${getAyuntamientoId()}`,
+		);
+	}
 
-  postAnioFiscal(data) {
-    return http.post('anios-fiscales', data)
-  }
+	getComprobanteIngresoTotal(id) {
+		return http.get(
+			`RegistroIngreso/Totales?id=${id}&anio=${getFiscalYearId()}&AyuntamientoId=${getAyuntamientoId()}`,
+		);
+	}
 
-  postBeneficiarios(data) {
-    return http.post('Beneficiarios', data)
-  }
+	getIngresoClasificadorById(id) {
+		return http.get(
+			`/RegistroIngreso/Detalle/Clasificadores?anio=${getFiscalYearId()}&AyuntamientoId=${getAyuntamientoId()}&id=${id}`,
+		);
+	}
 
-  postIngresos(data) {
-    return http.post('RegistroIngreso', data)
-  }
+	getRegistroIngreso(params) {
+		return http.get(`registros-ingreso${filter(params)}`);
+	}
 
-  postIngresoDetalle(data) {
-    return http.post('RegistroIngreso/Detalle', data)
-  }
+	getRegistroIngresoDetalle(id) {
+		return http.get(
+			`RegistroIngreso/Detalle/RegistroIngreso?Transaccion=${id}&anio=${getFiscalYearId()}&AyuntamientoId=${getAyuntamientoId()}`,
+		);
+	}
 
-  postGastoDetalle(data) {
-    return http.post('RegistroGasto/Detalle', data)
-  }
+	downloadGastoModificacion(value) {
+		return http.get(`export-file/ingresos-modificacion?mes=${value}`);
+	}
+	downloadGastoEjecucion(value) {
+		return http.get(`export-file/ingresos-ejecucion?mes=${value}`);
+	}
+	//Get tipo retenciones
+	getTipoRetencion() {
+		return http.get(`tipos-retenciones`);
+	}
+	getTipoRetencionById(id) {
+		return http.get(
+			`TipoRetencion/${id}?Ayuntamiento=${getAyuntamientoId()}`,
+		);
+	}
 
-  //Post TipoRetencion
-  postTipoRetencion(data) {
-    return http.post('TipoRetencion', data)
-  }
+	//post
 
-  postTipoRetencionDetalle(data) {
-    return http.post('DetalleRetencion', data)
-  }
+	postAnioFiscal(data) {
+		return http.post('anios-fiscales', data);
+	}
 
-  //put
+	postBeneficiarios(data) {
+		return http.post('Beneficiarios', data);
+	}
 
-  putBeneficiarios(id, data) {
-    return http.put(`Beneficiarios/${id}`, data)
-  }
+	postIngresos(data) {
+		return http.post('registros-ingreso', data);
+	}
 
-  putAnioFiscal(id, data) {
-    return http.put(`anios-fiscales/${id}`, data)
-  }
+	postIngresoDetalle(data) {
+		return http.post('RegistroIngreso/Detalle', data);
+	}
 
-  putRegistroGasto(data, id) {
-    return http.put(`RegistroGasto/${id}`, data)
-  }
+	postGastoDetalle(data) {
+		return http.post('RegistroGasto/Detalle', data);
+	}
 
-  getRegistroGasto() {
-    return http.get(
-      `RegistroGasto?anio=${getFiscalYearId()}&AyuntamientoId=${getAyuntamientoId()}`,
-    )
-  }
-  postRegistroGasto(post) {
-    return http.post(`RegistroGasto`, post)
-  }
-  getClasificador(Clasificador) {
-    return http.get(`PresIngreso/GetClasificadorById/${Clasificador}`)
-  }
+	//Post TipoRetencion
+	postTipoRetencion(data) {
+		return http.post('TipoRetencion', data);
+	}
 
-  putIngresoCabecera(id, data) {
-    return http.put(`RegistroIngreso?id=${id}`, data)
-  }
+	postTipoRetencionDetalle(data) {
+		return http.post('DetalleRetencion', data);
+	}
 
-  //put TipoRetenciones
-  putTipoRetenciones(id, data) {
-    return http.put(`TipoRetencion/${id}`, data)
-  }
+	//put
 
-  //peticiones tipo gasto
-  getTipoGastoList() {
-    return http.get(`TipoGasto?Ayuntamiento=${getAyuntamientoId()}`)
-  }
+	putBeneficiarios(id, data) {
+		return http.put(`Beneficiarios/${id}`, data);
+	}
 
-  PostTipoGasto(data) {
-    return http.post('TipoGasto', data)
-  }
+	putAnioFiscal(id, data) {
+		return http.put(`anios-fiscales/${id}`, data);
+	}
 
-  PutTipoGasto(id, data) {
-    return http.put(`TipoGasto/${id}`, data)
-  }
+	putRegistroGasto(data, id) {
+		return http.put(`RegistroGasto/${id}`, data);
+	}
 
-  getTipoGastoById(id) {
-    return http.get(`TipoGasto/${id}?Ayuntamiento=${getAyuntamientoId()}`)
-  }
+	getClasificador(Clasificador) {
+		return http.get(`PresIngreso/GetClasificadorById/${Clasificador}`);
+	}
+
+	putIngresoCabecera(id, data) {
+		return http.put(`RegistroIngreso?id=${id}`, data);
+	}
+
+	//put TipoRetenciones
+	putTipoRetenciones(id, data) {
+		return http.put(`TipoRetencion/${id}`, data);
+	}
+
+	//peticiones tipo gasto
+	getTipoGastoList() {
+		return http.get(`TipoGasto?Ayuntamiento=${getAyuntamientoId()}`);
+	}
+
+	PostTipoGasto(data) {
+		return http.post('TipoGasto', data);
+	}
+
+	PutTipoGasto(id, data) {
+		return http.put(`TipoGasto/${id}`, data);
+	}
+
+	getTipoGastoById(id) {
+		return http.get(`TipoGasto/${id}?Ayuntamiento=${getAyuntamientoId()}`);
+	}
+
+	//Servicios beneficiario grupo pago
+
+	getBeneficiariosGrupoList() {
+		return http.get(
+			`beneficiarios-compensacion?Ayuntamiento=${getAyuntamientoId()}`,
+		);
+	}
+
+	postBeneficiarioGrupo(data) {
+		return http.post('beneficiarios-compensacion', data);
+	}
+
+	putBeneficiarioGrupo(id, data) {
+		return http.put(`beneficiarios-compensacion/${id}`, data);
+	}
+
+	//servicios grupo compensacion
+
+	getGrupoCompensacionList() {
+		return http.get('grupos-compensacion');
+	}
+	getGrupoCompensacionBeneficiario(id) {
+		return http.get(`grupos-compensacion/${id}/beneficiarios`);
+	}
+	//Delete
+
+	deleteBeneficiarios(id) {
+		return http.delete(`Beneficiarios/${id}`);
+	}
+	//Concepto de gastos
+	getConceptoGastoById(id) {
+		return http.get(`conceptos-gasto/${id}`);
+	}
+	putConceptoGasto(id, data) {
+		return http.put(`conceptos-gasto/${id}`, data);
+	}
+	postConceptoGasto(data) {
+		return http.post('conceptos-gasto', data);
+	}
+	deleteConceptoGasto(id) {
+		return http.delete(`conceptos-gasto/${id}`);
+	}
+	deleteRegistroIngreso(id) {
+		return http.delete(`registros-ingreso/${id}`);
+	}
+	//Servicios de Grupo Pago
+	getGrupoPagoList() {
+		return http.get('grupos-compensacion');
+	}
+
+	putGrupoPago(id, data) {
+		return http.put(`grupos-compensacion/${id}`, data);
+	}
+
+	postGrupoPago(data) {
+		return http.post('grupos-compensacion', data);
+	}
+
+	getCatalogoFunciones() {
+		return http.get('catalogos-funcion');
+	}
 }
 
-export default new Ejecucion()
+export default new Ejecucion();

@@ -1,252 +1,144 @@
 <template>
-  <h3 class="text-center">Departamentos</h3>
-  <hr />
-  <div class="table-headers">
-    <div class="d-inline p-2">
-      <CButton
-        color="info"
-        @click="
-          () => {
-            lgDemo = true
-          }
-        "
-        >Agregar</CButton
-      >
-    </div>
-    <div class="d-inline p-2">
-      <CButton style="font-weight: bold" color="info" @click="IngresoReport"
-        >Imprimir</CButton
-      >
-    </div>
-  </div>
-  <hr />
-  <CSmartTable class="sticky-top"
-    clickableRows
-    :tableProps="{
-     striped: true,
-      hover: true,
-    }"
-    :tableHeadProps="{}"
-    :activePage="1"
-    :footer="footerItem"
-    header
-    :items="this.$store.state.RRHHModule.departamentos"
-    :columns="columns"
-    columnFilter
-    itemsPerPageSelect
-    :itemsPerPage="5"
-    columnSorter
-    :sorterValue="{ column: 'status', state: 'asc' }"
-    pagination
-  >
-    <template #status="{ item }">
-      <td>
-        <CBadge :color="getBadge(item.status)">{{ item.status }}</CBadge>
-      </td>
-    </template>
-    <template #show_details="{ item, index }">
-      <td class="py-2">
-        <CButton
-          color="primary"
-          variant="outline"
-          square
-          size="sm"
-          @click="toggleDetails(item, index)"
-        >
-          {{ Boolean(item._toggled) ? 'Hide' : 'Show' }}
-        </CButton>
-      </td>
-    </template>
-    <template #details="{ item }">
-      <CCollapse :visible="this.details.includes(item._id)">
-        <CCardBody>
-          <h4>
-            {{ item.username }}
-          </h4>
-          <p class="text-muted">User since: {{ item.registered }}</p>
-          <CButton size="sm" color="info" class=""> User Settings </CButton>
-          <CButton size="sm" color="danger" class="ml-1"> Delete </CButton>
-        </CCardBody>
-      </CCollapse>
-    </template>
-  </CSmartTable>
-  <CModal
-    size="lg"
-    :visible="lgDemo"
-    @close="
-      () => {
-        lgDemo = false
-      }
-    "
-  >
-    <CModalHeader>
-      <CModalTitle>Departamentos</CModalTitle>
-    </CModalHeader>
-    <CModalBody>
-      <CCardBody>
-        <CForm
-          class="row g-3 needs-validation"
-          novalidate
-          :validated="validatedCustom01"
-          @submit="handleSubmitCustom01"
-        >
-          <CCol :md="2">
-            <CFormLabel for="validationCustom01">Clasificación</CFormLabel>
-            <CFormSelect id="validationCustom04">
-              <option>Ingreso</option>
-              <option>Gastos</option>
-            </CFormSelect>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustomUsername">Clasificador</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustomUsername">Descripción</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustomUsername">Tipo</CFormLabel>
-            <CFormSelect id="validationCustom04">
-              <option>indefinido</option>
-              <option>indefinido</option>
-            </CFormSelect>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustomUsername">Resumen Desc</CFormLabel>
-            <CFormInput id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <CCol :md="2">
-            <CFormLabel for="validationCustomUsername"
-              >Cuenta Contable</CFormLabel
-            >
-            <CFormInput id="validationCustom04"> </CFormInput>
-            <CFormFeedback valid> Exito! </CFormFeedback>
-            <CFormFeedback invalid> Favor agregar el campo </CFormFeedback>
-          </CCol>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button class="btn btn-info btn-block mt-1" v-on:click="Guardar">
-              Guardar
-            </button>
-          </div>
-        </CForm>
-      </CCardBody>
-    </CModalBody>
-  </CModal>
+	<h3 class="text-center mb-4">Departamentos</h3>
+	<CCard class="mb-4">
+		<CCardBody class="table-headers justify-content-between">
+			<div class="d-inline-flex gap-3 align-items-center">
+				<CFormLabel class="form-label col-auto col-form-label"
+					>Filtro:</CFormLabel
+				>
+				<CFormSelect
+					id="fiscalYearSelect"
+					@update:modelValue="handleFilterDepartmentsByStatus"
+					aria-label="Selecionar estatus de departamento"
+					:options="[
+						{ label: 'Activo', value: true },
+						{ label: 'Inactivo', value: 'false' },
+					]"
+				/>
+			</div>
+
+			<div>
+				<div class="d-flex gap-1">
+					<CButton
+						color="info"
+						@click="
+							() => {
+								showAddDeptModal = true;
+								this.departamento = null;
+							}
+						"
+						>Agregar</CButton
+					>
+					<CButton color="secondary">Imprimir</CButton>
+				</div>
+			</div>
+		</CCardBody>
+	</CCard>
+
+	<DepartmentsTable
+		@onUpdate="handleUpdate"
+		@handleDelete="handleDelete"
+		:deparments="deparments"
+	/>
+
+	<AddDepartment
+		:is-nomina="true"
+		:modal-title="this.deparmentModalTitle"
+		:departamento="this.departamento"
+		:showModal="showAddDeptModal"
+		@submit="handleSubmit"
+		@close="handleModalClose"
+	/>
 </template>
 <script>
-import { CSmartTable } from '@coreui/vue-pro'
-import { CModal } from '@coreui/vue'
-export default {
-  components: {
-    CSmartTable,
-    CModal,
-  },
-  data: () => {
-    return {
-      validatedCustom01: null,
-      lgDemo: false,
-      columns: [
-        { key: 'Código', label: 'Código', _style: { width: '40%' } },
-        {
-          key: 'Departamento',
-          label: 'Departamento',
-          _style: { width: '40%' },
-        },
-        { key: 'Programa', label: 'Programa', _style: { width: '40%' } },
-        {
-          key: 'Grupo de nomina',
-          label: 'Grupo de nomina',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'Estructura Prog.',
-          label: 'Estructura Prog.',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'Clasificador',
-          label: 'Clasificador',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'Limitado rep.',
-          label: 'Limitado rep.',
-          _style: { width: '40%' },
-        },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-          // _props: { color: 'primary', class: 'fw-semibold'}
-        },
-      ],
-      footerItem: [
-        {
-          label: 'Total Items',
-          _props: {
-            color: '',
-            colspan: 1,
-            style: 'font-weight:bold;',
-          },
-        },
+	import AddDepartment from './Dialogos/AddDepartment.vue';
+	import DepartmentsTable from './DepartmentsTable.vue';
+	import deparmentServices from '../services/DeparmentServices';
+	import { useToastStore } from '@/store/toast';
+	import { CFormLabel } from '@coreui/vue-pro';
+	import { mapActions } from 'pinia';
 
-      ],
-      details: [],
-    }
-  },
-  methods: {
-    handleSubmitCustom01(event) {
-      const form = event.currentTarget
-      if (form.checkValidity() === false) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      this.validatedCustom01 = true
-    },
-    getBadge(status) {
-      switch (status) {
-        case 'Active':
-          return 'success'
-        case 'Inactive':
-          return 'secondary'
-        case 'Pending':
-          return 'warning'
-        case 'Banned':
-          return 'danger'
-        default:
-          'primary'
-      }
-    },
-    toggleDetails(item) {
-      if (this.details.includes(item._id)) {
-        this.details = this.details.filter((_item) => _item !== item._id)
-        return
-      }
-      this.details.push(item._id)
-    },
-  },
-  mounted() {
-    this.$store.dispatch('AdministrativoModule/getUsuarios')
-  },
-}
+	export default {
+		components: {
+			AddDepartment,
+			DepartmentsTable,
+			CFormLabel,
+		},
+		data: () => {
+			return {
+				deparments: [],
+				validatedCustom01: null,
+				showAddDeptModal: false,
+				departamento: null,
+				deparmentModalTitle: null,
+			};
+		},
+		methods: {
+			...mapActions(useToastStore, ['show']),
+			handleFilterDepartmentsByStatus(value) {
+				deparmentServices
+					.getDepartments(value)
+					.then((response) => (this.deparments = response.data.data));
+			},
+			handleModalClose() {
+				this.showAddDeptModal = false;
+				this.departamento = {};
+				this.deparmentModalTitle = null;
+			},
+			handleUpdate(dept) {
+				this.showAddDeptModal = true;
+				this.deparmentModalTitle = 'Formulario Captura Departamento';
+				this.departamento = dept;
+			},
+			handleDelete(item) {
+				deparmentServices
+					.deleteDepartment(item.id)
+					.then(() => {
+						this.deparments = this.deparments.filter(
+							(x) => x.id != item.id,
+						);
+					})
+					.catch((err) => {
+						this.show({
+							content: err.response.data,
+							color: 'danger',
+						});
+					});
+			},
+			handleSubmit(dept) {
+				if (dept.id && dept.id !== 0) {
+					if (dept.status) {
+						deparmentServices
+							.updateDepartment(dept)
+							.then((response) => {
+								const deptIndex = this.deparments.findIndex(
+									(x) => x.id === dept.id,
+								);
+								this.deparments[deptIndex] = response.data.data;
+								this.handleModalClose();
+							});
+					}
+				} else {
+					deparmentServices
+						.createDepartment(dept)
+						.then((response) => {
+							this.deparments = [
+								response.data.data,
+								...this.deparments,
+							];
+							this.handleModalClose();
+						})
+						.catch((error) =>
+							this.show({
+								content: error.response.data,
+								color: 'danger',
+							}),
+						);
+				}
+			},
+		},
+		mounted() {
+			this.handleFilterDepartmentsByStatus(true);
+		},
+	};
 </script>

@@ -1,168 +1,280 @@
 /* eslint-disable prettier/prettier */
-import http from '@/Api/http-common'
-import { getAyuntamientoId } from '@/utils/logged-info'
+import http from '@/Api/http-common';
+import { getAyuntamientoId } from '@/utils/logged-info';
+import FileApi from './Files';
 class RegistroPersonal {
-  //get
-  getAllTipoSangre() {
-    return http.get('tipos-sangre')
-  }
+	//delete Cargo
+	deleteCargo(id) {
+		return http.delete(`cargos/${id}`);
+	}
+	//put utils
+	putUtils(data, id) {
+		return http.put(`utiles-laborales/${id}`, data);
+	}
+	//get
+	tipoSangreList() {
+		return http.get('tipos-sangre');
+	}
 
-  getTipoSangreByID(id) {
-    return http.get(`tipos-sangre/${id}`)
-  }
+	getAllTipoAcciones() {
+		return http.get('tipo-acciones');
+	}
 
-  getSectorbyid(id) {
-    return http.get(`sectores/${id}`)
-  }
+	getAllAccionPersonal() {
+		return http.get('acciones-personal');
+	}
 
-  getProfesion() {
-    return http.get('profesiones')
-  }
+	getTipoSangreByID(id) {
+		return http.get(`tipos-sangre/${id}`);
+	}
 
-  addProfesion(data) {
-    return http.post('profesiones',data)
-  }
-  updateProfesion(id, data) {
-    return http.put(`profesiones/${id}`, data)
-  }
+	getSectorbyid(id) {
+		return http.get(`sectores/${id}`);
+	}
 
-  getProfesionById(id) {
-    return http.get(`profesiones/${id}`)
-  }
+	getProfesion() {
+		return http.get('profesiones');
+	}
 
-  getAllEmpleado() {
-    return http.get(`empleados`)
-  }
+	getAccionesPersonalById(id) {
+		return http.get(`acciones-personal/${id}`);
+	}
 
-  //CARGOS
-  getAllCargos() {
-    return http.get('cargos')
-  }
+	addProfesion(data) {
+		return http.post('profesiones', data);
+	}
+	updateProfesion(id, data) {
+		return http.put(`profesiones/${id}`, data);
+	}
 
-  getCargobyid(id) {
-    return http.get(`cargos/${id}`)
-  }
+	getProfesionById(id) {
+		return http.get(`profesiones/${id}`);
+	}
 
-  updateCargo(id, data) {
-    return http.put(`cargos/${id}`, data)
-  }
+	getAyuntamientoById(id) {
+		return http.get(`ayuntamientos/${id}`);
+	}
 
-  addCargos(data) {
-    return http.post('cargos', data)
-  }
+	getAllEmpleado(filter = {}) {
+		const params = Object.keys(filter).map(
+			(key) => `${key}=${filter[key]}`,
+		);
+		return http.get(
+			`empleados${params.length ? '?' + params.join('&') : ''}`,
+		);
+	}
 
+	getCargobyid(id) {
+		return http.get(`cargos/${id}`);
+	}
 
-  getProgramaDivision() {
-    return http.get(`ProgramaDivision?AyuntamientoId=${getAyuntamientoId()}`)
-  }
+	getAllCargos() {
+		return http.get(`cargos`);
+	}
 
-  getEmpleadoByID(id) {
-    return http.get(`Empleado/${id}`)
-  }
+	updateCargo(id, data) {
+		return http.put(`cargos/${id}`, data);
+	}
 
-  getDepartamentoByProgramaId(id) {
-    return http.get(`Departamento/Programa/${id}`)
-  }
+	addCargos(data) {
+		return http.post('cargos', data);
+	}
 
-  //sectores
-  getAllSector() {
-    return http.get('sectores')
-  }
+	getProgramaDivision() {
+		return http.get(`programas-division`);
+	}
 
-  //AREA TRABAJO
-  getAreaTrabajos() {
-    return http.get('areas-trabajo')
-  }
+	getEmpleadoByID(id) {
+		return http.get(`empleados/${id}`);
+	}
 
-  getAreaTrabajoById(id) {
-    return http.get(`areas-trabajo/${id}`)
-  }
+	getAccionPersonalByID(id) {
+		return http.get(`acciones-personal/empleado/${id}`);
+	}
 
-  addAreaTrabajo(data) {
-    return http.post('areas-trabajo', data)
-  }
+	getTipoAccionByID(id) {
+		return http.get(`tipo-acciones/${id}`);
+	}
 
-  updateAreaTrabajo(id, data) {
-    return http.put(`areas-trabajo/${id}`, data)
+	getDepartamentoByProgramaId(id) {
+		return http.get(`Departamento/Programa/${id}`);
+	}
 
-  }
-  getSectorById(id) {
-    return http.get(`sectores/${id}`)
-  }
+	//sectores
+	getAllSector() {
+		return http.get('sectores');
+	}
 
-  addSector(data) {
-    return http.post('sectores', data)
-  }
+	getAllInventario() {
+		return http.get('inventarios');
+	}
 
-  updateSector(id, data) {
-    return http.put(`sectores/${id}`, data)
-  }
+	postInventario(data) {
+		return http.post('inventarios', data);
+	}
 
+	putInventario(id, data) {
+		return http.put(`inventarios/${id}`, data);
+	}
 
-  getAreaTrabajo() {
-    return http.get('areas-trabajo')
-  }
+	getUtilesLaborales(empleadoId) {
+		return http.get(`utiles-laborales/empleado/${empleadoId}`);
+	}
 
-  //Combobox cargo
-  getPosicion() {
-    return http.get('Posicion')
-  }
+	postUtilLaboral(data) {
+		return http.post(`utiles-laborales`, data);
+	}
 
-  //post
+	putUtilLaboral(id, data) {
+		return http.post(`utiles-laborales/${id}`, data);
+	}
 
-  postEmpleado(data) {
-    return http.post('Empleado', data)
-  }
+	cancelUtilLaboral(id) {
+		return http.patch(`utiles-laborales/${id}/canceled`);
+	}
 
-  postSectores(data) {
-    return http.post('sectores', data)
-  }
+	deliverUtilLaboral(id) {
+		return http.patch(`utiles-laborales/${id}/delivered`);
+	}
 
-  postAreaTrabajo(data) {
-    return http.post('areas-trabajo', data)
-  }
+	getUtilLaboralEventos(id) {
+		return http.get(`utiles-laborales/${id}/eventos`);
+	}
 
-  //direccion o dependecia
-  getDireccionDependeciaById(id) {
-    return http.get(`programas-division/${id}`)
-  }
+	//AREA TRABAJO
+	getAreaTrabajos() {
+		return http.get('areas-trabajo');
+	}
 
-  getDireccionDependecia() {
-    return http.get('programas-division')
-  }
+	getAreaTrabajoById(id) {
+		return http.get(`areas-trabajo/${id}`);
+	}
 
-  postDireccionDependecia(data) {
-    return http.post('programas-division', data)
-  }
+	addAreaTrabajo(data) {
+		return http.post('areas-trabajo', data);
+	}
 
-  putDireccionDependecia(id, data) {
-    return http.put(`programas-division/${id}`, data)
-  }
+	updateAreaTrabajo(id, data) {
+		return http.put(`areas-trabajo/${id}`, data);
+	}
+	getSectorById(id) {
+		return http.get(`sectores/${id}`);
+	}
 
-  //put
-  putEmpleado(id, data) {
-    return http.put(`Empleado/${id}`, data)
-  }
+	addSector(data) {
+		return http.post('sectores', data);
+	}
 
-  putArea(id) {
-    return http.put(`Area/${id}`)
-  }
+	updateSector(id, data) {
+		return http.put(`sectores/${id}`, data);
+	}
 
-  putSector(id, post) {
-    return http.put(`sectores/${id}`, post)
-  }
+	getAreaTrabajo() {
+		return http.get('areas-trabajo');
+	}
 
-  putAreaTrabajo(id) {
-    return http.put(`areas-trabajo/${id}`)
-  }
+	//Combobox cargo
+	getPosicion() {
+		return http.get('cargos');
+	}
 
-  deleteEmpleado(id) {
-    return http.delete(`Empleado/${id}`)
-  }
+	getAreaTrabajobyid(id) {
+		return http.get(`areas-trabajo/${id}`);
+	}
+	getImagenesById(fileId) {
+		return http.get(`files/${fileId}`);
+	}
 
-  deleteSector(id) {
-    return http.delete(`sectores/${id}?ayuntamiento=${getAyuntamientoId()}`)
-  }
+	postFiles(formData) {
+		return FileApi.saveFile(formData);
+	}
+	//get Archivos por el id del empleado
+	getFilesByEmployeeId(id) {
+		return FileApi.getFiles({
+			tag: { empleadoId: id },
+		});
+	}
+	//post
+
+	postEmpleados(data) {
+		return http.post('empleados', data);
+	}
+
+	postTipoAcciones(data) {
+		return http.post('tipo-acciones', data);
+	}
+
+	postSectores(data) {
+		return http.post('sectores', data);
+	}
+
+	postAccionesPersonal(data) {
+		return http.post('acciones-personal', data);
+	}
+
+	postAreaTrabajo(data) {
+		return http.post('areas-trabajo', data);
+	}
+
+	//direccion o dependecia
+	getDireccionDependeciaById(id) {
+		return http.get(`programas-division/${id}`);
+	}
+
+	getDireccionDependecia() {
+		return http.get('programas-division');
+	}
+
+	postDireccionDependecia(data) {
+		return http.post('programas-division', data);
+	}
+
+	putDireccionDependecia(id, data) {
+		return http.put(`programas-division/${id}`, data);
+	}
+
+	//put
+	putEmpleado(id, data) {
+		return http.put(`empleados/${id}`, data);
+	}
+
+	putTipoAcciones(id, data) {
+		return http.put(`tipo-acciones/${id}`, data);
+	}
+
+	putAccionesPersonales(id, data) {
+		return http.put(`acciones-personal/${id}`, data);
+	}
+
+	putArea(id) {
+		return http.put(`Area/${id}`);
+	}
+
+	putSector(id, post) {
+		return http.put(`sectores/${id}`, post);
+	}
+
+	putAreaTrabajo(id) {
+		return http.put(`areas-trabajo/${id}`);
+	}
+
+	deleteEmpleado(id) {
+		return http.delete(`empleados/${id}`);
+	}
+
+	deleteSector(id) {
+		return http.delete(
+			`sectores/${id}?ayuntamiento=${getAyuntamientoId()}`,
+		);
+	}
+	listDepartamento(programaId) {
+		return http.get(
+			`departamentos?compat=true&ProgramaDivisionId=${programaId}`,
+		);
+	}
+	reactivarEmpleado(id) {
+		return http.patch(`empleados/${id}/re-activado`);
+	}
 }
 
-export default new RegistroPersonal()
+export default new RegistroPersonal();
