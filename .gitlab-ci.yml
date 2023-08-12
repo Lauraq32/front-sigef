@@ -24,6 +24,7 @@ build:
         - cat .env.production.local
     script:
         - npm install
+        - npm run lint
         - npm run build:prod
     artifacts:
         paths:
@@ -61,13 +62,13 @@ deploy:
     stage: deploy
     before_script:
         - apk add curl
-        - curl $PORT_SERVICE_URL/ports/sigef-v1-$CI_COMMIT_REF_NAME -o port.txt
+        - curl $PORT_SERVICE_URL/ports/sigef-v1|$CI_COMMIT_REF_NAME -o port.txt
     script:
         - echo "deploy"
         - PORT_AVAILABLE=$(cat port.txt)
         - docker run -d --label "env=$ENV" --label "jobId=$CI_JOB_ID" --label "pipelineId=$CI_PIPELINE_ID" --label "app=sigef-v1"
           --label "commit=$CI_COMMIT_SHORT_SHA" --label "branch=$CI_COMMIT_REF_NAME" --label "user=$GITLAB_USER_LOGIN" --label "gUser=$GITLAB_USER_NAME"
-          -e ENV=$ENV -p $PORT_AVAILABLE:443 --name "sigef-v1-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA" $IMAGE_TAG
+          -e ENV=$ENV -p $PORT_AVAILABLE:80 --name "sigef-v1-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA" $IMAGE_TAG
     dependencies:
         - docker-image
     environment: $ENV
@@ -78,7 +79,7 @@ sending-on-teams:
     stage: .post
     before_script:
         - apk add curl
-        - curl $PORT_SERVICE_URL/ports/sigef-v1-$CI_COMMIT_REF_NAME -o port.txt
+        - curl $PORT_SERVICE_URL/ports/sigef-v1|$CI_COMMIT_REF_NAME -o port.txt
         - PORT_AVAILABLE=$(cat port.txt)
     script:
         - echo "sending-email"

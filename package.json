@@ -6,8 +6,8 @@
   "scripts": {
     "build": "vue-cli-service build",
     "build:prod": "vue-cli-service build --mode production",
-    "lint": "eslint src/**/* *.{vue,js}",
-    "lint:fix": "eslint src/**/* *.{vue,js} --fix",
+    "lint": "eslint *.{js,vue}",
+    "lint:fix": "eslint *.{vue,js} --fix",
     "prettier": "prettier -l src/**/* *.{vue,js}",
     "serve": "vue-cli-service serve",
     "test:e2e": "vue-cli-service test:e2e",
