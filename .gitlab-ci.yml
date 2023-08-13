@@ -21,6 +21,7 @@ build:
     before_script:
         - echo "VUE_APP_API_URL=$APP_API_URL" > .env.production.local
         - echo "NODE_ENV=$ENV" >> .env.production.local
+        - echo "BASE_URL=$CI_COMMIT_REF_NAME" >> .env.production.local
         - cat .env.production.local
     script:
         - npm install
