@@ -76,26 +76,24 @@
 					</CCol>
 					<CCol :md="6">
 						<CFormLabel for="startDate">Fecha Inicio</CFormLabel>
-						<CFormInput
-							type="date"
-							v-model="startDate"
+						<AppDateField
 							required
 							id="startDate"
-						>
-						</CFormInput>
+							v-model="education.startDate"
+							class="form-control"
+						/>
 						<CFormFeedback invalid>
 							Favor agregar el campo
 						</CFormFeedback>
 					</CCol>
 					<CCol :md="6">
 						<CFormLabel for="finishDate">Fecha Final</CFormLabel>
-						<CFormInput
-							type="date"
-							v-model="finishDate"
+						<AppDateField
 							required
 							id="finishDate"
-						>
-						</CFormInput>
+							v-model="education.finishDate"
+							class="form-control"
+						/>
 						<CFormFeedback invalid>
 							Favor agregar el campo
 						</CFormFeedback>
@@ -182,12 +180,14 @@
 	import { formatDate } from '@/utils/format';
 	import { onlyNumber } from '@/utils/validator';
 	import { mapStores, mapActions } from 'pinia';
+	import AppDateField from '@/components/AppDateField.vue';
 
 	export default {
 		name: 'EducacionDialog',
 		components: {
 			CSmartTable,
 			CModal,
+			AppDateField,
 		},
 		emits: ['closeModal'],
 		data: function () {
@@ -273,7 +273,7 @@
 										this.listarEducation(
 											this.employeeInfo.id,
 										),
-									500,
+									200,
 								);
 								this.clearModal();
 							})
@@ -336,42 +336,6 @@
 
 		computed: {
 			...mapStores(useToastStore),
-			startDate: {
-				get() {
-					if (
-						this.education.startDate !== null &&
-						this.education.startDate?.toString() !== 'Invalid Date'
-					) {
-						let date = this.education.startDate;
-						if (typeof this.education.startDate === 'string') {
-							date = new Date(this.education.startDate);
-							return date.toISOString().split('T')[0];
-						}
-					}
-					return this.education.startDate;
-				},
-				set(value) {
-					this.education.startDate = new Date(`${value}T00:00:00`);
-				},
-			},
-			finishDate: {
-				get() {
-					if (
-						this.education.finishDate !== null &&
-						this.education.finishDate?.toString() !== 'Invalid Date'
-					) {
-						let date = this.education.finishDate;
-						if (typeof this.education.finishDate === 'string') {
-							date = new Date(this.education.finishDate);
-							return date.toISOString().split('T')[0];
-						}
-					}
-					return this.education.finishDate;
-				},
-				set(value) {
-					this.education.finishDate = new Date(`${value}T00:00:00`);
-				},
-			},
 		},
 		props: {
 			showModal: Boolean,

@@ -45,6 +45,7 @@
 <script>
 	import { CModalFooter } from '@coreui/vue-pro';
 	import { CModal } from '@coreui/vue';
+	import { getFullLocation } from '@/utils/util';
 
 	export default {
 		name: 'TarjetaEmpleadoDialogs',
@@ -65,7 +66,12 @@
 			},
 			goToTarjetaEmpleado() {
 				window
-					.open(`/#/pages/empleados/${this.empleado.id}`, '_blank')
+					.open(
+						getFullLocation(
+							`#/pages/empleados/${this.empleado.id}`,
+						),
+						'_blank',
+					)
 					.focus();
 			},
 		},

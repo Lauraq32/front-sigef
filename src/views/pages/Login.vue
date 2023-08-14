@@ -50,13 +50,6 @@
 											Favor agregar el campo
 										</CFormFeedback>
 									</CInputGroup>
-									<CRow class="mb-4">
-										<CCol class="text-end">
-											<CButton color="link" class="px-0">
-												¿Olvidaste tu Contrase&ntilde;a?
-											</CButton>
-										</CCol>
-									</CRow>
 									<CAlert
 										v-if="msg"
 										color="danger"

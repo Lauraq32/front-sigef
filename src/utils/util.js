@@ -10,9 +10,9 @@ export async function showReport(params) {
 
 	const keyInterval = setInterval(
 		(url) => {
-			if (reportTab.closed) {
+			clearInterval(keyInterval);
+			if (url || reportTab?.closed) {
 				URL.revokeObjectURL(url);
-				clearInterval(keyInterval);
 			}
 		},
 		20_000,
@@ -20,4 +20,10 @@ export async function showReport(params) {
 	);
 
 	return fileUrl;
+}
+
+export function getFullLocation(relativeUrl) {
+	const baseUrl = (process.env.BASE_URL && process.env.BASE_URL) || '';
+
+	return `${location.origin}/${baseUrl}/${relativeUrl}`;
 }
