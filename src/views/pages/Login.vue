@@ -56,7 +56,7 @@
 										v-html="msg"
 									></CAlert>
 									<CRow class="text-center">
-										<CCol class="d-grid">
+										<CCol class="d-grid mt-2">
 											<CButton
 												type="submit"
 												color="primary"
