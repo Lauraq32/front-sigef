@@ -23,7 +23,7 @@ export async function showReport(params) {
 }
 
 export function getFullLocation(relativeUrl) {
-	const baseUrl = (process.env.BASE_URL && process.env.BASE_URL) || '';
+	const baseUrl = (process.env.BASE_URL && `/${process.env.BASE_URL}`) || '';
 
-	return `${location.origin}/${baseUrl}/${relativeUrl}`;
+	return `${location.origin}${baseUrl}/${relativeUrl}`;
 }
