@@ -309,7 +309,7 @@
 				Swal.fire({
 					position: 'center',
 					icon: 'warning',
-					title: `Estás usted seguro que deseas cancelar la entrega de este útil laboral?`,
+					title: `Esta usted seguro que desea cancelar la entrega de este útil laboral?`,
 					showConfirmButton: true,
 					confirmButtonText: 'Si',
 					cancelButtonText: 'No',
@@ -343,7 +343,7 @@
 				Swal.fire({
 					position: 'center',
 					icon: 'warning',
-					title: `Estás usted seguro que deseas marcar como entregado este útil laboral?`,
+					title: `Esta usted seguro que desea marcar como entregado este útil laboral?`,
 					showConfirmButton: true,
 					confirmButtonText: 'Si',
 					cancelButtonText: 'No',

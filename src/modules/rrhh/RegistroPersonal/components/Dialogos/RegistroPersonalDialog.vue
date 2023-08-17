@@ -344,9 +344,11 @@
 										</div>
 										<div class="col-9">
 											<CCol :md="12">
-												<CFormInput
-													v-model="fechaNacimiento"
-													type="date"
+												<AppDateField
+													class="form-control"
+													v-model="
+														postEmpleado.fechaNacimiento
+													"
 													id="fechaNacimiento"
 												/>
 												<CFormFeedback
@@ -451,10 +453,10 @@
 										<CFormLabel for="fechaIngreso"
 											>Fecha ingreso</CFormLabel
 										>
-										<CFormInput
+										<AppDateField
 											@change="validarFechaDesde"
-											v-model="fechaIngreso"
-											type="date"
+											class="form-control"
+											v-model="postEmpleado.fechaIngreso"
 											id="fechaIngreso"
 											required
 										/>
@@ -816,11 +818,11 @@
 											>Fecha expiraci&oacute;n licencia de
 											conducir</CFormLabel
 										>
-										<CFormInput
+										<AppDateField
+											class="form-control"
 											v-model="
 												postEmpleado.fechaExpiracionLicencia
 											"
-											type="date"
 											id="fechaExpiracionLicencia"
 										/>
 									</CCol>
@@ -829,11 +831,11 @@
 											>Fecha expira tarjeta del
 											banco:</CFormLabel
 										>
-										<CFormInput
+										<AppDateField
+											class="form-control"
 											v-model="
 												postEmpleado.fechaExpitaTarjeta
 											"
-											type="date"
 											id="fechaExpitaTarjeta"
 										/>
 									</CCol>
@@ -1211,6 +1213,7 @@
 	import { mapActions, mapStores } from 'pinia';
 	import { CCol } from '@coreui/vue-pro';
 	import CurrencyInput from '@/utils/CurrencyInput.vue';
+	import AppDateField from '@/components/AppDateField.vue';
 
 	export default {
 		name: 'RegistroPersonalDialog',
@@ -1219,6 +1222,7 @@
 			vSelect,
 			CCol,
 			CurrencyInput,
+			AppDateField,
 		},
 		emits: ['close-modal', 'post-personal'],
 		data: function () {
