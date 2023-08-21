@@ -1,11 +1,16 @@
-# --- # --- # ---
+variables:
+  ENV: DEVELOPMENT
+  IMAGE_TAG: $CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA
+
 workflow:
     rules:
-        - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-
-variables:
-  ENV: DEV
-  IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA
+      - if: $CI_COMMIT_REF_NAME =~ /^(EP|NOM|CB)$/
+      - if: $CI_COMMIT_REF_NAME =~ /-(prerelease|beta)$/
+        variables:
+          ENV: STAGING
+      - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+        variables:
+          ENV: PRODUCTION
 
 stages:
     - build
@@ -56,6 +61,10 @@ docker-image:
         - docker push $IMAGE_TAG
     dependencies:
         - build
+    rules:
+        - if: $CI_COMMIT_REF_NAME =~ /-(prerelease|beta)$/
+        - if: $CI_COMMIT_REF_NAME =~ /^(main|EP|NOM|CB)$/
+          when: always
 
 deploy:
     tags:
@@ -73,6 +82,10 @@ deploy:
     dependencies:
         - docker-image
     environment: $ENV
+    rules:
+        - if: $CI_COMMIT_REF_NAME =~ /-(prerelease|beta)$/
+        - if: $CI_COMMIT_REF_NAME =~ /^(main|EP|NOM|CB)$/
+          when: always
 
 sending-on-teams:
     tags:
@@ -90,3 +103,7 @@ sending-on-teams:
         - deploy
     allow_failure: true
     when: always
+    rules:
+        - if: $CI_COMMIT_REF_NAME =~ /-(prerelease|beta)$/
+        - if: $CI_COMMIT_REF_NAME =~ /^(main|EP|NOM|CB)$/
+          when: always
