@@ -1,16 +1,17 @@
 variables:
-  ENV: DEVELOPMENT
+  ENV: development
   IMAGE_TAG: $CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA
 
 workflow:
+    name: 'Pipeline for branch: $CI_COMMIT_REF_NAME'
     rules:
-      - if: $CI_COMMIT_REF_NAME =~ /^(EP|NOM|CB)$/
-      - if: $CI_COMMIT_REF_NAME =~ /-(prerelease|beta)$/
-        variables:
-          ENV: STAGING
-      - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-        variables:
-          ENV: PRODUCTION
+        - if: $CI_COMMIT_REF_NAME =~ /^(EP|NOM|CB)$|-(prerelease|beta)$/
+          variables:
+            ENV: staging
+        - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+          variables:
+            ENV: production
+        - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
 stages:
     - build
@@ -27,7 +28,6 @@ build:
         - echo "VUE_APP_API_URL=$APP_API_URL" > .env.production.local
         - echo "NODE_ENV=$ENV" >> .env.production.local
         - echo "BASE_URL=$CI_COMMIT_REF_NAME" >> .env.production.local
-        - cat .env.production.local
     script:
         - npm install
         - npm run lint
@@ -62,8 +62,7 @@ docker-image:
     dependencies:
         - build
     rules:
-        - if: $CI_COMMIT_REF_NAME =~ /-(prerelease|beta)$/
-        - if: $CI_COMMIT_REF_NAME =~ /^(main|EP|NOM|CB)$/
+        - if: $CI_COMMIT_REF_NAME =~ /^(main|EP|NOM|CB)$|-(prerelease|beta)$/
           when: always
 
 deploy:
@@ -83,8 +82,7 @@ deploy:
         - docker-image
     environment: $ENV
     rules:
-        - if: $CI_COMMIT_REF_NAME =~ /-(prerelease|beta)$/
-        - if: $CI_COMMIT_REF_NAME =~ /^(main|EP|NOM|CB)$/
+        - if: $CI_COMMIT_REF_NAME =~ /^(main|EP|NOM|CB)$|-(prerelease|beta)$/
           when: always
 
 sending-on-teams:
@@ -101,9 +99,7 @@ sending-on-teams:
             curl -v $PORT_SERVICE_URL/send-notification -H "Content-Type: application/x-www-form-urlencoded" -d "projectId=$CI_PROJECT_ID&mergeRequestId=$CI_MERGE_REQUEST_IID&serverUrl=$CI_SERVER_URL&port=$PORT_AVAILABLE"
     dependencies:
         - deploy
-    allow_failure: true
-    when: always
     rules:
-        - if: $CI_COMMIT_REF_NAME =~ /-(prerelease|beta)$/
-        - if: $CI_COMMIT_REF_NAME =~ /^(main|EP|NOM|CB)$/
+        - if: $CI_COMMIT_REF_NAME =~ /^(main|EP|NOM|CB)$|-(prerelease|beta)$/
           when: always
+          allow_failure: true
