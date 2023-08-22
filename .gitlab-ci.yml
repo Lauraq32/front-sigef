@@ -1,0 +1,105 @@
+variables:
+  ENV: development
+  IMAGE_TAG: $CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA
+
+workflow:
+    name: 'Pipeline for branch: $CI_COMMIT_REF_NAME'
+    rules:
+        - if: $CI_COMMIT_REF_NAME =~ /^(EP|NOM|CB)$|-(prerelease|beta)$/
+          variables:
+            ENV: staging
+        - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+          variables:
+            ENV: production
+        - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+
+stages:
+    - build
+    - test
+    - creating-docker-image
+    - deploy
+
+build:
+    tags:
+        - docker-buildr
+    stage: build
+    image: node:18.15-alpine
+    before_script:
+        - echo "VUE_APP_API_URL=$APP_API_URL" > .env.production.local
+        - echo "NODE_ENV=$ENV" >> .env.production.local
+        - echo "BASE_URL=$CI_COMMIT_REF_NAME" >> .env.production.local
+    script:
+        - npm install
+        - npm run lint
+        - npm run build:prod
+    artifacts:
+        paths:
+            - dist/
+            - Dockerfile
+            - .dockerignore
+            - .env.production.local
+        expire_in: 1 hour
+        when: on_success
+
+docker-image:
+    tags:
+        - docker-buildr
+    stage: creating-docker-image
+    before_script:
+        - echo "$CI_JOB_TOKEN" | docker login -u $CI_REGISTRY_USER --password-stdin $REGISTRY_URL
+        - |
+            [[ ! -z $(docker ps -q -f label=branch=$CI_COMMIT_REF_NAME -f label=app=sigef-v1) ]] && docker stop $(docker ps -q -f label=branch=$CI_COMMIT_REF_NAME -f label=app=sigef-v1) || echo "No containers found"
+        - docker container prune -f
+        - |
+            [[ ! -z $(docker images -a -q -f label=branch=$CI_COMMIT_REF_NAME -f label=app=sigef-v1) ]] && docker rmi -f $(docker images -a -q -f label=branch=$CI_COMMIT_REF_NAME -f label=app=sigef-v1) || echo "No images found"
+    script:
+        - echo "$CERTIFICATE_KEY" > ssl_passwords.txt
+        - echo "docker-image"
+        - docker build --label "env=$ENV" --label "jobId=$CI_JOB_ID" --label "pipelineId=$CI_PIPELINE_ID"  --label "app=sigef-v1"
+          --label "commit=$CI_COMMIT_SHORT_SHA" --label "branch=$CI_COMMIT_REF_NAME" --label "user=$GITLAB_USER_LOGIN" --label "gUser=$GITLAB_USER_NAME"
+          -t $IMAGE_TAG .
+        - docker push $IMAGE_TAG
+    dependencies:
+        - build
+    rules:
+        - if: $CI_COMMIT_REF_NAME =~ /^(main|EP|NOM|CB)$|-(prerelease|beta)$/
+          when: always
+
+deploy:
+    tags:
+        - docker-buildr
+    stage: deploy
+    before_script:
+        - apk add curl
+        - curl $PORT_SERVICE_URL/ports/sigef-v1@$CI_COMMIT_REF_NAME -o port.txt
+    script:
+        - echo "deploy"
+        - PORT_AVAILABLE=$(cat port.txt)
+        - docker run -d --label "env=$ENV" --label "jobId=$CI_JOB_ID" --label "pipelineId=$CI_PIPELINE_ID" --label "app=sigef-v1"
+          --label "commit=$CI_COMMIT_SHORT_SHA" --label "branch=$CI_COMMIT_REF_NAME" --label "user=$GITLAB_USER_LOGIN" --label "gUser=$GITLAB_USER_NAME"
+          -e ENV=$ENV -p $PORT_AVAILABLE:80 --name "sigef-v1-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA" $IMAGE_TAG
+    dependencies:
+        - docker-image
+    environment: $ENV
+    rules:
+        - if: $CI_COMMIT_REF_NAME =~ /^(main|EP|NOM|CB)$|-(prerelease|beta)$/
+          when: always
+
+sending-on-teams:
+    tags:
+        - docker-buildr
+    stage: .post
+    before_script:
+        - apk add curl
+        - curl $PORT_SERVICE_URL/ports/sigef-v1@$CI_COMMIT_REF_NAME -o port.txt
+        - PORT_AVAILABLE=$(cat port.txt)
+    script:
+        - echo "sending-email"
+        - |
+            curl -v $PORT_SERVICE_URL/send-notification -H "Content-Type: application/x-www-form-urlencoded" -d "projectId=$CI_PROJECT_ID&mergeRequestId=$CI_MERGE_REQUEST_IID&serverUrl=$CI_SERVER_URL&port=$PORT_AVAILABLE"
+    dependencies:
+        - deploy
+    rules:
+        - if: $CI_COMMIT_REF_NAME =~ /^(main|EP|NOM|CB)$|-(prerelease|beta)$/
+          when: always
+          allow_failure: true

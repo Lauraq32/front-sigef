@@ -1,45 +1,47 @@
-import http from '@/Api/http-common'
+import http from '@/Api/http-common';
 
-class AdministrativoApi {
-  getUsuarioList() {
-    return http.get('/login/listarUsuarios')
-  }
+class UsuariosApi {
+	getUsuarioList() {
+		return http.get('/login/listarUsuarios');
+	}
 
-  createFpMetaAndDetalle(data) {
-    return http.post('/fp-meta', data);
-  }
-  
-  getFpMetaAndDetalle() {
-    return http.get('/fp-meta');
-  }
+	getMestProg() {
+		return http.get(`CtgMestProg`);
+	}
 
-  editFpMetaAndDetalle(id ,data) {
-    return http.put(`/fp-meta/${id}`, data);
-  }
+	putFpServicioPersonalById(id, data) {
+		return http.put(`fp-servicio-personal/${id}`, data);
+	}
+	deleteFpServicioPersonal(id) {
+		return http.delete(`fp-servicio-personal/${id}`);
+	}
+	createFpMetaAndDetalle(data) {
+		return http.post('/fp-meta', data);
+	}
 
-  deleteFpMetaDetalle(id) {
-    return http.delete(`/fp-meta/detalle/${id}`);
-  }
+	getFpMetaAndDetalle() {
+		return http.get('/fp-meta');
+	}
 
-  getFpServicioPersonal(){
-    return http.get('fp-servicio-personal')
-  }
+	editFpMetaAndDetalle(id, data) {
+		return http.put(`/fp-meta/${id}`, data);
+	}
 
-  postFpServicioPersonal(data){
-    return http.post('fp-servicio-personal',data)
-  }
+	deleteFpMetaDetalle(id) {
+		return http.delete(`/fp-meta/detalle/${id}`);
+	}
 
-  putFpServicioPersonalById(id,data){
-    return http.put(`fp-servicio-personal/${id}`,data)
-  }
+	getFpServicioPersonal() {
+		return http.get('fp-servicio-personal');
+	}
 
-  deleteFpServicioPersonal(id){
-    return http.delete(`fp-servicio-personal/${id}`)
-  }
-  
-  getMestProg(){
-    return http.get(`CtgMestProg`)
-  }
+	postFpServicioPersonal(data) {
+		return http.post('fp-servicio-personal', data);
+	}
+
+	getClasificadorGasto() {
+		return http.get('CtgClasificador/presupuesto-gastos');
+	}
 }
 
-export default new AdministrativoApi()
+export default new UsuariosApi();
