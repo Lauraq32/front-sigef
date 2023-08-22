@@ -1,6 +1,6 @@
 variables:
   ENV: development
-  IMAGE_TAG: $CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA
+  IMAGE_TAG: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:$CI_COMMIT_SHORT_SHA
 
 workflow:
     name: 'Pipeline for branch: $CI_COMMIT_REF_NAME'
@@ -63,7 +63,6 @@ docker-image:
         - build
     rules:
         - if: $CI_COMMIT_REF_NAME =~ /^(main|EP|NOM|CB)$|-(prerelease|beta)$/
-          when: always
 
 deploy:
     tags:
@@ -83,7 +82,6 @@ deploy:
     environment: $ENV
     rules:
         - if: $CI_COMMIT_REF_NAME =~ /^(main|EP|NOM|CB)$|-(prerelease|beta)$/
-          when: always
 
 sending-on-teams:
     tags:
