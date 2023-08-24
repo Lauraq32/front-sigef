@@ -1,193 +1,217 @@
 <template>
-    <AppActionHeader>
-        <button @click="showServicioPeronalesDialog" type="button" class="btn btn-primary">
-            Agregar
-        </button>
-    </AppActionHeader>
+	<AppActionHeader>
+		<button
+			@click="showServicioPeronalesDialog"
+			type="button"
+			class="btn btn-primary"
+		>
+			Agregar
+		</button>
+	</AppActionHeader>
 
-    <div>
-        <CSmartTable class="sticky-top" clickableRows :tableProps="{
-            striped: true,
-            hover: true,
-        }" :tableHeadProps="{}" :activePage="1" header :items="servicioDetalleList" :columns="columns" columnFilter
-            itemsPerPageSelect :itemsPerPage="5" columnSorter pagination>
-            <template #pnap="{ item }">
-                <td class="py-2">
-                    {{ item.estructuraProgramatica.pnap }}
-                </td>
+	<div>
+		<CSmartTable
+			class="sticky-top"
+			clickableRows
+			:tableProps="{
+				striped: true,
+				hover: true,
+			}"
+			:tableHeadProps="{}"
+			:activePage="1"
+			header
+			:items="servicioDetalleList"
+			:columns="columns"
+			columnFilter
+			itemsPerPageSelect
+			:itemsPerPage="5"
+			columnSorter
+			pagination
+		>
+			<template #pnap="{ item }">
+				<td class="py-2">
+					{{ item.estructuraProgramatica.pnap }}
+				</td>
+			</template>
+			<template #numero="{ item }">
+				<td class="py-2">
+					{{ item.estructuraProgramatica.numero }}
+				</td>
+			</template>
+			<template #nombre="{ item }">
+				<td class="py-2">
+					{{ item.estructuraProgramatica.nombre }}
+				</td>
+			</template>
+			<template #unidadRespon="{ item }">
+				<td class="py-2">
+					{{ item.estructuraProgramatica.unidadRespon }}
+				</td>
+			</template>
+			<template #ctgFuncionId="{ item }">
+				<td class="py-2">
+					{{ item.estructuraProgramatica.ctgFuncionId }}
+				</td>
+			</template>
 
-            </template>
-            <template #numero="{ item }">
-                <td class="py-2">
-                    {{ item.estructuraProgramatica.numero }}
-                </td>
-            </template>
-            <template #nombre="{ item }">
-                <td class="py-2">
-                    {{ item.estructuraProgramatica.nombre }}
-                </td>
-            </template>
-            <template #unidadRespon="{ item }">
-                <td class="py-2">
-                    {{ item.estructuraProgramatica.unidadRespon }}
-                </td>
-            </template>
-            <template #ctgFuncionId="{ item }">
-                <td class="py-2">
-                    {{ item.estructuraProgramatica.ctgFuncionId }}
-                </td>
-            </template>
-
-            <template #show_details="{ item, index }">
-                <CDropdown>
-                    <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
-                    <CDropdownMenu>
-                        <CDropdownItem v-for="action in buttonActions"
-                            @click="action.clickHandler && action.clickHandler(item)">
-                            {{ action.label }}</CDropdownItem>
-                    </CDropdownMenu>
-                </CDropdown>
-            </template>
-        </CSmartTable>
-    </div>
-    <DetalleServiciosPersonales :showModal="servicioPerosnalesDialog" @close="closeMestProgDialog"
-        :servicioPersonalesProps="detalleServicio" @postServicioPersonal="getServicios" />
+			<template #show_details="{ item }">
+				<CDropdown>
+					<CDropdownToggle color="primary" variant="outline"
+						>Acciones</CDropdownToggle
+					>
+					<CDropdownMenu>
+						<CDropdownItem
+							v-for="action in buttonActions"
+							:key="action.label"
+							@click="
+								action.clickHandler && action.clickHandler(item)
+							"
+						>
+							{{ action.label }}</CDropdownItem
+						>
+					</CDropdownMenu>
+				</CDropdown>
+			</template>
+		</CSmartTable>
+	</div>
+	<DetalleServiciosPersonales
+		:showModal="servicioPerosnalesDialog"
+		@close="closeMestProgDialog"
+		:servicioPersonalesProps="detalleServicio"
+		@postServicioPersonal="getServicios"
+	/>
 </template>
 
 <script>
-import { CSmartTable } from '@coreui/vue-pro'
-import Api from '../services/FormulacionServices'
-import DetalleServiciosPersonales from '../components/DetalleServiciosPersonales.vue'
-import AppActionHeader from '../../../components/AppActionHeader.vue'
-import { useToastStore } from '@/store/toast'
-import { showReport } from '@/utils/util'
-import { mapActions } from 'pinia'
+	import { CSmartTable } from '@coreui/vue-pro';
+	import Api from '../services/FormulacionServices';
+	import DetalleServiciosPersonales from '../components/DetalleServiciosPersonales.vue';
+	import AppActionHeader from '../../../components/AppActionHeader.vue';
+	import { useToastStore } from '@/store/toast';
+	import { showReport } from '@/utils/util';
+	import { mapActions } from 'pinia';
 
+	export default {
+		components: {
+			CSmartTable,
 
-export default {
-    components: {
-        CSmartTable,
+			DetalleServiciosPersonales,
+			AppActionHeader,
+		},
+		data: function () {
+			const _this = this;
+			return {
+				servicioDetalleList: [],
+				detalleServicio: {},
+				servicioPerosnalesDialog: false,
+				buttonActions: [
+					{
+						label: 'Editar',
+						clickHandler: (value) => {
+							_this.servicioPerosnalesDialog = true;
+							_this.detalleServicio = value;
+						},
+					},
+					{
+						label: 'Remover',
+						clickHandler: (value) => {
+							_this.deleteServicioPersonal(value.id);
+						},
+					},
+					{
+						label: 'Imprimir',
+						clickHandler: (value) => {
+							_this.printReportReciboIngreso(value);
+						},
+					},
+				],
+				columns: [
+					{ key: 'pnap', label: 'Pnap' },
+					{ key: 'numero', label: 'Número' },
+					{ key: 'nombre', label: 'Nombre' },
+					{ key: 'unidadRespon', label: 'Unidad Responsable' },
+					{ key: 'ctgFuncionId', label: 'Función' },
+					{
+						key: 'show_details',
+						label: '',
+						_style: { width: '1%' },
+						filter: false,
+						sorter: false,
+					},
+				],
+				details: [],
+			};
+		},
+		methods: {
+			...mapActions(useToastStore, ['show']),
 
-        DetalleServiciosPersonales,
-        AppActionHeader
-    },
-    data: function () {
-        const _this = this;
-        return {
-            servicioDetalleList: [],
-            detalleServicio: {},
-            servicioPerosnalesDialog: false,
-            buttonActions: [
-                {
-                    label: 'Editar',
-                    clickHandler: (value) => {
-                        _this.servicioPerosnalesDialog = true
-                        _this.detalleServicio = value
-                    },
-                },
-                {
-                    label: 'Remover',
-                    clickHandler: (value) => {
-                        _this.deleteServicioPersonal(value.id)
-                    },
-                },
-                {
-                    label: 'Imprimir',
-                    clickHandler: (value) => {
-                        _this.printReportReciboIngreso(value)
-                    },
-                },
-            ],
-            columns: [
+			getServicios() {
+				Api.getFpServicioPersonal().then((response) => {
+					this.servicioDetalleList = response.data.data;
+				});
+			},
 
-                { key: 'pnap', label: 'Pnap' },
-                { key: 'numero', label: 'Número' },
-                { key: 'nombre', label: 'Nombre' },
-                { key: 'unidadRespon', label: 'Unidad Responsable' },
-                { key: 'ctgFuncionId', label: 'Función' },
-                {
-                    key: 'show_details',
-                    label: '',
-                    _style: { width: '1%' },
-                    filter: false,
-                    sorter: false,
-                },
-            ],
-            details: [],
-        }
-    },
-    methods: {
-        ...mapActions(useToastStore, ['show']),
+			async printReportReciboIngreso(item) {
+				try {
+					await showReport({
+						folderName: 'fep',
+						reportName: 'Rep_FP05_Serviciospersonales',
+						params: [
+							{
+								name: 'ANO',
+								value: 'fiscalYear',
+							},
+							{
+								name: 'CAPITULO_AYTO',
+								value: 'majorityId',
+							},
+							{
+								name: 'SERV_ID',
+								value: item.id,
+							},
+						],
+					});
+				} catch (error) {
+					this.show({
+						content: error,
+						closable: true,
+						color: 'danger',
+						class: 'text-white',
+					});
+				}
+			},
 
-        getServicios() {
-            Api.getFpServicioPersonal().then(response => {
-                this.servicioDetalleList = response.data.data
-            })
-        },
+			deleteServicioPersonal(id) {
+				Api.deleteFpServicioPersonal(id)
+					.then(() => setTimeout(this.getServicios(), 500))
+					.then(() => {
+						this.show({
+							content: 'Registro Eliminado con exito',
+							closable: true,
+							color: 'danger',
+						});
+					})
+					.catch((error) => {
+						this.show({
+							content: error.message,
+							closable: true,
+							color: 'danger',
+						});
+					});
+			},
 
-        async printReportReciboIngreso(item) {
-            console.log(item)
-            try {
-                await showReport({
-                    folderName: 'fep',
-                    reportName: 'Rep_FP05_Serviciospersonales',
-                    params: [
-                        {
-                            name: 'ANO',
-                            value: 'fiscalYear',
-                        },
-                        {
-                            name: 'CAPITULO_AYTO',
-                            value: 'majorityId',
-                        },
-                        {
-                            name: 'SERV_ID',
-                            value: item.id,
-                        },
-                    ],
-                })
-            } catch (error) {
-                this.show({
-                    content: error,
-                    closable: true,
-                    color: 'danger',
-                    class: 'text-white',
-                })
-            }
-        },
+			showServicioPeronalesDialog() {
+				this.servicioPerosnalesDialog = true;
+			},
 
-        deleteServicioPersonal(id) {
-            Api.deleteFpServicioPersonal(id).then(response => (
-                setTimeout(this.getServicios(), 500)
-            )).then((response) => {
-                this.show({
-                    content: 'Registro Eliminado con exito',
-                    closable: true,
-                    color: 'danger',
-                })
-            })
-                .catch((error) => {
-                    this.show({
-                        content: error.message,
-                        closable: true,
-                        color: 'danger',
-                    })
-                })
-
-        },
-
-        showServicioPeronalesDialog() {
-            this.servicioPerosnalesDialog = true;
-        },
-
-        closeMestProgDialog() {
-            this.servicioPerosnalesDialog = false;
-        }
-    },
-    mounted() {
-        this.getServicios();
-    }
-}
+			closeMestProgDialog() {
+				this.servicioPerosnalesDialog = false;
+			},
+		},
+		mounted() {
+			this.getServicios();
+		},
+	};
 </script>
 
 <style lang="scss" scoped></style>

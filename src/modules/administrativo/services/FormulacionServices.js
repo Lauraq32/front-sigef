@@ -1,66 +1,47 @@
-import http from '@/Api/http-common'
+import http from '@/Api/http-common';
 
 class UsuariosApi {
-  getUsuarioList() {
-    return http.get('/login/listarUsuarios')
-  }
+	getUsuarioList() {
+		return http.get('/login/listarUsuarios');
+	}
 
-  
-  getMestProg() {
-    return http.get(`CtgMestProg`)
-  }
+	getMestProg() {
+		return http.get(`CtgMestProg`);
+	}
 
-  getFpServicioPersonal() {
-    return http.get('fp-servicio-personal')
-  }
-  postFpServicioPersonal(data) {
-    return http.post('fp-servicio-personal', data)
-  }
-  putFpServicioPersonalById(id, data) {
-    return http.put(`fp-servicio-personal/${id}`, data)
-  }
-  deleteFpServicioPersonal(id) {
-    return http.delete(`fp-servicio-personal/${id}`)
-  }
-  createFpMetaAndDetalle(data) {
-    return http.post('/fp-meta', data);
-  }
+	putFpServicioPersonalById(id, data) {
+		return http.put(`fp-servicio-personal/${id}`, data);
+	}
+	deleteFpServicioPersonal(id) {
+		return http.delete(`fp-servicio-personal/${id}`);
+	}
+	createFpMetaAndDetalle(data) {
+		return http.post('/fp-meta', data);
+	}
 
-  getFpMetaAndDetalle() {
-    return http.get('/fp-meta');
-  }
+	getFpMetaAndDetalle() {
+		return http.get('/fp-meta');
+	}
 
-  editFpMetaAndDetalle(id, data) {
-    return http.put(`/fp-meta/${id}`, data);
-  }
+	editFpMetaAndDetalle(id, data) {
+		return http.put(`/fp-meta/${id}`, data);
+	}
 
-  deleteFpMetaDetalle(id) {
-    return http.delete(`/fp-meta/detalle/${id}`);
-  }
+	deleteFpMetaDetalle(id) {
+		return http.delete(`/fp-meta/detalle/${id}`);
+	}
 
-  getFpServicioPersonal() {
-    return http.get('fp-servicio-personal')
-  }
+	getFpServicioPersonal() {
+		return http.get('fp-servicio-personal');
+	}
 
-  postFpServicioPersonal(data) {
-    return http.post('fp-servicio-personal', data)
-  }
+	postFpServicioPersonal(data) {
+		return http.post('fp-servicio-personal', data);
+	}
 
-  putFpServicioPersonalById(id, data) {
-    return http.put(`fp-servicio-personal/${id}`, data)
-  }
-
-  deleteFpServicioPersonal(id) {
-    return http.delete(`fp-servicio-personal/${id}`)
-  }
-
-  getClasificadorGasto(){
-    return http.get('CtgClasificador/presupuesto-gastos')
-  }
-
-  getMestProg() {
-    return http.get(`CtgMestProg`)
-  }
+	getClasificadorGasto() {
+		return http.get('CtgClasificador/presupuesto-gastos');
+	}
 }
 
-export default new UsuariosApi()
+export default new UsuariosApi();

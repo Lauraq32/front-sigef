@@ -1,59 +1,58 @@
-import httpClient from '@/Api/http-common'
-import { getAyuntamientoId } from '@/utils/logged-info'
-import FormulacionApi from '@/modules/financiero/FormulacionModule/services/FormulacionServices'
+import httpClient from '@/Api/http-common';
+import FormulacionApi from '@/modules/financiero/FormulacionModule/services/FormulacionServices';
 
 class DeparmentServices {
-  deleteDepartment(id) {
-    return httpClient.delete(`/departamentos/${id}`)
-  }
+	deleteDepartment(id) {
+		return httpClient.delete(`/departamentos/${id}`);
+	}
 
-  getDepartments(value = true) {
-    return httpClient.get(`/departamentos?Status=${value}`)
-  }
+	getDepartments(value = true) {
+		return httpClient.get(`/departamentos?Status=${value}`);
+	}
 
-  createDepartment(data) {
-    return httpClient.post('/departamentos', data)
-  }
+	createDepartment(data) {
+		return httpClient.post('/departamentos', data);
+	}
 
-  updateDepartment(data) {
-    return httpClient.put(`/departamentos/${data.id}`, data)
-  }
+	updateDepartment(data) {
+		return httpClient.put(`/departamentos/${data.id}`, data);
+	}
 
-  getProgramasDivision() {
-    return httpClient.get('/programas-division')
-  }
+	getProgramasDivision() {
+		return httpClient.get('/programas-division');
+	}
 
-  getGruposNomina() {
-    return httpClient.get('/grupo-nomina')
-  }
+	getGruposNomina() {
+		return httpClient.get('/grupo-nomina');
+	}
 
-  getCuentasDeBancos() {
-    return httpClient.get(`/cuentas-banco`)
-  }
+	getCuentasDeBancos() {
+		return httpClient.get(`/cuentas-banco`);
+	}
 
-  getEstructurasProgramaticas() {
-    return FormulacionApi.getEstProgramatica()
-  }
+	getEstructurasProgramaticas() {
+		return FormulacionApi.getEstProgramatica();
+	}
 
-  getClasificadores() {
-    return httpClient.get('/CtgClasificador/presupuesto-gastos')
-  }
+	getClasificadores() {
+		return httpClient.get('/CtgClasificador/presupuesto-gastos');
+	}
 
-  validarEstructuraPresupuestada(
-    estructuraProgramatica,
-    clasificador,
-    fuenteFinanciador,
-    fuenteEspecifica,
-    organismoFinanciador,
-  ) {
-    return FormulacionApi.validarEstructuraPresupuestada(
-      estructuraProgramatica,
-      clasificador,
-      fuenteFinanciador,
-      fuenteEspecifica,
-      organismoFinanciador,
-    )
-  }
+	validarEstructuraPresupuestada(
+		estructuraProgramatica,
+		clasificador,
+		fuenteFinanciador,
+		fuenteEspecifica,
+		organismoFinanciador,
+	) {
+		return FormulacionApi.validarEstructuraPresupuestada(
+			estructuraProgramatica,
+			clasificador,
+			fuenteFinanciador,
+			fuenteEspecifica,
+			organismoFinanciador,
+		);
+	}
 }
 
-export default new DeparmentServices()
+export default new DeparmentServices();

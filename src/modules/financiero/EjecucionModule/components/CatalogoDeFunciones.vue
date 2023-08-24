@@ -1,37 +1,35 @@
 <template>
-  <h3 class="text-center">Catal&oacute;go de Funciones</h3>
+	<h3 class="text-center">Catal&oacute;go de Funciones</h3>
 
-  <TablecatalogoDeFunciones :datosTable="catalogoFunciones" />
+	<TablecatalogoDeFunciones :datosTable="catalogoFunciones" />
 </template>
 
 <script>
-import Api from '../services/EjecucionServices'
-import { CSmartTable } from '@coreui/vue-pro'
-import TablecatalogoDeFunciones from './tables/TableCatalogoFunciones.vue'
+	import Api from '../services/EjecucionServices';
+	import TablecatalogoDeFunciones from './tables/TableCatalogoFunciones.vue';
 
-export default {
-  name: 'catalogoDeFunciones',
-  components: {
-    CSmartTable,
-    TablecatalogoDeFunciones,
-  },
+	export default {
+		name: 'catalogoDeFunciones',
+		components: {
+			TablecatalogoDeFunciones,
+		},
 
-  data: () => {
-    return {
-      catalogoFunciones: [],
-    }
-  },
+		data: () => {
+			return {
+				catalogoFunciones: [],
+			};
+		},
 
-  methods: {
-    getCatalogoFunciones() {
-      Api.getCatalogoFunciones().then((response) => {
-        this.catalogoFunciones = response.data.data
-      })
-    },
-  },
+		methods: {
+			getCatalogoFunciones() {
+				Api.getCatalogoFunciones().then((response) => {
+					this.catalogoFunciones = response.data.data;
+				});
+			},
+		},
 
-  mounted() {
-    this.getCatalogoFunciones()
-  },
-}
+		mounted() {
+			this.getCatalogoFunciones();
+		},
+	};
 </script>

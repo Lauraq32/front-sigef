@@ -1,31 +1,24 @@
-
-import http from '@/Api/http-common'
-import { getAyuntamientoId } from '@/utils/logged-info'
+import http from '@/Api/http-common';
 class SolicitudEmpleo {
+	getSolicitudEmpleo() {
+		return http.get('solicitud-empleos');
+	}
 
-  getSolicitudEmpleo() {
-    return http.get('solicitud-empleos')
-  }
+	getPosiciones() {
+		return http.get('cargos');
+	}
 
-  getPosiciones(){
-    return http.get('cargos')
-  }
+	getByIdSolicitudEmpleo(id) {
+		return http.get(`solicitud-empleos/${id}`);
+	}
 
-  getByIdSolicitudEmpleo(id){
-    return http.get(`solicitud-empleos/${id}`)
-  }
+	postSolicitudEmpleo(data) {
+		return http.post(`solicitud-empleos`, data);
+	}
 
-  postSolicitudEmpleo(data){
-    return http.post(`solicitud-empleos`,data)
-  }
-
-  putSolicitudEmpleo(id,data){
-    return http.put(`solicitud-empleos/${id}`,data)
-  }
-
-
-
-
+	putSolicitudEmpleo(id, data) {
+		return http.put(`solicitud-empleos/${id}`, data);
+	}
 }
 
-export default new SolicitudEmpleo()
+export default new SolicitudEmpleo();

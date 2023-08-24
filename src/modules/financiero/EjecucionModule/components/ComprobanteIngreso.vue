@@ -1,491 +1,555 @@
 <template>
-  <h3 class="text-center">Comprobante de Ingresos</h3>
+	<h3 class="text-center">Comprobante de Ingresos</h3>
 
-  <AppActionHeader>
-    <CButton v-if="!paramsFiltro" @click="() => {
-      showFiltro = true
-    }
-      ">
-      <span>
-        <CIcon icon="cilFilter" size="lg" /> Filtrar
-      </span>
-    </CButton>
-    <CButton v-else @click="() => ((paramsFiltro = null), getIngresos())">
-      <span>
-        <CIcon icon="cilFilterX" style="color: red" size="lg" /> Resultados
-        filtrados
-      </span>
-    </CButton>
+	<AppActionHeader>
+		<CButton
+			v-if="!paramsFiltro"
+			@click="
+				() => {
+					showFiltro = true;
+				}
+			"
+		>
+			<span> <CIcon icon="cilFilter" size="lg" /> Filtrar </span>
+		</CButton>
+		<CButton v-else @click="() => ((paramsFiltro = null), getIngresos())">
+			<span>
+				<CIcon icon="cilFilterX" style="color: red" size="lg" />
+				Resultados filtrados
+			</span>
+		</CButton>
 
-    <CButton color="info" @click="() => {
-      this.showModalReporte = true
-    }
-      ">
-      Reportes
-    </CButton>
+		<CButton
+			color="info"
+			@click="
+				() => {
+					this.showModalReporte = true;
+				}
+			"
+		>
+			Reportes
+		</CButton>
 
-    <CButton color="info" @click="() => {
-      showAddComprobanteIngreso = true
-    }
-      ">Agregar</CButton>
-    <div class="p-2">
-      <CButton color="secondary" @click="goToComprobanteGasto">Comprobante Gasto</CButton>
-    </div>
-  </AppActionHeader>
+		<CButton
+			color="info"
+			@click="
+				() => {
+					showAddComprobanteIngreso = true;
+				}
+			"
+			>Agregar</CButton
+		>
+		<div class="p-2">
+			<CButton color="secondary" @click="goToComprobanteGasto"
+				>Comprobante Gasto</CButton
+			>
+		</div>
+	</AppActionHeader>
 
-  <CSmartTable class="sticky-top" clickableRows :tableProps="{
-    striped: true,
-    hover: true,
-  }" :tableHeadProps="{}" :activePage="1" header :items="ingresosList" :columns="columns" :footer="footerItem"
-    itemsPerPageSelect columnFilter :itemsPerPage="5" columnSorter no-items-label="No hay registros"
-    :sorterValue="{ column: 'etapa', state: 'asc' }" pagination>
-    <template #fecha="{ item }">
-      <td>
-        {{ formatDate(item.fecha) }}
-      </td>
-    </template>
-    <template #etapa="{ item }">
-      <td class="text-center text-uppercase">
-        <CBadge color="warning">{{ item.etapa }}</CBadge>
-      </td>
-    </template>
+	<CSmartTable
+		class="sticky-top"
+		clickableRows
+		:tableProps="{
+			striped: true,
+			hover: true,
+		}"
+		:tableHeadProps="{}"
+		:activePage="1"
+		header
+		:items="ingresosList"
+		:columns="columns"
+		:footer="footerItem"
+		itemsPerPageSelect
+		columnFilter
+		:itemsPerPage="5"
+		columnSorter
+		no-items-label="No hay registros"
+		:sorterValue="{ column: 'etapa', state: 'asc' }"
+		pagination
+	>
+		<template #fecha="{ item }">
+			<td>
+				{{ formatDate(item.fecha) }}
+			</td>
+		</template>
+		<template #etapa="{ item }">
+			<td class="text-center text-uppercase">
+				<CBadge color="warning">{{ item.etapa }}</CBadge>
+			</td>
+		</template>
 
-    <template #estatus="{ item }">
-      <td class="text-center text-uppercase">
-        <CBadge :color="item.estatus ? 'success' : 'danger'">{{
-          item.estatus ? 'ACTIVO' : 'CANCELADO'
-        }}</CBadge>
-      </td>
-    </template>
+		<template #estatus="{ item }">
+			<td class="text-center text-uppercase">
+				<CBadge :color="item.estatus ? 'success' : 'danger'">{{
+					item.estatus ? 'ACTIVO' : 'CANCELADO'
+				}}</CBadge>
+			</td>
+		</template>
 
-    <template #totalValor="{ item }">
-      <td class="text-end">
-        {{ formatPrice(item.totalValor) }}
-      </td>
-    </template>
+		<template #totalValor="{ item }">
+			<td class="text-end">
+				{{ formatPrice(item.totalValor) }}
+			</td>
+		</template>
 
-    <template #contribuyente="{ item }">
-      <td>
-        {{ item.contribuyente.descripcion }}
-      </td>
-    </template>
+		<template #contribuyente="{ item }">
+			<td>
+				{{ item.contribuyente.descripcion }}
+			</td>
+		</template>
 
-    <template #show_details="{ item }">
-      <td>
-        <CDropdown v-if="item.estatus">
-          <CDropdownToggle color="primary" variant="outline">Acciones</CDropdownToggle>
-          <CDropdownMenu>
-            <CDropdownItem v-for="action in buttonActions" @click="action.clickHandler && action.clickHandler(item)">{{
-              action.label }}</CDropdownItem>
-          </CDropdownMenu>
-        </CDropdown>
-      </td>
-    </template>
-  </CSmartTable>
+		<template #show_details="{ item }">
+			<td>
+				<CDropdown v-if="item.estatus">
+					<CDropdownToggle color="primary" variant="outline"
+						>Acciones</CDropdownToggle
+					>
+					<CDropdownMenu>
+						<CDropdownItem
+							v-for="action in buttonActions"
+							@click="
+								action.clickHandler && action.clickHandler(item)
+							"
+							:key="action.label"
+							>{{ action.label }}</CDropdownItem
+						>
+					</CDropdownMenu>
+				</CDropdown>
+			</td>
+		</template>
+	</CSmartTable>
 
-  <ModalAddComprobanteIngreso :ingresoPost="ingresoPost" @close-modal="closeModalComprobanteIngreso"
-    @add-comprobante="addComprobante" :showModal="showAddComprobanteIngreso" :contribuyentesName="contribuyentesName"
-    :payloadRegistroIngreso="ingresoPost" />
+	<ModalAddComprobanteIngreso
+		:ingresoPost="ingresoPost"
+		@close-modal="closeModalComprobanteIngreso"
+		@add-comprobante="addComprobante"
+		:showModal="showAddComprobanteIngreso"
+		:contribuyentesName="contribuyentesName"
+		:payloadRegistroIngreso="ingresoPost"
+	/>
 
-  <ContenedorArchivos :showModal="showModalDoc" :tagKeyName="'ejecucionIngresosId'"
-    :tagValueName="`${selectedIngreso?.id}-${selectedIngreso?.numeroComprobante}`" @closeModal="closeContenedorModal" />
+	<ContenedorArchivos
+		:showModal="showModalDoc"
+		:tagKeyName="'ejecucionIngresosId'"
+		:tagValueName="`${selectedIngreso?.id}-${selectedIngreso?.numeroComprobante}`"
+		@closeModal="closeContenedorModal"
+	/>
 
-  <FiltroRegistroIngreso :showFiltro="showFiltro" @close="closeFiltro" />
-  <ReporteRegistroIngreso :showModalReporte="showModalReporte" @closeModalReporte="closeModalReporte"
-    @imprimir-report="imprimirReporte" />
+	<FiltroRegistroIngreso :showFiltro="showFiltro" @close="closeFiltro" />
+	<ReporteRegistroIngreso
+		:showModalReporte="showModalReporte"
+		@closeModalReporte="closeModalReporte"
+		@imprimir-report="imprimirReporte"
+	/>
 </template>
 
 <script>
-import { CSmartTable } from '@coreui/vue-pro'
-import { CModal } from '@coreui/vue'
-import Api from '../services/EjecucionServices'
-import { mapActions } from 'pinia'
-import { useToastStore } from '@/store/toast'
-import SimpleTypeahead from 'vue3-simple-typeahead'
-import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
-import router from '@/router'
-import AppActionHeader from '@/components/AppActionHeader.vue'
-import ModalAddComprobanteIngreso from './Dialogos/ModalAddComprobanteIngreso.vue'
-import { formatDate, formatPrice } from '@/utils/format'
-import ContenedorArchivos from '@/components/ContenedorArchivosModel.vue'
-import { filter } from '@/utils/validator'
-import FiltroRegistroIngreso from './filtroRegistroIngreso.vue'
-import ReporteRegistroIngreso from './reportesRegistroIngreso.vue'
-import { showReport } from '@/utils/util'
+	import { CSmartTable } from '@coreui/vue-pro';
+	import Api from '../services/EjecucionServices';
+	import { mapActions } from 'pinia';
+	import { useToastStore } from '@/store/toast';
+	import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css';
+	import router from '@/router';
+	import AppActionHeader from '@/components/AppActionHeader.vue';
+	import ModalAddComprobanteIngreso from './Dialogos/ModalAddComprobanteIngreso.vue';
+	import { formatDate, formatPrice } from '@/utils/format';
+	import ContenedorArchivos from '@/components/ContenedorArchivosModel.vue';
+	import { filter } from '@/utils/validator';
+	import FiltroRegistroIngreso from './filtroRegistroIngreso.vue';
+	import ReporteRegistroIngreso from './reportesRegistroIngreso.vue';
+	import { showReport } from '@/utils/util';
 
-export default {
-  components: {
-    CSmartTable,
-    CModal,
-    SimpleTypeahead,
-    AppActionHeader,
-    ModalAddComprobanteIngreso,
-    ContenedorArchivos,
-    FiltroRegistroIngreso,
-    ReporteRegistroIngreso,
-  },
+	export default {
+		components: {
+			CSmartTable,
+			AppActionHeader,
+			ModalAddComprobanteIngreso,
+			ContenedorArchivos,
+			FiltroRegistroIngreso,
+			ReporteRegistroIngreso,
+		},
 
-  data: function () {
-    return {
-      selectedIngreso: {},
-      filter,
-      formatDate,
-      formatPrice,
-      showFiltro: false,
-      showModalReporte: false,
-      paramsFiltro: null,
-      showAddComprobanteIngreso: false,
-      showModalDoc: false,
-      ingresosList: [],
-      contribuyentesList: [],
-      contribuyentesName: [],
-      ingresoPost: {
-        codigoIngresoTalonario: null,
-        etapa: 'Ingreso',
-        contribuyenteId: 0,
-        contribuyente: {
-          nombre: null,
-          tipoDocumento: null,
-          documento: null,
-          telefono: null,
-          direccion: null,
-        },
-        detalle: `RESUMEN DE INGRESO ${formatDate(new Date())}`,
-        fecha: new Date().toISOString(),
-        detalleRegistroIngresos: [],
-      },
+		data: function () {
+			return {
+				selectedIngreso: {},
+				filter,
+				formatDate,
+				formatPrice,
+				showFiltro: false,
+				showModalReporte: false,
+				paramsFiltro: null,
+				showAddComprobanteIngreso: false,
+				showModalDoc: false,
+				ingresosList: [],
+				contribuyentesList: [],
+				contribuyentesName: [],
+				ingresoPost: {
+					codigoIngresoTalonario: null,
+					etapa: 'Ingreso',
+					contribuyenteId: 0,
+					contribuyente: {
+						nombre: null,
+						tipoDocumento: null,
+						documento: null,
+						telefono: null,
+						direccion: null,
+					},
+					detalle: `RESUMEN DE INGRESO ${formatDate(new Date())}`,
+					fecha: new Date().toISOString(),
+					detalleRegistroIngresos: [],
+				},
 
-      columns: [
-        {
-          key: 'numeroComprobante',
-          label: '#Comp',
-          _style: { width: '10%' },
-        },
+				columns: [
+					{
+						key: 'numeroComprobante',
+						label: '#Comp',
+						_style: { width: '10%' },
+					},
 
-        { key: 'fecha', label: 'Fecha', _style: { width: '10%' } },
-        { key: 'etapa', label: 'Etapa', _style: { width: '10%' } },
-        {
-          key: 'codigoIngresoTalonario',
-          label: 'No. Recibo',
-          _style: { width: '10%' },
-        },
-        {
-          key: 'contribuyente',
-          label: 'Contribuyente',
-          _style: { width: '25%' },
-        },
-        { key: 'detalle', label: 'Detalle', _style: { width: '25%' } },
-        { key: 'totalValor', label: 'Valor', _style: { width: '10%' } },
-        { key: 'estatus', label: 'Estatus', _style: { width: '10%' } },
-        {
-          key: 'show_details',
-          label: '',
-          _style: { width: '1%' },
-          filter: false,
-          sorter: false,
-        },
-      ],
-      footerItem: [
-        {
-          label: 'Total items',
-          _props: {
-            colspan: 3,
-            style: 'font-weight:bold;',
-          },
-        },
+					{ key: 'fecha', label: 'Fecha', _style: { width: '10%' } },
+					{ key: 'etapa', label: 'Etapa', _style: { width: '10%' } },
+					{
+						key: 'codigoIngresoTalonario',
+						label: 'No. Recibo',
+						_style: { width: '10%' },
+					},
+					{
+						key: 'contribuyente',
+						label: 'Contribuyente',
+						_style: { width: '25%' },
+					},
+					{
+						key: 'detalle',
+						label: 'Detalle',
+						_style: { width: '25%' },
+					},
+					{
+						key: 'totalValor',
+						label: 'Valor',
+						_style: { width: '10%' },
+					},
+					{
+						key: 'estatus',
+						label: 'Estatus',
+						_style: { width: '10%' },
+					},
+					{
+						key: 'show_details',
+						label: '',
+						_style: { width: '1%' },
+						filter: false,
+						sorter: false,
+					},
+				],
+				footerItem: [
+					{
+						label: 'Total items',
+						_props: {
+							colspan: 3,
+							style: 'font-weight:bold;',
+						},
+					},
 
-        {
-          label: '',
-          _props: {
-            colspan: 4,
-            style: 'font-weight:bold; text-align:right',
-          },
-        },
-        {
-          label: '',
-          _props: {
-            colspan: 2,
-          },
-        },
-      ],
+					{
+						label: '',
+						_props: {
+							colspan: 4,
+							style: 'font-weight:bold; text-align:right',
+						},
+					},
+					{
+						label: '',
+						_props: {
+							colspan: 2,
+						},
+					},
+				],
 
-      buttonActions: [
-        {
-          label: 'Cancelar',
-          clickHandler: (value) => {
-            this.cancelarRegistroIngreso(value)
-          },
-        },
+				buttonActions: [
+					{
+						label: 'Cancelar',
+						clickHandler: (value) => {
+							this.cancelarRegistroIngreso(value);
+						},
+					},
 
-        {
-          label: 'Asociar documentos',
-          clickHandler: (item) => {
-            this.showModalDoc = true
-            this.selectedIngreso = { ...item }
-          },
-        },
+					{
+						label: 'Asociar documentos',
+						clickHandler: (item) => {
+							this.showModalDoc = true;
+							this.selectedIngreso = { ...item };
+						},
+					},
 
-        {
-          label: 'Imprimir 8 1/2 x 11',
-          clickHandler: (value) => {
-            this.printReportReciboIngreso(value)
-          },
-        },
+					{
+						label: 'Imprimir 8 1/2 x 11',
+						clickHandler: (value) => {
+							this.printReportReciboIngreso(value);
+						},
+					},
 
-        {
-          label: 'Imprimir 8 1/2 x 5.5',
-          clickHandler: (value) => {
-            this.printReportComprobanteIngreso(value)
-          },
-        },
-      ],
-    }
-  },
+					{
+						label: 'Imprimir 8 1/2 x 5.5',
+						clickHandler: (value) => {
+							this.printReportComprobanteIngreso(value);
+						},
+					},
+				],
+			};
+		},
 
-  methods: {
-    ...mapActions(useToastStore, ['show']),
+		methods: {
+			...mapActions(useToastStore, ['show']),
 
-    closeModalComprobanteIngreso() {
-      this.showAddComprobanteIngreso = false
-    },
+			closeModalComprobanteIngreso() {
+				this.showAddComprobanteIngreso = false;
+			},
 
-    closeFiltro(params) {
-      if (params) {
-        this.getIngresos(params)
-        this.paramsFiltro = params
-      }
-      this.showFiltro = false
-    },
+			closeFiltro(params) {
+				if (params) {
+					this.getIngresos(params);
+					this.paramsFiltro = params;
+				}
+				this.showFiltro = false;
+			},
 
-    closeModalReporte() {
-      this.showModalReporte = false
-    },
+			closeModalReporte() {
+				this.showModalReporte = false;
+			},
 
-    goToComprobanteGasto() {
-      router.push({ name: 'comprobanteGasto' })
-    },
+			goToComprobanteGasto() {
+				router.push({ name: 'comprobanteGasto' });
+			},
 
-    exportarReporte() {
-      this.downloadFile()
-    },
-    exportarReporteEjecucion() {
-      this.downloadFileEjecucion()
-    },
-    downloadFile() {
-      Api.downloadGastoModificacion(this.mesReporte.split('-')[0]).then(
-        (response) => {
-          var fileURL = window.URL.createObjectURL(new Blob([response.data]))
-          var fURL = document.createElement('a')
+			exportarReporte() {
+				this.downloadFile();
+			},
+			exportarReporteEjecucion() {
+				this.downloadFileEjecucion();
+			},
+			downloadFile() {
+				Api.downloadGastoModificacion(
+					this.mesReporte.split('-')[0],
+				).then((response) => {
+					var fileURL = window.URL.createObjectURL(
+						new Blob([response.data]),
+					);
+					var fURL = document.createElement('a');
 
-          fURL.href = fileURL
-          fURL.setAttribute(
-            'download',
-            `ME-${localStorage
-              .getItem('usuario')
-              .substring(4, 8)}${localStorage.getItem('fecha')}.csv`,
-          )
-          document.body.appendChild(fURL)
+					fURL.href = fileURL;
+					fURL.setAttribute(
+						'download',
+						`ME-${localStorage
+							.getItem('usuario')
+							.substring(4, 8)}${localStorage.getItem(
+							'fecha',
+						)}.csv`,
+					);
+					document.body.appendChild(fURL);
 
-          fURL.click()
-        },
-      )
-      this.mesReporte = 1
-    },
-    downloadFileEjecucion() {
-      Api.downloadGastoEjecucion(this.mesReporte.split('-')[0]).then(
-        (response) => {
-          var fileURL = window.URL.createObjectURL(new Blob([response.data]))
-          var fURL = document.createElement('a')
+					fURL.click();
+				});
+				this.mesReporte = 1;
+			},
+			downloadFileEjecucion() {
+				Api.downloadGastoEjecucion(this.mesReporte.split('-')[0]).then(
+					(response) => {
+						var fileURL = window.URL.createObjectURL(
+							new Blob([response.data]),
+						);
+						var fURL = document.createElement('a');
 
-          fURL.href = fileURL
-          fURL.setAttribute(
-            'download',
-            `EI-${localStorage
-              .getItem('usuario')
-              .substring(4, 8)}${localStorage.getItem('fecha')}.csv`,
-          )
-          document.body.appendChild(fURL)
+						fURL.href = fileURL;
+						fURL.setAttribute(
+							'download',
+							`EI-${localStorage
+								.getItem('usuario')
+								.substring(4, 8)}${localStorage.getItem(
+								'fecha',
+							)}.csv`,
+						);
+						document.body.appendChild(fURL);
 
-          fURL.click()
-        },
-      )
-      this.mesReporte = 1
-    },
+						fURL.click();
+					},
+				);
+				this.mesReporte = 1;
+			},
 
-    async printReportReciboIngreso(item) {
-      try {
-        await showReport({
-          folderName: 'fep',
-          reportName: 'Rep_Recibo_Ingresos_A1',
-          params: [
-            {
-              name: 'ID_TRANSACCION',
-              value: item.id,
-            },
-            {
-              name: 'CAPITULO_AYTO',
-              value: 'majorityId',
-            },
-          ],
-        })
-      } catch (error) {
-        this.show({
-          content: error,
-          closable: true,
-          color: 'danger',
-          class: 'text-white',
-        })
-      }
-    },
+			async printReportReciboIngreso(item) {
+				try {
+					await showReport({
+						folderName: 'fep',
+						reportName: 'Rep_Recibo_Ingresos_A1',
+						params: [
+							{
+								name: 'ID_TRANSACCION',
+								value: item.id,
+							},
+							{
+								name: 'CAPITULO_AYTO',
+								value: 'majorityId',
+							},
+						],
+					});
+				} catch (error) {
+					this.show({
+						content: error,
+						closable: true,
+						color: 'danger',
+						class: 'text-white',
+					});
+				}
+			},
 
-    async imprimirReporte(payload) {
-      const reportParam = {
-        folderName: 'fep',
-        params: [],
-      }
-      try {
-        if (payload.selectedOption === 'option1') {
-          reportParam.reportName = 'Rep_Listado_Documento_Ingresos'
-          reportParam.params = [
-            {
-              name: 'FECHA_DESDE',
-              value: payload.fechaDesde,
-            },
-            {
-              name: 'FECHA_HASTA',
-              value: payload.fechaHasta,
-            },
-            {
-              name: 'ID_AYUNTAMIENTO',
-              value: 'majorityId',
-            },
-            {
-              name: 'ANIO',
-              value: 'fiscalYear',
-            },
-          ]
-          await showReport(reportParam)
-        }
-      } catch (error) {
-        this.show({
-          content: error,
-          closable: true,
-          color: 'danger',
-          class: 'text-white',
-        })
-      }
-    },
+			async imprimirReporte(payload) {
+				const reportParam = {
+					folderName: 'fep',
+					params: [],
+				};
+				try {
+					if (payload.selectedOption === 'option1') {
+						reportParam.reportName =
+							'Rep_Listado_Documento_Ingresos';
+						reportParam.params = [
+							{
+								name: 'FECHA_DESDE',
+								value: payload.fechaDesde,
+							},
+							{
+								name: 'FECHA_HASTA',
+								value: payload.fechaHasta,
+							},
+							{
+								name: 'ID_AYUNTAMIENTO',
+								value: 'majorityId',
+							},
+							{
+								name: 'ANIO',
+								value: 'fiscalYear',
+							},
+						];
+						await showReport(reportParam);
+					}
+				} catch (error) {
+					this.show({
+						content: error,
+						closable: true,
+						color: 'danger',
+						class: 'text-white',
+					});
+				}
+			},
 
-    async printReportComprobanteIngreso(item) {
-      try {
-        await showReport({
-          folderName: 'fep',
-          reportName: 'Rep_Comprobante_Ingresos_A1',
-          params: [
-            {
-              name: 'ID_TRANSACCION',
-              value: item.id,
-            },
-            {
-              name: 'CAPITULO_AYTO',
-              value: 'majorityId',
-            },
-          ],
-        })
-      } catch (error) {
-        this.show({
-          content: error,
-          closable: true,
-          color: 'danger',
-          class: 'text-white',
-        })
-      }
-    },
+			async printReportComprobanteIngreso(item) {
+				try {
+					await showReport({
+						folderName: 'fep',
+						reportName: 'Rep_Comprobante_Ingresos_A1',
+						params: [
+							{
+								name: 'ID_TRANSACCION',
+								value: item.id,
+							},
+							{
+								name: 'CAPITULO_AYTO',
+								value: 'majorityId',
+							},
+						],
+					});
+				} catch (error) {
+					this.show({
+						content: error,
+						closable: true,
+						color: 'danger',
+						class: 'text-white',
+					});
+				}
+			},
 
-    getIngresos(params = { estatus: true }) {
-      Api.getRegistroIngreso(params).then((response) => {
-        this.ingresosList = response.data.data
-        this.footerItem[0].label = `Total items: ${this.ingresosList.length}`
-        this.footerItem[1].label = formatPrice(
-          this.ingresosList.reduce(
-            (acc, item) => acc + Number(item.totalValor),
-            0,
-          ),
-        )
-      })
-    },
+			getIngresos(params = { estatus: true }) {
+				Api.getRegistroIngreso(params).then((response) => {
+					this.ingresosList = response.data.data;
+					this.footerItem[0].label = `Total items: ${this.ingresosList.length}`;
+					this.footerItem[1].label = formatPrice(
+						this.ingresosList.reduce(
+							(acc, item) => acc + Number(item.totalValor),
+							0,
+						),
+					);
+				});
+			},
 
-    cancelarRegistroIngreso(item) {
-      this.$swal({
-        title: 'Estás seguro de realizar esta acción? ',
-        text: 'No podrás revertirlo',
-        icon: 'Confirmación',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Aceptar',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Api.deleteRegistroIngreso(item.id).then((response) => {
-            setTimeout(this.getIngresos, 500)
-            this.show({
-              content: 'Registro cancelado correctamente',
-              closable: true,
-              time: 7_000,
-            })
-          })
-        }
-      })
-    },
+			cancelarRegistroIngreso(item) {
+				this.$swal({
+					title: 'Estás seguro de realizar esta acción? ',
+					text: 'No podrás revertirlo',
+					icon: 'Confirmación',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					cancelButtonText: 'Cancelar',
+					confirmButtonText: 'Aceptar',
+				}).then((result) => {
+					if (result.isConfirmed) {
+						Api.deleteRegistroIngreso(item.id).then(() => {
+							setTimeout(this.getIngresos, 500);
+							this.show({
+								content: 'Registro cancelado correctamente',
+								closable: true,
+								time: 7_000,
+							});
+						});
+					}
+				});
+			},
 
-    closeContenedorModal(payload) {
-      this.showModalDoc = payload
-    },
+			closeContenedorModal(payload) {
+				this.showModalDoc = payload;
+			},
 
-    addComprobante(payload) {
-      Api.postIngresos(payload)
-        .then((response) => {
-          this.clearModalIngresos()
-          setTimeout(this.getIngresos, 500)
-          this.show({
-            content: response.data,
-            closable: true,
-          })
-          this.closeModalComprobanteIngreso()
-        })
-        .catch(({ response }) => {
-          this.show({
-            content: response.data,
-            closable: true,
-            color: 'danger',
-            class: 'text-white',
-          })
-        })
-    },
+			addComprobante(payload) {
+				Api.postIngresos(payload)
+					.then((response) => {
+						this.clearModalIngresos();
+						setTimeout(this.getIngresos, 500);
+						this.show({
+							content: response.data,
+							closable: true,
+						});
+					})
+					.catch(({ response }) => {
+						this.show({
+							content: response.data,
+							closable: true,
+							color: 'danger',
+							class: 'text-white',
+						});
+					});
+			},
 
-    clearModalIngresos() {
-      this.id = null
-      this.ingresoPost = {
-        codigoIngresoTalonario: null,
-        etapa: 'Ingreso',
-        contribuyenteId: 0,
-        contribuyente: {
-          nombre: null,
-          tipoDocumento: null,
-          documento: null,
-          telefono: null,
-          direccion: null,
-        },
-        detalle: `RESUMEN DE INGRESO ${formatDate(new Date())}`,
-        fecha: new Date(),
-        detalleRegistroIngresos: [],
-      }
-    },
-  },
+			clearModalIngresos() {
+				this.id = null;
+				this.ingresoPost = {
+					codigoIngresoTalonario: null,
+					etapa: 'Ingreso',
+					contribuyenteId: 0,
+					contribuyente: {
+						nombre: null,
+						tipoDocumento: null,
+						documento: null,
+						telefono: null,
+						direccion: null,
+					},
+					detalle: `RESUMEN DE INGRESO ${formatDate(new Date())}`,
+					fecha: new Date(),
+					detalleRegistroIngresos: [],
+				};
+			},
+		},
 
-  mounted() {
-    this.getIngresos()
-  },
-}
+		mounted() {
+			this.getIngresos();
+		},
+	};
 </script>

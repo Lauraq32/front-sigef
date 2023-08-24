@@ -5,11 +5,14 @@
 	"author": "Liga Municipal Dominicana",
   "scripts": {
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "lint:fix": "vue-cli-service lint --fix",
+    "build:prod": "vue-cli-service build --mode production",
+    "lint": "eslint *.{js,vue}",
+    "lint:fix": "eslint *.{vue,js} --fix",
+    "prettier": "prettier -l src/**/* *.{vue,js}",
     "serve": "vue-cli-service serve",
     "test:e2e": "vue-cli-service test:e2e",
-    "test:unit": "vue-cli-service test:unit"
+    "test:unit": "vue-cli-service test:unit",
+    "prepare": "husky install"
   },
   "config": {
     "coreui_library_short_version": "4.1"
@@ -30,7 +33,6 @@
     "bootstrap-vue": "^2.23.1",
     "core-js": "^3.19.0",
     "date-fns": "^2.29.3",
-    "firebase": "^9.15.0",
     "moment": "^2.29.4",
     "pinia": "^2.0.23",
     "v-idle-3": "^0.3.14",
@@ -66,6 +68,17 @@
     "jest": "^27.0.5",
     "prettier": "^2.4.1",
     "sass": "^1.32.7",
-    "sass-loader": "^12.0.0"
-  }
+    "sass-loader": "^12.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
+    "@commitlint/cli": "^17.6.1",
+    "@commitlint/config-conventional": "^17.6.1"
+  },
+	"lint-staged": {
+		"*.{vue,js,cjs,mjs}": [
+      "eslint --fix",
+		  "prettier --write"
+    ],
+		"*.{md,css}": "prettier --write"
+	}
 }

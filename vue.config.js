@@ -1,8 +1,9 @@
-const { defineConfig } = require('@vue/cli-service')
+const { defineConfig } = require('@vue/cli-service');
 module.exports = defineConfig({
-  transpileDependencies: true,
-  lintOnSave: false,
-  devServer: {
-    proxy: `${process.env.VUE_APP_API_URL}`,
-  },
-})
+	transpileDependencies: true,
+	lintOnSave: false,
+	publicPath: (process.env.BASE_URL && `/${process.env.BASE_URL}`) || '',
+	// devServer: {
+	//   proxy: `${process.env.APP_API_URL ?? 'http://localhost'}`,
+	// },
+});

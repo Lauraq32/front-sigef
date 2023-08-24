@@ -1,193 +1,181 @@
-import http from '@/Api/http-common'
-import { getAyuntamientoId, getFiscalYearId } from '@/utils/logged-info'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
+import http from '@/Api/http-common';
+import { getAyuntamientoId, getFiscalYearId } from '@/utils/logged-info';
 
 class FormulacionApi {
-  downloadIngreso() {
-    return http.get(
-      `export-file/ingresos-formulacion`,
-    )
-  }
+	downloadIngreso() {
+		return http.get(`export-file/ingresos-formulacion`);
+	}
 
-  //-----------------------------CLASIFICADORES---------------------------------------//
-  //Obtener listado de Clasificadores
-  getListarClasificadores(origin) {
-    let promise = null;
-    if (origin === 'gastos') {
-      promise = http.get('/CtgClasificador/presupuesto-gastos')
-    } else if (origin === 'ingresos') {
-      promise = http.get('/CtgClasificador/presupuesto-ingresos')
-    } else {
-      promise = http.get('/CtgClasificador')
-    }
-    
-    return promise.then(res => {
-      if (res.data.data.length > 0) {
-        return res;
-      }
+	//-----------------------------CLASIFICADORES---------------------------------------//
+	//Obtener listado de Clasificadores
+	getListarClasificadores(origin) {
+		let promise = null;
+		if (origin === 'gastos') {
+			promise = http.get('/CtgClasificador/presupuesto-gastos');
+		} else if (origin === 'ingresos') {
+			promise = http.get('/CtgClasificador/presupuesto-ingresos');
+		} else {
+			promise = http.get('/CtgClasificador');
+		}
 
-      return Promise.reject("No clasificadores found");
-    })
-  }
-  getListarOrganismo() {
-    return http.get('/CtgOrganismoFinanciador')
-  }
-  getListarInsOtorgante() {
-    return http.get('/instituciones-otorgantes')
-  }
-  
-  getEstProgramatica() {
-    return http.get('CtgMestProg')
-  }
+		return promise.then((res) => {
+			if (res.data.data.length > 0) {
+				return res;
+			}
 
-  deleteIngreso(id) {
-    return http.delete(`PresIngreso/${id}`)
-  }
+			return Promise.reject('No clasificadores found');
+		});
+	}
+	getListarOrganismo() {
+		return http.get('/CtgOrganismoFinanciador');
+	}
+	getListarInsOtorgante() {
+		return http.get('/instituciones-otorgantes');
+	}
 
-  getClasificador(Clasificador) {
-    return http.get(`PresIngreso/GetClasificadorById/${Clasificador}`)
-  }
-  getPresIngresoById(item) {
-    return http.get(
-      `/PresIngreso/${item.id}?anio=${item.anioFiscalId}&ayuntamientoId=${item.ayuntamientoId}`,
-    )
-  }
+	getEstProgramatica() {
+		return http.get('CtgMestProg');
+	}
 
-  editPresIngreso(id, data) {
-    return http.put(`/PresIngreso/${id}`, data)
-  }
+	deleteIngreso(id) {
+		return http.delete(`PresIngreso/${id}`);
+	}
 
-  postFormulacionIngreso(data) {
-    return http.post('PresIngreso', data)
-  }
+	getClasificador(Clasificador) {
+		return http.get(`PresIngreso/GetClasificadorById/${Clasificador}`);
+	}
+	getPresIngresoById(item) {
+		return http.get(
+			`/PresIngreso/${item.id}?anio=${item.anioFiscalId}&ayuntamientoId=${item.ayuntamientoId}`,
+		);
+	}
 
-  getAllFormulacionIngreso(anioFiscal, ayuntamientoId) {
-    return http.get(
-      `PresIngreso?anio=${anioFiscal}&AyuntamientoId=${ayuntamientoId}`,
-    )
-  }
+	editPresIngreso(id, data) {
+		return http.put(`/PresIngreso/${id}`, data);
+	}
 
-  updateFormulacion(id, data) {
-    return http.put(`PresGasto/${id}`, data)
-  }
+	postFormulacionIngreso(data) {
+		return http.post('PresIngreso', data);
+	}
 
-  updateFormulacionDetalle(id, data) {
-    return http.put(`PresGasto/Detalle/${id}`, data)
-  }
+	getAllFormulacionIngreso(anioFiscal, ayuntamientoId) {
+		return http.get(
+			`PresIngreso?anio=${anioFiscal}&AyuntamientoId=${ayuntamientoId}`,
+		);
+	}
 
-  getDetalle(id) {
-    return http.get(
-      `PresGasto/Detalle/${id}?anio=${getFiscalYearId()}&ayuntamientoId=${getAyuntamientoId()}`,
-    )
-  }
+	updateFormulacion(id, data) {
+		return http.put(`PresGasto/${id}`, data);
+	}
 
-  getTotalIngresos(ano_fiscal, id_ayuntamiento) {
-    return http.get(
-      `/PresIngreso/GetTotal?anio=${ano_fiscal}&ayuntamientoId=${id_ayuntamiento}`,
-    )
-  }
+	updateFormulacionDetalle(id, data) {
+		return http.put(`PresGasto/Detalle/${id}`, data);
+	}
 
-  getListarEstructuraProgramatica() {
-    return http.get('/Financiero/ListarProgramatico')
-  }
+	getDetalle(id) {
+		return http.get(
+			`PresGasto/Detalle/${id}?anio=${getFiscalYearId()}&ayuntamientoId=${getAyuntamientoId()}`,
+		);
+	}
 
-  getFuenteEspecifica() {
-    return http.get('/CtgFuente')
-  }
+	getTotalIngresos(ano_fiscal, id_ayuntamiento) {
+		return http.get(
+			`/PresIngreso/GetTotal?anio=${ano_fiscal}&ayuntamientoId=${id_ayuntamiento}`,
+		);
+	}
 
-  getFuente() {
-    return http.get('/CtgFuenteEspecifica')
-  }
+	getListarEstructuraProgramatica() {
+		return http.get('/Financiero/ListarProgramatico');
+	}
 
-  getListarFuentesFinanciamiento() {
-    return http.get('/Financiero/ListarFuentes')
-  }
+	getFuenteEspecifica() {
+		return http.get('/CtgFuente');
+	}
 
-  getListarFinancieroCatalogoOrganismos() {
-    return http.get('/Financiero/ListarFinancieroCatalogoOrganismos')
-  }
+	getFuente() {
+		return http.get('/CtgFuenteEspecifica');
+	}
 
-  getListarProyecto(id_ayuntamiento, ano_fiscal) {
-    return http.get(
-      `/Financiero/ListarProyecto/?ano=${ano_fiscal}&id=${id_ayuntamiento}`,
-    )
-  }
+	getListarFuentesFinanciamiento() {
+		return http.get('/Financiero/ListarFuentes');
+	}
 
-  getListarIngresos(id_ayuntamiento, ano_fiscal) {
-    return http.get(
-      `PresIngreso?anio=${ano_fiscal}&ayuntamientoId=${id_ayuntamiento}`,
-    )
-  }
+	getListarFinancieroCatalogoOrganismos() {
+		return http.get('/Financiero/ListarFinancieroCatalogoOrganismos');
+	}
 
-  getListarCatalogo() {
-    return http.get('/Financiero/ListarCatalogoFunciones')
-  }
+	getListarProyecto(id_ayuntamiento, ano_fiscal) {
+		return http.get(
+			`/Financiero/ListarProyecto/?ano=${ano_fiscal}&id=${id_ayuntamiento}`,
+		);
+	}
 
-  getListarGastos() {
-    return http.get(
-      `PresGasto?anio=${getFiscalYearId()}&ayuntamientoId=${getAyuntamientoId()}`,
-    )
-  }
+	getListarIngresos(id_ayuntamiento, ano_fiscal) {
+		return http.get(
+			`PresIngreso?anio=${ano_fiscal}&ayuntamientoId=${id_ayuntamiento}`,
+		);
+	}
 
-  getListarGastosById(id) {
-    return http.get(
-      `PresGasto/${id}?anio=${getFiscalYearId()}&ayuntamientoId=${getAyuntamientoId()}`,
-    )
-  }
-  getFileById(id){
-     return http.get(`file/${id}`)
-  }
+	getListarCatalogo() {
+		return http.get('/Financiero/ListarCatalogoFunciones');
+	}
 
-  postGastos(post) {
-    return http.post(`PresGasto`, post)
-  }
+	getListarGastos() {
+		return http.get(
+			`PresGasto?anio=${getFiscalYearId()}&ayuntamientoId=${getAyuntamientoId()}`,
+		);
+	}
 
-  postCargaMasiva(post) {
-    return http.post(`UploadFile/PresIngreso`, post)
-  }
+	getListarGastosById(id) {
+		return http.get(
+			`PresGasto/${id}?anio=${getFiscalYearId()}&ayuntamientoId=${getAyuntamientoId()}`,
+		);
+	}
+	getFileById(id) {
+		return http.get(`file/${id}`);
+	}
 
-  postCargaMasivaCabecera(post) {
-    return http.post(`UploadFile/PresGasto`, post)
-  }
+	postGastos(post) {
+		return http.post(`PresGasto`, post);
+	}
 
-  postCargaMasivaDetalle(post) {
-    return http.post(`UploadFile/PresGasto/Detalle`, post)
-  }
+	postCargaMasiva(post) {
+		return http.post(`UploadFile/PresIngreso`, post);
+	}
 
-  cargarEstructuras() {
-    return http.post(
-      `PresGasto/InsertPresGasto?anio=${getFiscalYearId()}&ayuntamientoId=${getAyuntamientoId()}`,
-    )
-  }
+	postCargaMasivaCabecera(post) {
+		return http.post(`UploadFile/PresGasto`, post);
+	}
 
-  postDetalleGasto(post) {
-    return http.post(`PresGasto/Detalle`, post).catch((error) => {
-      Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        text: error.response.data.detail,
-        title: 'Error',
-        showConfirmButton: false,
-        timer: 1500,
-      })
-    })
-  }
+	postCargaMasivaDetalle(post) {
+		return http.post(`UploadFile/PresGasto/Detalle`, post);
+	}
 
-  getEstruturaProgramaticaById(value) {
-    return http.get(`CtgMestProg/${value}`).catch((error) => {})
-  }
+	cargarEstructuras() {
+		return http.post(
+			`PresGasto/InsertPresGasto?anio=${getFiscalYearId()}&ayuntamientoId=${getAyuntamientoId()}`,
+		);
+	}
 
-  validarEstructuraPresupuestada(
-    estructuraProgramatica,
-    clasificador,
-    fuenteFinanciador,
-    fuenteEspecifica,
-    organismoFinanciador,
-  ) {
-    return http.get(
-      `PresGasto/${estructuraProgramatica}/${clasificador}/${fuenteFinanciador}/${fuenteEspecifica}/${organismoFinanciador}`,
-    )
-  }
+	postDetalleGasto(post) {
+		return http.post(`PresGasto/Detalle`, post);
+	}
+
+	getEstruturaProgramaticaById(value) {
+		return http.get(`CtgMestProg/${value}`);
+	}
+
+	validarEstructuraPresupuestada(
+		estructuraProgramatica,
+		clasificador,
+		fuenteFinanciador,
+		fuenteEspecifica,
+		organismoFinanciador,
+	) {
+		return http.get(
+			`PresGasto/${estructuraProgramatica}/${clasificador}/${fuenteFinanciador}/${fuenteEspecifica}/${organismoFinanciador}`,
+		);
+	}
 }
 
-export default new FormulacionApi()
+export default new FormulacionApi();
